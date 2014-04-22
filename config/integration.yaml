@@ -10,14 +10,18 @@ it:
   inherit: base
 base:
   targets:
-    - 'latex'
-    - 'json'
-    - 'singlehtml'
-    - 'html'
-    - 'man'
-    - 'epub'
-    - 'dirhtml'
-  doc-root:
-    - '.htaccess'
+    # - 'latex-student'
+    # - 'json-student'
+    - 'singlehtml-student'
+    - 'html-student'
+    # - 'epub-student'
+    - 'dirhtml-student'
+    # - 'latex-instructor'
+    # - 'json-instructor'
+    - 'singlehtml-instructor'
+    - 'html-instructor'
+    # - 'epub-instructor'
+    - 'dirhtml-instructor'
+  doc-root: []
   branch-root: null
 ...
