@@ -4,4 +4,10 @@
 MongoDB Training
 ================
 
-Hello World!
+.. only:: student
+
+   Hello World, *students*!
+
+.. only:: instructor
+
+   Hello World, *instructors*!
