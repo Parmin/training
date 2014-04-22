@@ -42,7 +42,6 @@ student-print-base:
   tags: 
     - print
     - student 
-
 instructor-web-base:
   inherit: instructor-base
   tags:
