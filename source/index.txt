@@ -1,0 +1,7 @@
+:orphan:
+
+================
+MongoDB Training
+================
+
+Hello World!

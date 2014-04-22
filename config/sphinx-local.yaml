@@ -1,0 +1,18 @@
+project: 'mongodb-training'
+master_doc: 'contents'
+logo: ".static/logo-mongodb.png"
+paths:
+  static: ['source/.static']
+theme:
+  name: 'mms-saas'
+  project: 'training'
+  google_analytics: 'UA-000000000'
+  book_path_base: 'MongoDB-training'
+  repo: 'docs'
+  jira: 'DOCS'
+  sitename: 'MongoDB Training'
+  nav_excluded: []
+sidebars:
+  '**':
+    - 'pagenav.html'
+...

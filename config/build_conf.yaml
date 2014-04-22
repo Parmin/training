@@ -1,0 +1,36 @@
+git:
+  remote:
+    upstream: 'mongodb/docs-training'
+    tools: 'mongodb/docs-tools'
+project:
+  name: 'training'
+  tag: 'training'
+  url: 'http://docs.mongodb.org/training'
+  title: 'MongoDB Training'
+version:
+  release: '2.6.0'
+  branch: '2.6'
+system:
+  make:
+    generated:
+      - 'integration'
+      - 'meta'
+      - 'push'
+      - 'sphinx'
+    static:
+      - 'makefile.compatibility'
+      - 'makefile.clean'
+      - 'makefile.dtf'
+  tools:
+    pinned: false
+    ref: HEAD
+paths:
+  output: 'build'
+  source: 'source'
+  includes: 'source/includes'
+  images: 'source/images'
+  tools: 'bin'
+  buildsystem: 'build/docs-tools'
+  builddata: 'config'
+  locale: 'locale'
+...

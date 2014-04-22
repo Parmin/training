@@ -1,0 +1,5 @@
+=========================
+MongoDB Training Contents
+=========================
+
+Hello World!

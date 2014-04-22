@@ -1,0 +1,91 @@
+# The items in the ``builders`` list are the name of Sphinx builders
+# supported by ``sphinx-build``.
+#
+# The ``prerequsites`` list stores all targets that must build before
+# sphinx can begin.
+#
+# The ``generated-source`` list stores all the targets that generate rst.
+
+prerequisites:
+  - setup
+  - generate-source
+sphinx_builders:
+  - 'dirhtml'
+  - 'singlehtml'
+  - 'html'
+  - 'latex'
+  - 'epub'
+  - 'json'
+generated-source:
+  - tables
+  - toc
+  - intersphinx
+  - images
+editions: 
+  - 'instructor'
+  - 'student'
+## --- ##
+instructor-base: 
+  edition: 'instructor'
+  excluded_files: []
+student-base: 
+  edition: 'student'
+## --- ##
+student-web-base:
+  inherit: student-base
+  tags:
+    - web
+    - website
+    - student
+student-print-base: 
+  inherit: student-base
+  tags: 
+    - print
+    - student 
+
+instructor-web-base:
+  inherit: instructor-base
+  tags:
+    - web
+    - website
+    - instructor
+instructor-print-base: 
+  inherit: instructor-base
+  tags: 
+    - print
+    - instructor
+## --- ##
+dirhtml-student:
+  inherit: student-web-base
+html-student:
+  inherit: student-web-base
+latex-student:
+  inherit: student-web-base
+epub-student:
+  inherit: student-web-base
+singlehtml-student:
+  inherit: student-web-base
+linkcheck-student:
+  inherit: student-web-base
+gettext-student:
+  inherit: student-web-base
+json-student:
+  inherit: student-web-base
+## --- ##
+dirhtml-instructor:
+  inherit: instructor-web-base
+html-instructor:
+  inherit: instructor-web-base
+latex-instructor:
+  inherit: instructor-web-base
+epub-instructor:
+  inherit: instructor-web-base
+singlehtml-instructor:
+  inherit: instructor-web-base
+linkcheck-instructor:
+  inherit: instructor-web-base
+gettext-instructor:
+  inherit: instructor-web-base
+json-instructor:
+  inherit: instructor-web-base
+...
