@@ -2,13 +2,15 @@ git:
   remote:
     upstream: 'mongodb/docs-training'
     tools: 'mongodb/docs-tools'
-  branches:
-    published: ['master']
 project:
   name: 'training'
   tag: 'training'
   url: 'http://docs.mongodb.org/training'
   title: 'MongoDB Training'
+  branched: false
+  editions:
+    - name: instructor
+    - name: student
 version:
   release: '2.6.0'
   branch: '2.6'
