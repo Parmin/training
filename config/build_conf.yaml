@@ -10,7 +10,9 @@ project:
   branched: false
   editions:
     - name: instructor
+      tag: training-instructor
     - name: student
+      tag: training-student
 version:
   release: '2.6.0'
   branch: '2.6'
@@ -28,6 +30,10 @@ system:
   tools:
     pinned: false
     ref: HEAD
+  files:
+    - 'pdfs.yaml'
+    - 'intersphinx.yaml'
+    - 'push.yaml'
 paths:
   output: 'build'
   source: 'source'
