@@ -1,0 +1,16 @@
+source: 'index'
+output: 'training.tex'
+title: 'MongoDB Training, Instructor Guide'
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'manual'
+edition: 'instructor'
+---
+source: 'index'
+output: 'training.tex'
+title: 'MongoDB Training'
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'manual'
+edition: 'student'
+...
