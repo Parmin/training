@@ -34,6 +34,10 @@ system:
     - 'pdfs.yaml'
     - 'intersphinx.yaml'
     - 'push.yaml'
+assets:
+  - branch: master
+    path: build/docs-tools
+    repository: https://github.com/mongodb/docs-tools.git
 paths:
   output: 'build'
   source: 'source'

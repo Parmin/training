@@ -4,7 +4,7 @@ logo: ".static/logo-mongodb.png"
 paths:
   static: ['source/.static']
 theme:
-  name: 'mms-saas'
+  name: 'training'
   project: 'training'
   google_analytics: 'UA-000000000'
   book_path_base: 'MongoDB-training'
