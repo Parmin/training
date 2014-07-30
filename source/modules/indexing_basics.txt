@@ -1,0 +1,195 @@
+===============
+Indexing Basics
+===============
+
+.. topic:: Upon completing this module students should understand:
+
+   - The basics of B-trees
+   - The impact of indexing on read performance
+   - The impact of indexing on write performance 
+   - How to choose effective indexes
+   - The utility of specific indexes for particular query patterns
+
+.. only:: instructor
+
+   .. topic:: Instructor:
+
+     - Ask how many people in the room are familiar with indexes in a relational database. 
+     - If the class is already familiar with indexes, just explain that they work the same way in MongoDB. 
+
+Why Indexes? 
+------------
+
+- Without an index, in order to find all documents matching a query, MongoDB must scan every document in the collection.
+- This is murder for read performance. 
+- If all your documents do not fit into memory, the system will page data in and out in order to scan the entire collection. 
+- An index enables MongoDB to locate exactly which documents match the query and where they are located on disk.
+- MongoDB indexes are based on B-trees. 
+
+.. figure:: /figures/btree_example.jpg
+    :width: 500px
+
+
+Types of Indexes
+----------------
+
+Single Field Indexes
+~~~~~~~~~~~~~~~~~~~~
+
+- Based on a single field of the documents in a collection
+- The field may be a top-level field
+- You may also create an index on fields in embedded documents
+
+Compound Indexes
+~~~~~~~~~~~~~~~~
+
+- Based on more than one field of the documents in a collection
+- E.g., products collection indexed on item name and number in stock
+
+Multikey Indexes
+~~~~~~~~~~~~~~~~
+
+- Based on an array field
+- Matches if a query includes any value in the array
+
+Hashed Indexes
+~~~~~~~~~~~~~~
+
+- Entries are hashes of the values of the indexed field
+- Frequently used for sharding (i.e. scaling out)
+
+Geospatial Indexes and Queries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Support location-based searches
+- GeoJSON fields
+- Legacy lat/lon coordinate pairs
+
+Text Indexes
+~~~~~~~~~~~~
+
+- Support search of string fields
+- E.g., product descriptions, user comments, etc.
+
+TTL Indexes
+~~~~~~~~~~~
+
+- Time to Live
+- The indexed field must be a date type
+- A TTL index will cause documents that are older than the expiration threshold to be removed from the collection (not just the index).
+- If the field holds an array, the document will expire when the earliest element matches the expiration threshold.
+
+
+Exercise: Using explain()
+-------------------------
+
+.. only:: instructor
+
+   .. topic:: Instructor:
+
+      - Make sure the students are using the sample database.
+      - Remind them of the structure of documents in the tweets collection by first doing a find().
+      - We'll be looking at the user subdocument for documents in this collection.
+
+.. code-block:: javascript
+
+   db.tweets.find( { "user.followers_count" : 1000 }, 
+                   { "_id" : 0, "user.name": 1 } )
+
+The above is limited to user.name so that the documents aren’t hard to visually parse. Let's explore what the database does in this case using .explain().
+
+.. code-block:: javascript
+
+   db.tweets.find( { "user.followers_count" : 1000 } ).explain()
+
+You'll see results similar to the following.
+
+.. code-block:: javascript
+
+   {
+     "cursor" : "BasicCursor",
+     "isMultiKey" : false,
+     "n" : 8,
+     "nscannedObjects" : 51428,
+     "nscanned" : 51428,
+     "nscannedObjectsAllPlans" : 51428,
+     "nscannedAllPlans" : 51428,
+     "scanAndOrder" : false,
+     "indexOnly" : false,
+     "nYields" : 401,
+     "nChunkSkips" : 0,
+     "millis" : 161,
+     "server" : "new-host-3.home:27017",
+     "filterSet" : false
+   }
+
+
+Understanding the Output from explain()
+---------------------------------------
+
+- The ``n`` field displays the number of documents that match the query. 
+- The ``nscannedObjects`` field displays the number of documents the retrieval engine considered during the query. 
+- The ``nscanned`` field displays how many documents in an existing index were scanned. If ``nscanned`` is much higher than ``nreturned``, this is an indication we need a different index.
+- Given ``nscannedObjects``, this query will benefit from an index. 
+
+.. code-block:: javascript
+
+   db.tweets.ensureIndex( { "user.followers_count" : 1 } )
+
+The above creates a single-field index on 
+
+``explain()`` indicates there will be a substantial performance improvement in handling this type of query. 
+
+.. code-block:: javascript
+
+   db.tweets.find( { "user.followers_count" : 1000 } ).explain()
+   {
+     "cursor" : "BtreeCursor user.followers_count_1",
+     "isMultiKey" : false,
+     "n" : 8,
+     "nscannedObjects" : 8,
+     "nscanned" : 8,
+     "nscannedObjectsAllPlans" : 8,
+     "nscannedAllPlans" : 8,
+     "scanAndOrder" : false,
+     "indexOnly" : false,
+     "nYields" : 0,
+     "nChunkSkips" : 0,
+     "millis" : 6,
+     "indexBounds" : {
+       "user.followers_count" : [
+         [
+           1000,
+           1000
+         ]
+       ]
+     },
+     "server" : "new-host-3.home:27017",
+     "filterSet" : false
+   }
+
+Operations teams are accustomed to thinking about indexes. With MongoDB, developers need to be more involved in the creation and use of indexes.
+
+
+Indexes and Read/Write Performance
+----------------------------------
+
+- Indexes improve read performance for queries that are supported by the index.
+- Inserts will be slower when there are indexes that MongoDB must also update.
+- The speed of updates may be improved because MongoDB will not need to do a collection scan to find target documents.
+- An index is modified any time a document is inserted, updated in such a way that its indexed field changes, or if an update causes a document to move on disk.
+
+
+Index Limitations
+-----------------
+
+- You can have up to 64 indexes per collection.
+- You should NEVER be anywhere close to that upper bound. 
+- Write performance will degrade to unusable at somewhere between 20-30.
+
+Use Indexes with Care
+--------------------- 
+- Every query should use an index.  
+- Every index should be used by a query.
+
+
