@@ -1,8 +1,8 @@
 :orphan:
 
-================
-MongoDB Training
-================
+==================
+MongoDB University
+==================
 
 .. only:: student
 

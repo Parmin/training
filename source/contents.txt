@@ -1,5 +1,17 @@
-=========================
-MongoDB Training Contents
-=========================
+================================================
+MongoDB University: MongoDB Fundamentals Modules
+================================================
 
-Hello World!
+This is a TOC of modules to be used in MongoDB developer, DBA, and essentials training.
+
+.. toctree::
+   :glob:
+ 
+   /modules/warmup
+   /modules/overview
+   /modules/mongodb_stores_documents
+   /exercises/installing_running_mongodb
+   /modules/indexing_basics
+   /modules/compound_indexes
+   /modules/text_indexes
+
