@@ -45,6 +45,7 @@ extensions = [
     'sphinx.ext.todo',
     'mongodb',
     'directives',
+    "hieroglyph"
 ]
 
 locale_dirs = [ conf.paths.locale ]

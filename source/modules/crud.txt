@@ -1,0 +1,37 @@
+====
+CRUD
+====
+
+
+
+.. toctree::
+   :titlesonly:
+
+   /modules/crud/create
+   /modules/crud/read
+   /modules/crud/update
+   /modules/crud/delete
+
+
+.. topic:: Upon completing all sub-modules, students should understand
+
+    - The various data structures that MongoDB uses
+    - The basics of navigating using the javascript shell
+    - How to create, retreive, modify, and delete data using the javascript
+      shell
+
+What is CRUD?
+-------------
+
+    -Create
+    -Read
+    -Update
+    -Delete
+
+What functions does MongoDB use to perform CRUD operations?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    -Create: db.collection.insert()
+    -Read: db.collection.find()
+    -Update: db.collection.update()
+    -Delete: db.collection.remove(), db.collection.drop()
