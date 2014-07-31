@@ -1,0 +1,112 @@
+============
+Text Indices
+============
+
+.. topic:: Upon completing this module students should understand:
+
+   - TODO
+
+
+What is a Text Index?
+---------------------
+
+- A text index is based on the tokens (words, etc.) used in a selection of string fields.
+- MongoDB supports text search for various languages.
+- Text indexes drop language-specific stop words (e.g. in English "the", "an", "a", "and", etc.)
+- And use simple, language-specific suffix stemming (e.g., "running" to "run")
+
+Example: 
+
+You create a text index a little bit differently than you create a standard index: 
+
+> db.collection.ensureIndex( { a : “text” } )
+
+At this point, you can treat the “a” field as a multikey index with all of the words in the index as values. You can, at some later point, query the field with the $text operator. For instance, the query
+
+> db.collection.find( { $text : { $search : “swallow” } } )
+
+will find any documents with the word “swallow” in the “a” field.
+
+So, for example, if we had the following documents:
+
+> db.collection.find()
+{ _id : 1 , a : “What… is the air-speed velocity of an unladen swallow?” }
+{ _id : 2 , a : “What do you mean? An African or a European swallow?” }
+{ _id : 3 , a : “Huh? I… I don’t know that.” } 
+…
+{ _id : 45 , a : “You’re using coconuts!” } 
+{ _id : 55 , a : “What? A swallow carrying a coconut?” }
+
+we then the query would return:
+
+> db.collection.find( { $text : { $search : “swallow” } } )
+{ _id : 1 , a : “What… is the air-speed velocity of an unladen swallow?” }
+{ _id : 2 , a : “What do you mean? An African or a European swallow?” }
+{ _id : 55 , a : “What? A swallow carrying a coconut?” }
+
+Similarly, we would have
+
+> db.collection.find( { $text : { $search : “swallow coconut” } } )
+{ _id : 1 , a : “What… is the air-speed velocity of an unladen swallow?” }
+{ _id : 2 , a : “What do you mean? An African or a European swallow?” }
+{ _id : 45 , a : “You’re using coconuts!” } 
+{ _id : 55 , a : “What? A swallow carrying a coconut?” }
+
+will find any documents with the word sparrow or the word coconut. You can look at the documentation to find out how to search for phrases, or exclude words.
+
+Finally, the search algorithm has a score that it assigns, and the documents can be ordered by that score so that the ones with the most matching words will be highest. It uses a vector ranking algorithm. 
+
+Example:
+
+> db.collection.find({ $text : {$search: "swallow coconut"}}, {textScore: {$meta: "textScore"}}).sort({textScore: {$meta: "textScore"}})
+
+
+
+Index Filters (new in 2.6)
+
+Objective: Students will understand how Index Filters work and when they apply. They will also understand their priority vis-a-vis Query Plans and hints.
+
+New, in MongoDB 2.6, an index filter is a little bit like a hint. You give the database a query shape, and an index filter, which specifies those indices that the query plan can legitimately try; those outside the plan don’t get tried.
+
+If an index filter exists, it has a higher priority than a hint(). Index filters exist until the server process dies, and do not persist. 
+
+Since filters are accessed through db.runCommand, you won’t remember how to use them. Look them up in the documentation if you need to put them in place.
+
+Because they override hint(), be sure to use query plans sparingly. 
+
+Index Intersection (Include at a point TBD)
+
+Objective: Students will be able to understand how index intersection works, and will be able to predict when MongoDB is likely to make use of intersection.
+
+Index Intersection is when a database uses two indexes to fulfill a query. For example, suppose we have, in each document, two fields, “a” and “b”, each of which can take on an integer value. 
+
+We’ll begin by indexing each of those fields: 
+
+> db.collection.ensureIndex( { a : 1 } )
+> db.collection.ensureIndex( { b : 1 } )
+
+So now we’ve got an index on each, but no indexes on both. Let’s suppose you’re doing a query such as:
+
+> db.collection.find( { a : 3 , b : -5 } )
+
+If we had a compound index on a and b, that would be ideal, but in this case, we don’t have one. If this were the first time such a query occurred, MongoDB would build a  
+
+Geospatial Indices (Optional Lesson)
+Objective: If students are interested, they will learn the basics of how geospatial indices work in MongoDB.
+
+Ask if anyone is interested in Geospatial Indexes. If not, move on, but if so, here are the key concepts:
+
+First, there are “Flat” (x-y plane) “2d Index”. They use (latitude, longitude) and are very good close to the equator, but may cause problems close to the poles, so don’t use them to map out Antarctica.
+
+Next is the “2d Sphere” (spherical surfaces)
+Can have points, lines, polygons to generate areas.
+Will determine distances
+
+
+Covered query
+All of the data you need is in the index; no need to use any other data.
+Options
+background : true | false
+name : ‘myIndexName’
+unique : true | false
+sparse : true | false

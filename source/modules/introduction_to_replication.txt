@@ -1,0 +1,88 @@
+===========================
+Introduction to Replication
+===========================
+
+.. topic:: Upon completing this module students should understand:
+
+   - Striking the right balance between cost and redundancy. 
+   - The many scenarios replication addresses and why.
+   - How to avoid downtime and data loss using replication.
+   - The mechanics of replication
+
+The Purpose of Replication
+--------------------------
+
+High Availability 
+~~~~~~~~~~~~~~~~~
+- If we lose a server our database system can still service reads and writes without manual intervention. 
+- This is achieved through automatic failover.
+
+Disaster Recovery
+~~~~~~~~~~~~~~~~~
+
+- Replication duplicates data across several database servers.
+- This allows you to restore data following hardware failures and service interruptions.
+
+Functional Segregation
+~~~~~~~~~~~~~~~~~~~~~~
+
+- There are opportunities to exploit the topology of a replica set.
+- You may direct particular queries at specific members to increase overall performance.
+- Backup data from secondaries to avoid performance penalties on the primary.
+- Dedicate secondaries for other purposes such as analytics jobs. 
+
+
+Replication is Not Designed for Scaling
+---------------------------------------
+
+- You can use it that way for reads.
+- But there are drawbacks such as eventual consistency.
+- Use sharding for scaling.
+
+
+Replica Sets 
+------------
+
+- MongoDB implements replication in the form of replica sets.
+- A replica set consists of one or more mongod servers.
+- There is at most one mongod that is "primary".  
+- There are usually two or more other mongods that are secondaries.
+- Secondaries may become primary as the result of an election due to some time of failover event.
+
+.. figure:: /figures/replica_set.png
+    :width: 500px
+
+
+Primary Server
+--------------
+
+- Clients send writes the primary only. 
+- MongoDB drivers (client libraries) are "replica set aware".
+- If the primary for a replica set changes from one node to another the driver will automatically route writes to the correct mongod.
+
+
+Secondaries
+----------- 
+- A secondary replicates operations from another node in the replica set.
+- Secondaries may replicate from the primary or other secondaries through chaining.
+- A secondary may become primary as a result of an election process if the primary becomes unavailable.
+
+
+Heartbeats
+----------
+
+- The members of a replica set use heartbeats to determine if they can reach every other node. 
+- The heartbeats are sent at short intervals.
+- If a node is unreachable this may indicate server failure or a network partition.
+
+.. figure:: /figures/replica_set_failed_node.png
+    :width: 500px
+
+
+The Oplog
+---------
+
+- Operations are replicated from one node to another through the oplog.
+- Secondaries copy operations from the oplog of their sync source.
+- The oplog is a special collection that maintains one entry for each document affected by every write operation.
+

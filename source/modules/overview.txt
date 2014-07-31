@@ -41,8 +41,8 @@ Another difference is in terms of scalability. With an RDBMS:
 - The largest machines cost much more than commodity hardware. 
 - If you're successful, you'll find you simply can't buy a large enough a machine to support your workload. 
 
-.. figure:: ./figures/figure_scaling_up.jpg
-    :width: 400px
+.. figure:: /figures/figure_scaling_up.jpg
+    :width: 500px
     
 
 With MongoDB:
@@ -51,8 +51,8 @@ With MongoDB:
 - When you need more performance, you just buy another machine and add it to your cluster. 
 - MongoDB is highly performant on commodity hardware.	
 
-.. figure:: ./figures/figure_scaling_out1.png
-    :width: 400px
+.. figure:: /figures/figure_scaling_out1.png
+    :width: 500px
 
 
 How does MongoDB achieve horizontal scalability? Let's take a look at the database landscape.
@@ -61,8 +61,8 @@ How does MongoDB achieve horizontal scalability? Let's take a look at the databa
 - At the top left, we have key value stores like memcached. These scale very well, but are lacking features that make developers productive. 
 - At the far right we have traditional RDBMS technologies like Oracle and MySQL. These are full featured, but will not scale easily. 
 
-.. figure:: ./figures/figure_database_landscape.png
-    :width: 400px
+.. figure:: /figures/figure_database_landscape.png
+    :width: 500px
 
 
 Why don't RDBMS technologies scale?
@@ -77,8 +77,8 @@ MongoDB sits at the knee of the curve:
 - Gives up only the features that prevent scaling. 
 - And we have compensating features that mitigate the impact of that design decision.
 
-.. figure:: ./figures/deployment_models.jpg
-    :width: 400px
+.. figure:: /figures/deployment_models.jpg
+    :width: 500px
 
 MongoDB supports high availability:
 
@@ -97,4 +97,6 @@ In production, you typically build a fully sharded cluster:
 - Your data is distributed across several shards.
 - The shards are themselves replica sets. 
 - This provides high availability and redundancy at scale.
+
+
 
