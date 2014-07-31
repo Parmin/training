@@ -16,19 +16,20 @@ sphinx_builders:
   - 'latex'
   - 'epub'
   - 'json'
+  - 'slides'
 generated-source:
   - tables
   - toc
   - intersphinx
   - images
-editions: 
+editions:
   - 'instructor'
   - 'student'
 ## --- ##
-instructor-base: 
+instructor-base:
   edition: 'instructor'
   excluded_files: []
-student-base: 
+student-base:
   edition: 'student'
 ## --- ##
 student-web-base:
@@ -37,20 +38,20 @@ student-web-base:
     - web
     - website
     - student
-student-print-base: 
+student-print-base:
   inherit: student-base
-  tags: 
+  tags:
     - print
-    - student 
+    - student
 instructor-web-base:
   inherit: instructor-base
   tags:
     - web
     - website
     - instructor
-instructor-print-base: 
+instructor-print-base:
   inherit: instructor-base
-  tags: 
+  tags:
     - print
     - instructor
 ## --- ##
@@ -70,7 +71,11 @@ gettext-student:
   inherit: student-web-base
 json-student:
   inherit: student-web-base
+slides-student:
+  inherit: student-web-base
 ## --- ##
+slides-instructor:
+  inherit: instructor-web-base
 dirhtml-instructor:
   inherit: instructor-web-base
 html-instructor:
