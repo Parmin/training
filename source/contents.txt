@@ -5,13 +5,11 @@ MongoDB University: MongoDB Fundamentals Modules
 This is a TOC of modules to be used in MongoDB developer, DBA, and essentials training.
 
 .. toctree::
-   :glob:
+   :titlesonly:
  
    /modules/warmup
-   /modules/overview
-   /modules/mongodb_stores_documents
    /exercises/installing_running_mongodb
+   /modules/crud
    /modules/indexing_basics
    /modules/compound_indexes
    /modules/text_indexes
-

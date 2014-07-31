@@ -1,6 +1,13 @@
 Warm Up
 -------
 
+.. toctree::
+   :titlesonly:
+
+   /modules/warmup/overview
+   /modules/warmup/mongodb_stores_documents
+
+
 .. topic:: Learning objectives
 
     - Students and instructor get familiar with one another.
@@ -26,8 +33,8 @@ Take attendance:
 
 Survey the students a little with the following questions:
 
-- Show of hands, who has never used MongoDB? 
-- Who has some experience? 
+- Show of hands, who has never used MongoDB?
+- Who has some experience?
 - Who has worked with production MongoDB deployments?
 - Who is more of a dev?
 - Who is more of operations person?
@@ -45,6 +52,4 @@ Origin of MongoDB:
   - The user base grows
   - The associated body of data grows
   - Eventually the application outgrows the database and keeping pace with performance requirements becomes extremely difficult.
-- MongoDB is designed to scale with modern application development in mind. 
-
-
+- MongoDB is designed to scale with modern application development in mind.
