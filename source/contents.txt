@@ -14,4 +14,5 @@ This is a TOC of modules to be used in MongoDB developer, DBA, and essentials tr
    /modules/indexing_basics
    /modules/compound_indexes
    /modules/text_indexes
+   /modules/introduction_to_replication
 
