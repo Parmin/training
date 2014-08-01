@@ -4,8 +4,8 @@ Warm Up
 .. toctree::
    :titlesonly:
 
-   /modules/warmup/overview
-   /modules/warmup/mongodb-stores-documents
+   /modules/warmup-overview
+   /modules/warmup-mongodb-stores-documents
 
 
 .. topic:: Learning objectives

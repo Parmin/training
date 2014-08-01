@@ -6,6 +6,22 @@ file: /modules/nav/crud
 description: |
   Explore basic database operations in MongoDB.
 --- 
+file: /modules/crud-read-matching
+description: | 
+    Learn how to retreive documents.
+--- 
+file: /modules/crud-read-projection
+description: | 
+    Learn how to filter the fields you get back in a query.
+--- 
+file: /modules/crud-read-operators
+description: | 
+    Explore the operators that allow intricate queries.
+--- 
+file: /modules/crud-mongo-shell
+description: | 
+    See tricks for using the mongo shell effectiely.
+--- 
 file: /modules/indexes-introduction
 description: | 
   Learn about MongoDB's indexes.

@@ -23,7 +23,7 @@ What is CRUD?
 - Update
 - Delete
 
-What functions does MongoDB use to perform CRUD operations?
+Functions MongoDB Uses to Perform CRUD operations?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Create: :method:`db.collection.insert()`

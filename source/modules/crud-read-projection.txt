@@ -1,0 +1,93 @@
+================
+READ: Projection
+================
+
+.. topic:: Upon completing this module, students should understand:
+
+    - How to project the query results
+    - How to specify which fields to be included in a result set
+    - How to eliminate a field from a result set
+    - Special rule for _id and projection
+
+Why Use Projection?
+===================
+
+    - Projection allows you to select which fields are returned by a query
+    - Projection can help reduce bandwidth for a query's result
+        - Especially if you have large values for some fields
+    - In the shell, projection can make the results more readable
+
+Using Projection
+================
+
+    - The find() method has an optional second parameter that defines projection.
+    - Similar to matching, you want to specify the fields to include by specifying
+      a value of 1
+        - db.collection.find( { }, { field1 : 1, field2 : 1 } ) 
+    - Explicitly xclude fields with a value of 0
+
+Exercise: Using Projection
+--------------------------
+
+.. code-block:: javascript
+
+    db.numbers.insert( [
+        { _id : 7, a : 3, b : 4, c : 3 },
+        { _id : 8, a : 4, b : 5, c : 3 },
+        { _id : 9, a : 5, b : 4, c : 3 },
+        {          a : 6, b : 5, c : 4 } ] )
+    db.numbers.find( { } )
+    db.numbers.find( { }, { a : 1 } )
+    db.numbers.find( { }, { _id : 0 } )
+    db.numbers.find( { }, { b : 1, _id : 0 } )
+    db.numbers.find( { }, { _id : 0, a : 0 } )
+
+Projection Rules
+================
+
+    - The _id is always included unless you specify _id : 0
+    - If you specify at least one inclusion, only explicitly included
+      fields are returned
+    - If you specify at least one exclusion, all other fields are 
+      shown
+    - You can't mix and match inclusion/exclusion projections
+        - except _id : 0, which is always legal
+
+Exercise: Using Projection to Improve Readability
+-------------------------------------------------
+
+.. code-block:: javascript
+
+    db.email.insert( [ 
+        { 
+            sender : "Alice",
+            recipient : "Bob",
+            title : "Sample Title",
+            timestamp : new ISODate(),
+            body : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non nunc sed arcu auctor accumsan at id eros. Vivamus blandit tellus id sem scelerisque posuere. Pellentesque vitae sagittis nisi, at fermentum lectus. Curabitur interdum mattis erat, condimentum iaculis lorem mollis eu. Morbi ornare sit amet nisi eu semper. Suspendisse feugiat commodo elit, et congue dui viverra quis. Proin gravida tortor suscipit, interdum ipsum vel, mollis lorem. Aenean at ipsum enim. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
+        }, {
+            sender : "Bob",
+            recipient : "Charlie",
+            title : "Other Sample Title",
+            timestamp : new ISODate(),
+            body : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non nunc sed arcu auctor accumsan at id eros. Vivamus blandit tellus id sem scelerisque posuere. Pellentesque vitae sagittis nisi, at fermentum lectus. Curabitur interdum mattis erat, condimentum iaculis lorem mollis eu. Morbi ornare sit amet nisi eu semper. Suspendisse feugiat commodo elit, et congue dui viverra quis. Proin gravida tortor suscipit, interdum ipsum vel, mollis lorem. Aenean at ipsum enim. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
+        } ] )
+    db.email.find().pretty()  // not that pretty
+    db.email.find( { }, { _id : 0, body : 0 } ).pretty()
+
+Projection of Arrays using the $ Operator
+=========================================
+
+    - If you queried for an array field, you can project that element
+      that you found using the $ operator
+    - This only works if you query just one field.
+
+Exercise: Projecting Using the $ Operator
+-----------------------------------------
+
+.. code-blick:: javascript
+
+    db.poems.insert( { flowers : [ { name : "roses" , color : "red" }, { name : "violets", color: "blue" } ] , sweets : [ { "sugar" : true } , { "you" : true } ] } )
+    db.poems.find( { "flowers.color": "red" } , { _id: 0, "flowers.$": 1 } ).pretty()
+
+You have projected your rose array element, but not your violet.

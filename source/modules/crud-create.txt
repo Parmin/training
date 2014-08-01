@@ -7,6 +7,10 @@ CREATE
    Students should understand:
 
     - How to create new documents in the mongodb shell
+    - How _id's work
+        - Uniqueness constraints
+        - ObjectId's
+        - Using subdocuments
 
 Creating New Documents
 ----------------------
@@ -59,7 +63,7 @@ Exercise: Assigning a Subdocument to be the _id
 - They can be nested multiple times, if you wish.
 
 .. code-block:: javascript
-    
+
    db.foo.insert( { _id : { name : "Will", job : "Curriculum Developer" }}, 
                     a : 13 )
    db.foo.insert( { 
