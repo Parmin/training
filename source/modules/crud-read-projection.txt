@@ -27,6 +27,7 @@ Using Projection
     - Explicitly xclude fields with a value of 0
 
 .. code-block:: javascript
+
     db.numbers.insert( [
         { _id : 7, a : 3, b : 4, c : 3 },
         { _id : 8, a : 4, b : 5, c : 3 },
@@ -50,6 +51,7 @@ Projection Rules
         - except _id : 0, which is always legal
 
 .. code-block:: javascript
+
     db.email.insert( [ 
         { 
             sender : "Alice",

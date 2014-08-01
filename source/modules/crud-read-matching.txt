@@ -28,9 +28,8 @@ Query by Example
 Exercise: Querying by Example
 -----------------------------
 
-First, let's create some documents to query.
-
 .. code-block:: javascript
+
     db.moreStuff.insert( [ 
                            { _id : 1, a : 5, b : 3 },
                            { _id : 3, b : 5, c : 12 },
@@ -73,6 +72,7 @@ Exercise: Querying Arrays
 -------------------------
 
 .. code-block:: javascript
+
     db.arrayExample.insert( 
         [ { a : [ 1, 2, 3 ] },
           { a : [ 3, 4, 5 ] },
@@ -96,6 +96,7 @@ Exercise: Querying with Dot Notation
 ------------------------------------
 
 .. code-block:: javascript
+
     db.buildings.insert( 
         [ { 
               type : "house", location : 
@@ -158,6 +159,7 @@ Querying in Arrays with Dot Notation
 
 
 .. code-block:: javascript
+
     db.characters.insert( 
     [
         { letters : [ "a", "b", "c" ] },
@@ -169,6 +171,7 @@ Querying in Arrays with Dot Notation
     db.characters.find( { "letters.2" : "z" } )  // no documents
 
 .. code-block:: javascript
+
     db.things.insert( [
         { 
             type : "fruit", 
