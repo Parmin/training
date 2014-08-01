@@ -1,10 +1,6 @@
-file: /modules/warmup
+file: /modules/nav/introduction
 description: | 
   An introduction to MongoDB concepts and background.
----
-file: /exercises/installing-running-mongodb
-description: | 
-  Install MongoDB and related tools.
 ---
 file: /modules/nav/crud
 description: |

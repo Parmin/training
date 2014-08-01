@@ -1,0 +1,8 @@
+============
+Introduction
+============
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/introduction.rst
+

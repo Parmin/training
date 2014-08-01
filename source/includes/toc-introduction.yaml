@@ -1,0 +1,12 @@
+file: /modules/warmup
+description: | 
+  Activities to get the class started
+---
+file: /modules/overview
+description: | 
+  MongoDB philosophy and features.
+---
+file: /modules/mongodb-stores-documents
+description: | 
+  The structure of data in MongoDB.
+...
