@@ -6,9 +6,29 @@ file: /exercises/installing-running-mongodb
 description: | 
   Install MongoDB and related tools.
 ---
-file: /modules/nav/crud
+file: /modules/nav/crud-introduction
 description: |
   Explore basic database operations in MongoDB.
+---
+file: /modules/crud-create
+description: | 
+    Explore how to create new documents in MongoDB.
+--- 
+file: /modules/crud-read-matching
+description: | 
+    Learn how to retreive documents.
+--- 
+file: /modules/crud-read-projection
+description: | 
+    Learn how to filter the fields you get back in a query.
+--- 
+file: /modules/crud-read-operators
+description: | 
+    Explore the operators that allow intricate queries.
+--- 
+file: /modules/crud-mongo-shell
+description: | 
+    See tricks for using the mongo shell effectiely.
 --- 
 file: /modules/indexes-introduction
 description: | 
