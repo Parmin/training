@@ -6,7 +6,11 @@ CREATE
 
    Students should understand:
 
-    -How to create new documents in the mongodb shell
+    - How to create new documents in the mongodb shell
+    - How _id's work
+        - Uniqueness constraints
+        - ObjectId's
+        - Using subdocuments
 
 Creating New Documents
 ----------------------
