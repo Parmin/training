@@ -2,16 +2,10 @@
 MongoDB University: MongoDB Fundamentals Modules
 ================================================
 
+.. default-domain:: mongodb
+
 This is a TOC of modules to be used in MongoDB developer, DBA, and essentials training.
 
-.. toctree::
-   :titlesonly:
- 
-   /modules/warmup
-   /exercises/installing-running-mongodb
-   /modules/crud
-   /modules/indexing-basics
-   /modules/compound-indexes
-   /modules/text-indexes
-   /modules/introduction-to-replication
+.. include:: /includes/toc/dfn-list-contents.rst
 
+.. include:: /includes/toc/contents.rst

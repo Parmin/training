@@ -15,24 +15,38 @@ Exercise: Downloading MongoDB
 MongoDB distributions:
 
 - 64-bit production releases are available for the following platforms
+
   - Windows
+
   - OSX
+
   - Linux
+
   - Solaris
+
 - Visit http://www.mongodb.org/downloads
+
 - 32-bit versions should NOT be used in production (limited to 2GB of data).
+
 - They are acceptable for training classes.
 
 - Download the appropriate package for your machine.
+
 - The instructor should verify that everyone has it installed and running.
-- You might want to configure your environment by adding the MongoDB bin directory to your path, e.g., 
-::
+
+- You might want to configure your environment by adding the MongoDB
+  bin directory to your path, e.g.,  ::
+
     PATH=$PATH:path_to_mongodb/bin
+
 - Locate the sample data on the USB drive.
+
 - It should be in a file called sampledata.zip
+
 - Unzip it
-- Import all collections into the "sample" database:
-::
+
+- Import all collections into the "sample" database: ::
+
     cd thumb_drive/sampledata 
     mongoimport -d sample -c tweets twitter.json
     mongoimport -d sample -c zips zips.json

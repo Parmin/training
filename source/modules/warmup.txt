@@ -5,7 +5,7 @@ Warm Up
    :titlesonly:
 
    /modules/warmup/overview
-   /modules/warmup/mongodb_stores_documents
+   /modules/warmup/mongodb-stores-documents
 
 
 .. topic:: Learning objectives

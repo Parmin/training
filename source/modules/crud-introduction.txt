@@ -1,17 +1,12 @@
-====
-CRUD
-====
+=============
+CRUD Overview
+=============
 
+.. default-domain:: mongodb
 
+.. only:: web
 
-.. toctree::
-   :titlesonly:
-
-   /modules/crud/create
-   /modules/crud/read
-   /modules/crud/update
-   /modules/crud/delete
-
+   .. include:: /includes/toc/dfn-list-crud.rst
 
 .. topic:: Upon completing all sub-modules, students should understand
 
@@ -23,15 +18,15 @@ CRUD
 What is CRUD?
 -------------
 
-    -Create
-    -Read
-    -Update
-    -Delete
+- Create
+- Read
+- Update
+- Delete
 
 What functions does MongoDB use to perform CRUD operations?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    -Create: db.collection.insert()
-    -Read: db.collection.find()
-    -Update: db.collection.update()
-    -Delete: db.collection.remove(), db.collection.drop()
+- Create: :method:`db.collection.insert()`
+- Read: :method:`db.collection.find()`
+- Update: :method:`db.collection.update()`
+- Delete: :method:`db.collection.remove()`, :method:`db.collection.drop()`

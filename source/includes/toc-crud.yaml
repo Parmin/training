@@ -1,0 +1,21 @@
+file: /modules/crud-introduction
+description: | 
+  An overview of the CRUD module
+---
+file: /modules/crud/create
+description: | 
+  Insert documents into MongoDB instances.
+---
+file: /modules/crud/read
+description: | 
+  Return data from MongoDB instances using simple and complex MongoDB
+  queries.
+---
+file: /modules/crud/update
+description: | 
+  Modify data in MongoDB instances. 
+---
+file: /modules/crud/delete
+description: | 
+  Remove data from MongoDB instances. 
+...

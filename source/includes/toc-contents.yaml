@@ -1,0 +1,36 @@
+file: /modules/warmup
+description: | 
+  An introduction to MongoDB concepts and background.
+---
+file: /exercises/installing-running-mongodb
+description: | 
+  Install MongoDB and related tools.
+---
+file: /modules/nav/crud
+description: |
+  Explore basic database operations in MongoDB.
+--- 
+file: /modules/indexes-introduction
+description: | 
+  Learn about MongoDB's indexes.
+--- 
+file: /modules/indexes-compound
+description: | 
+  Use compound indexes to support queries using more than one core
+  criteria.
+---
+file: /modules/indexes-text
+description: | 
+  Use Text Indexes to perform boolean search on string data in
+  MongoDB.
+---
+file: /modules/replication-introduction
+description: | 
+  Learn how MongoDB's replication system works and how MongoDB's
+  replica sets automate the management of replicated deployments.
+---
+file: /modules/replication-mechanics
+description: | 
+  Explore the design of MongoDB's replication system and how these
+  facts affect the operation of production deployments.
+...
