@@ -6,13 +6,13 @@ CREATE
 
    Students should understand:
 
-    -How to create new documents in the mongodb shell
+    - How to create new documents in the mongodb shell
 
 Creating New Documents
 ----------------------
 
-    - Documents are created with the _insert_ command.
-    - It will be of the form db.collection.insert( document )
+- Documents are created with the _insert_ command.
+- It will be of the form db.collection.insert( document )
 
 
 Exercise: Inserting a document 
@@ -20,30 +20,30 @@ Exercise: Inserting a document
 
 .. only:: instructor
 
-    ..topic:: Instructor:
+    .. topic:: Instructor:
         
-        - Make sure the students are performing the operations along with you.
-        - Some students will have trouble starting things up, so be helpful
-          at this stage.
+       - Make sure the students are performing the operations along with you.
+       - Some students will have trouble starting things up, so be helpful
+         at this stage.
 
 .. code-block:: javascript
 
-    use sample
-    db.foo.insert( { a : "hello, world!" } )
-    db.foo.find()
+   use sample
+   db.foo.insert( { a : "hello, world!" } )
+   db.foo.find()
 
 Implicit _id Assignment
 .......................
 
-    - Your document didn't specify an _id field 
-    - MongoDB created one. 
-    - Its value is of type ObjectId, which we've already discussed.
+- Your document didn't specify an _id field 
+- MongoDB created one. 
+- Its value is of type ObjectId, which we've already discussed.
 
 Exercise: Assigning an _id at Document Creation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - Note that you can assign an _id to be of almost any type.
-    - It doesn't have to be an ObjectId.
+- Note that you can assign an _id to be of almost any type.
+- It doesn't have to be an ObjectId.
     
 
 .. code-block:: javascript
@@ -55,101 +55,107 @@ Exercise: Assigning an _id at Document Creation
 Exercise: Assigning a Subdocument to be the _id
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - Subdocuments can be part of the _id field.
-    - They can be nested multiple times, if you wish.
+- Subdocuments can be part of the _id field.
+- They can be nested multiple times, if you wish.
 
 .. code-block:: javascript
     
-    db.foo.insert( { _id : { name : "Will", job : "Curriculum Developer" }}, 
-                     a : 13 )
-    db.foo.insert( { 
-                        _id : 
-                        { 
-                            company : "MongoDB, Inc.", 
-                            office : "New York", 
-                            location : 
-                            { 
-                                name : "The Old New York Times Building", 
-                                streetNumber : 229, 
-                                street : "West 43rd Street", floor : 5 
-                            } 
-                        }, 
-                        teams : [ "Education", "Core Server", "Sales", 
-                                  "Marketing", "Human Resources", "MMS", 
-                                  "Support" ] 
-                    } )
-    db.foo.find()
+   db.foo.insert( { _id : { name : "Will", job : "Curriculum Developer" }}, 
+                    a : 13 )
+   db.foo.insert( { 
+                       _id : 
+                       { 
+                           company : "MongoDB, Inc.", 
+                           office : "New York", 
+                           location : 
+                           { 
+                               name : "The Old New York Times Building", 
+                               streetNumber : 229, 
+                               street : "West 43rd Street", floor : 5 
+                           } 
+                       }, 
+                       teams : [ "Education", "Core Server", "Sales", 
+                                 "Marketing", "Human Resources", "MMS", 
+                                 "Support" ] 
+                   } )
+   db.foo.find()
 
 Exercise: Failed Inserts
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - Inserts will fail if:
-        - There is already a document in the collection with that _id
-        - You try to assign an array to the _id
-        - You give it an invalid document ("Syntax Error")
+- Inserts will fail if:
+
+  - There is already a document in the collection with that _id
+
+  - You try to assign an array to the _id
+
+  - You give it an invalid document ("Syntax Error")
 
 .. code-block:: javascript
 
-    db.foo.insert( { _id : [ 1, 2, 3 ] } )
-    db.foo.insert( { _id : 3 } )
-    db.foo.insert( { _id : 3 } )
-    db.foo.insert( { "hello" } )
-
+   db.foo.insert( { _id : [ 1, 2, 3 ] } )
+   db.foo.insert( { _id : 3 } )
+   db.foo.insert( { _id : 3 } )
+   db.foo.insert( { "hello" } )
 
 Exercise: Inserting Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - You can insert multiple documents by using an array of documents
-    - The default setting is an _unordered_ insert.
-        - If any given insert fails, the others will still be attempted.
-    - In the next exercise, one document will fail (duplicate key error) 
-      but all others will be inserted.
+- You can insert multiple documents by using an array of documents
 
+- The default setting is an _unordered_ insert.
+
+  - If any given insert fails, the others will still be attempted.
+
+- In the next exercise, one document will fail (duplicate key error) 
+  but all others will be inserted.
 
 .. code-block:: javascript
 
-    db.things.insert( [ { _id : 19, type : "atom", symbol : "K" },
-                        { _id : 20, type : "car", color : "red" }, 
-                        { _id : 20, type : "planet", name : "Saturn" },
-                        { type : "office", address : "229 West 43rd Street, 5th Floor, New York, NY" },
-                        { _id : "mom's dog", type : "pet", species : "dog", breed: "miniature poodle", name : "Buzz Saw" } ] )
-    db.things.find()
+   db.things.insert( [ { _id : 19, type : "atom", symbol : "K" },
+                       { _id : 20, type : "car", color : "red" }, 
+                       { _id : 20, type : "planet", name : "Saturn" },
+                       { type : "office", address : "229 West 43rd Street, 5th Floor, New York, NY" },
+                       { _id : "mom's dog", type : "pet", species : "dog", breed: "miniature poodle", name : "Buzz Saw" } ] )
+   db.things.find()
     
 Exercise: Ordered Insert
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - To make ordered inserts, put { ordered : true } in as an optional parameter
-    - This example will also has a duplicate key error
-    - Only those documents inserted before the error will be inserted.
+- To make ordered inserts, put { ordered : true } in as an optional parameter
+- This example will also has a duplicate key error
+- Only those documents inserted before the error will be inserted.
 
 .. code-block:: javascript
 
-    db.otherThings.insert( [ { _id : 19, type : "atom", symbol : "K" },
-                             { _id : 20, type : "car", color : "red" }, 
-                             { _id : 20, type : "planet", name : "Saturn" },
-                             { type : "office", address : "229 West 43rd Street, 5th Floor, New York, NY" },
-                             { _id : "mom's dog", type : "pet", species : "dog", breed: "miniature poodle", name : "Buzz Saw" }
-                      ], { ordered : true } )
-    db.otherThings.find()
+   db.otherThings.insert( [ { _id : 19, type : "atom", symbol : "K" },
+                            { _id : 20, type : "car", color : "red" }, 
+                            { _id : 20, type : "planet", name : "Saturn" },
+                            { type : "office", address : "229 West 43rd Street, 5th Floor, New York, NY" },
+                            { _id : "mom's dog", type : "pet", species : "dog", breed: "miniature poodle", name : "Buzz Saw" }
+                     ], { ordered : true } )
+   db.otherThings.find()
 
 Exercise: Using the Javascript Shell
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - You can use the javascript functionality of the shell to perform operations.
-        - Assign variables
-        - Use loops
+- You can use the javascript functionality of the shell to perform operations.
+
+  - Assign variables
+
+  - Use loops
 
 .. code-block:: javascript
 
-    for (i=1; i<=100; i++) { for (j=1; j<=100; j++) { x = [] ; for (k=1; k<=100; k++) { x.push( { a : i , b : j , c : k } ) } ; db.stuff.insert(x) } }
-    db.stuff.find()
-    it
-    it
-    it
-
+   for (i=1; i<=100; i++) { for (j=1; j<=100; j++) { x = [] ; for (k=1; k<=100; k++) { x.push( { a : i , b : j , c : k } ) } ; db.stuff.insert(x) } }
+   db.stuff.find()
+   it
+   it
+   it
 
 .. only:: instructor
-.. topic:: Instructor:
+
+   .. topic:: Instructor:
         
         - This inserts at a rate of around 20,000 per second on my laptop
         - It should take about a minute to run once you've got it all in.
