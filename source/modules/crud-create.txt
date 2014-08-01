@@ -31,7 +31,6 @@ Exercise: Inserting a document
          at this stage.
 
 .. code-block:: javascript
-
    use sample
    db.foo.insert( { a : "hello, world!" } )
    db.foo.find()
@@ -51,7 +50,6 @@ Exercise: Assigning an _id at Document Creation
     
 
 .. code-block:: javascript
-
     db.foo.insert( { _id : 253, a : "a string" } )
     db.foo.find()
 
@@ -63,7 +61,6 @@ Exercise: Assigning a Subdocument to be the _id
 - They can be nested multiple times, if you wish.
 
 .. code-block:: javascript
-    
    db.foo.insert( { _id : { name : "Will", job : "Curriculum Developer" }}, 
                     a : 13 )
    db.foo.insert( { 
@@ -96,7 +93,6 @@ Exercise: Failed Inserts
   - You give it an invalid document ("Syntax Error")
 
 .. code-block:: javascript
-
    db.foo.insert( { _id : [ 1, 2, 3 ] } )
    db.foo.insert( { _id : 3 } )
    db.foo.insert( { _id : 3 } )
@@ -115,7 +111,6 @@ Exercise: Inserting Multiple Documents
   but all others will be inserted.
 
 .. code-block:: javascript
-
    db.things.insert( [ { _id : 19, type : "atom", symbol : "K" },
                        { _id : 20, type : "car", color : "red" }, 
                        { _id : 20, type : "planet", name : "Saturn" },
@@ -131,7 +126,6 @@ Exercise: Ordered Insert
 - Only those documents inserted before the error will be inserted.
 
 .. code-block:: javascript
-
    db.otherThings.insert( [ { _id : 19, type : "atom", symbol : "K" },
                             { _id : 20, type : "car", color : "red" }, 
                             { _id : 20, type : "planet", name : "Saturn" },
@@ -150,7 +144,6 @@ Exercise: Using the Javascript Shell
   - Use loops
 
 .. code-block:: javascript
-
    for (i=1; i<=100; i++) { for (j=1; j<=100; j++) { x = [] ; for (k=1; k<=100; k++) { x.push( { a : i , b : j , c : k } ) } ; db.stuff.insert(x) } }
    db.stuff.find()
    it
