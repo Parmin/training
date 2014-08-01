@@ -8,10 +8,10 @@ This is a TOC of modules to be used in MongoDB developer, DBA, and essentials tr
    :titlesonly:
  
    /modules/warmup
-   /exercises/installing_running_mongodb
+   /exercises/installing-running-mongodb
    /modules/crud
-   /modules/indexing_basics
-   /modules/compound_indexes
-   /modules/text_indexes
-   /modules/introduction_to_replication
+   /modules/indexing-basics
+   /modules/compound-indexes
+   /modules/text-indexes
+   /modules/introduction-to-replication
 

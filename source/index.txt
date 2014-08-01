@@ -1,8 +1,8 @@
 :orphan:
 
-==================
-MongoDB University
-==================
+========================================
+MongoDB University -- In Person Training
+========================================
 
 .. only:: student
 
@@ -11,3 +11,4 @@ MongoDB University
 .. only:: instructor
 
    Hello World, *instructors*!
+
