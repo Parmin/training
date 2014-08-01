@@ -1,6 +1,6 @@
-================
-READ: Projection
-================
+==========
+Projection
+==========
 
 .. topic:: Upon completing this module, students should understand:
 

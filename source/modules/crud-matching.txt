@@ -1,6 +1,6 @@
-==============
-READ: Matching
-==============
+========
+Matching
+========
 
 .. topic:: Upon completing this module, students should understand:
 
@@ -12,10 +12,9 @@ READ: Matching
 The find() Method
 =================
 
-    - This is the basic method of all reads.
-    - You've already seen us use it in its basic form
-    - db.collection.find() will return a cursor (which we'll talk about later)
-      that returns all documents in the collection.
+- This is the basic method of all reads.
+- You've already seen us use it in its basic form
+- db.collection.find() will return a cursor (which we'll talk about later) that returns all documents in the collection.
 
 Query by Example
 ================

@@ -1,10 +1,10 @@
-===============
-READ: Operators
-==============
+=========
+Operators
+=========
 
 .. topic:: Upon completing this module, students should understand:
 
-    - How to use find's daughter methods
+    - How to use the following methods
         - sort 
         - count 
         - skip 

@@ -1,5 +1,6 @@
+================
 MongoDB Overview
-----------------
+================
 
 .. topic:: Learning objectives 
 

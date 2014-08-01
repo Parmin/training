@@ -1,21 +1,20 @@
-file: /modules/crud-introduction
+file: /modules/crud-overview
 description: | 
   An overview of the CRUD module
----
+--- 
 file: /modules/crud-create
 description: | 
   Insert documents into MongoDB instances.
----
-file: /modules/crud-read
+--- 
+file: /modules/crud-matching
 description: | 
-  Return data from MongoDB instances using simple and complex MongoDB
-  queries.
----
-file: /modules/crud-update
+    Learn how to retreive documents.
+--- 
+file: /modules/crud-projection
 description: | 
-  Modify data in MongoDB instances. 
----
-file: /modules/crud-delete
+    Learn how to filter the fields you get back in a query.
+--- 
+file: /modules/crud-operators
 description: | 
-  Remove data from MongoDB instances. 
+    Explore the operators that allow intricate queries.
 ...

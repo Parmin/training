@@ -1,6 +1,6 @@
-===============
-Indexing Basics
-===============
+==================
+Index Fundamentals
+==================
 
 .. topic:: Upon completing this module students should understand:
 

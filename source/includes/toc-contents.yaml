@@ -6,43 +6,16 @@ file: /modules/nav/crud
 description: |
   Explore basic database operations in MongoDB.
 --- 
-file: /modules/crud-read-matching
-description: | 
-    Learn how to retreive documents.
---- 
-file: /modules/crud-read-projection
-description: | 
-    Learn how to filter the fields you get back in a query.
---- 
-file: /modules/crud-read-operators
-description: | 
-    Explore the operators that allow intricate queries.
---- 
-file: /modules/crud-mongo-shell
+file: /modules/mongo-shell
 description: | 
     See tricks for using the mongo shell effectiely.
 --- 
-file: /modules/indexes-introduction
+file: /modules/nav/indexes
 description: | 
   Learn about MongoDB's indexes.
---- 
-file: /modules/indexes-compound
-description: | 
-  Use compound indexes to support queries using more than one core
-  criteria.
 ---
-file: /modules/indexes-text
-description: | 
-  Use Text Indexes to perform boolean search on string data in
-  MongoDB.
----
-file: /modules/replication-introduction
+file: /modules/nav/replication
 description: | 
   Learn how MongoDB's replication system works and how MongoDB's
   replica sets automate the management of replicated deployments.
----
-file: /modules/replication-mechanics
-description: | 
-  Explore the design of MongoDB's replication system and how these
-  facts affect the operation of production deployments.
 ...
