@@ -1,9 +1,8 @@
-Exercise: Downloading MongoDB
------------------------------
+============================
+Exercise: Installing MongoDB
+============================
 
-.. topic:: Learning objectives 
-
-   Students should understand:
+.. topic:: Learning Objectives 
 
    - How MongoDB is distributed
    - How to install MongoDB
@@ -12,112 +11,198 @@ Exercise: Downloading MongoDB
    - How to run the Mongo shell
 
 
-MongoDB distributions:
+Production Releases
+-------------------
 
-- 64-bit production releases are available for the following platforms
+64-bit production releases of MongoDB are available for the following platforms.
 
-  - Windows
+- Windows
+- OSX
+- Linux
+- Solaris
 
-  - OSX
 
-  - Linux
-
-  - Solaris
+Installing MongoDB
+------------------
 
 - Visit http://www.mongodb.org/downloads
+- Download and install the appropriate package for your machine.
+- Even-numbered builds are production releases, e.g., 2.4.x, 2.6.x.
+- Odd-numbers indicated development releases, e.g., 2,5.x, 2.7.x.
+- 32-bit versions should NOT be used in production (limited to 2GB of data). They are acceptable for training classes.
 
-- 32-bit versions should NOT be used in production (limited to 2GB of data).
+You might want to add the MongoDB bin directory to your path, e.g.
 
-- They are acceptable for training classes.
+::
 
-- Download the appropriate package for your machine.
-
-- The instructor should verify that everyone has it installed and running.
-
-- You might want to configure your environment by adding the MongoDB
-  bin directory to your path, e.g.,  ::
-
-    PATH=$PATH:path_to_mongodb/bin
-
-- Locate the sample data on the USB drive.
-
-- It should be in a file called sampledata.zip
-
-- Unzip it
-
-- Import all collections into the "sample" database: ::
-
-    cd thumb_drive/sampledata 
-    mongoimport -d sample -c tweets twitter.json
-    mongoimport -d sample -c zips zips.json
-    cd dump 
-    mongorestore -d sample training
-    mongorestore -d sample digg
-- Run the Mongo shell by typing, mongo, at the command prompt
-
-SHOW:
-help
-show dbs
+  PATH=$PATH:path_to_mongodb/bin
 
 
-- Run the mongo shell.
+Once installed, create the MongoDB data directory.
+
+::
+
+  sudo mkdir /data/db
 
 
-This shows you what databases are available. 
+Make sure you have write permission on this directory.
 
-SHOW:
-db
+::
+
+  sudo chmod 770 /data/db
+
+
+Open a command shell and explore the mongod command.
+
+::
+
+  mongod --help
+
+
+Then run mongodb.
+
+::
+
+  $ /<path_to_mongodb>/bin/mongod
+
+
+.. only:: instructor
+
+   ::
+
+     Instructor:
+
+     Please verify that all students have successfully installed MongoDB and have it running.
+
+
+Import the data provided on the USB drive into the "sample" database.
+
+::
+
+  $ cd usb_drive
+
+::
+
+  $ unzip sampledata.zip
+
+::
+
+  $ cd sampledata 
+
+::
+
+  $ mongoimport -d sample -c tweets twitter.json
+
+::
+
+  $ mongoimport -d sample -c zips zips.json
+
+::
+
+  $ cd dump 
+
+::
+
+  $ mongorestore -d sample training
+
+::
+
+  $ mongorestore -d sample digg
+
+
+Open another command shell. Then type the following to start the Mongo shell.
+
+::
   
-Just to see the current db before you switch in next step
-
-SHOW:
-use <database_name>
-
-This allows you to change context to another database.
-
-SHOW:
-show collections
-
-This shows you what collections there are in this particular database.
-
-SHOW:
-db.collection.help()
-
-Use this to show methods on the collection, with parameters and sometimes a quick explanation.
-
-SHOW:
-db.collection.find()
-db.adminCommand( { shutdown : 1 } )
-
-This last will cause them to have to restart mongod. Again, they can view the terminal output, or use --dbpath and --fork to hide it. If you use --dbpath, then they can view the log file.
-
-for Unix-like systems, go to the shell & ps ax | grep mongo
-For Windows, control-alt-delete to go to the process manager
-
-SHOW (and tell them they can follow along):
-cd /data/db
+  $ mongo
 
 
-Look at the mongod.lock file.
+Display available commands.
 
-This prevents you from spawning other mongod's that use this directory and cause trouble for you.
+::
 
-Each dbpath gets one .lock. That lock contains the pid of the mongod process that is using the directory. 
+  > help
 
-Next, you're going to see 
-This is on by default in 64-bit implementations, but it's off by default in 32-bit implementations. It is append-only & the data gets flushed to disk.
+Display available databases.
 
-Never touch these files. 
+::
 
-The next thing to look at are your data files. These are named after your databases, and are numbered sequentially with a dot after the name.
+  > show dbs
 
-So, for example, if you have a lot of data in your sample database, the files would be sample.0, sample.1, sample.2, etc.
+To use a particular database we can type the following.
 
-Your low-numbered files will be increasing in size. Sample.0 is 64 MB, sample.1 is 128 MB, sample.2 is 256 MB, etc. The pattern is broken after sample.5, which is 2 GB, and all subsequent data files are also 2 GB.
+::
+ 
+  > use <database_name>
 
-Now we're going to look at how to run our daemon, mongod.
+This assigns the variable :js:data:`db` to a connection object for the selected database. We can display the name of the database we are currently using by evaluating this variable in the Mongo shell.
 
-SHOW:
-mongod --help
+::
 
-Here, you can see the configuration flags: port, dbpath, fork, etc.
+  > db
+
+.. only:: instructor
+
+  ::
+
+    Instructor:
+    
+    Highlight the power of the Mongo shell here. It is a fully programmable JavaScript environment.
+
+Show the collections available in this database.
+
+::
+
+  > show collections
+
+Show methods on the collection with parameters and a brief explanation.
+
+::
+
+  > db.collection.help()
+
+Finally, we can query for the documents in a collection.
+
+::
+
+  > db.collection.find()
+
+There are also a number of admin commands at our disposal. The following will shut down the mongod we are connected to through the Mongo shell. You can also just kill with Ctrl-C in the shell window from which you launched the mongod.
+
+::
+
+  > db.adminCommand( { shutdown : 1 } )
+
+Confirm that the mongod process has indeed stopped. Once you have, please restart it. 
+
+
+We will now look at the MongoDB data directory.
+
+::
+
+  $ cd /data/db
+
+.. only:: instructor
+
+  ::
+
+    Instructor:
+
+    Tell the students about the mongod.lock file:
+
+    - This prevents multiple mongods from using the same data directory simultaneously.
+    - Each MongoDB database directory has one .lock. 
+    - The lock file contains the process id of the mongod that is using the directory. 
+
+    Show the students the data files:
+
+    - The names of the files correspond to available databases for the MongoDB deployment.
+    - A single database may have multiple files. They are numbered sequentially.
+    - Files for a single database increase in size as follows:
+
+      - sample.0 is 64 MB
+      - sample.1 is 128 MB
+      - sample.2 is 256 MB, etc. 
+      - This continues until sample.5, which is 2 GB
+      - All subsequent data files are also 2 GB.
+

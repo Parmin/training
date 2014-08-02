@@ -1,3 +1,7 @@
+=====================
+Replication Mechanics
+=====================
+
 Oplogs
 
 Every Replica Set has an OpLog. This is typically a fixed size. Suppose our OpLog is 1 GB.

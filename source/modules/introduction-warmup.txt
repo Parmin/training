@@ -4,10 +4,6 @@ Warm Up
 .. toctree::
    :titlesonly:
 
-   /modules/warmup-overview
-   /modules/warmup-mongodb-stores-documents
-
-
 .. topic:: Learning objectives
 
     - Students and instructor get familiar with one another.
