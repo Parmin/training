@@ -1,0 +1,102 @@
+=========================
+Replication and the Oplog
+=========================
+
+
+Binary Replication
+------------------
+
+- MongoDB replication is statement based.
+- Contrast that with binary replication. 
+- With binary replication we would keep track of:
+
+  - The data files
+  - The offsets
+  - How many bytes were written for each change
+
+- In short, we would keep track of actual bytes and very specific locations.
+- We would simply replicate these changes across secondaries.
+
+Tradeoffs
+---------
+
+- The good thing is that figuring out where to write, etc. is very efficient.
+- But we must have a byte-for-byte match of our data files on the primary and secondaries.
+- The problem with this is that it couples our replica set members in ways that are inflexible.
+- Some deployments might need to run different versions of MongoDB on different nodes. 
+
+  - Different versions may write to different file offsets.
+  - E.g., rolling upgrades.
+
+- We might need to run a compaction or repair on a secondary. In many cases it is necessary to do this independently of other nodes.
+
+
+Statement-Based Replication
+---------------------------
+
+- Statement-based replication facilitates greater independence among members of a replica set.
+- Statements representing all activity in a replica set are stored in a capped collection called the "oplog" (operations log).
+- Secondaries do not simply apply exactly the operation that was issued on the primary.
+
+For example, suppose the following remove is issued.
+
+.. code-block:: javascript
+
+   db.foo.remove( { age : 30 } )
+
+Let's say this will delete 100 documents. This remove will be represented in the oplog with records such as the following.
+
+.. code-block:: javascript
+
+   { "ts" : Timestamp(1407159845, 5), "h" : NumberLong("-704612487691926908"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 65 } }
+   { "ts" : Timestamp(1407159845, 1), "h" : NumberLong("6014126345225019794"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 333 } }
+   { "ts" : Timestamp(1407159845, 4), "h" : NumberLong("8178791764238465439"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 447 } }
+   { "ts" : Timestamp(1407159845, 3), "h" : NumberLong("-1707391001705528381"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 1033 } }
+   { "ts" : Timestamp(1407159845, 2), "h" : NumberLong("-6814297392442406598"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 9971 } }
+   .
+   .
+   .
+
+
+Replication Based on the Oplog
+------------------------------
+
+- There will be one statement per document affected by each insert, update, or delete.
+- This provides a level of abstraction that enables a lot of independence among the members of a replica set:
+
+  - With regard to MongoDB version.
+  - In terms of how data is stored on disk.
+  - Provides the freedom to perform maintenance tasks without the need to bring the entire set down.
+
+- In the next exercise we will also see how the oplog is design so that each statement is idempotent -- a feature that has several benefits for replication.
+
+
+.. include:: /exercises/exercise-oplog-replication.txt
+
+
+Operations in the Oplog are Idempotent
+--------------------------------------
+
+- Each operation in the oplog is idempotent. 
+- Whether applied once or multiple times to the target dataset, each operation in the oplog produces the same results.
+- This is necesary if you want to be able to copy data while simultaneously accepting writes, e.g., when:
+
+  - Doing an initial sync for a new replica set member.
+  - When a member rejoins a replica set after a network partition a member might end up writing operations it had already received prior to the partition.
+
+
+The Oplog Window
+----------------
+
+- Oplogs are capped collections.
+- Capped collections are fixed-size.
+- They guarantee presevation of insertion order.
+- And support high-throughput operations.
+- Like circular buffers, once a collection fills its allocated space, it makes room for new documents by overwriting the oldest documents in the collection.
+- It is important that the oplog for your replica set is sized to account for latency among members. 
+- The default size oplog is usually sufficient, but you want to make sure that your oplog is large enough:
+
+  - So that the op window is large enough to support replication
+  - To give you a large enough history for any diagnostics you might wish to run.
+
+
