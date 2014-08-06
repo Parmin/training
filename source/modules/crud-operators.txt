@@ -144,13 +144,15 @@ Exercise: Array Projection Operators
 
 .. code-block:: javascript
 
-    db.ap.insert( [ { a : [ { b : 1 } , { b : 2 } , { b : 3 } ] },
+    db.ap.insert( [ { a : [ { b : 1 , c : 1 } , 
+                            { b : 2 , c : 2 } , 
+                            { b : 3 , c : 3} ] },
                     { a : [ { b : 4 } , { b : 5 } , { b : 6 } ] },
                     { a : [ { b : 7 } , { b : 8 } , { b : 9 } ] } ] )
 
     db.array.find( { a : { $gt : 3 } }, { _id : 0, "a.$": 1 } )  
     // 4, 5, 5
-fix:    db.array.find( { a : 3 }, { _id : 0, a : { $elemMatch: 5 } } )
-    // Just the 5 for all 3 documents
     db.array.find( { } , { a : { $slice : 2 } } )  // first 2 elements
     db.array.find( { } , { a : { $slice : -2 } } )  // last 2 elements
+    db.ap.find( { "a.b" : 3 } , { a : { $elemMatch : { c : 2 } } } )
+    // Just the second element in the 'a' array of the first document
