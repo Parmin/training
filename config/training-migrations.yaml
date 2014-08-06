@@ -1,0 +1,6 @@
+source_dir: build/docs-mongodb/source
+sources: 
+  - /images/crud-write-concern-unack.rst
+  - /images/crud-write-concern-unack.png
+  - /images/crud-write-concern-unack-print.png
+...

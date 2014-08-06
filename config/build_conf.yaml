@@ -38,6 +38,12 @@ assets:
   - branch: master
     path: build/docs-tools
     repository: https://github.com/mongodb/docs-tools.git
+  - branch: master
+    path: build/docs-mongodb
+    repository: https://github.com/mongodb/docs.git
+    generate: 
+      - 'api'
+      - 'images'
 paths:
   output: 'build'
   source: 'source'
