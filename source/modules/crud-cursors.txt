@@ -1,0 +1,155 @@
+=======
+CURSORS
+=======
+
+.. topic:: Learning objectives
+
+    Students will understand:
+
+    - What a cursor is
+    - How the shell interprets cursors
+    - How the drivers interpret cursors
+    - Common methods on a cursor
+        - .count()
+        - .sort()
+        - .skip()
+        - .limit()
+
+Overview
+========
+
+    - When you use the find() function, the shell or the driver
+      returns a cursor
+    - A cursor is a pointer to the result set
+    - You can get back documents using the cursor's .next() function
+    - If you don't assign the cursor to a variable, the shell will
+      automatically iterate 20 documents at a time on the cursor.
+
+Exercise: Introducing the Cursor
+--------------------------------
+
+.. code-block:: javascript
+
+    for (i=1; i<=10000; i++) { 
+        db.cursors.insert( { a : Math.floor( Math.random() * 100 + 1 ),
+                             b: Math.floor( Math.random() * 100 + 1 ) } ) }
+    db.cursors.find() 
+    // The shell has iterated over the first 20 documents
+    it
+    // The shell has iterated over the next 20 documents
+    var x = db.cursors.find()  // No documents shown
+    x.next()  // display a document
+    x.hasNext()  // true because there are more documents
+    x.next()  // another document
+    y = x.next()  // Assign a document to y
+    // y is a document, not a cursor
+    y.a  // Just the 'a' field of y
+    x  // "Displaying" a cursor means showing 20 documents
+
+Cursors, Timeout, and Batches
+=============================
+
+    - They time out after 10 minutes of inactivity, by default
+    - The cursor is not isolated during its lifetime
+        - Writes that happen after the cursor is created may cause
+          documents to appear twice in a query, or cause recent
+          inserts to appear in the query, by default
+    - The cursor grabs documents in batches of:
+        - First, 101 documents
+        - Then, 4 megabytes' worth of documents for each subsequent batch
+    - The first batch is called in with the first document
+    - Some methods can only be performed before the first document comes in
+
+Cursors in Drivers
+==================
+
+    - Each driver implements cursors idomatically
+    - The cursors still pull batches just like the shell
+        - The shell is really just a javascript driver
+        - Don't use the shell for production. Ever.
+            - If you want to use javascript, you might try the
+              node.js driver
+    - The cursor methods are functionally very similar across
+      drivers
+
+Cursor Methods
+==============
+
+    - .count(): Finds how many total documents in the result set
+    - .limit(): Limits the number of documents returned
+    - .skip(): Skips the first n documents
+
+The .count() Method
+-------------------
+
+    - Counts the number of documents in the result set
+    - Pass a query document like you would to find(), and it will count only
+      the documents returned
+    - If you want to go through the documents for a better count, use 
+      .itcount()
+
+Exercise: Using .count()
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: javascript
+
+    db.cursors.count()  // 10000
+    db.cursors.count( { a : { $gt : 50 } } )  // About 5000 +/- 200
+
+The .sort() Method
+------------------
+
+    - Used to sort the documents returned
+    - Does not permanently move documents
+    - Can be done after the cursor is created, at any point until
+      the first document is called
+    - Sorts on the field specified, in the order specified, in the 
+      direction specified (see example, below)
+
+Exercise: The .sort() Method
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: javascript
+
+    db.cursors.find()  // Nothing is sorted
+    db.cursors.find().sort( { a : 1 } )  // a, from small to big
+    db.cursors.find().sort( { a : -1 } )  // a, from big to small
+    db.cursors.find().sort( { a : 1, b : 1 } )  // a then b
+    db.cursors.find().sort( { b : 1, a : 1 } )  // b then a 
+    db.cursors.find().sort( { b : -1, a : 1 } )  
+    // b from big to small, then a from small to big
+    db.cursors.find().sort( { $natural : 1 } )  
+    // Just like the first sort
+    db.cursors.find().sort( { $natural : -1 } ) 
+    // Reverse natural order
+
+Sorting Notes
+~~~~~~~~~~~~~
+
+    - The $natural order is just the order on disk that
+        - If you never delete any documents, nor change their size,
+          this will be the same order in which you inserted them
+    - Sorting two or more fields breaks the 'unordered key:value pair'
+      convention of javascript objects. 
+        - In the drivers, you may need to query with something that is ordered
+        - For example, in python, you would usually query with a dictionary
+          (an unordered set of key: value pairs), but for sorting, you will
+          use an ordered key: value pair type
+
+The .skip() Method
+------------------
+
+    - Skips a certain number of documents before the first one in the cursor 
+    - Even if you call .skip().sort() on the cursor, you will sort before 
+      skipping
+    - This can help limit bandwidth usage if some documents have already been
+      pulled, for example
+
+The .limit() Method
+-------------------
+
+    - Limits the number of documents returned
+    - If you .limit().skip().sort() (in any order), the server will sort,
+      then skip, then limit
+    - Helps reduce bandwidth usage if you only need a certain number of
+      documents

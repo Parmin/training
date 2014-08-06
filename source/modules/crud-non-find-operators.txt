@@ -13,6 +13,7 @@ OTHER READ FUNCTIONS
             - .stats()
             - .help()
         - Using a field without parentheses to see its code
+        - Tab complection
 
 The .distinct() Function
 ========================
@@ -85,3 +86,11 @@ Example: Viewing the Javascript of .find()
 .. code-block:: javascript
 
     db.ct.find  // This will show what it's doing
+
+Tab Completion to Find Methods
+==============================
+
+    - If you add a dot and press tab twice, you can see any methods
+      for an object.
+    - This can be useful if you can't remember what your options are
+        - Saves time relative to searching online
