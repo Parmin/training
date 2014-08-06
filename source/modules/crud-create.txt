@@ -11,6 +11,7 @@ CREATE
         - Uniqueness constraints
         - ObjectId's
         - Using subdocuments
+    - Using javascript to create sample data
 
 Creating New Documents
 ----------------------
@@ -145,9 +146,9 @@ Exercise: Using the Javascript Shell
 
 - You can use the javascript functionality of the shell to perform operations.
 
-  - Assign variables
-
   - Use loops
+  - Assign variables
+  - Perform lots of inserts
 
 .. code-block:: javascript
 
@@ -163,5 +164,3 @@ Exercise: Using the Javascript Shell
         
         - This inserts at a rate of around 20,000 per second on my laptop
         - It should take about a minute to run once you've got it all in.
-
-

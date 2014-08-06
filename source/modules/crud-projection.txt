@@ -7,13 +7,15 @@ Projection
     - How to project the query results
     - How to specify which fields to be included in a result set
     - How to eliminate a field from a result set
-    - Special rule for _id and projection
+    - The special rule for _id and projection
+    - Using the $ operator for projecting an array element
 
 Why Use Projection?
 ===================
 
     - Projection allows you to select which fields are returned by a query
-    - Projection can help reduce bandwidth for a query's result
+    - Projection can help reduce bandwidth for sending a query's result over 
+      the wire
         - Especially if you have large values for some fields
     - In the shell, projection can make the results more readable
 
@@ -78,9 +80,9 @@ Exercise: Using Projection to Improve Readability
 Projection of Arrays using the $ Operator
 =========================================
 
-    - If you queried for an array field, you can project that element
-      that you found using the $ operator
-    - This only works if you query just one field.
+    - If you queried for an array index, you can project only the element
+      that you sought by using the $ operator
+    - This only works properly if you query just one array element.
 
 Exercise: Projecting Using the $ Operator
 -----------------------------------------

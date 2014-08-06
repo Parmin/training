@@ -6,7 +6,7 @@ Matching
 
     - The "query by example" paradigm of MongoDB
     - The .pretty() method on the cursor
-    - Querying behavior of arrays
+    - How to query on array elements
     - How to query using dot notation
 
 The find() Method
