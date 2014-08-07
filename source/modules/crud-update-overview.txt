@@ -1,0 +1,82 @@
+=================
+UPDATE - OVERVIEW
+=================
+
+.. topic:: Learning objectives
+
+    Students should understand:
+
+    - Which function to use to update a document
+    - The required parameters of that update
+    - Why the default update was created as it was
+    - How _id's work
+
+The .update() Function
+======================
+
+    - Documents in MongoDB are mutated with the 
+      db.collection.update() function
+    - The .update() function requires parameters
+        - The first is the query parameter, which determines which document(s),
+          if any, get updated
+        - The second is the update parameter, which determines how the
+          document will change
+    - The update function cannot delete a document
+
+The .update() Function's Query Parameter
+----------------------------------------
+
+    - The first parameter is the query parameter
+    - It will be a document
+    - It works just like the find() query parameter
+        - Any document you might put in a db.collection.find() parameter will
+          work here
+    - By default, however, it affects only one document: the first one found
+
+The .update() Function's Update Parameter
+-----------------------------------------
+
+    - The second parameter is the update parameter
+    - It will be a document
+    - It will, by default, replace the existing document
+        - Except for the _id field, which is immutable
+
+Exercise: Basic Update Queries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+.. code-block:: javascript
+    
+    for (i=1; i<=5; i++) { db.basicUpdate.insert( { _id : 1, a : i } ) }
+    db.basicUpdate.find()  // just "_id" and "a" from 1-5
+    db.basicUpdate.update( { a : 3 } , { a : 6 } )
+    db.basicUpdate.find()  // now we have { "_id" : 3, "a" : 6 }
+    db.basicUpdate.update( { _id : 2 } , { b : 2 } )
+    db.basicUpdate.find()
+    // now we have { "_id" : 2, "b" : 2 } ; the "a" field is gone
+    db.basicUpdate.update( { _id : { $lt : 3 } } , { a : 7 } )
+    // just the first document got updated, not the second
+    db.basicUpdate.update( { a : 4 } , { _id : 0 } )
+    // error because you can't update the _id
+
+The Default Update Explained
+----------------------------
+
+    - It isn't intuitive that this should be the basic update
+    - The default use case is one where there is only one document that fits
+      the query
+        - Ending the search at one document gives (on average) a factor of two
+          increase in the query speed
+        - If you want to update multiple documents, we will show you how to do
+          that shortly
+    - The simplest case is one where an application obtains a document,
+      maniuplates it, and then saves it back 
+        - Perhaps this is not your most common use case, so there are ways to
+          mutuate fewer fields
+
+
+
+    - How to update multiple documents
+    - How to update only one field
+    - That they can use query operators in the query parameter of the update function
+    - That the update parameter of the update function has its own operators
+    - Some common update operators

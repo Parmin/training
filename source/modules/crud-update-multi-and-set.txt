@@ -1,0 +1,61 @@
+=======================
+UPDATE - MULTI AND $SET
+=======================
+
+.. topic:: Learning objectives
+
+    Students will understand: 
+        
+        - How to update multiple documents
+        - How to update one or more fields at a time without updating others
+
+Updating Multiple Documents
+===========================
+
+    - In order to update multiple documents, pass the .update() function 
+      a document as its third, optional parameter, and include the fields
+      multi : true in it
+    - You can easily end up scanning every document in the collection if you
+      do this
+
+Exercise: Multi-Update
+----------------------
+
+.. code-block:: javascript
+
+    for (i=1; i<=5; i++) { db.multiUpdate.insert( { _id : 1, a : i } ) }
+    db.multiUpdate.update( { _id : { $lt : 5 } }, { a : 6 } )
+    // Only affected one document, with _id : 1 
+    db.multiUpdate.update( { _id : { $lt : 5 } }, { a : 7 }, { multi : true } )
+    // Affected four documents, all except _id : 5 
+
+Setting Values
+==============
+
+    - You can set one or more values by using the $set operator in your update
+      document
+    - Any fields you specify will take on the new values
+    - Any fields you do not specify will not change
+
+Exercise: Using $set
+--------------------
+
+.. code-block:: javascript
+
+    for (i=1; i<=5; i++) { db.setUpdate.insert( { _id : 1, a : i, b : i } ) }
+    db.setUpdate.update( { _id : 3 }, { $set : { a : 6 } } )  
+    // just "a" was affected
+    db.setUpdate.update( { _id : 5 } , { $set : { c : 5 } } ) 
+    // Added a new field
+    db.setUpdate.update( { _id : 5 } , { $set : { c : 7 , a : 7 } } )
+    // Just two fields affected
+
+Exercise: Using $set with multi
+-------------------------------
+
+.. code-block:: javascript
+    
+    db.setUpdate.update( { _id : { $lte : 4 } }, 
+                         { $set : { a : 1 } }, 
+                         { multi : true } )
+    // Four of the five documents are affected

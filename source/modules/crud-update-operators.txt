@@ -1,0 +1,11 @@
+=======================
+CRUD - UPDATE OPERATORS
+=======================
+
+
+.. topic:: Learning objectives
+
+    Students will:
+
+        - Understand why there are update operators
+        - Know about common update operators
