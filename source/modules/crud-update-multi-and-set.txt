@@ -36,19 +36,26 @@ Setting Values
       document
     - Any fields you specify will take on the new values
     - Any fields you do not specify will not change
+    - You can remove a field using $unset
 
-Exercise: Using $set
---------------------
+Exercise: Using $set and $unset
+-------------------------------
 
 .. code-block:: javascript
 
     for (i=1; i<=5; i++) { db.setUpdate.insert( { _id : 1, a : i, b : i } ) }
     db.setUpdate.update( { _id : 3 }, { $set : { a : 6 } } )  
+    db.setUpdate.find()
     // just "a" was affected
     db.setUpdate.update( { _id : 5 } , { $set : { c : 5 } } ) 
+    db.setUpdate.find()
     // Added a new field
     db.setUpdate.update( { _id : 5 } , { $set : { c : 7 , a : 7 } } )
+    db.setUpdate.find()
     // Just two fields affected
+
+    db.setUpdate.update( { _id : 4 } , { $unset : a } )
+    db.setUpdate.find()
 
 Exercise: Using $set with multi
 -------------------------------

@@ -7,5 +7,168 @@ CRUD - UPDATE OPERATORS
 
     Students will:
 
-        - Understand why there are update operators
         - Know about common update operators
+            - Field update operators
+            - Array update operators
+            - Modifiers
+
+
+Operator Categories
+===================
+
+    - When using these operators, you don't need to explicitly call $set
+        - It is implicitly called
+    - Update Operators: Used to make a diff of primitive types
+    - Array Operators: Used to manipulate arrays
+    - Modifier Operators: Modifies other operators
+
+
+Update Operators
+----------------
+
+    - $inc: Increment value by a certain amount
+    - $mul: Multiply value by a certain amount
+    - $rename: Rename a field
+    - $set (already discussed)
+    - $unset (already discussed)
+    - $min: Only update the value if it is smaller than the specified quantity
+    - $max: Only update the value if it is larger than the specified quantity
+
+Exercise: Using Update Operators
+
+.. code-block:: javascript
+
+    for (i=1; i<=5; i++) { db.updateOperators.insert( { _id : i, 
+                                                        a : i, 
+                                                        b : i } ) }
+    db.updateOperators.find()
+    db.updateOperators.update( { _id : 1 }, { $inc : { a : 1 } } )  // a += 1
+    db.updateOperators.find()
+    db.updateOperators.update( { _id : 2 }, { $inc : { a : -3 } } )  // a -= 3
+    db.updateOperators.find()
+    db.updateOperators.update( { _id : 3 }, { $mul : { a : 4 } } )  // a *= 4
+    db.updateOperators.find()
+    db.updateOperators.update( { _id : 4 }, { $rename : { a : "xyz" } } )
+    db.updateOperators.find()
+    db.updateOperators.update( { _id : 5 }, { $min : { a : 3 } } )  // a : 3 now
+    db.updateOperators.find()
+    db.updateOperators.update( { _id : 5 }, { $min : { a : 7 } } )  // No update
+    db.updateOperators.find()
+    db.updateOperators.update( { _id : 5 }, { $max : { a : 2 } } )  // No update
+    db.updateOperators.find()
+    db.updateOperators.update( { _id : 5 }, { $max : { a : 7 } } )  // a : 7 now
+    db.updateOperators.find()
+
+Array Operators
+---------------
+
+    - Used to manipulate arrays
+    - Like update operators, these obviate the need for $set
+    - $ (already discussed)
+    - $push: Appends an element to the end of an array
+    - $pushAll: Appends all elements from an array to the end of an array in
+      the document
+    - $pop: Removes an element from the end of an array
+    - $pull: Removes all elements in an array that match the value given
+    - $pullAll: Removes all elements in an array that match any of the values
+      given in an array
+    - $addToSet: Appends an element to an array if not already present
+
+Exercise: Using Array Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: javascript
+
+    for (i=1; i<=5; i++) { 
+        db.arrayOperators.insert( { _id : i, 
+                                    a : i, 
+                                    b: [ 1, 2, 3, 3, "hello", 6 ] } ) } 
+    db.arrayOperators.find()
+    db.arrayOperators.update( { _id : 1 }, { $push : { b : 3 } } )  // 3 goes on end
+    db.arrayOperators.find()
+    db.arrayOperators.update( { _id : 1 }, { $push : { b : [ 3, 12 ] } } )  
+    // Be careful when pushing arrays!
+    db.arrayOperators.find()
+    db.arrayOperators.update( { _id : 2 }, { $pushAll : { b : [ 1, 2, 3 ] } } )
+    // 1, 2, and 3 are appended
+    db.arrayOperators.find()
+    db.arrayOperators.update( { _id : 2 }, { $pop : { b : 1 } } )  
+    // pops last element off
+    db.arrayOperators.update( { _id : 2 }, { $pop : { b : "" } } )  
+    // Notice that there is a placeholder; most values will work fine
+    db.arrayOperators.update( { _id : 3 }, { $pull : { b : 2 } } )  // 2 is pulled
+    db.arrayOperators.find()
+    db.arrayOperators.update( { _id : 3 }, { $pull : { b : 3 } } )  
+    // both 3's are pulled
+    db.arrayOperators.update( { _id : 4 }, 
+                              { $pullAll : { b : [ 1, 2, "hello", 4 ] } } )  
+    // The array elements are pulled; the 4 doesn't matter
+    db.arrayOperators.find()
+    db.arrayOperators.update( { _id : 5 }, { $addToSet { b : 2 } } )  
+    // no effect; element already present
+    db.arrayOperators.find()
+    db.arrayOperators.update( { _id : 5 }, { $addToSet { b : 3 } } )  
+    // no effect; element already present twice
+    db.arrayOperators.find()
+    db.arrayOperators.update( { _id : 5 }, { $addToSet { b : 4 } } )  
+    // 4 gets pushed
+    db.arrayOperators.find()
+
+Modifier Operators
+------------------
+
+    - Used to modify other operators
+    - $each: Turns $push into $pushAll, and does something similar for 
+      $addToSet
+    - $slice: Modifies $push : { $each ... } to limit the size of updated arrays
+    - $sort: Modifies $push to order the updated arrays
+    - $position: Modifies $push to specify position that we're pushing to
+
+Exercise: Using Modifier Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+.. code-block:: javascript
+
+    for (i=1; i<=5; i++) { 
+        db.modifierOperators.insert( { _id : i, 
+                                       a : i, 
+                                       b: [ 1, 2, 3, 3, "hello", 6 ] } ) }
+    db.modifierOperators.find()
+    db.modifierOperators.update( { _id : 1 }, 
+                                 { $addToSet : { b : { $each : [ 2, 3, 4 ] } } } )
+    // Only pushes the 4
+    db.modifierOperators.find()
+    db.modifierOperators.update( { _id : 2 },
+                                 { $push : { b : { $each : [ 7, 12, 13 ], 
+                                                   $slice : 8 } } } )
+    // Final array is chopped off at the beginning so it is only 8 elements
+    db.modifierOperators.find()
+    db.modifierOperators.update( { _id : 3 },
+                                 { $push : { b : { $each : [ 7, 12, 13 ], 
+                                                   $slice : -8 } } } )
+    // Final array is chopped off at the end so it is only 8 elements
+    db.modifierOperators.find()
+    db.modifierOperators.update( { _id : 4 },
+                                 { $push : { b : { $each : [ -5, -7, -12 ], 
+                                                   $sort : 1 } } } )
+    // The "b" array is now sorted ascending
+    db.modifierOperators.find()
+    db.modifierOperators.update( { _id : 5 },
+                                 { $push : { b : { $each : [ -5, -7, -12 ], 
+                                                   $sort : -1 } } } )
+    // The "b" array is now sorted descending
+    db.modifierOperators.find()
+    // Let's do a more complicated example, but first we need a more
+       complicated document
+    db.modifierOperators.insert( { _id : 5, quizzes: [ { id : 1, score : 77 },
+                                                       { id : 2, score : 99 },
+                                                       { id : 3, score : 88 } ] } )
+    db.modifierOperators.find( { _id : 5 } )
+    db.modifierOperators.find()
+    db.modifierOperators.find()
+    db.modifierOperators.find()
+
+
+
+
+    - $setOnInsert (used for upsert)

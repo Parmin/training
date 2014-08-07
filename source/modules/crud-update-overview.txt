@@ -72,11 +72,3 @@ The Default Update Explained
       maniuplates it, and then saves it back 
         - Perhaps this is not your most common use case, so there are ways to
           mutuate fewer fields
-
-
-
-    - How to update multiple documents
-    - How to update only one field
-    - That they can use query operators in the query parameter of the update function
-    - That the update parameter of the update function has its own operators
-    - Some common update operators
