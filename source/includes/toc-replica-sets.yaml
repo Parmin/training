@@ -1,0 +1,16 @@
+file: /modules/replica-set-introduction
+description: | 
+  An introduction to replication and replica sets.
+--- 
+file: /modules/replica-set-oplog
+description: | 
+  The process of replicating data from one node of a replica set to another.
+--- 
+file: /modules/replica-set-elections
+description: | 
+  The process of electing a new primary (automated failover) in replica sets.
+--- 
+file: /modules/replica-set-write-concern
+description: | 
+  Balancing performance and durability of writes.
+...

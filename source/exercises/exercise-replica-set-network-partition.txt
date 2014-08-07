@@ -1,0 +1,74 @@
+Exercise: Election Following a Network Partition
+------------------------------------------------
+
+Given what we have learned about electing a primary in replica sets, let's look at some scenarios in which failover might be necessary.
+
+
+Scenario 1
+~~~~~~~~~~
+
+Which member will become primary following this type of network partition?
+
+.. figure:: /figures/replica-set-3nodes-2dc-network-partition.png
+   :width: 300px
+
+.. only:: instructor
+
+   Answer:
+
+   - The current primary is likely to remain primary.
+   - It probably has the highest priority.
+
+
+Scenario 2
+~~~~~~~~~~
+
+How about in this scenario? Which member will become primary?
+
+.. figure:: /figures/replica-set-3nodes-2dc-network-partition-primary-unavailable.png
+   :width: 300px
+
+.. only:: instructor
+
+   Answer:
+
+   - One of the servers in Data Center 1 would become primary.
+   - The current primary in Data Center 2 would step down and assume secondary status.
+
+
+Scenario 3
+~~~~~~~~~~
+
+What happens following this network partition?
+
+.. figure:: /figures/replica-set-3nodes-2dc-network-partition-primary-unavailable.png
+   :width: 300px
+
+.. only:: instructor
+
+   Answer:
+
+   - We enter a state with no primary. 
+   - Each side of the network partition has only 2 votes (not a majority).
+   - All the servers assume secondary status.  
+   - This is avoidable.
+   - One solution is to add another member to the replica set.  
+   - If another server can not be provisioned, MongoDB has a special alternative called an arbiter that requires minimal resources. 
+   - An arbiter is a mongod that has no data directory and only serves the purpose of voting.  
+
+
+Scenario 4
+~~~~~~~~~~
+
+The following is similar to Scenario 3, but with the addition of an arbiter in Data Center 1. What happens here?
+
+.. figure:: /figures/replica-set-3nodes-2dc-network-partition-primary-unavailable.png
+   :width: 300px
+
+
+
+
+
+
+
+

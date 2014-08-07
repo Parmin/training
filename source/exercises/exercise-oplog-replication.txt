@@ -1,0 +1,144 @@
+Exercise: Reviewing the Oplog after Updating a Replica Set
+----------------------------------------------------------
+
+Let's take a look at a concrete example. Launch mongo shell as follows.
+
+::
+
+   mongo --nodb
+
+Create a replica set by running the following command in the mongo shell.
+
+.. code-block:: javascript
+
+   replicaSet = new ReplSetTest( { nodes : 3 } )
+
+ReplSetTest
+~~~~~~~~~~~
+
+- ReplSetTest is useful for experimenting with replica sets as a means of hands-on learning. 
+- It should never be used in production. Never.
+- The command above will create a replica set with three members.
+- It does not start the mongods, however. 
+- You will need to issue additional commands to do that.
+
+Start the mongod processes for this replica set.
+
+.. code-block:: javascript
+
+   replicaSet.startSet()
+
+Issue the following command to configure replication for these mongods. You'll need to issue this while output is flying by in the shell. 
+
+.. code-block:: javascript
+
+   replicaSet.initiate()
+
+Status Check
+~~~~~~~~~~~~
+
+- You should now have three mongods running on ports 31000, 31001, and 31002. 
+- You will see log statements from all three printing in the current shell.
+- To complete the rest of the exercise, open a new shell.
+
+Open a new shell, connecting to the primary. 
+
+.. code-block:: javascript
+
+   mongo --port 31000
+
+Create a store database.
+
+.. code-block:: javascript
+
+  use store;
+
+Add the following inventory.
+
+.. code-block:: javascript
+   
+   inventory = [ 
+     { 
+       "_id" : 1,
+       "inStock" : 10
+     },
+     { 
+       "_id" : 2,
+       "inStock" : 20
+     },
+     { 
+       "_id" : 3,
+       "inStock" : 30
+     },
+     { 
+       "_id" : 4,
+       "inStock" : 40
+     },
+     { 
+       "_id" : 5,
+       "inStock" : 50
+     },
+     { 
+       "_id" : 6, 
+       "inStock" : 60
+     },
+     { 
+       "_id" : 7,
+       "inStock" : 70
+     },
+     { 
+       "_id" : 8,
+       "inStock" : 80
+     },
+     { 
+       "_id" : 9,
+       "inStock" : 90
+     },
+     { 
+       "_id" : 10,
+       "inStock" : 100
+     } 
+   ];
+
+Insert these documents into the products collection.
+        
+.. code-block:: javascript
+
+   db.products.insert(inventory);
+
+Then issue the following update. We might issue this update after a purchase of three items.
+
+.. code-block:: javascript
+
+   db.products.update( { _id : { $in : [ 2, 5, 10] } }, 
+                       { $inc : { inStock : -1 } },
+                       { multi : true } );
+
+Remember that the oplog is a capped collection. It is found in the local database for each member of the replica set.
+
+.. code-block:: javascript
+
+   db.oplog.rs.find();
+
+   { "ts" : Timestamp(1406944987, 1), "h" : NumberLong(0), "v" : 2, "op" : "n", "ns" : "", "o" : { "msg" : "initiating set" } }
+   { "ts" : Timestamp(1406945058, 1), "h" : NumberLong("-7953153248817315823"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 1, "inStock" : 10 } }
+   { "ts" : Timestamp(1406945058, 2), "h" : NumberLong("7695616469899449349"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 2, "inStock" : 20 } }
+   { "ts" : Timestamp(1406945058, 3), "h" : NumberLong("-6840519258917066830"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 3, "inStock" : 30 } }
+   { "ts" : Timestamp(1406945058, 4), "h" : NumberLong("-4778937973035511366"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 4, "inStock" : 40 } }
+   { "ts" : Timestamp(1406945058, 5), "h" : NumberLong("-6876688668489845405"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 5, "inStock" : 50 } }
+   { "ts" : Timestamp(1406945058, 6), "h" : NumberLong("6905507276934360223"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 6, "inStock" : 60 } }
+   { "ts" : Timestamp(1406945058, 7), "h" : NumberLong("4473739083946404772"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 7, "inStock" : 70 } }
+   { "ts" : Timestamp(1406945058, 8), "h" : NumberLong("-6178013103331761100"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 8, "inStock" : 80 } }
+   { "ts" : Timestamp(1406945058, 9), "h" : NumberLong("-5117255381323779851"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 9, "inStock" : 90 } }
+   { "ts" : Timestamp(1406945058, 10), "h" : NumberLong("-3993049904372145159"), "v" : 2, "op" : "i", "ns" : "store.products", "o" : { "_id" : 10, "inStock" : 100 } }
+   { "ts" : Timestamp(1406945076, 1), "h" : NumberLong("-9144645443320713428"), "v" : 2, "op" : "u", "ns" : "store.products", "o2" : { "_id" : 2 }, "o" : { "$set" : { "inStock" : 19 } } }
+   { "ts" : Timestamp(1406945076, 2), "h" : NumberLong("-7873096834441143322"), "v" : 2, "op" : "u", "ns" : "store.products", "o2" : { "_id" : 5 }, "o" : { "$set" : { "inStock" : 49 } } }
+   { "ts" : Timestamp(1406945076, 3), "h" : NumberLong("1513811862800085509"), "v" : 2, "op" : "u", "ns" : "store.products", "o2" : { "_id" : 10 }, "o" : { "$set" : { "inStock" : 99 } } }
+
+Understanding the Oplog
+~~~~~~~~~~~~~~~~~~~~~~~
+
+- Note the last three entries in the oplog.
+- These entries reflect the update command issued above. 
+- Note that there is one operation per document affected. 
+- More specifically, one operation for each of the documents with the _id values 2, 5, and 10.
