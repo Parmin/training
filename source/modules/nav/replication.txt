@@ -1,9 +1,0 @@
-===========
-Replication
-===========
-
-.. default-domain:: mongodb
-
-.. include:: /includes/toc/dfn-list-replication.rst
-
-.. include:: /includes/toc/replication.rst             

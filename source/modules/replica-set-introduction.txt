@@ -1,6 +1,6 @@
-===========================
-Introduction to Replication
-===========================
+============================
+Introduction to Replica Sets
+============================
 
 .. topic:: Upon completing this module students should understand:
 
@@ -50,7 +50,7 @@ Replica Sets
 - Secondaries may become primary as the result of an election due to some time of failover event.
 
 .. figure:: /figures/replica_set.png
-    :width: 500px
+   :width: 500px
 
 
 Primary Server

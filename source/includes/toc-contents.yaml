@@ -14,7 +14,7 @@ file: /modules/nav/indexes
 description: | 
   Learn about MongoDB's indexes.
 ---
-file: /modules/nav/replication
+file: /modules/nav/replica-sets
 description: | 
   Learn how MongoDB's replication system works and how MongoDB's
   replica sets automate the management of replicated deployments.

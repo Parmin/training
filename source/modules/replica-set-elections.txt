@@ -1,0 +1,68 @@
+=====================
+Replica Set Elections
+=====================
+
+Members and Votes
+-----------------
+
+- In order for writes to occur, one member of a replica set must be primary.
+- In the event the current primary becomes unavailable, the remaining members elect a primary.
+- A replica set may have up to 12 members.
+- Up to seven members may be voting members. 
+- Experimentally, we have found this enables deployments to distribute votes to different data centers and keep elections short.
+- Voting members of replica set each get one vote.  
+- In order to be elected primary a server must have a true majority of votes.
+- A server must have greater than 50% of the votes in order to be elected primary.
+
+
+Calling Elections
+-----------------
+
+- MongoDB uses a consensus protocol to determine when an election is required.
+- Objectives:
+
+  - Prevent unnecessary elections from occurring.
+  - Initiate elections as fast as possible when they are needed.  
+
+- An election will occur if there is no primary:
+  
+  - Upon initiation of a new replica set.
+  - If a primary steps down. 
+
+- A secondary will call for an election if it does not receive a response to a heartbeat sent to the primary after waiting for 10 seconds.
+- If other members agree that the primary is not available, an election will be held.  
+
+
+Selecting a New Primary
+-----------------------
+
+Priority
+~~~~~~~~
+
+- All members are assigned a priority value.
+- The higher its priority, the more likely a member is to become primary.
+- Priority values range from 0 to 100 inclusive.
+- The default is 1.
+- Servers with a priority of 0 will never become primary.  
+
+Optime
+~~~~~~
+
+- The optime is the timestamp of the last operation a member applied from the oplog.
+- To be elected primary, a member must have the most recent optime of any visible member in the set.
+
+Connections
+~~~~~~~~~~~
+- To be elected primary, a replica set member must be able to connect to a majority of the members in the replica set. 
+- Majority refers to the total number of votes, rather than the total number of members.
+
+
+When will a primary step down?
+------------------------------
+
+- After receiving the ``replSetStepDown`` command.
+- If a secondary is eligible for election and has a higher priority.
+- If it cannot contact a majority of the members of the replica set.
+
+
+.. include:: /exercises/exercise-replica-set-network-partition.txt

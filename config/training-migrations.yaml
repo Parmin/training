@@ -3,4 +3,10 @@ sources:
   - /images/crud-write-concern-unack.rst
   - /images/crud-write-concern-unack.png
   - /images/crud-write-concern-unack-print.png
+  - /images/crud-write-concern-ack.rst
+  - /images/crud-write-concern-ack.png
+  - /images/crud-write-concern-ack-print.png
+  - /images/crud-write-concern-w2.rst
+  - /images/crud-write-concern-w2.png
+  - /images/crud-write-concern-w2-print.png
 ...
