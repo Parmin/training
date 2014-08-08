@@ -35,6 +35,9 @@ Setting Values
     - You can set one or more values by using the $set operator in your update
       document
     - Any fields you specify will take on the new values
+        - If it already existed, it will change value
+        - If it didn't already exist, the update will create the field and
+          set it to the new value
     - Any fields you do not specify will not change
     - You can remove a field using $unset
 

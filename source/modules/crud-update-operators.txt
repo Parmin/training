@@ -26,6 +26,9 @@ Operator Categories
 Update Operators
 ----------------
 
+    - Like $set, these will change one field at a time
+    - If the field isn't already present, it will be created with a reasonable
+      default value and then the update will be applied
     - $inc: Increment value by a certain amount
     - $mul: Multiply value by a certain amount
     - $rename: Rename a field
@@ -33,6 +36,7 @@ Update Operators
     - $unset (already discussed)
     - $min: Only update the value if it is smaller than the specified quantity
     - $max: Only update the value if it is larger than the specified quantity
+    - $currentDate: Sets the value of a field to the current date
 
 Exercise: Using Update Operators
 
@@ -46,7 +50,13 @@ Exercise: Using Update Operators
     db.updateOperators.find()
     db.updateOperators.update( { _id : 2 }, { $inc : { a : -3 } } )  // a -= 3
     db.updateOperators.find()
+    db.updateOperators.update( { _id : 1 }, { $inc : { q : 1 } } )  
+    // Created a new field, "q", with a value of 1
+    db.updateOperators.find()
     db.updateOperators.update( { _id : 3 }, { $mul : { a : 4 } } )  // a *= 4
+    db.updateOperators.find()
+    db.updateOperators.update( { _id : 3 }, { $mul : { q : 4 } } )
+    // Created a new field, "q", with a value of 4
     db.updateOperators.find()
     db.updateOperators.update( { _id : 4 }, { $rename : { a : "xyz" } } )
     db.updateOperators.find()
@@ -58,6 +68,10 @@ Exercise: Using Update Operators
     db.updateOperators.find()
     db.updateOperators.update( { _id : 5 }, { $max : { a : 7 } } )  // a : 7 now
     db.updateOperators.find()
+    db.updateOperators.update( { _id : 1 }, { $currentDate : { c : { $type : "timestamp" } } } )
+    db.updateOperators.update( { _id : 2 }, { $currentDate : { c : { $type : "date" } } } )
+    db.updateOperators.find()
+
 
 Array Operators
 ---------------
@@ -163,9 +177,13 @@ Exercise: Using Modifier Operators
     db.modifierOperators.insert( { _id : 5, quizzes: [ { id : 1, score : 77 },
                                                        { id : 2, score : 99 },
                                                        { id : 3, score : 88 } ] } )
-    db.modifierOperators.find( { _id : 5 } )
+    db.modifierOperators.find( { _id : 5 }, { $push : { quizzes : { $each : [ { id : 4, score : 66},
+                                                                              { id : 5, score : 55 } ],
+                                                                    $sort : { score : 1 } } } } )
+    // We sorted on a field in the documents in the array!
     db.modifierOperators.find()
-    db.modifierOperators.find()
+    db.modifierOperators.find( { _id : 1 }, { $push : { b : { $each : [ "position", "three" ],
+                                                              $position : 3 } } } )
     db.modifierOperators.find()
 
 
