@@ -23,7 +23,7 @@ Exercise: Multi-Update
 
 .. code-block:: javascript
 
-    for (i=1; i<=5; i++) { db.multiUpdate.insert( { _id : 1, a : i } ) }
+    for (i=1; i<=5; i++) { db.multiUpdate.insert( { _id : i, a : i } ) }
     db.multiUpdate.update( { _id : { $lt : 5 } }, { a : 6 } )
     // Only affected one document, with _id : 1 
     db.multiUpdate.update( { _id : { $lt : 5 } }, { a : 7 }, { multi : true } )
@@ -46,7 +46,7 @@ Exercise: Using $set and $unset
 
 .. code-block:: javascript
 
-    for (i=1; i<=5; i++) { db.setUpdate.insert( { _id : 1, a : i, b : i } ) }
+    for (i=1; i<=5; i++) { db.setUpdate.insert( { _id : i, a : i, b : i } ) }
     db.setUpdate.update( { _id : 3 }, { $set : { a : 6 } } )  
     db.setUpdate.find()
     // just "a" was affected
