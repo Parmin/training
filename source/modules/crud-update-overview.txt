@@ -46,7 +46,7 @@ Exercise: Basic Update Queries
     
 .. code-block:: javascript
     
-    for (i=1; i<=5; i++) { db.basicUpdate.insert( { _id : 1, a : i } ) }
+    for (i=1; i<=5; i++) { db.basicUpdate.insert( { _id : i, a : i } ) }
     db.basicUpdate.find()  // just "_id" and "a" from 1-5
     db.basicUpdate.update( { a : 3 } , { a : 6 } )
     db.basicUpdate.find()  // now we have { "_id" : 3, "a" : 6 }
