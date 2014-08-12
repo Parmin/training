@@ -65,8 +65,8 @@ Exercise: Assigning a Subdocument to be the _id
 
 .. code-block:: javascript
 
-   db.foo.insert( { _id : { name : "Will", job : "Curriculum Developer" }}, 
-                    a : 13 )
+   db.foo.insert( { _id : { name : "Will", job : "Curriculum Developer" }, 
+                    a : 13 } )
    db.foo.insert( { 
                        _id : 
                        { 
