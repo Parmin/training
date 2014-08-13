@@ -1,0 +1,86 @@
+======================
+CRUD - BULK OPERATIONS
+======================
+
+.. topic:: Learning objectives
+
+    Students should understand:
+
+        - How to use bulk writes
+        - That query & update parameters are spread between two methods
+
+Bulk Operations
+===============
+
+- Bulk operations are used to perform many operations at once, without
+  requiring back-and-forth for each operation
+- We've been implicitly 
+- A result is returned once the entire bulk operation set has been executed
+    - No results are returned until the bulk operation is done
+- Bulk operations are a way of increasing speed for writes
+- Bulk ops can have up to 1000 operations at a time
+    - Larger bulk operations will be broken down into groups of 1000 operations
+      at a time
+
+Bulk Operations: Syntax
+-----------------------
+
+- Bulk operations are created using one of two commands:
+    - db.collection.initializeOrderedBulkOp()
+        - Ordered bulk operations are done one after another, and if one fails,
+          all subsequent writes fail (though previous ones are performed)
+    - db.collection.initializeUnorderedBulkOp()
+        - Unordered bulk operations are done in no particular order, and if one
+          fails, all others will still be attempted
+- You then use the find() method to add the query portion, and 
+  insert/update/remove to add a write portion.
+
+Exercise: Bulk Inserts
+~~~~~~~~~~~~~~~~~~~~~~
+
+- First, open a second window and run mongostat
+- Look at the rate of inserts during each of the following.
+
+.. code-block:: javascript
+
+    for (i=0; i<100; i++) { 
+            orderedBulk = db.ordered.initializeOrderedBulkOp()
+            for (j=0; j<1000; j++) {
+                orderedBulk.insert( { _id : 1000 * i + j,
+                                      a : 1000 * i + j,
+                                      b : 1000 * i + j, } ) }; 
+            orderedBulk.execute(); }
+    // execute 1000 at a time; 100 thousand total ordered inserts
+    for (i=0; i<100; i++) { 
+            unorderedBulk = db.unordered.initializeUnorderedBulkOp()
+            for (j=0; j<1000; j++) {
+                unorderedBulk.insert( { _id : 1000 * i + j,
+                                      a : 1000 * i + j,
+                                      b : 1000 * i + j, } ) }; 
+            unorderedBulk.execute(); }
+    // execute 1000 at a time; 100 thousand total unrdered inserts
+    for (i=0; i<100; i++) { for (j=0; j<1000; j++) {
+        db.noBulk.insert( { _id : 1000 * i + j,
+                            a : 1000 * i + j,
+                            b :  1000 * i + j } ) } }
+    // Pretty slow
+
+Exercise: Bulk Updates  -- DO NOT USE THIS YET, THE REMOVE() FUNCTION IS NOT WORKING
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: javascript
+
+    for (i=0; i<100; i++) { 
+            orderedBulk = db.ordered.initializeOrderedBulkOp()
+            for (j=0; j<1000; j++) {
+                orderedBulk.find( { _id : 1000 * i + j }).update( { $inc : { a : 1 } } ) }
+            orderedBulk.execute(); }  // Happens fast
+    for (i=0; i<100; i++) { 
+            orderedBulk = db.interweave.initializeOrderedBulkOp()
+            for (j=0; j<300; j++) {
+                orderedBulk.insert( { _id : 1000 * i + j,
+                            a : 1000 * i + j,
+                            b :  1000 * i + j } );
+                orderedBulk.find( { _id : 1000 * i + j } ).update( { $inc : { a : 1 } } ) }
+                orderedBulk.find( { _id : 1000 * i + j } ).remove()
+            orderedBulk.execute(); }  // Create, update, and remove each document
