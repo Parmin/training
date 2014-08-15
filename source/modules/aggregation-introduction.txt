@@ -1,0 +1,24 @@
+======================
+AGGREGATION - Overview
+======================
+
+.. topic:: Learning objectives
+
+    Upon completing this module, sutdents will understand that:
+
+        - Aggregation is used to perform analysis of data
+        - How the aggregation "pipeline" works
+        - Common aggregation stages/operators
+
+Aggregation - Basics
+====================
+
+    - Aggregation is used to analyze or transform data that is in
+      MongoDB collections.
+    - For those who are used to SQL, Aggregation is MongoDB's answer to the
+      "GROUP BY" statement.
+    - Aggregation works by using a "pipeline" (in analogy with unix pipes)
+      where the data is passed from one stage to the next. Any stage can
+      follow any other.
+    - Aggregation will act on an entire collection, though you may filter
+      some of the documents that you use.
