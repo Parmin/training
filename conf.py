@@ -116,11 +116,16 @@ languages = [
     ("uk", "Ukrainian")
 ]
 
+# -- Options for Slides output ---------------------------------------------------
+
+slide_theme = 'single-level'
+
+slide_theme_path = os.path.join(conf.paths.projectroot, 'themes')
+
 # -- Options for HTML output ---------------------------------------------------
 
 html_theme = sconf.theme.name
-html_theme_path = [ os.path.join(buildsystem, 'themes'),
-                    os.path.join(conf.paths.projectroot, 'themes') ]
+html_theme_path = [ os.path.join(buildsystem, 'themes') ]
 html_title = conf.project.title
 htmlhelp_basename = 'MongoDBdoc'
 
