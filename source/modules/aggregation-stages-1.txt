@@ -1,5 +1,5 @@
 ====================
-AGGREGATION - STAGES
+AGGREGATION - PART 1
 ====================
 
 .. topic:: Learning objectives
@@ -7,20 +7,21 @@ AGGREGATION - STAGES
     Upon completing this module, students will know:
 
         - The stages of the aggregation pipeline
-        - The basic usages of each stage
+        - The basic usages of stages similar to cursor methods
         - The syntax associated with these stages
 
 Basic Aggregation Stages
 ========================
 
-    - match
-    - project
-    - sort
-    - skip
-    - limit
-    - unwind
-    - group
-    - out
+    - match (like the first argument of a find() query)
+    - project (like the second argument of a find() query, but more powerful)
+    - sort (like the cursor method, but a little simpler)
+    - skip (like the cursor method, but a little simpler)
+    - limit (like the cursor method, but a little simpler)
+    - unwind (used for working with arrays)
+    - group (used for combining data in lots of documents)
+    - out (creates a new collection from the output of an aggregation
+      pipeline)
 
 The Match Stage
 ---------------
@@ -45,6 +46,23 @@ aggregation pipeline.
     db.aggMatch.aggregate( [ { $match : { a : { $lte : 2 } } } ] )  
     // 2 docs are output from the aggregation pipeline
     db.aggMatch.find( { a : { $lte : 2 } } )  // same 2 docs
+
+
+Exercise: Using two Stages in the Aggregation pipeline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use the match operator to find documents where a is less than 5, and then use
+it again to find documents where a is greater than 1.
+
+.. code-block:: javascript
+
+    db.aggMatch.aggregate( [ { $match : { a : { $lt : 5 } } } ] )
+    // halfway there.
+    db.aggMatch.aggregate( [ { $match : { a : { $lt : 5 } } }, 
+                             { $match : { a : { $gt : 1 } } } ] )
+    // Yes, this could have been accomplished in just one stage by making a 
+    // better matching query, but it gives you the idea of how stages can be
+    // chained.
 
 The Project Stage
 -----------------
@@ -125,7 +143,10 @@ The Sort Stage
     - Uses the $sort operator
     - Works just like the .sort() cursor method
         - 1 to sort asciibetically, -1 to sort reverse asciibetically
-    - When comparing values of different BSON types, MongoDB uses the following comparison order, from lowest to highest: 
+        - You cannot use $natural, as the aggregation set may not correspond
+          well to the original documents
+    - When comparing values of different BSON types, MongoDB uses the
+      following comparison order, from lowest to highest: 
         1. MinKey (internal type)
         2. Null
         3. Numbers (ints, longs, doubles)
@@ -138,12 +159,60 @@ The Sort Stage
         10. Date, Timestamp
         11. Regular Expression
         12. MaxKey (internal type)
-        
+
+Exercise: The $sort Operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please sort a set of documents in increasing value of the 'a' field, then 
+decreasing, then b increasing and a decreasing
+
+.. code-block:: javascript
+
+    db.aggSort.insert( [ { _id : 1, a : 1, b : 5 },
+                         { _id : 2, a : null, b : 5 },
+                         { _id : 3, a : -5, b : 3 },
+                         { _id : 4, a : "asdf", b : 12 } ] )
+    db.aggSort.find()
+    db.aggSort.aggregate( [ { $sort : { a : 1 } } ] )
+    // Sorted in increasing a, canonically
+    db.aggSort.aggregate( [ { $sort : { a : -1 } } ] )
+    // Sorted in decreasing a, canonically
+    db.aggSort.aggregate( [ { $sort : { b : 1, a : -1 } } ] )
+    // Sorted in increasing a, decreasing b
+
+The Skip Stage
+--------------
+
+    - Uses the $skip operator
+    - Value is an integer for the number to skip
+
+Exercise: The $skip Operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Skip the first 3 documents of a set.
+
+.. code-block:: javascript
+
+    for (i=1; i<=5; i++) { db.aggSkip.insert( { _id : i, a : i } ) } 
+    db.aggSkip.aggregate( [ { $skip : 3 } ] )  // skips the first 3.
 
 The Limit Stage
 ---------------
 
-    - Used to limit the number of documents returned
-    - Just like the .limit() method on the cursor
+    - Used to limit the number of documents returned or passed to the next
+      aggregation stage
+    - Value is an integer.
 
+Exercise: The $limit Operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: javascript
+
+    for (i=1; i<=5; i++) { db.agglimit.insert( { _id : i, a : i } ) } 
+
+Limit the number of documents in an aggregation set to 3.
+
+.. code-block:: javascript
+
+    db.aggSkip.aggregate( [ { $limit: 3 } ] )  // limits to the first 3.
 
