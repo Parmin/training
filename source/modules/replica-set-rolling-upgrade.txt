@@ -1,0 +1,7 @@
+================
+Rolling Upgrades
+================
+
+MongoDB can be upgraded with little loss of availability.  The procedure is known as a “rolling upgrade” and takes advantage of the replica set topology.  The main idea is a Secondary server is taken down, upgraded, restarted and allowed to catch up with replication.  This procedure is done for each Secondary server.  Finally, the Primary is issued an rs.stepDown() command and taken offline, upgraded and restarted.  It is up to the user to either use priority to allow the previous Primary to become Primary again (which requires another election) or just the replica set continue in its current state.
+
+Draw this procedure on the whiteboard.

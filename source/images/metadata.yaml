@@ -1,0 +1,66 @@
+name: crud-write-concern-ack
+alt: "Write operation to a ``mongod`` instance with write concern of ``acknowledged``. The client waits for acknowledgment of success or exception."
+output: 
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 2100
+   - type: 'web'
+     dpi: 72
+     width: 30000
+---
+name: crud-write-concern-unack
+alt: "Write operation to a ``mongod`` instance with write concern of ``unacknowledged``. The client does not wait for any acknowledgment."
+output: 
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 2100
+   - type: 'web'
+     dpi: 72
+     width: 300
+---
+name: crud-write-concern-w2
+alt: "Write operation to a replica set with write concern level of ``w:2`` or write to the primary and at least one secondary."
+output: 
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 2100
+   - type: 'web'
+     dpi: 72
+     width: 300
+---
+name: replica-set-trigger-election
+alt: "Diagram of an election of a new primary. In a three member replica set with two secondaries, the primary becomes unreachable. The loss of a primary triggers an election where one of the secondaries becomes the new primary"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 300
+---
+name: replica-set-read-write-operations-primary
+alt: "Diagram of a 3-node replica set."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 300
+---
+name: replica-set-heartbeat
+alt: "Nodes in a replica set regularly ping all other nodes to ensure they can be reached."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 600
+...

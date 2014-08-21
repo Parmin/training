@@ -1,0 +1,22 @@
+@import url(slides.css);
+
+.slides > article.level-2 > h2 {
+    position: static;
+    margin-top: 0;
+    font-family: "Akzidenz Grotesk Medium", akzidenz-grotesk, Helvetica, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+.slides > article.level-2 > div > ul > li {
+    font-family: "Akzidenz Grotesk Medium", akzidenz-grotesk, Helvetica, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.presenter_notes {
+    font-family: "Akzidenz Grotesk Medium", akzidenz-grotesk, Helvetica, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}

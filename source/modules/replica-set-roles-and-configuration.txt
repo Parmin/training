@@ -1,0 +1,125 @@
+===================================
+Replica Set Roles and Configuration
+===================================
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+   - The use of priority to preference certain members as primaries.
+   - Hidden members
+   - The use of hidden secondaries for data analytics and other purposes.
+   - The use of slaveDelay to protect against operator error.
+
+
+Example: A Five-Member Replica Set Configuration 
+------------------------------------------------
+
+- For this example application, there are two data centers.
+- We name the hosts accordingly: dc1-1, dc1-2, dc2-1, etc.
+
+  - This is just a clarifying convention for this example.
+  - MongoDB does not care about host names except to establish connections.
+- The nodes in this replica set have a variety of roles in this application.
+
+Configuration
+-------------
+
+.. code-block:: javascript
+
+   conf = {                                             // 5 data-bearing nodes
+     _id : "mySet",
+     members : [
+       { _id : 0, host : "dc1-1.example.net:27017", 
+         priority : 3 },
+       { _id : 1, host : "dc1-2.example.net:27017", 
+         priority : 2 },
+       { _id : 2, host : "dc2-1.example.net:27017" },
+       { _id : 3, host : "dc1-3.example.net:27017", 
+         hidden : true },
+       { _id : 4, host : "dc2-2.example.net:27017", 
+         hidden : true, slaveDelay : 7200 }
+     ]
+   }
+
+
+Principal Data Center
+---------------------
+
+.. code-block:: javascript
+
+   { _id : 0, host : "dc1-1.example.net", 
+     priority : 3 },
+   { _id : 1, host : "dc1-2.example.net", 
+     priority : 2 },
+
+.. only:: instructor
+
+   .. note:: 
+
+      - The objective with the priority settings for these two nodes is to give preference to Data Center 1 for writes.
+      - The highest priority member that is up to date will be elected primary.
+      - Up to date means the member's copy of the oplog is within 10 seconds of the primary.
+      - If a member with higher priority than the primary is a secondary because it is is not up to date, but eventually catches up, it will force an election and win. 
+
+
+Data Center 2
+-------------
+
+.. code-block:: javascript
+
+   { _id : 2, host : "dc2-1.example.net:27017" },
+
+.. only:: instructor
+
+   .. note::
+
+      - Node 2 could become primary, but only if a situation arises such as both nodes 0 and 1 going down.
+      - If there is a network partition and clients can only reach Data Center 2, we can manually failover to node 2.
+
+
+What about nodes 3 and 4?
+-------------------------
+
+- Both are hidden.
+- Clients will not distribute reads to hidden members. 
+- We use hidden members for dedicated tasks.
+
+.. code-block:: javascript
+
+   { _id : 3, host : "dc1-3.example.net:27017", 
+     hidden : true },
+   { _id : 4, host : "dc2-2.example.net:27017", 
+     hidden : true, slaveDelay : 7200 }
+
+
+.. only:: instructor
+
+   .. note:: 
+
+      - Will replicate writes normally.
+      - We would use this node to pull reports, run analytics, etc.
+      - We can do so without paying a performance penalty in the application for either reads or writes.
+
+
+Node 4
+------
+
+.. code-block:: javascript
+
+   { _id : 4, host : "dc2-2.example.net:27017", 
+     hidden : true, slaveDelay : 7200 }
+
+.. only:: instructor
+
+   .. note::
+
+      - slaveDelay permits us to specify a time delay for replication.
+      - Specified as the number of seconds the member should lag behind the primary.
+      - In this case 7200 seconds or 2 hours.
+      - slaveDelay allows us to use a node as a short term backup to protect against operator error:
+
+        - Fat fingering -- for example, accidentally dropping a collection in production.  
+        - Other examples include bugs in an application that result in corrupted data.
+

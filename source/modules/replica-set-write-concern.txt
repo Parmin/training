@@ -4,6 +4,14 @@ Write Concern
 
 .. default-domain:: mongodb
 
+.. topic:: Upon completing this module students should understand:
+
+   - How and when rollback occurs in MongoDB.
+   - The tradeoffs between durability and performance.
+   - Write concern as a means of ensuring durability in MongoDB.
+   - The different levels of write concern.
+
+
 What happens to the write?
 --------------------------
 
@@ -65,8 +73,11 @@ Example
    db.edges.insert( { "from" : "tom185", "to" : "mary_p" }, 
                     { w : 1 } )
 
+
 .. figure:: /images/crud-write-concern-ack.png
    :width: 400px
+
+
 
 Write Concern: Replica Acknowledged
 -----------------------------------
@@ -118,7 +129,7 @@ Example
                        { w : "majority" } )
 
 
-Quiz: Write Concern Principals
+Quiz: Write Concern Principles
 ------------------------------
 
 Which write concern is best suited?

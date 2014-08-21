@@ -1,0 +1,49 @@
+===============
+Read Preference
+===============
+
+What is Read Preference?
+------------------------
+
+- Read preference allows you to specify the nodes in a replica set to which a client should direct reads.
+- By default, clients direct reads to the primary.
+- There are some situations in which a client may want to read from a specific secondary or a specific type of secondary.
+- You should only read from a secondary if your application can tolerate data that might be stale (all writes might not have replicated).
+
+
+Use Cases
+---------
+
+Running Systems Operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+- 
+Running necessary operations without affecting operations operations, reporting, etc.
+- Running systems operations that do not affect the front-end application.
+- Providing local reads for geographically distributed applications.
+If you have application servers in multiple data centers, you may consider having a geographically distributed replica set and using a non primary read preference or the nearest. This allows the client to read from the lowest-latency members, rather than always reading from the primary.
+Maintaining availability during a failover.
+Use primaryPreferred if you want an application to read from the primary under normal circumstances, but to allow stale reads from secondaries in an emergency. This provides a “read-only mode” for your application during a failover.
+
+
+Read preference allows you, on a per-query basis, to determine how consistent the read should be.  Because MongoDB is a consistent database the default read preference is consistent. 
+
+This is known as:
+
+DRAW:
+PRIMARY (default, consistent)
+
+However, there are opportunities to have more performant reads using other read preferences.  There are times when it makes sense to not read from a primary, such as when running complex aggregation queries.  These write concerns are:
+
+DRAW:
+SECONDARY
+SECONDARY_PREFERRED
+PRIMARY_PREFERRED
+NEAREST
+
+These are all potentially eventually consistent.  SECONDARY will randomly pick a secondary to read from if one is available.  SECONDARY_PREFERRED will try and use a secondary,if one is not available it will read from the primary.  PREIMARY_PREFERRED will try to read from a primary if available, otherwise send the read to a secondary.  NEAREST is very useful and will read from the server that the application that is using the read preference believes to be nearest in terms of latency.  This is useful if there are numerous data centers.
+
+<section about using nearest for eventually consistent global reads>
+
+There is also the option to used “tagged replication”.  That is, servers may be tagged and queries that contain the tag will be routed to one of the servers with that tag.  This could be useful for running aggregation jobs and similar queries which should not be sent to the main application servers.
+
+<section about using a tag for aggregation>

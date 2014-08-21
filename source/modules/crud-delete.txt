@@ -1,6 +1,6 @@
-======
-DELETE
-======
+==================
+Removing Documents
+==================
 
 .. topic:: Learning objectives
 

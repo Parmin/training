@@ -1,52 +1,45 @@
-Exercise: Election Following a Network Partition
-------------------------------------------------
+Exercise: Elections in Failover Scenarios
+-----------------------------------------
 
 Given what we have learned about electing a primary in replica sets, let's look at some scenarios in which failover might be necessary.
 
-
 Scenario 1
-~~~~~~~~~~
+----------
+
+Which secondary will become the new primary?
+
+.. figure:: /figures/replica-set-1dc-primary-down.png
+   :width: 600px
+
+.. topic:: Instructor:
+
+   - It depends on the priorities of the secondaries.
+   - And on the optime
+
+
+Scenario 2
+----------
 
 Which member will become primary following this type of network partition?
 
 .. figure:: /figures/replica-set-3nodes-2dc-network-partition.png
-   :width: 300px
+   :width: 600px
 
-.. only:: instructor
-
-   Answer:
+.. topic:: Instructor:
 
    - The current primary is likely to remain primary.
    - It probably has the highest priority.
 
 
-Scenario 2
-~~~~~~~~~~
-
-How about in this scenario? Which member will become primary?
-
-.. figure:: /figures/replica-set-3nodes-2dc-network-partition-primary-unavailable.png
-   :width: 300px
-
-.. only:: instructor
-
-   Answer:
-
-   - One of the servers in Data Center 1 would become primary.
-   - The current primary in Data Center 2 would step down and assume secondary status.
-
-
 Scenario 3
-~~~~~~~~~~
+----------
 
 What happens following this network partition?
 
-.. figure:: /figures/replica-set-3nodes-2dc-network-partition-primary-unavailable.png
-   :width: 300px
+.. figure:: /figures/replica-set-4nodes-2dc-cant-elect.png
+   :width: 600px
 
-.. only:: instructor
-
-   Answer:
+.. topic:: Instructor:
 
    - We enter a state with no primary. 
    - Each side of the network partition has only 2 votes (not a majority).
@@ -58,13 +51,18 @@ What happens following this network partition?
 
 
 Scenario 4
-~~~~~~~~~~
+----------
 
 The following is similar to Scenario 3, but with the addition of an arbiter in Data Center 1. What happens here?
 
-.. figure:: /figures/replica-set-3nodes-2dc-network-partition-primary-unavailable.png
-   :width: 300px
+.. figure:: /figures/replica-set-4nodes-1arbiter-2datacenters.png
+   :width: 600px
 
+.. topic:: Instructor:
+
+   - The current primary is likely to remain primary.
+   - The arbiter helps ensure that the primary can reach a majority of the replica set.
+   
 
 
 

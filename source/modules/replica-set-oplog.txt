@@ -1,6 +1,14 @@
-=========================
-The Oplog in Replica Sets
-=========================
+======================================
+The Oplog: Statement Based Replication
+======================================
+
+.. topic:: Upon completing this module students should understand:
+
+   - Binary vs. statement-based replication.
+   - How the oplog is used to support replication.
+   - How operations in MongoDB are translated into operations written to the oplog.
+   - Why oplog operations are idempotent.
+   - That the oplog is a capped collection and the implications this holds for syncing members.
 
 
 Binary Replication

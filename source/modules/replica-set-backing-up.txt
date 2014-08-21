@@ -1,0 +1,10 @@
+Backing up a replica set does not require downtime.  A Secondary server may be used for creating a backup.  There is a procedure that is required to avoid corruption and inconsistency. The mongodump utility may be used on small collections but on more typical, large collections snapshotting or copying the file system is the preferred method. The steps are:
+
+DRAW:
+Log into a Secondary via the mongo interactive shell
+Lock the secondary from writing:
+db.fsyncLock()
+Create a backup using snapshotting software or copying the --dbpath directory
+Unlock the Secondary to allow writing again:
+db.fsyncUnlock()
+

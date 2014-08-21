@@ -1,0 +1,62 @@
+==================================
+Exercise: Setting up a Replica Set
+==================================
+
+We’re now going to create a Replica Set.
+Reference: http://docs.mongodb.org/reference/replica-configuration/
+Reference: http://docs.mongodb.org/reference/method 
+mkdir /data/rs1
+mkdir /data/rs2
+mkdir /data/rs3
+mongod --replSet myReplSet --logpath “1.log” --dbpath /data/rs1 --port 27017 --oplogSize 200
+mongod --replSet myReplSet --logpath “2.log” --dbpath /data/rs2 --port 27018 --oplogSize 200
+mongod --replSet myReplSet --logpath “3.log” --dbpath /data/rs3 --port 27019 --oplogSize 200
+
+
+At this point, we’re up to 3 mongod’s, all with the same replSet, but they don’t know this yet. In production, we’d bring up these three servers in three boxes. They’re not yet aware of each other, but that’s fine.
+
+SHOW
+mongo --port 27017
+var config = { _id : "mySet",  members: [ {_id : 0 , host: "localhost:27017" } , { _id : 1 , host : "localhost:27018" } , { _id : 2 , host : "localhost:27019" } ] }
+rs.initiate( config )
+rs.status()
+Do this several times, until you have a primary and 2 secondaries.
+exit
+mongo --port 27018
+db.test.insert({a: 1})
+Not primary!!
+mongo --port 27017
+db.test.insert({a: 1})
+db.test.count()
+1
+exit
+mongo --port 27018
+db.test.find()
+error!
+rs.slaveOk()
+db.test.find()
+There it is!!
+db.getReplicationInfo()
+Show them the oplog
+use local
+db.oplog.rs.find()
+there it is!
+exit
+mongo --port 27019
+config = rs.conf()
+config[1][“priority”] = 2
+Have I changed my config? Not yet!
+rs.reconfig(config)
+Notice that the primary is now secondary!
+And port 27018 is now primary!
+Now, to kill the primary
+ps ax | grep mongod
+Find 27018 and kill it!
+Now, look for the primary (27017 or 27019). There it is! it’s taken over!!
+
+Up until this point, we’ve only talked about primaries and secondaries in our replica sets. However, there are a number of other types (or modifications to these member types) that we can make use of.
+
+A full list can be found here:
+http://docs.mongodb.org/manual/reference/replica-states/
+
+But we’ve written a bit about the most common situations, below.
