@@ -8,7 +8,6 @@ AGGREGATION - Overview
 
         - Aggregation is used to perform analysis of data
         - How the aggregation "pipeline" works
-        - Common aggregation stages/operators
 
 Aggregation - Basics
 ====================
@@ -19,6 +18,23 @@ Aggregation - Basics
       "GROUP BY" statement.
     - Aggregation works by using a "pipeline" (in analogy with unix pipes)
       where the data is passed from one stage to the next. Any stage can
-      follow any other.
+      follow any other. Stages can repeat.
     - Aggregation will act on an entire collection, though you may filter
       some of the documents that you use.
+
+Aggregation - Mechanics
+=======================
+
+    - Aggregation starts with a collection, and then performs a series of
+      operations on that collection, in order, in what's called the
+      "aggregation pipeline".
+        - This is analogous to Unix "pipes".
+    - A set of documents (a lot like a collection) will go into and come
+      out of each stage of the pipeline.
+    - You have two possible formats:
+        - db.collection.aggregate( [ { stage1 }, { stage2 }, ... ],
+          { options } )
+        - db.collection.aggregate( { stage1 }, { stage2 }, ... )
+            - The second version has no options document possible
+    - Each stage is defined by a top-level operator that will filter, sort,
+      or in some other way manipulate documents.

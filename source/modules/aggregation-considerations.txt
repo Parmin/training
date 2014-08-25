@@ -1,0 +1,68 @@
+============================
+AGGREGATION - CONSIDERATIONS
+============================
+
+.. topic:: Learning objectives
+
+    By the end of this lesson, students will:
+
+        - Understand key aspects of resource management during the aggregation
+          pipeline, including:
+            - How much resources are available by default.
+            - How to increase this.
+        - Know how to order an aggregation pipeline's stages to maximize speed
+          and minimize resource usage.
+        - Know how mongoDB automatically reorders the pipeline's stages to
+          maximize speed and minimize resource usage.
+        - How the aggregation pipeline changed from 2.4 to 2.6
+        - Options for the aggregation pipeline
+
+Aggregation - Options
+=====================
+
+    - When you call the Aggregation framework, you can call an options
+      document.
+        - syntax: db.collection.aggregate( [ { stage1 },
+                                             { stage2 }, ... ], { options } )
+        - Options document can have the following key:value pairs:
+            - allowDiskUse: true - permits use of disk for memory-intensive
+              queries
+            - cursor : { batchSize : 0 } - specifies initial batch size of the
+              cursor. Most useful for setting it to 0, which will begin the
+              calculation of the aggregation immediately.
+            - explain : true - allows one to see the usage of indexes in the
+              query (we'll talk more about this in the indexing section)
+
+Aggregation - Limits
+====================
+
+    - The aggregation pipeline can use not more than 100 MB of RAM.
+        - To use more, set { allowDiskUse : true }
+    - Many stages don't require the full set to be in memory at once.
+        - $match, $skip, $limit, $unwind, and $project don't require the
+          entire data set, and are not subject to the 100 MB limit
+            - $unwind can, however, dramatically increase the size of the 
+              documents in the pipeline.
+        - $group and $sort do require (potentially) touching all documents at
+          once, and are subject to the 100 MB limit.
+    - Prior to MongoDB 2.6, the aggregation pipeline returned a single
+      document, so the upper limit on the pipeline was 16 MB.
+
+Aggregation - Optimization
+==========================
+
+    - Certain operations will behave much better early on in the pipeline
+      stage than later on.
+    - $match, $skip, and $limit can help reduce the number of documents in the
+      pipeline, and should be used as early as possible.
+    - $sort can take advantages of indexes if it is used before the first
+      $group, $unwind, or $project stage
+        - After these stages, the fields or their values change, so $sort
+          will need to be done with a full scan of the documents
+    - MongoDB will, in many cases, combine two adjacent stages into one if
+      it can always improve efficiency
+        - e.g. a $project eliminating some fields late in the pipeline will be
+          used to limit those fields as early as possible, or a $sort then
+          $match will be done as a $match then $sort in order to minimize
+          the sorting to be done.
+        - http://docs.mongodb.org/manual/core/aggregation-pipeline-optimization/
