@@ -1,18 +1,36 @@
-target: push
+target: push-student
 paths:
   remote: /data/sites/training
-  local: public
-  static: [ '.htaccess', 'sitemap.xml']
+  local: public/student
+  static: [ ]
 options: [ 'recursive' ]
 env: publication
 dependency: push-if-up-to-date
 ---
-target: stage
+target: push-instructor
 paths:
-  remote: /srv/public/test/training
-  local: public
-  static: [ 'manual', 'sitemap.xml' ]
-options: [ 'branched', 'recursive' ]
+  remote: /data/sites/training
+  local: public/instructor
+  static: [ ]
+options: [ 'recursive' ]
+env: publication
+dependency: push-if-up-to-date
+---
+target: stage-student
+paths:
+  remote: /srv/public/test/training/student
+  local: public/student
+  static: [ ]
+options: [ 'recursive' ]
+env: staging
+dependency: stage-if-up-to-date
+---
+target: stage-instructor
+paths:
+  remote: /srv/public/test/training/instructor
+  local: public/instructor
+  static: [ ]
+options: [ 'recursive' ]
 env: staging
 dependency: stage-if-up-to-date
 ...

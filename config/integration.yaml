@@ -10,18 +10,20 @@ it:
   inherit: base
 base:
   targets:
-    # - 'latex-student'
-    # - 'json-student'
-    - 'singlehtml-student'
-    - 'html-student'
-    # - 'epub-student'
-    - 'dirhtml-student'
-    # - 'latex-instructor'
-    # - 'json-instructor'
-    - 'singlehtml-instructor'
-    - 'html-instructor'
-    # - 'epub-instructor'
     - 'dirhtml-instructor'
+    - 'dirhtml-student'
+    - 'html-instructor'
+    - 'html-student'
+    - 'latex-instructor'
+    - 'latex-student'
+    - 'singlehtml-instructor'
+    - 'singlehtml-student'
+    - 'slides-instructor'
+    - 'slides-student'
+    # - 'epub-instructor'
+    # - 'epub-student'
+    # - 'json-instructor'
+    # - 'json-student'
   doc-root: []
   branch-root: null
 ...
