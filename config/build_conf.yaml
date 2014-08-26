@@ -35,6 +35,7 @@ system:
     - 'intersphinx.yaml'
     - 'push.yaml'
     - images: '/source/images/metadata.yaml'
+    - 'integration.yaml'
 assets:
   - branch: master
     path: build/docs-tools
@@ -42,9 +43,6 @@ assets:
   - branch: master
     path: build/docs-mongodb
     repository: https://github.com/mongodb/docs.git
-    generate: 
-      - 'api'
-      - 'images'
 paths:
   output: 'build'
   source: 'source'

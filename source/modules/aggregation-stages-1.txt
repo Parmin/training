@@ -75,8 +75,10 @@ The Project Stage
           projection document
         - As of MongoDB 2.6, you cannot exclude other fields by passing a 0
           as their values
-    - You can also rename fields by passing the new name to the $project
+    - You can rename fields by passing the new name to the $project
       document
+    - If you want to add a new field with a numerical value, such as a number
+      or an ObjectId, pass a document with key $literal
 
 Exercise: The $project Operator, Part 1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,6 +100,14 @@ Use it to exclude _id, as well.
     db.aggProject.find()
     db.aggProject.aggregate( [ { $project : { a : 1, "subdoc.field1": 1 } } ] )
     // Only field1 appears
+
+Now, take the existing documents but add the field, "newId" with an ObjectId
+as the value
+
+.. code-block:: javascript
+
+    db.aggProject.aggregate( [ { $project : { 
+        _id : 1, a : 1, newId : { $literal : ObjectId() } } } ] )
 
 Exercise: The $project Operator, Part 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

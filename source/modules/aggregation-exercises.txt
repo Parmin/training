@@ -1,0 +1,123 @@
+=======================
+AGGREGATION - EXERCISES
+=======================
+
+.. topic:: Learning objectives
+
+    Students will:
+
+        - Familiarize themselves with the various aggregation stages
+        - Practice applying aggregation stages to possible problems
+          they might encounter
+
+Aggregation with the Zip Code Data Set
+======================================
+
+Exercise: Importing the data
+----------------------------
+
+- First, import the zipcode data set from the USB drive.
+
+with mac/linux:
+
+.. code-block:: bash
+
+    mongoimport -d zips -c zips zips.json
+    mongo zips  // goes straight to the zips collection
+
+.. code-block:: javascript
+
+    db.zips.find().limit(3).pretty()  // see the schema.
+    // They're all like this.
+
+Exercises: State Population
+--------------------------
+
+Find the total population of each state, and then sort from smallest to
+largest.
+
+.. code-block:: javacript
+
+    db.zips.aggregate( [ { $group : { _id : { state : "$state" },
+                                      total_pop : { $sum : "$pop" } } },
+                         { $sort : { total_pop: -1 } } ] )
+
+Find the top 5 largest cities in the US.
+
+.. code-block:: javascript
+
+    db.zips.aggregate( [ 
+    { 
+        $group : 
+        { 
+            _id : 
+        { 
+            state : "$state", city : "$city" 
+        },
+            city_pop : { $sum : "$pop" } 
+        }
+    }, {
+        $sort : 
+        { 
+            city_pop : -1
+        } 
+    }, {
+        $limit : 5    
+    } ] )  // The 5 boroughs of New York are split up as different "cities"
+
+Find the next 5 largest cities in the US.
+
+.. code-block:: javascript
+
+    db.zips.aggregate( [ 
+    { 
+        $group : 
+        { 
+            _id : 
+        { 
+            state : "$state", city : "$city" 
+        },
+            city_pop : { $sum : "$pop" } 
+        }
+    }, {
+        $sort : 
+        { 
+            city_pop : -1
+        } 
+    }, {
+        $skip : 5 
+    }, {
+        $limit : 5    
+    } ] )  // New York "city" is actually New York county, ie, Manhattan
+
+Count the number of zip codes in each state, sort them all by population, and
+put them in the 'stateZipCount' collection. The 'stateZipCount' collection
+should have a new objectId for _id, and should contain only the state name and
+the number of zip codes, not the population.
+
+.. code-block:: javascript
+
+    db.zips.aggregate( [ 
+    { 
+        $group : { 
+            _id : { state : "$state" },
+            state_pop : { $sum : "$pop" },
+            zip_codes : { $sum : 1 }
+        }
+    }, {
+        $sort : 
+        { 
+            state_pop : -1
+        } 
+    }, {
+        $project : 
+        { 
+            _id : 0,  // We will generate new _id's
+            state : "$_id.state",
+            zip_code_count : "$zip_codes"
+        } 
+    }, {
+        $out : "stateZipCount"
+    } ] )
+
+
