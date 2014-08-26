@@ -4,11 +4,14 @@
 MongoDB University -- In Person Training
 ========================================
 
-.. only:: student
+.. default-domain:: mongodb
 
-   Hello World, *students*!
+.. include:: /includes/toc/dfn-list-contents.rst
 
-.. only:: instructor
+You can also download the training resources in other formats:
 
-   Hello World, *instructors*!
+- `Slides <training-slides.tar.gz>`_
 
+- `HTML Archive <training.tar.gz>`_
+
+- `PDF <training-manual.pdf>`_

@@ -120,7 +120,7 @@ languages = [
 
 slide_theme = 'single-level'
 
-slide_theme_path = os.path.join(conf.paths.projectroot, 'themes')
+slide_theme_path = [os.path.join(conf.paths.projectroot, 'themes')]
 
 # -- Options for HTML output ---------------------------------------------------
 
