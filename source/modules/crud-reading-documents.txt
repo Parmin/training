@@ -1,0 +1,142 @@
+=================
+Reading Documents
+=================
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The "query by example" paradigm of MongoDB
+- How to query on array elements
+- How to query embedded documents using dot notation
+- What a cursor is
+- How the mongo shell and drivers use cursors
+- Cursor methods: .count(), .sort(), .skip(), .limit()
+
+
+The find() Method
+-----------------
+
+- This is the fundamental method by which we read data from MongoDB.
+- We have already used it in its basic form.
+- ``find()`` returns a cursor that enables us to iterate through all documents matching a query.
+- We will discuss cursors later.
+
+
+Query by Example
+----------------
+
+- To query MongoDB, specify a document containing the field / value pairs you want to match
+- You need only specify values for fields you care about.
+- Other fields will not be used to exclude documents.
+- The result set will include all documents in a collection that match.
+
+
+Matching Rules
+--------------
+
+- Any field specified in the query must be in each document returned.
+- Values for returned documents must match the conditions specified in the query document.
+- If multiple fields are specified, all must be present in each document returned.
+- Think of it as a logical AND for all fields.
+
+
+.. include:: /exercises/exercise-crud-querying-by-example.txt
+
+
+Querying Arrays
+---------------
+
+- In MongoDB you may query array fields.
+- Specify a single value you expect to find in that array in desired documents.
+- Alternatively, you may specify an entire array in the query document.
+- As we will see later, there are also several operators that enhance our ability to query array fields.
+
+.. only:: instructor
+
+   .. note::
+
+      Students might find it helpful to think of an array field as having multiple values -- one for each of its elements.
+
+
+.. include:: /exercises/exercise-crud-querying-arrays.txt
+
+
+Querying with Dot Notation
+--------------------------
+
+- Dot notation is used to query on fields in embedded documents.
+- The format is "field1.field2" : value.
+- Put quotes around the field name when using dot notation.
+- An example follows.
+
+.. include:: /exercises/exercise-crud-querying-with-dot-notation.txt
+
+
+.. include:: /exercises/exercise-crud-querying-in-arrays-with-dot-notation.txt
+
+
+Cursors
+-------
+
+- When you use ``find()``, MongoDB returns a cursor.
+- A cursor is a pointer to the result set
+- You can get iterate through documents in the result using ``next()``.
+- By default, the mongo shell will iterate through 20 documents at a time.
+
+
+.. include:: /exercises/exercise-crud-introducing-cursors.txt
+
+
+Cursor Methods
+--------------
+
+- ``count()``: Returns the number of documents in the result set.
+- ``limit()``: Limits the result set to the number of documents specified.
+- ``skip()``: Skips the number of documents specified.
+
+
+The ``count()`` Method
+-------------------
+
+- Counts the number of documents in the result set.
+- You may pass a query document like you would to ``find()``.
+- ``count()`` will count only the documents matching the query.
+- Will return the number of documents in the collection if you do not specify a query document.
+
+
+.. include:: /exercises/exercise-crud-using-count.txt
+
+
+The ``sort()`` Method
+---------------------
+
+- Sort the documents returned as specified.
+- Does not permanently move documents.
+- Can be executed on a cursor until the point where the first document is actually read.
+- Sorts on the fields specified in the order specified.
+- An example follows.
+
+
+.. include:: /exercises/exercise-crud-using-sort.txt
+
+
+The ``skip()`` Method
+---------------------
+
+- Skips the specified number of documents in the result set.
+- The returned cursor will begin at the first document beyond the number specified.
+- Regardless of the order in which you specify skip() and sort() on a cursor, sort() happens first.
+
+
+The ``limit()`` Method
+----------------------
+
+- Limits the number of documents in a result set to the first n.
+- Specify k as the argument to limit()
+- Regardless of the order in which you specify limit(), skip(), and sort() on a cursor, sort() happens first.
+- Helps reduce bandwidth consumed by queries.
+
+
+

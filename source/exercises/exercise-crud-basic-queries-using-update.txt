@@ -1,0 +1,40 @@
+Exercise: Basic Queries using ``update()``
+------------------------------------------
+
+Experiment with the following. Do a ``find()`` after each update to see the results. 
+   
+.. code-block:: javascript
+    
+   db.testcol.drop()
+   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i } ) }
+   db.testcol.find()
+
+   db.testcol.update( { a : 3 }, { a : 6 } )
+
+   db.testcol.update( { _id : 2 }, { b : 2 } )
+
+   db.testcol.update( { _id : { $lt : 3 } } , { a : 7 } )
+
+   db.testcol.update( { a : 4 } , { _id : 0 } )
+
+
+.. only:: instructor
+
+   .. note::
+
+      - After db.testcol.update( { a : 3 }, { a : 6 } ) we have:
+
+        - { "_id" : 3, "a" : 6 }
+
+      - After the second update, we have: 
+
+        - { "_id" : 2, "b" : 2 }. 
+        - The "a" field is gone
+
+      - db.testcol.update( { _id : { $lt : 3 } } , { a : 7 } ):
+
+        - Just one document was updated.
+        - Not both documents that match the query.
+
+      - db.testcol.update( { a : 4 } , { _id : 0 } ) results in an error because you cannot update the _id
+

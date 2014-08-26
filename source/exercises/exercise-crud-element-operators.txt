@@ -1,0 +1,15 @@
+Exercise: Element Operators
+---------------------------
+
+Experiment with the following.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   db.testcol.insert( [ { a : 1 }, { b : 1 }, { a : "a" }, { b : "b" } ] )
+
+   db.testcol.find( { a : { $exists : true } } )   // 2 docs
+
+   db.testcol.find( { b : { $type : 2 } } )        // 1 doc; type 2 is string
+
+   db.testcol.find( { a : { $type : 16 } } )       // 1 doc; type 16 is 32-bit int

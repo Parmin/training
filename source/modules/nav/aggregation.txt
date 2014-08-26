@@ -1,0 +1,9 @@
+===========
+Aggregation
+===========
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-aggregation.rst
+
+.. include:: /includes/toc/aggregation.rst             

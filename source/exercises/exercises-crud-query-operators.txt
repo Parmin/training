@@ -1,0 +1,9 @@
+===============
+Query Operators
+===============
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-exercises.rst
+
+.. include:: /includes/toc/exercises-crud-query-operators.rst             

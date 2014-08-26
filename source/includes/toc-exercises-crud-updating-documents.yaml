@@ -1,0 +1,24 @@
+file: /exercises/exercise-crud-basic-queries-using-update
+description: | 
+  Experiment with basic uses of ``update()``.
+---
+file: /exercises/exercise-crud-multi-update
+description: | 
+  Experiment with updating multiple documents at a time.
+---
+file: /exercises/exercise-crud-set-and-unset
+description: | 
+  Experiment with update operations using ``$set`` and ``$unset``.
+---
+file: /exercises/exercise-crud-set-with-multi
+description: | 
+  Experiment with updating multiple documents using ``$set``.
+---
+file: /exercises/exercise-crud-update-operators
+description: | 
+  Experiment with MongoDB update operators.
+---
+file: /exercises/exercise-crud-update-array-operators
+description: | 
+  Experiment with updating documents using array operators.
+...

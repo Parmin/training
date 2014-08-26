@@ -1,0 +1,19 @@
+Exercise: Querying by Example
+-----------------------------
+
+Experiment with the following sequence of commands.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   db.testcol.insert( [ { _id : 1, a : 5, b : 3 },
+                        { _id : 3, b : 5, c : 12 },
+                        { a : 7, b : 3 },
+                        { c : 5, b : 7 } ] )
+   db.testcol.find()
+
+   db.testcol.find( { a : 5 } )
+
+   db.testcol.find( { _id : 1 } )
+
+   db.testcol.find( { b : 3, a : 7 } )

@@ -1,0 +1,75 @@
+===============
+Query Operators
+===============
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand the following types of MongoDB query operators:
+
+- Comparison operators
+- Logical operators
+- Element query operators
+- Operators on arrays
+
+
+Comparison Query Operators
+--------------------------
+
+- ``$lt``: Exists and is less than
+- ``$lte``: Exists and is less than or equal to
+- ``$gt``: Exists and is greater than
+- ``$gte``: Exists and is greater than or equal to
+- ``$ne``: Does not exist or does but is not equal to
+- ``$in``: Exists and is in a set
+- ``$nin``: Does not exist or is not in a set
+
+
+.. include:: /exercises/exercise-crud-comparison-operators.txt
+
+
+Logical Query Operators
+-----------------------
+
+- ``$or``: Match either of two or more values
+- ``$not``: Used with other operators
+- ``$nor``: Match neither of two or more values
+- ``$and``: Match both of two or more values 
+
+  - This is the default behavior for queries specifying more than one condition.
+  - Use $and if you need to include the same operator more than once in a query.
+
+
+.. include:: /exercises/exercise-crud-logical-operators.txt
+
+
+Element Query Operators
+-----------------------
+
+- $exists: Returns the document if the field is present or not.
+- $type: Returns the document if the field is of the given type or not.
+- See :manual:`BSON types</reference/bson-types>` for reference on types.
+
+
+.. include:: /exercises/exercise-crud-element-operators.txt
+
+
+Array Query Operators
+---------------------
+
+- ``$all``: Array field must contain all values listed.
+- ``$size``: Array must have a particular size. 
+
+  - E.g., $size : 2 means 2 elements in the array
+
+- ``$elemMatch``: All conditions must be matched by at least one element in the array
+
+
+.. include:: /exercises/exercise-crud-array-operators.txt
+
+
+
+
+
+

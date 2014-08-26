@@ -1,0 +1,28 @@
+Exercise: Using ``sort()``
+--------------------------
+
+Experiment with the following sort commands.
+
+.. code-block:: javascript
+
+   db.cursors.find()                            
+   db.cursors.find().sort( { a : 1 } )          
+   db.cursors.find().sort( { a : -1 } )         
+
+   db.cursors.find().sort( { a : 1, b : 1 } )   
+   db.cursors.find().sort( { b : 1, a : 1 } )   
+
+   db.cursors.find().sort( { $natural : 1 } )  
+
+.. only:: instructor
+
+   .. note::
+
+      - Instructors should ensure they understand each sort in this exercise.
+      - $natural order is just the order on disk.
+      - If you never delete any documents or change their size, this will be the same order in which you inserted them.
+      - Sorting two or more fields breaks the convention of javascript objects that key / value pairs are unordered.
+      - In some drivers you may need to take special care with this.
+      - For example, in Python, you would usually query with a dictionary. 
+      - But dictionaries are unordered in Python, so you would use an array of tuples instead.
+

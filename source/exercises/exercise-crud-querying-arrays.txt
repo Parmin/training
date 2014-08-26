@@ -1,0 +1,28 @@
+Exercise: Querying Arrays
+-------------------------
+
+Experiment with the following sequence of commands.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   db.testcol.insert( [ { a : [ 1, 2, 3 ] },
+                        { a : [ 3, 4, 5 ] },
+                        { a : [ 5, 6, 7 ] } ] )
+
+    db.testcol.find( { a : 3 } )  // first and second documents
+
+    db.testcol.find( { a : 5 } )  // second and third documents
+
+    db.testcol.find( { a : [ 3, 5 ] } )  // no documents
+
+    db.testcol.find( { a : [ 3, 4, 5 ] } )  // only the second document
+
+
+.. only:: instructor
+
+   .. note::
+
+      - It is helpful to introduce ``pretty()`` here.
+      - ``pretty()`` makes results easier to read in the shell.
+      - E.g., ``db.testcol.find( { a : 5 } ).find()``

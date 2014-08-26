@@ -6,10 +6,6 @@ file: /modules/nav/crud
 description: |
   Explore basic database operations in MongoDB.
 --- 
-file: /modules/mongo-shell
-description: | 
-    See tricks for using the mongo shell effectiely.
---- 
 file: /modules/nav/indexes
 description: | 
   Learn about MongoDB's indexes.
@@ -18,4 +14,8 @@ file: /modules/nav/replica-sets
 description: | 
   Learn how MongoDB's replication system works and how MongoDB's
   replica sets automate the management of replicated deployments.
+---
+file: /modules/nav/exercises
+description: | 
+  All exercises in this curriculum.
 ...

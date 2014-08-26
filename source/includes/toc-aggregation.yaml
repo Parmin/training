@@ -1,0 +1,12 @@
+file: /modules/aggregation
+description: | 
+  An introduction to MongoDB indexes.
+--- 
+file: /modules/indexes-compound
+description: | 
+  Indexes on two or more fields.
+--- 
+file: /modules/agg
+description: | 
+  Free text indexes on string fields.
+...

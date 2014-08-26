@@ -1,0 +1,83 @@
+======================
+Optimizing Aggregation
+======================
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- Aggregation pipeline options
+- Key aspects of resource management during the aggregation pipeline
+- How to order aggregation stages to maximize speed and minimize resource usage
+- How MongoDB automatically reorders pipeline stages to improve efficiency
+- Changes in the aggregation framework from MongoDB 2.4 to 2.6.
+
+
+Aggregation Options
+-------------------
+
+- You may pass an options document to ``aggregate()``.
+- Syntax: db.collection.aggregate( [ { stage1 }, 
+                                     { stage2 }, ... ], { options } )
+- Following are some of the fields that may be passed in the options document.
+
+  - ``allowDiskUse : true`` - permit the use of disk for memory-intensive queries
+  - ``explain : true`` - display how indexes are used to perform the aggregation.
+
+
+Aggregation Limits
+------------------
+
+- An aggregation pipeline cannot use more than 100 MB of RAM.
+- { allowDiskUse : true } allows you to get around this limit.
+- The follow operators do not require the entire dataset to be in memory:
+
+  - $match, $skip, $limit, $unwind, and $project
+  - Stages for these operators are not subject to the 100 MB limit.
+  - $unwind can, however, dramatically increase the amount of memory used.
+
+- $group and $sort might require all documents in memory at once.
+
+
+Limits Prior to MongoDB 2.6
+---------------------------
+
+  - ``aggregate()`` returned results in a single document. 
+  - The upper limit on pipeline memory usage was 16 MB.
+
+
+Optimization: Reducing Documents in the Pipeline
+------------------------------------------------
+
+- These operators can reduce the number of documents in the pipeline:
+
+  - $match
+  - $skip
+  - $limit: 
+
+- They should be used as early as possible.
+
+
+Optimization: Sorting
+--------------------- 
+
+- ``$sort`` can take advantages of indexes.
+- Must be used before any of the following to do this:
+
+  - ``$group``
+  - ``$unwind``
+  - ``$project``
+
+- After these stages, the fields or their values change.
+- ``$sort`` will require a full scan of the documents.
+
+
+Automatic Optimizations
+-----------------------
+
+MongoDB will perform some optimizations automatically. For example:
+
+-  If a ``$project`` stage is used late in the pipeline it may be used to eliminate those fields earlier if possible.
+-  A ``$sort`` followed by a ``$match`` will be executed as a ``$match`` followed by a ``$sort`` to reduce the number of documents to be sorted.
+- See: :manual:`Aggregation Pipeline Optimation</core/aggregation-pipeline-optimization/>`

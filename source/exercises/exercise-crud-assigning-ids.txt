@@ -1,0 +1,16 @@
+Exercise: Assigning _ids
+------------------------
+
+Experiment with the following commands.
+
+.. code-block:: javascript
+
+    db.foo.insert( { _id : 253, a : "a string" } )
+    db.foo.find()
+
+.. only:: instructor
+
+   .. note::
+
+      - Note that you can assign an _id to be of almost any type.
+      - It does not need to be an ObjectId.

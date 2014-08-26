@@ -1,0 +1,136 @@
+===============================
+Creating and Deleting Documents
+===============================
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- How to insert documents into MongoDB collections.
+- _id fields:
+
+  - Uniqueness constraints
+  - Setting _id vs. letting MongoDB automatically set _id
+  - ObjectId values
+  - Using javascript to create sample data
+
+- How to remove documents from a collection
+- How to remove a collection from a database
+- How to remove a database from a MongoDB deployment
+
+
+
+Creating New Documents
+----------------------
+
+- Create documents using ``insert``.
+- E.g., db.collection.insert( { "name" : "susan" } )
+
+.. include:: /exercises/exercise-crud-inserting-a-document.txt
+
+
+Implicit _id Assignment
+-----------------------
+
+- We did not specify an _id in the document we inserted.
+- If you do not assign one, MongoDB will create one automatically.
+- The value will be of type ObjectId.
+
+.. include:: /exercises/exercise-crud-assigning-ids.txt
+
+
+_id Field and Inserts
+---------------------
+
+Inserts will fail if:
+
+- There is already a document in the collection with that _id
+- You try to assign an array to the _id
+- The argument is not a well-formed document.
+
+
+.. include:: /exercises/exercise-crud-inserts-specifying-id.txt
+
+
+Inserting Multiple Documents
+----------------------------
+
+- You can bulk insert using an array of documents
+- The default setting is an unordered insert.
+- If any given insert fails, the others will still be attempted.
+- In the next exercise, one document will fail (duplicate key error) 
+  but the others will be inserted.
+
+.. include:: /exercises/exercise-crud-inserting-multiple-documents.txt
+
+    
+Ordered Insert
+--------------
+
+- In many cases it is important to fail bulk inserts on error.
+- Use { ordered : true } to ensure ordered inserts.
+- Only those documents inserted before the error will be inserted.
+
+.. include:: /exercises/exercise-crud-ordered-insert.txt
+
+
+The Shell is a JavaScript Interpreter
+-------------------------------------
+
+- Sometimes it is convenient to create test data using a little JavaScript.
+- The mongo shell is a fully-functional JavaScript interpreter.
+- You may:
+
+  - Define functions
+  - Use loops
+  - Assign variables
+  - Perform inserts
+
+.. include:: /exercises/exercise-crud-creating-data-in-the-shell.txt
+
+
+Deleting Documents
+------------------
+
+You may delete documents from a MongoDB deployment in several ways.
+
+- Use ``remove()`` to delete documents matching a specific set of conditions.
+- Drop an entire collection.
+- Drop a database.
+
+
+Using ``remove()``
+------------------
+
+- Remove documents from a collection using ``remove``.
+- This command has one required parameter, a query document.
+- All documents in the collection matching the query document will be removed.
+- Pass an empty document to remove all documents.
+- Prior to MongoDB 2.6 calling remove with no parameters would remove all documents.
+- Limit ``remove`` to one document using ``justOne``.
+
+.. include:: /exercises/exercise-crud-removing-documents.txt
+
+
+Dropping a Collection
+---------------------
+
+- You can drop an entire collection with ``db.collection.drop()``
+- The collection and all documents will be deleted.
+- It will also remove any metadata associated with that collection.
+- Indexes are one type of meta data removed.
+- More on meta data later.
+
+.. include:: /exercises/exercise-crud-dropping-a-collection.txt
+
+
+Dropping a Database
+-------------------
+
+- Removes the database on which the method is called.
+- All collections within the database are also removed.
+- Beware that in the mongo shell, this does not change database context.  
+
+
+.. include:: /exercises/exercise-crud-dropping-a-database.txt

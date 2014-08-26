@@ -1,0 +1,38 @@
+Exercise: Querying with Dot Notation, Part 1
+--------------------------------------------
+
+Insert a few documents as follows.
+
+.. code-block:: javascript
+
+   db.buildings.insert( 
+       [ { 
+             type : "house", 
+             location : { streetNumber : 123, 
+                          street : "7th Ave" } },
+         { 
+             type : "office", 
+             location : { streetNumber : 234, 
+                          street : "7th Ave", 
+                          floor : 7 } }, 
+         { 
+             type : "apartment", 
+             location : { streetNumber : 335, 
+                          street : "43rd Street", 
+                          number : 745 } } ] )
+
+
+Exercise: Querying with Dot Notation, Part 2
+--------------------------------------------
+
+Experiment with the following queries.
+
+.. code-block:: javascript
+
+   // Two matches
+   db.buildings.find( { "location.street" : "7th Ave" } )  
+
+   // One match
+   db.buildings.find( { "location.street" : "7th Ave", "location.floor" : 7 } )
+
+

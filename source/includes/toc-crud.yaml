@@ -1,20 +1,20 @@
-file: /modules/crud-overview
+file: /modules/crud-creating-and-deleting-documents
 description: | 
-  An overview of the CRUD module
+  Inserting documents into collections, deleting documents, and dropping collections.
 --- 
-file: /modules/crud-create
+file: /modules/crud-reading-documents
 description: | 
-  Insert documents into MongoDB instances.
+  The find() command, query documents, dot notation, and cursors.
 --- 
-file: /modules/crud-matching
+file: /modules/crud-query-operators
 description: | 
-    Learn how to retreive documents.
+  MongoDB query operators including: comparison, logical, element, and array operators.
 --- 
-file: /modules/crud-projection
+file: /modules/crud-updating-documents
 description: | 
-    Learn how to filter the fields you get back in a query.
+  Using ``update()`` and associated operators to mutate existing documents.
 --- 
-file: /modules/crud-operators
+file: /modules/crud-update-hybrid-inserts
 description: | 
-    Explore the operators that allow intricate queries.
+    TODO
 ...

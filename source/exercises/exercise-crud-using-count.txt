@@ -1,0 +1,20 @@
+Exercise: Using ``count()``
+---------------------------
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=0; i<10000; i++) { db.testcol.insert( { a : i } ) }
+
+   db.testcol.count()                          // 10000
+
+   db.testcol.count( { a : { $gt : 5000 } } )  // About 5000 +/- 200
+
+   // We often see a count query written as follows.
+   db.testcol.find( { a : { $gt : 5000 } } ).count()
+
+.. only:: instructor
+
+   .. note::
+
+      The last query in the above achieves the same result because it operates on the cursor returned by find().

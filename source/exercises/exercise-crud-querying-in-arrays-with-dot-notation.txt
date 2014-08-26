@@ -1,0 +1,23 @@
+Exercise: Querying in Arrays with Dot Notation
+----------------------------------------------
+
+Experiment with the following commands.
+
+.. code-block:: javascript
+
+   db.things.insert( [ { type : "fruit", 
+                         examples : [ { type : "banana", color : "yellow" },
+                                      { type : "apple", color : "red" }, 
+                                      { type : "mango", color : "red" } ] },
+                       { type : "cars", 
+                         examples : [ { model : "Camaro", color : "red" },
+                                      { model : "Pinto", color : "yellow" },
+                                      { model : "Tacoma", color : "blue" } ] },
+                       { type : "planets", 
+                         examples : [ { name : "Mars", color : "red" },
+                                      { name : "Venus", color : "blue" }, 
+                                      { name : "Earth", color : "blue" } ] } ] )
+
+    db.things.find( { "examples.color" : "blue" } ) // two documents
+    db.things.find( { "examples.color" : "red" } )  // three documents
+

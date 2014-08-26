@@ -1,40 +1,227 @@
-======================
-AGGREGATION - Overview
-======================
+===========
+Aggregation
+===========
 
-.. topic:: Learning objectives
 
-    Upon completing this module, sutdents will understand that:
+Learning Objectives
+-------------------
 
-        - Aggregation is used to perform analysis of data
-        - How the aggregation "pipeline" works
+Upon completing this module students should understand:
 
-Aggregation - Basics
-====================
+- The concept of the aggregation pipeline
+- The stages of the aggregation pipeline
+- The syntax of aggregation stages
 
-    - Aggregation is used to analyze or transform data that is in
-      MongoDB collections.
-    - For those who are used to SQL, Aggregation is MongoDB's answer to the
-      "GROUP BY" statement.
-    - Aggregation works by using a "pipeline" (in analogy with unix pipes)
-      where the data is passed from one stage to the next. Any stage can
-      follow any other. Stages can repeat.
-    - Aggregation will act on an entire collection, though you may filter
-      some of the documents that you use.
 
-Aggregation - Mechanics
-=======================
+Aggregation Basics
+------------------
 
-    - Aggregation starts with a collection, and then performs a series of
-      operations on that collection, in order, in what's called the
-      "aggregation pipeline".
-        - This is analogous to Unix "pipes".
-    - A set of documents (a lot like a collection) will go into and come
-      out of each stage of the pipeline.
-    - You have two possible formats:
-        - db.collection.aggregate( [ { stage1 }, { stage2 }, ... ],
-          { options } )
-        - db.collection.aggregate( { stage1 }, { stage2 }, ... )
-            - The second version has no options document possible
-    - Each stage is defined by a top-level operator that will filter, sort,
-      or in some other way manipulate documents.
+- Use the aggregation framework to transform and analyze data in MongoDB collections.
+- For those who are used to SQL, aggregation bears some similarities to the ``GROUP BY`` statement.
+- The aggregation framework is based on the concept of a pipeline. 
+
+
+The Aggregation Pipeline
+------------------------
+
+- An aggregation pipeline in analogous to a UNIX pipeline.
+- Each stage of the pipeline:
+
+  - Receives a set of documents as input.
+  - Performs an operation on those documents.
+  - Produces a set of documents for use by stages that follow.
+
+- A pipeline has the following syntax:
+  db.collection.aggregate( [ { stage1 }, { stage2 }, ... ],
+                           { options } )
+
+
+Aggregation Stages
+------------------
+
+- ``match``: Similar to ``find()``
+- ``project``: Shape documents
+- ``sort``: Like the cursor method of the same name
+- ``skip``: Like the cursor method of the same name
+- ``limit``: Like the cursor method of the same name 
+- ``unwind``: Used for working with arrays
+- ``group``: Used to aggregate field values from multiple documents
+- ``out``: Creates a new collection from the output of an aggregation
+  pipeline)
+
+
+The Match Stage
+---------------
+
+- The ``$match`` operator works like the query parameter to ``find()``, ``update()``, and ``remove()``.
+- Documents in the pipeline that match the query document will be passed on
+- ``$match`` is often the first operator used in an aggregation stage.
+
+
+Exercise: The Match Stage
+-------------------------
+
+Select only the first two documents using a match stage in an aggregation pipeline.
+
+.. code-block:: javascript
+
+    a = [ { _id : 1, a : 1 }, { _id : 2, a : 2 }, { _id : 3, a : 3 },
+          { _id : 4, a : 4 }, { _id : 5, a : 5 } ]
+    db.testcol.insert( a )
+
+    // 2 docs are output from the aggregation pipeline
+    db.testcol.aggregate( [ { $match : { a : { $lte : 2 } } } ] )  
+
+
+The Project Stage
+-----------------
+
+- The $project operator works like the projection operator in a find()
+      query, but is more powerful.
+- You can include fields by passing a 1 for their value in a projection
+      document
+- You can exclude the _id by passing a 0 as its value in the 
+          projection document
+- As of MongoDB 2.6, you cannot exclude other fields by passing a 0
+          as their values
+- You can also rename fields by passing the new name to the $project
+     document
+
+Exercise: The $project Operator, Part 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use the $project operator to include only certain fields of a collection.
+Use it to exclude _id, as well.
+
+.. code-block:: javascript
+
+    projectArr = matchArr
+    db.aggProject.insert( projectArr )
+    db.aggProject.update( { }, { $set : { b : 1 } }, { multi : true } )
+    db.aggProject.find()  // now there is _id, a, and b
+    db.aggProject.aggregate( [ { $project : { a : 1 } } ] )
+    // _id and a are there
+    db.aggProject.aggregate( [ { $project : { _id : 0, a : 1 } } ] )
+    // just a is there
+    db.aggProject.insert( { _id : 6, subdoc : { field1 : "asdf", field2: "qwerty" } } )
+    db.aggProject.find()
+    db.aggProject.aggregate( [ { $project : { a : 1, "subdoc.field1": 1 } } ] )
+    // Only field1 appears
+
+Exercise: The $project Operator, Part 2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use the $project operator to rename a field
+
+.. code-block:: javascript
+
+    db.aggProject.aggregate( [ { $project : { asdf : "$a", _id : 0, b : 1 } } ] )
+
+Exercise: The $project Operator, Part 3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use the $project operator to move a subdocument's field to the top level
+
+.. code-block:: javascript
+
+    db.aggProject.aggregate( [ { $project : { c : "$subdoc.field2", a : 1, b : 1 } } ] )
+
+Exercise: The $project Operator, Part 4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use the $project operator to move a top level field into a subdocument
+
+.. code-block:: javascript
+
+    db.aggProject.aggregate( [ { $project : { "otherSubdoc.firstField" : "$a",
+                                              b : 1, 
+                                              subdoc: 1 } } ] )
+    // What was 'a' is now "otherSubdoc.firstfield"
+    db.aggProject.aggregate( [ { $project : { "otherSubdoc.firstField" : "$a",
+                                              "otherSubdoc.secondField" : "$a",
+                                              b : 1, 
+                                              subdoc: 1 } } ] )
+    // Now we have two copies
+    db.aggProject.aggregate( [ { $project : { "otherSubdoc.firstField" : "$a",
+                                              "otherSubdoc.bField" : "$b",
+                                              subdoc: 1 } } ] )
+
+The Sort Stage
+--------------
+
+    - Uses the $sort operator
+    - Works just like the .sort() cursor method
+        - 1 to sort asciibetically, -1 to sort reverse asciibetically
+        - You cannot use $natural, as the aggregation set may not correspond
+          well to the original documents
+    - When comparing values of different BSON types, MongoDB uses the
+      following comparison order, from lowest to highest: 
+        1. MinKey (internal type)
+        2. Null
+        3. Numbers (ints, longs, doubles)
+        4. Symbol, String
+        5. Object
+        6. Array
+        7. BinData
+        8. ObjectId
+        9. Boolean
+        10. Date, Timestamp
+        11. Regular Expression
+        12. MaxKey (internal type)
+
+Exercise: The $sort Operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please sort a set of documents in increasing value of the 'a' field, then 
+decreasing, then b increasing and a decreasing
+
+.. code-block:: javascript
+
+    db.aggSort.insert( [ { _id : 1, a : 1, b : 5 },
+                         { _id : 2, a : null, b : 5 },
+                         { _id : 3, a : -5, b : 3 },
+                         { _id : 4, a : "asdf", b : 12 } ] )
+    db.aggSort.find()
+    db.aggSort.aggregate( [ { $sort : { a : 1 } } ] )
+    // Sorted in increasing a, canonically
+    db.aggSort.aggregate( [ { $sort : { a : -1 } } ] )
+    // Sorted in decreasing a, canonically
+    db.aggSort.aggregate( [ { $sort : { b : 1, a : -1 } } ] )
+    // Sorted in increasing a, decreasing b
+
+The Skip Stage
+--------------
+
+    - Uses the $skip operator
+    - Value is an integer for the number to skip
+
+Exercise: The $skip Operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Skip the first 3 documents of a set.
+
+.. code-block:: javascript
+
+    for (i=1; i<=5; i++) { db.aggSkip.insert( { _id : i, a : i } ) } 
+    db.aggSkip.aggregate( [ { $skip : 3 } ] )  // skips the first 3.
+
+The Limit Stage
+---------------
+
+    - Used to limit the number of documents returned or passed to the next
+      aggregation stage
+    - Value is an integer.
+
+Exercise: The $limit Operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: javascript
+
+    for (i=1; i<=5; i++) { db.agglimit.insert( { _id : i, a : i } ) } 
+
+Limit the number of documents in an aggregation set to 3.
+
+.. code-block:: javascript
+
+    db.aggSkip.aggregate( [ { $limit: 3 } ] )  // limits to the first 3.
+

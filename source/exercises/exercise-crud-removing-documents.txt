@@ -1,0 +1,19 @@
+Exercise: Removing Documents
+----------------------------
+
+Experiment with removing documents. Do a ``find()`` after each command below.
+
+.. code-block:: javascript
+
+   for (i=1; i<=100; i++) { db.testcol.insert( { _id : i, a : i } ) }
+
+   db.testcol.remove( { a : 1 } )  // Remove the first document
+
+   db.testcol.remove( { a : { $lt : 5 } } )  // Remove four more
+
+   db.testcol.remove( { a : { $lt : 10 } },
+                            { justOne : true } )  // Remove one more
+
+   db.testcol.remove()  // No documents removed
+
+   db.testcol.remove( { } )  // All documents removed

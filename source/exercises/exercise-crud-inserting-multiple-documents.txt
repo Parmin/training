@@ -1,0 +1,15 @@
+Exercise: Inserting Multiple Documents
+--------------------------------------
+
+Experiment with the following commands.
+
+.. code-block:: javascript
+
+   db.things.insert( [ { _id : 19, type : "atom", symbol : "K" },
+                       { _id : 20, type : "car", color : "red" }, 
+                       { _id : 20, type : "planet", name : "Saturn" },
+                       { type : "office", 
+                         street : "229 West 43rd Street, 5th Floor",
+                         city : "New York",
+                         state : "NY" } ] )
+   db.things.find()

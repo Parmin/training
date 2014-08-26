@@ -1,0 +1,28 @@
+file: /exercises/exercise-crud-querying-by-example
+description: | 
+  Query MongoDB by specifying field/value pairs that match desired documents.
+---
+file: /exercises/exercise-crud-querying-arrays
+description: | 
+  Query array fields of documents.
+---
+file: /exercises/exercise-crud-querying-with-dot-notation
+description: | 
+  Query on fields in embedded documents.
+---
+file: /exercises/exercise-crud-querying-in-arrays-with-dot-notation
+description: | 
+  Query on fields in embedded documents in array fields.
+---
+file: /exercises/exercise-crud-introducing-cursors.txt
+description: | 
+  Experimenting with cursors to understand how they work generally and in the mongo shell.
+---
+file: /exercises/exercise-crud-using-count
+description: | 
+  Experimenting with the count() method on cursors.
+---
+file: /exercises/exercise-crud-using-sort
+description: | 
+  Experimenting with the sort() method on cursors.
+...

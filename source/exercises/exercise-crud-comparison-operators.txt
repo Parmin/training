@@ -1,0 +1,22 @@
+Exercise: Comparison Operators
+------------------------------
+
+Experiment with the following.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1;i<=5;i++) { db.testcol.insert( { a : i } ) };
+   db.testcol.insert( { } )                        // No "a" field
+   db.testcol.find()                               
+
+   db.testcol.find( { a : { $lt : 2 } } )          
+
+   db.testcol.find( { a : { $gte : 2 } } )         
+
+   db.testcol.find( { a : { $ne : 2 } } )          
+
+   db.testcol.find( { a : { $in : [ 3, 2 ] } } )   
+
+   db.testcol.find( { a : { $nin : [ 3, 2 ] } } )  
+

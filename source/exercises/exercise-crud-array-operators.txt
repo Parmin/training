@@ -1,0 +1,28 @@
+Exercise: Array Operators
+-------------------------
+
+Experiment with the following.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   db.testcol.insert( [ { a : [ 1, 2, 3, 4, 5 ] }, 
+                        { a : [ 1, 5 ] }, 
+                        { a : [ 1, 3, 5 ] } ] )
+
+   db.testcol.find( { a : { $all : [ 1, 2 ] } } )  
+
+   db.testcol.find( { a : { $size : 3 } } )  
+
+   db.testcol.find( { a : { $elemMatch : { $gte : 2, $lte : 4 } } } )  
+
+   db.testcol.find( { a : { $lte : 2 , $gte : 2 } } )  // 3 docs
+
+.. only:: instructor
+
+   .. note::
+
+      - Comparing the last queries demonstrates $elemMatch.
+      - For the last query, there must be at least one element that matches each of the conditions.
+      - For the query using $elemMatch at least one element must match both conditions.
+

@@ -34,6 +34,7 @@ system:
     - 'pdfs.yaml'
     - 'intersphinx.yaml'
     - 'push.yaml'
+    - images: '/source/images/metadata.yaml'
 assets:
   - branch: master
     path: build/docs-tools

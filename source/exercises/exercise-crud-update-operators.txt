@@ -1,0 +1,22 @@
+Exercise: Update Operators
+--------------------------
+
+Experiment with the following update operators.
+
+.. code-block:: javascript
+
+   db.testcol.drop()   
+   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i, b : i } ) }
+
+   db.testcol.update( { _id : 2 }, { $inc : { a : -3 } } )        
+
+   db.testcol.update( { _id : 1 }, { $inc : { q : 1 } } )  
+
+   db.testcol.update( { _id : 3 }, { $mul : { a : 4 } } )  
+
+   db.testcol.update( { _id : 4 }, { $rename : { a : "xyz" } } )
+
+   db.testcol.update( { _id : 5 }, { $min : { a : 3 } } )  
+
+   db.testcol.update( { _id : 1 }, 
+                      { $currentDate : { c : { $type : "timestamp" } } } )

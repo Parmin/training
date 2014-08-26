@@ -1,0 +1,12 @@
+Exercise: Inserts Specifying _id
+--------------------------------
+
+Experiment with the following commands.
+
+.. code-block:: javascript
+
+   db.foo.insert( { _id : [ 1, 2, 3 ] } )
+   db.foo.insert( { _id : 3 } )
+   db.foo.insert( { _id : 3 } )
+   db.foo.insert( { "hello" } )
+

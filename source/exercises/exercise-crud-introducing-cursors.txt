@@ -1,0 +1,51 @@
+Exercise: Introducing Cursors, Part 1
+-------------------------------------
+
+Experiment with the following commands.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=10000; i++) { 
+       db.testcol.insert( { a : Math.floor( Math.random() * 100 + 1 ),
+                            b: Math.floor( Math.random() * 100 + 1 ) } ) }
+   db.testcol.find()  
+    
+   it  
+   it  
+
+
+.. only:: instructor
+
+   .. note::
+
+      - With the find() above, the shell iterates over the first 20 documents. 
+      - ``it`` causes the shell to iterate over the next 20 documents.
+      - Can continue issuing ``it`` commands until all documents are seen.
+
+
+Exercise: Introducing Cursors, Part 2
+-------------------------------------
+
+Experiment with the following commands.
+
+.. code-block:: javascript
+
+   var x = db.testcol.find()
+   x.next()                 
+   x.hasNext()              
+   y = x.next()             
+
+   y.a                       
+   x 
+
+.. only:: instructor
+
+   .. note::
+
+      - var x = db.testcol.find() assigns the cursor returned by find() to a variable x
+      - x.next() displays the first document in the result set.
+      - x.hasNext() is true because there are more documents in the result set
+      - y = x.next() assigns the next document in the result set to the variable y.
+      - y.a -- y is a document, not a cursor. The return value is the value of the a field of this document.
+      - x displays the cursor. In the shell, display a cursor prints the next 20 documents in the result set.
