@@ -1,4 +1,4 @@
-file: /exercises/exercises-crud
-description: | 
+file: /exercises/nav/crud
+description: |
   Exercises using the MongoDB query language.
 ...

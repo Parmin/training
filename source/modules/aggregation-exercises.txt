@@ -31,12 +31,12 @@ with mac/linux:
     // They're all like this.
 
 Exercises: State Population
---------------------------
+---------------------------
 
 Find the total population of each state, and then sort from smallest to
 largest.
 
-.. code-block:: javacript
+.. code-block:: javascript
 
     db.zips.aggregate( [ { $group : { _id : { state : "$state" },
                                       total_pop : { $sum : "$pop" } } },
@@ -46,48 +46,48 @@ Find the top 5 largest cities in the US.
 
 .. code-block:: javascript
 
-    db.zips.aggregate( [ 
-    { 
-        $group : 
-        { 
-            _id : 
-        { 
-            state : "$state", city : "$city" 
+    db.zips.aggregate( [
+    {
+        $group :
+        {
+            _id :
+        {
+            state : "$state", city : "$city"
         },
-            city_pop : { $sum : "$pop" } 
+            city_pop : { $sum : "$pop" }
         }
     }, {
-        $sort : 
-        { 
+        $sort :
+        {
             city_pop : -1
-        } 
+        }
     }, {
-        $limit : 5    
+        $limit : 5
     } ] )  // The 5 boroughs of New York are split up as different "cities"
 
 Find the next 5 largest cities in the US.
 
 .. code-block:: javascript
 
-    db.zips.aggregate( [ 
-    { 
-        $group : 
-        { 
-            _id : 
-        { 
-            state : "$state", city : "$city" 
+    db.zips.aggregate( [
+    {
+        $group :
+        {
+            _id :
+        {
+            state : "$state", city : "$city"
         },
-            city_pop : { $sum : "$pop" } 
+            city_pop : { $sum : "$pop" }
         }
     }, {
-        $sort : 
-        { 
+        $sort :
+        {
             city_pop : -1
-        } 
+        }
     }, {
-        $skip : 5 
+        $skip : 5
     }, {
-        $limit : 5    
+        $limit : 5
     } ] )  // New York "city" is actually New York county, ie, Manhattan
 
 Count the number of zip codes in each state, sort them all by population, and
@@ -97,27 +97,25 @@ the number of zip codes, not the population.
 
 .. code-block:: javascript
 
-    db.zips.aggregate( [ 
-    { 
-        $group : { 
+    db.zips.aggregate( [
+    {
+        $group : {
             _id : { state : "$state" },
             state_pop : { $sum : "$pop" },
             zip_codes : { $sum : 1 }
         }
     }, {
-        $sort : 
-        { 
+        $sort :
+        {
             state_pop : -1
-        } 
+        }
     }, {
-        $project : 
-        { 
+        $project :
+        {
             _id : 0,  // We will generate new _id's
             state : "$_id.state",
             zip_code_count : "$zip_codes"
-        } 
+        }
     }, {
         $out : "stateZipCount"
     } ] )
-
-

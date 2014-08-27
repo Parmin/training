@@ -98,7 +98,7 @@ Cursor Methods
 
 
 The ``count()`` Method
--------------------
+----------------------
 
 - Counts the number of documents in the result set.
 - You may pass a query document like you would to ``find()``.
@@ -137,6 +137,3 @@ The ``limit()`` Method
 - Specify k as the argument to limit()
 - Regardless of the order in which you specify limit(), skip(), and sort() on a cursor, sort() happens first.
 - Helps reduce bandwidth consumed by queries.
-
-
-

@@ -77,9 +77,11 @@ Updating Fields
 
 
 .. include:: /exercises/crud-set-and-unset.txt
-   
 
-.. include:: /exercises/crud-set-with-multi.txt
+
+.. following document doesn't exist. commenting to prevent error
+
+   .. include /exercises/crud-set-with-multi.txt
 
 
 Update Operators
@@ -111,5 +113,3 @@ Array Operators
 
 
 .. include:: /exercises/crud-update-array-operators.txt
-
-

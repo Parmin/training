@@ -4,27 +4,27 @@ Introduction to Replica Sets
 
 .. topic:: Upon completing this module students should understand:
 
-   - Striking the right balance between cost and redundancy. 
+   - Striking the right balance between cost and redundancy.
    - The many scenarios replication addresses and why.
    - How to avoid downtime and data loss using replication.
 
 
 Use Cases for Replication
------------------------
+-------------------------
 
 - High Availability
 - Disaster Recovery
 - Functional Segregation
 
 
-High Availability 
+High Availability
 -----------------
 - Data still available following server failure.
 - This is achieved through automatic failover.
 
 .. topic:: Instructor:
 
-   If we lose a server our database system can still service reads and writes without manual intervention. 
+   If we lose a server our database system can still service reads and writes without manual intervention.
 
 
 Disaster Recovery
@@ -49,7 +49,7 @@ Functional Segregation
    - There are opportunities to exploit the topology of a replica set.
    - You may direct particular queries at specific members to increase overall performance.
    - Backup data from secondaries to avoid performance penalties on the primary.
-   - Dedicate secondaries for other purposes such as analytics jobs. 
+   - Dedicate secondaries for other purposes such as analytics jobs.
 
 
 Replication is Not Designed for Scaling
@@ -60,7 +60,7 @@ Replication is Not Designed for Scaling
 - Use sharding for scaling.
 
 
-Replica Sets 
+Replica Sets
 ------------
 
 .. figure:: /images/replica-set-read-write-operations-primary.png
@@ -70,7 +70,7 @@ Replica Sets
 
    - MongoDB implements replication in the form of replica sets.
    - A replica set consists of one or more mongod servers.
-   - There is at most one mongod that is "primary".  
+   - There is at most one mongod that is "primary".
    - There are usually two or more other mongods that are secondaries.
    - Secondaries may become primary if there is a failover event of some kind.
    - Failover is automatic.
@@ -81,7 +81,7 @@ Replica Sets
 Primary Server
 --------------
 
-- Clients send writes the primary only. 
+- Clients send writes the primary only.
 - MongoDB maintains client libraries (drivers) in a number of languages.
 - MongoDB drivers are ``replica set aware``.
 
@@ -91,7 +91,7 @@ Primary Server
 
 
 Secondaries
------------ 
+-----------
 - A secondary replicates operations from another node in the replica set.
 - Secondaries may replicate from the primary.
 - Secondaries may also replicate from other secondaries.
@@ -106,7 +106,7 @@ Heartbeats
 
 .. topic:: Instructor:
 
-   - The members of a replica set use heartbeats to determine if they can reach every other node. 
+   - The members of a replica set use heartbeats to determine if they can reach every other node.
    - The heartbeats are sent at short intervals.
    - If a node is unreachable this may indicate server failure or a network partition.
 
@@ -118,5 +118,3 @@ The Oplog
 - The oplog is a special collection that is basis for replication.
 - The oplog maintains one entry for each document affected by every write operation.
 - Secondaries copy operations from the oplog of their sync source.
-
-

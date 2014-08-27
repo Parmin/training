@@ -4,30 +4,36 @@ AGGREGATION - PART 2
 
 .. topic:: Learning objectives
 
-    Upon completing this module, students will know:
+   Upon completing this module, students will know:
 
-        - The basig usages of the $group, $unwind, and $out operators
-        - The syntax associated with these stages
+   - The basig usages of the $group, $unwind, and $out operators
+
+   - The syntax associated with these stages
 
 The Unwind Stage
 ================
 
-    - This stage has no analog in a find query.
-    - The Unwind stage will take an array with N values, and create
-      N documents, each with a single, non-array value at that position.
-        - Obviously, this is a one-to-many relationship.
-    - You can easily get multiple documents in the aggregation pipeline this
-      way with identical _id's.
-    - For large arrays, this can use up a LOT of memory, so be careful.
-    - Will error out if even one value is not an array.
+- This stage has no analog in a find query.
+
+- The Unwind stage will take an array with N values, and create
+  N documents, each with a single, non-array value at that position.
+
+  - Obviously, this is a one-to-many relationship.
+
+- You can easily get multiple documents in the aggregation pipeline this
+  way with identical _id's.
+
+- For large arrays, this can use up a LOT of memory, so be careful.
+
+- Will error out if even one value is not an array.
 
 Exercise: The $unwind Operator
 ------------------------------
 
 .. code-block:: javascript
 
-    for (i=1; i<=5; i++) { 
-        arr1 = []; 
+    for (i=1; i<=5; i++) {
+        arr1 = [];
         arr2 = [];
         for (j=1; j<=i; j++) { arr1.push( j ); arr2.push ( j + 5 ) };
         db.aggUnwind.insert( { _id : i, a : arr1, b : arr2 } ); }
@@ -44,44 +50,44 @@ Take the aggUnwind collection, and unwind the 'a' field.
 The $group Stage
 ================
 
-    - This stage has no analog in a find query.
-    - Involves doing mathemtatical operations on a set of values.
-    - Creates a many-to-one relationship, as many documents are grouped into
-      one.
-    - For those coming from the relational world, this is MongoDB's answer
-      to the 'GROUP BY' command.
-    - You must have an _id field that you assign; any documents with the same
-      assigned _id will be grouped together.
-    - Has many operators
-    - Limits memory usage to 100 megabytes unless allowDiskUse: true option is
-      in place
+- This stage has no analog in a find query.
+- Involves doing mathemtatical operations on a set of values.
+- Creates a many-to-one relationship, as many documents are grouped into
+  one.
+- For those coming from the relational world, this is MongoDB's answer
+  to the 'GROUP BY' command.
+- You must have an _id field that you assign; any documents with the same
+  assigned _id will be grouped together.
+- Has many operators
+- Limits memory usage to 100 megabytes unless allowDiskUse: true option is
+  in place
 
 $group Operators
 ----------------
 
-    - $sum: sums over the group; ignores non-numeric values; can be used to
-      count
-    - $avg: averages over the group; like $sum, ignores non-numeric values
-    - $push: Returns an array with the elements taken from the group
-    - $addToSet: Returns an array with the elements taken from the group
-      and duplicates dropped
-    - $first: Returns a value from the first document in the group
-    - $last: Returns a value from the last document in the group
-    - $min: Returns the lowest value for the group 
-    - $max: Returns the highest value for the group
+- $sum: sums over the group; ignores non-numeric values; can be used to
+  count
+- $avg: averages over the group; like $sum, ignores non-numeric values
+- $push: Returns an array with the elements taken from the group
+- $addToSet: Returns an array with the elements taken from the group
+  and duplicates dropped
+- $first: Returns a value from the first document in the group
+- $last: Returns a value from the last document in the group
+- $min: Returns the lowest value for the group
+- $max: Returns the highest value for the group
 
 Exercise: The $sum Operator, Part 1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
-    for (i=1; i<=5; i++) { for (j=1; j<=i; j++) { for (k=j; k<=i; k++ ) { 
-        db.aggGroup.insert( 
-        { 
+    for (i=1; i<=5; i++) { for (j=1; j<=i; j++) { for (k=j; k<=i; k++ ) {
+        db.aggGroup.insert(
+        {
             a : i,
             b : j,
-            c : 
-            { 
+            c :
+            {
                 one : 1,
                 d : k
             },
@@ -93,10 +99,10 @@ Count the number of documents with each value of 'a'.
 
 .. code-block:: javascript
 
-    db.aggGroup.aggregate( [ 
-    { 
-        $group : { _id : { value_of_a : "$a" }, 
-        documents_with_this_value_of_a: { $sum : 1 } } 
+    db.aggGroup.aggregate( [
+    {
+        $group : { _id : { value_of_a : "$a" },
+        documents_with_this_value_of_a: { $sum : 1 } }
     } ] )
     // notice that the _id is a document. We could have just made
     // it '$a'
@@ -110,7 +116,7 @@ Sum the value of the 'a' fields in each document
 .. code-block:: javascript
 
     db.aggGroup.aggregate( [ { $group : { _id : "The whole collection",
-                                          sum_of_a : { $sum : "$a" } } } ] ) 
+                                          sum_of_a : { $sum : "$a" } } } ] )
     // The string for _id is just a placeholder.
 
 Exercise: The $sum Operator, Part 3
@@ -120,8 +126,8 @@ Sum the value of the 'a' fields in each document, grouping on 'b'.
 
 .. code-block:: javascript
 
-    db.aggGroup.aggregate( [ { $group : { _id : "$b", 
-                               sum_of_a : { $sum : "$a" } } } ] ) 
+    db.aggGroup.aggregate( [ { $group : { _id : "$b",
+                               sum_of_a : { $sum : "$a" } } } ] )
     // I didn't make b explicit in the _id this time.
 
 Exercise: The $sum Operator, Part 4
@@ -131,7 +137,7 @@ Sum the value of the 'd' fields in each document, grouping on both a and b
 
 .. code-block:: javascript
 
-    db.aggGroup.aggregate( [ { $group : { _id : { a : "$a", b : "$b" }, 
+    db.aggGroup.aggregate( [ { $group : { _id : { a : "$a", b : "$b" },
                                sum_of_d : { $sum : "$c.d" } } } ] )
     // Now, let's verify that one of these is correct.
     db.aggGroup.find( { a : 5, b : 2 } )
@@ -160,7 +166,7 @@ For each value of a, make an array with each value of b in it.
 Exercise: The $addToSet Operator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For each value of a, make an array with each value of b in it. Eliminate 
+For each value of a, make an array with each value of b in it. Eliminate
 duplicate values of b.
 
 .. code-block:: javascript
@@ -182,18 +188,19 @@ Exercise: $first, Part 1
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Find the first value of b for each value of a. First sort on increasing a,
-then increasing b. 
+then increasing b.
+
 .. code-block:: javascript
 
     db.aggGroup.aggregate( [ { $sort : { a : 1, b : 1 } },
-                             { $group : { _id : { a : "$a" }, 
+                             { $group : { _id : { a : "$a" },
                                           first_b : { $first : "$b" } } } ] )
 
 Exercise: $first, Part 2
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Find the first value of b for each value of a. First sort on increasing a,
-then decreasing b. 
+then decreasing b.
 
     db.aggGroup.aggregate( [ { $sort : { a : 1, b : -1 } },  // reverse sort b
                              { $group : { _id : { a : "$a" },
@@ -202,7 +209,7 @@ then decreasing b.
 Exercise: $last
 ~~~~~~~~~~~~~~~
 
-Find the last value of a for each value of b. First, sort on increasing a, 
+Find the last value of a for each value of b. First, sort on increasing a,
 then decreasing b.
 
     db.aggGroup.aggregate( [ { $sort : { a : 1, b : -1 } },  // know the order
@@ -215,7 +222,7 @@ Exercise: $min
 Find the lowest value of d for each value of b.
 
     db.aggGroup.aggregate( [ { $sort : { a : 1, b : 1 } },
-                             { $group : { _id : { b : "$b" }, 
+                             { $group : { _id : { b : "$b" },
                                           min_d : { $min : "$c.d" } } } ] )
 
 Exercise: $max
@@ -224,7 +231,7 @@ Exercise: $max
 Find the highest value of d for each possible (a, b) pair.
 
     db.aggGroup.aggregate( [ { $sort : { a : 1, b : 1 } },
-                             { $group : { _id : { a : "$a", b : "$b" }, 
+                             { $group : { _id : { a : "$a", b : "$b" },
                                           max_d : { $max : "$c.d" } } } ] )
 
 The Out Stage

@@ -43,7 +43,7 @@ aggregation pipeline.
                  { _id : 4, a : 4 }, { _id : 5, a : 5 } ]
     db.aggMatch.insert( matchArr )
     db.aggMatch.find()  // 5 docs
-    db.aggMatch.aggregate( [ { $match : { a : { $lte : 2 } } } ] )  
+    db.aggMatch.aggregate( [ { $match : { a : { $lte : 2 } } } ] )
     // 2 docs are output from the aggregation pipeline
     db.aggMatch.find( { a : { $lte : 2 } } )  // same 2 docs
 
@@ -58,27 +58,32 @@ it again to find documents where a is greater than 1.
 
     db.aggMatch.aggregate( [ { $match : { a : { $lt : 5 } } } ] )
     // halfway there.
-    db.aggMatch.aggregate( [ { $match : { a : { $lt : 5 } } }, 
+    db.aggMatch.aggregate( [ { $match : { a : { $lt : 5 } } },
                              { $match : { a : { $gt : 1 } } } ] )
-    // Yes, this could have been accomplished in just one stage by making a 
+    // Yes, this could have been accomplished in just one stage by making a
     // better matching query, but it gives you the idea of how stages can be
     // chained.
 
 The Project Stage
 -----------------
 
-    - The $project operator works like the projection operator in a find()
-      query, but is more powerful.
-    - You can include fields by passing a 1 for their value in a projection
-      document
-        - You can exclude the _id by passing a 0 as its value in the 
-          projection document
-        - As of MongoDB 2.6, you cannot exclude other fields by passing a 0
-          as their values
-    - You can rename fields by passing the new name to the $project
-      document
-    - If you want to add a new field with a numerical value, such as a number
-      or an ObjectId, pass a document with key $literal
+- The $project operator works like the projection operator in a find()
+  query, but is more powerful.
+
+- You can include fields by passing a 1 for their value in a projection
+  document
+
+  - You can exclude the _id by passing a 0 as its value in the
+    projection document
+
+  - As of MongoDB 2.6, you cannot exclude other fields by passing a 0
+    as their values
+
+- You can rename fields by passing the new name to the $project
+  document
+
+- If you want to add a new field with a numerical value, such as a number
+  or an ObjectId, pass a document with key $literal
 
 Exercise: The $project Operator, Part 1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,7 +111,7 @@ as the value
 
 .. code-block:: javascript
 
-    db.aggProject.aggregate( [ { $project : { 
+    db.aggProject.aggregate( [ { $project : {
         _id : 1, a : 1, newId : { $literal : ObjectId() } } } ] )
 
 Exercise: The $project Operator, Part 2
@@ -135,12 +140,12 @@ Use the $project operator to move a top level field into a subdocument
 .. code-block:: javascript
 
     db.aggProject.aggregate( [ { $project : { "otherSubdoc.firstField" : "$a",
-                                              b : 1, 
+                                              b : 1,
                                               subdoc: 1 } } ] )
     // What was 'a' is now "otherSubdoc.firstfield"
     db.aggProject.aggregate( [ { $project : { "otherSubdoc.firstField" : "$a",
                                               "otherSubdoc.secondField" : "$a",
-                                              b : 1, 
+                                              b : 1,
                                               subdoc: 1 } } ] )
     // Now we have two copies
     db.aggProject.aggregate( [ { $project : { "otherSubdoc.firstField" : "$a",
@@ -150,30 +155,45 @@ Use the $project operator to move a top level field into a subdocument
 The Sort Stage
 --------------
 
-    - Uses the $sort operator
-    - Works just like the .sort() cursor method
-        - 1 to sort asciibetically, -1 to sort reverse asciibetically
-        - You cannot use $natural, as the aggregation set may not correspond
-          well to the original documents
-    - When comparing values of different BSON types, MongoDB uses the
-      following comparison order, from lowest to highest: 
-        1. MinKey (internal type)
-        2. Null
-        3. Numbers (ints, longs, doubles)
-        4. Symbol, String
-        5. Object
-        6. Array
-        7. BinData
-        8. ObjectId
-        9. Boolean
-        10. Date, Timestamp
-        11. Regular Expression
-        12. MaxKey (internal type)
+- Uses the $sort operator
+- Works just like the .sort() cursor method
+
+  - 1 to sort asciibetically, -1 to sort reverse asciibetically
+
+  - You cannot use $natural, as the aggregation set may not correspond
+    well to the original documents
+
+- When comparing values of different BSON types, MongoDB uses the
+  following comparison order, from lowest to highest:
+
+    1. MinKey (internal type)
+
+    2. Null
+
+    3. Numbers (ints, longs, doubles)
+
+    4. Symbol, String
+
+    5. Object
+
+    6. Array
+
+    7. BinData
+
+    8. ObjectId
+
+    9. Boolean
+
+    10. Date, Timestamp
+
+    11. Regular Expression
+
+    12. MaxKey (internal type)
 
 Exercise: The $sort Operator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Please sort a set of documents in increasing value of the 'a' field, then 
+Please sort a set of documents in increasing value of the 'a' field, then
 decreasing, then b increasing and a decreasing
 
 .. code-block:: javascript
@@ -203,7 +223,7 @@ Skip the first 3 documents of a set.
 
 .. code-block:: javascript
 
-    for (i=1; i<=5; i++) { db.aggSkip.insert( { _id : i, a : i } ) } 
+    for (i=1; i<=5; i++) { db.aggSkip.insert( { _id : i, a : i } ) }
     db.aggSkip.aggregate( [ { $skip : 3 } ] )  // skips the first 3.
 
 The Limit Stage
@@ -218,11 +238,10 @@ Exercise: The $limit Operator
 
 .. code-block:: javascript
 
-    for (i=1; i<=5; i++) { db.agglimit.insert( { _id : i, a : i } ) } 
+    for (i=1; i<=5; i++) { db.agglimit.insert( { _id : i, a : i } ) }
 
 Limit the number of documents in an aggregation set to 3.
 
 .. code-block:: javascript
 
     db.aggSkip.aggregate( [ { $limit: 3 } ] )  // limits to the first 3.
-

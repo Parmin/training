@@ -1,16 +1,16 @@
-file: /exercises/exercises-crud-inserting-documents
-description: | 
+file: /exercises/nav/crud-inserting-documents
+description: |
   Exercises on inserting documents into MongoDB, deleting documents from collections, and dropping databases.
 ---
-file: /exercises/exercises-crud-reading-documents
+file: /exercises/nav/crud-reading-documents
 description: |
   Exercises on using find(), shaping query documents, dot notation, and cursors.
 ---
-file: /exercises/exercises-crud-query-operators
-description: | 
+file: /exercises/nav/crud-query-operators
+description: |
   Exercises on using MongoDB query operators including: comparison operators, logical operators, element operators, and array operators.
 ---
-file: /exercises/exercises-crud-updating-documents
-description: | 
+file: /exercises/nav/crud-updating-documents
+description: |
   Exercises on using ``update()`` and associated operators.
 ...

@@ -1,6 +1,6 @@
-===================
-Inserting Documents
-===================
+===============================
+Creating and Deleting Documents
+===============================
 
 .. default-domain:: mongodb
 
