@@ -14,6 +14,8 @@ base:
     - 'dirhtml-student'
     - 'html-instructor'
     - 'html-student'
+    - 'json-instructor'
+    - 'json-student'
     - 'latex-instructor'
     - 'latex-student'
     - 'singlehtml-instructor'
@@ -22,8 +24,6 @@ base:
     - 'slides-student'
     # - 'epub-instructor'
     # - 'epub-student'
-    # - 'json-instructor'
-    # - 'json-student'
   doc-root: []
   branch-root: null
 ...
