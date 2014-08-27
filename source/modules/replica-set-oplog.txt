@@ -79,7 +79,7 @@ Replication Based on the Oplog
 - In the next exercise we will also see how the oplog is design so that each statement is idempotent -- a feature that has several benefits for replication.
 
 
-.. include:: /exercises/exercise-oplog-replication.txt
+.. include:: /exercises/oplog-replication.txt
 
 
 Operations in the Oplog are Idempotent

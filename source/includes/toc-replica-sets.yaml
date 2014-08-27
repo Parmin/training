@@ -22,7 +22,7 @@ file: /modules/replica-set-read-preference
 description: | 
   Configuring clients to read from specific members of a replica set.
 --- 
-file: /exercises/exercise-setting-up-a-replica-set
+file: /exercises/setting-up-a-replica-set
 description: | 
   Launching members, configuring, and initiating a replica set.
 ...

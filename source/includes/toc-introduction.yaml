@@ -10,7 +10,7 @@ file: /modules/introduction-mongodb-stores-documents
 description: | 
   The structure of data in MongoDB.
 ---
-file: /exercises/exercise-installing-mongodb
+file: /exercises/installing-mongodb
 description: | 
   Install mongodb experiment with a few operations.
 ...

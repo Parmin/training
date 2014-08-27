@@ -42,7 +42,7 @@ Parameters to ``update()``
     - Replacing documents in the entirety is easy to do by mistake.
 
 
-.. include:: /exercises/exercise-crud-basic-queries-using-update.txt
+.. include:: /exercises/crud-basic-queries-using-update.txt
 
 
 ``update()`` Defaults to one Document
@@ -63,7 +63,7 @@ Updating Multiple Documents
 - Bear in mind that without an appropriate index, you may scan every document in the collection.
 
 
-.. include:: /exercises/exercise-crud-multi-update.txt
+.. include:: /exercises/crud-multi-update.txt
 
 
 Updating Fields
@@ -76,10 +76,10 @@ Updating Fields
 - You can remove a field using ``$unset``.
 
 
-.. include:: /exercises/exercise-crud-set-and-unset.txt
+.. include:: /exercises/crud-set-and-unset.txt
    
 
-.. include:: /exercises/exercise-crud-set-with-multi.txt
+.. include:: /exercises/crud-set-with-multi.txt
 
 
 Update Operators
@@ -95,7 +95,7 @@ Update Operators
 - ``$currentDate``: Set the value of a field to the current :manual:`Date or timestamp</reference/operator/update/currentDate/>`.
 
 
-.. include:: /exercises/exercise-crud-update-operators.txt
+.. include:: /exercises/crud-update-operators.txt
 
 
 Array Operators
@@ -110,6 +110,6 @@ Array Operators
 - ``$addToSet``: Appends an element to the array if not already present.
 
 
-.. include:: /exercises/exercise-crud-update-array-operators.txt
+.. include:: /exercises/crud-update-array-operators.txt
 
 
