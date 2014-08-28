@@ -1,35 +1,35 @@
-file: /exercises/exercise-crud-inserting-a-document
+file: /exercises/crud-inserting-a-document
 description: | 
   Insert documents into a MongoDB collection.
 ---
-file: /exercises/exercise-crud-assigning-ids
+file: /exercises/crud-assigning-ids
 description: | 
   Experiment with MongoDB assigning _id fields values on insert.
 ---
-file: /exercises/exercise-crud-inserts-specifying-id
+file: /exercises/crud-inserts-specifying-id
 description: | 
   Insert documents specifying _id. Inserts with duplicate _id values will fail.
 ---
-file: /exercises/exercise-crud-inserting-multiple-documents
+file: /exercises/crud-inserting-multiple-documents
 description: | 
   Inserting multiple documents with a single command.
 ---
-file: /exercises/exercise-crud-ordered-insert
+file: /exercises/crud-ordered-insert
 description: | 
   Ensuring ordered insert when inserting multiple documents at a time.
 ---
-file: /exercises/exercise-crud-creating-data-in-the-shell
+file: /exercises/crud-creating-data-in-the-shell
 description: | 
   Creating test data in the mongo shell.
-file: /exercises/exercise-crud-removing-documents
+file: /exercises/crud-removing-documents
 description: | 
   Remove documents from a MongoDB collection.
 ---
-file: /exercises/exercise-crud-dropping-a-collection
+file: /exercises/crud-dropping-a-collection
 description: | 
   Remove a MongoDB collection.
 ---
-file: /exercises/exercise-crud-dropping-a-database
+file: /exercises/crud-dropping-a-database
 description: | 
   Remove a MongoDB collection.
 ...

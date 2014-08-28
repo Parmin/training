@@ -15,7 +15,7 @@ Binary Replication
 ------------------
 
 - MongoDB replication is statement based.
-- Contrast that with binary replication. 
+- Contrast that with binary replication.
 - With binary replication we would keep track of:
 
   - The data files
@@ -31,7 +31,7 @@ Tradeoffs
 - The good thing is that figuring out where to write, etc. is very efficient.
 - But we must have a byte-for-byte match of our data files on the primary and secondaries.
 - The problem with this is that it couples our replica set members in ways that are inflexible.
-- Some deployments might need to run different versions of MongoDB on different nodes. 
+- Some deployments might need to run different versions of MongoDB on different nodes.
 
   - Different versions may write to different file offsets.
   - E.g., rolling upgrades.
@@ -79,13 +79,13 @@ Replication Based on the Oplog
 - In the next exercise we will also see how the oplog is design so that each statement is idempotent -- a feature that has several benefits for replication.
 
 
-.. include:: /exercises/exercise-oplog-replication.txt
+.. include:: /exercises/replication-oplog.txt
 
 
 Operations in the Oplog are Idempotent
 --------------------------------------
 
-- Each operation in the oplog is idempotent. 
+- Each operation in the oplog is idempotent.
 - Whether applied once or multiple times to the target dataset, each operation in the oplog produces the same results.
 - This is necesary if you want to be able to copy data while simultaneously accepting writes, e.g., when:
 
@@ -101,10 +101,8 @@ The Oplog Window
 - They guarantee presevation of insertion order.
 - And support high-throughput operations.
 - Like circular buffers, once a collection fills its allocated space, it makes room for new documents by overwriting the oldest documents in the collection.
-- It is important that the oplog for your replica set is sized to account for latency among members. 
+- It is important that the oplog for your replica set is sized to account for latency among members.
 - The default size oplog is usually sufficient, but you want to make sure that your oplog is large enough:
 
   - So that the op window is large enough to support replication
   - To give you a large enough history for any diagnostics you might wish to run.
-
-

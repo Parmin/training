@@ -1,16 +1,16 @@
-file: /exercises/exercise-crud-comparison-operators
+file: /exercises/crud-comparison-operators
 description: | 
   Experimenting with comparison query operators.
 ---
-file: /exercises/exercise-crud-logical-operators
+file: /exercises/crud-logical-operators
 description: | 
   Experimenting with logical query operators.
 ---
-file: /exercises/exercise-crud-element-operators
+file: /exercises/crud-element-operators
 description: | 
   Experimenting with element query operators.
 ---
-file: /exercises/exercise-crud-array-operators
+file: /exercises/crud-array-operators
 description: | 
   Experimenting with array query operators.
 

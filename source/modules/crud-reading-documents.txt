@@ -42,7 +42,7 @@ Matching Rules
 - Think of it as a logical AND for all fields.
 
 
-.. include:: /exercises/exercise-crud-querying-by-example.txt
+.. include:: /exercises/crud-querying-by-example.txt
 
 
 Querying Arrays
@@ -60,7 +60,7 @@ Querying Arrays
       Students might find it helpful to think of an array field as having multiple values -- one for each of its elements.
 
 
-.. include:: /exercises/exercise-crud-querying-arrays.txt
+.. include:: /exercises/crud-querying-arrays.txt
 
 
 Querying with Dot Notation
@@ -71,10 +71,10 @@ Querying with Dot Notation
 - Put quotes around the field name when using dot notation.
 - An example follows.
 
-.. include:: /exercises/exercise-crud-querying-with-dot-notation.txt
+.. include:: /exercises/crud-querying-with-dot-notation.txt
 
 
-.. include:: /exercises/exercise-crud-querying-in-arrays-with-dot-notation.txt
+.. include:: /exercises/crud-querying-in-arrays-with-dot-notation.txt
 
 
 Cursors
@@ -86,7 +86,7 @@ Cursors
 - By default, the mongo shell will iterate through 20 documents at a time.
 
 
-.. include:: /exercises/exercise-crud-introducing-cursors.txt
+.. include:: /exercises/crud-introducing-cursors.txt
 
 
 Cursor Methods
@@ -98,7 +98,7 @@ Cursor Methods
 
 
 The ``count()`` Method
--------------------
+----------------------
 
 - Counts the number of documents in the result set.
 - You may pass a query document like you would to ``find()``.
@@ -106,7 +106,7 @@ The ``count()`` Method
 - Will return the number of documents in the collection if you do not specify a query document.
 
 
-.. include:: /exercises/exercise-crud-using-count.txt
+.. include:: /exercises/crud-using-count.txt
 
 
 The ``sort()`` Method
@@ -119,7 +119,7 @@ The ``sort()`` Method
 - An example follows.
 
 
-.. include:: /exercises/exercise-crud-using-sort.txt
+.. include:: /exercises/crud-using-sort.txt
 
 
 The ``skip()`` Method
@@ -137,6 +137,3 @@ The ``limit()`` Method
 - Specify k as the argument to limit()
 - Regardless of the order in which you specify limit(), skip(), and sort() on a cursor, sort() happens first.
 - Helps reduce bandwidth consumed by queries.
-
-
-

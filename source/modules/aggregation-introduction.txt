@@ -1,89 +1,94 @@
-====================
-AGGREGATION - PART 1
-====================
+===========
+Aggregation
+===========
 
-.. topic:: Learning objectives
 
-    Upon completing this module, students will know:
+Learning Objectives
+-------------------
 
-        - The stages of the aggregation pipeline
-        - The basic usages of stages similar to cursor methods
-        - The syntax associated with these stages
+Upon completing this module students should understand:
 
-Basic Aggregation Stages
-========================
+- The concept of the aggregation pipeline
+- The stages of the aggregation pipeline
+- The syntax of aggregation stages
 
-    - match (like the first argument of a find() query)
-    - project (like the second argument of a find() query, but more powerful)
-    - sort (like the cursor method, but a little simpler)
-    - skip (like the cursor method, but a little simpler)
-    - limit (like the cursor method, but a little simpler)
-    - unwind (used for working with arrays)
-    - group (used for combining data in lots of documents)
-    - out (creates a new collection from the output of an aggregation
-      pipeline)
+
+Aggregation Basics
+------------------
+
+- Use the aggregation framework to transform and analyze data in MongoDB collections.
+- For those who are used to SQL, aggregation bears some similarities to the ``GROUP BY`` statement.
+- The aggregation framework is based on the concept of a pipeline.
+
+
+The Aggregation Pipeline
+------------------------
+
+- An aggregation pipeline in analogous to a UNIX pipeline.
+- Each stage of the pipeline:
+
+  - Receives a set of documents as input.
+  - Performs an operation on those documents.
+  - Produces a set of documents for use by stages that follow.
+
+- A pipeline has the following syntax:
+
+  .. code-block:: javascript
+
+     db.collection.aggregate( [ { stage1 }, { stage2 }, ... ],
+                                { options } )
+
+
+Aggregation Stages
+------------------
+
+- ``match``: Similar to ``find()``
+- ``project``: Shape documents
+- ``sort``: Like the cursor method of the same name
+- ``skip``: Like the cursor method of the same name
+- ``limit``: Like the cursor method of the same name
+- ``unwind``: Used for working with arrays
+- ``group``: Used to aggregate field values from multiple documents
+- ``out``: Creates a new collection from the output of an aggregation
+  pipeline)
+
 
 The Match Stage
 ---------------
 
-    - The $match operator works just like the matching parameter in a find(),
-      update(), or remove() query
-    - Documents in the pipeline that match the value will be passed on; those
-      that don't will not
+- The ``$match`` operator works like the query parameter to ``find()``, ``update()``, and ``remove()``.
+- Documents in the pipeline that match the query document will be passed on
+- ``$match`` is often the first operator used in an aggregation stage.
+
 
 Exercise: The Match Stage
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
-Use the $match operator to select only the first two documents in the
-aggregation pipeline.
+Select only the first two documents using a match stage in an aggregation pipeline.
 
 .. code-block:: javascript
 
-    matchArr = [ { _id : 1, a : 1 }, { _id : 2, a : 2 }, { _id : 3, a : 3 },
-                 { _id : 4, a : 4 }, { _id : 5, a : 5 } ]
-    db.aggMatch.insert( matchArr )
-    db.aggMatch.find()  // 5 docs
-    db.aggMatch.aggregate( [ { $match : { a : { $lte : 2 } } } ] )
+    a = [ { _id : 1, a : 1 }, { _id : 2, a : 2 }, { _id : 3, a : 3 },
+          { _id : 4, a : 4 }, { _id : 5, a : 5 } ]
+    db.testcol.insert( a )
+
     // 2 docs are output from the aggregation pipeline
-    db.aggMatch.find( { a : { $lte : 2 } } )  // same 2 docs
+    db.testcol.aggregate( [ { $match : { a : { $lte : 2 } } } ] )
 
-
-Exercise: Using two Stages in the Aggregation pipeline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Use the match operator to find documents where a is less than 5, and then use
-it again to find documents where a is greater than 1.
-
-.. code-block:: javascript
-
-    db.aggMatch.aggregate( [ { $match : { a : { $lt : 5 } } } ] )
-    // halfway there.
-    db.aggMatch.aggregate( [ { $match : { a : { $lt : 5 } } },
-                             { $match : { a : { $gt : 1 } } } ] )
-    // Yes, this could have been accomplished in just one stage by making a
-    // better matching query, but it gives you the idea of how stages can be
-    // chained.
 
 The Project Stage
 -----------------
 
 - The $project operator works like the projection operator in a find()
-  query, but is more powerful.
-
+      query, but is more powerful.
 - You can include fields by passing a 1 for their value in a projection
-  document
-
-  - You can exclude the _id by passing a 0 as its value in the
-    projection document
-
-  - As of MongoDB 2.6, you cannot exclude other fields by passing a 0
-    as their values
-
-- You can rename fields by passing the new name to the $project
-  document
-
-- If you want to add a new field with a numerical value, such as a number
-  or an ObjectId, pass a document with key $literal
+      document
+- You can exclude the _id by passing a 0 as its value in the
+          projection document
+- As of MongoDB 2.6, you cannot exclude other fields by passing a 0
+          as their values
+- You can also rename fields by passing the new name to the $project
+     document
 
 Exercise: The $project Operator, Part 1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,14 +110,6 @@ Use it to exclude _id, as well.
     db.aggProject.find()
     db.aggProject.aggregate( [ { $project : { a : 1, "subdoc.field1": 1 } } ] )
     // Only field1 appears
-
-Now, take the existing documents but add the field, "newId" with an ObjectId
-as the value
-
-.. code-block:: javascript
-
-    db.aggProject.aggregate( [ { $project : {
-        _id : 1, a : 1, newId : { $literal : ObjectId() } } } ] )
 
 Exercise: The $project Operator, Part 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

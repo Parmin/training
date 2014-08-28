@@ -1,0 +1,9 @@
+====
+CRUD
+====
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-exercises-crud.rst
+
+.. include:: /includes/toc/exercises-crud.rst

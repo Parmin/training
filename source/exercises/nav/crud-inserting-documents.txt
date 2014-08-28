@@ -1,0 +1,9 @@
+===============================
+Creating and Deleting Documents
+===============================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-exercises-crud-inserting-documents.rst
+
+.. include:: /includes/toc/exercises-crud-inserting-documents.rst

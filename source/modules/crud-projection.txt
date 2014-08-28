@@ -4,29 +4,35 @@ Projection
 
 .. topic:: Upon completing this module, students should understand:
 
-    - How to project the query results
-    - How to specify which fields to be included in a result set
-    - How to eliminate a field from a result set
-    - The special rule for _id and projection
-    - Using the $ operator for projecting an array element
+   - How to project the query results
+   - How to specify which fields to be included in a result set
+   - How to eliminate a field from a result set
+   - The special rule for _id and projection
+   - Using the $ operator for projecting an array element
 
 Why Use Projection?
 ===================
 
-    - Projection allows you to select which fields are returned by a query
-    - Projection can help reduce bandwidth for sending a query's result over 
-      the wire
-        - Especially if you have large values for some fields
-    - In the shell, projection can make the results more readable
+- Projection allows you to select which fields are returned by a query
+
+- Projection can help reduce bandwidth for sending a query's result over
+  the wire
+
+  - Especially if you have large values for some fields
+
+- In the shell, projection can make the results more readable
 
 Using Projection
 ================
 
-    - The find() method has an optional second parameter that defines projection.
-    - Similar to matching, you want to specify the fields to include by specifying
-      a value of 1
-        - db.collection.find( { }, { field1 : 1, field2 : 1 } ) 
-    - Explicitly xclude fields with a value of 0
+- The find() method has an optional second parameter that defines projection.
+
+- Similar to matching, you want to specify the fields to include by specifying
+  a value of 1
+
+  - db.collection.find( { }, { field1 : 1, field2 : 1 } )
+
+- Explicitly xclude fields with a value of 0
 
 Exercise: Using Projection
 --------------------------
@@ -47,21 +53,25 @@ Exercise: Using Projection
 Projection Rules
 ================
 
-    - The _id is always included unless you specify _id : 0
-    - If you specify at least one inclusion, only explicitly included
-      fields are returned
-    - If you specify at least one exclusion, all other fields are 
-      shown
-    - You can't mix and match inclusion/exclusion projections
-        - except _id : 0, which is always legal
+- The _id is always included unless you specify _id : 0
+
+- If you specify at least one inclusion, only explicitly included
+  fields are returned
+
+- If you specify at least one exclusion, all other fields are
+  shown
+
+- You can't mix and match inclusion/exclusion projections
+
+    - except _id : 0, which is always legal
 
 Exercise: Using Projection to Improve Readability
 -------------------------------------------------
 
 .. code-block:: javascript
 
-    db.email.insert( [ 
-        { 
+    db.email.insert( [
+        {
             sender : "Alice",
             recipient : "Bob",
             title : "Sample Title",
@@ -80,14 +90,15 @@ Exercise: Using Projection to Improve Readability
 Projection of Arrays using the $ Operator
 =========================================
 
-    - If you queried for an array index, you can project only the element
-      that you sought by using the $ operator
-    - This only works properly if you query just one array element.
+- If you queried for an array index, you can project only the element
+  that you sought by using the $ operator
+
+- This only works properly if you query just one array element.
 
 Exercise: Projecting Using the $ Operator
 -----------------------------------------
 
-.. code-blick:: javascript
+.. code-block:: javascript
 
     db.poems.insert( { flowers : [ { name : "roses" , color : "red" }, { name : "violets", color: "blue" } ] , sweets : [ { "sugar" : true } , { "you" : true } ] } )
     db.poems.find( { "flowers.color": "red" } , { _id: 0, "flowers.$": 1 } ).pretty()

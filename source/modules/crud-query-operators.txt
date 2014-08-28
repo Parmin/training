@@ -26,7 +26,7 @@ Comparison Query Operators
 - ``$nin``: Does not exist or is not in a set
 
 
-.. include:: /exercises/exercise-crud-comparison-operators.txt
+.. include:: /exercises/crud-comparison-operators.txt
 
 
 Logical Query Operators
@@ -41,7 +41,7 @@ Logical Query Operators
   - Use $and if you need to include the same operator more than once in a query.
 
 
-.. include:: /exercises/exercise-crud-logical-operators.txt
+.. include:: /exercises/crud-logical-operators.txt
 
 
 Element Query Operators
@@ -52,7 +52,7 @@ Element Query Operators
 - See :manual:`BSON types</reference/bson-types>` for reference on types.
 
 
-.. include:: /exercises/exercise-crud-element-operators.txt
+.. include:: /exercises/crud-element-operators.txt
 
 
 Array Query Operators
@@ -66,7 +66,7 @@ Array Query Operators
 - ``$elemMatch``: All conditions must be matched by at least one element in the array
 
 
-.. include:: /exercises/exercise-crud-array-operators.txt
+.. include:: /exercises/crud-array-operators.txt
 
 
 
