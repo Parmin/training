@@ -1,12 +1,8 @@
 file: /modules/aggregation
 description: | 
-  An introduction to MongoDB indexes.
+  An introduction to the the aggregation framework, pipeline concept, and stages.
 --- 
-file: /modules/indexes-compound
+file: /modules/aggregation-optimization
 description: | 
-  Indexes on two or more fields.
---- 
-file: /modules/agg
-description: | 
-  Free text indexes on string fields.
+  Resource management in the aggregation pipeline.
 ...

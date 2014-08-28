@@ -1,19 +1,22 @@
 file: /modules/nav/introduction
 description: | 
-  An introduction to MongoDB concepts and background.
+  An introduction to MongoDB concepts and background
 ---
 file: /modules/nav/crud
 description: |
-  Explore basic database operations in MongoDB.
+  The MongoDB query language
 --- 
 file: /modules/nav/indexes
 description: | 
-  Learn about MongoDB's indexes.
+  Indexes in MongoDB
+---
+file: /modules/nav/aggregation
+description: |
+  The aggregation framework
 ---
 file: /modules/nav/replica-sets
 description: | 
-  Learn how MongoDB's replication system works and how MongoDB's
-  replica sets automate the management of replicated deployments.
+  Replication in MongoDB
 ---
 file: /modules/nav/exercises
 description: | 
