@@ -1,0 +1,321 @@
+===========
+Aggregation
+===========
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The concept of the aggregation pipeline
+- The stages of the aggregation pipeline
+- The syntax of aggregation stages
+
+
+Aggregation Basics
+------------------
+
+- Use the aggregation framework to transform and analyze data in MongoDB collections.
+- For those who are used to SQL, aggregation bears some similarities to the ``GROUP BY`` statement.
+- The aggregation framework is based on the concept of a pipeline. 
+
+
+The Aggregation Pipeline
+------------------------
+
+- An aggregation pipeline in analogous to a UNIX pipeline.
+- Each stage of the pipeline:
+
+  - Receives a set of documents as input.
+  - Performs an operation on those documents.
+  - Produces a set of documents for use by stages that follow.
+
+- A pipeline has the following syntax:
+
+  .. code-block:: javascript
+
+     db.collection.aggregate( [ { stage1 }, { stage2 }, ... ],
+                                { options } )
+
+
+Aggregation Stages
+------------------
+
+- ``match``: Similar to ``find()``
+- ``project``: Shape documents
+- ``sort``: Like the cursor method of the same name
+- ``skip``: Like the cursor method of the same name
+- ``limit``: Like the cursor method of the same name 
+- ``unwind``: Used for working with arrays
+- ``group``: Used to aggregate field values from multiple documents
+- ``out``: Creates a new collection from the output of an aggregation
+  pipeline)
+
+
+The Match Stage
+---------------
+
+- The ``$match`` operator works like the query parameter to ``find()``, ``update()``, and ``remove()``.
+- Documents in the pipeline that match the query document will be passed on
+- ``$match`` is often the first operator used in an aggregation stage.
+
+
+Exercise: The Match Stage
+-------------------------
+
+Select only the first two documents using a match stage in an aggregation pipeline.
+
+.. code-block:: javascript
+
+    a = [ { _id : 1, a : 1 }, { _id : 2, a : 2 }, { _id : 3, a : 3 },
+          { _id : 4, a : 4 }, { _id : 5, a : 5 } ]
+    db.testcol.insert( a )
+
+    // 2 docs are output from the aggregation pipeline
+    db.testcol.aggregate( [ { $match : { a : { $lte : 2 } } } ] )  
+
+
+The Project Stage
+-----------------
+
+- $project allows you to shape the documents into what you need for the next stage. 
+- The simplest form of shaping is using $project to select only the fields you are interested in.
+- You can also restructure documents that pass through a project stage.
+
+  - E.g., you can pull a value out of an embedded document and put it at the top level.  
+  - E.g., you can create a ratio from the values of two fields as pass along as a single field.
+
+- $project produces 1 output document for every input document it sees.
+
+
+Exercise: Selecting fields with $project
+----------------------------------------
+
+Use the $project operator to pass specific fields in output documents.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for ( var i=1; i<=10; i++ ) { 
+       db.testcol.insert( { a : i, b : i*2, c : { d : i*4, e : i*8 } } ) }
+   db.testcol.find()
+
+   db.testcol.aggregate( [ { $project : { a : 1 } } ] )
+
+   db.testcol.aggregate( [ { $project : { _id : 0, a : 1 } } ] )
+
+   db.testcol.aggregate( [ { $project : { a : 1, "c.d": 1 } } ] )
+
+.. only:: instructor
+
+   .. note::
+
+      - ``{ $project : { a : 1 } }``: _id is projected implicitly
+      - ``{ $project : { _id : 0, a : 1 } }``: supress projection of _id
+      - ``{ $project : { a : 1, "c.d": 1 } }``: use dot notation to specify fields in embedded documents.
+
+
+Exercise: Renaming fields with $project
+---------------------------------------
+
+Use the $project operator to rename a field
+
+.. code-block:: javascript
+
+   db.testcol.aggregate( [ { $project : { _id : 0, 
+                                          sequenceNumber : "$a", 
+                                          b : 1 } } ] )
+
+
+Exercise: Shaping documents with $project
+-----------------------------------------
+
+Experiment with the following projections.
+
+.. code-block:: javascript
+
+   db.testcol.aggregate( [ { $project : { a : 1, b : 1, d : "$c.d" } } ] )
+
+   db.testcol.aggregate( [ { $project : { sequenceNumber : "$a",
+                                          ratio : { $divide : [ "$c.d", "$c.e" ] } } } ] )
+
+More about :manual:`$divide</reference/operator/aggregation/divide/>` in another lesson.
+
+
+A Twitter Dataset
+-----------------
+
+- We now have a basic understanding of the aggregation framework.
+- Let's now look at some richer examples that illustrate the power of MongoDB aggregation.
+- For these we will use a collection of tweets.
+- As with any data of this type, it is a snapshot in time.
+- It may not reflect the structure of Twitter feeds as the look today.
+
+
+Tweets Data Model
+-----------------
+
+.. code-block:: javascript
+
+   {
+       "text" : "Something interesting ...",
+       "entities" : {
+	   "user_mentions" : [
+	       {
+		   "screen_name" : "somebody_else",
+		   ...
+	       }
+	   ],
+	   "urls" : [ ],
+	   "hashtags" : [ ]
+       },
+       "user" : {
+	   "friends_count" : 544,
+	   "screen_name" : "somebody",
+	   "followers_count" : 100,
+	   ...
+       },
+   }
+
+
+Analyzing Tweets
+----------------
+
+- Imagine the types of analyses one might want to do on tweets. 
+- It is common to analyze the behavior of users and the networks involved. 
+- We should also mention that our tweet documents actually contain many more fields.
+- We are showing just those relevant to the analyses we will do.
+
+
+The Group Stage
+----------------
+
+- $group is fundamental to aggregation. 
+- $group operations aggregate values using arithmetic and array operators.
+- For those coming from the relational world, this is similar to the SQL ``GROUP BY`` statement.
+- To group, defined an identifier by which to group.
+- Documents with the same identifier will be aggregated together.
+
+
+
+.. code-block:: javascript
+
+    db.aggGroup.aggregate( [ { $group : { _id : { a : "$a" },
+                               b_avg : { $avg : "$b" } } } ] )
+
+Exercise: The $push Operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For each value of a, make an array with each value of b in it.
+
+.. code-block:: javascript
+
+    db.aggGroup.aggregate( [ { $group : { _id : { a : "$a" },
+                                          b_values : { $push : "$b"} } } ] )
+
+Exercise: The $addToSet Operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For each value of a, make an array with each value of b in it. Eliminate 
+duplicate values of b.
+
+.. code-block:: javascript
+
+    db.aggGroup.aggregate( [ { $group : { _id : { a : "$a" },
+                                          b_values : { $addToSet : "$b"} } } ] )
+
+The $first and $last Operators of $group
+----------------------------------------
+
+    - Be careful with these operators; unless you $sort immediately prior to
+      these stages, order will not be guaranteed, and you may not get the
+      value you expect.
+    - Typical use cases are:
+        - when you know that all values will be the same.
+        - when you've sorted and the only important value is first or last.
+
+Exercise: $first, Part 1
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Find the first value of b for each value of a. First sort on increasing a,
+then increasing b. 
+.. code-block:: javascript
+
+    db.aggGroup.aggregate( [ { $sort : { a : 1, b : 1 } },
+                             { $group : { _id : { a : "$a" }, 
+                                          first_b : { $first : "$b" } } } ] )
+
+Exercise: $first, Part 2
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Find the first value of b for each value of a. First sort on increasing a,
+then decreasing b. 
+
+    db.aggGroup.aggregate( [ { $sort : { a : 1, b : -1 } },  // reverse sort b
+                             { $group : { _id : { a : "$a" },
+                                          first_b : { $first : "$b" } } } ] )
+
+Exercise: $last
+~~~~~~~~~~~~~~~
+
+Find the last value of a for each value of b. First, sort on increasing a, 
+then decreasing b.
+
+    db.aggGroup.aggregate( [ { $sort : { a : 1, b : -1 } },  // know the order
+                             { $group : { _id : { b : "$b" },
+                                          last_a : { $last: "$a" } } } ] )
+
+Exercise: $min
+~~~~~~~~~~~~~~
+
+Find the lowest value of d for each value of b.
+
+    db.aggGroup.aggregate( [ { $sort : { a : 1, b : 1 } },
+                             { $group : { _id : { b : "$b" }, 
+                                          min_d : { $min : "$c.d" } } } ] )
+
+Exercise: $max
+~~~~~~~~~~~~~~
+
+Find the highest value of d for each possible (a, b) pair.
+
+    db.aggGroup.aggregate( [ { $sort : { a : 1, b : 1 } },
+                             { $group : { _id : { a : "$a", b : "$b" }, 
+                                          max_d : { $max : "$c.d" } } } ] )
+
+
+The Sort Stage
+--------------
+
+- Uses the $sort operator
+- Works like the ``sort()`` cursor method
+- 1 to sort ascending; -1 to sort descending
+- E.g, db.testcol.aggregate( [ { $sort : { b : 1, a : -1 } } ] )
+
+
+The Skip Stage
+--------------
+
+- Uses the $skip operator
+- Works like the ``skip()`` cursor method.
+- Value is an integer specifying the number of documents to skip.
+- E.g, the following will pass all but the first 3 documents to the next stage in the pipeline.
+
+  - db.testcol.aggregate( [ { $skip : 3 }, ... ] )
+
+
+
+The Limit Stage
+---------------
+
+- Used to limit the number of documents passed to the next aggregation stage.
+- Works like the ``limit()`` cursor method.
+- Value is an integer.
+- E.g., the following will only pass 3 documents to the stage that comes next in the pipeline.
+
+  - db.testcol.aggregate( [ { $limit: 3 }, ... ] )
+
+
+
+
