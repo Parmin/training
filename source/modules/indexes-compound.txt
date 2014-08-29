@@ -7,7 +7,8 @@ Compound Indexes
    - What a compound index is.
    - How compound indexes are created.
    - The importance of considering field order when creating compound indexes.
-   - How to efficiently handle queries involving some combination of equality matches, ranges, and sorting.
+   - How to efficiently handle queries involving some combination of equality
+     matches, ranges, and sorting.
    - Some limitations on compound indexes.
 
 Introduction to Compound Indexes
@@ -215,5 +216,3 @@ General Rules of Thumb
 
 - Equality before sorting.  
 - Sorting before range.
-
-
