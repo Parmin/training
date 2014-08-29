@@ -21,10 +21,10 @@ Why Indexes?
 ------------
 
 - Without an index, in order to find all documents matching a query, MongoDB must scan every document in the collection.
-- This is murder for read performance. 
+- This is murder for read performance, and often write performance, too. 
 - If all your documents do not fit into memory, the system will page data in and out in order to scan the entire collection. 
 - An index enables MongoDB to locate exactly which documents match the query and where they are located on disk.
-- MongoDB indexes are based on B-trees. 
+- MongoDB indexes are based on B-trees.
 
 .. figure:: /figures/btree_example.jpg
     :width: 500px
@@ -192,4 +192,8 @@ Use Indexes with Care
 - Every query should use an index.  
 - Every index should be used by a query.
 
+Drawbacks of Indexes
+--------------------
 
+- Any write operation that touches an indexed field will require each index to be updated.
+- Indexes require memory. If your system is limited in its memory usage (which it almost certainly will be), then using the index will push other data (perhaps documents, perhaps other indexes) out of memory. When you need to access those documents, they will need to be reloaded.
