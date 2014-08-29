@@ -11,6 +11,7 @@ Upon completing this module students should understand
 - The required parameters for ``update()``
 - Field update operators
 - Array update operators
+- The concept of an upsert and use cases.
 
 
 The ``update()`` Method
@@ -113,3 +114,99 @@ Array Operators
 
 
 .. include:: /exercises/crud-update-array-operators.txt
+
+
+Upserts
+-------
+
+- An upsert is an update with ``upsert : true`` set in the options document.
+- Use when you want to update fields.
+- But do not want to check first whether the documents to be updated already exist.
+- The ``db.collection.save()`` method is syntactic sugar that performs an upsert if the _id is not yet present
+
+
+Upserts, cont'd
+---------------
+
+Syntax:
+
+.. code-block:: javascript
+
+   db.collection.update( *query document*, *update document*, ``{ upsert : true }`` )
+
+- Will update as usual if documents matching the query document exist.
+- The update will be an upsert if no documents match the query document.
+- For a document newly created as a result of an upsert:
+
+  - MongoDB will add any fields uniquely specified in the query document to the new document.
+  - MongoDB will add an _id if the query did not specify one.
+  - The update will then be performed on the new document.
+
+
+Exercise: Upserts
+-----------------
+
+Experiment with the following upserts.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i, b : i } ) }
+   db.testcol.find()
+
+   db.testcol.update( { a : 4 }, { $inc : { b : 3 } }, { upsert : true } )
+
+   db.testcol.update( { a : 12 }, { $inc : { b : 3 } }, { upsert : true } )
+
+   db.testcol.update( { _id : 6, a : 6 }, { c : 155 }, { upsert : true } )
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         // updates the document with a : 4 by incrementing b
+         db.testcol.update( { a : 4 }, { $inc : { b : 3 } }, { upsert : true } )
+
+         // 1) creates a new document, 2) assigns an _id, 3) sets a to 12, 
+         // 4) performs the update
+         db.testcol.update( { a : 12 }, { $inc : { b : 3 } }, { upsert : true } )
+
+         // 1) creates a new document, 2) sets _id : 6 and a : 6, 
+         // 3) update deletes a and sets c to 155.
+         db.testcol.update( { _id : 6, a : 6 }, { c : 155 }, { upsert : true } )
+
+
+``save()``
+----------
+
+- Syntax:
+
+  .. code-block:: javascript
+
+     db.collection.save( *document* )
+
+- Updates the document if the _id is found, inserts it otherwise
+
+
+Exercise: ``save()``
+--------------------
+
+.. code-block:: javascript
+   
+   for (i=1; i<=5; i++) { db.testcol.save( { _id : i, a : i, b : i } ) }
+   db.testcol.find()
+
+   // Look at the code for save. Note that it involves an upsert.
+   db.testcol.save  
+
+   // new document, _id created
+   db.testcol.save( { a : 3 } )                     
+
+   db.testcol.save( { _id : 6, a : 6 } )            // new document
+
+   db.testcol.save( { _id : 3, a : 12, b : 12  } )  // update!!
+
+
+

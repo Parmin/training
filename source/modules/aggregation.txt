@@ -10,7 +10,10 @@ Upon completing this module students should understand:
 
 - The concept of the aggregation pipeline
 - The stages of the aggregation pipeline
-- The syntax of aggregation stages
+- How to use aggregation operators
+- The fundamentals of using aggregation for data analysis
+- Group aggregation operators
+- Using the same operator in multiple stages of an aggregation pipeline
 
 
 Aggregation Basics

@@ -137,3 +137,46 @@ The ``limit()`` Method
 - Specify k as the argument to limit()
 - Regardless of the order in which you specify limit(), skip(), and sort() on a cursor, sort() happens first.
 - Helps reduce bandwidth consumed by queries.
+
+
+The ``distinct()`` Method
+-------------------------
+
+- Returns all values for a field found in a collection.
+- Only works on one field at a time.
+- Input is a string (not a document)
+
+
+Exercise: Using ``distinct()``
+------------------------------
+
+Experiment with the following commands and note what ``distinct()`` returns.
+
+.. code-block:: javascript
+
+   db.testcol.drop()    
+   db.testcol.insert( [ { a : 1 , b : 3 },
+                        { a : 2 },
+                        { a : "hello" },
+                        { a : { hello : "world" } } ] )
+   db.testcol.distinct( "a" )
+
+
+The ``stats()`` method
+----------------------
+
+- Used to get some statistics about a collection.
+
+  - count
+  - size (bytes)
+  - average document size (avgObjSize)
+
+- Most of the fields will be covered later, but you should know about them.
+
+- Syntax
+
+  .. code-block:: javascript
+
+     db.testcol.stats()
+
+

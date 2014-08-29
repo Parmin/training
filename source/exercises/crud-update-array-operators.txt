@@ -29,8 +29,12 @@ Experiment with the following updates.
    .. note::
    
       - If you have time you might want to show the students:
-        db.testcol.update( { _id : 1 }, { $push : { b : [ 3, 12 ] } } )  
-      - In { $pop : { b : "" } }, the value passed for ``b`` is just a placeholder. Most values will work fine.
+
+        .. code-block:: javascript
+
+           db.testcol.update( { _id : 1 }, { $push : { b : [ 3, 12 ] } } )  
+ 
+     - In { $pop : { b : "" } }, the value passed for ``b`` is just a placeholder. Most values will work fine.
       - In { $pullAll : { b : [ 1, 2, "NA", 4 ] } } the value 4 is not present in the array found in ``b``. This has no effect on the update.
 
 

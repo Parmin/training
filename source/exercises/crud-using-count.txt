@@ -1,17 +1,21 @@
 Exercise: Using ``count()``
 ---------------------------
 
+``count()`` is a quick and easy way to find how many documents match a query.
+
 .. code-block:: javascript
 
    db.testcol.drop()
-   for (i=0; i<10000; i++) { db.testcol.insert( { a : i } ) }
+   for (i=1; i<=100; i++) { db.testcol.insert( { a : i } ) };
 
-   db.testcol.count()                          // 10000
+   // all 100 
+   db.testcol.count()   
 
-   db.testcol.count( { a : { $gt : 5000 } } )  // About 5000 +/- 200
+   // just 42 docs
+   db.testcol.count( { a : { $lte : 42 } } )  
 
-   // We often see a count query written as follows.
-   db.testcol.find( { a : { $gt : 5000 } } ).count()
+   // Another way of writing the same query
+   db.testcol.find( { a : { $lte : 42 } } ).count(  )  
 
 .. only:: instructor
 
