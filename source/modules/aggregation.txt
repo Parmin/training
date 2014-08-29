@@ -184,105 +184,319 @@ Analyzing Tweets
 
 - Imagine the types of analyses one might want to do on tweets. 
 - It is common to analyze the behavior of users and the networks involved. 
-- We should also mention that our tweet documents actually contain many more fields.
-- We are showing just those relevant to the analyses we will do.
+- Our examples will focus on this type of analysis
+
+.. only:: instructor
+
+   .. note::
+
+      - We should also mention that our tweet documents actually contain many more fields.
+      - We are showing just those relevant to the analyses we will do.
+
+
+Rank Users by Number of Tweets
+------------------------------
+
+- With this type of data, it is common to rank users based on some metric.
+- Let's look at who tweets the most.
+- We will use the aggregation framework to do this.
+
+
+Process
+-------
+
+- Group together all tweets by a user for every user in our collection
+- Count the tweets for each user
+- Sort in decreasing order
+
+
+Exercise: Ranking Users by Number of Tweets
+-------------------------------------------
+
+Try this aggregation pipeline for yourself.
+
+.. only:: instructor
+
+   db.tweets.aggregate( [
+       { $group: { _id: "$user.screen_name",
+                   count: { $sum: 1 } } },
+       { $sort: { count: -1 } } 
+   ] )
+
+.. only:: instructor
+
+   .. note::
+
+      - $group operations require that we specify which field to group on.
+      - In this case, we group documents based on the user's screen name.
+      - With $group, we aggregate values using arithmetic or array operators.
+      - Here we are counting the number of documents for each screen name.
+      - We do that by using the $sum operator 
+      - This will add 1 to the count field for each document produced by the $group stage.
+      - Note that there will be one document produced by $group for each screen name.
+      - The $sort stage receives these documents as input and sorts them by the value of the count field
+
+
+Exercise: Tweet Source
+----------------------
+
+- The tweets in our twitter collection have a field called "source". 
+- This field describes the application that was used to create the tweet. 
+- Write an aggregation pipeline that identifies the applications most frequently used to publish tweets.
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+	 db.tweets.aggregation( [
+	     { "$group" : { "_id" : "$source",
+			    "count" : { "$sum" : 1 } } },
+	     { "$sort" : { "count" : -1 } } 
+	 ] )
+
 
 
 The Group Stage
 ----------------
 
-- $group is fundamental to aggregation. 
-- $group operations aggregate values using arithmetic and array operators.
-- For those coming from the relational world, this is similar to the SQL ``GROUP BY`` statement.
-- To group, defined an identifier by which to group.
+- For those coming from the relational world, ``$group`` is similar to the SQL ``GROUP BY`` statement.
+- $group operations require that we specify which field to group on.
 - Documents with the same identifier will be aggregated together.
+- With $group, we aggregate values using arithmetic or array operators.
 
 
-
-.. code-block:: javascript
-
-    db.aggGroup.aggregate( [ { $group : { _id : { a : "$a" },
-                               b_avg : { $avg : "$b" } } } ] )
-
-Exercise: The $push Operator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For each value of a, make an array with each value of b in it.
+Group using $avg
+----------------
 
 .. code-block:: javascript
 
-    db.aggGroup.aggregate( [ { $group : { _id : { a : "$a" },
-                                          b_values : { $push : "$b"} } } ] )
+   db.testcol.aggregate( [ { $group : { _id : { a : "$a" },
+                                        b_avg : { $avg : "$b" } } } ] )
 
-Exercise: The $addToSet Operator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For each value of a, make an array with each value of b in it. Eliminate 
-duplicate values of b.
+Group using $push
+-----------------
+
+For each user, aggregate all their tweets into a single array.
 
 .. code-block:: javascript
 
-    db.aggGroup.aggregate( [ { $group : { _id : { a : "$a" },
-                                          b_values : { $addToSet : "$b"} } } ] )
+   db.tweets.aggregate( [
+      { "$group" : { "_id" : "$user.screen_name",
+                     "tweet_texts" : { "$push" : "$text" },
+                     "count" : { "$sum" : 1 } } },
+      { "$sort" : { "count" : -1 } },
+      { "$limit" : 5 } 
+   ] )
 
-The $first and $last Operators of $group
-----------------------------------------
 
-    - Be careful with these operators; unless you $sort immediately prior to
-      these stages, order will not be guaranteed, and you may not get the
-      value you expect.
-    - Typical use cases are:
-        - when you know that all values will be the same.
-        - when you've sorted and the only important value is first or last.
 
-Exercise: $first, Part 1
-~~~~~~~~~~~~~~~~~~~~~~~~
+Group Aggregation Operators
+---------------------------
 
-Find the first value of b for each value of a. First sort on increasing a,
-then increasing b. 
+The complete list of operators available in the group stage:
+
+- $addToSet
+- $first
+- $last
+- $max
+- $min
+- $avg
+- $push
+- $sum
+
+
+
+Friends and Followers
+---------------------
+
+- Let's look again at two stages we touched on earlier:
+
+  - ``$match``
+  - ``$project``
+
+- In our dataset:
+
+  - ``friends`` are those a user follows.
+  - ``followers`` are others that follow a users. 
+
+- Using these operators we will write an aggregation pipeline that will:
+
+  - Ignore anyone with no friends and no followers.
+  - Calculate who has the highest followers to friends ratio.
+
+
+Exercise: Friends and Followers
+-------------------------------
+
 .. code-block:: javascript
 
-    db.aggGroup.aggregate( [ { $sort : { a : 1, b : 1 } },
-                             { $group : { _id : { a : "$a" }, 
-                                          first_b : { $first : "$b" } } } ] )
+   db.tweets.aggregate( [
+       { $match: { "user.friends_count": { $gt: 0 },
+		   "user.followers_count": { $gt: 0 } } },
+       { $project: { ratio: {$divide: ["$user.followers_count",
+		 		       "$user.friends_count"]},
+		     screen_name : "$user.screen_name"} },
+       { $sort: { ratio: -1 } },
+       { $limit: 1 } ] )
 
-Exercise: $first, Part 2
-~~~~~~~~~~~~~~~~~~~~~~~~
+.. only:: instructor
 
-Find the first value of b for each value of a. First sort on increasing a,
-then decreasing b. 
+   .. note::
 
-    db.aggGroup.aggregate( [ { $sort : { a : 1, b : -1 } },  // reverse sort b
-                             { $group : { _id : { a : "$a" },
-                                          first_b : { $first : "$b" } } } ] )
+      - Discuss the $match stage
+      - Discuss the $project stage as a whole
+      - Remember that with project we can pull a value out of an embedded document and put it at the top level.
+      - Discuss the ratio projection
+      - Discuss screen_name projection
+      - Give an overview of other operators we might use in projections
 
-Exercise: $last
-~~~~~~~~~~~~~~~
 
-Find the last value of a for each value of b. First, sort on increasing a, 
-then decreasing b.
+Exercise: $match and $project
+-----------------------------
 
-    db.aggGroup.aggregate( [ { $sort : { a : 1, b : -1 } },  // know the order
-                             { $group : { _id : { b : "$b" },
-                                          last_a : { $last: "$a" } } } ] )
+- Of the users in the "Brasilia" timezone who have tweeted 100 times or more, who has the largest number of followers?
+- Time zone is found in the “time_zone” field of the user object in each tweet.
+- The number of tweets for each user is found in the “statuses_count” field.
+- Your result document should look something like the following:
 
-Exercise: $min
-~~~~~~~~~~~~~~
+  .. code-block:: javascript
 
-Find the lowest value of d for each value of b.
+     { u'_id': ObjectId('52fd2490bac3fa1975477702'),
+       u'followers': 2597,
+       u'screen_name': u'marbles',
+       u'tweets': 12334}
 
-    db.aggGroup.aggregate( [ { $sort : { a : 1, b : 1 } },
-                             { $group : { _id : { b : "$b" }, 
-                                          min_d : { $min : "$c.d" } } } ] )
 
-Exercise: $max
-~~~~~~~~~~~~~~
+.. only:: instructor
 
-Find the highest value of d for each possible (a, b) pair.
+   .. note:: 
 
-    db.aggGroup.aggregate( [ { $sort : { a : 1, b : 1 } },
-                             { $group : { _id : { a : "$a", b : "$b" }, 
-                                          max_d : { $max : "$c.d" } } } ] )
+      .. code-block:: javascript
+
+         [ { "$match" : { "user.time_zone" : "Brasilia",
+	 		  "user.statuses_count" : {"$gte" : 100} } },
+           { "$project" : { "followers" : "$user.followers_count",
+                            "tweets" : "$user.statuses_count",
+                            "screen_name" : "$user.screen_name" } },
+           { "$sort" : { "followers" : -1 } },
+           { "$limit" : 1 } ]
+
+
+
+The Unwind Stage
+----------------
+
+- In many situations we want to aggregate using values in an array field.
+- In our tweets dataset we need to do this to answer the question:
+
+  - "Who includes the most user mentions in their tweets?"
+
+- User mentions are stored as within an embedded document for entities.
+- This embedded document also lists any urls and hashtags used in the tweet.
+
+
+Example: User Mentions in a Tweet
+---------------------------------
+
+.. code-block:: javascript
+
+   ...
+   "entities" : {
+       "user_mentions" : [
+           {
+               "indices" : [
+                   28,
+                   44
+               ],
+               "screen_name" : "LatinsUnitedGSX",
+               "name" : "Henry Ramirez",
+               "id" : 102220662
+           }
+       ],
+       "urls" : [ ],
+       "hashtags" : [ ]
+    },
+    ...
+
+
+Using $unwind
+-------------
+
+Who includes the most user mentions in their tweets?
+
+.. code-block:: javascript
+
+   db.tweets.aggregate(
+       { $unwind: "$entities.user_mentions" },
+       { $group: { _id: "$user.screen_name",
+		   count: { $sum: 1 } } },
+       { $sort: { count: -1 } },
+       { $limit: 1 })
+
+
+.. only:: instructor
+
+   .. note::
+
+      - Many tweets contain multiple user mentions.
+      - We use unwind to produce one document for each user mention.
+      - Each of these documents is passed to the $group stage that follows.
+      - They will be grouped by the user who created the tweet and counted.
+      - As a result we will have a count of the total number of user mentions made by any one tweeter.
+
+
+Data Processing Pipelines
+-------------------------
+
+- The aggregation framework allows you to create a data processing pipeline.
+- You can include as many stages as necessary to achieve your goal.
+- For each stage consider:
+
+  - What input that stage must receive
+  - What output it should produce.
+
+- Many tasks require us to include more than one stage using a given operator. 
+
+
+Most Unique User Mentions
+-------------------------
+
+- We frequently need multiple group stages to achieve our goal.
+- We just looked at a pipeline to find the tweeter that mentioned the most users.
+- Let's change this so that it is more of a question about a tweeter's active network. 
+- We might ask which tweeter has mentioned the most unique users in their tweets.
+
+
+Same Operator ($group), Multiple Stages
+---------------------------------------
+
+Which tweeter has mentioned the most unique users in their tweets?
+
+.. code-block:: javascript
+
+   db.tweets.aggregate( [
+       { $unwind: "$entities.user_mentions" },
+       { $group: { 
+           _id: "$user.screen_name",
+	   mset: { $addToSet: "$entities.user_mentions.screen_name"  } } },
+       { $unwind: "$mset"},
+       { $group: { _id: "$_id", count: { $sum: 1 } } },
+       { $sort: { count: -1 } },
+       { $limit: 1 } 
+   ] )
+
+.. only:: instructor
+
+   .. note::
+
+      - We begin as we did before by unwinding user mentions.
+      - Instead of simple counting them, we aggregate using $addToSet.
+      - This produces documents that include only unique user mentions.
+      - We then do another unwind stage to produce a document for each unique user mention.
+      - And count these in a second $group stage. 
 
 
 The Sort Stage
@@ -315,6 +529,15 @@ The Limit Stage
 - E.g., the following will only pass 3 documents to the stage that comes next in the pipeline.
 
   - db.testcol.aggregate( [ { $limit: 3 }, ... ] )
+
+
+The Out Stage
+-------------
+
+- Used to create a new collection from the output of the aggregation pipeline.
+- Can only be the last stage in the pipeline.
+- If a collection by the name already exists, it replaces that collection.
+- Syntax is { $out : "collection_name" }
 
 
 
