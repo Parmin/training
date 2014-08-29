@@ -215,7 +215,7 @@ Exercise: Ranking Users by Number of Tweets
 
 Try this aggregation pipeline for yourself.
 
-.. only:: instructor
+.. code-block:: javascript
 
    db.tweets.aggregate( [
        { $group: { _id: "$user.screen_name",
