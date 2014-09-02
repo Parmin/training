@@ -17,12 +17,11 @@ This project is a comprehensive revision of MongoDB training materials used for 
 Objectives
 ----------
 
-- To fully support instructors in learning and delivering MongoDB trainings.
-- To provide:
+- To support instructors in learning and delivering MongoDB trainings by providing the following resources:
 
-  - Instructor notes
-  - Presentation materials for delivery in class
-  - Handout materials for students in the form of a student workbook
+  - A easily-navigated instructor guide complete with outline, training content, and instructor notes
+  - Figures, slides, exercises, and notes for delivery in class
+  - A workbook to be distributed to students to enable them to easily follow lessons and exercises and take notes.
 
 - A single-source solution to the above.
 - Training materials that are easier to maintain and that encourage contributions in the form of pull requests from those who deliver MongoDB training and others in the company.
