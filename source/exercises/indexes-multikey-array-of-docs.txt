@@ -1,0 +1,23 @@
+Example: Multikey Index and an Array of Documents
+-------------------------------------------------
+
+.. code-block:: javascript
+
+    db.multiKeys.ensureIndex( { x : 1 } )
+    b = [ { x : [ { name : "Alice", number : 1 }, { name : "Bob", number : 2 },
+                  { name : "Cherry", number : 3 } ] },
+          { x : [ { name : "Cherry", number : 3 },
+                  { name : "Dan", number : 4 } ] },
+          { x : [ { name : "Dan", number : 4 },
+                  { name : "Erica", number : 5 } ] },
+          { x : { name : "Cherry", number : 3 } },
+                { name : "Dan", number : 4 } ]
+    db.multiKeys.insert(b)
+    db.multiKeys.find( { x : { name : "Cherry", number : 3 } } )  // 3 documents
+    db.multiKeys.find( { x : { name : "Cherry", number : 3 } } ).explain()  // Used the index
+    // Now, let's just try  using the "number" field of the subdocument
+    db.multiKeys.find( { "x.number" : 3 } )  // 3 documents
+    db.multiKeys.find( { "x.number" : 3 } ).explain()  // Didn't use the index!
+    db.multiKeys.ensureIndex( { "x.number" : 1 } )
+    db.multiKeys.find( { "x.number" : 3 } ).explain()  // Using the new index
+    db.multiKeys.drop()
