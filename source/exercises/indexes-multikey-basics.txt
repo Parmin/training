@@ -1,0 +1,17 @@
+Example: Multikey Index and Arrays of Numbers
+---------------------------------------------
+
+.. code-block:: javascript
+
+    db.multiKeys.ensureIndex( { x : 1 } )
+    a = [ { x : [ 1, 2, 3 ], y : [ "a", "b" ] },
+          { x : [ 3, 4 ], y : [ "a", "b" ] },
+          { x : [ 4, 5 ], y : [ "a", "b" ] },
+          { x : 3, y : [ "a", "b" ] }, { x : 4, y : [ "a", "b" ] } ]
+    db.multiKeys.insert( a )  // values are integers
+    db.multiKeys.find( { x : 3 } )  // 3 documents returned in full
+    db.multiKeys.find( { x : 3 } ).explain()  // Used the index
+    db.multiKeys.find( { "x.2" : 3 } )  // One document found
+    db.multiKeys.find( { "x.2" : 3 } ).explain()  
+    // index is not used, because it is naive to position
+    db.multiKeys.drop()

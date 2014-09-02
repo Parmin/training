@@ -1,0 +1,20 @@
+Exercise: Multikey Index and an Array of Arrays
+-----------------------------------------------
+
+.. code-block:: javascript
+
+    db.multiKeys.ensureIndex( { x : 1 } )
+    c = [ { x : [ [ 1, 2 ], [ 2, 3 ], [ 3, 4] ] }, 
+          { x : [ [ 3, 4 ], [ 4, 5 ] ] },
+          { x : [ [ 4, 5 ], [ 5, 6 ] ] },
+          { x : [ 3, 4 ] },
+          { x : [ 4, 5 ] } ] 
+    db.multiKeys.insert(c)
+    db.multiKeys.find( { x : [ 3, 4 ] } )  // 3 documents
+    db.multiKeys.find( { x : [ 3, 4 ] } ).explain()  // used the index
+    db.multiKeys.find( { x : 3 } )  // one document found
+    db.multiKeys.find( { x : 3 } ).explain()  // also used the index
+    db.multiKeys.find( { "x.1" : [ 4, 5 ] } ).explain()
+    // index not used, because it is naive to position.
+    db.multiKeys.find( { "x.1" : 4 } ).explain()  // index not used
+    db.multiKeys.drop()
