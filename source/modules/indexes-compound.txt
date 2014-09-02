@@ -2,7 +2,10 @@
 Compound Indexes
 ================
 
-.. topic:: Upon completing this module students should understand:
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
 
    - What a compound index is.
    - How compound indexes are created.

@@ -1,0 +1,34 @@
+==============
+Hashed Indexes
+==============
+
+Learning Objectives
+===================
+
+Upon completing this module, students should understand:
+
+- The mechanics of a hashed index
+- How to build a hashed index
+- The disadvantage of hashed indexes
+- The advantage of a hashed index (Sharding)
+
+How Hashed Indexes Work
+=======================
+
+- A hashed index maintains entries with hashes of the values of the indexed
+  field.
+- You can build one with db.collection.ensureIndex( { fieldName : "hashed" } )
+
+Disadvantage of Hashed Indexes
+==============================
+
+- A hashed index cannot be used in a range query
+  - e.g. db.collection.find( { a : { $gte : 5 } } )
+
+Advantage of Hashed Indexes
+===========================
+
+- Hashed indexes have one use case: if you create a field with a hashed index,
+  and use that as your Shard key, which we'll discuss in the Sharding section
+  later on, you are much less likely to get "hot" write servers, where all
+  inserts land on the same server.
