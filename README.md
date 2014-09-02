@@ -21,10 +21,10 @@ Objectives
 
   - A easily-navigated instructor guide complete with outline, training content, and instructor notes
   - Figures, slides, exercises, and notes for delivery in class
-  - A workbook to be distributed to students to enable them to easily follow lessons and exercises and take notes.
+  - A workbook to be distributed to students to enable them to easily follow lessons and exercises and take notes
 
-- A single-source solution to the above.
-- Training materials that are easier to maintain and that encourage contributions in the form of pull requests from those who deliver MongoDB training and others in the company.
+- Training materials that are easier to maintain and that encourage contributions in the form of pull requests from those who deliver MongoDB training and others in the company
+- Modular materials for greater flexibility in how trainings are organized
 
 
 
