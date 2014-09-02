@@ -2,30 +2,28 @@
 Multikey Indexes
 ================
 
+
 Learning Objectives
-===================
+-------------------
 
 Upon completing this module, students should understand:
 
 - What a multikey index is
-- When a query will return a document with a multikey index
+- When MongoDB will use a multikey index to satisfy a query
 - How multikey indexes work
 - How multikey indexes handle sorting
 - Some limitations on multikey indexes
 
 
-
-
 Introduction to Multikey Indexes
-================================
+--------------------------------
 
-    - A multikey index is an index on an array.
-    - An index entry is created on each value found in the array.
-    - Multikey indexes can support primitives, documents, or sub-arrays.
-    - There is nothing special that you need to do to create a multikey index.
-      They are created just like standard indexes.
-    - If there is an array as a value for an indexed field, the index will be
-      multikey on that field.
+- A multikey index is an index on an array.
+- An index entry is created on each value found in the array.
+- Multikey indexes can support primitives, documents, or sub-arrays.
+- There is nothing special that you need to do to create a multikey index. 
+- You created them using ``ensureIndex()`` just as you would with an ordinary single-field index.
+- If there is an array as a value for an indexed field, the index will be multikey on that field.
 
 .. include:: /exercises/indexes-multikey-basic.txt
 
@@ -33,39 +31,35 @@ Introduction to Multikey Indexes
 
 .. include:: /exercises/indexes-multikey-arrays-of-arrays.txt
 
-How Multikey Indexes Work
-=========================
 
-    - Each array element is given one entry in the index.
-        - So an array with 17 elements will have 17 entries for the 17
-          elements.
-    - Multikey indexes therefore can take up a great deal more space than
-      standard indexes.
+How Multikey Indexes Work
+-------------------------
+
+- Each array element is given one entry in the index.
+- So an array with 17 elements will have 17 entries -- one for each element.
+- As a result, multikey indexes can take up much more space than standard indexes.
 
 Multikey Indexes and Sorting
-============================
+----------------------------
 
-    - If your sort uses a multikey index, then the document will appear at the
-      first position where a value would place the document. It does not
-      appear multiple times.
-    - This applies to array values generally, and is not a specific property
-      of multikey indexes.
+- If you sort using a multikey index:
+
+  - A document will appear at the first position where a value would place the document. 
+  - It does not appear multiple times.
+- This applies to array values generally.
+- It is not a specific property of multikey indexes.
 
 .. include:: /exercises/indexes-multikey-sorting.txt
 
-Limitations on Multikey Indexes
-===============================
 
-    - You cannot have a compound index that is multikey on two or more fields
-      on a single document.
-        - This is because if a field has N entries on one field, and M entries
-          on the other, you will end up with N * M total entries for a single
-          document.
-        - But you can have a value that is multikey on one XOR the other field
-          on different documents
-    - You cannot have a hashed multikey index.
-    - You cannot have a shard key use a multikey index (we will discuss shard
-      keys later).
-    - The index on the _id field cannot become a multikey index.
+Limitations on Multikey Indexes
+-------------------------------
+
+- You cannot create a compound index using more than one array-valued field.
+- This is because of the combinatorics.
+- E.g., for a compound index on two array-valued fields you would end up with N * M entries for one document.
+- You cannot have a hashed multikey index.
+- You cannot have a shard key use a multikey index (we discuss shard keys in another module).
+- The index on the _id field cannot become a multikey index.
 
 .. include:: /exercises/indexes-multikey-not-on-two-fields.txt

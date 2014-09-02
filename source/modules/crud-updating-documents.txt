@@ -34,13 +34,13 @@ Parameters to ``update()``
 - Keep the following in mind regarding the required parameters for ``update()``
 - The query parameter:
 
-    - Use the same syntax as with ``find()``.
-    - By default only the first document found is updated.
+  - Use the same syntax as with ``find()``.
+  - By default only the first document found is updated.
 
 - The update parameter:
 
-    - Take care to simply modify documents if that is what you intend.
-    - Replacing documents in the entirety is easy to do by mistake.
+  - Take care to simply modify documents if that is what you intend.
+  - Replacing documents in the entirety is easy to do by mistake.
 
 
 .. include:: /exercises/crud-basic-queries-using-update.txt
@@ -125,14 +125,14 @@ Upserts
 - The ``db.collection.save()`` method is syntactic sugar that performs an upsert if the _id is not yet present
 
 
-Upserts, cont'd
----------------
+Upsert Mechanics
+----------------
 
 Syntax:
 
-.. code-block:: javascript
+``db.collection.update( query document, update document, { upsert : true } )``
 
-   db.collection.update( *query document*, *update document*, ``{ upsert : true }`` )
+Mechanics:
 
 - Will update as usual if documents matching the query document exist.
 - The update will be an upsert if no documents match the query document.
@@ -181,13 +181,11 @@ Experiment with the following upserts.
 ``save()``
 ----------
 
-- Syntax:
+Syntax:
 
-  .. code-block:: javascript
+``db.collection.save( document )``
 
-     db.collection.save( *document* )
-
-- Updates the document if the _id is found, inserts it otherwise
+Updates the document if the _id is found, inserts it otherwise
 
 
 Exercise: ``save()``
