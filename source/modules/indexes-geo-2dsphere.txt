@@ -1,0 +1,42 @@
+================
+2dsphere Indexes
+================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- How to create 2dsphere indexes
+- Types of geoJSON objects
+- Pitfalls in geospatial indexes
+- How to make common queries using 2dsphere indexes
+
+Creating a 2dsphere Index
+-------------------------
+
+- You can index one or more 2dsphere fields in an index
+- Creation format is:
+
+.. code-block:: javascript
+
+    db.collection.ensureIndex( { <location field> : "2dsphere" } )
+
+The geoJSON Specification
+-------------------------
+
+- The geoJSON format encodes location data on the earth.
+- The spec is at http://geojson.org/geojson-spec.html
+- MongoDB has incorporated the spec in its 2dsphere indexes.
+- Includes Point, LineString, Polygon, and combinations of these.
+
+geoJSON Considerations
+----------------------
+
+- The coordinates of points are given in degrees (latitude, then longitude)
+- The LineString that joins two points will always be a "geodesic," or great circle arc. It may not go where you think it goes.
+
+  - For instance, the LineString that joins the points [ 90, 5 ] and [ -90, 5 ] does NOT go through the point [ 0, 5 ] but DOES go through the point [ 0, 90 ] (i.e., the North Pole).
+
+

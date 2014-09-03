@@ -1,0 +1,60 @@
+=================================
+Introduction - Geospatial Indexes
+=================================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- Use cases of geospatial indexes
+- The two types of geospatial indexes
+- Other types of queries
+
+
+Introduction to Geospatial Indexes
+----------------------------------
+
+- Geospatial indexes are used to quickly determine geometric relationships on a two-dimensional surface, such as:
+
+  - All points within a circle
+  - Whether or not points fall within a polygon
+  - Whether or not two polygons intersect
+
+
+Flat vs. Spherical Indexes
+--------------------------
+
+- There are two types of geospatial indexes
+
+  - Flat, made with the '2d' index
+  - Two-Dimensional Spherical, made with the '2dsphere' index
+
+    - Takes into account the curvature of the earth
+    - Joins any two points using a geodesic, or "great circle arc"
+
+
+Flat Geospatial Index
+---------------------
+
+- This is a cartesian treatment of coordinate-piars, and is naive to the fact that you're probably describing the surface of a sphere.
+  
+  - This can actually be done to describe any flat surface, not just the earth.
+  - If you use degrees as your unit, this would NOT know that the shortest path from Canada to Siberia is over the North Pole.
+
+- You can use your old Cartesian geometry rules here.
+- Used with legacy coordinate pairs from MongoDB 2.2 or earlier.
+- Recommended if you have legacy coordinate pairs or if you do not plan to use geoJSON objects, such as LineStrings or Polygons, and you are not going to use points far enough North or South to worry about the Earth's curvature.
+
+
+Spherical Geospatial Index
+--------------------------
+
+- Knows about the curvature of the Earth.
+
+  - If you want to plot the shortest path from the Klondike to Siberia, this will know to go over the North Pole.
+
+- Uses geoJSON objects (Points, LineString, and Polygons).
+
+  - Coordinate pairs are converted into geoJSON Points
