@@ -1,0 +1,8 @@
+Creating a 2d Geospatial Index
+------------------------------
+
+Create a 2d index with min values of -20 and max values of plus 20, with 10 bits of precision. Name it "twoD", and its field will be "xy".
+
+.. code-block:: javascript
+
+    db.twoD.ensureIndex( { xy : "2d" }, { min : -20, max : 20, bits : 10 } )

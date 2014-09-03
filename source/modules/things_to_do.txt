@@ -1,0 +1,7 @@
+- document movement
+    - Padding
+    - How powerOfTwoSizes works
+- The costs and benefits of journaling
+- Data files
+- Records
+- Other disk considerations
