@@ -2,26 +2,38 @@
 MongoDB Overview
 ================
 
-.. topic:: Learning objectives 
 
-   Students should understand:
+Learning objectives 
+-------------------
 
-   - The advantages of MongoDB over relational databases 
-   - The advantages of MongoDB over a key/value store.
-   - The difference between vertical and horizontal scaling
-   - The advantages of horizontal scaling
-   - The role of MongoDB in the development stack
+Upon completing this module students should understand:
 
-MongoDB is a document database. Documents are associative arrays like:
+- The advantages of MongoDB over relational databases and key/value stores.
+- The advantages of MongoDB over a key/value store.
+- The difference between vertical and horizontal scaling
+- The advantages of horizontal scaling
+- The role of MongoDB in the development stack
+- The structure of documents in MongoDB
+- Array fields
+- Embedded documents
+- Fundamentals of BSON
+
+
+MongoDB is a Document Database
+------------------------------
+
+Documents are associative arrays like:
 
 - Python dictionaries
 - Ruby hashes 
 - PHP arrays
 - JSON objects
 
-Where relational databases store rows, MongoDB stores documents.
 
-::
+Example
+-------
+
+.. code-block:: javascript
 
    {
        "a" : 3,
@@ -33,71 +45,105 @@ Where relational databases store rows, MongoDB stores documents.
        }
    }   
 
-This is a fundamental departure from relational where rows are flat; documents are hierarchical data structures.
+.. only:: instructor
 
-Another difference is in terms of scalability. With an RDBMS:
+   .. note::
 
-- If you need to support a larger workload, you buy bigger machine. 
-- The problem is, machines are not priced linearly. 
-- The largest machines cost much more than commodity hardware. 
-- If you're successful, you'll find you simply can't buy a large enough a machine to support your workload. 
+      - Where relational databases store rows, MongoDB stores documents.
+      - Documents are hierarchical data structures.
+      - This is a fundamental departure from relational databases where rows are flat.
+
+
+Scalability
+-----------
+
+TODO: REPLACE WITH FIGURE.
 
 .. figure:: /figures/figure_scaling_up.jpg
-    :width: 500px
+   :width: 500px
+
+.. only:: instructor
+
+   .. note::
+
+      Another difference is in terms of scalability. With an RDBMS:
+
+      - If you need to support a larger workload, you buy bigger machine. 
+      - The problem is, machines are not priced linearly. 
+      - The largest machines cost much more than commodity hardware. 
+      - If your application is successful, you may find you simply cannot buy a large enough a machine to support your workload. 
+
     
 
-With MongoDB:
-
-- MongoDB is designed to be horizontally scalable through sharding by simply adding boxes. 
-- When you need more performance, you just buy another machine and add it to your cluster. 
-- MongoDB is highly performant on commodity hardware.	
+Scaling with MongoDB
+--------------------
 
 .. figure:: /figures/figure_scaling_out1.png
     :width: 500px
 
+.. only:: instructor
 
-How does MongoDB achieve horizontal scalability? Let's take a look at the database landscape.
+   .. note::
 
-- We'll plot each technology in terms of scalability and depth of functionality. 
-- At the top left, we have key value stores like memcached. These scale very well, but are lacking features that make developers productive. 
-- At the far right we have traditional RDBMS technologies like Oracle and MySQL. These are full featured, but will not scale easily. 
+      - MongoDB is designed to be horizontally scalable through sharding by simply adding boxes. 
+      - When you need more performance, you just buy another machine and add it to your cluster. 
+      - MongoDB is highly performant on commodity hardware.	
+
+
+Horizontal Scalability in MongoDB
+---------------------------------
 
 .. figure:: /figures/figure_database_landscape.png
     :width: 500px
 
+.. only:: instructor
 
-Why don't RDBMS technologies scale?
+   .. note::
 
-- Two reasons: joins and transactions. 
-- These are difficult to run in parallel.
+      Let's take a look at the database landscape.
+
+      - We'll plot each technology in terms of scalability and depth of functionality. 
+      - At the top left, we have key value stores like memcached. These scale well, but lack features that make developers productive. 
+      - At the far right we have traditional RDBMS technologies. These are full featured, but will not scale easily. 
+
+      Why don't RDBMS technologies scale?
+
+      - Two reasons: joins and transactions. 
+      - These are difficult to run in parallel.
+
+      MongoDB sits at the knee of the curve:
+
+      - It has nearly as much scalability as key value stores.
+      - Gives up only the features that prevent scaling. 
+      - And we have compensating features that mitigate the impact of that design decision.
 
 
-MongoDB sits at the knee of the curve:
-
-- It has nearly as much scalability as key value stores.
-- Gives up only the features that prevent scaling. 
-- And we have compensating features that mitigate the impact of that design decision.
+MongoDB Deployment Models
+-------------------------
 
 .. figure:: /figures/deployment_models.jpg
     :width: 500px
 
-MongoDB supports high availability:
 
-- We're talking about automated failover. 
-- Typical deployments use replica sets of 3 or more nodes.
-- The primary node will accept all writes, and possibly all reads. 
-- Each secondary will read from the oplog (operations log) of another node to keep itself up to date
-- If your primary goes down, the secondaries will automatically hold an election for a new primary. This usually takes just a few seconds.
-- Replica sets provide redundancy and high availability for your data.
-- Replication is not MongoDBs scaling solution. 
-- MongoDB scales using sharding.
+.. only:: instructor
 
+   .. note::
 
-In production, you typically build a fully sharded cluster:
+      MongoDB supports high availability:
 
-- Your data is distributed across several shards.
-- The shards are themselves replica sets. 
-- This provides high availability and redundancy at scale.
+      - We're talking about automated failover. 
+      - Typical deployments use replica sets of 3 or more nodes.
+      - The primary node will accept all writes, and possibly all reads. 
+      - Each secondary will replicate from another node.
+      - If the primary goes down, a secondary will automatically become the new primary.
+      - Replica sets provide redundancy and high availability for your data.
+
+      In production, you typically build a fully sharded cluster:
+
+      - Your data is distributed across several shards.
+      - The shards are themselves replica sets. 
+      - This provides high availability and redundancy at scale.
+
 
 
 

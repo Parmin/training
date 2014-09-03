@@ -4,12 +4,15 @@ Elections in Replica Sets
 
 .. default-domain:: mongodb
 
-.. topic:: Upon completing this module students should understand:
+Learning Objectives
+-------------------
 
-   - That elections enable automated failover in replica sets.
-   - How votes are distributed to members.
-   - What prompts an election.
-   - How a new primary is selected.
+Upon completing this module students should understand:
+
+- That elections enable automated failover in replica sets
+- How votes are distributed to members
+- What prompts an election
+- How a new primary is selected
 
 
 Members and Votes
@@ -18,15 +21,17 @@ Members and Votes
 .. figure:: /figures/replica-set-three-data-centers-votes.png
    :width: 600px
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   - In order for writes to occur, one member of a replica set must be primary.
-   - In the event the current primary becomes unavailable, the remaining members elect a new primary.
-   - Voting members of replica set each get one vote.  
-   - Up to seven members may be voting members. 
-   - This enables MongoDB to ensure elections happen quickly, but enables distribution of votes to different data centers.
-   - In order to be elected primary a server must have a true majority of votes.
-   - A member must have greater than 50% of the votes in order to be elected primary.
+   .. note::
+
+      - In order for writes to occur, one member of a replica set must be primary.
+      - In the event the current primary becomes unavailable, the remaining members elect a new primary.
+      - Voting members of replica set each get one vote.  
+      - Up to seven members may be voting members. 
+      - This enables MongoDB to ensure elections happen quickly, but enables distribution of votes to different data centers.
+      - In order to be elected primary a server must have a true majority of votes.
+      - A member must have greater than 50% of the votes in order to be elected primary.
 
 
 Calling Elections
@@ -35,14 +40,16 @@ Calling Elections
 .. figure:: /images/replica-set-trigger-election.png
    :width: 500px
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   - MongoDB uses a consensus protocol to determine when an election is required.
-   - Essentially, an election will occur if there is no primary.
-   - Upon initiation of a new replica set the members will elect a primary.
-   - If a primary steps down the set will hold an election.
-   - A secondary will call for an election if it does not receive a response to a heartbeat sent to the primary after waiting for 10 seconds.
-   - If other members agree that the primary is not available, an election will be held.  
+   .. note::
+
+      - MongoDB uses a consensus protocol to determine when an election is required.
+      - Essentially, an election will occur if there is no primary.
+      - Upon initiation of a new replica set the members will elect a primary.
+      - If a primary steps down the set will hold an election.
+      - A secondary will call for an election if it does not receive a response to a heartbeat sent to the primary after waiting for 10 seconds.
+      - If other members agree that the primary is not available, an election will be held.  
 
 
 Selecting a New Primary
@@ -63,12 +70,13 @@ Priority
 - Servers with a priority of 0 will never become primary.  
 - Priority values are floating point numbers 0 - 1000 inclusive.
 
-.. topic:: Instructor:
+.. only:: instructor
 
    - Priority is a configuration parameter for replica set members.
    - Use priority to determine where writes will be directed by default.
    - And where writes will be directed in case of failover.
    - More on this in a later module.
+
 
 Optime
 ------
@@ -77,6 +85,7 @@ Optime
 - To be elected primary, a member must have the most recent optime.
 - Only optimes of visible members are compared.
 
+
 Connections
 -----------
 
@@ -84,7 +93,7 @@ Connections
 - Majority refers to the total number of votes.
 - Not the total number of members.
 
-.. topic:: Instructor:
+.. only:: instructor
 
    To be elected primary, a replica set member must be able to connect to a majority of the members in the replica set. 
 

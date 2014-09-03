@@ -2,13 +2,16 @@
 The Oplog: Statement Based Replication
 ======================================
 
-.. topic:: Upon completing this module students should understand:
+Learning Objectives
+-------------------
 
-   - Binary vs. statement-based replication.
-   - How the oplog is used to support replication.
-   - How operations in MongoDB are translated into operations written to the oplog.
-   - Why oplog operations are idempotent.
-   - That the oplog is a capped collection and the implications this holds for syncing members.
+Upon completing this module students should understand:
+
+- Binary vs. statement-based replication.
+- How the oplog is used to support replication.
+- How operations in MongoDB are translated into operations written to the oplog.
+- Why oplog operations are idempotent.
+- That the oplog is a capped collection and the implications this holds for syncing members.
 
 
 Binary Replication
@@ -30,29 +33,35 @@ Tradeoffs
 
 - The good thing is that figuring out where to write, etc. is very efficient.
 - But we must have a byte-for-byte match of our data files on the primary and secondaries.
-- The problem with this is that it couples our replica set members in ways that are inflexible.
-- Some deployments might need to run different versions of MongoDB on different nodes.
+- The problem is that this couples our replica set members in ways that are inflexible.
 
-  - Different versions may write to different file offsets.
-  - E.g., rolling upgrades.
+.. only:: instructor
 
-- We might need to run a compaction or repair on a secondary. In many cases it is necessary to do this independently of other nodes.
+   .. note::
+
+      - Some deployments might need to run different versions of MongoDB on different nodes.
+      - Different versions of MongoDB might write to different file offsets.
+      - We might need to run a compaction or repair on a secondary.
+      - In many cases we want to do these types of maintenance tasks independently of other nodes.
 
 
 Statement-Based Replication
 ---------------------------
 
 - Statement-based replication facilitates greater independence among members of a replica set.
-- Statements representing all activity in a replica set are stored in a capped collection called the "oplog" (operations log).
+- MongoDB stores a statement for every operation in a capped collection called the ``oplog``.
 - Secondaries do not simply apply exactly the operation that was issued on the primary.
 
-For example, suppose the following remove is issued.
+Example
+-------
+
+Suppose the following remove is issued and that it will delete 100 documents.
 
 .. code-block:: javascript
 
    db.foo.remove( { age : 30 } )
 
-Let's say this will delete 100 documents. This remove will be represented in the oplog with records such as the following.
+This will be represented in the oplog with records such as the following.
 
 .. code-block:: javascript
 
@@ -61,36 +70,44 @@ Let's say this will delete 100 documents. This remove will be represented in the
    { "ts" : Timestamp(1407159845, 4), "h" : NumberLong("8178791764238465439"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 447 } }
    { "ts" : Timestamp(1407159845, 3), "h" : NumberLong("-1707391001705528381"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 1033 } }
    { "ts" : Timestamp(1407159845, 2), "h" : NumberLong("-6814297392442406598"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 9971 } }
-   .
-   .
-   .
 
 
 Replication Based on the Oplog
 ------------------------------
 
-- There will be one statement per document affected by each insert, update, or delete.
-- This provides a level of abstraction that enables a lot of independence among the members of a replica set:
+- One statement per document affected by each insert, update, or delete.
+- Provides a level of abstraction that enables independence among the members of a replica set:
 
   - With regard to MongoDB version.
   - In terms of how data is stored on disk.
-  - Provides the freedom to perform maintenance tasks without the need to bring the entire set down.
+  - Freedom to do maintenance without the need to bring the entire set down.
 
-- In the next exercise we will also see how the oplog is design so that each statement is idempotent -- a feature that has several benefits for replication.
+.. only:: instructor
+
+   .. note::
+
+      - In the next exercise, we will see that the oplog is designed so that each statement is idempotent.
+      - This feature has several benefits for independent operation of nodes in replica sets.
 
 
-.. include:: /exercises/replication-oplog.txt
+.. include:: /exercises/replica-set-oplog.txt
 
 
 Operations in the Oplog are Idempotent
 --------------------------------------
 
 - Each operation in the oplog is idempotent.
-- Whether applied once or multiple times to the target dataset, each operation in the oplog produces the same results.
-- This is necesary if you want to be able to copy data while simultaneously accepting writes, e.g., when:
+- Whether applied once or multiple times it produces the same result.
+- Necessary if you want to be able to copy data while simultaneously accepting writes.
 
-  - Doing an initial sync for a new replica set member.
-  - When a member rejoins a replica set after a network partition a member might end up writing operations it had already received prior to the partition.
+.. only:: instructor
+
+   .. notes::
+      
+      We need to be able to copy while accepting writes when:
+
+      - Doing an initial sync for a new replica set member.
+      - When a member rejoins a replica set after a network partition a member might end up writing operations it had already received prior to the partition.
 
 
 The Oplog Window
@@ -99,10 +116,19 @@ The Oplog Window
 - Oplogs are capped collections.
 - Capped collections are fixed-size.
 - They guarantee presevation of insertion order.
-- And support high-throughput operations.
-- Like circular buffers, once a collection fills its allocated space, it makes room for new documents by overwriting the oldest documents in the collection.
-- It is important that the oplog for your replica set is sized to account for latency among members.
-- The default size oplog is usually sufficient, but you want to make sure that your oplog is large enough:
+- They support high-throughput operations.
+- Like circular buffers, once a collection fills its allocated space:
 
-  - So that the op window is large enough to support replication
+  - It makes room for new documents.
+  - By overwriting the oldest documents in the collection.
+
+
+Sizing the Oplog
+----------------
+- The oplog should be sized to account for latency among members.
+- The default size oplog is usually sufficient.
+- But you want to make sure that your oplog is large enough:
+
+  - So that the oplog window is large enough to support replication
   - To give you a large enough history for any diagnostics you might wish to run.
+

@@ -2,11 +2,14 @@
 Introduction to Replica Sets
 ============================
 
-.. topic:: Upon completing this module students should understand:
+Learning Objectives
+-------------------
 
-   - Striking the right balance between cost and redundancy.
-   - The many scenarios replication addresses and why.
-   - How to avoid downtime and data loss using replication.
+Upon completing this module students should understand:
+
+- Striking the right balance between cost and redundancy
+- The many scenarios replication addresses and why
+- How to avoid downtime and data loss using replication
 
 
 Use Cases for Replication
@@ -19,19 +22,25 @@ Use Cases for Replication
 
 High Availability
 -----------------
+
 - Data still available following server failure.
 - This is achieved through automatic failover.
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   If we lose a server our database system can still service reads and writes without manual intervention.
+   .. note::
+
+      If we lose a server:
+
+      - Our database system can still service reads and writes.
+      - Without manual intervention.
 
 
 Disaster Recovery
 -----------------
 
-- Duplicate data across multiple database servers.
-- Restore data from another node following:
+- We duplicate data across multiple database servers.
+- Can restore data from another node following:
 
   - Hardware failure
   - Service interruption
@@ -40,16 +49,19 @@ Disaster Recovery
 Functional Segregation
 ----------------------
 
+There are opportunities to exploit the topology of a replica set.
+
 - Based on location
 - For backups
 - For system tasks, etc.
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   - There are opportunities to exploit the topology of a replica set.
-   - You may direct particular queries at specific members to increase overall performance.
-   - Backup data from secondaries to avoid performance penalties on the primary.
-   - Dedicate secondaries for other purposes such as analytics jobs.
+   .. note::
+
+      - You may direct particular queries at specific members to increase overall performance.
+      - Backup data from secondaries to avoid performance penalties on the primary.
+      - Dedicate secondaries for other purposes such as analytics jobs.
 
 
 Replication is Not Designed for Scaling
@@ -66,15 +78,17 @@ Replica Sets
 .. figure:: /images/replica-set-read-write-operations-primary.png
    :width: 500px
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   - MongoDB implements replication in the form of replica sets.
-   - A replica set consists of one or more mongod servers.
-   - There is at most one mongod that is "primary".
-   - There are usually two or more other mongods that are secondaries.
-   - Secondaries may become primary if there is a failover event of some kind.
-   - Failover is automatic.
-   - The secondaries elect a new primary automatically.
+   .. note::
+
+      - MongoDB implements replication in the form of replica sets.
+      - A replica set consists of one or more mongod servers.
+      - There is at most one mongod that is "primary".
+      - There are usually two or more other mongods that are secondaries.
+      - Secondaries may become primary if there is a failover event of some kind.
+      - Failover is automatic.
+      - The secondaries elect a new primary automatically.
 
 
 
@@ -85,13 +99,16 @@ Primary Server
 - MongoDB maintains client libraries (drivers) in a number of languages.
 - MongoDB drivers are ``replica set aware``.
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   If the primary for a replica set changes from one node to another the driver will automatically route writes to the correct mongod.
+   .. note::
+
+      If the primary for a replica set changes from one node to another the driver will automatically route writes to the correct mongod.
 
 
 Secondaries
 -----------
+
 - A secondary replicates operations from another node in the replica set.
 - Secondaries may replicate from the primary.
 - Secondaries may also replicate from other secondaries.
@@ -104,12 +121,13 @@ Heartbeats
 .. figure:: /images/replica-set-heartbeat.png
     :width: 500px
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   - The members of a replica set use heartbeats to determine if they can reach every other node.
-   - The heartbeats are sent at short intervals.
-   - If a node is unreachable this may indicate server failure or a network partition.
+   .. note::
 
+      - The members of a replica set use heartbeats to determine if they can reach every other node.
+      - The heartbeats are sent at short intervals.
+      - If a node is unreachable this may indicate server failure or a network partition.
 
 
 The Oplog

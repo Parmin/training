@@ -1,51 +1,83 @@
+=======
 Warm Up
--------
+=======
 
 .. toctree::
    :titlesonly:
 
-.. topic:: Learning objectives
 
-    - Students and instructor get familiar with one another.
-    - Get used to your surroundings.
-    - Demonstrate that you start the class on time. 
+Introductions
+-------------
 
-Introduce yourself and tell the students a little of your story:
+- Who am I?
+- My role at MongoDB
+- My background and prior experience
 
-- What is your primary role? 
-- What is your background and prior experience?
+.. only:: instructor
 
-Take attendance:
+   .. note::
 
-- Take attendance by asking the students to go around the room and state their names.
-- Make sure the names you have match the roster of attendees provided by the training team.
-- Get a sense of who the students are.
-- Ask about what roles the students play in their organization. 
-  - Note roles where provided on the attendance sheet. This helps in better understanding what leads the students in the classroom provide.
-- Ask about software stacks used:
-  - With MongoDB
-  - In general
-  - Note this informaton as well.
+      - What is your primary role? 
+      - What is your background and prior experience?
 
-Survey the students a little with the following questions:
 
-- Show of hands, who has never used MongoDB?
+Getting to Know You
+-------------------
+
+- Who are you?
+- What role do you play in your organization?
+- What is your background?
+- Do you have prior experience with MongoDB?
+
+.. only:: instructor
+
+   .. note::
+
+      - Ask students to go around the room and state their names.
+      - Make sure the names match the roster of attendees provided by the training team.
+      - Ask about what roles the students play in their organization. 
+
+        - Note roles where provided on the attendance sheet. 
+        - This helps us better understand the needs in the room and where follow up may be needed from the field.
+
+      - Ask about software stacks used:
+
+        - With MongoDB and in general.
+        - Note this informaton as well.
+
+
+MongoDB Experience
+------------------
+
+- Who has never used MongoDB?
 - Who has some experience?
 - Who has worked with production MongoDB deployments?
-- Who is more of a dev?
+- Who is more of a developer?
 - Who is more of operations person?
 
-Origin of MongoDB:
 
-- MongoDB was initially created in 2008 as part of a hosted application stack built by a company called 10gen. 
-- The original idea for 10gen didn’t take off, so the founders looked at what they had and asked themselves what was popular. 
+10gen
+-----
+
+- MongoDB was initially created in 2008 as part of a hosted application stack.
+- The company was originally called 10gen.
+- The original idea for 10gen didn’t take off.
+- The founders looked at what they had and asked themselves what was popular. 
 - What people really liked most was the data access layer.
-- Originally, this layer wasn't meant to be public facing, so there wasn't a real interface. 
-- The CTO said OK, we’re going to be a database company, and we're going to build interfaces. 
-- CEO & CTO have started a couple of startups, most famously ShopWiki, the Internet shopping search engine, Gilt, and Music Nation.
-- With lots of experience building applications, the designers of MongoDB had started with relational databases.
-- Over time they observed the same pattern:
-  - The user base grows
-  - The associated body of data grows
-  - Eventually the application outgrows the database and keeping pace with performance requirements becomes extremely difficult.
+- This layer wasn't meant to be public facing, so there wasn't a real interface. 
+
+
+Origin of MongoDB
+-----------------
+
+- Eliot Horowitz (CTO) said, " OK, we’re going to be a database company."
+- "We are going to build interfaces."
+- Dwight Merriman and Eliot Horowitz have other startups to their credit: DoubleClick, ShopWiki, Gilt, and Music Nation.
+- Through their experiences with these companies they observed the same pattern:
+
+  - The user base grows.
+  - The associated body of data grows.
+  - Eventually the application outgrows the database.
+  - Keeping pace with performance requirements becomes difficult.
+
 - MongoDB is designed to scale with modern application development in mind.
