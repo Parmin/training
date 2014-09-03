@@ -50,7 +50,7 @@ Yet to be written are:
 Test-Driving Built Materials
 ----------------------------
 
-Download the [instructor package]("https://s3.amazonaws.com/edu-static.mongodb.com/collateral/MongoDB_Uni_OnDemandCoach_Banner.jpg") and unzip.
+Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) and extract.
 
 This package contains the instructor guide and presentation slides.
 
