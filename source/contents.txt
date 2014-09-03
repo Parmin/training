@@ -1,10 +1,10 @@
-================================================
-MongoDB University: MongoDB Fundamentals Modules
-================================================
+===================================
+MongoDB Essentials Training Modules
+===================================
 
 .. default-domain:: mongodb
 
-This is a TOC of modules to be used in MongoDB developer, DBA, and essentials training.
+These are training modules for MongoDB 2-Day Developer, 2-Day Administrator, and 3-Day Essentials courses.
 
 .. include:: /includes/toc/dfn-list-contents.rst
 
