@@ -31,14 +31,14 @@ Status
 
 Currently, there are complete drafts for the following sections:
 
-- Introductioin
+- Introduction
 - CRUD
 - Aggregation
+- Replica Sets
 
 There are substantial partial drafts for:
 
 - Indexes
-- Replica Sets
 
 Yet to be written are:
 
