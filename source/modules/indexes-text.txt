@@ -1,5 +1,5 @@
 ==================
-Text Indices (TBD)
+Text Indexes (TBD)
 ==================
 
 .. topic:: Upon completing this module students should understand:

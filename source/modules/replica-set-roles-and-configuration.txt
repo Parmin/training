@@ -7,10 +7,10 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-   - The use of priority to preference certain members as primaries.
-   - Hidden members
-   - The use of hidden secondaries for data analytics and other purposes.
-   - The use of slaveDelay to protect against operator error.
+- The use of priority to preference certain members as primaries.
+- Hidden members
+- The use of hidden secondaries for data analytics and other purposes.
+- The use of slaveDelay to protect against operator error.
 
 
 Example: A Five-Member Replica Set Configuration 

@@ -2,61 +2,146 @@
 Exercise: Setting up a Replica Set
 ==================================
 
-We’re now going to create a Replica Set.
-Reference: http://docs.mongodb.org/reference/replica-configuration/
-Reference: http://docs.mongodb.org/reference/method 
-mkdir /data/rs1
-mkdir /data/rs2
-mkdir /data/rs3
-mongod --replSet myReplSet --logpath “1.log” --dbpath /data/rs1 --port 27017 --oplogSize 200
-mongod --replSet myReplSet --logpath “2.log” --dbpath /data/rs2 --port 27018 --oplogSize 200
-mongod --replSet myReplSet --logpath “3.log” --dbpath /data/rs3 --port 27019 --oplogSize 200
+
+Create Data Directories
+-----------------------
+
+Since we will be running all nodes on our local machines, make sure each node has its own data directory.
+
+.. code-block:: bash
+
+   mkdir /data/rs1
+   mkdir /data/rs2
+   mkdir /data/rs3
 
 
-At this point, we’re up to 3 mongod’s, all with the same replSet, but they don’t know this yet. In production, we’d bring up these three servers in three boxes. They’re not yet aware of each other, but that’s fine.
+Launch Each Member
+------------------
 
-SHOW
-mongo --port 27017
-var config = { _id : "mySet",  members: [ {_id : 0 , host: "localhost:27017" } , { _id : 1 , host : "localhost:27018" } , { _id : 2 , host : "localhost:27019" } ] }
-rs.initiate( config )
-rs.status()
-Do this several times, until you have a primary and 2 secondaries.
-exit
-mongo --port 27018
-db.test.insert({a: 1})
-Not primary!!
-mongo --port 27017
-db.test.insert({a: 1})
-db.test.count()
-1
-exit
-mongo --port 27018
-db.test.find()
-error!
-rs.slaveOk()
-db.test.find()
-There it is!!
-db.getReplicationInfo()
-Show them the oplog
-use local
-db.oplog.rs.find()
-there it is!
-exit
-mongo --port 27019
-config = rs.conf()
-config[1][“priority”] = 2
-Have I changed my config? Not yet!
-rs.reconfig(config)
-Notice that the primary is now secondary!
-And port 27018 is now primary!
-Now, to kill the primary
-ps ax | grep mongod
-Find 27018 and kill it!
-Now, look for the primary (27017 or 27019). There it is! it’s taken over!!
+.. code-block:: bash
 
-Up until this point, we’ve only talked about primaries and secondaries in our replica sets. However, there are a number of other types (or modifications to these member types) that we can make use of.
+   mongod --replSet myReplSet --logpath “1.log” --dbpath /data/rs1 --port 27017 --oplogSize 200
 
-A full list can be found here:
-http://docs.mongodb.org/manual/reference/replica-states/
+   mongod --replSet myReplSet --logpath “2.log” --dbpath /data/rs2 --port 27018 --oplogSize 200
 
-But we’ve written a bit about the most common situations, below.
+   mongod --replSet myReplSet --logpath “3.log” --dbpath /data/rs3 --port 27019 --oplogSize 200
+
+
+Status
+------
+
+- At this point, we have 3 mongods running.
+- They were all launched with the same ``replSet`` parameter of "myReplSet".
+- Despite this, the members are not aware of each other yet.
+- This is fine for now.
+
+.. only:: instructor
+
+   .. note::
+
+      - In production, each member would run on a different machine.
+      - To simplify, we run all members on localhost.
+      - The same configuration process is used for this deployment as for one that is distributed across multiple machines.
+
+
+Configure the Replica Set
+-------------------------
+
+.. code-block:: bash
+
+   mongo --port 27017
+
+   var config = { _id : "mySet",  members: [ {_id : 0 , host: "localhost:27017" } , { _id : 1 , host : "localhost:27018" } , { _id : 2 , host : "localhost:27019" } ] }
+
+   rs.initiate( config )
+
+   # Run rs.status() until you see that you have a primary and 2 secondaries.
+   rs.status()
+
+   exit
+
+
+Write to the Primary
+--------------------
+
+Connect to the primary by issuing a command such as the following.
+
+.. code-block:: bash
+
+   mongo --port 27017
+
+Once you have found the primary, insert a document.
+
+.. code-block:: javascript
+
+   db.testcol.insert( { a : 1 } )
+   db.testcol.count()
+
+Once the insert succeeds exit the mongo shell.
+
+
+Read from a Secondary
+---------------------
+
+Connect to one of the secondaries. E.g.:
+
+.. code-block:: bash
+
+   mongo --port 27018
+
+Read from the secondary
+
+.. code-block:: javascript
+
+   rs.slaveOk()
+
+   db.testcol.find()
+
+
+Review the Oplog
+----------------
+
+.. code-block:: javascript
+
+   use local
+
+   db.oplog.rs.find()
+
+   exit
+
+
+Change the Priority of a Secondary
+----------------------------------
+
+Connect to one of the secondaries. E.g.,
+
+.. code-block:: bash
+
+   mongo --port 27019
+
+Raise the priority of this member.
+
+.. code-block:: javascript
+
+   config = rs.conf()
+
+   config[1][“priority”] = 2
+
+   rs.reconfig(config)
+
+.. only:: instructor
+
+   .. note::
+
+      - Note that ``config[1][“priority”] = 2`` does not actually change the priority.
+      - ``rs.reconfig(config)`` does.
+
+This secondary will now become a primary. Wait a few seconds and check.
+
+
+Further Reading
+---------------
+
+- :manual:`Replica Configuration</reference/replica-configuration/>`
+- :manual:`Replica States</reference/replica-states/>`
+

@@ -11,10 +11,12 @@ Which secondary will become the new primary?
 .. figure:: /figures/replica-set-1dc-primary-down.png
    :width: 600px
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   - It depends on the priorities of the secondaries.
-   - And on the optime
+   .. note::
+
+      - It depends on the priorities of the secondaries.
+      - And on the optime
 
 
 Scenario 2
@@ -25,10 +27,12 @@ Which member will become primary following this type of network partition?
 .. figure:: /figures/replica-set-3nodes-2dc-network-partition.png
    :width: 600px
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   - The current primary is likely to remain primary.
-   - It probably has the highest priority.
+   .. note::
+
+      - The current primary is likely to remain primary.
+      - It probably has the highest priority.
 
 
 Scenario 3
@@ -39,15 +43,17 @@ What happens following this network partition?
 .. figure:: /figures/replica-set-4nodes-2dc-cant-elect.png
    :width: 600px
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   - We enter a state with no primary. 
-   - Each side of the network partition has only 2 votes (not a majority).
-   - All the servers assume secondary status.  
-   - This is avoidable.
-   - One solution is to add another member to the replica set.  
-   - If another server can not be provisioned, MongoDB has a special alternative called an arbiter that requires minimal resources. 
-   - An arbiter is a mongod that has no data directory and only serves the purpose of voting.  
+   .. note::
+
+      - We enter a state with no primary. 
+      - Each side of the network partition has only 2 votes (not a majority).
+      - All the servers assume secondary status.  
+      - This is avoidable.
+      - One solution is to add another member to the replica set.  
+      - If another server can not be provisioned, MongoDB has a special alternative called an arbiter that requires minimal resources. 
+      - An arbiter is a mongod that has no data directory and only serves the purpose of voting.  
 
 
 Scenario 4
@@ -58,10 +64,12 @@ The following is similar to Scenario 3, but with the addition of an arbiter in D
 .. figure:: /figures/replica-set-4nodes-1arbiter-2datacenters.png
    :width: 600px
 
-.. topic:: Instructor:
+.. only:: instructor
 
-   - The current primary is likely to remain primary.
-   - The arbiter helps ensure that the primary can reach a majority of the replica set.
+   .. note::
+
+      - The current primary is likely to remain primary.
+      - The arbiter helps ensure that the primary can reach a majority of the replica set.
    
 
 

@@ -17,8 +17,4 @@ description: |
 file: /modules/nav/replica-sets
 description: | 
   Replication in MongoDB
----
-file: /modules/nav/exercises
-description: | 
-  All exercises in this curriculum.
 ...

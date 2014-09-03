@@ -1,14 +1,21 @@
-===============
-Read Preference
-===============
+=====================
+Read Preference (TBD)
+=====================
 
 What is Read Preference?
 ------------------------
 
 - Read preference allows you to specify the nodes in a replica set to which a client should direct reads.
 - By default, clients direct reads to the primary.
-- There are some situations in which a client may want to read from a specific secondary or a specific type of secondary.
-- You should only read from a secondary if your application can tolerate data that might be stale (all writes might not have replicated).
+- There are some situations in which a client may want to read from:
+
+  - A specific secondary 
+  - A specific type of secondary
+
+- You should only read from a secondary if:
+
+  - Your application can tolerate data that might be stale 
+  - All writes might not have replicated
 
 
 Use Cases
