@@ -11,7 +11,7 @@ This project is a comprehensive revision of MongoDB training materials used for 
 - MongoDB Developer Training
 - MongoDB Admin Training
 
-**These materials are not yet ready for use. They are drafts requiring further refinement and corrections.** Pull requests and email to [training@mongodb.com](mailto:training@mongodb.com) are welcome.
+**These materials are not yet ready for use. They are drafts requiring further refinement and corrections.** Please fork and create pull requests or add comments to submit feedback. 
 
 
 Objectives
