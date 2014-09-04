@@ -13,7 +13,6 @@ Upon completing this module, students should understand:
 - Pitfalls in geospatial indexes
 - How to make common queries using 2dsphere indexes
 
-
 Creating a 2dsphere Index
 -------------------------
 
@@ -26,7 +25,6 @@ Creating a 2dsphere Index
 
 .. include:: /exercises/indexes-geo-2dsphere-creation.txt
 
-
 The geoJSON Specification
 -------------------------
 
@@ -34,7 +32,6 @@ The geoJSON Specification
 - The spec is at http://geojson.org/geojson-spec.html
 - MongoDB has incorporated the spec in its 2dsphere indexes.
 - Includes Point, LineString, Polygon, and combinations of these.
-
 
 geoJSON Considerations
 ----------------------

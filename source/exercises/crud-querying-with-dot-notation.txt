@@ -33,6 +33,5 @@ Experiment with the following queries.
    db.buildings.find( { "location.street" : "7th Ave" } )  
 
    // One match
-   db.buildings.find( { "location.street" : "7th Ave", "location.floor" : 7 } )
-
-
+   db.buildings.find( { "location.street" : "7th Ave", 
+                        "location.floor" : 7 } )

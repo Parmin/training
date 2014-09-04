@@ -1,17 +1,10 @@
 :orphan:
 
-========================================
-MongoDB University -- In Person Training
-========================================
+===================================
+MongoDB Essentials Training Modules
+===================================
 
 .. default-domain:: mongodb
 
 .. include:: /includes/toc/dfn-list-contents.rst
 
-You can also download the training resources in other formats:
-
-- `Slides <training-slides.tar.gz>`_
-
-- `HTML Archive <training.tar.gz>`_
-
-- `PDF <training-manual.pdf>`_

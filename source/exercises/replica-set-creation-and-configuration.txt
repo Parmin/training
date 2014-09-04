@@ -125,7 +125,7 @@ Raise the priority of this member.
 
    config = rs.conf()
 
-   config[1][“priority”] = 2
+   config[1]["priority"] = 2
 
    rs.reconfig(config)
 
@@ -133,7 +133,7 @@ Raise the priority of this member.
 
    .. note::
 
-      - Note that ``config[1][“priority”] = 2`` does not actually change the priority.
+      - Note that ``config[1]["priority"] = 2`` does not actually change the priority.
       - ``rs.reconfig(config)`` does.
 
 This secondary will now become a primary. Wait a few seconds and check.

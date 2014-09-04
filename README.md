@@ -1,9 +1,6 @@
 MongoDB Training
 ================
 
-DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT
-
-
 Introduction
 ------------
 
@@ -13,6 +10,9 @@ This project is a comprehensive revision of MongoDB training materials used for 
 - MongoDB Developer Training
 - MongoDB Admin Training
 
+**These materials are not yet ready for use. They are drafts requiring further refinement and corrections.** Please fork and create pull requests or add comments to submit feedback. 
+
+The build environment has many dependencies. We recommend you **download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) (last built 3 September 2014)** which contains the most recent build of all materials. See the Test-Driving section below for instructions on using the materials.
 
 Objectives
 ----------
@@ -31,28 +31,54 @@ Status
 
 Currently, there are complete drafts for the following sections:
 
-- Introductioin
+- Introduction
 - CRUD
 - Aggregation
-
-There are substantial partial drafts for:
-
-- Indexes
 - Replica Sets
 
-Yet to be written are:
+There is a substantial partial draft for:
+
+- Indexes
+
+We have rough copy for (not yet included here):
 
 - Data Modeling
 - Sharding
-- Security
+
+and still need to write the Security section.
 
 
 Test-Driving Built Materials
 ----------------------------
 
-Download the [instructor package]("https://s3.amazonaws.com/edu-static.mongodb.com/collateral/MongoDB_Uni_OnDemandCoach_Banner.jpg") and unzip.
+**Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) (last built 3 September 2014)**. This package contains the instructor guide and presentation slides.
 
-This package contains the instructor guide and presentation slides.
+Extract the files in the tarball and open the contents.html file in a web browser.
 
-See:
-![Alt text](/path/to/img.jpg)
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png)
+
+The nav on the left enables instructors to browse the modules in the instructor guide. Each subsection is designed to be one slide's worth of material. 
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide.png)
+
+For presentation to students, we have deployed a version of these materials in the form of slides. To see the deck for a given module, navigate to that module in the instructor guide and click the slides link at the bottom of the navigation pane.
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide_click_slides.png)
+
+This will bring up another browser window containing html-based slides. These decks respond to keyboard events such as arrow keys and the space bar in the same way as Microsoft Powerpoint. **Styling is not finalized on slides, though what we currently have isn't bad.**
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/module_slides.png)
+
+Returning to the instuctor guide, note that many subsections (i.e. slides) contain notes to the instructor. These are identified by a green box labeled "NOTE:".
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_note_in_guide.png)
+
+These are also available as presenter notes in the presenter's console for slides. **To activate the presenter's console, type the 'c' character while viewing a slide deck.** The slides window must have focus. Instructor notes, if they exist, appear below a slide in the presenter console.
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console.png)
+
+You may advance slides in either the presenter console or the slide deck itself. They are synced.
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console_with_corresponding_slide.png)
+
+Please explore the instructor guide, slides, and presenter's console. We will continue to update the instructor package with new materials as they are ready and will note here the date the most recent instructor package was built.

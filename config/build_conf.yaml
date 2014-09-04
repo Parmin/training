@@ -43,6 +43,9 @@ assets:
   - branch: master
     path: build/docs-mongodb
     repository: https://github.com/mongodb/docs.git
+  - branch: training
+    path: source/figures
+    repository: https://github.com/mongodb/docs-assets.git
 paths:
   output: 'build'
   source: 'source'

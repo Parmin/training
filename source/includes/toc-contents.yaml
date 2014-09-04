@@ -12,7 +12,7 @@ description: |
 ---
 file: /modules/nav/aggregation
 description: |
-  The aggregation framework
+  The MongoDB aggregation framework
 ---
 file: /modules/nav/replica-sets
 description: | 
