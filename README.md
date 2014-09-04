@@ -72,7 +72,7 @@ Returning to the instuctor guide, note that many subsections (i.e. slides) conta
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_note_in_guide.png)
 
-These are also available as presenter notes in the presenter's console for slides. **To activate the presenter's console, type the 'c' character while viewing a slide deck. The slides window must have focus.
+These are also available as presenter notes in the presenter's console for slides. **To activate the presenter's console, type the 'c' character while viewing a slide deck.** The slides window must have focus.
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console.png)
 
