@@ -1,0 +1,9 @@
+Exercise: Querying for Two Words
+--------------------------------
+
+Find all documents in the montyPython collection with either the word 'coconut' or 'swallow'.
+
+.. code-block:: javascript
+
+    db.collection.find( { $text : { $search : "coconut swallow" } } )
+    // 4 documents, 3 of which contain only one of the two words.

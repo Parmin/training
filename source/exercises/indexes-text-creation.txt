@@ -1,0 +1,8 @@
+Exercise: Creating a Text Index
+-------------------------------
+
+Create a text index on the "dialog" field of the montyPython collection.
+
+.. code-block:: javascript
+
+    db.montyPython.ensureIndex( { dialog : "text" } )

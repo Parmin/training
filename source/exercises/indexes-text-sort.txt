@@ -1,0 +1,19 @@
+Exercise: Sorting Text Documents
+--------------------------------
+
+Find all documents in the montyPython collection with either the word 'coconut' or 'swallow', and sort by the text ranking.
+
+.. code-block:: javascript
+
+    db.montyPython.find(
+    {
+        $text:
+        {
+            $search : "coconut swallow"
+        }
+    }, {
+        score :
+        {
+            $meta : "textScore"
+        }
+    } ).sort( { score: { $meta: "textScore" } } )

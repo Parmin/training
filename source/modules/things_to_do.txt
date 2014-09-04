@@ -5,3 +5,5 @@
 - Data files
 - Records
 - Other disk considerations
+
+- .explain()

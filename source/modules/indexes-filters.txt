@@ -1,0 +1,39 @@
+==========================
+Index Filters (new in 2.6)
+==========================
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- How Index Filters work.
+- When Index Filters apply.
+- their priority vis-a-vis Query Plans and hints.
+
+Index Filters - Overview
+------------------------
+
+- An index filter is a little bit like a hint.
+
+  - It specifies a set of indexes to use, instead of specifyingjust one index to use.
+
+- Lets you specify which indexes
+
+Index Filters - Mechanics
+-------------------------
+
+- You give the database a query shape and an index filter.
+
+  - This specifies those indices that the query plan can legitimately try.
+  - Those outside the plan don’t get tried.
+
+- If an index filter exists, it has a higher priority than a hint().
+- Index filters exist until the server process dies, and do not persist. 
+
+Index Filters - Usage
+---------------------
+
+- Since filters are accessed through db.runCommand, you won’t remember how to use them.
+- Look them up in the documentation if you need to put them in place.
+- Because they override .hint(), use index filters sparingly. 
