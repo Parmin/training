@@ -44,7 +44,8 @@ We have rough copy for (not yet included here):
 
 - Data Modeling
 - Sharding
-- Security
+
+and still need to write the Security section.
 
 
 Test-Driving Built Materials
