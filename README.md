@@ -55,4 +55,4 @@ Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.co
 This package contains the instructor guide and presentation slides.
 
 See:
-![Alt text](/path/to/img.jpg)
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png)
