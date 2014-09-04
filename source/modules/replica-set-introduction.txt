@@ -76,7 +76,8 @@ Replica Sets
 ------------
 
 .. figure:: /images/replica-set-read-write-operations-primary.png
-   :width: 500px
+   :width: 600px
+   :align: center
 
 .. only:: instructor
 
@@ -119,7 +120,8 @@ Heartbeats
 ----------
 
 .. figure:: /images/replica-set-heartbeat.png
-    :width: 500px
+   :width: 600px
+   :align: center
 
 .. only:: instructor
 
