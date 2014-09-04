@@ -72,13 +72,12 @@ Returning to the instuctor guide, note that many subsections (i.e. slides) conta
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_note_in_guide.png)
 
-These are also available as presenter notes in the presenter's console for slides. **To activate the presenter's console, type the 'c' character while viewing a slide deck.** The slides window must have focus.
+These are also available as presenter notes in the presenter's console for slides. **To activate the presenter's console, type the 'c' character while viewing a slide deck.** The slides window must have focus. Instructor notes, if they exist, appear below a slide in the presenter console.
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console.png)
-
-Note that instructor notes, if they exist, appear below a slide in the presenter console.
 
 You may advance slides in either the presenter console or the slide deck itself. They are synced.
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console_with_corresponding_slide.png)
 
+Please explore the instructor guide, slides, and presenter's console.
