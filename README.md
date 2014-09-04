@@ -36,11 +36,11 @@ Currently, there are complete drafts for the following sections:
 - Aggregation
 - Replica Sets
 
-There are substantial partial drafts for:
+There is a substantial partial draft for:
 
 - Indexes
 
-Yet to be written are:
+We have rough copy for (not yet included here):
 
 - Data Modeling
 - Sharding
