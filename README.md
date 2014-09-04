@@ -67,3 +67,18 @@ For presentation to students, we have deployed a version of these materials in t
 This will bring up another browser window containing html-based slides. These decks respond to keyboard events such as arrow keys and the space bar in the same way as Microsoft Powerpoint. **Styling is not finalized on slides, though what we currently have isn't bad.**
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/module_slides.png)
+
+Returning to the instuctor guide, note that many subsections (i.e. slides) contain notes to the instructor.
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_note_in_guide.png)
+
+These are also available as presenter notes in the presenter's console for slides. **To activate the presenter's console, type the 'c' character while viewing a slide deck. The slides window must have focus.
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console.png)
+
+Note that instructor notes, if they exist, appear below a slide in the presenter console.
+
+You may advance slides in either the presenter console or the slide deck itself. They are synced.
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console_with_corresponding_slide.png)
+
