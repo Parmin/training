@@ -68,7 +68,7 @@ This will bring up another browser window containing html-based slides. These de
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/module_slides.png)
 
-Returning to the instuctor guide, note that many subsections (i.e. slides) contain notes to the instructor.
+Returning to the instuctor guide, note that many subsections (i.e. slides) contain notes to the instructor. These are identified by a green box labeled "NOTE:".
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_note_in_guide.png)
 
