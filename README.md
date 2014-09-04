@@ -50,7 +50,7 @@ Yet to be written are:
 Test-Driving Built Materials
 ----------------------------
 
-Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz). This package contains the instructor guide and presentation slides.
+Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) (last built 3 September 2014). This package contains the instructor guide and presentation slides.
 
 Extract the files in the tarball and open the contents.html file in a web browser.
 
@@ -80,4 +80,4 @@ You may advance slides in either the presenter console or the slide deck itself.
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console_with_corresponding_slide.png)
 
-Please explore the instructor guide, slides, and presenter's console.
+Please explore the instructor guide, slides, and presenter's console. We will continue to update the instructor package with new materials as they are ready and will note here the date the most recent instructor package was built.
