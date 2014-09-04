@@ -13,6 +13,7 @@ Upon completing this module, students should understand:
 - Pitfalls in geospatial indexes
 - How to make common queries using 2dsphere indexes
 
+
 Creating a 2dsphere Index
 -------------------------
 
@@ -23,6 +24,9 @@ Creating a 2dsphere Index
 
     db.collection.ensureIndex( { <location field> : "2dsphere" } )
 
+.. include:: /exercises/indexes-geo-2dsphere-creation.txt
+
+
 The geoJSON Specification
 -------------------------
 
@@ -31,6 +35,7 @@ The geoJSON Specification
 - MongoDB has incorporated the spec in its 2dsphere indexes.
 - Includes Point, LineString, Polygon, and combinations of these.
 
+
 geoJSON Considerations
 ----------------------
 
@@ -38,5 +43,48 @@ geoJSON Considerations
 - The LineString that joins two points will always be a "geodesic," or great circle arc. It may not go where you think it goes.
 
   - For instance, the LineString that joins the points [ 90, 5 ] and [ -90, 5 ] does NOT go through the point [ 0, 5 ] but DOES go through the point [ 0, 90 ] (i.e., the North Pole).
+  - This will often not be an issue, as short lines (around a few hundred kilometers or less) will go about where you'd expect them to.
+  - Polygons are made of a closed set of LineStrings.
 
 
+Types of 2dsphere Objects
+-------------------------
+
+- Point: A single point on the globe
+  
+  - Format: { <field_name> : { type : "Point", coordinates : [ <longitude>, <latitude> ] } }
+  - If you input a legacy coordinate pair, it will be treated as a Point type by the 2dsphere index
+
+- LineString: A geodesic line that is defined by its two end Points.
+
+  - Format: { <field_name> : { type : "LineString", coordinates : [ [ <longitude1>, <latitude1> ], [ <longitude2>, <latitude2> ] ] } } 
+
+- Polygon: A shape defined by the line strings of its edges, and holes defined by other polygons
+ 
+  - Simple Polygon Format: { <field_name> : { type : "Polygon", coordinates [ [ [ <Point1 coordinate pair> ], [ <Point2 coordinate pair> ], ... [ <Point1 coordinate pair again> ] ] ] } } 
+  - Polygon with One Hole: { <field_name> : { type : "Polygon", coordinates [ [ <Points that define outer polygon> ], [ <Points that define inner polygon> ] ] } } 
+
+- MultiPoint: One or more Points in one document
+- MultiLine: One or more LineStrings in one document
+- MultiPolygon: One or more Polygons in one document
+- GeometryCollection: One or more geoJSON objects in one document
+
+.. include:: /exercises/indexes-geo-2dsphere-inserts.txt
+
+Querying 2dsphere Objects
+-------------------------
+
+- $geoNear: Finds all points, orders them by distance from a position. 
+
+  - You can specify a min distance, and a max distance (both in meters, not degrees or kilometers)
+  - format is : { <field name> : { $near : { $geometry : { type : "Point", coordinates : [ lng, lat ] }, $maxDistance : <distance_in_meters> } } } 
+
+- $near: Just like $geoNear, except in very edge cases; check the docs.
+
+- $geoWithin
+  
+  - Only returns documents with a location completely contained within the query
+
+- $geoIntersects
+
+  - Returns documents with their indexed field intersecting any part of the shape in the query

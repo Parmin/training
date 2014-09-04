@@ -1,0 +1,30 @@
+Exercise: Inserting geoJSON Objects Into A Collection
+-----------------------------------------------------
+
+Add a few flights to our collection using the following location data:
+
+
+LaGuardia (New York): 40.7772° N, 73.8726° W
+JFK (New York): 40.6397° N, 73.7789° W
+Newark Liberty (New York): 40.6925° N, 74.1686° W
+Heathrow (London): 52.4775° N, 0.4614° W
+Gatwick (London): 51.1481° N, 0.1903° W
+Stansted (London): 51.8850° N, 0.2350° E
+Luton (London): 51.9000° N, 0.4333° W
+
+Now, let's make arrays of each of these, then create documents for every possible New York to London or London to New York possibility. We'll add some names for fun:
+
+.. code-block:: javascript
+
+    ny_ports = [ [ -73.8726, 40.7772 ], [ -73.7789, 40.6397 ], [ -74.1686, 40.6925 ] ]
+    london_ports = [ [ -0.4614, 52.4775 ], [ -0.1903, 51.1481 ], [ 0.2350, 51.8850 ], [-0.4333, 51.9000 ] ]
+    first_names = [ "Alice", "Bob", "Cynthia" ]
+    last_names = [ "Ansari", "Benford", "Cantor", "da Silva" ]
+    for (takeoff in ny_ports) { for (landing in london_ports) { db.flights.insert( { origin : { type : "Point", coordinates : ny_ports[takeoff] }, destination : { type : "Point", coordinates : london_ports[landing] }, name : (first_names[takeoff] + " " + last_names[landing] ) } ) } } 
+    for (takeoff in london_ports) { for (landing in ny_ports) { db.flights.insert( { destination : { type : "Point", coordinates : ny_ports[landing] }, origin : { type : "Point", coordinates : london_ports[takeoff] }, name : (first_names[landing] + " " + last_names[takeoff] ) } ) } } 
+
+.. only:: instructor
+
+- This inserts only a point for each end; it doesn't contain a LineString.
+- The order of the coordinates is correct. Remember, we use [ latitude, longitude ]
+- In this example, we've made North Latitude and East Longitude positive, so West and South are negative.

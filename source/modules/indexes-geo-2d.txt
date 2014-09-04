@@ -2,6 +2,7 @@
 2d Indexes (not spherical)
 ==========================
 
+
 Learning Objectives
 -------------------
 
@@ -10,6 +11,7 @@ Upon completing this module, students should understand:
 - How to create 2d geospatial indexes
 - How to query for documents in a region
 - Other queries that exist
+
 
 Creating a 2d Index (not spherical)
 -----------------------------------
@@ -34,6 +36,7 @@ Creating a 2d Index (not spherical)
 
 .. include:: /exercises/indexes-geo-2d-creation.txt
 
+
 Inserting Documents with a 2d Index (not spherical)
 ---------------------------------------------------
 
@@ -43,6 +46,7 @@ Inserting Documents with a 2d Index (not spherical)
   - Document with longitude ("lng") and latitude ("lat") specified
 
 .. include:: /exercises/indexes-geo-2d-insertion.txt
+
 
 Querying Documents Using a 2d Index (not spherical)
 ---------------------------------------------------
