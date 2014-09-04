@@ -50,9 +50,12 @@ Yet to be written are:
 Test-Driving Built Materials
 ----------------------------
 
-Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) and extract.
+Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz). This package contains the instructor guide and presentation slides.
 
-This package contains the instructor guide and presentation slides.
+Extract the files in the tarball and open the contents.html file in a web browser.
 
-See:
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png)
+
+The nav on the left enables instructors to browse the modules in the instructor guide.
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide.png)
