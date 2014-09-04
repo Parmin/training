@@ -51,7 +51,7 @@ and still need to write the Security section.
 Test-Driving Built Materials
 ----------------------------
 
-Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) (last built 3 September 2014). This package contains the instructor guide and presentation slides.
+**Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) (last built 3 September 2014)**. This package contains the instructor guide and presentation slides.
 
 Extract the files in the tarball and open the contents.html file in a web browser.
 
