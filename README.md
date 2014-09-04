@@ -56,6 +56,10 @@ Extract the files in the tarball and open the contents.html file in a web browse
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png)
 
-The nav on the left enables instructors to browse the modules in the instructor guide.
+The nav on the left enables instructors to browse the modules in the instructor guide. Each subsection is designed to be one slide's worth of material. 
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide.png)
+
+For presentation to students, we have deployed a version of these materials in the form of slides. To see the deck for a given module, navigate to that module in the instructor guide and click the slides link at the bottom of the navigation pane.
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide_click_slides.png)
