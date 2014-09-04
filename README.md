@@ -63,3 +63,7 @@ The nav on the left enables instructors to browse the modules in the instructor 
 For presentation to students, we have deployed a version of these materials in the form of slides. To see the deck for a given module, navigate to that module in the instructor guide and click the slides link at the bottom of the navigation pane.
 
 ![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide_click_slides.png)
+
+This will bring up another browser window containing html-based slides. These decks respond to keyboard events such as arrow keys and the space bar in the same way as Microsoft Powerpoint. **Styling is not finalized on slides, though what we currently have isn't bad.**
+
+![Contents page](https://s3.amazonaws.com/edu-static.mongodb.com/training/images/module_slides.png)
