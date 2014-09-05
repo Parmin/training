@@ -1,0 +1,246 @@
+==================
+Geospatial Indexes
+==================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- Use cases of geospatial indexes
+- The two types of geospatial indexes
+- How to create 2d geospatial indexes
+- How to query for documents in a region
+- How to create 2dsphere indexes
+- Types of geoJSON objects
+- How to query using 2dsphere indexes
+
+
+
+Introduction to Geospatial Indexes
+----------------------------------
+
+- Geospatial indexes are used to quickly determine geometric relationships on a two-dimensional surface, such as:
+
+  - All points within a circle
+  - Whether or not points fall within a polygon
+  - Whether or not two polygons intersect
+
+
+Flat vs. Spherical Indexes
+--------------------------
+
+- There are two types of geospatial indexes
+
+  - Flat, made with a ``2d`` index
+  - Two-dimensional spherical, made with the ``2dsphere`` index
+
+    - Takes into account the curvature of the earth.
+    - Joins any two points using a geodesic or "great circle arc".
+
+
+Flat Geospatial Index
+---------------------
+
+- This is a cartesian treatment of coordinate pairs.
+- E.g., would NOT know that the shortest path from Canada to Siberia is over the North Pole (if units are degrees).
+- Can be used to describe any flat surface.
+- Recommended if:
+
+  - You have legacy coordinate pairs (MongoDB 2.2 or earlier).
+  - You do not plan to use geoJSON objects such as LineStrings or Polygons.
+  - You are not going to use points far enough North or South to worry about the Earth's curvature.
+
+
+Spherical Geospatial Index
+--------------------------
+
+- Knows about the curvature of the Earth.
+- If you want to plot the shortest path from the Klondike to Siberia, this will know to go over the North Pole.
+- Uses geoJSON objects (Points, LineString, and Polygons).
+- Coordinate pairs are converted into geoJSON Points.
+
+
+Creating a 2d Index
+-------------------
+
+Creating a 2d index:
+
+.. code-block:: javascript 
+
+   db.collection.ensureIndex( 
+    { field_name : "2d", <optional additional field> : <value> },
+    { <optional options document> } )
+
+Possible options key-value pairs:
+
+- ``min : <lower bound>``
+- ``max : <upper bound>``
+- ``bits : <bits of precision for geohash>``
+
+.. only:: instructor
+
+   .. note:
+      
+      - Geohash precision divides the allowable range on each axis by two for every two bits. 
+      - A precision of 10 will divide each axis into 2^5 segments.
+
+        - 2^10 total regions) for the index.
+
+.. include:: /exercises/indexes-geo-2d-creation.txt
+
+
+Inserting Documents with a 2d Index
+-----------------------------------
+
+- There are two accepted formats: 
+
+  - Legacy coordinate pairs
+  - Document with the following fields specified:
+
+    - ``lng`` (longitude)
+    - ``lat`` (latitude)
+
+.. include:: /exercises/indexes-geo-2d-insertion.txt
+
+
+Querying Documents Using a 2d Index
+-----------------------------------
+
+- use ``$geoWithin`` for an area 
+  
+  - ``$box``
+  - ``$polygon``
+  - ``$center`` (circle)
+
+- use ``$near`` to order points by distance
+- run the command ``$geoNear`` for more options.
+
+.. include:: /exercises/indexes-geo-2d-query.txt
+
+
+Creating a 2dsphere Index
+-------------------------
+
+You can index one or more 2dsphere fields in an index.
+
+.. code-block:: javascript
+
+   db.collection.ensureIndex( { <location field> : "2dsphere" } )
+
+
+The geoJSON Specification
+-------------------------
+
+- The geoJSON format encodes location data on the earth.
+- The spec is at http://geojson.org/geojson-spec.html
+- This spec is incorporated in MongoDB 2dsphere indexes.
+- Includes Point, LineString, Polygon, and combinations of these.
+
+
+geoJSON Considerations
+----------------------
+
+- The coordinates of points are given in degrees (latitude then longitude)
+- The LineString that joins two points will always be a geodesic.
+- Short lines (around a few hundred kilometers or less) will go about where you would expect them to.
+- Polygons are made of a closed set of LineStrings.
+
+.. only:: instructor
+
+   .. note::
+
+      - A geodesic may not go where you think.
+      - E.g., the LineString that joins the points [ 90, 5 ] and [ -90, 5 ]:
+   
+        - Does NOT go through the point [ 0, 5 ]
+        - DOES go through the point [ 0, 90 ] (i.e., the North Pole).
+
+
+Simple Types of 2dsphere Objects
+--------------------------------
+
+**Point**: A single point on the globe
+
+.. code-block:: javascript
+  
+   { <field_name> : { type : "Point", 
+                      coordinates : [ <longitude>, <latitude> ] } }
+
+
+**LineString**: A geodesic line that is defined by its two end Points
+
+.. code-block:: javascript
+
+   { <field_name> : { type : "LineString", 
+                      coordinates : [ [ <longitude 1>, <latitude 1> ], 
+                                      [ <longitude 2>, <latitude 2> ],
+                                      ...,
+                                      [ <longitude n>, <latitude n> ] ] } } 
+
+.. only:: instructor
+
+   .. note::
+
+      - Legacy coordinate pairs are treated as Points by a 2dsphere index.
+
+
+Polygons
+--------
+
+Simple Polygon:
+
+.. code-block:: javascript 
+
+   { <field_name> : { type : "Polygon", 
+                      coordinates : [ [ [ <Point1 coordinate pair> ], 
+                                        [ <Point2 coordinate pair> ], 
+                                        ... 
+                                        [ <Point1 coordinate pair again> ] ] 
+                    } } 
+
+Polygon with One Hole:
+
+.. code-block:: javascript 
+
+   { <field_name> : { type : "Polygon", 
+                      coordinates : [ [ <Points that define outer polygon> ], 
+                                      [ <Points that define inner polygon> ] ] 
+                    } } 
+
+
+
+
+Other Types of 2d Sphere Objects
+--------------------------------
+
+- **MultiPoint**: One or more Points in one document
+- **MultiLine**: One or more LineStrings in one document
+- **MultiPolygon**: One or more Polygons in one document
+- **GeometryCollection**: One or more geoJSON objects in one document
+
+.. include:: /exercises/indexes-geo-2dsphere-inserts.txt
+
+
+.. include:: /exercises/indexes-geo-2dsphere-creation.txt
+
+
+
+Querying 2dsphere Objects
+-------------------------
+
+``$geoNear``: Finds all points, orders them by distance from a position. 
+
+.. code-block:: javascript 
+
+   { <field name> : { $near : { $geometry : { 
+                                    type : "Point", 
+                                    coordinates : [ lng, lat ] }, 
+                                    $maxDistance : <meters> } } } } 
+
+``$near``: Just like ``$geoNear``, except in very edge cases; check the docs.
+
+``$geoWithin``: Only returns documents with a location completely contained within the query.
+
+``$geoIntersects``: Returns documents with their indexed field intersecting any part of the shape in the query.
