@@ -27,7 +27,8 @@ Why Indexes?
 TODO: REPLACE WITH FIGURE.
 
 .. figure:: /figures/btree_example.jpg
-    :width: 500px
+    :width: 700px
+    :align: center
 
 .. only:: instructor
 
@@ -56,39 +57,6 @@ Types of Indexes
       - There are also hashed indexes and TTL indexes.
       - We will discuss those elsewhere.
  
-
-Single-Field Indexes
---------------------
-
-- Based on a single field of the documents in a collection
-- The field may be a top-level field
-- You may also create an index on fields in embedded documents
-
-Compound Indexes
-----------------
-
-- Based on more than one field of the documents in a collection
-- E.g., products collection indexed on item type and price.
-
-Multikey Indexes
-----------------
-
-- Based on an array field
-- Matches if a query includes any value in the array
-
-Geospatial Indexes
-------------------
-
-- Support location-based searches
-- GeoJSON fields
-- Legacy lat/lon coordinate pairs
-
-Text Indexes
-------------
-
-- Support search of string fields
-- E.g., product descriptions, user comments, etc.
-
 
 Exercise: Using explain()
 -------------------------
@@ -145,6 +113,14 @@ Understanding the Output from ``explain()``
 - The ``nscannedObjects`` field displays the number of documents the retrieval engine considered during the query. 
 - The ``nscanned`` field displays how many documents in an existing index were scanned. If ``nscanned`` is much higher than ``nreturned``, this is an indication we need a different index.
 - Given ``nscannedObjects``, this query will benefit from an index. 
+
+
+Single-Field Indexes
+--------------------
+
+- Based on a single field of the documents in a collection
+- The field may be a top-level field
+- You may also create an index on fields in embedded documents
 
 
 Creating an Index

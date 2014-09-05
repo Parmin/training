@@ -7,16 +7,15 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- The "query by example" paradigm of MongoDB
+- The query-by-example paradigm of MongoDB
 - How to query on array elements
 - How to query embedded documents using dot notation
-- What a cursor is
 - How the mongo shell and drivers use cursors
 - Cursor methods: .count(), .sort(), .skip(), .limit()
 
 
-The find() Method
------------------
+The ``find()`` Method
+---------------------
 
 - This is the fundamental method by which we read data from MongoDB.
 - We have already used it in its basic form.
@@ -31,15 +30,6 @@ Query by Example
 - You need only specify values for fields you care about.
 - Other fields will not be used to exclude documents.
 - The result set will include all documents in a collection that match.
-
-
-Matching Rules
---------------
-
-- Any field specified in the query must be in each document returned.
-- Values for returned documents must match the conditions specified in the query document.
-- If multiple fields are specified, all must be present in each document returned.
-- Think of it as a logical AND for all fields.
 
 
 .. include:: /exercises/crud-querying-by-example.txt
@@ -67,7 +57,7 @@ Querying with Dot Notation
 --------------------------
 
 - Dot notation is used to query on fields in embedded documents.
-- The format is "field1.field2" : value.
+- The format is ``"field1.field2" : value``.
 - Put quotes around the field name when using dot notation.
 - An example follows.
 
@@ -97,26 +87,7 @@ Cursor Methods
 - ``skip()``: Skips the number of documents specified.
 
 
-The ``count()`` Method
-----------------------
-
-- Counts the number of documents in the result set.
-- You may pass a query document like you would to ``find()``.
-- ``count()`` will count only the documents matching the query.
-- Will return the number of documents in the collection if you do not specify a query document.
-
-
 .. include:: /exercises/crud-using-count.txt
-
-
-The ``sort()`` Method
----------------------
-
-- Sort the documents returned as specified.
-- Does not permanently move documents.
-- Can be executed on a cursor until the point where the first document is actually read.
-- Sorts on the fields specified in the order specified.
-- An example follows.
 
 
 .. include:: /exercises/crud-using-sort.txt
@@ -127,15 +98,15 @@ The ``skip()`` Method
 
 - Skips the specified number of documents in the result set.
 - The returned cursor will begin at the first document beyond the number specified.
-- Regardless of the order in which you specify skip() and sort() on a cursor, sort() happens first.
+- Regardless of the order in which you specify ``skip()`` and ``sort()`` on a cursor, ``sort()`` happens first.
 
 
 The ``limit()`` Method
 ----------------------
 
 - Limits the number of documents in a result set to the first n.
-- Specify k as the argument to limit()
-- Regardless of the order in which you specify limit(), skip(), and sort() on a cursor, sort() happens first.
+- Specify k as the argument to ``limit()``
+- Regardless of the order in which you specify ``limit()``, ``skip()``, and ``sort()`` on a cursor, ``sort()`` happens first.
 - Helps reduce bandwidth consumed by queries.
 
 

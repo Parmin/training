@@ -6,8 +6,10 @@ Experiment with the following.
 .. code-block:: javascript
 
    db.testcol.drop()
-   for (i=1; i<=3; i++) { for (j=1; j<=3; j++) { db.testcol.insert( { a : i, b : j } ) } };
-   db.testcol.insert( { b : 10 } )                            // No "a" field
+   for (i=1; i<=3; i++) { 
+       for (j=1; j<=3; j++) { 
+           db.testcol.insert( { a : i, b : j } ) } };
+   db.testcol.insert( { b : 10 } )  // No "a" field
    db.testcol.find()                                          
 
    db.testcol.find( { $or : [ { a : 1 }, { b : 2 } ] } )      
@@ -16,7 +18,7 @@ Experiment with the following.
 
    db.testcol.find( { $nor : [ { a : 3 } , { b : 3 } ] } )    
 
-   db.testcol.find( { a : { $lte : 2 , $gte : 2 } } )         // and is implicit
+   db.testcol.find( { a : { $lte : 2 , $gte : 2 } } )  // and is implicit
 
    db.testcol.find( { $and : [ { $or : [ { a : 1 }, { a : 2 } ] }, 
                                { $or : [ { b : 2 }, { b : 3 } ] } ] } )

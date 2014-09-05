@@ -21,4 +21,9 @@ Exercise: Using ``count()``
 
    .. note::
 
-      The last query in the above achieves the same result because it operates on the cursor returned by find().
+      - You may pass a query document like you would to ``find()``.
+      - ``count()`` will count only the documents matching the query.
+      - Will return the number of documents in the collection if you do not specify a query document.
+      - The last query in the above achieves the same result because it operates on the cursor returned by ``find()``.
+
+
