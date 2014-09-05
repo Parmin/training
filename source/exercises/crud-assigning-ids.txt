@@ -5,8 +5,9 @@ Experiment with the following commands.
 
 .. code-block:: javascript
 
-    db.foo.insert( { _id : 253, a : "a string" } )
-    db.foo.find()
+    db.testcol.insert( { _id : 253, a : "a string" } )
+
+    db.testcol.find()
 
 .. only:: instructor
 

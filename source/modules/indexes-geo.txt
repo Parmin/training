@@ -94,13 +94,13 @@ Possible options key-value pairs:
 Inserting Documents with a 2d Index
 -----------------------------------
 
-- There are two accepted formats: 
+There are two accepted formats: 
 
-  - Legacy coordinate pairs
-  - Document with the following fields specified:
+- Legacy coordinate pairs
+- Document with the following fields specified:
 
-    - ``lng`` (longitude)
-    - ``lat`` (latitude)
+  - ``lng`` (longitude)
+  - ``lat`` (latitude)
 
 .. include:: /exercises/indexes-geo-2d-insertion.txt
 
@@ -212,8 +212,8 @@ Polygon with One Hole:
 
 
 
-Other Types of 2d Sphere Objects
---------------------------------
+Other Types of 2dsphere Objects
+-------------------------------
 
 - **MultiPoint**: One or more Points in one document
 - **MultiLine**: One or more LineStrings in one document

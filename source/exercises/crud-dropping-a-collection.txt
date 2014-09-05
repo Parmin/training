@@ -3,9 +3,8 @@ Exercise: Dropping a Collection
 
 .. code-block:: javascript
 
-   db.testcol.insert( { a : 1 } )
-   show collections  // Shows the testcol collection
+   db.colToBeDropped.insert( { a : 1 } )
+   show collections  // Shows the colToBeDropped collection
 
-   db.testcol.drop()
-
+   db.colToBeDropped.drop()
    show collections  // collection is gone

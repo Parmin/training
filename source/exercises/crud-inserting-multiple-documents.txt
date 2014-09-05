@@ -12,4 +12,5 @@ Experiment with the following commands.
                          street : "229 West 43rd Street, 5th Floor",
                          city : "New York",
                          state : "NY" } ] )
+
    db.things.find()

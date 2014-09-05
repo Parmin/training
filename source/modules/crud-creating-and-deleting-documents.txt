@@ -8,13 +8,7 @@ Learning Objectives
 Upon completing this module students should understand:
 
 - How to insert documents into MongoDB collections.
-- _id fields:
-
-  - Uniqueness constraints
-  - Setting _id vs. letting MongoDB automatically set _id
-  - ObjectId values
-  - Using javascript to create sample data
-
+- ``_id`` fields:
 - How to remove documents from a collection
 - How to remove a collection from a database
 - How to remove a database from a MongoDB deployment
@@ -24,29 +18,33 @@ Upon completing this module students should understand:
 Creating New Documents
 ----------------------
 
-- Create documents using ``insert``.
-- E.g., db.collection.insert( { "name" : "susan" } )
+- Create documents using ``insert()``.
+- For example:
+
+  .. code-block:: javascript
+
+     db.collection.insert( { "name" : "susan" } )
 
 .. include:: /exercises/crud-inserting-a-document.txt
 
 
-Implicit _id Assignment
------------------------
+Implicit ``_id`` Assignment
+---------------------------
 
-- We did not specify an _id in the document we inserted.
+- We did not specify an ``_id`` in the document we inserted.
 - If you do not assign one, MongoDB will create one automatically.
 - The value will be of type ObjectId.
 
 .. include:: /exercises/crud-assigning-ids.txt
 
 
-_id Field and Inserts
----------------------
+``_id`` Field and Inserts
+-------------------------
 
 Inserts will fail if:
 
-- There is already a document in the collection with that _id
-- You try to assign an array to the _id
+- There is already a document in the collection with that ``_id``.
+- You try to assign an array to the ``_id``.
 - The argument is not a well-formed document.
 
 
@@ -56,11 +54,11 @@ Inserts will fail if:
 Inserting Multiple Documents
 ----------------------------
 
-- You can bulk insert using an array of documents
+- You can bulk insert using an array of documents.
 - The default setting is an unordered insert.
 - If any given insert fails, the others will still be attempted.
-- In the next exercise, one document will fail (duplicate key error) 
-  but the others will be inserted.
+- In the next exercise, one insert will fail.
+- The others will succeed.
 
 .. include:: /exercises/crud-inserting-multiple-documents.txt
 
@@ -69,7 +67,7 @@ Ordered Insert
 --------------
 
 - In many cases it is important to fail bulk inserts on error.
-- Use { ordered : true } to ensure ordered inserts.
+- Use ``{ ordered : true }`` to ensure ordered inserts.
 - Only those documents inserted before the error will be inserted.
 
 .. include:: /exercises/crud-ordered-insert.txt
@@ -103,12 +101,12 @@ You may delete documents from a MongoDB deployment in several ways.
 Using ``remove()``
 ------------------
 
-- Remove documents from a collection using ``remove``.
+- Remove documents from a collection using ``remove()``.
 - This command has one required parameter, a query document.
 - All documents in the collection matching the query document will be removed.
 - Pass an empty document to remove all documents.
-- Prior to MongoDB 2.6 calling remove with no parameters would remove all documents.
-- Limit ``remove`` to one document using ``justOne``.
+- Prior to MongoDB 2.6 calling ``remove()`` with no parameters would remove all documents.
+- Limit ``remove()`` to one document using ``justOne``.
 
 .. include:: /exercises/crud-removing-documents.txt
 

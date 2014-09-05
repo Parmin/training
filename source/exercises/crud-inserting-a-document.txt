@@ -6,8 +6,10 @@ Experiment with the following commands.
 .. code-block:: javascript
 
    use sample
-   db.foo.insert( { a : "hello, world!" } )
-   db.foo.find()
+
+   db.testcol.insert( { a : "hello, world!" } )
+
+   db.testcol.find()
 
 .. only:: instructor
 

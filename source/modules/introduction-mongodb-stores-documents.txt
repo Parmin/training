@@ -10,12 +10,11 @@ JSON
 - Objects are associative arrays.
 - They are composed of name/value pairs.
 
-Example
--------
+
+A Simple JSON Object
+--------------------
 
 .. code-block:: javascript
-
-   .. only:: instructor
 
       { 
           "firstname" : "Thomas",
@@ -36,30 +35,29 @@ JSON Field Names and Values
   - true / false
   - null
   - array (e.g., [88.5, 91.3, 67.1])
-  - object (See above.)
+  - object
 
-- The elements of an array may be any of the values specified above.
 - More detail at json.org_.
 
 .. _json.org: http://json.org/
 
 
-Example
--------
+Example Field Values
+--------------------
 
 .. code-block:: javascript
 
    {
        "first key" : "value" , 
-       "second key : {
-	   "first nested key" : "first nested value", 
-	   "second nested key" : "second nested value"
+       "second key" : {
+	   "first embedded key" : "first embedded value", 
+	   "second embedded key" : "second embedded value"
 	}, 
-	"third_key" : [ 
+	"third key" : [ 
 	    "first array element", 
 	    "second element",
-	    { "nested key" : "nested value" } , 
-	    [ "nested array element 1", "nested array element 2"] 
+	    { "embedded key" : "embedded value" }, 
+	    [ 1, 2 ] 
 	]
    }
 
@@ -67,21 +65,19 @@ Example
 BSON
 ----
 
-- MongoDB stores documents in a format known as "Binary JSON" (BSON).
-- MongoDB drivers (client libraries) send and receive data in this format.
-- The drivers abstract this fact away.
-- Within your code you will work with native mappable data structures such as dictionaries. 
-- BSON provides support for all JSON data types and several others. They are as follows:
-
-  - ISODate
-  - Int32
-  - Int64
-  - Double
-  - ObjectId
-  - Binary
+- MongoDB stores data as Binary JSON (BSON).
+- MongoDB drivers send and receive data in this format.
+- They map BSON to native data structures.
+- BSON provides support for all JSON data types and several others.
 - See bsonspec.org_.
 
 .. _bsonspec.org: http://bsonspec.org/#/specification
+
+.. only:: instructor
+
+   .. note::
+
+      E.g., a BSON object will be mapped to a dictionary in Python.      
 
 
 BSON Hello World
@@ -135,7 +131,7 @@ Documents, Collections, and Databases
   - Database: products
   - Collections: books, movies, music
 
-- Each database-collection combination defines a namespace, e.g.:
+- Each database-collection combination defines a namespace.
 
   - products.books 
   - products.movies
@@ -145,13 +141,11 @@ Documents, Collections, and Databases
 The ``_id`` Field
 -----------------
 
-
-
 - All documents must have an ``_id`` field.
 - The ``_id`` is immutable.
-- If no ``_id`` is specified when a document is inserted, MongoDB will add the _id field.
-- MongoDB assigns a unique ObjectId as the value of _id.
-- Most drivers will actually create the ObjectId if no _id is specified.
+- If no ``_id`` is specified when a document is inserted, MongoDB will add the ``_id`` field.
+- MongoDB assigns a unique ObjectId as the value of ``_id``.
+- Most drivers will actually create the ObjectId if no ``_id`` is specified.
 - The ``_id`` field is unique to a collection (namespace).
 
 
@@ -161,17 +155,18 @@ ObjectIds
 TODO: REPLACE WITH FIGURE.
 
 .. figure:: /figures/figure_id_values.jpg
-    :width: 500px
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
    .. note::
 
       - An ObjectId is a 12-byte value. 
-      - The first 4 bytes will be a datetime reflecting when the ObjectID was created. 
-      - The next 3 bytes will be a MAC address.
+      - The first 4 bytes are a datetime reflecting when the ObjectID was created. 
+      - The next 3 bytes are the MAC address of the server.
       - Then a 2-byte process ID
-      - And, finally, 3 bytes that are monotonically increasing for each new ObjectId created within a collection. 
+      - Finally, 3 bytes that are monotonically increasing for each new ObjectId created within a collection. 
 
 
 Storing BSON Documents
@@ -181,7 +176,8 @@ Storing BSON Documents
 - Documents are physically adjacent to each other on disk and in memory.
 - If a document is updated in a way that makes it larger, MongoDB may move the document. 
 - This may cause fragmentation, resulting in unnecessary I/O.  
-- We have strategies to reduce the effects of document growth:
+- Strategies to reduce the effects of document growth:
+
   - Padding factor
   - usePowerOf2Sizes
 
@@ -194,10 +190,14 @@ Padding Factor
 - As documents in a collection grow and need to be moved, MongoDB will begin to add padding.
 - At a padding factor of 2, the document will be inserted at twice its actual size.
 - Padding provides room for documents to grow into.
-- With padding, documents will not be as likely to move after update operations providing room to grow into.  
+- With padding, documents will not be as likely to move after update operations.
 - This setting is not tunable; it is updated automatically.
 
-TODO: Insert a figure that illustrates padding factor.
+.. only:: instructor
+
+   .. note::
+  
+      TODO: THIS SHOULD BE A FIGURE.
 
 
 ``usePowerOf2Sizes``
@@ -207,19 +207,16 @@ TODO: Insert a figure that illustrates padding factor.
 - MongoDB will attempt to fill this fragment with a new document eventually.  
 - As of MongoDB 2.6, collections have a setting called "usePowerOf2Sizes" enabled by default.  
 - This setting will round the size of the document up to the next power of 2. 
-- For example, a document that 118 bytes will be allocated 128 bytes. 
-- Power of two sizes make it easier for MongoDB to find new document to fill fragmented space. 
-- This results in less overall fragmentation.  
+- E.g, a document that 118 bytes will be allocated 128 bytes. 
+- If moved, the space can be filled with two 64-byte documents, four 32-byte documents, etc.
 
 .. only:: instructor
 
    .. note::
 
-      - This is analogous to a building a wall from stone vs. brick.  
-      - If a stone crumbled it would prove difficult to find a new stone to fill the space. Replacing a brick, however, is easy.
+      - Power of two sizes makes it easier for MongoDB to find new document to fill fragmented space. 
       - Power of two sizing was introduced in MongoDB 2.4, but must be enabled using the colMod operation.  
       - If a collection is read only, users should disable usePowerof2Sizes in MongoDB 2.6 and above. 
 
-TODO: Insert a figure that illustrates usePowerOf2Sizes
 
 

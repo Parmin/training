@@ -17,8 +17,11 @@ Introductions
 
    .. note::
 
-      - What is your primary role? 
-      - What is your background and prior experience?
+      - Tell the students about yourself:
+
+        - Your role
+        - Prior experience
+
 
 
 Getting to Know You
@@ -33,14 +36,10 @@ Getting to Know You
 
    .. note::
 
-      - Ask students to go around the room and state their names.
-      - Make sure the names match the roster of attendees provided by the training team.
-      - Ask about what roles the students play in their organization. 
-
-        - Note roles where provided on the attendance sheet. 
-        - This helps us better understand the needs in the room and where follow up may be needed from the field.
-
-      - Ask about software stacks used:
+      - Ask students to go around the room and introduce themselves.
+      - Make sure the names match the roster of attendees.
+      - Ask about what roles the students play in their organization and note on attendance sheet. 
+      - Ask what software stacks students are using.
 
         - With MongoDB and in general.
         - Note this informaton as well.
@@ -63,21 +62,20 @@ MongoDB Experience
 - The company was originally called 10gen.
 - The original idea for 10gen didn’t take off.
 - The founders looked at what they had and asked themselves what was popular. 
-- What people really liked most was the data access layer.
-- This layer wasn't meant to be public facing, so there wasn't a real interface. 
+- People really liked the data access layer.
+- The company focused on this aspect of the stack.
 
 
 Origin of MongoDB
 -----------------
 
-- Eliot Horowitz (CTO) said, " OK, we’re going to be a database company."
-- "We are going to build interfaces."
-- Dwight Merriman and Eliot Horowitz have other startups to their credit: DoubleClick, ShopWiki, Gilt, and Music Nation.
-- Through their experiences with these companies they observed the same pattern:
+- 10gen became a database company.
+- In 2013, the company rebranded as MongoDB, Inc.
+- The founders have other startups to their credit: DoubleClick, ShopWiki, Gilt.
+- The motivation for the database came from observing the following pattern with application development.
 
   - The user base grows.
   - The associated body of data grows.
   - Eventually the application outgrows the database.
-  - Keeping pace with performance requirements becomes difficult.
+  - Meeting performance requirements becomes difficult.
 
-- MongoDB is designed to scale with modern application development in mind.
