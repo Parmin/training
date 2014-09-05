@@ -5,5 +5,4 @@ sources:
   - images/crud-write-concern-w2.svg
   - images/replica-set-trigger-election.svg
   - images/replica-set-read-write-operations-primary.svg
-  - includes/read-preference-modes-table.rst
 ...
