@@ -20,12 +20,12 @@ The ``update()`` Method
 - Mutate documents in MongoDB using ``update()``.
 - ``update()`` requires two parameters:
 
-  - A query document used to select documents to be updated.
+  - A query document used to select documents to be updated
 
-  - An update document that specifies how selected documents will change.
+  - An update document that specifies how selected documents will change
 
 
-- ``update()`` cannot delete a document
+- ``update()`` cannot delete a document.
 
 
 Parameters to ``update()``

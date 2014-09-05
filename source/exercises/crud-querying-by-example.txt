@@ -17,3 +17,16 @@ Experiment with the following sequence of commands.
    db.testcol.find( { _id : 1 } )
 
    db.testcol.find( { b : 3, a : 7 } )
+
+
+.. only:: instructor
+
+   .. note::
+
+      Matching Rules:
+
+      - Any field specified in the query must be in each document returned.
+      - Values for returned documents must match the conditions specified in the query document.
+      - If multiple fields are specified, all must be present in each document returned.
+      - Think of it as a logical AND for all fields.
+
