@@ -1,10 +1,29 @@
-Creating 2dsphere Indexes
--------------------------
+Exercise: Creating a 2dsphere Index
+-----------------------------------
 
-Create two indexes. Make the first a compound index on the fields "origin", "destination", and "name", with 2dsphere indexes on both "origin" and "destination" but a simple index on "name". Make the second just a 2dsphere index on destination. Name the collection "flights".
+- Create two indexes on the collection ``flights``.
+- Make the first a compound index on the fields:
 
-.. code-block:: javascript
+  - ``origin``
+  - ``destination``
+  - ``flightNumber`` 
 
-    db.flights.ensureIndex( { origin : "2dsphere", destination : "2dsphere", name : 1 } )
-    db.flights.ensureIndex( { destination : "2dsphere" } )
-    db.flights.getIndexes() // see the indexes.
+- Specify 2dsphere indexes on both ``origin`` and ``destination``.
+- Specify a simple index on ``name``. 
+- Make the second index just a 2dsphere index on destination. 
+
+.. only:: instructor
+
+   .. note::
+
+      Answer:
+
+      .. code-block:: javascript
+
+         db.flights.ensureIndex( { origin : "2dsphere", 
+                                   destination : "2dsphere", 
+                                   flightNumber : 1 } )
+
+	 db.flights.ensureIndex( { destination : "2dsphere" } )
+
+	 db.flights.getIndexes() // see the indexes.

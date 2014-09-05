@@ -1,9 +1,9 @@
-Exercise: Querying for a Word
------------------------------
+Exercise: Querying a Text Index
+-------------------------------
 
 Using the text index, find all documents in the montyPython collection with the word "swallow" in it.
 
 .. code-block:: javascript
 
-    db.collection.find( { $text : { $search : "swallow" } } )
-    // 3 documents
+   // Returns 3 documents.
+   db.montyPython.find( { $text : { $search : "swallow" } } )

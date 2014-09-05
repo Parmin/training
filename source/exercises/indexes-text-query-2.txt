@@ -1,9 +1,12 @@
-Exercise: Querying for Two Words
---------------------------------
+Exercise: Querying Using Two Words
+----------------------------------
 
-Find all documents in the montyPython collection with either the word 'coconut' or 'swallow'.
+- Find all documents in the montyPython collection with either the word 'coconut' or 'swallow'.
+- By default MongoDB ORs query terms together.
+- E.g., if you query on two words, results include documents using either word.
 
 .. code-block:: javascript
 
-    db.collection.find( { $text : { $search : "coconut swallow" } } )
-    // 4 documents, 3 of which contain only one of the two words.
+   // Finds 4 documents, 3 of which contain only one of the two words.   
+   db.montyPython.find( { $text : { $search : "coconut swallow" } } )
+

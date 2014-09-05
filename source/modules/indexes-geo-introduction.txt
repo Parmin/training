@@ -1,6 +1,6 @@
-=================================
-Introduction - Geospatial Indexes
-=================================
+==================
+Geospatial Indexes
+==================
 
 
 Learning Objectives
@@ -38,23 +38,25 @@ Flat vs. Spherical Indexes
 Flat Geospatial Index
 ---------------------
 
-- This is a cartesian treatment of coordinate-piars, and is naive to the fact that you're probably describing the surface of a sphere.
+- This is a cartesian treatment of coordinate-pairs.
+- Is naive to the fact that you are probably describing the surface of a sphere.
   
-  - This can actually be done to describe any flat surface, not just the earth.
-  - If you use degrees as your unit, this would NOT know that the shortest path from Canada to Siberia is over the North Pole.
+  - E.g., would NOT know that the shortest path from Canada to Siberia is over the North Pole (if units are degrees).
+  - Can actually be used to describe any flat surface, not just the earth.
 
-- You can use your old Cartesian geometry rules here.
+- Use Cartesian geometry rules here.
 - Used with legacy coordinate pairs from MongoDB 2.2 or earlier.
-- Recommended if you have legacy coordinate pairs or if you do not plan to use geoJSON objects, such as LineStrings or Polygons, and you are not going to use points far enough North or South to worry about the Earth's curvature.
+- Recommended if:
+
+  - You have legacy coordinate pairs.
+  - You do not plan to use geoJSON objects such as LineStrings or Polygons.
+  - You are not going to use points far enough North or South to worry about the Earth's curvature.
 
 
 Spherical Geospatial Index
 --------------------------
 
 - Knows about the curvature of the Earth.
-
-  - If you want to plot the shortest path from the Klondike to Siberia, this will know to go over the North Pole.
-
+- If you want to plot the shortest path from the Klondike to Siberia, this will know to go over the North Pole.
 - Uses geoJSON objects (Points, LineString, and Polygons).
-
-  - Coordinate pairs are converted into geoJSON Points
+- Coordinate pairs are converted into geoJSON Points.

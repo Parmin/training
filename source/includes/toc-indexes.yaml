@@ -10,6 +10,10 @@ file: /modules/indexes-multikey
 description: | 
   Indexes on array fields.
 --- 
+file: /modules/indexes-geo
+description: | 
+  Geospatial indexes: both those on legacy coordinate pairs and those supporting queries that calculate geometries on an earth-like sphere. 
+--- 
 file: /modules/indexes-text
 description: | 
   Free text indexes on string fields.

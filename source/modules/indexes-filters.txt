@@ -15,10 +15,9 @@ Index Filters - Overview
 ------------------------
 
 - An index filter is a little bit like a hint.
+- Specifies a set of indexes to use.
+- Instead of specifying just one index to use.
 
-  - It specifies a set of indexes to use, instead of specifyingjust one index to use.
-
-- Lets you specify which indexes
 
 Index Filters - Mechanics
 -------------------------
