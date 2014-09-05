@@ -1,0 +1,47 @@
+=======================
+Indexes and Aggregation
+=======================
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand
+
+- How to use indexes in the aggregation framework
+- Why indexes may become unavailable after certain stages
+- Which indexes can be used for special stages
+
+
+
+Overview
+--------
+
+- Indexes can be used during the aggregation pipeline, and are used automatically when possible.
+- However, they need to have access to the documents that are indexed. Once the documents have been transformed, it is difficult for the indexes to operate.
+
+
+Aggregation Stages and Indexes
+------------------------------
+
+- $match
+
+  - Use as early as possible in order to take advantage of the index, and to reduce the size of the pipeline.
+
+- $sort
+
+  - Use as early as possible if it uses an index, in order to take advantage of that index.
+
+- $limit or $skip
+
+  - Good to use as early as possible, but no special benefit from indexes.
+
+- $geoNear
+
+  - Like the $nearSphere or $near search operator, it orders documents based on distance. 
+  - You must use it as the first stage.
+  - Look at the documentation for details.
+
+- $unwind and $group
+
+  - These stages will form a break between the original documents and the later stages of the aggregation pipeline.
+  - You will not be able to use any indexes after one of these stages occurs.
