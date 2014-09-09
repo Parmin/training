@@ -46,4 +46,5 @@ Pre-Splitting Chunks
 
   - You plan to do a large data import early on, which will take time to split and balance automatically.
   - You expect a heavy initial server load, and want to partition your writes across your cluster.
-  - 
+
+- Pre-splitting the chunks will ensure that the documents inserted go where they belong.
