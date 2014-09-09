@@ -87,3 +87,9 @@ Set up a sharded cluster with the following servers:
     .. code-block:: bash
 
         sh.status()
+
+    Point out how cool it is that you can see chunks get created and moved to the different shards.
+
+    .. code-block:: bash
+
+        db.foo.find( { a : { $lte : 100 } ).explain()
