@@ -1,0 +1,30 @@
+=====================
+Sharding - Redundancy
+=====================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- Why sharding increases the need for redundancy
+- How to solve this problem
+
+
+Sharding Multiplies the Dangers of Server Problems
+--------------------------------------------------
+
+- If you have 1 server, and it goes down once per year, and it takes you a week to resolve the problems that arise, it should be doable.
+- If you have 100 of those servers, then you will have a server go down about twice per week, and even if you spend all of your time resolving the issues that arise, you will never get it all done.
+- To prevent this from happening in MongoDB, you need to make sure each shard is a replica set.
+
+Using Replica Sets Solves the Problem
+-------------------------------------
+
+- If each node is a replica set, your data will be as safe as you need it to be.
+
+  - Failover is handled automatically, and quickly.
+  - Rollback can be prevented if the replica set is properly configured.
+
+- For more redundancy, add more replica set members and keep them distributed. 

@@ -1,0 +1,39 @@
+==========================
+Sharding - Tags (Optional)
+==========================
+
+
+Learing Objectives
+------------------
+
+Upon completing this module, students should understand:
+
+- The purpose behind shard tags
+- Advantages of using shard tags
+- Potential drawbacks of shard tags
+
+
+Tags - Overview
+---------------
+
+- Shard tags allow you to direct data to a certain shard (or set of shards)
+- A shard tag applies not to a particular document or a chunk, but to an entire range of the shard tag.
+- If a chunk is in a particular shard range, it will need to reside on a server with that tag.
+
+
+Tagging Scenarios
+-----------------
+
+- You shard on a DateTime. Old documents (>1 year) need to be kept, but are rarely used. You tag those ranges as "LTS" for Long Term Storage, and you put them on cheaper, slower servers, saving your high-performance servers for fresher, more frequently accessed data.
+- You have customers who want to pay for a "premium" tier, and so you give them access to high performance servers, and tag their document ranges.
+- You are required to keep certain data in its home country. You include the country in the shard tag, and put that data on that shard, but allow it to be part of the same system.
+
+
+Tags - Caveats
+--------------
+
+- Because tagged chunks will only be on certain servers, if you tag more than those servers can handle, you'll have a problem.
+
+  - You're not only worrying about your overall server load, you're worrying about server load for each of your tags.
+
+- Your chunks will evenly distribute themselves across the available chunks. You cannot control things more fine grained than your tags.

@@ -2,6 +2,7 @@
 Sharding - Intro
 ================
 
+
 Learning Objectives
 -------------------
 
@@ -10,24 +11,6 @@ Upon completing this module, students should understand:
 - What problems sharding solves
 - When sharding is appropriate
 - How sharding works with the shard key
-
-later modules (left here for reference as I build them)
-
-- Potential problems with sharding
-
-  - Hot servers
-  - Vulnerability to crashes
-
-    - The importance of replication
-
-  - Problems with hashed indexes
-
-    - No range queries
-
-  - Config servers; the config database
-  - Tags
-  - Chunks
-  - Migration
 
 
 Sharding - Overview
@@ -54,14 +37,15 @@ Scalable vs. Non-scaling Databases
 - Relational databases scale the first way. MongoDB scales the second one.
 
 
-Sharding - How it Works
------------------------
+Sharding - Basics
+-----------------
 
 - When you shard a collection, that collection will become distributed across several servers.
 - When you make a query (be it a read operation or a write operation), that query will go to a router that will then direct the query to the appropriate server.
 - In order to read or write any one document, you will only have to touch one server.
  
   - Depending on your query and your sharding setup, you may be able to read or write many documents but only touch one server.
+
 
 Sharding - More Details
 -----------------------
@@ -83,6 +67,7 @@ Sharding - More Details
   - A cluster can have LOTS of mongos processes. They operate in parallel just fine.
   - It is typical for a cluster to have one mongos per application server.
 
+
 Sharding - Config Servers
 -------------------------
 
@@ -92,7 +77,14 @@ Sharding - Config Servers
     :width: 600 px
     :align: center
 
--  **********BEGIN AGAIN HERE WHEN YOU RETURN******************
+- These config servers hold only metadata about the collection.
+- You can access this data from a mongos by looking at the 'config' db.
+- These will keep track of where data is, and if need be, where it should go.
+- There are 3 of them in production.
+
+  - They are NOT a replica set, but they all have identical data.
+  - If one goes dowon or the data gets out of sync, data will not be able to move until the issue is resolved.
+
 
 When to Shard
 -------------
@@ -105,22 +97,40 @@ When to Shard
 
 .. figure::
 
+
 Sharding - Shard Key Basics
 ---------------------------
 
 - Every sharded cluster has an index called the Shard Key. 
 - The Shard Key determines where your data is, so if you make a query, the shard key determines which server (or servers) it's on.
 - Similarly, when you create a new document, the shard key determines which server you will write to.
-- The shard key's range splits your data into "chunks," with each chunk residing on a single server.
+
+
+Sharding - Keeping Things Balanced
+----------------------------------
+
+- Data will tend to get unbalanced on your sharded cluster. This can happen if:
+
+  - Some of your servers get more inserts than others
+  - Some of your servers have documents that grow more than other servers
+
+- This can cause a number of problems.
+
+  - Reads might get imbalanced.
+  - Updates might get imbalanced.
+  - Hard drive usage will get imbalanced, with some servers hitting capacity.
+
 
 Sharding - Chunks
 -----------------
 
-- Initially, if you start with an empty database, it will have only one "chunk".
-- As you create and modify documents, the amount of data in that chunk will grow.
-- Eventually, that chunk will split into two chunks, each of which has a subset of the shard key's range.
+- To deal with imbalances, MongoDB divides the data into "chunks."
+
+  - This is a bookkeeping technique handled by the servers and the routers external of the data set
+  
+    - There is nothing in a document that indicates its chunk.
+    - The document does not need to be updated if its assigned chunk changes.
+
+- As a chunk grows, eventually it will split into two chunks, each of which has a subset of the shard key's range.
 - As those chunks grow, they will split, too.
 - The cluster will keep the number of chunks on each shard balanced.
-
-Keeping 
-
