@@ -17,4 +17,8 @@ description: |
 file: /modules/nav/replica-sets
 description: | 
   Replication in MongoDB
+---
+file: /modules/nav/sharding
+description: | 
+  Sharding in MongoDB
 ...

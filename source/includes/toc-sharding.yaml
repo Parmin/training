@@ -25,4 +25,8 @@ description: |
 file: /modules/sharding-tags
 description: |
   How tag-based sharding works.
+---
+file: /modules/sharding-exercises
+description: |
+  A major exercise in deploying a sharded cluster.
 ...
