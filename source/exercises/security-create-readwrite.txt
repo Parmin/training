@@ -1,0 +1,37 @@
+Security - Setting Up a readWrite User
+--------------------------------------
+
+Once you have a userAdminAnyDatabase, set up a user with readWrite access on the 'test' db and the 'Druidia' database, but who must login on the 'Druidia' database. Have her log in to MongoDB.
+
+
+.. only:: instructor
+
+    .. code-block:: bash
+
+        mongo -u Roland admin -p 
+
+    .. code-block:: javascript
+
+        use Druidia
+        var name = "Vespa"
+        var password = "12345"
+        vespa = { user : name, pwd : password, roles : [ { role : "readWrite", db : "Druidia" }, { role : "readWrite", db : "test" } ] }
+        db.createUser(vespa)
+        exit
+
+    .. code-block:: bash
+
+        mongo -u Vespa test -p  # won't work.
+        mongo -u Vespa Druidia -p  # will work.
+
+    .. code-block:: javascript
+
+        show collections // should be empty
+        db.foo.insert ( { a : 1 } )
+        db.foo.find()  // see the doc
+        use test
+        db.foo.insert( { a : 1 } )
+        db.foo.find()
+        use test2
+        show collections  // can't
+        db.foo.find()  // can't

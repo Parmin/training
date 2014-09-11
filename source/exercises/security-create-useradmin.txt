@@ -1,0 +1,26 @@
+Security - Setting Up a First User
+----------------------------------
+
+Once you have a mongod running with --auth, set up a userAdminAnyDatabase with name "Roland" and password "12345". Enable him to login on the admin database, and demonstrate a login.
+
+.. only:: instructor
+
+    .. code-block:: bash
+
+        mongo
+
+    .. code-block:: javascript
+
+        use admin
+        var role = "userAdminAnyDatabase"
+        var name = "Roland"
+        var password = "12345"
+        newUserDoc = { user : name, pwd : password, roles : [ { role : role, db : "admin" } }
+        db.createUser( newUserDoc )
+        exit
+
+    And now, to log back in:
+
+    .. code-block:: bash
+
+        mongo -u Roland admin -p

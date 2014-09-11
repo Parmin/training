@@ -1,6 +1,6 @@
-================
-Sharding - Intro
-================
+=======================
+Sharding - Introduction
+=======================
 
 
 Learning Objectives
