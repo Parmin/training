@@ -1,0 +1,101 @@
+=========================
+Sharding - Considerations
+=========================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- The importance of the shard key & how to choose a good one
+- Why sharding increases the need for redundancy
+- The advantage of a hashed index & how to build one
+
+
+The Shard Key
+-------------
+
+- Sharding is easy. It's also easy to do it wrong, either by missing an opportunity or by choosing a bad shard key.
+- With a good shard key, you might easily see a situation where:
+
+  - Your queries will hit only 1-2 servers per query
+  - Your writes will be distributed across all servers
+  - Your data will be evenly spread across all drives
+  - Things will stay this way as you scale
+
+- With a bad shard key:
+
+  - Your queries might all hit every server
+  - Your writes will be concentrated on one server
+  - Most of your data will be on just a few servers
+  - Adding more servers to the cluster won't help.
+
+
+Choosing a Shard Key: An Optimization Opportunity
+-------------------------------------------------
+
+- Your shard key should try to match your query pattern.
+  
+  - If your query is going to find only one document, then you only need good cardinality
+  - If you plan to frequently query a set of documents at once, having the shard key apply to that query will ensure that those documents are all together on one server.
+
+
+Properties of a Good Shard Key: Cardinality
+-------------------------------------------
+
+- A good shard key will have high _cardinality_.
+
+  - This means that every document has a unique shard key (or nearly unique)
+  - If you don't, then all documents with a given shard key will end up on the same server
+    
+    - Adding more servers won't help this, because data is broken up by shard key, so data with the same shard key will be in the same place
+
+  - Hashing the shard key will not help with this.
+
+
+Properties of a Good Shard Key: Non-monotonicity
+------------------------------------------------
+
+- A good shard key will generate new values non-monotonically (i.e., not always increasing/decreasing).
+
+  - Datetimes, counters, and related fields (such as the ObjectId) are always increasing, and make bad shard keys.
+
+  - Monotonic shard keys will leave you with a "hot" insert server, where all of the inserts happen on the same shard.
+
+    - The data will eventually be moved, but in the meantime, one server is getting hammered while others are idle.
+    - Also, moving data is also a write operation, so that has costs, too.
+
+  - If you have a monotonic shard key, but you hash it, that will solve this problem.
+
+
+Hashed Indexes as Shard Keys
+----------------------------
+
+- Hashed indexes have one problem they were designed to solve:
+
+  - If your shard key is monotonically increasing but otherwise good, all new documents created will still go onto a single server. They will not be distributed to other servers.
+
+    - This is because the maximum range (last split point up to $maxKey) will always capture all new documents
+    - This can make for a single "hot" server if your load is very document-creation heavy.
+  
+  - Using a hashed index will solve this problem and distribute the writes
+
+- In some cases, it might be advantageous to use a different shard key rather than hashing a monotonically increasing one.
+
+
+Disadvantage of Hashed Indexes
+------------------------------
+
+- A hashed index cannot be used in a range query
+
+  - e.g. db.collection.find( { a : { $gte : 5 } } )  // needs to hit every server if the shard key is { a : "hashed" } 
+
+
+Sharding and Replication
+------------------------
+
+- It is even more important to use replication for sharded clusters than for single servers.
+- Suppose you have 1 server, and it goes down once per year, and it takes you a few hours to resolve the problems that arise from the outage. Replication might still be a good idea, but it also might not be essential. If, however, you have 100 of those servers, then you will have a server go down an average of twice per week.
+- To prevent this from happening in MongoDB, you will need each shard to be a replica set.
+- All of the advantages of replica sets apply to the nodes of a sharded cluster.

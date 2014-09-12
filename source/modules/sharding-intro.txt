@@ -73,7 +73,7 @@ Sharding - Config Servers
 
 - Actually, the previous diagram was wrong. There are also 3 config servers in a sharded collection:
 
-.. figure:: /images/sharded-cluster-with-config.png
+.. figure:: /images/sharded-cluster-with-configs.png
     :width: 600 px
     :align: center
 
@@ -83,7 +83,7 @@ Sharding - Config Servers
 - There are 3 of them in production.
 
   - They are NOT a replica set, but they all have identical data.
-  - If one goes dowon or the data gets out of sync, data will not be able to move until the issue is resolved.
+  - If a config server goes down or the data in one gets out of sync with another, chunks will not be split or moved until the issue is resolved.
 
 
 When to Shard
@@ -94,8 +94,6 @@ When to Shard
 - If your working set outgrows your available memory on one machine
 
   - You might notice a lot of page faults if this is happening
-
-.. figure::
 
 
 Sharding - Shard Key Basics

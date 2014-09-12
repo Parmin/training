@@ -37,14 +37,12 @@ Currently, there are drafts for the following sections:
 - Indexes
 - Aggregation
 - Replica Sets
+- Sharding
+- Security
 
 We have rough copy for (not yet included here):
 
 - Data Modeling
-- Sharding
-
-and still need to write the Security section.
-
 
 Test-Driving Built Materials
 ----------------------------
