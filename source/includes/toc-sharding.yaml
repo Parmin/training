@@ -2,25 +2,13 @@ file: /modules/sharding-intro
 description: |
   An introduction to sharding.
 ---
-file: /modules/sharding-needs-redundancy
+file: /modules/sharding-considerations
 description: |
-  Why a sharded system relies on replication more than a single server system.
+  Things to keep in mind when setting up a sharded cluster.
 ---
-file: /modules/sharding-the-shard-key
+file: /modules/sharding-balancing
 description: |
-  Importance of the shard key, and what to avoid.
----
-file: /modules/sharding-hashed-indexes
-description: |
-  Hashed indexes, and their advantages and disadvantages.
----
-file: /modules/sharding-chunks
-description: |
-  Chunks, and their role in a sharded cluster.
----
-file: /modules/sharding-balancer
-description: |
-  What the balancer is, and how it works.
+  Chunks, the balancer, and their role in a sharded cluster.
 ---
 file: /modules/sharding-tags
 description: |
