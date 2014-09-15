@@ -24,6 +24,6 @@ Exercise: Creating a 2dsphere Index
                                    destination : "2dsphere", 
                                    flightNumber : 1 } )
 
-	 db.flights.ensureIndex( { destination : "2dsphere" } )
+     db.flights.ensureIndex( { destination : "2dsphere" } )
 
-	 db.flights.getIndexes() // see the indexes.
+     db.flights.getIndexes() // see the indexes.

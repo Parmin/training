@@ -1,6 +1,8 @@
 Example: Multikey Index and an Array of Documents
 -------------------------------------------------
 
+First, let's create a collection, ``multiKeys``, that we will work with, and an index on the 'x' field:
+
 .. code-block:: javascript
 
     db.multiKeys.ensureIndex( { x : 1 } )
@@ -13,11 +15,33 @@ Example: Multikey Index and an Array of Documents
           { x : { name : "Cherry", number : 3 } },
                 { name : "Dan", number : 4 } ]
     db.multiKeys.insert(b)
+    db.multiKeys.ensureIndex( { x : 1 } )  // standard index creation directive
+    db.multiKeys.find()
+
+In this collection, you can see that there are four documents. In each document is an array, ``x``, of subdocuments with a name and a number in them (always the same number for each name).
+
+For each of the following queries, answer the following:
+
+  - How many documents will be returned?
+  - Will it use our index? Why or why not?
+  - If a query will not use the index, find the index that it would use.
+
+Queries:
+
+  - db.multiKeys.find( { x : { name : "Cherry", number : 3 } } )
+  - db.multiKeys.find( { x : { number : 3 } } )
+  - db.multiKeys.find( { "x.number" : 3 } )
+
+
+.. only:: instructor
+
+  .. note::
+
     db.multiKeys.find( { x : { name : "Cherry", number : 3 } } )  // 3 documents
-    db.multiKeys.find( { x : { name : "Cherry", number : 3 } } ).explain()  // Used the index
+    db.multiKeys.find( { x : { name : "Cherry", number : 3 } } ).explain()  // Used the index because we pass it the full element of the 'x' field.
     // Now, let's just try  using the "number" field of the subdocument
     db.multiKeys.find( { "x.number" : 3 } )  // 3 documents
-    db.multiKeys.find( { "x.number" : 3 } ).explain()  // Didn't use the index!
+    db.multiKeys.find( { "x.number" : 3 } ).explain()  // Didn't use the index because 'x.number' is only part of the document that is indexed.
     db.multiKeys.ensureIndex( { "x.number" : 1 } )
     db.multiKeys.find( { "x.number" : 3 } ).explain()  // Using the new index
     db.multiKeys.drop()

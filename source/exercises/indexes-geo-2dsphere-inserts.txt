@@ -66,14 +66,13 @@ Exercise: Inserting geoJSON Objects (3)
 
       .. code-block:: javascript
 
-         for (takeoff in ny_ports) { 
-             for (landing in london_ports) { 
-                 db.flights.insert( 
-                     { origin : { type : "Point", 
-                                  coordinates : ny_ports[takeoff] }, 
-                       destination : { type : "Point", 
-                                       coordinates : london_ports[landing] }, 
-                       flightNumber : flightNumbers[takeoff] } ) 
-              } 
-         } 
-
+         for (takeoff in ny_ports) {
+             for (landing in london_ports) {
+                 db.flights.insert(
+                     { origin : { type : "Point",
+                                  coordinates : ny_ports[takeoff] },
+                       destination : { type : "Point",
+                                       coordinates : london_ports[landing] },
+                       flightNumber : flightNumbers[takeoff] } )
+              }
+         }

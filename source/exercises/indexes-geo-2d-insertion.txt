@@ -1,8 +1,8 @@
-Exercise: Inserting Documents with 2d Fields
---------------------------------------------
-
-- Insert 2 documents into the 'twoD' collection.
-- Assign 2d coordinate values to the ``xy`` field of each document.
+ Exercise: Inserting Documents with 2d Fields
+ --------------------------------------------
+ 
+ - Insert 2 documents into the 'twoD' collection.
+ - Assign 2d coordinate values to the ``xy`` field of each document.
 - Longitude values should be -3 and 3 respectively.
 - Latitude values should be 0 and 0.4 respectively.
 

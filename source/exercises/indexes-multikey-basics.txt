@@ -1,6 +1,8 @@
 Example: Multikey Index and Arrays of Numbers
 ---------------------------------------------
 
+
+
 .. code-block:: javascript
 
     db.multiKeys.ensureIndex( { x : 1 } )

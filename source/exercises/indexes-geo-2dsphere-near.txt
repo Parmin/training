@@ -3,20 +3,24 @@ Exercise: Using $near to Query geoJSON Objects
 
 New York City Hall is at 40.7127° N, 74.0059° W. How many flights are within 15 kilometers of that location?
 
-.. code-block:: javascript
+.. only:: instructor
 
-    db.flights.find(
-    {
-        origin :
+  .. note::
+
+    .. code-block:: javascript
+
+        db.flights.find(
         {
-            $near :
+            origin :
             {
-                $geometry :
+                $near :
                 {
-                    type : "Point",
-                    coordinates : [ -74.0059, 40.7127 ]
-                },
-                $maxDistance : 15000
+                    $geometry :
+                    {
+                        type : "Point",
+                        coordinates : [ -74.0059, 40.7127 ]
+                    },
+                    $maxDistance : 15000
+                }
             }
-        }
-    } ).count() // Should be 8 flights, from either Newark or La Guardia.
+        } ).count() // Should be 8 flights, from either Newark or La Guardia.
