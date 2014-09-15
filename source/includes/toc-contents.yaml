@@ -21,4 +21,8 @@ description: |
 file: /modules/nav/sharding
 description: | 
   Sharding in MongoDB
+---
+file: /modules/nav/security
+description: |
+  Security in MongoDB
 ...

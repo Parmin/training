@@ -1,0 +1,8 @@
+file: /modules/security-intro
+description: |
+  An overview of security options for MongoDB.
+---
+file: /modules/security-authorization
+description: |
+  A quick lesson on authorization in MongoDB 2.6.
+...

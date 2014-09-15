@@ -1,6 +1,6 @@
-==================
-Geospatial Indexes
-==================
+=============================
+Geospatial Indexes (Optional)
+=============================
 
 
 Learning Objectives
@@ -38,12 +38,13 @@ Flat vs. Spherical Indexes
 
     - Takes into account the curvature of the earth.
     - Joins any two points using a geodesic or "great circle arc".
+    - Deviates from flat geometry as you get further from the equator, and as your points get further apart.
 
 
 Flat Geospatial Index
 ---------------------
 
-- This is a cartesian treatment of coordinate pairs.
+- This is a Cartesian treatment of coordinate pairs.
 - E.g., would NOT know that the shortest path from Canada to Siberia is over the North Pole (if units are degrees).
 - Can be used to describe any flat surface.
 - Recommended if:
