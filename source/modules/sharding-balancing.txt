@@ -40,19 +40,24 @@ Chunks in a Newly Sharded Collection
 Chunk Splits
 ------------
 
-- When a chunk gets larger than 64 MB, it gets split, roughly in half
-
-  - The chunk can only be split between two values of a shard key, so it may not always split exactly in half.
-  - If every document on a chunk has the same shard key value, it cannot be split.
-
-    - This is why the shard key's cardinality is important
-
-- The chunk split is just a bookkeeping entry in the metadata. No data bearing documents are altered.
-- The chunk initially stays in place; it doesn't move until a migration is started, and may not move even then.
-
 .. figure:: /images/sharding-splitting.png
-    :width: 600 px
-    :align: center
+   :width: 600 px
+   :align: center
+
+.. only:: instructor
+
+   .. note::
+
+      - When a chunk gets larger than 64 MB it gets split roughly in half.
+      - The chunk can only be split between two values of a shard key.
+      - It may not always split exactly in half.
+      - If every document on a chunk has the same shard key value, it cannot be split.
+      - This is why the shard key's cardinality is important
+      - Chunk splitting is just a bookkeeping entry in the metadata. 
+      - No data bearing documents are altered.
+
+
+
 
 
 Pre-Splitting Chunks

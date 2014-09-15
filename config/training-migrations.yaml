@@ -6,4 +6,5 @@ sources:
   - images/replica-set-trigger-election.svg
   - images/replica-set-read-write-operations-primary.svg
   - images/sharded-collection.svg
+  - images/sharding-splitting.png
 ...
