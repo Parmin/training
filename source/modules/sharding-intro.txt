@@ -1,45 +1,112 @@
-=======================
-Sharding - Introduction
-=======================
+========================
+Introduction to Sharding
+========================
 
 
 Learning Objectives
 -------------------
 
-Upon completing this module, students should understand:
+Upon completing this module students should understand:
 
 - What problems sharding solves
 - When sharding is appropriate
 - How sharding works with the shard key
 
+Contrast with Replication
+-------------------------
+
+- In an earlier module e discussed Replication.
+- This should never be confused with sharding. 
+- Replication is about high availability and durability.
+
+  - Taking your data and constantly copying it 
+  - Being ready to have another machine step in to field requests.
+
+Sharding is Concerned with Scale
+--------------------------------
+
+- What happens when a system is unable to handle the application load?
+- It is time to consider scaling.  
+- There are 2 types of scaling we want to consider:
+  
+  - Vertical scaling
+  - Horizontal scaling
+
+
+Vertical Scaling
+----------------
+- Adding more RAM, faster disks, etc.  
+- When is this the solution?  
+- First, consider a concept called the ``working set``.  
+
+
+The Working Set
+---------------
+
+TODO: ADD A FIGURE
+
+.. only:: instructor
+
+   .. note::
+
+      - The working set contains the documents and indexes that are currently being used by an application.
+      - It is best if the working set fits in RAM.
+      - In this figure there are many more documented in use than can fit in RAM.  
+      - This would result in page faults affecting performance.  
+      - More RAM would cover a larger area of the database.  
+   
+
+Limitations of Vertical Scaling
+-------------------------------
+
+- There is a limit to how much RAM one machine can support.
+- There are other bottlenecks such as I/O, disk access and network.  
+- Cost may limit our ability to scale up.
+- There may be requirements to have a large working set that no single machine could possible support.  
+- This is when it is time to scale horizontally.
+
 
 Sharding - Overview
 -------------------
 
-- Previously, we discussed Replication, which was involved in protecting your data, not in making access any faster. Sharding is about making data access faster.
-- Sharding is MongoDB's way of allowing you to scale out your data to multiple servers. It's how you scale horizontally.
-- Sharding is designed to be as easy as possible - your applications will not know that they operate in a sharded environment. All queries will work the same, and connections will work the same by default.
+- MongoDB enables you to scale horizontally through sharding.
+- Sharding is about adding more capacity to your system.
+- MongoDB's sharding solution is designed to perform well on commodity hardware.
+- The details of sharding are abstracted away from applications.
+- Queries are performed the same way as if sending operations to a single server.
+- Connections work the same by default.
 
 
-Scalable vs. Non-scaling Databases
-----------------------------------
-
-- In a database that doesn't scale, latency will increase with server load:
+An Model that Does Not Scale
+----------------------------
 
 .. figure:: /images/doesnt_scale.png
     :width: 600 px
     :align: center
 
+.. only:: instructor
 
-- In a database that does scale, latency will not increase in direct proportion to the server load:
+   .. note::
+
+      - Load and latency are related. 
+      - On a single server, latency tends to increase linearly with load.
+      - Eventually latency is too great and the database has become a bottleneck.
+
+
+A Scalable Model
+----------------
 
 .. figure:: /images/does_scale.png
     :width: 600 px
     :align: center
 
-  - Notice that this diagram doesn't claim that there is no increase in latency due to scaling, just that it is much smaller than the increase in the server load.
+.. only:: instructor
 
-- Relational databases scale the first way. MongoDB scales the second one.
+   .. note::
+
+      - Latency increases, but not linearly
+      - We're not saying there is no increase in latency.
+      - Just that it is much smaller than the increase in the server load.
 
 
 Sharding - Basics
