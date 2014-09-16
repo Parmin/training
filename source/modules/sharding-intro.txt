@@ -21,25 +21,34 @@ Sharding - Overview
 - Sharding is designed to be as easy as possible - your applications will not know that they operate in a sharded environment. All queries will work the same, and connections will work the same by default.
 
 
-Scalable vs. Non-scaling Databases
-----------------------------------
+Non-scaling Database
+--------------------
 
-- In a database that doesn't scale, latency will increase with server load:
+TODO: Get a better image
 
 .. figure:: /images/doesnt_scale.png
-    :width: 600 px
     :align: center
 
+.. only:: instructor
 
-- In a database that does scale, latency will not increase in direct proportion to the server load:
+  - In a database that doesn't scale, latency will increase with server load:
+  - This is the problem that relational databases face when their load increases dramatically.
+  
+
+Scaling Database
+----------------
+
+TODO: Get a better image
 
 .. figure:: /images/does_scale.png
-    :width: 600 px
     :align: center
 
+.. only:: instructor
+  
+  - In a database that does scale, latency will not increase in direct proportion to the server load:
   - Notice that this diagram doesn't claim that there is no increase in latency due to scaling, just that it is much smaller than the increase in the server load.
-
-- Relational databases scale the first way. MongoDB scales the second one.
+  - Relational databases can scale vertically (i.e., by buying a bigger box). 
+  - MongoDB scales vertically and horizontally (i.e., spreading out the load across several boxes)
 
 
 Sharding - Basics
