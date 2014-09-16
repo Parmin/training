@@ -1,6 +1,6 @@
-=======================
-Security - Introduction
-=======================
+========
+Security
+========
 
 
 Learning Objectives
@@ -36,7 +36,7 @@ TODO: Create a real version of this image. Also, the top half is Authentication,
       - Network Exposure: Is this query or login coming from the place we expect?
     
     - You are welcome to use any features you desire, or none.
-    - No security is on by default.
+    - Security is off by default.
 
 
 Authentication Options

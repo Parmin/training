@@ -5,6 +5,8 @@ Once you have a mongod running with --auth, set up a userAdminAnyDatabase with n
 
 .. only:: instructor
 
+  .. note::
+
     .. code-block:: bash
 
         mongo
@@ -15,7 +17,10 @@ Once you have a mongod running with --auth, set up a userAdminAnyDatabase with n
         var role = "userAdminAnyDatabase"
         var name = "Roland"
         var password = "12345"
-        newUserDoc = { user : name, pwd : password, roles : [ { role : role, db : "admin" } }
+        newUserDoc = { user : name,
+                       pwd : password,
+                       roles : [ { role : role,
+                                   db : "admin" } ] }
         db.createUser( newUserDoc )
         exit
 
