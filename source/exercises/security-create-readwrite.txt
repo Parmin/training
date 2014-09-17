@@ -1,7 +1,11 @@
 Security - Setting Up a readWrite User
 --------------------------------------
 
-Once you have a userAdminAnyDatabase, set up a user with readWrite access on the 'test' db and the 'Druidia' database, but who must login on the 'Druidia' database. Have her log in to MongoDB.
+Exercise:
+
+- Set up a user named 'Vespa' with readWrite access on the 'test' db and the 'Druidia' database
+- Set the login server to be the 'Druidia' database.
+- Log in using this user.
 
 
 .. only:: instructor

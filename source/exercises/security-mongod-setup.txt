@@ -1,7 +1,9 @@
 Security - Setting Up mongod
 ----------------------------
 
-Please run mongod with MongoDB-CR enabled.
+Exercise:
+
+- Start up a mongod server with MongoDB-CR enabled.
 
 .. only:: instructor
 
