@@ -6,8 +6,7 @@ sources:
   - images/replica-set-trigger-election.svg
   - images/replica-set-read-write-operations-primary.svg
   - images/sharded-collection.svg
-  - images/sharding-splitting.png
-  - images/does_scale.png
-  - images/doesnt_scale.png
-  - images/security-auth-categories.jpg
+  - images/sharding-splitting.svg
+  - images/sharded-collection.svg
 ...
+
