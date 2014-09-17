@@ -20,6 +20,39 @@ output:
      dpi: 72
      width: 300
 ---
+name: security-auth-categories
+alt: "Flowchart for authentication and authorization"
+output: 
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 2100
+   - type: 'web'
+     dpi: 72
+     width: 300
+---
+name: does_scale
+alt: "Latency vs. Load for a system that does scale with users."
+output: 
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 2100
+   - type: 'web'
+     dpi: 72
+     width: 300
+---
+name: doesnt_scale
+alt: "Latency vs. Load for a system that doesn't scale with users."
+output: 
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 2100
+   - type: 'web'
+     dpi: 72
+     width: 300
+---
 name: crud-write-concern-w2
 alt: "Write operation to a replica set with write concern level of ``w:2`` or write to the primary and at least one secondary."
 output: 

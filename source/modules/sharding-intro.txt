@@ -80,9 +80,10 @@ Sharding - Overview
 An Model that Does Not Scale
 ----------------------------
 
+TODO: REPLACE WITH BETTER FIGURE.
+
 .. figure:: /images/doesnt_scale.png
-    :width: 600 px
-    :align: center
+   :align: center
 
 .. only:: instructor
 
@@ -92,12 +93,9 @@ An Model that Does Not Scale
       - On a single server, latency tends to increase linearly with load.
       - Eventually latency is too great and the database has become a bottleneck.
 
-
-A Scalable Model
-----------------
+TODO: REPLACE WITH BETTER FIGURE.
 
 .. figure:: /images/does_scale.png
-    :width: 600 px
     :align: center
 
 .. only:: instructor
@@ -107,6 +105,8 @@ A Scalable Model
       - Latency increases, but not linearly
       - We're not saying there is no increase in latency.
       - Just that it is much smaller than the increase in the server load.
+      - Relational databases can scale vertically (i.e., by buying a bigger box). 
+      - MongoDB scales vertically and horizontally (i.e., spreading out the load across several boxes)
 
 
 Sharding - Basics

@@ -1,0 +1,129 @@
+========
+Security
+========
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- which authentication options are available for MongoDB
+- which authorization options are available for MongoDB
+- Which network exposure and encryption options are available for MongoDB
+- Basic user roles in MongoDB
+- How to set up CR authentication
+- How to manipulate user roles in MongoDB
+
+
+Security - Overview
+-------------------
+
+TODO: Create a real version of this image. Also, the top half is Authentication, the bottom half (the loop) is Authorization, so I should make that clear in the next iteration of this diagram.
+
+.. figure:: /images/security-auth-categories.jpg
+
+
+.. only:: instructor
+
+  .. note::
+
+    - You should only run MongoDB in a trusted environment.
+    - However, MongoDB offers security features from several angles:
+    
+      - Authentication: Is the client who they say they are?
+      - Authorization: Is the client allowed to do this?
+      - Network Exposure: Is this query or login coming from the place we expect?
+    
+    - You are welcome to use any features you desire, or none.
+    - Security is off by default.
+
+
+Authentication Options
+----------------------
+
+- MONGODB-CR Authentication (username & password)
+- x.509 Authentication (using x.509 Certificates)
+- Kerberos (through an Enterprise subscription)
+- LDAP (Not for Windows)
+- User logs in on a particular client connection
+
+
+Authorization via MongoDB
+-------------------------
+
+- Each user has a set of potential roles
+
+  - read, readWrite, dbAdmin, etc.
+
+- Roles apply to one particular database
+
+  - User can have roles on each database
+  - Some roles apply to all databases
+  - You can create custom roles if built-in roles don't work.
+
+
+Network Exposure
+----------------
+
+- bindIp can limit the origin of trusted incoming connections.
+- Choosing a non-standard port provides a layer of obscurity.
+- Enabling the http interface is useful in dev environments but should not be done in production.
+- MongoDB should still be run only in a trusted environment.
+
+
+Encryption
+----------
+
+- MongoDB can be configured at build time to run with SSL.
+
+  - Binaries from the site are built without it, however, so you'll need to do your own build.
+
+
+Setting Up MongoDB-CR
+---------------------
+
+- Start a mongod instance with --auth to enable this feature
+- You can initially login using localhost (the "localhost exception")
+- Make sure you create a userAdminAnyDatabase or a similar role so that you can create users with the appropriate privileges
+- Log out. At this point, you will need to log in as a user.
+
+.. include:: /exercises/security-mongod-setup.txt
+
+.. include:: /exercises/security-create-useradmin.txt
+
+
+Using MongoDB Roles
+-------------------
+
+- Each user has a database on which they can log in
+- Each user must provide their username and password on login
+
+  - From the shell, the -u flag will precede the username
+  - The password, using the -p flag, can be entered immediately after invoking the mongo shell, or can be part of the shell command.
+
+- userAdmins may create other users.
+
+
+MongoDB Built-in User Roles
+---------------------------
+
+- Roles apply to one database unless 'AnyDatabase' is part of the name
+- read
+- readWrite
+- dbAdmin: can create & drop DB's, plus other activities; can't read/write most data
+- userAdmin: can create users & modify roles, etc.
+
+  - can create users with readWrite access, and/or give self read/write access, but can't read/write by default.
+
+- Lots of other roles: see http://docs.mongodb.org/manual/reference/built-in-roles/
+
+.. include:: /exercises/security-create-readwrite.txt
+
+MongoDB Custom User Roles
+-------------------------
+
+- You can create custom user roles in MongoDB.
+- You do this by modifying the system.roles collection.
+- You can also inherit privileges from other roles into a given role.
+- You won't remember how to do this, so if you need it, consult the docs.

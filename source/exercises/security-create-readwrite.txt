@@ -6,6 +6,8 @@ Once you have a userAdminAnyDatabase, set up a user with readWrite access on the
 
 .. only:: instructor
 
+  .. note::
+
     .. code-block:: bash
 
         mongo -u Roland admin -p 
@@ -15,7 +17,10 @@ Once you have a userAdminAnyDatabase, set up a user with readWrite access on the
         use Druidia
         var name = "Vespa"
         var password = "12345"
-        vespa = { user : name, pwd : password, roles : [ { role : "readWrite", db : "Druidia" }, { role : "readWrite", db : "test" } ] }
+        vespa = { user : name,
+                  pwd : password,
+                  roles : [ { role : "readWrite", db : "Druidia" },
+                            { role : "readWrite", db : "test" } ] }
         db.createUser(vespa)
         exit
 
