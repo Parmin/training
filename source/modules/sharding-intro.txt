@@ -82,8 +82,10 @@ An Model that Does Not Scale
 
 TODO: REPLACE WITH BETTER FIGURE.
 
-.. figure:: /images/doesnt_scale.png
+.. figure:: /figures/load-latency-linear.png
    :align: center
+   :width: 400px
+   
 
 .. only:: instructor
 
@@ -93,10 +95,15 @@ TODO: REPLACE WITH BETTER FIGURE.
       - On a single server, latency tends to increase linearly with load.
       - Eventually latency is too great and the database has become a bottleneck.
 
+
+A Scalable Model
+----------------
+
 TODO: REPLACE WITH BETTER FIGURE.
 
-.. figure:: /images/does_scale.png
-    :align: center
+.. figure:: /figures/scalable-model.png
+   :align: center
+   :width: 400px
 
 .. only:: instructor
 
@@ -112,32 +119,58 @@ TODO: REPLACE WITH BETTER FIGURE.
 Sharding - Basics
 -----------------
 
-- When you shard a collection, that collection will become distributed across several servers.
-- When you make a query (be it a read operation or a write operation), that query will go to a router that will then direct the query to the appropriate server.
-- In order to read or write any one document, you will only have to touch one server.
- 
-  - Depending on your query and your sharding setup, you may be able to read or write many documents but only touch one server.
-
-
-Sharding - More Details
------------------------
-
-- Consider the following image:
-
 .. figure:: /images/sharded-collection.png
     :width: 600 px
     :align: center
 
-- This has two replica sets with 3 servers each. Each replica set is a "shard."
+.. only:: instructor
 
-  - So this cluster has only two shards.
+   .. note::
 
-- Each shard has a "partition" of the data for each sharded collection.
-- The router is a mongos process. 
+      - When you shard a collection it is distributed across several servers.
+      - When you perform a read or write operation it will go to a router that will then direct the query to the appropriate server.
+      - Depending on the operation and how your cluster is configured you may need to touch only one server to complete the operation.
 
-  - This cluster has only one mongos
-  - A cluster can have LOTS of mongos processes. They operate in parallel just fine.
-  - It is typical for a cluster to have one mongos per application server.
+
+Sharded Cluster Architecture
+----------------------------
+
+TODO: REPLACE WITH BETTER FIGURE.
+
+.. figure:: /figures/sharded-cluster-scenario.png
+   :align: center
+   :width: 400px
+
+.. only:: instructor
+
+   .. note::
+
+      - This figure illustrates one possible architecture for a sharded cluster.
+      - Each shard is a self contained replica set.
+      - Each replica set holds a partition of the data.
+      - As many new shards could be added to this sharded cluster as scale requires.  
+      - At this point our cluster can handle a load approaching twice that of a single replica set using the same hardware.
+      - As mentioned, read/write operations go through a router.
+      - The server that routes requests is the mongos.
+
+
+Mongos
+------
+
+- A mongos is responsible for accepting requests and returning results to an application driver.  
+- In a sharded cluster, nearly all operations go through a mongos.  
+- A sharded cluster can have as many mongos routers as required.  
+- It is typical for each application server to have one mongos.  
+- Always use more than one mongos to avoid a single point of failure.
+
+.. only:: instructor
+
+   .. note::
+
+      - A mongos is typically is deployed on an application server.  
+      - There should be one mongos per app server.  
+      - A network with 12 app servers should have 12 mongoS clients.  The reason for this is then your mongoS clients scale with your app server, there is no latency between the application and the router and there is not single a point of failure.
+
 
 
 Sharding - Config Servers
@@ -146,7 +179,7 @@ Sharding - Config Servers
 - Actually, the previous diagram was wrong. There are also 3 config servers in a sharded collection:
 
 .. figure:: /images/sharded-cluster-with-configs.png
-    :width: 600 px
+    :width: 400 px
     :align: center
 
 - These config servers hold only metadata about the collection.

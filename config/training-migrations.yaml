@@ -8,5 +8,18 @@ sources:
   - images/sharded-collection.svg
   - images/sharding-splitting.svg
   - images/sharded-collection.svg
+  - images/sharded-cluster-mixed.svg
+  - images/sharded-cluster-primary-shard.svg
+  - images/sharded-cluster-production-architecture.svg
+  - images/sharded-cluster-scatter-gather-query.svg
+  - images/sharded-cluster-targeted-query.svg
+  - images/sharded-cluster-test-architecture.svg
+  - images/sharded-cluster.svg
+  - images/sharded-collection.svg
+  - images/sharding-cleanup-orphaned.svg
+  - images/sharding-hash-based.svg
+  - images/sharding-migrating.svg
+  - images/sharding-range-based.svg
+  - images/sharding-splitting.svg
 ...
 
