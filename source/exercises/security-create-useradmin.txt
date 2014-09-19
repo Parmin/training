@@ -1,7 +1,11 @@
 Security - Setting Up a First User
 ----------------------------------
 
-Once you have a mongod running with --auth, set up a userAdminAnyDatabase with name "Roland" and password "12345". Enable him to login on the admin database, and demonstrate a login.
+Exercise:
+
+- Set up a userAdminAnyDatabase with name "Roland" and password "12345".
+- Enable him to login on the admin database.
+- Demonstrate a login.
 
 .. only:: instructor
 

@@ -8,20 +8,21 @@ Learning Objectives
 
 Upon completing this module, students should understand:
 
-- which authentication options are available for MongoDB
-- which authorization options are available for MongoDB
-- Which network exposure and encryption options are available for MongoDB
-- Basic user roles in MongoDB
-- How to set up CR authentication
-- How to manipulate user roles in MongoDB
+- Security options for MongoDB
+- Basics of native auth for MongoDB
+
+  - User roles in MongoDB
+  - How to manage user roles in MongoDB
 
 
 Security - Overview
 -------------------
 
-TODO: Create a real version of this image. Also, the top half is Authentication, the bottom half (the loop) is Authorization, so I should make that clear in the next iteration of this diagram.
+TODO: Create a real version of this image. Also make it clear that the top half is Authentication, bottom half is Authorization.
 
 .. figure:: /images/security-auth-categories.jpg
+   :align: center
+   :width: 300 px
 
 
 .. only:: instructor
@@ -45,8 +46,7 @@ Authentication Options
 - MONGODB-CR Authentication (username & password)
 - x.509 Authentication (using x.509 Certificates)
 - Kerberos (through an Enterprise subscription)
-- LDAP (Not for Windows)
-- User logs in on a particular client connection
+- LDAP
 
 
 Authorization via MongoDB
@@ -56,69 +56,88 @@ Authorization via MongoDB
 
   - read, readWrite, dbAdmin, etc.
 
-- Roles apply to one particular database
+- Each role applies to *one* database
 
-  - User can have roles on each database
+  - A single user can have roles on each database
   - Some roles apply to all databases
-  - You can create custom roles if built-in roles don't work.
+  - You can also create custom roles.
 
 
-Network Exposure
-----------------
+Network Exposure Options
+------------------------
 
-- bindIp can limit the origin of trusted incoming connections.
-- Choosing a non-standard port provides a layer of obscurity.
-- Enabling the http interface is useful in dev environments but should not be done in production.
+- bindIp limits the ip addresses the server listens on.
+- Using a non-standard port can provide a layer of obscurity.
 - MongoDB should still be run only in a trusted environment.
 
 
-Encryption
-----------
+Encryption (SSL)
+----------------
 
 - MongoDB can be configured at build time to run with SSL.
+- To get it, build from the source code with --ssl.
 
-  - Binaries from the site are built without it, however, so you'll need to do your own build.
+  - Alternatively, use MongoDB Enterprise.
 
 
-Setting Up MongoDB-CR
----------------------
+Native MongoDB Auth
+-------------------
+
+- Uses the Challenge/Response mechanism
+
+  - Sometimes called MongoDB-CR
 
 - Start a mongod instance with --auth to enable this feature
-- You can initially login using localhost (the "localhost exception")
-- Make sure you create a userAdminAnyDatabase or a similar role so that you can create users with the appropriate privileges
-- Log out. At this point, you will need to log in as a user.
+- You can initially login using localhost
+  
+  - Called the "localhost exception".
+  - Stops working when you create a user.
+
+.. only:: instructor
+
+   .. note::
+      
+      - Be careful to create a user who can create other users.
+      - Otherwise you'll be stuck with the users you initially create.
 
 .. include:: /exercises/security-mongod-setup.txt
 
 .. include:: /exercises/security-create-useradmin.txt
 
+.. only:: instructor
+
+   .. note::
+      
+      - Once a user is created, the localhost exception no longer applies.
+      - If that first user can't create other users, you will be extremely limited in your ability 
+
 
 Using MongoDB Roles
 -------------------
 
-- Each user has a database on which they can log in
-- Each user must provide their username and password on login
+- Each user logs in on *one* database.
+- The user inputs their password on login.
 
-  - From the shell, the -u flag will precede the username
-  - The password, using the -p flag, can be entered immediately after invoking the mongo shell, or can be part of the shell command.
+  - Use the -u flag for username.
+  - Use the -p flag to enter the password.
 
-- userAdmins may create other users.
+- userAdmins may create other users
+
+  - But they cannot read/write without other roles.
 
 
-MongoDB Built-in User Roles
----------------------------
+.. only:: instructor
 
-- Roles apply to one database unless 'AnyDatabase' is part of the name
-- read
-- readWrite
-- dbAdmin: can create & drop DB's, plus other activities; can't read/write most data
-- userAdmin: can create users & modify roles, etc.
+   .. note::
 
-  - can create users with readWrite access, and/or give self read/write access, but can't read/write by default.
+      - The db must be specified when logging in
 
-- Lots of other roles: see http://docs.mongodb.org/manual/reference/built-in-roles/
+        - Trying to log into another db won't work
+
+      -p can be followed by the password, or it can get input immediately after hitting 'enter' to launch the mongo shell.
 
 .. include:: /exercises/security-create-readwrite.txt
+
 
 MongoDB Custom User Roles
 -------------------------

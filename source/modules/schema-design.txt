@@ -1,0 +1,89 @@
+=============
+Schema Design
+=============
+
+STILL WORKING ON THIS.
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- The importance of a good schema
+- What differentiates a good schema from a bad schema
+- Why this differentiation depends upon the use case
+
+
+Overview
+--------
+
+- Schema design is about how data is put into documents.
+- The structure of documents can affect performance.
+- You will not and should not try to normalize your data.
+- Your model will be built around how your data is used.
+
+
+Schema Design Considerations
+----------------------------
+
+TO DO: ADD A DRAWING
+
+- Often, there is a trade-off between:
+  
+  - The size of your documents
+  - Number of queries you need to perform
+
+- Your first consideration will be how to balance these.
+
+  - You don't want to query documents full of data you're not using.
+  - You don't want to run lots of queries to get all the data you need.
+
+
+Find Queries and RAM
+--------------------
+
+- RAM is a precious commodity.
+- Ideally, when you query a document, it will already be in memory.
+- When a document is queried: 
+
+  - The entire document is loaded into memory (if not already there).
+  - This can push other documents out of memory.
+
+- If your documents are small, more of them can fit into memory.
+
+  - Loading them will push relatively little data out of memory.
+
+
+Find Queries and Spinning Disks
+-------------------------------
+
+- If a document is not already in memory when queried, It must get from the disk into RAM.
+- Even if its location is known, this involves two steps:
+
+  - A seek (to put the read head at the beginning of the document on the disk)
+  - A read (to pull the document into memory)
+
+- For spinning disks, reading is pretty fast, but seeks are slow.
+- If you need to find lots of scattered documents, this will mean lots of seeks.
+- Packing data together into a single document will reduce the number of seeks.
+
+
+
+
+
+Frequently vs. Rarely Accessed Data
+-----------------------------------
+
+- Frequently accessed data should be in the largest document possible, to minimize seeks.
+- Rarely used data should not be accessed when not being used.
+- Data with different usage patterns should be separated.
+
+
+Updates and RAM
+---------------
+
+- Each update requires
+
+  - a read operation (to pull up the document)
+  - a write operation (to change the data)
