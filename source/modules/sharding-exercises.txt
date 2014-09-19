@@ -1,6 +1,6 @@
-========
-Hands On
-========
+=================
+Sharding Exercise
+=================
 
 
 Learning Objectives
