@@ -107,4 +107,26 @@ output:
   - type: web
     dpi: 72
     width: 800
+---
+name: sharded-cluster-targeted-query
+alt: "Targeted query in a sharded cluster."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
+---
+name: sharding-splitting
+alt: "An example of splitting a chunk."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
 ...

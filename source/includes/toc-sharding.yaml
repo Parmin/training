@@ -2,10 +2,6 @@ file: /modules/sharding-intro
 description: |
   An introduction to sharding.
 ---
-file: /modules/sharding-considerations
-description: |
-  Things to keep in mind when setting up a sharded cluster.
----
 file: /modules/sharding-balancing
 description: |
   Chunks, the balancer, and their role in a sharded cluster.

@@ -1,40 +1,42 @@
-====================
-Sharding - Balancing
-====================
+================
+Balancing Shards
+================
+
 
 Learning Objectives
 -------------------
 
-Upon completing this module, students should understand:
+Upon completing this module students should understand:
 
-- The relationship of balancing to chunks and the balancer
+- Chunks and the balancer
 - The status of chunks in a newly sharded collection
 - How chunk splits automatically occur
 - Advantages of pre-splitting chunks
-- How the Balancer Works
+- How the balancer Works
 
 
 Chunks and the Balancer
 -----------------------
 
-- Chunks are groups of documents that stay together but can be moved, as a group, from one shard to another.
+- Chunks are groups of documents.
+- The shard key determines which chunk a document will be contained in.
 - Chunks can be split when they grow too large.
-- The balancer decides where chunks go, and handles the migrations of chunks from one server to another.
+- The balancer decides where chunks go.
+- It handles migrations of chunks from one server to another.
 
 
 Chunks in a Newly Sharded Collection
 ------------------------------------
 
-- When a collection is sharded, that collection will start with just one chunk
+- The range of a chunk is defined by the shard key values of the documents the chunk contains.
+- When a collection is sharded it starts with just one chunk.
+- The first chunk for a collection will have the range:
 
-  - When we say its 'range,' we mean values of the shard key that are contained by the chunk.
+  .. code-block:: javascript
 
-    - The shard key is the only thing that determines which chunk a document will be contained in.
+     { $minKey : 1 } to { $maxKey : 1 }
 
-  - The newly created collection's single chunk will have a range from { $minKey : 1 } to { $maxKey : 1 }
-  - This means that any value, from the smallest possible to the largest, will fall within this chunk's range.
-
-- This chunk will start out on the Primary Shard for that database (which is the server that holds all unsharded collections).
+- All shard key values from the smallest possible to the largest fall in this chunk's range
 
 
 Chunk Splits
@@ -48,60 +50,62 @@ Chunk Splits
 
    .. note::
 
-      - When a chunk gets larger than 64 MB it gets split roughly in half.
-      - The chunk can only be split between two values of a shard key.
-      - It may not always split exactly in half.
+      - When a chunk grows larger than the chunk size it will be split in half.
+      - The default chunk size is 64MB.
+      - A chunk can only be split between two values of a shard key.
       - If every document on a chunk has the same shard key value, it cannot be split.
       - This is why the shard key's cardinality is important
       - Chunk splitting is just a bookkeeping entry in the metadata. 
       - No data bearing documents are altered.
 
 
-
-
-
 Pre-Splitting Chunks
 --------------------
 
-- This is an optional process that gives you control over where your data will go when loaded.
-- You can manually pre-split chunks, and either let the balancer migrate the empty chunks to different shards, or manually place them on shards where they belong.
-- Manually pre-splitting is useful if:
+- You may pre-split data before loading data into a sharded cluster.
+- Pre-splitting is useful if:
 
-  - You plan to do a large data import early on, which will take time to split and balance automatically.
-  - You expect a heavy initial server load, and want to partition your writes across your cluster.
+  - You plan to do a large data import early on
+  - You expect a heavy initial server load and want to ensure writes are distributed.
+
+.. only:: instructor
+
+   .. note::
+
+      - A large data import will take time to split and balance without pre-splitting.
 
 
 Start of a Balancing Round
 --------------------------
 
-- A balancing round can be initiated by any mongos in the cluster.
-- A balancing round is started when the chunks on a cluster become imbalanced.
-  
-  - A balancing round starts when the shard with the most chunks has 2-8 more chunks than the shard with the fewest, depending on cluster size.
+- A balancing round may be initiated by any mongos in the cluster.
+- This happens when the difference in the number of chunks between two shards becomes to large.
+- Specifically, the difference between the shard with the most chunks and the shard with the fewest.
+- A balancing round starts when the imbalance reaches:
 
-    - 2 when the cluster has <20 chunks
-    - 4 when the cluster has 20-79 chunks
-    - 8 when the cluster has 80+ chunks
-
-
-Chunk Migration
----------------
-
-- A chunk migration goes through the following steps:
-
-  1. The balancer process sends the moveChunk command to the source shard.
-  2. The source shard continues to process reads/writes for that chunk during the migration.
-  3. The destination shard begins requesting documents in the chunk, and begins receiving copies of the data.
-  4. After receiving the final document in the chunk, the destination shard starts a synchronization to ensure it receives changes to the chunk.
-  5. When synchronized, the destination shard tells the config db that it has the chunk.
-
-    - At this point, the chunk is considered to be on the destination shard, and that shard will handle all reads/writes.
-
-  6. The source shard deletes its copy of the chunk.
+  - 2 when the cluster has < 20 chunks
+  - 4 when the cluster has 20-79 chunks
+  - 8 when the cluster has 80+ chunks
 
 
-The Balancing Round (conclusion)
---------------------------------
+Chunk Migration Steps
+---------------------
 
-- Each chunk will move from the shard with the most chunks to the shard with the fewest.
-- A balancing round ends when all shards differ in their number of chunks by at most one.
+#. The balancer process sends the moveChunk command to the source shard.
+#. The source shard continues to process reads/writes for that chunk during the migration.
+#. The destination shard requests documents in the chunk and begins receiving copies.
+#. After receiving all documents, the destination shard receives any changes to the chunk.
+#. Then the destination shard tells the config db that it has the chunk.
+#. The destination shard will now handle all reads/writes.
+#. The source shard deletes its copy of the chunk.
+
+
+Concluding a Balancing Round
+----------------------------
+
+- Each chunk will move:
+
+  - From the shard with the most chunks 
+  - To the shard with the fewest
+
+- A balancing round ends when all shards differ by at most one chunk.

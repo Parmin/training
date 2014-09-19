@@ -1,14 +1,14 @@
-==========================
-Sharding - Tags (Optional)
-==========================
+==========
+Shard Tags
+==========
 
 
 Learing Objectives
 ------------------
 
-Upon completing this module, students should understand:
+Upon completing this module students should understand:
 
-- The purpose behind shard tags
+- The purpose for shard tags
 - Advantages of using shard tags
 - Potential drawbacks of shard tags
 
@@ -16,17 +16,36 @@ Upon completing this module, students should understand:
 Tags - Overview
 ---------------
 
-- Shard tags allow you to direct data to a certain shard (or set of shards)
-- A shard tag applies not to a particular document or a chunk, but to an entire range of the shard tag.
-- If a chunk is in a particular shard range, it will need to reside on a server with that tag.
+- Shard tags allow you to "tie" data to one or more shards.
+- A shard tag describes a range of shard key values.
+- If a chunk is in the shard tag range, it will live on a shard with that tag.
 
 
-Tagging Scenarios
+Example: DateTime
 -----------------
 
-- You shard on a DateTime. Old documents (>1 year) need to be kept, but are rarely used. You tag those ranges as "LTS" for Long Term Storage, and you put them on cheaper, slower servers, saving your high-performance servers for fresher, more frequently accessed data.
-- You have customers who want to pay for a "premium" tier, and so you give them access to high performance servers, and tag their document ranges.
-- You are required to keep certain data in its home country. You include the country in the shard tag, and put that data on that shard, but allow it to be part of the same system.
+- Documents older than one year need to be kept, but are rarely used. 
+- You tag those ranges as "LTS" for Long Term Storage.
+- Tag specific shards to hold LTS documents.
+- These shards can be on cheaper, slower machines.
+- Invest in high-performance servers for more frequently accessed data.
+
+
+Example: Premium Tier
+---------------------
+
+- You have customers who want to pay for a "premium" tier.
+- Give them access to high performance servers.
+- Tag their document ranges appropriately.
+
+
+Example: Location
+-----------------
+
+- You are required to keep certain data in its home country. 
+- You include the country in the shard tag.
+- Maintain data centers within each country that house the appropriate shards.
+- Meets the country requirement but allows all servers to be part of the same system.
 
 
 Tags - Caveats

@@ -1,6 +1,6 @@
-===================
-Sharding - Hands On
-===================
+========
+Hands On
+========
 
 
 Learning Objectives
