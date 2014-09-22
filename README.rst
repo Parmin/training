@@ -12,8 +12,8 @@ used for the following classes:
 -  MongoDB Developer Training
 -  MongoDB Admin Training
 
-The build environment has many dependencies. We recommend you **download
-the `instructor package`_ (last built 21 September 2014)** which
+The build environment has many dependencies. We recommend you download
+the `instructor package`_ (last built 21 September 2014) which
 contains the most recent build of all materials. See the Test-Driving
 Built Materials section below for instructions on using the materials.
 
@@ -28,15 +28,18 @@ Objectives
 -  To support instructors in learning and delivering MongoDB trainings
    by providing the following resources:
 
--  A easily-navigated instructor guide complete with outline, training
-   content, and instructor notes
--  Figures, slides, exercises, and notes for delivery in class
--  A workbook to be distributed to students to enable them to easily
-   follow lessons and exercises and take notes
+   -  A easily-navigated instructor guide complete with outline, training
+      content, and instructor notes
+
+   -  Figures, slides, exercises, and notes for delivery in class
+
+   -  A workbook to be distributed to students to enable them to easily
+      follow lessons and exercises and take notes
 
 -  Training materials that are easier to maintain and that encourage
    contributions in the form of pull requests from those who deliver
    MongoDB training and others in the company
+
 -  Modular materials for greater flexibility in how trainings are
    organized
 
@@ -60,7 +63,7 @@ We have rough copy for (not yet included here):
 Test-Driving Built Materials
 ----------------------------
 
-**Download the `instructor package`_ (last built 21 September 2014)**.
+Download the `instructor package`_ (last built 21 September 2014).
 This package contains the instructor guide and presentation slides.
 
 Extract the files in the tarball and open the contents.html file in a
