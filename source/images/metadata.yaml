@@ -1,3 +1,25 @@
+name: data-modeling-documents-include-useless-data
+alt: "Fits only 8 documents in memory, including data you don't need."
+output: 
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 2100
+   - type: 'web'
+     dpi: 72
+     width: 30000
+---
+name: data-modeling-documents-include-only-useful-data
+alt: "This now fits 12 documents in the same amount of memory, with everything you need."
+output: 
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 2100
+   - type: 'web'
+     dpi: 72
+     width: 30000
+---
 name: crud-write-concern-ack
 alt: "Write operation to a ``mongod`` instance with write concern of ``acknowledged``. The client waits for acknowledgment of success or exception."
 output: 
