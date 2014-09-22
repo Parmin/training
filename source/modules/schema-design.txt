@@ -79,8 +79,8 @@ Many Small vs. Few Large Documents
   - Rarely used data should not be accessed when not being used.
   - This minimizes both the number of frequent queries, and the amount of data pushed out of memory by any query.
 
-Scenario: Medical Patient Data
-------------------------------
+Scenario #1: Medical Patient Data
+---------------------------------
 
 - When a patient comes in, record:
 
@@ -141,60 +141,125 @@ Medical Patient Data (Continued)
 
 TODO: REMAKE THIS DRAWING
 
-.. figure:: 
+.. figure:: /images/data-modeling-documentsinclude-only-useful-data.png
 
-(Note: Continuing to digest the text below, which is drawn from a google doc, so thick of everything that follows as a placeholder.)
+.. only:: instructor
 
-Now the same size of memory contains more documents - 12.  Because all of the data is useful in the documents there is more space for more documents.  This results in fewer page faults and more effective use of the most valuable resource - RAM.
+   note::
 
-Now consider another extreme.  Imagine if we were designing a system that took “samples”.  Samples can be any kind of additive update.  In our case, let us consider that each time a patient visits a different person at the doctor that is considered a sample and all the information about that patients visit to that station is put into its own document.  A visit for a person may be represented by many documents. We would get a pattern described above (efficient use of memory) but now it would take many queries or possibly a lot of I/O to gather all the documents required to resolve the query.  Consider:
+     - Now the same size of memory now contains more documents (12)
+     - Because all of the data is useful, there is space for more documents.
+     - This results in:
+     
+       - Fewer page faults 
+       - More effective use of RAM
 
-DRAW:
+Scenario #2: Alternative Medical Patient Data
+---------------------------------------------
 
+- Imagine if we were designing a system that took “samples”.
+- Samples can be any kind of additive update.
+- Each time a patient visits a different person, that is considered a sample
+- All information about that visit to that station is put into its own document.
 
-Each rectangle describes a document in the memory map.  When having to create a large cursor MonogDB may page fault a lot since each document needs to be retrieved and may not be in RAM.  This may cause a lot of I/O and many page faults.  If using a spinning HD this could take many seeks to find the data on disk to load into RAM.  If all the data being used in this query were together then the access pattern would look like this:
+  - A visit for a person may be represented by many documents.
 
-DRAW:
-
-
-Now the read is very fast.  It causes at most 1 page fault.  And we obey the concept of “data locality”.  Also, we take advantage of the flexible nature of documents.  The documents for each patient's visit are of different size and are “loosely structured”.  Some visits have more data in them than others and the types of data is varied.
-
-“Belongs To” VS “Belongs In” & References:
-After modeling your domain and beginning to compose documents from your objects, you will have to ask yourself if certain objects belong together or if they should be referenced.  First consider if one object “belongs to” another object.  If it does, then consider if that data “belongs in” the document.  Belongs in conditions occur when the data in question has a 1-1 relationship with the document.  No other document would claim “ownership” of that information.  Other things to consider are taking advantage of atomic operations.
-
-If an object belongs to but does not belong in a document, then a reference will be made.  A reference is usually denormalizing the _id of one document into the other document.  Generally, this will now require 2 or more queries.
-
-Often this is obvious but when it is not it is important to consider the consequences.  Also, is there an opportunity to “denormalize” and apply a “belongs in” relationship to the data?
-
-Imagine you wanted to model a “card catalog” in MongoDB.  The objective is to keep track of 3 entities: books, authors and publishers.  When a user is interested in a book they will likely be interested in some details about the author such as their name as well as some publisher details.  Likewise, when viewing authors the user would like to see publishers they’ve worked with.  How could a system like this be modeled?
-
-For a book an array of author _id’s could be embedded and thus creating a “reference” to the authors.  However, this would require multiple queries and possible extra I/O to resolve the book information.  An opportunity exists to “denormalize”  the useful author information into the book.  These would be the authors name and their _id.  It is important to always denormalize the _id as well as it will never change even if the authors name changes.  
+- We would get an access pattern described above (efficient use of memory)
+- Now it would take many queries and possibly a lot of I/O to gather all the documents required to resolve the query.Consider:
 
 
+Medical Patient Data Scenario 2 (Continued)
+-------------------------------------------
 
-You would not want to denormalize the other author information, such as their biography.  This is not useful in the context of the book.
+- In this scenario, the data is very fragmented.
+- Queries would touch lots of documents, so there will be the potential for lots of page faults.
 
-Got “genre”  or “category” information, instead of a lookup table, embedding as string each category is often the best idea.  This can be indexed and books of similar category will be found in the cursor.
+  - If using a spinning HD this could take many seeks to find the data on disk to load into RAM.
 
-DRAW:
+- The data needs to be accessed together, in one document with everything that we need. 
 
-
-Atomic Operations:
-<This may good as an exercise for the students - describe the problem and domain and see what their results are >
-
-MongoDB has “atomic operations” on documents.  This means that when a document is updated, no other thread is updating it or reading it.  This leads to consistent reads and writes.  This is a powerful feature that provides document level transactions.  That is, any modification to any number of fields in a single document can be thought of as a transaction.  Updates to a single document either entirely happen or they do not at all.  There are no partial updates and no “dirty reads” at the document level.
-
-Imagine an online poker game.  The 2 main domain objects are players and the poker game itself.  A game is a series of actions and states created by players.  Players may be involved in many games and sometimes more than 1 game at a time.  Every game may host multiple players and each game will have many hands that can be played.  Different types of poker games may be played as well.  How might one model this?
-
-DRAW:
+  - This is where the flexible nature of documents really shines.
+  - The documents for each patient's visit are of different size and data types vary from document to document.
 
 
-<let students do exercise in small groups (20 minutes) and then discuss their ideas>
+“Belongs To” VS “Belongs In” & References
+-----------------------------------------
 
-When asking if a game “belongs to” a player we quickly see it does not - many players belong to the game.  Then we would ask ourselves, should each player exist as a full entity in the game?  And the answer is no, because players will be involved with many games and lots of player information is irrelevant to each game.  This leads us to creating a single document for every player.
+- While modeling data, you will have to ask yourself: 
 
-For each game there are many moves players make - they are dealt cards, they make wagers, new cards come out, etc.  How to model the game?  The first idea is there is a game collection which has meta data about the game and then a document for every action a player in the game makes.  However, this creates a game which is not atomic and will possibly have lots of IO.
+  - Do certain objects belong together? 
+  - Should they should be referenced?
+  
+- Ask: Does the data belong together?
+  
+  - If yes, does it belong in the document?
+  
+    - Yes, if the data will only be needed with this document.
+    - No, if other documents may need that data.
 
-To model the game atomicly we should create an array of player actions and each action is an embedded document.  Certain player information is denormalized such as their name, id and other useful information to the game.
 
-We end up with 2 collections - players and games.  A player is a single document that contains all their personal information, notes, history and meta data.  A game is represented per document and contains all the actions that pertain to that game and certain player information is denormalized so on the game document needs to be accessed during gameplay - taking advantage of atomic ops.
+"Belongs To" vs. "Belongs In" & References (Continued)
+------------------------------------------------------
+
+- If an object belongs with more than one document, reference it.
+- A reference means putting the _id of one document into the other document.
+- Generally, this will now require 2 or more queries.
+- This process is sometimes called "denormalizing."
+
+
+Scenario #3: Library Card Catalog System
+----------------------------------------
+
+- The objective is to keep track of 3 entities.
+
+  - books
+  - authors 
+  - publishers.
+  
+- Patrons (not librarians) are the primary users of this system
+
+
+Library Card Catalog System (Continued)
+---------------------------------------
+
+- Users query for books, but often also want:
+
+  - Author information (such as name)
+  - Publisher details
+
+- Users also sometimes query for authors
+ 
+  - They may also want publishers the authors have worked with.
+
+
+Library Card Catalog System (Continued)
+---------------------------------------
+
+- Possibility #1: Author References
+
+  - For a book, an array of author _id’s could be embedded.
+  - You could have a reference to authors.
+  - this would require multiple queries and possible extra I/O to resolve the book information.
+
+Library Card Catalog System (Continued)
+---------------------------------------
+
+- Possibility #2: "denormalize" the author information into the book.
+
+  - These would be the authors name and their _id.
+  - It is important to denormalize the _id in case the author name changes.
+  - You would *not* want to denormalize the other author information, such as their biography.
+
+    - This would not be useful in the context of the book.
+
+Library Card Catalog System (Continued)
+---------------------------------------
+
+- If you wanted to add “genre”  or “category” information:
+
+  - Don't build a lookup table 
+  - Instead, embed as a string each category.
+  - This can be indexed.
+  - Books of similar category will be found in the cursor.
+
+.. include:: /exercises/schema-design-atomic-operations.txt
