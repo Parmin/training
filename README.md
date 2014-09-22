@@ -10,7 +10,7 @@ This project is a comprehensive revision of MongoDB training materials used for 
 - MongoDB Developer Training
 - MongoDB Admin Training
 
-The build environment has many dependencies. We recommend you **download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) (last built 19 September 2014)** which contains the most recent build of all materials. See the Test-Driving section below for instructions on using the materials.
+The build environment has many dependencies. We recommend you **download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) (last built 21 September 2014)** which contains the most recent build of all materials. See the Test-Driving section below for instructions on using the materials.
 
 **These materials are not yet ready for use. They are drafts requiring further refinement and corrections.** Please fork and create pull requests or add comments to submit feedback. Email to [training@mongodb.com](mailto:training@mongodb.com) is also fine.
 
@@ -47,7 +47,7 @@ We have rough copy for (not yet included here):
 Test-Driving Built Materials
 ----------------------------
 
-**Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) (last built 19 September 2014)**. This package contains the instructor guide and presentation slides.
+**Download the [instructor package](https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz) (last built 21 September 2014)**. This package contains the instructor guide and presentation slides.
 
 Extract the files in the tarball and open the contents.html file in a web browser.
 
