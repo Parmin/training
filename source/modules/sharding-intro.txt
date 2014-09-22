@@ -10,7 +10,9 @@ Upon completing this module students should understand:
 
 - What problems sharding solves
 - When sharding is appropriate
-- How sharding works with the shard key
+- The importance of the shard key and how to choose a good one
+- Why sharding increases the need for redundancy
+
 
 Contrast with Replication
 -------------------------
@@ -82,8 +84,10 @@ An Model that Does Not Scale
 
 TODO: REPLACE WITH BETTER FIGURE.
 
-.. figure:: /images/doesnt_scale.png
+.. figure:: /figures/load-latency-linear.png
    :align: center
+   :width: 400px
+   
 
 .. only:: instructor
 
@@ -93,10 +97,15 @@ TODO: REPLACE WITH BETTER FIGURE.
       - On a single server, latency tends to increase linearly with load.
       - Eventually latency is too great and the database has become a bottleneck.
 
+
+A Scalable Model
+----------------
+
 TODO: REPLACE WITH BETTER FIGURE.
 
-.. figure:: /images/does_scale.png
-    :align: center
+.. figure:: /figures/scalable-model.png
+   :align: center
+   :width: 400px
 
 .. only:: instructor
 
@@ -109,98 +118,247 @@ TODO: REPLACE WITH BETTER FIGURE.
       - MongoDB scales vertically and horizontally (i.e., spreading out the load across several boxes)
 
 
-Sharding - Basics
------------------
-
-- When you shard a collection, that collection will become distributed across several servers.
-- When you make a query (be it a read operation or a write operation), that query will go to a router that will then direct the query to the appropriate server.
-- In order to read or write any one document, you will only have to touch one server.
- 
-  - Depending on your query and your sharding setup, you may be able to read or write many documents but only touch one server.
-
-
-Sharding - More Details
------------------------
-
-- Consider the following image:
+Sharding Basics
+---------------
 
 .. figure:: /images/sharded-collection.png
-    :width: 600 px
+    :width: 500 px
     :align: center
 
-- This has two replica sets with 3 servers each. Each replica set is a "shard."
+.. only:: instructor
 
-  - So this cluster has only two shards.
+   .. note::
 
-- Each shard has a "partition" of the data for each sharded collection.
-- The router is a mongos process. 
-
-  - This cluster has only one mongos
-  - A cluster can have LOTS of mongos processes. They operate in parallel just fine.
-  - It is typical for a cluster to have one mongos per application server.
+      - When you shard a collection it is distributed across several servers.
+      - When you perform a read or write operation it will go to a router that will then direct the query to the appropriate server.
+      - Depending on the operation and how your cluster is configured you may need to touch only one server to complete the operation.
 
 
-Sharding - Config Servers
+Sharded Cluster Architecture
+----------------------------
+
+TODO: ADAPT A DOCS FIGURE FOR THIS.
+
+.. figure:: /figures/sharded-cluster-scenario.png
+   :align: center
+   :width: 400px
+
+.. only:: instructor
+
+   .. note::
+
+      - This figure illustrates one possible architecture for a sharded cluster.
+      - Each shard is a self contained replica set.
+      - Each replica set holds a partition of the data.
+      - As many new shards could be added to this sharded cluster as scale requires.  
+      - At this point our cluster can handle a load approaching twice that of a single replica set using the same hardware.
+      - As mentioned, read/write operations go through a router.
+      - The server that routes requests is the mongos.
+
+
+Mongos
+------
+
+- A mongos is responsible for accepting requests and returning results to an application driver.  
+- In a sharded cluster, nearly all operations go through a mongos.  
+- A sharded cluster can have as many mongos routers as required.  
+- It is typical for each application server to have one mongos.  
+- Always use more than one mongos to avoid a single point of failure.
+
+.. only:: instructor
+
+   .. note::
+
+      - A mongos is typically deployed on an application server.  
+      - There should be one mongos per app server.  
+      - Scale with your app server.
+      - Very little latency between the application and the router.
+
+
+Config Servers
+--------------
+
+TODO: ADAPT A DOCS FIGURE FOR THIS.
+
+.. figure:: /figures/sharded-cluster-with-configs.png
+   :width: 500 px
+   :align: center
+
+.. only:: instructor
+
+   .. note::
+
+      - The previous diagram was incomplete.
+      - There are also config servers in a sharded cluster. 
+      - You should use three in production.
+      - These hold only metadata about the sharded collections.
+
+
+Purpose of Config Servers
 -------------------------
 
-- Actually, the previous diagram was wrong. There are also 3 config servers in a sharded collection:
+- Mongos processes use the config servers to retrieve the current sharded cluster state.  
+- They store:
 
-.. figure:: /images/sharded-cluster-with-configs.png
-    :width: 600 px
-    :align: center
+  - Where your mongos servers are
+  - Any hosts that are not currently available
+  - What collections you have
+  - How your collections are partitioned across the cluster
 
-- These config servers hold only metadata about the collection.
-- You can access this data from a mongos by looking at the 'config' db.
-- These will keep track of where data is, and if need be, where it should go.
-- There are 3 of them in production.
+.. only:: instructor
 
-  - They are NOT a replica set, but they all have identical data.
-  - If a config server goes down or the data in one gets out of sync with another, chunks will not be split or moved until the issue is resolved.
+   .. note::
+
+      - You can access cluster metadata from a mongos by looking at the ``config`` db.
+
+
+Config Server Hardware Requirements
+-----------------------------------
+
+- Quality network interfaces
+- A small amount of disk space (typically a few GB) 
+- A small amount of RAM (typically a few GB) 
+- The larger the sharded cluster, the greater the config server hardware requirements.  
 
 
 When to Shard
 -------------
 
 - If you have more data than one machine can hold on its drives
-- If you are doing a heavy write load, and it is increasing your latency
-- If your working set outgrows your available memory on one machine
-
-  - You might notice a lot of page faults if this is happening
+- If your application is write heavy and you experiencing too much latency.
+- If your working set outgrows the memory you can allocate to a single machine.
 
 
-Sharding - Shard Key Basics
----------------------------
+Possible Imbalance?
+-------------------
 
-- Every sharded cluster has an index called the Shard Key. 
-- The Shard Key determines where your data is, so if you make a query, the shard key determines which server (or servers) it's on.
-- Similarly, when you create a new document, the shard key determines which server you will write to.
+- Data will tend to get unbalanced on your sharded cluster. 
 
+  - Some shards might receive more inserts than others.
+  - Some shards might have documents that grow more than those in other shards.
 
-Sharding - Keeping Things Balanced
-----------------------------------
+- This may result in too much load on a single shard.
 
-- Data will tend to get unbalanced on your sharded cluster. This can happen if:
-
-  - Some of your servers get more inserts than others
-  - Some of your servers have documents that grow more than other servers
-
-- This can cause a number of problems.
-
-  - Reads might get imbalanced.
-  - Updates might get imbalanced.
-  - Hard drive usage will get imbalanced, with some servers hitting capacity.
+  - Reads and writes
+  - Disk activity
+  
+- This would defeat the purpose of sharding.
 
 
-Sharding - Chunks
+Balancing Shards
+----------------
+
+- MongoDB divides data into ``chunks``.
+- This is bookkeeping metadata.
+  
+  - There is nothing in a document that indicates its chunk.
+  - The document does not need to be updated if its assigned chunk changes.
+
+- If a chunk grows too large MongoDB will split it into two chunks.
+- The MongoDB balancer keeps chunks distributed across shards in equal numbers.
+- However, a balanced sharded cluster depends on a good shard key.
+
+
+What is a Shard Key?
+--------------------
+
+- You must define a shard key for a sharded collection.
+- Based on one or more fields that every document must contain.
+- Must be immutable.
+- The shard key determines where documents are located.
+- It is used to route operations to the appropriate shard.
+- For reads and writes
+
+.. only:: instructor
+
+   .. note::
+
+      - For reads and updates, the shard key determines which shard holds the document and will handle the operation.
+      - When you insert a document, the shard key determines which server you will write to.
+
+
+Example
+-------
+
+.. figure:: /images/sharded-cluster-targeted-query.png
+   :width: 400 px
+   :align: center
+
+
+With a Good Shard Key
+---------------------
+
+You might easily see that:
+
+- Reads hit only 1 or 2 shards per query.
+- Writes are distributed across all servers.
+- Your disk usage is evenly distributed across shards.
+- Things stay this way as you scale.
+
+
+With a Bad Shard Key
+--------------------
+
+You might see that:
+
+- Your reads hit every shard.
+- Your writes are concentrated on one shard.
+- Most of your data is on just a few shards.
+- Adding more shards to the cluster will not help.
+
+
+Choosing a Shard Key
+--------------------
+
+Generally, you want a shard key:
+
+- That has high cardinality
+- That is used in read queries
+- For which the values read and write operations use are randomly distributed
+
+
+More Specifically
 -----------------
 
-- To deal with imbalances, MongoDB divides the data into "chunks."
+- Your shard key should be consistent with your query patterns.
+- If reads usually find only one document, you only need good cardinality.
+- If reads retrieve many documents:
 
-  - This is a bookkeeping technique handled by the servers and the routers external of the data set
-  
-    - There is nothing in a document that indicates its chunk.
-    - The document does not need to be updated if its assigned chunk changes.
+  - Your shard key supports locality
+  - Matching documents will reside on the same shard.
 
-- As a chunk grows, eventually it will split into two chunks, each of which has a subset of the shard key's range.
-- As those chunks grow, they will split, too.
-- The cluster will keep the number of chunks on each shard balanced.
+
+Cardinality
+-----------
+
+- A good shard key will have high cardinality.
+- A relatively small number of documents should have the same shard key.
+- Otherwise operations become isolated to the same server.
+- Because documents with the same shard key reside on the same shard.
+- Adding more servers will not help.
+- Hashing will not help.
+
+
+Non-Monotonic
+-------------
+
+- A good shard key will generate new values non-monotonically.
+- Datetimes, counters, and ObjectIds make bad shard keys.
+- Monotonic shard keys cause all inserts to happen on the same shard.
+- Hashing will solve this problem.
+
+.. only:: instructor
+ 
+   .. note::
+
+      - Documents will eventually move as chunks are balanced.
+      - But in the meantime one server gets hammered while others are idle.
+      - And moving chunks has its own performance costs.
+
+
+Shards Should be Replica Sets
+-----------------------------
+
+- As the number of shards increases, the number of servers in your deployment increases.
+- This increases the probability that one server will fail on any given day.
+- With redundancy built into each shard you can mitigate this risk.

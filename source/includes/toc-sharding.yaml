@@ -2,10 +2,6 @@ file: /modules/sharding-intro
 description: |
   An introduction to sharding.
 ---
-file: /modules/sharding-considerations
-description: |
-  Things to keep in mind when setting up a sharded cluster.
----
 file: /modules/sharding-balancing
 description: |
   Chunks, the balancer, and their role in a sharded cluster.
@@ -14,7 +10,11 @@ file: /modules/sharding-tags
 description: |
   How tag-based sharding works.
 ---
-file: /modules/sharding-exercises
+file: /exercises/sharding-set-up-a-cluster
 description: |
-  A major exercise in deploying a sharded cluster.
+  Deploying a sharded cluster.
+---
+file: /exercises/sharding-lab
+description: |
+  A more extensive lab that exposes students to the mechanics of sharded clusters and some maintenance tasks.
 ...

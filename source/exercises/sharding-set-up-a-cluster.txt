@@ -1,95 +1,201 @@
+======================================
 Exercise: Setting Up a Sharded Cluster
---------------------------------------
+======================================
 
-Set up a sharded cluster with the following servers: 
 
-- Three sharded replica sets
+Learning Objectives
+-------------------
 
-  - A sharded replica set on ports 27107, 27108, 27109
-  - A sharded replica set on ports 27117, 27118, 27119
-  - A sharded replica set on ports 27127, 27128, 27129
+Upon completing this module students should understand:
+
+- How to set up a sharded cluster including:
+  
+  - Replica Sets as Shards
+  - Config Servers
+  - Mongos processes
+
+- How to enable sharding for a database
+- How to shard a collection
+- How to determine where data will go
+
+
+Our Sharded Cluster
+-------------------
+
+- In this exercise, we will set up a cluster with 3 shards.
+- Each shard will be a replica set with 3 members (including one arbiter).
+- We will insert some data and see where it goes.
+
+
+Specifically
+------------
+
+- Three shards:
+
+  #. A replica set on ports 27107, 27108, 27109
+  #. A sharded replica set on ports 27117, 27118, 27119
+  #. A sharded replica set on ports 27127, 27128, 27129
 
 - Three config servers on ports 27217, 27218, 27219
-- Two mongos's at ports 27017 and 27018
+- Two mongos servers at ports 27017 and 27018
+
+
+Build Our Data Directories
+--------------------------
+
+.. code-block:: bash
+    
+   CLUSTER=/data/cluster
+   CONFIG=$CLUSTER/config
+   SHARD0=$CLUSTER/shard0
+   SHARD1=$CLUSTER/shard1
+   SHARD2=$CLUSTER/shard2
+
+   mkdir -p $CONFIG/c0 $CONFIG/c1 $CONFIG/c2
+   mkdir -p $SHARD0/m0 $SHARD0/m1 $SHARD0/arb
+   mkdir -p $SHARD1/m0 $SHARD1/m1 $SHARD1/arb
+   mkdir -p $SHARD2/m0 $SHARD2/m1 $SHARD2/arb
+   mkdir -p $CLUSTER/s0 $CLUSTER/s1
+
+
+Initiate a Replica Set
+----------------------
+
+.. code-block:: bash
+
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath $SHARD0/m0 --logpath $SHARD0/m0/mongod.log --fork --port 27107
+
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath $SHARD0/m1 --logpath $SHARD0/m1/mongod.log --fork --port 27108
+
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath $SHARD0/arb --logpath $SHARD0/arb/mongod.log --fork --port 27109
+
+   echo "cfg = { '_id' : 'shard0', 'version' : 1, 'members' : [ { '_id' : 0, 'host' : 'localhost:27107' }, { '_id' : 1, 'host' : 'localhost:27108' }, { '_id' : 2, 'host' : 'localhost:27109', 'arbiterOnly' : true } ] }; rs.initiate(cfg);" | mongo --port 27107
+
+.. note::
+
+   Scroll to see the entire line for each command.
+
+
+Spin Up a Second Replica Set
+----------------------------
+    
+.. code-block:: bash
+
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc --dbpath $SHARD1/m0 --logpath $SHARD1/m0/mongod.log --fork --port 27117
+
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc --dbpath $SHARD1/m1 --logpath $SHARD1/m1/mongod.log --fork --port 27118
+
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc --dbpath $SHARD1/arb --logpath $SHARD1/arb/mongod.log --fork --port 27119
+
+   echo "cfg = { '_id' : 'shard1', 'version' : 1, 'members' : [ { '_id' : 0, 'host' : 'localhost:27117' }, { '_id' : 1, 'host' : 'localhost:27118' }, { '_id' : 2, 'host' : 'localhost:27119', 'arbiterOnly' : true } ] }; rs.initiate(cfg);" | mongo --port 27117
+
+.. note::
+
+   Scroll to see the entire line for each command.
+    
+
+A Third Replica Set
+-------------------
+    
+.. code-block:: bash
+
+   mongod --replSet shard2 --smallfiles --nojournal --noprealloc --dbpath $SHARD2/m0 --logpath $SHARD2/m0/mongod.log --fork --port 27127
+
+   mongod --replSet shard2 --smallfiles --nojournal --noprealloc --dbpath $SHARD2/m1 --logpath $SHARD2/m1/mongod.log --fork --port 27128
+
+   mongod --replSet shard2 --smallfiles --nojournal --noprealloc --dbpath $SHARD2/arb --logpath $SHARD2/arb/mongod.log --fork --port 27129
+
+   echo "cfg = { '_id' : 'shard2', 'version' : 1, 'members' : [ { '_id' : 0, 'host' : 'localhost:27127' }, { '_id' : 1, 'host' : 'localhost:27128' }, { '_id' : 2, 'host' : 'localhost:27129', 'arbiterOnly' : true } ] }; rs.initiate(cfg);" | mongo --port 27127
+
+.. note::
+
+   Scroll to see the entire line for each command.
+
+
+Status Check
+------------
+
+- Now we have three replica sets running. 
+- We have one for each shard.
+- They do not know about each other yet.
+- To make them a sharded cluster we will:
+
+  - Build our config databases
+  - Launch our mongos processes
+  - Add each shard to the cluster
+
+- To benefit from this configuration we also need to:
+
+  - Enable sharding for a database
+  - Shard at least one collection within that database
+
+
+Launch Config Servers
+---------------------
+.. code-block:: bash
+
+   mongod --smallfiles --nojournal --noprealloc --dbpath $CONFIG/c0 --logpath $CONFIG/c0/mongod.log --fork --port 27227 --configsvr
+
+   mongod --smallfiles --nojournal --noprealloc --dbpath $CONFIG/c1 --logpath $CONFIG/c1/mongod.log --fork --port 27228 --configsvr
+
+   mongod --smallfiles --nojournal --noprealloc --dbpath $CONFIG/c2 --logpath $CONFIG/c2/mongod.log --fork --port 27229 --configsvr
+
+
+Launch the Mongos Processes
+---------------------------
+
+Now our mongos's. We need to tell them about our config servers.
+
+.. code-block:: bash
+
+   mongos --logpath $CLUSTER/s0/mongos.log --fork --port 27017 --configdb localhost:27227,localhost:27228,localhost:27229
+
+   mongos --logpath $CLUSTER/s1/mongos.log --fork --port 27018 --configdb localhost:27227,localhost:27228,localhost:27229
+
+
+Add All Shards
+--------------
+
+.. code-block:: bash
+
+   echo 'sh.addShard( "shard0/localhost:27107" ); sh.addShard( "shard1/localhost:27117" ); sh.addShard( "shard2/localhost:27127" ); sh.status()' | mongo
+
+.. note::
+
+   Instead of doing this through a bash (or other) shell command, you may prefer to launch a mongo shell and issue each command individually.
+
+
+
+Enable Sharding and Shard a Collection
+--------------------------------------
+
+Enable sharding for the test database, shard a collection, and insert some documents.
+
+.. code-block:: bash
+
+   echo 'sh.enableSharding("test"); sh.shardCollection("test.testcol", { a : 1, b : 1 } )' | mongo
+
+   echo 'for (i=0; i<10000; i++) { docArr = []; for (j=0; j<1000; j++) { docArr.push( { a : i, b : j, c : "Filler String 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" } )  }; db.testcol.insert(docArr) }' | mongo
+
+
+Observe What Happens
+--------------------
+
+Connect to either mongos using a mongo shell and frequently issue:
+
+.. code-block:: bash
+
+   sh.status()
 
 
 .. only:: instructor
 
-    First, let's build out our directories and 
-    
-    .. code-block:: bash
-    
-        CLUSTER=/data/cluster
-        CONFIG=$CLUSTER/config
-        SHARD0=$CLUSTER/shard0
-        SHARD1=$CLUSTER/shard1
-        SHARD2=$CLUSTER/shard2
-        mkdir -p $CONFIG/c0 $CONFIG/c1 $CONFIG/c2
-        mkdir -p $SHARD0/m0 $SHARD0/m1 $SHARD0/arb
-        mkdir -p $SHARD1/m0 $SHARD1/m1 $SHARD1/arb
-        mkdir -p $SHARD2/m0 $SHARD2/m1 $SHARD2/arb
-        mkdir -p $CLUSTER/s0 $CLUSTER/s1
-    
-    Next, let's spin up our first replica set, and initiate.
-    
-    .. code-block:: bash
-    
-        mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath $SHARD0/m0 --logpath $SHARD0/m0/mongod.log --fork --port 27107
-        mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath $SHARD0/m1 --logpath $SHARD0/m1/mongod.log --fork --port 27108
-        mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath $SHARD0/arb --logpath $SHARD0/arb/mongod.log --fork --port 27109
-        echo "cfg = { '_id' : 'shard0', 'version' : 1, 'members' : [ { '_id' : 0, 'host' : 'localhost:27107' }, { '_id' : 1, 'host' : 'localhost:27108' }, { '_id' : 2, 'host' : 'localhost:27109', 'arbiterOnly' : true } ] }; rs.initiate(cfg);" | mongo --port 27107
-    
-    
-    Next, let's spin up our second replica set.
-    
-    .. code-block:: bash
+   .. note::
 
-        mongod --replSet shard1 --smallfiles --nojournal --noprealloc --dbpath $SHARD1/m0 --logpath $SHARD1/m0/mongod.log --fork --port 27117
-        mongod --replSet shard1 --smallfiles --nojournal --noprealloc --dbpath $SHARD1/m1 --logpath $SHARD1/m1/mongod.log --fork --port 27118
-        mongod --replSet shard1 --smallfiles --nojournal --noprealloc --dbpath $SHARD1/arb --logpath $SHARD1/arb/mongod.log --fork --port 27119
-        echo "cfg = { '_id' : 'shard1', 'version' : 1, 'members' : [ { '_id' : 0, 'host' : 'localhost:27117' }, { '_id' : 1, 'host' : 'localhost:27118' }, { '_id' : 2, 'host' : 'localhost:27119', 'arbiterOnly' : true } ] }; rs.initiate(cfg);" | mongo --port 27117
-    
-    
-    Next, let's spin up our third replica set.
-    
-    .. code-block:: bash
+      - Point out to the students that you can see chunks get created and moved to different shards.
 
-        mongod --replSet shard2 --smallfiles --nojournal --noprealloc --dbpath $SHARD2/m0 --logpath $SHARD2/m0/mongod.log --fork --port 27127
-        mongod --replSet shard2 --smallfiles --nojournal --noprealloc --dbpath $SHARD2/m1 --logpath $SHARD2/m1/mongod.log --fork --port 27128
-        mongod --replSet shard2 --smallfiles --nojournal --noprealloc --dbpath $SHARD2/arb --logpath $SHARD2/arb/mongod.log --fork --port 27129
-        echo "cfg = { '_id' : 'shard2', 'version' : 1, 'members' : [ { '_id' : 0, 'host' : 'localhost:27127' }, { '_id' : 1, 'host' : 'localhost:27128' }, { '_id' : 2, 'host' : 'localhost:27129', 'arbiterOnly' : true } ] }; rs.initiate(cfg);" | mongo --port 27127
+      - Also useful to have students run a query or two.
 
-    OK, we've now got 3 replica sets running. They don't know about each other. We'll now build our config databases.
+        .. code-block:: bash
 
-    .. code-block:: bash
-
-        mongod --smallfiles --nojournal --noprealloc --dbpath $CONFIG/c0 --logpath $CONFIG/c0/mongod.log --fork --port 27227 --configsvr
-        mongod --smallfiles --nojournal --noprealloc --dbpath $CONFIG/c1 --logpath $CONFIG/c1/mongod.log --fork --port 27228 --configsvr
-        mongod --smallfiles --nojournal --noprealloc --dbpath $CONFIG/c2 --logpath $CONFIG/c2/mongod.log --fork --port 27229 --configsvr
-
-    Now our mongos's. We need to tell them about our config servers.
-
-    .. code-block:: bash
-
-        mongos --logpath $CLUSTER/s0/mongos.log --fork --port 27017 --configdb localhost:27227,localhost:27228,localhost:27229
-        mongos --logpath $CLUSTER/s1/mongos.log --fork --port 27018 --configdb localhost:27227,localhost:27228,localhost:27229
-        echo 'sh.addShard( "shard0/localhost:27107" ); sh.addShard( "shard1/localhost:27117" ); sh.addShard( "shard2/localhost:27127" ); sh.status()' | mongo
-
-    Now, enable sharding for the test db, and shard the 'shardedCollection' database, and start inserting documents.
-
-    .. code-block:: bash
-
-        echo 'sh.enableSharding("test"); sh.shardCollection("test.shardedCollection", { a : 1, b : 1 } )' | mongo
-        echo 'for (i=0; i<10000; i++) { docArr = []; for (j=0; j<1000; j++) { docArr.push( { a : i, b : j, c : "Filler String 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" } )  }; db.shardedCollection.insert(docArr) }' | mongo
-
-    Then, open up a new tab, connect to either mongos, and frequently use:
-
-    .. code-block:: bash
-
-        sh.status()
-
-    Point out how cool it is that you can see chunks get created and moved to the different shards.
-
-    .. code-block:: bash
-
-        db.foo.find( { a : { $lte : 100 } ).explain()
+           db.testcol.find( { a : { $lte : 100 } ).explain()
