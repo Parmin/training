@@ -18,14 +18,6 @@ file: /modules/indexes-TTL
 description: | 
   Time-To-Live Indexes.
 --- 
-file: /modules/indexes-aggregation
-description: | 
-  Using indexes in the Aggregation Pipeline.
---- 
-file: /modules/indexes-filters
-description: | 
-  Using index filters.
---- 
 file: /modules/indexes-text
 description: | 
   Free text indexes on string fields.

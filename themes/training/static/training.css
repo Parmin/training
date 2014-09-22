@@ -24,3 +24,10 @@
     font-weight: 500;
     font-style: normal;
 }
+
+pre {
+    overflow: scroll;
+}
+
+
+
