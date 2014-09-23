@@ -25,4 +25,8 @@ description: |
 file: /modules/nav/security
 description: |
   Security in MongoDB
+---
+file: /modules/nav/schema-design
+description: |
+  How to model data effectively
 ...
