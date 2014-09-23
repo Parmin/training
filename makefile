@@ -1,3 +1,5 @@
+branch := $(shell git symbolic-ref --short HEAD)
+
 noop:
 	@true
 
@@ -11,7 +13,7 @@ instructor-package:
 	rm -rf build/$@/ build/$@.tar.gz
 	giza sphinx --builder slides html --serial_sphinx --edition instructor
 	mkdir -p build/$@/slides/
-	rsync -rv $(branch-output)/html-instructor/ build/$@/
-	rsync -rv $(branch-output)/slides-instructor/ build/$@/slides/
+	rsync -rv build/$(branch)/html-instructor/ build/$@/
+	rsync -rv build/$(branch)/slides-instructor/ build/$@/slides/
 	tar -C build/ -czvf build/$@.tar.gz $@/
 
