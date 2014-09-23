@@ -82,11 +82,9 @@ Sharding - Overview
 An Model that Does Not Scale
 ----------------------------
 
-TODO: REPLACE WITH BETTER FIGURE.
-
-.. figure:: /figures/load-latency-linear.png
+.. figure:: /figures/load-latency-linear2.png
    :align: center
-   :width: 400px
+   :width: 500px
    
 
 .. only:: instructor
@@ -101,11 +99,9 @@ TODO: REPLACE WITH BETTER FIGURE.
 A Scalable Model
 ----------------
 
-TODO: REPLACE WITH BETTER FIGURE.
-
-.. figure:: /figures/scalable-model.png
+.. figure:: /figures/load-latency-scalable.png
    :align: center
-   :width: 400px
+   :width: 500px
 
 .. only:: instructor
 
@@ -137,9 +133,7 @@ Sharding Basics
 Sharded Cluster Architecture
 ----------------------------
 
-TODO: ADAPT A DOCS FIGURE FOR THIS.
-
-.. figure:: /figures/sharded-cluster-scenario.png
+.. figure:: /figures/sharded-cluster-no-config-servers.png
    :align: center
    :width: 400px
 
@@ -178,37 +172,24 @@ Mongos
 Config Servers
 --------------
 
-TODO: ADAPT A DOCS FIGURE FOR THIS.
-
-.. figure:: /figures/sharded-cluster-with-configs.png
-   :width: 500 px
+.. figure:: /images/sharded-cluster-production-architecture.png
+   :width: 600 px
    :align: center
 
 .. only:: instructor
 
    .. note::
 
-      - The previous diagram was incomplete.
-      - There are also config servers in a sharded cluster. 
-      - You should use three in production.
+      - The previous diagram was incomplete; it was missing config servers.
+      - Use three config servers in production.
       - These hold only metadata about the sharded collections.
 
+        - Where your mongos servers are
+        - Any hosts that are not currently available
+        - What collections you have
+        - How your collections are partitioned across the cluster
 
-Purpose of Config Servers
--------------------------
-
-- Mongos processes use the config servers to retrieve the current sharded cluster state.  
-- They store:
-
-  - Where your mongos servers are
-  - Any hosts that are not currently available
-  - What collections you have
-  - How your collections are partitioned across the cluster
-
-.. only:: instructor
-
-   .. note::
-
+      - Mongos processes use them to retrieve the state of the cluster.
       - You can access cluster metadata from a mongos by looking at the ``config`` db.
 
 

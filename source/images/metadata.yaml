@@ -151,4 +151,26 @@ output:
   - type: web
     dpi: 72
     width: 800
+---
+name: sharded-cluster-no-config-servers
+alt: "A sharded cluster with no config servers."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
+---
+name: sharded-cluster-production-architecture
+alt: "A sharded cluster architecture for production."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
 ...
