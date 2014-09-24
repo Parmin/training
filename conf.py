@@ -11,41 +11,27 @@ import datetime
 
 from sphinx.errors import SphinxError
 
-try:
-    project_root = os.path.join(os.path.abspath(os.path.dirname(__file__)))
-except NameError:
-    project_root = os.path.abspath(os.getcwd())
+from giza.config.runtime import RuntimeStateConfig
+from giza.config.helper import fetch_config, get_versions, get_manual_path
+from giza.config.project import get_current_path
+from giza.tools.strings import dot_concat
 
-sys.path.append(project_root)
+conf = fetch_config(RuntimeStateConfig())
+sconf = conf.system.files.data.sphinx_local
 
-from bootstrap import buildsystem
-
-sys.path.append(os.path.join(project_root, buildsystem, 'sphinxext'))
-sys.path.append(os.path.join(project_root, buildsystem, 'bin'))
-
-from utils.config import get_conf
-from utils.project import get_manual_path
-from utils.serialization import ingest_yaml, ingest_yaml_list
-from utils.structures import BuildConfiguration
-from utils.strings import dot_concat
-
-conf = get_conf()
-
-conf.paths.projectroot = project_root
-intersphinx_libs = ingest_yaml_list(os.path.join(conf.paths.builddata, 'intersphinx.yaml'))
-sconf = BuildConfiguration(os.path.join(conf.paths.builddata, 'sphinx-local.yaml'))
+sys.path.append(os.path.join(conf.paths.projectroot, conf.paths.buildsystem, 'sphinxext'))
 
 # -- General configuration ----------------------------------------------------
 
 needs_sphinx = '1.0'
 
 extensions = [
-    'sphinx.ext.intersphinx',
     'sphinx.ext.extlinks',
     'sphinx.ext.todo',
     'mongodb',
     'directives',
-    "hieroglyph"
+    "hieroglyph",
+    "intermanual"
 ]
 
 locale_dirs = [ conf.paths.locale ]
@@ -90,10 +76,11 @@ extlinks = {
 
 
 intersphinx_mapping = {}
-for i in intersphinx_libs:
-    intersphinx_mapping[i['name']] = ( i['url'], os.path.join(conf.paths.projectroot,
-                                                              conf.paths.output,
-                                                              i['path']))
+if 'intersphinx' in conf.system.files.data:
+    for i in conf.system.files.data.intersphinx:
+        intersphinx_mapping[i.name] = ( i.url, os.path.join(conf.paths.projectroot,
+                                                               conf.paths.output,
+                                                               i.path))
 
 languages = [
     ("ar", "Arabic"),
@@ -126,7 +113,7 @@ slide_theme_path = [ os.path.join(conf.paths.projectroot, 'themes') ]
 # -- Options for HTML output ---------------------------------------------------
 
 html_theme = sconf.theme.name
-html_theme_path = [ os.path.join(buildsystem, 'themes') ]
+html_theme_path = [ os.path.join(conf.paths.projectroot, conf.paths.buildsystem, 'themes') ]
 html_title = conf.project.title
 htmlhelp_basename = 'MongoDBdoc'
 
@@ -166,21 +153,12 @@ html_sidebars = sconf.sidebars
 
 # -- Options for LaTeX output --------------------------------------------------
 
-pdfs = []
-try:
-    if tags.has('latex'):
-        pdf_conf_path = os.path.join(conf.paths.builddata, 'pdfs.yaml')
-        if os.path.exists(pdf_conf_path):
-            pdfs = ingest_yaml_list(pdf_conf_path)
-        else:
-            raise SphinxError('[WARNING]: skipping pdf builds because of missing {0} file'.format(pdf_conf_path))
-except NameError:
-    pass
-
 latex_documents = []
-for pdf in pdfs:
-    _latex_document = ( pdf['source'], pdf['output'], pdf['title'], pdf['author'], pdf['class'])
-    latex_documents.append( _latex_document )
+if 'pdfs' in conf.system.files.data:
+    for pdf in conf.system.files.data.pdfs:
+        latex_documents.append((pdf.source, pdf.output, pdf.title, pdf.author, pdf.doc_class))
+
+
 
 latex_preamble_elements = [ r'\DeclareUnicodeCharacter{FF04}{\$}',
                             r'\DeclareUnicodeCharacter{FF0E}{.}',
@@ -204,19 +182,11 @@ latex_appendices = []
 
 # -- Options for manual page output --------------------------------------------
 
-man_page_definitions = []
-try:
-    if tags.has('man'):
-        man_page_conf_path = os.path.join(conf.paths.builddata, 'manpages.yaml')
-        if os.path.exists(man_page_conf_path):
-            man_page_definitions = ingest_yaml_list(man_page_conf_path)
-        else:
-            raise SphinxError('[WARNING]: skipping man builds because of missing {0} file'.format(man_page_conf_path))
-except NameError:
-    pass
 man_pages = []
-for mp in man_page_definitions:
-    man_pages.append((mp['file'], mp['name'], mp['title'], mp['authors'], mp['section']))
+if 'manpages' in conf.system.files.data:
+    for mp in conf.system.files.data.manpages:
+        man_pages.append((mp.file, mp.name, mp.title, mp.authors, mp.section))
+
 
 # -- Options for Epub output ---------------------------------------------------
 

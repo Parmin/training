@@ -32,6 +32,7 @@ system:
     ref: HEAD
   files:
     - 'pdfs.yaml'
+    - 'sphinx_local.yaml'
     - 'intersphinx.yaml'
     - 'push.yaml'
     - images: '/source/images/metadata.yaml'

@@ -2,8 +2,6 @@
 Schema Design
 =============
 
-STILL WORKING ON THIS.
-
 
 Learning Objectives
 -------------------
@@ -13,6 +11,7 @@ Upon completing this module, students should understand:
 - The importance of a good schema
 - What differentiates a good schema from a bad schema
 - Why this differentiation depends upon the use case
+- How to implement good data modeling in a few use cases
 
 
 Overview

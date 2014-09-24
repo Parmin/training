@@ -1,0 +1,4 @@
+file: /exercises/nav/schema-design-atomic-operations
+description: |
+  How to make use of document-level atomic operations in MongoDB
+...
