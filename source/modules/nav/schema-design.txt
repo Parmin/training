@@ -1,0 +1,9 @@
+=============
+Data Modeling
+=============
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-schema-design.rst
+
+.. include:: /includes/toc/schema-design.rst             
