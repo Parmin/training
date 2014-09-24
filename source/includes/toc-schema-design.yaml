@@ -1,4 +1,4 @@
-file: /exercises/nav/schema-design-atomic-operations
+file: /modules/schema-design.txt
 description: |
-  How to make use of document-level atomic operations in MongoDB
+  Data modeling in MongoDB.
 ...

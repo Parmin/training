@@ -126,7 +126,7 @@ Single-Field Indexes
 Creating an Index
 -----------------
 
-- The following creates a single-field index on ``user.followers_count". 
+- The following creates a single-field index on ``user.followers_count``. 
 - ``explain()`` indicated there will be a substantial performance improvement in handling this type of query. 
 
 .. code-block:: javascript

@@ -50,7 +50,7 @@ Balancing Durability with Performance
 
 .. only:: instructor
 
-   .. notes::
+   .. note::
 
       - MongoDB provides tunable write concern to better address the specific needs of applications. 
       - Clients may adjust write concern to ensure that the most important operations persist successfully to an entire MongoDB deployment. 
@@ -74,7 +74,7 @@ Write Concern: ``{ w : 1 }``
 
 .. only:: instructor
 
-   .. notes::
+   .. note::
 
       - We refer to this write concern as "Acknowledged".
       - This is the default.
@@ -100,7 +100,7 @@ Write Concern: ``{ w : 2 }``
 
 .. only:: instructor
 
-   .. notes::
+   .. note::
 
       - Called "Replica Acknowledged"
       - Ensures the primary completed the write.
@@ -166,7 +166,7 @@ Choices
 
 .. only:: instructor
 
-   .. notes::
+   .. note::
 
       Answer: "majority"
 
