@@ -6,4 +6,8 @@ Data Modeling
 
 .. include:: /includes/toc/dfn-list-schema-design.rst
 
+<<<<<<< HEAD
 .. include:: /includes/toc/schema-design.rst             
+=======
+.. include:: /includes/toc/schema-design.rst
+>>>>>>> fabc752f740c79fa5735352ca0784f3246da8843

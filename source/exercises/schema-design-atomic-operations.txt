@@ -1,4 +1,4 @@
-Atomic Operations
+Student Exercise: 
 -----------------
 
 .. only:: instructor

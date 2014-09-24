@@ -119,17 +119,18 @@ output:
     dpi: 72
     width: 800
 ---
-name: sharded-collection
-alt: "A sharded collection."
-output:
-  - type: print
-    tag: 'print'
-    dpi: 300
-    width: 2100
-  - type: web
-    dpi: 72
-    width: 800
----
+# Commenting b/c issues with make. Will clean up later. - Will
+#name: sharded-collection
+#alt: "A sharded collection."
+#output:
+#  - type: print
+#    tag: 'print'
+#    dpi: 300
+#    width: 2100
+#  - type: web
+#    dpi: 72
+#    width: 800
+#---
 name: sharded-cluster-targeted-query
 alt: "Targeted query in a sharded cluster."
 output:
