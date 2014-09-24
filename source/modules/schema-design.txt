@@ -9,98 +9,185 @@ Learning Objectives
 Upon completing this module, students should understand:
 
 - The importance of a good schema
-- What differentiates a good schema from a bad schema
-- Why this differentiation depends upon the use case
-- How to implement good data modeling in a few use cases
+- What differentiates a good schema from a bad one
+- Why this depends upon the use case
+- How to design a good schema in an example
 
 
 Overview
 --------
 
-- Schema design is about how data is put into documents.
-- The structure of documents can affect performance.
+- Schema design is based around one concept:
+
+  - The structure of documents affects performance.
+
+- Schema design is about getting good performance.
 - You will not and should not try to normalize your data.
-- Your model will be built around how your data is used.
+- You must build your schema around your data usage.
 
 
 Schema Design Considerations
 ----------------------------
 
-TO DO: ADD A DRAWING
-
-- Often, there is a trade-off between:
+- You will want:
   
-  - The size of your documents
-  - Number of queries you need to perform
+  - The smallest possible amount of data in each document
+  - The fewest documents returned by your query/queries
 
-- Your first consideration will be how to balance these.
+- These goals are mutually exclusive.
+- Schema design is about how to prioritize them.
 
-  - You don't want to query documents full of data you're not using.
-  - You don't want to run lots of queries to get all the data you need.
+
+.. only:: instructor
+
+  .. note::
+
+    - These are mutually exclusive because: 
+    
+      - The easiest way to have the smallest possible amount of data in each document is to have LOTS of documents with a tiny piece of data in each.
+      - But the easiest way to minimize the number of documents returned by a query is to have huge documents with lots of data in each.
 
 
 Find Queries and RAM
 --------------------
 
 - RAM is a precious commodity.
-- Ideally, when you query a document, it will already be in memory.
-- When a document is queried: 
+- Documents already in RAM load MUCH faster.
+- When a document is queried that is not already in RAM:
 
-  - The entire document is loaded into memory (if not already there).
-  - This can push other documents out of memory.
+  - A page fault occurs.
+  - The document is read from disk into memory.
+  - Other documents get pushed out of memory.
 
-- If your documents are small, more of them can fit into memory.
+- This takes time.
 
-  - Loading them will push relatively little data out of memory.
 
+Find Queries and RAM (Continued)
+--------------------------------
+
+- If the documents are smaller:
+
+  - More of them can fit in memory.
+  - You are more likely to find them in memory.
+  - Queries are faster.
+
+.. only:: instructor
+
+  .. note::
+
+    Unfortunately, this is not the only consideration.
 
 Find Queries and Spinning Disks
 -------------------------------
 
-- If a document is not already in memory when queried, It must get from the disk into RAM.
-- Even if its location is known, this involves two steps:
+- Suppose you query for a document not yet in RAM.
+- Once its location on disk is known, the drive will do:
 
-  - A seek (to put the read head at the beginning of the document on the disk)
-  - A read (to pull the document into memory)
+  - A seek (slow)
+  - A read (fast)
 
-- For spinning disks, reading is pretty fast, but seeks are slow.
-- If you need to find lots of scattered documents, this will mean lots of seeks.
-- Packing data together into a single document will reduce the number of seeks.
+- Querying many documents at once means many seeks.
+- The same data in fewer documents means fewer seeks.
+
+.. only:: instructor
+
+  .. note:: 
+
+    - This applies mainly to spinning disks.
+    - The performance hit is much smaller for solid state drives.
 
 
 Many Small vs. Few Large Documents
 ----------------------------------
 
-- Memory management favors small documents; seek time favors large.
-- How to decide?
+- Memory management favors small documents.
+- Seek time favors large documents.
+- How should we prioritize these requirements?
 
-  - Frequently accessed data should be put into one document, to minimize seeks.
-  - Rarely used data should not be accessed when not being used.
-  - This minimizes both the number of frequent queries, and the amount of data pushed out of memory by any query.
+  - Group frequently accessed data together.
+  - Put rarely used data elsewhere.
+
+    - Probably in another collection.
+
+- This gets us close to a good balance of: 
+  
+  - Reducing the number of seeks.
+  - Having lots of documents in memory.
+
+
+Data Modeling Scenarios: Introduction
+-------------------------------------
+
+- Now we will design some schemas.
+- You'll see these ideas put into practice.
+- I'll do a couple, then you will do one.
+
+.. only:: instructor
+
+  .. note::
+
+    - Tell the students the following: 
+    - We're going to go through a few scenarios.
+    - As we do so, try to think ahead.
+    - Ask yourself:
+
+      - How should we model this data?
+      - What are some pitfalls?
+
+    - Think about:
+
+      - RAM
+      - Number of seeks
+
 
 Scenario #1: Medical Patient Data
 ---------------------------------
 
-- When a patient comes in, record:
+- We are going to design a system for a hospital.
+- When a patient comes in, we record:
 
-  - All the people and technicians they saw
-  - All procedures performed
-  - Patients' symptoms
-  - The diagnosis
-  - Medication prescribed
+  - All the doctors, nurses, and technicians they saw.
+  - All procedures performed on them.
+  - Their symptoms.
+  - The diagnosis.
+  - Any medication prescribed.
 
-- Scan all the actual medical documents 
-
-  - Keep as binary information.
-
-- When querying or running analytics, do not use the binary data.
-
-  - Binary data is only rarely accessed, relative to other data.
 
 Medical Patient Data (Continued)
 --------------------------------
 
-- You could create documents that contain all data for a patient
+- We will also record:
+
+  - A binary scan of all the actual medical documents.
+
+- The binary data is not used for querying/analytics.
+
+  - It is rarely accessed.
+  - Storing it is a requirement.
+
+
+Medical Patient Data (Continued)
+--------------------------------
+
+- There are a few common use cases:
+
+  - Load previous visit data to find:
+
+    - Doctors/nurses/technicians seen
+    - Tests & results
+    - Diagnosis
+    - Medication
+
+  - Do regular analytics on visits to determine:
+
+    - What symptoms & tests lead to what diagnosis
+    - Which diagnoses lead to which medications
+    - Whether two or more medications have interactions
+
+Medical Patient Data (Continued)
+--------------------------------
+
+- Possible Solution #1: create documents that contain:
 
   - people
   - procedures
@@ -109,7 +196,42 @@ Medical Patient Data (Continued)
   - medication
   - binary data
 
-- If you usually query only for the people, diagnosis, and procedures, this would include a lot of unused data.
+.. only:: instructor
+
+   .. note::
+
+      - This has several advantages:
+
+        - All data is in a single document
+        
+          - Just one query to call up patient info
+          - Seeks will be rare
+
+        - Simple data structure (everything is together)
+
+
+Medical Patient Data (Continued)
+--------------------------------
+
+- Disadvantage of Solution #1:
+
+  - Documents include lots of unused data.
+
+- Let's ask: What is being used in a typical query?
+- Answer:
+
+  - people the patient saw
+  - diagnoses the patient received
+  - procedures performed on the patient.
+
+
+Medical Patient Data (Continued)
+--------------------------------
+
+- Solution #2: just put that in your collection!
+- For all other data, put it in a rarely accessed auxiliary collection.
+- This ensures one seek per data request most of the time.
+- Everything you'll rarely need is still available.
 
 
 Medical Patient Data (Continued)
@@ -120,7 +242,7 @@ TODO: REMAKE THIS DRAWING
 .. figure:: /images/data-modeling-documents-include-useless-data.png
    :align: center
    :width: 600 px
-   :title: Documents with both Useful and Useless Data
+   :title: Documents with Both Useful and Useless Data (Solution #1)
 
 .. only:: instructor
 
@@ -135,66 +257,37 @@ TODO: REMAKE THIS DRAWING
 
         - Move everything else into other collections.
 
+
 Medical Patient Data (Continued)
 --------------------------------
 
 TODO: REMAKE THIS DRAWING
 
-.. figure:: /images/data-modeling-documentsinclude-only-useful-data.png
+.. figure:: /figures/data-modeling-documents-include-only-useful-data.png
+   :align: center
+   :title: Documents with Only Useful Data (Solution #2)
 
 .. only:: instructor
 
-   note::
+   .. note::
 
      - Now the same size of memory now contains more documents (12)
      - Because all of the data is useful, there is space for more documents.
      - This results in:
      
-       - Fewer page faults 
+       - Fewer page faults
        - More effective use of RAM
 
-Scenario #2: Alternative Medical Patient Data
----------------------------------------------
 
-- Imagine if we were designing a system that took “samples”.
-- Samples can be any kind of additive update.
-- Each time a patient visits a different person, that is considered a sample
-- All information about that visit to that station is put into its own document.
+“Belongs To” vs. “Belongs In” & References
+------------------------------------------
 
-  - A visit for a person may be represented by many documents.
+- While modeling data, you will want to ask yourself: 
 
-- We would get an access pattern described above (efficient use of memory)
-- Now it would take many queries and possibly a lot of I/O to gather all the documents required to resolve the query.Consider:
+  - Do certain objects belong together in a document? 
+  - Or should they should be referenced?
 
-
-Medical Patient Data Scenario 2 (Continued)
--------------------------------------------
-
-- In this scenario, the data is very fragmented.
-- Queries would touch lots of documents, so there will be the potential for lots of page faults.
-
-  - If using a spinning HD this could take many seeks to find the data on disk to load into RAM.
-
-- The data needs to be accessed together, in one document with everything that we need. 
-
-  - This is where the flexible nature of documents really shines.
-  - The documents for each patient's visit are of different size and data types vary from document to document.
-
-
-“Belongs To” VS “Belongs In” & References
------------------------------------------
-
-- While modeling data, you will have to ask yourself: 
-
-  - Do certain objects belong together? 
-  - Should they should be referenced?
-  
-- Ask: Does the data belong together?
-  
-  - If yes, does it belong in the document?
-  
-    - Yes, if the data will only be needed with this document.
-    - No, if other documents may need that data.
+- Each of these might be useful, depending on your situation.
 
 
 "Belongs To" vs. "Belongs In" & References (Continued)
@@ -202,11 +295,13 @@ Medical Patient Data Scenario 2 (Continued)
 
 - If an object belongs with more than one document, reference it.
 - A reference means putting the _id of one document into the other document.
-- Generally, this will now require 2 or more queries.
-- This process is sometimes called "denormalizing."
+- If referencing, getting your data will now require 2 or more queries.
+- Sometimes it is worthwhile to create copies of your data to save time in querying.
+
+  - We call this 'denormalizing'
 
 
-Scenario #3: Library Card Catalog System
+Scenario #2: Library Card Catalog System
 ----------------------------------------
 
 - The objective is to keep track of 3 entities.
@@ -237,28 +332,64 @@ Library Card Catalog System (Continued)
 - Possibility #1: Author References
 
   - For a book, an array of author _id’s could be embedded.
-  - You could have a reference to authors.
-  - this would require multiple queries and possible extra I/O to resolve the book information.
+
+    - It won't be a simple field because some books have multiple authors.
+
+  - You now have a reference to authors.
+  - This would require multiple queries to get your data.
+
+    - One for the book.
+    - One for each author.
+
 
 Library Card Catalog System (Continued)
 ---------------------------------------
 
 - Possibility #2: "denormalize" the author information into the book.
 
-  - These would be the authors name and their _id.
-  - It is important to denormalize the _id in case the author name changes.
+  - You would copy the author's name and their _id into the book' document.
+  - It is important to bring in the _id in case the author name changes.
   - You would *not* want to denormalize the other author information, such as their biography.
 
-    - This would not be useful in the context of the book.
+    - That would not be useful in the context of the book.
+
+  - Now book info can be gathered with one query.
+
+    - More author information is available if needed.
+
 
 Library Card Catalog System (Continued)
 ---------------------------------------
 
 - If you wanted to add “genre”  or “category” information:
 
-  - Don't build a lookup table 
-  - Instead, embed as a string each category.
-  - This can be indexed.
-  - Books of similar category will be found in the cursor.
+  - Don't build a lookup table.
+  - Instead, embed as an array of categories or genres.
+
+    - This can be indexed.
+
+  - Books of the same category will be found with one search.
+
+
+Atomic Operations in MongoDB
+----------------------------
+- MongoDB has “atomic operations” on documents.
+
+  - Only documents, not collections.
+
+- When a document is updated, no other thread is updating it or reading it.
+
+  - This leads to consistent reads and writes.
+  - This feature provides document-level transactions.
+
+Atomic Operations in MongoDB (Continued)
+----------------------------------------
+
+- Any modification to any number of fields in a single document can be thought of as a transaction.
+- Updates to a single document either entirely happen or they do not at all.
+- There are no partial updates and no “dirty reads” at the document level.
+- You can use this to your advantage if you have data put together in one document.
+
+
 
 .. include:: /exercises/schema-design-atomic-operations.txt
