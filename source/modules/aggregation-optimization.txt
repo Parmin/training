@@ -18,8 +18,12 @@ Aggregation Options
 -------------------
 
 - You may pass an options document to ``aggregate()``.
-- Syntax: db.collection.aggregate( [ { stage1 }, 
-                                     { stage2 }, ... ], { options } )
+- Syntax: 
+
+  .. code-block:: javascript
+
+     db.collection.aggregate( [ { stage1 }, { stage2 }, ... ], { options } )
+
 - Following are some of the fields that may be passed in the options document.
 
   - ``allowDiskUse : true`` - permit the use of disk for memory-intensive queries
@@ -30,7 +34,7 @@ Aggregation Limits
 ------------------
 
 - An aggregation pipeline cannot use more than 100 MB of RAM.
-- { allowDiskUse : true } allows you to get around this limit.
+- ``allowDiskUse : true`` allows you to get around this limit.
 - The follow operators do not require the entire dataset to be in memory:
 
   - $match, $skip, $limit, $unwind, and $project
@@ -43,8 +47,8 @@ Aggregation Limits
 Limits Prior to MongoDB 2.6
 ---------------------------
 
-  - ``aggregate()`` returned results in a single document. 
-  - The upper limit on pipeline memory usage was 16 MB.
+- ``aggregate()`` returned results in a single document. 
+- The upper limit on pipeline memory usage was 16 MB.
 
 
 Optimization: Reducing Documents in the Pipeline
@@ -56,7 +60,7 @@ Optimization: Reducing Documents in the Pipeline
   - $skip
   - $limit: 
 
-- They should be used as early as possible.
+- They should be used as early as possible in the pipeline.
 
 
 Optimization: Sorting
@@ -78,6 +82,6 @@ Automatic Optimizations
 
 MongoDB will perform some optimizations automatically. For example:
 
--  If a ``$project`` stage is used late in the pipeline it may be used to eliminate those fields earlier if possible.
--  A ``$sort`` followed by a ``$match`` will be executed as a ``$match`` followed by a ``$sort`` to reduce the number of documents to be sorted.
+- If a ``$project`` stage is used late in the pipeline it may be used to eliminate those fields earlier if possible.
+- A ``$sort`` followed by a ``$match`` will be executed as a ``$match`` followed by a ``$sort`` to reduce the number of documents to be sorted.
 - See: :manual:`Aggregation Pipeline Optimation</core/aggregation-pipeline-optimization/>`

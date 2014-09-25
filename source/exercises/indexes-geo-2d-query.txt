@@ -1,12 +1,14 @@
-Exercise: Query a Collection Based on 2d Fields
------------------------------------------------
+Exercise: Find Based on 2d Coords
+---------------------------------
 
-Write a query to Find all documents within 3 degrees of the point [ -2.5, -0.5 ] in the twoD collection.
+Write a query to find all documents within 3 degrees of the point [ -2.5, -0.5 ] in the twoD collection.
 
 .. only:: instructor
   
-  .. note::
+   .. note::
 
-    .. code-block:: javascript
+      Answer:
+
+      .. code-block:: javascript
     
-       db.twoD.find( { xy : { $geoWithin : { $center : [ [ -2.5, -0.5 ], 3 ] } } } 
+         db.twoD.find( { xy : { $geoWithin : { $center : [ [ -2.5, -0.5 ], 3 ] } } } 

@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 file: /modules/schema-design.txt
 description: |
   Data modeling in MongoDB.
-=======
-file: /modules/schema-design
-description: |
-  How to model data effectively for MongoDB.
->>>>>>> fabc752f740c79fa5735352ca0784f3246da8843
 ...

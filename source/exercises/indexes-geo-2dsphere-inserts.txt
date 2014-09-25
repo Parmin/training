@@ -1,7 +1,7 @@
 Exercise: Inserting geoJSON Objects (1)
 ---------------------------------------
 
-Add a few flights to our collection using the following location data:
+Create a coordinate pair for each the following airports. Create one variable per airport.
 
 - LaGuardia (New York): 40.7772° N, 73.8726° W
 - JFK (New York): 40.6397° N, 73.7789° W
@@ -25,11 +25,6 @@ Add a few flights to our collection using the following location data:
          stansted = [ 0.2350, 51.8850 ]
          luton = [-0.4333, 51.9000 ]
 
-.. only:: instructor
-
-   .. note::
-
-      - The order of the coordinates is correct. 
       - Remember, we use [ latitude, longitude ].
       - In this example, we have made North (latitude) and East (longitude) positive. 
       - West and South are negative.
@@ -38,7 +33,7 @@ Add a few flights to our collection using the following location data:
 Exercise: Inserting geoJSON Objects (2)
 ---------------------------------------
 
-- Now, let's make arrays of these.
+- Now let's make arrays of these.
 - Put all the New York area airports into an array called ``nyPorts``.
 - Put all the London area airports into an array called ``londonPorts``.
 - Create a third array for flight numbers: "AA4453", "VA3333", "UA2440"

@@ -1,6 +1,6 @@
-=======================
-An Aggregation Tutorial
-=======================
+====================
+Aggregation Tutorial
+====================
 
 
 Learning Objectives

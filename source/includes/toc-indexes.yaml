@@ -1,4 +1,4 @@
-file: /modules/indexes-introduction
+file: /modules/indexes-fundamentals
 description: | 
   An introduction to MongoDB indexes.
 --- 
@@ -22,3 +22,5 @@ file: /modules/indexes-text
 description: | 
   Free text indexes on string fields.
 ...
+
+
