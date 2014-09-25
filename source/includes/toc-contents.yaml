@@ -29,4 +29,8 @@ description: |
 file: /modules/nav/security
 description: |
   Security in MongoDB
+---
+file: /modules/nav/schema-design
+description: |
+  Schema Design in MongoDB
 ...

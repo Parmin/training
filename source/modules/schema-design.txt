@@ -59,23 +59,26 @@ Find Queries and RAM
   - The document is read from disk into memory.
   - Other documents get pushed out of memory.
 
-- This takes time.
+    - This makes future page faults more likely.
 
 
 Find Queries and RAM (Continued)
 --------------------------------
 
-- If the documents are smaller:
+- If the documents are smaller (ceteris paribus):
 
   - More of them can fit in memory.
-  - You are more likely to find them in memory.
-  - Queries are faster.
+  - A higher percentage of them fit into memory.
+  - Queries are faster, on average.
+
+- Try to keep documents as small as possible
 
 .. only:: instructor
 
   .. note::
 
     Unfortunately, this is not the only consideration.
+
 
 Find Queries and Spinning Disks
 -------------------------------
@@ -100,19 +103,27 @@ Find Queries and Spinning Disks
 Many Small vs. Few Large Documents
 ----------------------------------
 
-- Memory management favors small documents.
-- Seek time favors large documents.
+- Memory management favors small (and thus many) documents.
+- Seek time favors few (and therefore large) documents.
 - How should we prioritize these requirements?
 
-  - Group frequently accessed data together.
-  - Put rarely used data elsewhere.
 
-    - Probably in another collection.
+Many Small vs. Few Large Documents (Continued)
+----------------------------------------------
 
+- Solution:
+
+  - Data that's called together should be grouped together.
+   
+    - Same amount of data in 0-1 seeks instead of 0-many
+
+  - Especially if it's queried frequently.
+  - Push rarely used data elsewhere.
+  
 - This gets us close to a good balance of: 
   
   - Reducing the number of seeks.
-  - Having lots of documents in memory.
+  - Not pulling unused data into memory.
 
 
 Data Modeling Scenarios: Introduction
@@ -169,20 +180,16 @@ Medical Patient Data (Continued)
 Medical Patient Data (Continued)
 --------------------------------
 
-- There are a few common use cases:
+- There is one common use case
 
   - Load previous visit data to find:
 
     - Doctors/nurses/technicians seen
     - Tests & results
+    - Symptoms
     - Diagnosis
     - Medication
 
-  - Do regular analytics on visits to determine:
-
-    - What symptoms & tests lead to what diagnosis
-    - Which diagnoses lead to which medications
-    - Whether two or more medications have interactions
 
 Medical Patient Data (Continued)
 --------------------------------
@@ -195,6 +202,7 @@ Medical Patient Data (Continued)
   - diagnosis
   - medication
   - binary data
+  - One document per visit, total.
 
 .. only:: instructor
 
@@ -223,16 +231,19 @@ Medical Patient Data (Continued)
   - people the patient saw
   - diagnoses the patient received
   - procedures performed on the patient.
+  - Symptoms
+  - Diagnosis
 
 
 Medical Patient Data (Continued)
 --------------------------------
 
-- Solution #2: just put that in your collection!
-- For all other data, put it in a rarely accessed auxiliary collection.
+- Solution #2: just put that stuff together!
+- For all other data, put it in a another collection.
 - This ensures one seek per data request most of the time.
-- Everything you'll rarely need is still available.
+- Rarely needed data is still available.
 
+  - Just not in the frequently accessed documents.
 
 Medical Patient Data (Continued)
 --------------------------------
@@ -293,8 +304,7 @@ TODO: REMAKE THIS DRAWING
 "Belongs To" vs. "Belongs In" & References (Continued)
 ------------------------------------------------------
 
-- If an object belongs with more than one document, reference it.
-- A reference means putting the _id of one document into the other document.
+- If an object belongs to multiple documents, reference it.
 - If referencing, getting your data will now require 2 or more queries.
 - Sometimes it is worthwhile to create copies of your data to save time in querying.
 
