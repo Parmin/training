@@ -111,7 +111,7 @@ Array Operators
 - ``$pull``: Removes all elements in the array that match a specified value.
 - ``$pullAll``: Removes all elements in the array that match any of the specified values.
 - ``$addToSet``: Appends an element to the array if not already present.
-
+- ``$ Operator``: Acts as a placeholder for the first element that matches the query document and replaces that element with the specified value.
 
 .. include:: /exercises/crud-update-array-operators.txt
 
