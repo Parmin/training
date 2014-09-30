@@ -198,4 +198,4 @@ Connect to either mongos using a mongo shell and frequently issue:
 
         .. code-block:: bash
 
-           db.testcol.find( { a : { $lte : 100 } ).explain()
+           db.testcol.find( { a : { $lte : 100 } } ).explain()
