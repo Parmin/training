@@ -1,46 +1,53 @@
-Security - Setting Up a readWrite User
---------------------------------------
+Exercise: Creating a ``readWrite`` User
+---------------------------------------
 
-Exercise:
-
-- Set up a user named 'Vespa' with readWrite access on the 'test' db and the 'Druidia' database
-- Set the login server to be the 'Druidia' database.
-- Log in using this user.
-
+- Create a user named *vespa*.
+- Give *vespa* readWrite access on the *test* and *druidia* databases.
+- Create this user so that the login database is *druidia*.
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    .. code-block:: bash
+      .. code-block:: bash
 
-        mongo -u Roland admin -p 
+         mongo -u roland admin -p 
 
-    .. code-block:: javascript
+      .. code-block:: javascript
 
-        use Druidia
-        var name = "Vespa"
-        var password = "12345"
-        vespa = { user : name,
-                  pwd : password,
-                  roles : [ { role : "readWrite", db : "Druidia" },
-                            { role : "readWrite", db : "test" } ] }
-        db.createUser(vespa)
-        exit
+         use druidia
+         var name = "vespa"
+         var password = "12345"
+         vespa = { user : name,
+                   pwd : password,
+                   roles : [ { role : "readWrite", db : "druidia" },
+                             { role : "readWrite", db : "test" } ] }
+         db.createUser(vespa)
+         exit
 
-    .. code-block:: bash
 
-        mongo -u Vespa test -p  # won't work.
-        mongo -u Vespa Druidia -p  # will work.
+Exercise: Creating a ``readWrite`` User, Cont'd
+-----------------------------------------------
 
-    .. code-block:: javascript
+Log in with the user you just created. 
 
-        show collections // should be empty
-        db.foo.insert ( { a : 1 } )
-        db.foo.find()  // see the doc
-        use test
-        db.foo.insert( { a : 1 } )
-        db.foo.find()
-        use test2
-        show collections  // can't
-        db.foo.find()  // can't
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: bash
+
+         mongo -u vespa test -p  # won't work.
+         mongo -u vespa druidia -p  # will work.
+
+      .. code-block:: javascript
+
+         show collections // should be empty
+         db.foo.insert ( { a : 1 } )
+         db.foo.find()  // see the doc
+         use test
+         db.foo.insert( { a : 1 } )
+         db.foo.find()
+         use test2
+         show collections  // can't
+         db.foo.find()  // can't

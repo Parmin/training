@@ -6,19 +6,18 @@ Security
 Learning Objectives
 -------------------
 
-Upon completing this module, students should understand:
+Upon completing this module students should understand:
 
 - Security options for MongoDB
 - Basics of native auth for MongoDB
+- User roles in MongoDB
+- How to manage user roles in MongoDB
 
-  - User roles in MongoDB
-  - How to manage user roles in MongoDB
 
+Overview
+--------
 
-Security - Overview
--------------------
-
-TODO: Create a real version of this image. Also make it clear that the top half is Authentication, bottom half is Authorization.
+TODO: REPLACE WITH FIGURE.
 
 .. figure:: /images/security-auth-categories.jpg
    :align: center
@@ -76,18 +75,15 @@ Encryption (SSL)
 
 - MongoDB can be configured at build time to run with SSL.
 - To get it, build from the source code with --ssl.
-
-  - Alternatively, use MongoDB Enterprise.
+- Alternatively, use MongoDB Enterprise.
 
 
 Native MongoDB Auth
 -------------------
 
 - Uses the Challenge/Response mechanism
-
-  - Sometimes called MongoDB-CR
-
-- Start a mongod instance with --auth to enable this feature
+- Sometimes called MongoDB-CR
+- Start a mongod instance with ``--auth`` to enable this feature
 - You can initially login using localhost
   
   - Called the "localhost exception".
@@ -100,16 +96,10 @@ Native MongoDB Auth
       - Be careful to create a user who can create other users.
       - Otherwise you'll be stuck with the users you initially create.
 
-.. include:: /exercises/security-mongod-setup.txt
+.. include:: /exercises/security-enable-mongod-cr.txt
 
 .. include:: /exercises/security-create-useradmin.txt
 
-.. only:: instructor
-
-   .. note::
-      
-      - Once a user is created, the localhost exception no longer applies.
-      - If that first user can't create other users, you will be extremely limited in your ability 
 
 
 Using MongoDB Roles
@@ -122,19 +112,18 @@ Using MongoDB Roles
   - Use the -p flag to enter the password.
 
 - userAdmins may create other users
-
-  - But they cannot read/write without other roles.
+- But they cannot read/write without other roles.
 
 
 .. only:: instructor
 
    .. note::
 
-      - The db must be specified when logging in
-
-        - Trying to log into another db won't work
-
-      -p can be followed by the password, or it can get input immediately after hitting 'enter' to launch the mongo shell.
+      - Users must specify the db when logging in.
+      - Trying to log into another db won't work
+      - Users may follow ``-p`` with the password
+      - They may also enter the password after hitting enter. 
+      - The ``mongo`` command will prompt for the password before launching the shell.
 
 .. include:: /exercises/security-create-readwrite.txt
 
@@ -145,4 +134,4 @@ MongoDB Custom User Roles
 - You can create custom user roles in MongoDB.
 - You do this by modifying the system.roles collection.
 - You can also inherit privileges from other roles into a given role.
-- You won't remember how to do this, so if you need it, consult the docs.
+- You won't remember how to do this, so if you need it, consult the :manual:`docs </core/security-introduction/>`.

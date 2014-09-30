@@ -1,35 +1,36 @@
-Security - Setting Up a First User
-----------------------------------
+Exercise: Create an Admin User
+------------------------------
 
-Exercise:
-
-- Set up a userAdminAnyDatabase with name "Roland" and password "12345".
-- Enable him to login on the admin database.
+- Launch a mongo shell.
+- Create a user with the role, ``userAdminAnyDatabase`` 
+- Use name "Roland" and password "12345".
+- Enable this user to login on the admin database.
 - Demonstrate a login.
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    .. code-block:: bash
+      .. code-block:: javascript
 
-        mongo
+         use admin
+         var role = "userAdminAnyDatabase"
+         var name = "Roland"
+         var password = "12345"
+         newUserDoc = { user : name,
+                        pwd : password,
+                        roles : [ { role : role,
+                                    db : "admin" } ] }
+         db.createUser( newUserDoc )
+         exit
 
-    .. code-block:: javascript
+      And now, to log back in:
 
-        use admin
-        var role = "userAdminAnyDatabase"
-        var name = "Roland"
-        var password = "12345"
-        newUserDoc = { user : name,
-                       pwd : password,
-                       roles : [ { role : role,
-                                   db : "admin" } ] }
-        db.createUser( newUserDoc )
-        exit
+      .. code-block:: bash
 
-    And now, to log back in:
+         mongo -u Roland admin -p
 
-    .. code-block:: bash
-
-        mongo -u Roland admin -p
+      Remember:
+      
+      - Once a user is created, the localhost exception no longer applies.
+      - If that first user can't create other users, you will be extremely limited in your ability 
