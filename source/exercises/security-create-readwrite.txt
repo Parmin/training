@@ -1,5 +1,5 @@
-Exercise: Creating a ``readWrite`` User
----------------------------------------
+Exercise: Creating a ``readWrite`` User, Part 1
+-----------------------------------------------
 
 - Create a user named *vespa*.
 - Give *vespa* readWrite access on the *test* and *druidia* databases.
@@ -26,7 +26,7 @@ Exercise: Creating a ``readWrite`` User
          exit
 
 
-Exercise: Creating a ``readWrite`` User, Cont'd
+Exercise: Creating a ``readWrite`` User, Part 2
 -----------------------------------------------
 
 Log in with the user you just created. 

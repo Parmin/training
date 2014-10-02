@@ -1,11 +1,10 @@
-Exercise: Create an Admin User
-------------------------------
+Exercise: Create an Admin User, Part 1
+--------------------------------------
 
 - Launch a mongo shell.
 - Create a user with the role, ``userAdminAnyDatabase`` 
-- Use name "Roland" and password "12345".
+- Use name "roland" and password "12345".
 - Enable this user to login on the admin database.
-- Demonstrate a login.
 
 .. only:: instructor
 
@@ -15,7 +14,7 @@ Exercise: Create an Admin User
 
          use admin
          var role = "userAdminAnyDatabase"
-         var name = "Roland"
+         var name = "roland"
          var password = "12345"
          newUserDoc = { user : name,
                         pwd : password,
@@ -24,11 +23,23 @@ Exercise: Create an Admin User
          db.createUser( newUserDoc )
          exit
 
-      And now, to log back in:
+
+Exercise: Create an Admin User, Part 2
+--------------------------------------
+
+- Launch a mongo shell without logging in.
+- Attempt to create a user.
+- Exit the shell.
+- Log in again as roland.
+- Ensure that you can create a user.
+
+.. only:: instructor
+
+   .. note::
 
       .. code-block:: bash
 
-         mongo -u Roland admin -p
+         mongo -u roland admin -p
 
       Remember:
       

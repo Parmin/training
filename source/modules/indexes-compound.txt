@@ -7,70 +7,87 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-   - What a compound index is.
-   - How compound indexes are created.
-   - The importance of considering field order when creating compound indexes.
-   - How to efficiently handle queries involving some combination of equality
-     matches, ranges, and sorting.
-   - Some limitations on compound indexes.
+- What a compound index is.
+- How compound indexes are created.
+- The importance of considering field order when creating compound indexes.
+- How to efficiently handle queries involving some combination of equality matches, ranges, and sorting.
+- Some limitations on compound indexes.
 
 
 Introduction to Compound Indexes
 --------------------------------
 
 - It is common to create indexes based on more than one field.
-- Recall that these are called ``compound indexes``.
+- These are called ``compound indexes``.
 - You may use up to 31 fields in a compound index.  
 - You many not use hashed fields.
-- The order in which the fields are specified is of critical importance.
-- Specifically we want to consider how the index will be used for:
 
-  - Equality tests, e.g., 
-    ::
+
+The Order of Fields Matters
+---------------------------
+
+Specifically we want to consider how the index will be used for:
+
+- Equality tests, e.g., 
+
+  .. code-block:: javascript
     
-       db.example.find( { a : 15, b : 17 } )
+     db.example.find( { a : 15, b : 17 } )
 
-  - Range queries, e.g., 
-    ::
+- Range queries, e.g., 
 
-       db.example.find( { a : 15, b : { $lt : 85 } } )
+  .. code-block:: javascript
 
-  - Sorting, e.g., 
-    ::
+     db.example.find( { a : 15, b : { $lt : 85 } } )
 
-       db.example.find( { a : 15, b : 17 } ).sort( { b : -1 } )
+- Sorting, e.g., 
 
-- It is especially important to consider query patterns that require two or more of these operations.
+  .. code-block:: javascript
+
+     db.example.find( { a : 15, b : 17 } ).sort( { b : -1 } )
+
+.. only:: instructor
+
+   .. note::
+
+      - The order in which the fields are specified is of critical importance.
+      - It is especially important to consider query patterns that require two or more of these operations.
 
 
 Designing Compound Indexes
 --------------------------
 
-- Our objective here is to develop some guiding principles for building compound indexes.
-- This will generally produce a good if not optimal index.
+- Let's look at some guiding principles for building compound indexes.
+- These will generally produce a good if not optimal index.
 - You can optimize after a little experimentation.
 - We will explore this in the context of a running example.
+
 
 Example: A Simple Message Board
 -------------------------------
 
-Objective:
-~~~~~~~~~~
+Requirements:
 
 - Find all messages in a specified timestamp range.
 - Select for whether the messages are anonymous or not.
 - Sort by rating from highest to lowest.
 
-Load this data into a new collection:
+
+Load the Data
+-------------
 
 .. code-block:: javascript
 
    a = [ { "timestamp" : 1, "username" : "anonymous", "rating" : 3 },
          { "timestamp" : 2, "username" : "anonymous", "rating" : 5 },
-         { "timestamp" : 3, "username" : "sergio", "rating" : 1 },
+         { "timestamp" : 3, "username" : "sam", "rating" : 1 },
          { "timestamp" : 4, "username" : "anonymous", "rating" : 2 },
          { "timestamp" : 5, "username" : "martha", "rating" : 5 } ]
    db.messages.insert(a)
+
+
+Start with a Simple Index
+-------------------------
 
 Start by building an index on { timestamp : 1 }
 
@@ -84,21 +101,33 @@ Now let's query for messages with timestamp in the range 2 through 4 inclusive.
 
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 } } ).explain()
 
-Better, but not complete
-~~~~~~~~~~~~~~~~~~~~~~~~
+.. only:: instructor::
 
-- Explain plan shows good performance, i.e. ``nscanned`` = ``n``.  
-- However, this does not satisfy our query.  
-- Need to query again with { username : "anonymous" } as part of the query.
+   .. note::
 
-Let's add the ``user`` field to our query.
+      - Explain plan shows good performance, i.e. ``nscanned`` = ``n``.  
+      - However, this does not satisfy our query.  
+      - Need to query again with { username : "anonymous" } as part of the query.
+
+
+Query Adding ``username``
+-------------------------
 
 .. code-block:: javascript
 
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-Now ``nscanned`` > ``n``. Let's build a compound index.
+.. only:: instructor
+
+   .. note::
+
+      - Let's add the ``user`` field to our query.
+      - Now ``nscanned`` > ``n``. 
+
+
+Include ``username`` in Our Index
+---------------------------------
 
 .. code-block:: javascript
 
@@ -108,24 +137,38 @@ Now ``nscanned`` > ``n``. Let's build a compound index.
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-Why is ``nscanned`` > ``n``?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. only:: instructor
 
-- The index we have created stores the range values before the equality values.
-- The documents with timestamp values 2, 3, and 4 were found first.
-- Then the associated anonymous values had to be evaluated.
+   .. note::
+
+      - ``nscanned`` is still greater than n. 
+      - Why?
+
+
+``ncanned`` > n
+---------------
 
 =========  ===========
 timestamp  username
 =========  ===========
 1          "anonymous"
 2          "anonymous"
-3          "sergio"
+3          "sam"
 4          "anonymous"
 5          "martha"
 =========  ===========
 
+.. only:: instructor
 
+   .. note::
+
+      - The index we have created stores the range values before the equality values.
+      - The documents with timestamp values 2, 3, and 4 were found first.
+      - Then the associated anonymous values had to be evaluated.
+
+
+A Different Compound Index
+--------------------------
 Drop the index and build a new one with user.
 
 .. code-block:: javascript
@@ -136,7 +179,15 @@ Drop the index and build a new one with user.
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-Now ``nscanned`` is 2 and ``n`` is 2. The following illustrates very simply the difference in the way the index is structured and why this is better for this query.
+.. only:: instructor
+
+   .. note::
+
+      - Now ``nscanned`` is 2 and ``n`` is 2. 
+
+
+``nscanned`` == ``n`` == 2
+--------------------------
 
 ===========  =========
 username     timestamp
@@ -144,17 +195,30 @@ username     timestamp
 "anonymous"  1
 "anonymous"  2
 "anonymous"  4
-"sergio"     2
+"sam"     2
 "martha"     5
 ===========  =========
 
+.. only:: instructor
+
+   .. note::
+  
+      - This illustrates why.
+      - There is fundamental difference in the way the index is structured.
+      - This supports a more efficient treatment of our query.
+
+
 Let Selectivity Drive Field Order
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 - Order fields in a compound index from most selective to least selective.
 - Usually, this means equality fields before range fields.
 - When dealing with multiple equality values, start with the most selective.
-- If a common range query is more selective than the equality test (rare), specify the range component first.
+- If a common range query is more selective instead (rare), specify the range component first.
+
+
+Adding in the Sort
+------------------
 
 Finally, let's add the sort and run the query.
 
@@ -165,16 +229,20 @@ Finally, let's add the sort and run the query.
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
 
+.. only:: instructor
+
+   .. note::
+
+      - Note that the ``scanAndOrder`` field is set to true.
+      - This means that MongoDB had to perform a sort in memory.  
+      - In memory sorts for queries that retrieve large numbers of documents can degrade performance significantly.
+      - Especially, if they are used frequently.
+
 
 In-Memory Sorts
-~~~~~~~~~~~~~~~
+---------------
 
-- Note that the ``scanAndOrder`` field is set to true.
-- This means that MongoDB had to perform a sort in memory.  
-- In memory sorts for queries that retrieve large numbers of documents can degrade performance significantly.
-- Especially, if they are used frequently.
-
-We will modify the index again to allow the database to sort for us.
+Let's modify the index again to allow the database to sort for us.
 
 .. code-block:: javascript
 
@@ -186,13 +254,19 @@ We will modify the index again to allow the database to sort for us.
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
 
-Why is the explain plan unchanged?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. only:: instructor
 
-- The field being sorted on comes after the range fields.
-- The index does not store entries in order by rating.
-- To have the index structured this way we need to specify the field for sorting (rating) before the range field (timestamp).
-- Note that this requires to consider a tradeoff.
+   .. note::
+
+      - The explain plan remains unchanged.
+      - The field being sorted on comes after the range fields.
+      - The index does not store entries in order by rating.
+      - To have the index structured this way we need to specify the field for sorting (rating) before the range field (timestamp).
+      - Note that this requires us to consider a tradeoff.
+
+
+Avoiding an In-Memory Sort
+--------------------------
 
 Rebuild the index as follows.
 
@@ -206,17 +280,22 @@ Rebuild the index as follows.
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
 
-Tradeoff Between ``nscanned`` and ``scanAndOrder``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. only:: instructor
 
-- Now ``scanAndOrder`` is set to ``false``. 
-- However, ``nscanned`` is 3 and and ``n`` is 2. 
-- This is the best we can do in this case and in this situation is fine.
-- However, if ``nscanned`` is much larger than ``n``, this might not be the best index.  
-- You will have to evaluate your use case to determine how to make this tradeoff.
+   .. note::
+
+      - We have a tradeoff between ``nscanned`` and ``scanAndOrder``
+      - Now ``scanAndOrder`` is set to ``false``. 
+      - However, ``nscanned`` is 3 and and ``n`` is 2. 
+      - This is the best we can do in this case and in this situation is fine.
+      - However, if ``nscanned`` is much larger than ``n``, this might not be the best index.  
+      - You will have to evaluate your use case to determine how to make this tradeoff.
+
 
 General Rules of Thumb
 ----------------------
 
+- Equality before range.
 - Equality before sorting.  
 - Sorting before range.
+
