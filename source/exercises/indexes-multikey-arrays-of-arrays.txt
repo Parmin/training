@@ -1,44 +1,54 @@
-Exercise: Multikey Index and an Array of Arrays
------------------------------------------------
+Exercise: Array of Arrays, Part 1
+---------------------------------
 
-First, let's add some documents and create an index:
+Add some documents and create an index:
 
 .. code-block:: javascript
 
-    db.multiKeys.ensureIndex( { x : 1 } )
-    c = [ { x : [ [ 1, 2 ], [ 2, 3 ], [ 3, 4] ] }, 
-          { x : [ [ 3, 4 ], [ 4, 5 ] ] },
-          { x : [ [ 4, 5 ], [ 5, 6 ] ] },
-          { x : [ 3, 4 ] },
-          { x : [ 4, 5 ] } ] 
-    db.multiKeys.insert(c)
-    db.multiKeys.ensureIndex( { x : 1 } )
-    db.multiKeys.find()
+   db.testcol.drop()
+   db.testcol.ensureIndex( { x : 1 } )
+   c = [ { x : [ [ 1, 2 ], [ 2, 3 ], [ 3, 4] ] }, 
+         { x : [ [ 3, 4 ], [ 4, 5 ] ] },
+         { x : [ [ 4, 5 ], [ 5, 6 ] ] },
+         { x : [ 3, 4 ] },
+         { x : [ 4, 5 ] } ] 
+   db.testcol.insert(c)
+   db.testcol.ensureIndex( { x : 1 } )
+   db.testcol.find()
 
-For each of the following queries, answer each of the following:
+
+Exercise: Array of Arrays, Part 2
+---------------------------------
+
+For each of the queries below:
 
 - How many documents will be returned? 
-- Will it use the index? Why or why not?
-- If the query won't use the index, what is an index it could use?
-
-Queries:
+- Does the query use the multi-key index? Why or why not?
+- If the query does not use the index, what is an index it could use?
 
 .. code-block:: javascript
 
-  db.multiKeys.find( { x : [ 3, 4 ] } )  
-  db.multiKeys.find( { x : 3 } )
-  db.multiKeys.find( { "x.1" : [ 4, 5 ] } )
-  db.multiKeys.find( { "x.1" : 4 } )
+   db.testcol.find( { x : [ 3, 4 ] } )  
+   db.testcol.find( { x : 3 } )
+   db.testcol.find( { "x.1" : [ 4, 5 ] } )
+   db.testcol.find( { "x.1" : 4 } )
 
 .. only:: instructor
 
-  .. code-block:: javascript
+   .. note::
 
-    db.multiKeys.find( { x : [ 3, 4 ] } )  // 3 documents
-    db.multiKeys.find( { x : [ 3, 4 ] } ).explain()  // used the index, because [ 3, 4 ] is an element of the x array
-    db.multiKeys.find( { x : 3 } )  // one document found, where the element of x is just a number.
-    db.multiKeys.find( { x : 3 } ).explain()  // also used the index
-    db.multiKeys.find( { "x.1" : [ 4, 5 ] } ).explain() 
-    // index not used, because it is naive to position.
-    db.multiKeys.find( { "x.1" : 4 } ).explain()  // index not used
-    db.multiKeys.drop()
+      .. code-block:: javascript
+
+         // 3 documents
+         db.testcol.find( { x : [ 3, 4 ] } )  
+         // Uses the multi-key index
+         db.testcol.find( { x : [ 3, 4 ] } ).explain()  
+
+         // One document found, where the element of x is just a number.
+         db.testcol.find( { x : 3 } )  
+         // Used the index
+         db.testcol.find( { x : 3 } ).explain()  
+
+         db.testcol.find( { "x.1" : [ 4, 5 ] } ).explain() 
+         // Does not use the multi-key index, because it is naive to position.
+         db.testcol.find( { "x.1" : 4 } ).explain()

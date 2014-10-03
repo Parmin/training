@@ -25,7 +25,37 @@ Introduction to Multikey Indexes
 - You created them using ``ensureIndex()`` just as you would with an ordinary single-field index.
 - If there is an array as a value for an indexed field, the index will be multikey on that field.
 
-.. include:: /exercises/indexes-multikey-basic.txt
+
+Example: Array of Numbers
+-------------------------
+
+.. code-block:: javascript
+
+    db.testcol.drop()
+    db.testcol.ensureIndex( { x : 1 } )
+    a = [ { x : [ 1, 2, 3 ], y : [ "a", "b" ] },
+          { x : [ 3, 4 ], y : [ "a", "b" ] },
+          { x : [ 4, 5 ], y : [ "a", "b" ] },
+          { x : 3, y : [ "a", "b" ] }, { x : 4, y : [ "a", "b" ] } ]
+    db.testcol.insert( a )        
+    db.testcol.find( { x : 3 } )  
+    db.testcol.find( { x : 3 } ).explain()  
+    db.testcol.find( { "x.2" : 3 } )  
+    db.testcol.find( { "x.2" : 3 } ).explain()  
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         // Used the index
+         db.testcol.find( { x : 3 } ).explain()  
+
+         // One document found.
+         // Index not used, because it is naive to position.
+         db.testcol.find( { "x.2" : 3 } )  
+
 
 .. include:: /exercises/indexes-multikey-array-of-docs.txt
 
@@ -37,7 +67,8 @@ How Multikey Indexes Work
 
 - Each array element is given one entry in the index.
 - So an array with 17 elements will have 17 entries -- one for each element.
-- As a result, multikey indexes can take up much more space than standard indexes.
+- Multikey indexes can take up much more space than standard indexes.
+
 
 Multikey Indexes and Sorting
 ----------------------------
@@ -46,8 +77,10 @@ Multikey Indexes and Sorting
 
   - A document will appear at the first position where a value would place the document. 
   - It does not appear multiple times.
+
 - This applies to array values generally.
 - It is not a specific property of multikey indexes.
+
 
 .. include:: /exercises/indexes-multikey-sorting.txt
 
@@ -57,9 +90,30 @@ Limitations on Multikey Indexes
 
 - You cannot create a compound index using more than one array-valued field.
 - This is because of the combinatorics.
-- E.g., for a compound index on two array-valued fields you would end up with N * M entries for one document.
+- For a compound index on two array-valued fields you would end up with N * M entries for one document.
 - You cannot have a hashed multikey index.
-- You cannot have a shard key use a multikey index (we discuss shard keys in another module).
+- You cannot have a shard key use a multikey index 
+- We discuss shard keys in another module.
 - The index on the _id field cannot become a multikey index.
 
-.. include:: /exercises/indexes-multikey-not-on-two-fields.txt
+
+Example: Multikey Indexes on Multiple Fields
+--------------------------------------------
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   db.testcol.ensureIndex( { x : 1, y : 1 } )
+
+   // no problems yet
+   db.testcol.insert( { _id : 1, x : 1, y : 1 } )  
+
+   // still OK
+   db.testcol.insert( { _id : 2, x : [ 1, 2 ], y : 1 } )  
+
+   // still OK
+   db.testcol.insert( { _id : 2, x : 1, y : [ 1, 2 ] } )  
+
+   // Won't work
+   db.testcol.insert( { _id : 2, x : [ 1, 2 ], y : [ 1, 2 ] } )
+

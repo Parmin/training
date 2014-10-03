@@ -3,11 +3,31 @@ Exercise: Multikey Indexes and Sorting
 
 .. code-block:: javascript
 
-    a = [ { x : [ 1, 11 ] }, { x : [ 2, 10 ] }, { x : [ 3 ] }, { x : [ 4 ] },
-          { x : [ 5 ] } ]
-    db.multiKeySort.ensureIndex( { x : 1 } )  // create the index
-    db.multiKeySort.insert(a)
-    db.multiKeySort.find().sort( { x : 1 } )  // ascending x
-    // x : [ 1, 11 ] array comes first, because it has the lowest value (1)
-    db.multiKeySort.find().sort( { x : -1 } )  // descending x
-    // x : [ 1, 11 ] array still comes first, because it has the highest value (5)
+   db.testcol.drop()   
+   a = [ { x : [ 1, 11 ] }, { x : [ 2, 10 ] }, { x : [ 3 ] }, { x : [ 4 ] },
+         { x : [ 5 ] } ]
+   db.testcol.insert(a)
+
+   db.testcol.ensureIndex( { x : 1 } )  
+
+   // x : [ 1, 11 ] array comes first, because it contains the lowest value
+   db.testcol.find().sort( { x : 1 } )  
+
+   // x : [ 1, 11 ] array still comes first, because it contains the highest value
+   db.testcol.find().sort( { x : -1 } )
+
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         // x : [ 1, 11 ] array comes first, because it contains the lowest value
+         db.testcol.find().sort( { x : 1 } )  
+
+         // x : [ 1, 11 ] array still comes first, because it contains the highest value
+         db.testcol.find().sort( { x : -1 } )
+        
+
+      
