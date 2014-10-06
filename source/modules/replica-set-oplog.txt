@@ -65,9 +65,9 @@ This will be represented in the oplog with records such as the following.
 
 .. code-block:: javascript
 
-   { "ts" : Timestamp(1407159845, 5), "h" : NumberLong("-704612487691926908"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 65 } }
-   { "ts" : Timestamp(1407159845, 1), "h" : NumberLong("6014126345225019794"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 333 } }
-   { "ts" : Timestamp(1407159845, 4), "h" : NumberLong("8178791764238465439"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 447 } }
+   { "ts" : Timestamp(1407159845, 5), "h" : NumberLong("-704612487691926908"),  "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 65 } }
+   { "ts" : Timestamp(1407159845, 1), "h" : NumberLong("6014126345225019794"),  "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 333 } }
+   { "ts" : Timestamp(1407159845, 4), "h" : NumberLong("8178791764238465439"),  "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 447 } }
    { "ts" : Timestamp(1407159845, 3), "h" : NumberLong("-1707391001705528381"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 1033 } }
    { "ts" : Timestamp(1407159845, 2), "h" : NumberLong("-6814297392442406598"), "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 9971 } }
 
@@ -115,7 +115,7 @@ The Oplog Window
 
 - Oplogs are capped collections.
 - Capped collections are fixed-size.
-- They guarantee presevation of insertion order.
+- They guarantee preservation of insertion order.
 - They support high-throughput operations.
 - Like circular buffers, once a collection fills its allocated space:
 

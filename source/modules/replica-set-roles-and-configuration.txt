@@ -31,15 +31,11 @@ Configuration
    conf = {                                             // 5 data-bearing nodes
      _id : "mySet",
      members : [
-       { _id : 0, host : "dc1-1.example.net:27017", 
-         priority : 3 },
-       { _id : 1, host : "dc1-2.example.net:27017", 
-         priority : 2 },
+       { _id : 0, host : "dc1-1.example.net:27017", priority : 3 },
+       { _id : 1, host : "dc1-2.example.net:27017", priority : 2 },
        { _id : 2, host : "dc2-1.example.net:27017" },
-       { _id : 3, host : "dc1-3.example.net:27017", 
-         hidden : true },
-       { _id : 4, host : "dc2-2.example.net:27017", 
-         hidden : true, slaveDelay : 7200 }
+       { _id : 3, host : "dc1-3.example.net:27017", hidden : true },
+       { _id : 4, host : "dc2-2.example.net:27017", hidden : true, slaveDelay : 7200 }
      ]
    }
 
@@ -49,10 +45,8 @@ Principal Data Center
 
 .. code-block:: javascript
 
-   { _id : 0, host : "dc1-1.example.net", 
-     priority : 3 },
-   { _id : 1, host : "dc1-2.example.net", 
-     priority : 2 },
+   { _id : 0, host : "dc1-1.example.net", priority : 3 },
+   { _id : 1, host : "dc1-2.example.net", priority : 2 },
 
 .. only:: instructor
 
@@ -88,10 +82,8 @@ What about nodes 3 and 4?
 
 .. code-block:: javascript
 
-   { _id : 3, host : "dc1-3.example.net:27017", 
-     hidden : true },
-   { _id : 4, host : "dc2-2.example.net:27017", 
-     hidden : true, slaveDelay : 7200 }
+   { _id : 3, host : "dc1-3.example.net:27017", hidden : true },
+   { _id : 4, host : "dc2-2.example.net:27017", hidden : true, slaveDelay : 7200 }
 
 
 .. only:: instructor
@@ -108,8 +100,7 @@ Node 4
 
 .. code-block:: javascript
 
-   { _id : 4, host : "dc2-2.example.net:27017", 
-     hidden : true, slaveDelay : 7200 }
+   { _id : 4, host : "dc2-2.example.net:27017", hidden : true, slaveDelay : 7200 }
 
 .. only:: instructor
 
