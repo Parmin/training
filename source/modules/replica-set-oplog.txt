@@ -115,7 +115,7 @@ The Oplog Window
 
 - Oplogs are capped collections.
 - Capped collections are fixed-size.
-- They guarantee presevation of insertion order.
+- They guarantee preservation of insertion order.
 - They support high-throughput operations.
 - Like circular buffers, once a collection fills its allocated space:
 
