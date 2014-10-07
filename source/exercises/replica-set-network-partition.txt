@@ -3,8 +3,8 @@ Exercise: Elections in Failover Scenarios
 
 Given what we have learned about electing a primary in replica sets, let's look at some scenarios in which failover might be necessary.
 
-Scenario 1
-----------
+Scenario A: 3 data nodes in 1 DC
+--------------------------------
 
 Which secondary will become the new primary?
 
@@ -16,11 +16,11 @@ Which secondary will become the new primary?
    .. note::
 
       - It depends on the priorities of the secondaries.
-      - And on the optime
+      - And on the optime.
 
 
-Scenario 2
-----------
+Scenario B: 3 data nodes in 2 DCs
+---------------------------------
 
 Which member will become primary following this type of network partition?
 
@@ -33,10 +33,12 @@ Which member will become primary following this type of network partition?
 
       - The current primary is likely to remain primary.
       - It probably has the highest priority.
+      - If DC2 fails, we still have a primary.
+      - If DC1 fails, we won't have a primary automatically. The remaining node in DC2 needs to be manually promoted by reconfiguring the replica set.
 
 
-Scenario 3
-----------
+Scenario C: 4 data nodes in 2 DCs
+---------------------------------
 
 What happens following this network partition?
 
@@ -47,19 +49,19 @@ What happens following this network partition?
 
    .. note::
 
-      - We enter a state with no primary. 
+      - We enter a state with no primary.
       - Each side of the network partition has only 2 votes (not a majority).
-      - All the servers assume secondary status.  
+      - All the servers assume secondary status.
       - This is avoidable.
-      - One solution is to add another member to the replica set.  
-      - If another server can not be provisioned, MongoDB has a special alternative called an arbiter that requires minimal resources. 
-      - An arbiter is a mongod that has no data directory and only serves the purpose of voting.  
+      - One solution is to add another member to the replica set.
+      - If another data node can not be provisioned, MongoDB has a special alternative called an arbiter that requires minimal resources.
+      - An arbiter is a ``mongod`` instance without data and performs only heartbeats, votes, and vetoes.
 
 
-Scenario 4
-----------
+Scenario D: 5 data nodes in 2 DCs
+---------------------------------
 
-The following is similar to Scenario 3, but with the addition of an arbiter in Data Center 1. What happens here?
+The following is similar to Scenario C, but with the addition of an arbiter in Data Center 1. What happens here?
 
 .. figure:: /figures/replica-set-4nodes-1arbiter-2datacenters.png
    :width: 600px
@@ -70,11 +72,39 @@ The following is similar to Scenario 3, but with the addition of an arbiter in D
 
       - The current primary is likely to remain primary.
       - The arbiter helps ensure that the primary can reach a majority of the replica set.
-   
+      - If DC2 fails, we still have a primary.
+      - If DC1 fails, we won't have a primary automatically. Either of the two remaining nodes in DC2 needs to be manually promoted by reconfiguring the replica set.
 
 
+Scenario E: 3 data nodes in 3 DCs
+---------------------------------
+
+What happens here if any one of the nodes/DCs fail? What about recovery time?
+
+TODO: Add diagram with 1 data node in each DC.
+
+.. only:: instructor
+
+   .. note::
+
+      - To have automated failover in the event of single DC level failure, there must be at least 3 DCs. Otherwise the DC with the minority of nodes must be manually reconfigured.
+      - One of the data nodes can be replaced by an arbiter to reduce costs.
 
 
+Scenario F: 5 data nodes in 3 DCs
+---------------------------------
 
+What happens here if any one of the nodes/DCs fail? What about recovery time?
 
+.. figure:: /figures/replica-set-three-data-centers-votes.png
+   :width: 600px
+
+.. only:: instructor
+
+   .. note::
+
+      - Even higher costs with more data nodes.
+      - Having two data nodes in the main DCs help reduce cross-DC traffic during recovery and thus also reducing the time it takes.
+      - Data node in DC3 can be priority 0 for purely DR proposes.
+      - The data node in DC3 can be replaced by an arbiter to reduce costs.
 

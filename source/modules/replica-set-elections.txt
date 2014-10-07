@@ -27,8 +27,8 @@ Members and Votes
 
       - In order for writes to occur, one member of a replica set must be primary.
       - In the event the current primary becomes unavailable, the remaining members elect a new primary.
-      - Voting members of replica set each get one vote.  
-      - Up to seven members may be voting members. 
+      - Voting members of replica set each get one vote.
+      - Up to seven members may be voting members.
       - This enables MongoDB to ensure elections happen quickly, but enables distribution of votes to different data centers.
       - In order to be elected primary a server must have a true majority of votes.
       - A member must have greater than 50% of the votes in order to be elected primary.
@@ -49,7 +49,7 @@ Calling Elections
       - Upon initiation of a new replica set the members will elect a primary.
       - If a primary steps down the set will hold an election.
       - A secondary will call for an election if it does not receive a response to a heartbeat sent to the primary after waiting for 10 seconds.
-      - If other members agree that the primary is not available, an election will be held.  
+      - If other members agree that the primary is not available, an election will be held.
 
 
 Selecting a New Primary
@@ -67,21 +67,24 @@ Priority
 
 - The higher its priority, the more likely a member is to become primary.
 - The default is 1.
-- Servers with a priority of 0 will never become primary.  
+- Servers with a priority of 0 will never become primary.
 - Priority values are floating point numbers 0 - 1000 inclusive.
 
 .. only:: instructor
 
-   - Priority is a configuration parameter for replica set members.
-   - Use priority to determine where writes will be directed by default.
-   - And where writes will be directed in case of failover.
-   - More on this in a later module.
+   .. note::
+
+      - Priority is a configuration parameter for replica set members.
+      - Use priority to determine where writes will be directed by default.
+      - And where writes will be directed in case of failover.
+      - Generally all identical nodes in a datacenter should have the same priority to avoid unnecessary failovers. For example, when a higher priority node rejoins the replica set after a maintenance or failure event, it will trigger a failover (during which by default there will be no reads and writes) even though it is unnecessary.
+      - More on this in a later module.
 
 
 Optime
 ------
 
-- Timestamp of the last operation the member applied from the oplog.
+- Optime: Operation time, which is the timestamp of the last operation the member applied from the oplog.
 - To be elected primary, a member must have the most recent optime.
 - Only optimes of visible members are compared.
 
@@ -89,23 +92,23 @@ Optime
 Connections
 -----------
 
-- Must be able to connect to a majority of the members in the replica set. 
+- Must be able to connect to a majority of the members in the replica set.
 - Majority refers to the total number of votes.
 - Not the total number of members.
 
 .. only:: instructor
 
-   To be elected primary, a replica set member must be able to connect to a majority of the members in the replica set. 
+   .. note::
+
+      To be elected primary, a replica set member must be able to connect to a majority of the members in the replica set.
 
 
 When will a primary step down?
 ------------------------------
 
-- After receiving the ``replSetStepDown`` command.
+- After receiving the ``replSetStepDown`` or ``rs.stepDown()`` command.
 - If a secondary is eligible for election and has a higher priority.
 - If it cannot contact a majority of the members of the replica set.
 
 
 .. include:: /exercises/replica-set-network-partition.txt
-
-

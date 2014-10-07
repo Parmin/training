@@ -29,9 +29,9 @@ Answer
 - Another member might be elected primary.
 - It will not have the last write that occurred before the previous primary became unavailable.
 - When the previous primary becomes available again:
-  
+
   - It will note it has writes that were not replicated.
-  - It will put these writes into a ``rollback file``.  
+  - It will put these writes into a ``rollback file``.
   - A human will need to determine what to do with this data.
 
 - This is default behavior in MongoDB and can be controlled using ``write concern``.
@@ -52,21 +52,20 @@ Balancing Durability with Performance
 
    .. note::
 
-      - MongoDB provides tunable write concern to better address the specific needs of applications. 
-      - Clients may adjust write concern to ensure that the most important operations persist successfully to an entire MongoDB deployment. 
+      - MongoDB provides tunable write concern to better address the specific needs of applications.
+      - Clients may adjust write concern to ensure that the most important operations persist successfully to an entire MongoDB deployment.
       - For other less critical operations, clients can adjust write concern to ensure faster performance.
 
 
 Defining Write Concern
 ----------------------
 
-- Clients may define ``write concern`` per operation.
-- If necessary, ``write concern`` can be different for every write.
-- Standardize on a specific levels of ``write concern`` for different classes of writes.
+- Clients may define the write concern per write operation, if necessary.
+- Standardize on specific levels of write concerns for different classes of writes.
 - In the discussion that follows we will look at increasingly strict levels of write concern.
 
 
-Write Concern: ``{ w : 1 }``
+Write Concern: ``{ w: 1 }``
 ----------------------------
 
 .. figure:: /images/crud-write-concern-ack-print.png
@@ -78,21 +77,19 @@ Write Concern: ``{ w : 1 }``
 
       - We refer to this write concern as "Acknowledged".
       - This is the default.
-      - The primary sends an acknowledgement back to the client that it received the write operation.
+      - The primary sends an acknowledgement back to the client that it received the write operation (in RAM).
       - Allows clients to catch network, duplicate key, and other write errors.
 
 
-Example: ``{ w : 1 }``
+Example: ``{ w: 1 }``
 ----------------------
 
 .. code-block:: javascript
 
-   db.edges.insert( { "from" : "tom185", "to" : "mary_p" }, 
-                    { w : 1 } )
+   db.edges.insert({ from: "tom185", to: "mary_p" }, { w: 1 })
 
 
-
-Write Concern: ``{ w : 2 }``
+Write Concern: ``{ w: 2 }``
 ----------------------------
 
 .. figure:: /images/crud-write-concern-w2.png
@@ -104,39 +101,36 @@ Write Concern: ``{ w : 2 }``
 
       - Called "Replica Acknowledged"
       - Ensures the primary completed the write.
-      - Ensures at least one secondary replicated the write.  
+      - Ensures at least one secondary replicated the write.
 
 
-Example: ``{ w : 2 }``
+Example: ``{ w: 2 }``
 ----------------------
 
 .. code-block:: javascript
 
-   db.customer.update( { user : "mary_p" }, 
-                       { $push : { shoppingCart : { _id : 335443, 
-                                                    name : "Brew-a-cup",
-                                                    price : 45.79 } } },
-                       { w : 2 } )
- 
+   db.customer.update({ user: "mary_p" },
+                      { $push: { shoppingCart:
+                        { _id: 335443, name: "Brew-a-cup", price: 45.79 } } },
+                      { w: 2 })
 
 
 Other Write Concerns
 --------------------
 
-- You may specify any integer as the value of the w field for write concern.
+- You may specify any integer as the value of the ``w`` field for write concern.
 - This guarantees that write operations have propagated to the specified number of members.
-- E.g., { w : 3 }, { w : 4}, etc.
+- E.g., ``{ w: 3 }``, ``{ w: 4}``, etc.
 
 
-Write Concern: Majority
------------------------
+Write Concern: ``{ w: "majority" }``
+------------------------------------
 
-- { w : "majority" }
-- Ensures the primary completed the write.
+- Ensures the primary completed the write (in RAM).
 - Ensures write operations have propagated to a majority of a replica set's members.
 - Avoids hard coding assumptions about the size of your replica set into your application.
-- Using majority will sacrifice performance for durability.
-- It is suitable for critical writes.
+- Using majority trades off performance for durability.
+- It is suitable for critical writes and to avoid rollbacks.
 
 
 Example: Majority
@@ -144,16 +138,16 @@ Example: Majority
 
 .. code-block:: javascript
 
-   db.products.update( { _id : 335443 },
-                       { $inc : { inStock : -1 } },
-                       { w : "majority" } )
+   db.products.update({ _id: 335443 },
+                      { $inc: { inStock : -1 } },
+                      { w: "majority" })
 
 
 
 Quiz: Which write concern is best suited?
 -----------------------------------------
 
-Suppose you have a replica set with seven data-bearing members. Your application has critical inserts for which you do not want rollback to happen. Secondaries may be taken down from to time for maintenance leaving you with a potential 4-server replica set. Which write concern is best suited for these critical inserts?
+Suppose you have a replica set with 7 data nodes. Your application has critical inserts for which you do not want rollbacks to happen. Secondaries may be taken down from to time for maintenance, leaving you with a potential 4 server replica set. Which write concern is best suited for these critical inserts?
 
 Choices
 ~~~~~~~
@@ -168,10 +162,10 @@ Choices
 
    .. note::
 
-      Answer: "majority"
+      Answer: "majority", which is the same as 4 for a 7 member replica set.
 
 
 Further Reading
 ---------------
 
-See :manual:`Write Concern Reference</reference/write-concern>` for more details on write concern configurations, including setting timeouts and identifying specific replica set members that must acknowledge writes ( i.e. :manual:`tag sets</tutorial/configure-replica-set-tag-sets/#replica-set-configuration-tag-sets>` ).
+See :manual:`Write Concern Reference</reference/write-concern>` for more details on write concern configurations, including setting timeouts and identifying specific replica set members that must acknowledge writes (i.e. :manual:`tag sets</tutorial/configure-replica-set-tag-sets/#replica-set-configuration-tag-sets>`).

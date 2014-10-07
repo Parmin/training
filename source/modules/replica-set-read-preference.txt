@@ -5,22 +5,21 @@ Read Preference
 What is Read Preference?
 ------------------------
 
-- Read preference allows you to specify the nodes in a replica set to which a client should direct reads.
-- By default, clients direct reads to the primary.
+- Read preference allows you to specify the nodes in a replica set to read from.
+- Clients only read from the primary by default.
 - There are some situations in which a client may want to read from:
 
-  - A specific secondary 
+  - Any secondary
+  - A specific secondary
   - A specific type of secondary
 
-- You should only read from a secondary if your client can tolerate data that might be stale. 
-- All writes might not have replicated.
+- Only read from a secondary if you can tolerate possibly stale data, as not all writes might have replicated.
 
 
 Use Cases
 ---------
 
-- Running systems operations that do not affect the front-end
-  application.
+- Running systems operations without affecting the front-end application.
 - Providing local reads for geographically distributed applications.
 - Maintaining availability during a failover.
 
@@ -28,9 +27,9 @@ Use Cases
 
    .. note::
 
-      - If you have application servers in multiple data centers, you may consider having a :manual:`geographically distributed replica set </core/replica-set-geographical-distribution>` and using a read preference of :readmode:`nearest`. 
+      - If you have application servers in multiple data centers, you may consider having a :manual:`geographically distributed replica set </core/replica-set-geographical-distribution>` and using a read preference of ``nearest``.
       - This allows the client to read from the lowest-latency members.
-      - Use :readmode:`primaryPreferred` if you want an application to read from the primary under normal circumstances, but to allow stale reads from secondaries in an emergency.
+      - Use ``primaryPreferred`` if you want an application to read from the primary under normal circumstances, but to allow possibly stale reads from secondaries during failover.
 
 
 Not for Scaling
@@ -52,22 +51,23 @@ MongoDB drivers support the following read preferences.
 - **secondaryPreferred**: Read from secondary members but if no secondaries are available, read from the primary.
 - **nearest**: Read from member of the replica set with the least network latency, regardless of the member's type.
 
+Note that ``hidden`` nodes will never be read from when connected via the replica set.
 
 Tag Sets
 --------
 
-- There is also the option to used tag sets. 
-- You may tag nodes such that queries that contain the tag will be routed to one of the servers with that tag.  
-- This can be useful for running reports, say for a particular data center.
+- There is also the option to used tag sets.
+- You may tag nodes such that queries that contain the tag will be routed to one of the servers with that tag.
+- This can be useful for running reports, say for a particular data center or nodes with different hardware (e.g. hard disks vs SSDs).
 
-Example:
+For example, in the mongo shell:
 
 .. code-block:: javascript
 
    conf = rs.conf()
-   conf.members[0].tags = { "dc": "east", "use": "production"  }
-   conf.members[1].tags = { "dc": "east", "use": "reporting"  }
-   conf.members[2].tags = { "use": "production"  }
+   conf.members[0].tags = { dc: "east", use: "production" }
+   conf.members[1].tags = { dc: "east", use: "reporting" }
+   conf.members[2].tags = { use: "production" }
    rs.reconfig(conf)
 
 
