@@ -1,0 +1,15 @@
+====================
+Performance Tutorial
+====================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The tools MongoDB provides for performance analysis
+- How to use mongostat
+- How to use the profiler
+- How to get stats on a collection and database
+- How to view current operations
