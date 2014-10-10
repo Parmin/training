@@ -35,7 +35,7 @@ Use Cases
 Not for Scaling
 ---------------
 
-- In general, do *not* read from secondaries to provide extract capacity for reads.
+- In general, do *not* read from secondaries to provide extra capacity for reads.
 - :manual:`Sharding </sharding>` increases read and write capacity by distributing operations across a group of machines.
 - Sharding is a better strategy for adding capacity.
 
@@ -45,7 +45,7 @@ Read Preference Modes
 
 MongoDB drivers support the following read preferences.
 
-- **primary**: Default. All operations read from the current replica set primary.
+- **primary**: Default. All operations read from the primary.
 - **primaryPreferred**: Read from the primary but if it is unavailable, read from secondary members.
 - **secondary**: All operations read from the secondary members of the replica set.
 - **secondaryPreferred**: Read from secondary members but if no secondaries are available, read from the primary.
@@ -65,9 +65,9 @@ For example, in the mongo shell:
 .. code-block:: javascript
 
    conf = rs.conf()
-   conf.members[0].tags = { dc: "east", use: "production" }
-   conf.members[1].tags = { dc: "east", use: "reporting" }
-   conf.members[2].tags = { use: "production" }
+   conf.members[0].tags = { dc : "east", use : "production" }
+   conf.members[1].tags = { dc : "east", use : "reporting" }
+   conf.members[2].tags = { use : "production" }
    rs.reconfig(conf)
 
 

@@ -1,9 +1,11 @@
 Exercise: Elections in Failover Scenarios
 -----------------------------------------
 
-Given what we have learned about electing a primary in replica sets, let's look at some scenarios in which failover might be necessary.
+- We have learned about electing a primary in replica sets
+- Let's look at some scenarios in which failover might be necessary.
 
-Scenario A: 3 data nodes in 1 DC
+
+Scenario A: 3 Data Nodes in 1 DC
 --------------------------------
 
 Which secondary will become the new primary?
@@ -19,7 +21,7 @@ Which secondary will become the new primary?
       - And on the optime.
 
 
-Scenario B: 3 data nodes in 2 DCs
+Scenario B: 3 Data Nodes in 2 DCs
 ---------------------------------
 
 Which member will become primary following this type of network partition?
@@ -37,7 +39,7 @@ Which member will become primary following this type of network partition?
       - If DC1 fails, we won't have a primary automatically. The remaining node in DC2 needs to be manually promoted by reconfiguring the replica set.
 
 
-Scenario C: 4 data nodes in 2 DCs
+Scenario C: 4 Data Nodes in 2 DCs
 ---------------------------------
 
 What happens following this network partition?
@@ -58,7 +60,7 @@ What happens following this network partition?
       - An arbiter is a ``mongod`` instance without data and performs only heartbeats, votes, and vetoes.
 
 
-Scenario D: 5 data nodes in 2 DCs
+Scenario D: 5 Data Nodes in 2 DCs
 ---------------------------------
 
 The following is similar to Scenario C, but with the addition of an arbiter in Data Center 1. What happens here?
@@ -76,10 +78,11 @@ The following is similar to Scenario C, but with the addition of an arbiter in D
       - If DC1 fails, we won't have a primary automatically. Either of the two remaining nodes in DC2 needs to be manually promoted by reconfiguring the replica set.
 
 
-Scenario E: 3 data nodes in 3 DCs
+Scenario E: 3 Data Nodes in 3 DCs
 ---------------------------------
 
-What happens here if any one of the nodes/DCs fail? What about recovery time?
+- What happens here if any one of the nodes/DCs fail? 
+- What about recovery time?
 
 TODO: Add diagram with 1 data node in each DC.
 

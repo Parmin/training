@@ -31,11 +31,12 @@ Configuration
    conf = {             // 5 data-bearing nodes
      _id: "mySet",
      members: [
-       { _id: 0, host: "dc1-1.example.net:27017", priority: 5 },
-       { _id: 1, host: "dc1-2.example.net:27017", priority: 5 },
-       { _id: 2, host: "dc2-1.example.net:27017" },
-       { _id: 3, host: "dc1-3.example.net:27017", hidden: true },
-       { _id: 4, host: "dc2-2.example.net:27017", hidden: true, slaveDelay: 7200 }
+       { _id : 0, host : "dc1-1.example.net:27017", priority : 5 },
+       { _id : 1, host : "dc1-2.example.net:27017", priority : 5 },
+       { _id : 2, host : "dc2-1.example.net:27017" },
+       { _id : 3, host : "dc1-3.example.net:27017", hidden : true },
+       { _id : 4, host : "dc2-2.example.net:27017", hidden : true, 
+         slaveDelay: 7200 }
      ]
    }
 
@@ -45,8 +46,8 @@ Principal Data Center
 
 .. code-block:: javascript
 
-   { _id: 0, host: "dc1-1.example.net", priority: 5 },
-   { _id: 1, host: "dc1-2.example.net", priority: 5 },
+   { _id : 0, host : "dc1-1.example.net", priority : 5 },
+   { _id : 1, host : "dc1-2.example.net", priority : 5 },
 
 .. only:: instructor
 
@@ -63,7 +64,7 @@ Data Center 2
 
 .. code-block:: javascript
 
-   { _id: 2, host: "dc2-1.example.net:27017" },
+   { _id : 2, host : "dc2-1.example.net:27017" },
 
 .. only:: instructor
 
@@ -83,8 +84,9 @@ What about ``dc1-3`` and ``dc2-2``?
 
 .. code-block:: javascript
 
-   { _id: 3, host: "dc1-3.example.net:27017", hidden: true },
-   { _id: 4, host: "dc2-2.example.net:27017", hidden: true, slaveDelay: 7200 }
+   { _id : 3, host : "dc1-3.example.net:27017", hidden : true },
+   { _id : 4, host : "dc2-2.example.net:27017", hidden : true, 
+     slaveDelay: 7200 }
 
 
 .. only:: instructor
@@ -101,7 +103,8 @@ What about ``dc2-2``?
 
 .. code-block:: javascript
 
-   { _id : 4, host : "dc2-2.example.net:27017", hidden : true, slaveDelay : 7200 }
+   { _id : 4, host : "dc2-2.example.net:27017", hidden : true, 
+     slaveDelay : 7200 }
 
 .. only:: instructor
 

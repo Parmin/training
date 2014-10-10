@@ -65,7 +65,7 @@ Defining Write Concern
 - In the discussion that follows we will look at increasingly strict levels of write concern.
 
 
-Write Concern: ``{ w: 1 }``
+Write Concern: ``{ w : 1 }``
 ----------------------------
 
 .. figure:: /images/crud-write-concern-ack-print.png
@@ -81,15 +81,15 @@ Write Concern: ``{ w: 1 }``
       - Allows clients to catch network, duplicate key, and other write errors.
 
 
-Example: ``{ w: 1 }``
+Example: ``{ w : 1 }``
 ----------------------
 
 .. code-block:: javascript
 
-   db.edges.insert({ from: "tom185", to: "mary_p" }, { w: 1 })
+   db.edges.insert({ from : "tom185", to : "mary_p" }, { w : 1 })
 
 
-Write Concern: ``{ w: 2 }``
+Write Concern: ``{ w : 2 }``
 ----------------------------
 
 .. figure:: /images/crud-write-concern-w2.png
@@ -104,15 +104,16 @@ Write Concern: ``{ w: 2 }``
       - Ensures at least one secondary replicated the write.
 
 
-Example: ``{ w: 2 }``
+Example: ``{ w : 2 }``
 ----------------------
 
 .. code-block:: javascript
 
-   db.customer.update({ user: "mary_p" },
-                      { $push: { shoppingCart:
-                        { _id: 335443, name: "Brew-a-cup", price: 45.79 } } },
-                      { w: 2 })
+   db.customer.update({ user : "mary_p" },
+                      { $push : { shoppingCart:
+                        { _id : 335443, name : "Brew-a-cup", 
+                          price : 45.79 } } },
+                      { w : 2 })
 
 
 Other Write Concerns
@@ -120,10 +121,10 @@ Other Write Concerns
 
 - You may specify any integer as the value of the ``w`` field for write concern.
 - This guarantees that write operations have propagated to the specified number of members.
-- E.g., ``{ w: 3 }``, ``{ w: 4}``, etc.
+- E.g., ``{ w : 3 }``, ``{ w : 4}``, etc.
 
 
-Write Concern: ``{ w: "majority" }``
+Write Concern: ``{ w : "majority" }``
 ------------------------------------
 
 - Ensures the primary completed the write (in RAM).
@@ -138,31 +139,28 @@ Example: Majority
 
 .. code-block:: javascript
 
-   db.products.update({ _id: 335443 },
-                      { $inc: { inStock : -1 } },
-                      { w: "majority" })
+   db.products.update({ _id : 335443 },
+                      { $inc : { inStock : -1 } },
+                      { w : "majority" })
 
 
 
-Quiz: Which write concern is best suited?
------------------------------------------
+Quiz: Which write concern?
+--------------------------
 
 Suppose you have a replica set with 7 data nodes. Your application has critical inserts for which you do not want rollbacks to happen. Secondaries may be taken down from to time for maintenance, leaving you with a potential 4 server replica set. Which write concern is best suited for these critical inserts?
 
-Choices
-~~~~~~~
-
-- 1
-- 2
-- 3
-- 4
-- "majority"
+- { w : 1 }
+- { w : 2 }
+- { w : 3 }
+- { w : 4 }
+- { w : "majority" }
 
 .. only:: instructor
 
    .. note::
 
-      Answer: "majority", which is the same as 4 for a 7 member replica set.
+      Answer: { w : "majority"}. This is the same as 4 for a 7 member replica set.
 
 
 Further Reading

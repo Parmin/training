@@ -23,7 +23,11 @@ Use Cases for Replication
 High Availability (HA)
 ----------------------
 
-- Data still available following equipment (e.g. server, network switch) or datacenter failure.
+- Data still available following:
+
+  - Equipment failure (e.g. server, network switch)
+  - Datacenter failure
+
 - This is achieved through automatic failover.
 
 .. only:: instructor
@@ -39,7 +43,12 @@ High Availability (HA)
 Disaster Recovery (DR)
 ----------------------
 
-- We can duplicate data across multiple database servers, storage backends, and even datacenters.
+- We can duplicate data across:
+
+  - Multiple database servers
+  - Storage backends
+  - Datacenters
+
 - Can restore data from another node following:
 
   - Hardware failure
@@ -52,8 +61,8 @@ Functional Segregation
 There are opportunities to exploit the topology of a replica set.
 
 - Based on physical location (e.g. rack or datacenter location)
-- For backups
 - For analytics, reporting, data discovery, system tasks, etc.
+- For backups
 
 .. only:: instructor
 
@@ -68,7 +77,12 @@ Replication is Not Designed for Scaling
 ---------------------------------------
 
 - Can be used for scaling reads, but generally not recommended.
-- Drawbacks such as eventual consistency, not scaling writes, and potential system overload when secondaries are unavailable.
+- Drawbacks include:
+
+  - Eventual consistency
+  - Not scaling writes
+  - Potential system overload when secondaries are unavailable
+
 - Consider sharding for scaling reads and writes.
 
 .. only:: instructor
@@ -103,7 +117,7 @@ Primary Server
 --------------
 
 - Clients send writes the primary only.
-- MongoDB, Inc. maintains client drivers in a number of programming languages like Java, C#, Ruby, Go, and PHP.
+- MongoDB, Inc. maintains client drivers in many programming languages like Java, C#, Python, Ruby, and PHP.
 - MongoDB drivers are replica set aware.
 
 .. only:: instructor
@@ -141,6 +155,6 @@ Heartbeats
 The Oplog
 ---------
 
-- The replication operations log, or oplog, is a special capped collection that is basis for replication.
+- The operations log, or oplog, is a special capped collection that is the basis for replication.
 - The oplog maintains one entry for each document affected by every write operation.
 - Secondaries copy operations from the oplog of their sync source.

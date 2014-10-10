@@ -383,7 +383,7 @@ Library Card Catalog System (Continued)
 
 Atomic Operations in MongoDB
 ----------------------------
-- MongoDB has “atomic operations” on documents.
+- MongoDB has "atomic operations" on documents.
 
   - Only documents, not collections.
 
@@ -391,6 +391,7 @@ Atomic Operations in MongoDB
 
   - This leads to consistent reads and writes.
   - This feature provides document-level transactions.
+
 
 Atomic Operations in MongoDB (Continued)
 ----------------------------------------
