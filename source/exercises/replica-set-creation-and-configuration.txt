@@ -2,35 +2,53 @@
 Exercise: Setting up a Replica Set
 ==================================
 
+In this exercise we will setup a 3 data node replica set on a single machine. In production, each node should be run on a dedicated host to avoid any potential resource contention and also to provide isolation against server failure.
 
 Create Data Directories
 -----------------------
 
-Since we will be running all nodes on our local machines, make sure each node has its own data directory.
+Since we will be running all nodes on a single machine, make sure each has its own data directory.
+
+On Linux or Mac OS, run the following in the terminal to create the 3 directories ``~/data/rs1``, ``~/data/rs2``, and ``~/data/rs3``:
 
 .. code-block:: bash
 
-   mkdir /data/rs1
-   mkdir /data/rs2
-   mkdir /data/rs3
+   mkdir -p ~/data/rs{1,2,3}
+
+
+On Windows, run the following command instead in Command Prompt or PowerShell:
+
+.. code-block:: powershell
+
+   md c:\data\rs1 c:\data\rs2 c:\data\rs3
 
 
 Launch Each Member
 ------------------
 
+Now start 3 instances of ``mongod`` in the foreground so that it is easier to observe and shutdown.
+
+On Linux or Mac OS, run *each* of the following commands in its *own terminal window*:
+
 .. code-block:: bash
 
-   mongod --replSet myReplSet --logpath “1.log” --dbpath /data/rs1 --port 27017 --oplogSize 200
+   mongod --replSet myReplSet --dbpath ~/data/rs1 --port 27017 --oplogSize 200 --smallfiles
+   mongod --replSet myReplSet --dbpath ~/data/rs2 --port 27018 --oplogSize 200 --smallfiles
+   mongod --replSet myReplSet --dbpath ~/data/rs3 --port 27019 --oplogSize 200 --smallfiles
 
-   mongod --replSet myReplSet --logpath “2.log” --dbpath /data/rs2 --port 27018 --oplogSize 200
+On Windows, run *each* of the following commands in its *own Command Prompt or PowerShell window*:
 
-   mongod --replSet myReplSet --logpath “3.log” --dbpath /data/rs3 --port 27019 --oplogSize 200
+.. code-block:: powershell
+
+   mongod --replSet myReplSet --dbpath c:\data\rs1 --port 27017 --oplogSize 200 --smallfiles
+   mongod --replSet myReplSet --dbpath c:\data\rs2 --port 27018 --oplogSize 200 --smallfiles
+   mongod --replSet myReplSet --dbpath c:\data\rs3 --port 27019 --oplogSize 200 --smallfiles
 
 
 Status
 ------
 
-- At this point, we have 3 mongods running.
+- At this point, we have 3 ``mongod`` instances running.
 - They were all launched with the same ``replSet`` parameter of "myReplSet".
 - Despite this, the members are not aware of each other yet.
 - This is fine for now.
@@ -39,45 +57,64 @@ Status
 
    .. note::
 
-      - In production, each member would run on a different machine.
-      - To simplify, we run all members on localhost.
+      - In production, each member would run on a different machine and use service scripts. For example on Linux, modify ``/etc/mongod.conf`` accordingly and run:
+
+        .. code-block:: bash
+
+          sudo service mongod start
+
+      - To simplify this exercise, we run all members on a single machine.
       - The same configuration process is used for this deployment as for one that is distributed across multiple machines.
 
 
 Configure the Replica Set
 -------------------------
 
+Connect to the one of the MongoDB instances with mongo shell by running the following command in the terminal, Command Prompt, or PowerShell:
+
 .. code-block:: bash
 
    mongo --port 27017
 
-   var config = { _id : "mySet",  members: [ {_id : 0 , host: "localhost:27017" } , { _id : 1 , host : "localhost:27018" } , { _id : 2 , host : "localhost:27019" } ] }
+Then configure the replica set via mongo shell:
 
-   rs.initiate( config )
+.. code-block:: javascript
 
-   # Run rs.status() until you see that you have a primary and 2 secondaries.
+   var config = {
+     _id: "mySet",
+     members: [
+       { _id: 0, host: "localhost:27017" },
+       { _id: 1, host: "localhost:27018" },
+       { _id: 2, host: "localhost:27019" }
+     ]
+   }
+   rs.initiate(config)
+
+   # Keep running rs.status() until there's a primary and 2 secondaries
    rs.status()
 
-   exit
+   exit    # or Ctrl-d
+
+Note the port number of the primary from the output of ``rs.status()``, which we'll need for the next step.
 
 
 Write to the Primary
 --------------------
 
-Connect to the primary by issuing a command such as the following.
+Connect to the primary with mongo shell by issuing a command such as the following:
 
 .. code-block:: bash
 
-   mongo --port 27017
+   mongo --port <PRIMARY_PORT>   # e.g. 27017
 
-Once you have found the primary, insert a document.
+Now insert a simple test document via mongo shell:
 
 .. code-block:: javascript
 
-   db.testcol.insert( { a : 1 } )
+   db.testcol.insert({ a: 1 })
    db.testcol.count()
 
-Once the insert succeeds exit the mongo shell.
+Once the insert succeeds, exit the mongo shell.
 
 
 Read from a Secondary
@@ -87,14 +124,13 @@ Connect to one of the secondaries. E.g.:
 
 .. code-block:: bash
 
-   mongo --port 27018
+   mongo --port <NON_PRIMARY_PORT>   # e.g. 27018
 
 Read from the secondary
 
 .. code-block:: javascript
 
    rs.slaveOk()
-
    db.testcol.find()
 
 
@@ -104,39 +140,53 @@ Review the Oplog
 .. code-block:: javascript
 
    use local
-
    db.oplog.rs.find()
 
-   exit
 
-
-Change the Priority of a Secondary
+Changing replica set configuration
 ----------------------------------
 
-Connect to one of the secondaries. E.g.,
+To change the replica set configuration, say the priority of a secondary, first connect to the primary via mongo shell:
 
 .. code-block:: bash
 
-   mongo --port 27019
+   mongo --port <PRIMARY_PORT>   # e.g. 27017
 
-Raise the priority of this member.
+Now raise the priority of one of the secondaries. Assuming it is the 3rd node (e.g. on port 27019):
 
 .. code-block:: javascript
 
-   config = rs.conf()
-
-   config[1]["priority"] = 2
-
-   rs.reconfig(config)
+   cfg = rs.conf()
+   cfg["members"][2]["priority"] = 10
+   rs.reconfig(cfg)
 
 .. only:: instructor
 
    .. note::
 
-      - Note that ``config[1]["priority"] = 2`` does not actually change the priority.
-      - ``rs.reconfig(config)`` does.
+      - Note that ``cfg["members"][2]["priority"] = 10`` does not actually change the priority.
+      - ``rs.reconfig(cfg)`` does.
 
-This secondary will now become a primary. Wait a few seconds and check.
+You will see errors like the following, which is normal and expected:
+
+.. code-block:: shell
+
+  2014-10-07T17:01:34.610+0100 DBClientCursor::init call() failed
+  2014-10-07T17:01:34.613+0100 trying reconnect to 127.0.0.1:27017 (127.0.0.1) failed
+  2014-10-07T17:01:34.617+0100 reconnect 127.0.0.1:27017 (127.0.0.1) ok
+  reconnected to server after rs command (which is normal)
+
+Verify that the replica set configuration is now as expected:
+
+.. code-block:: javascript
+
+   rs.conf()
+
+The secondary will now become a primary. Wait a few seconds and check by running:
+
+.. code-block:: javascript
+
+   rs.status()
 
 
 Further Reading
@@ -144,4 +194,3 @@ Further Reading
 
 - :manual:`Replica Configuration</reference/replica-configuration/>`
 - :manual:`Replica States</reference/replica-states/>`
-
