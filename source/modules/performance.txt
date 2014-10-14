@@ -13,3 +13,67 @@ Upon completing this module students should understand:
 - How to use the profiler
 - How to get stats on a collection and database
 - How to view current operations
+
+.. only:: instructor
+
+   .. note::
+
+      - A program that uses insert() and findAndModify() in a loop without indexes is useful to demonstrate a server beginning to display performance issues
+      - A node.js program for this exists here: https://github.com/NathanZamecnik/messagequeue/blob/master/index.js
+      - Acts as a message queue, writers write to the system while readers try and find messages with status "new" using findAndModify()
+      - After a short time the server will begin to demonstrate performance issues
+      - Describe program, run it and view the performance decline in mongostat
+    
+Performance Tools Overview
+------------------
+
+- mongostat
+- mongotop
+- db.<col>.stats()
+- db.stats()
+- db.currentOp()
+- db.setProfilingLevel()
+- db.serverStatus()
+
+mongostat
+------------------
+- mongostat is used to get a sample of a servers performance every second
+- good way to see current operations, pagefaults, locking, network traffic and memory usage
+- does not give a view into historic performance, use MMS for that
+
+db.<col>.stats()
+------------------
+- used to view the current stats for a collection
+- everything is in bytes; use the multiplier parameter to view in KB, MB, etc
+- paddingFactor is a multiplier on document size at insert or when a document moves
+
+db.stats()
+------------------
+- similar to db.<col>.stats() except at scope of the entire database
+
+The profiler
+------------------
+- captures "slow" queries
+- user may define what "slow" is
+- default is 100ms: db.setProfilerLevel(1)
+- user defined: db.setProfilerLevel(2,50)
+- off: db.setProfilingLevel(0)
+- always turn the profiler off when done
+- creates db.system.profile collection
+
+.. only:: instructor
+
+   .. note::
+
+      - Enable the profiler at default settings
+      - Run for 5 seconds
+      - Slow operations are captured
+      - The issue is there is not a proper index on the message field
+      - Allow class to discover this as the data is examined
+      
+Analyzing profiler data
+------------------
+- The namespace is defined
+- The query is displayed
+- Note the nscanned and n numbers, this should help you determine if an index is used
+- After fixing problems, drop system.profile collection and restart and a defined speed, like 25ms
