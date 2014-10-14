@@ -195,7 +195,7 @@ username     timestamp
 "anonymous"  1
 "anonymous"  2
 "anonymous"  4
-"sam"     2
+"sam"        2
 "martha"     5
 ===========  =========
 

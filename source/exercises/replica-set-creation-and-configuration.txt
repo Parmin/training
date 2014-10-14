@@ -2,7 +2,16 @@
 Exercise: Setting up a Replica Set
 ==================================
 
-In this exercise we will setup a 3 data node replica set on a single machine. In production, each node should be run on a dedicated host to avoid any potential resource contention and also to provide isolation against server failure.
+
+Overview
+--------
+
+- In this exercise we will setup a 3 data node replica set on a single machine. 
+- In production, each node should be run on a dedicated host:
+
+  - To avoid any potential resource contention 
+  - To provide isolation against server failure.
+
 
 Create Data Directories
 -----------------------
@@ -67,16 +76,19 @@ Status
       - The same configuration process is used for this deployment as for one that is distributed across multiple machines.
 
 
+Connect to a MongoDB Instance
+-----------------------------
+
+- Connect to the one of the MongoDB instances with the mongo shell.
+- To do so run the following command in the terminal, Command Prompt, or PowerShell:
+
+  .. code-block:: bash
+
+     mongo --port 27017
+
+
 Configure the Replica Set
 -------------------------
-
-Connect to the one of the MongoDB instances with mongo shell by running the following command in the terminal, Command Prompt, or PowerShell:
-
-.. code-block:: bash
-
-   mongo --port 27017
-
-Then configure the replica set via mongo shell:
 
 .. code-block:: javascript
 
