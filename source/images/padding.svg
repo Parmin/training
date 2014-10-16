@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="550" height="200" viewBox="0, 0, 550, 200">
+  <g id="Layer_1">
+    <path d="M13,53.708 L523.91,53.708 L523.91,162.232 L13,162.232 z" fill="#5BA530"/>
+    <text transform="matrix(1, 0, 0, 1, 52.719, 142.732)">
+      <tspan x="-33.68" y="7.5" font-family="GillSans" font-size="24" fill="#FFFFFF">Disk</tspan>
+    </text>
+    <g>
+      <path d="M133.453,54.208 L371.979,54.208 L371.979,161.355 L133.453,161.355 z" fill="#112256"/>
+      <path d="M133.453,54.208 L371.979,54.208 L371.979,161.355 L133.453,161.355 z" fill-opacity="0" stroke="#112256" stroke-width="1"/>
+    </g>
+    <path d="M132.953,53.708 L162.32,53.708 L162.32,161.855 L132.953,161.855 L132.953,53.708 z" fill="#0B4585"/>
+    <path d="M162.424,54.208 L162.82,161.355" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+    <text transform="matrix(0, -1, 1, 0, 148.187, 106.198)">
+      <tspan x="-40.469" y="5.833" font-family="GillSans" font-size="18" fill="#FFFFFF">Document</tspan>
+    </text>
+    <text transform="matrix(0, -1, 1, 0, 280.833, 106.198)">
+      <tspan x="-40.469" y="5.833" font-family="GillSans" font-size="18" fill="#FFFFFF">Padding</tspan>
+    </text>
+    <text transform="matrix(0, -1, 1, 0, 176.833, 106.198)">
+      <tspan x="-40.469" y="5.833" font-family="GillSans" font-size="18" fill="#FFFFFF">Padding</tspan>
+    </text>
+    <path d="M313.133,53.52 L342.5,53.52 L342.5,161.667 L313.133,161.667 L313.133,53.52 z" fill="#0B4585"/>
+    <text transform="matrix(0, -1, 1, 0, 328.367, 106.198)">
+      <tspan x="-40.469" y="5.833" font-family="GillSans" font-size="18" fill="#FFFFFF">Document</tspan>
+    </text>
+    <text transform="matrix(0, -1, 1, 0, 357.333, 106.198)">
+      <tspan x="-40.469" y="5.833" font-family="GillSans" font-size="18" fill="#FFFFFF">Padding</tspan>
+    </text>
+    <path d="M191.966,53.854 L251.333,53.854 L251.333,161.667 L191.966,161.667 L191.966,53.854 z" fill="#0B4585"/>
+    <text transform="matrix(0, -1, 1, 0, 218.167, 106.198)">
+      <tspan x="-40.469" y="5.833" font-family="GillSans" font-size="18" fill="#FFFFFF">Document</tspan>
+    </text>
+  </g>
+</svg>

@@ -23,11 +23,7 @@ Upon completing this module students should understand:
 Why Indexes? 
 ------------
 
-TODO: REPLACE WITH FIGURE.
-
-.. figure:: /figures/btree_example.jpg
-    :width: 700px
-    :align: center
+.. include:: /images/btree-index.rst
 
 .. only:: instructor
 

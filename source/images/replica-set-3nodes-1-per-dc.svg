@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="740" height="280" viewBox="0, 0, 740, 280">
+  <g id="Layer_1">
+    <text transform="matrix(1, 0, 0, 1, 126.48, 31.43)">
+      <tspan x="-105.97" y="1" font-family="GillSans" font-size="24" fill="#311E13">Data Center 1</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 606.982, 24.636)">
+      <tspan x="-105.97" y="7.5" font-family="GillSans" font-size="24" fill="#311E13">Data Center 3</tspan>
+    </text>
+    <path d="M500.294,38.43 L722,38.43 L722,269 L500.294,269 z" fill-opacity="0" stroke="#301C11" stroke-width="4"/>
+    <path d="M259.147,38.715 L480.853,38.715 L480.853,269.285 L259.147,269.285 z" fill-opacity="0" stroke="#301C11" stroke-width="4"/>
+    <text transform="matrix(1, 0, 0, 1, 366.628, 31.715)">
+      <tspan x="-105.97" y="1" font-family="GillSans" font-size="24" fill="#311E13">Data Center 2</tspan>
+    </text>
+    <path d="M19,38.43 L240.706,38.43 L240.706,269 L19,269 z" fill-opacity="0" stroke="#301C11" stroke-width="4"/>
+    <g>
+      <path d="M229,122.11 C229,120.945 226.094,120 222.504,120 L35.496,120 C31.91,120 29,120.945 29,122.11 L29,182.888 C29,184.054 31.91,185 35.496,185 L222.504,185 C226.094,185 229,184.054 229,182.888 L229,122.11" fill="#2A86C0"/>
+      <text transform="matrix(1, 0, 0, 1, 129, 152.5)">
+        <tspan x="-57.357" y="12" font-family="GillSans" font-size="36" fill="#FFFFFF">Primary</tspan>
+      </text>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 126, 175.375)">
+      <tspan x="-23.701" y="2.5" font-family="GillSans" font-size="12" fill="#2F2215">priority: 1</tspan>
+    </text>
+    <g>
+      <g>
+        <path d="M469.147,122.11 C469.147,120.945 466.241,120 462.651,120 L275.643,120 C272.057,120 269.147,120.945 269.147,122.11 L269.147,182.888 C269.147,184.054 272.057,185 275.643,185 L462.651,185 C466.241,185 469.147,184.054 469.147,182.888 L469.147,122.11" fill="#5CA831"/>
+        <text transform="matrix(1, 0, 0, 1, 369.147, 152.5)">
+          <tspan x="-76.087" y="12" font-family="GillSans" font-size="36" fill="#FFFFFE">Secondary</tspan>
+        </text>
+      </g>
+      <text transform="matrix(1, 0, 0, 1, 369.147, 176.5)">
+        <tspan x="-23.701" y="2.5" font-family="GillSans" font-size="12" fill="#2F2215">priority: 1</tspan>
+      </text>
+    </g>
+    <g>
+      <g>
+        <path d="M715,122.11 C715,120.945 712.094,120 708.504,120 L521.496,120 C517.91,120 515,120.945 515,122.11 L515,182.888 C515,184.054 517.91,185 521.496,185 L708.504,185 C712.094,185 715,184.054 715,182.888 L715,122.11" fill="#5CA831"/>
+        <text transform="matrix(1, 0, 0, 1, 615, 152.5)">
+          <tspan x="-76.087" y="12" font-family="GillSans" font-size="36" fill="#FFFFFE">Secondary</tspan>
+        </text>
+      </g>
+      <text transform="matrix(1, 0, 0, 1, 615, 176.5)">
+        <tspan x="-23.701" y="2.5" font-family="GillSans" font-size="12" fill="#2F2215">priority: 1</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

@@ -228,4 +228,70 @@ output:
   - type: web
     dpi: 72
     width: 800
+---
+name: padding
+alt: "Padding."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
+---
+name: auth-workflow
+alt: "Authentication and Authorization workflow."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
+---
+name: replica-set-3nodes-1-per-dc
+alt: "3 Data Nodes Distributed Across 3 Data Centers"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
+---
+name: btree-index
+alt: "Index on x."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
+---
+name: data-model-8-in-memory
+alt: "Data model with too much information in documents. Can fit only 8 documents in memory."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
+---
+name: data-model-12-in-memory
+alt: "Data model with only needed information in documents. Can fit 12 documents in memory."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 2100
+  - type: web
+    dpi: 72
+    width: 800
 ...
