@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="550" height="320" viewBox="0, 0, 550, 320">
+  <g id="Layer_1">
+    <path d="M141.75,93.27 L384.765,93.27 L384.765,158.273 L141.75,158.273 z" fill="#2A86C0"/>
+    <g opacity="0.74">
+      <path d="M149.309,108.272 L426.555,108.272 L426.555,166.925 L149.309,166.925 z" fill="#112256"/>
+      <path d="M149.309,108.272 L426.555,108.272 L426.555,166.925 L149.309,166.925 z" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 372.651, 147.919)">
+      <tspan x="-52.426" y="6" font-family=".LucidaGrandeUI" font-size="18" fill="#FFFFFF">Working Set</tspan>
+    </text>
+    <g>
+      <path d="M19.545,190.685 L530.455,190.685 L530.455,299.209 L19.545,299.209 z" fill="#5BA530"/>
+      <text transform="matrix(1, 0, 0, 1, 49.016, 285.709)">
+        <tspan x="-25.432" y="8.5" font-family=".LucidaGrandeUI" font-size="24" fill="#FFFFFF">Disk</tspan>
+      </text>
+    </g>
+    <g>
+      <path d="M108.488,191.648 L478.318,191.648 L478.318,298.794 L108.488,298.794 z" fill="#112256"/>
+      <path d="M108.488,191.648 L478.318,191.648 L478.318,298.794 L108.488,298.794 z" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 417.819, 285.709)">
+      <tspan x="-48.664" y="8.5" font-family=".LucidaGrandeUI" font-size="24" fill="#FFFFFF">Data Set</tspan>
+    </text>
+    <path d="M210.701,192.1 L210.782,299.246" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+    <path d="M353.861,192.989 L353.861,298.964" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+    <path d="M266.282,192.501 L266.527,298.588" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+    <path d="M178.285,192.159 L178.365,299.306" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+    <path d="M169.172,45.618 C169.172,46.229 170.068,46.724 171.175,46.724 L415.396,46.724 C416.502,46.724 417.399,46.229 417.399,45.618 L417.399,19.897 C417.399,19.286 416.502,18.791 415.396,18.791 L171.175,18.791 C170.068,18.791 169.172,19.286 169.172,19.897 L169.172,45.618" fill="#484743"/>
+    <text transform="matrix(1, 0, 0, 1, 293.285, 32.59)">
+      <tspan x="-83.825" y="6" font-family=".LucidaGrandeUI" font-size="18" fill="#FFFFFE"> Application/Driver</tspan>
+    </text>
+    <g>
+      <path d="M240,48.77 L240,97" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      <g>
+        <path d="M237,97 L240,105 L243,97 z" fill="#383734"/>
+        <path d="M237,97 L240,105 L243,97 z" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      </g>
+    </g>
+    <g>
+      <path d="M293.785,48.77 L293.785,96.657" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      <g>
+        <path d="M290.785,96.657 L293.785,104.657 L296.785,96.657 z" fill="#383734"/>
+        <path d="M290.785,96.657 L293.785,104.657 L296.785,96.657 z" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      </g>
+    </g>
+    <g>
+      <path d="M348.679,48.77 L348.107,96.658" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      <g>
+        <path d="M345.108,96.622 L348.012,104.657 L351.107,96.694 z" fill="#383734"/>
+        <path d="M345.108,96.622 L348.012,104.657 L351.107,96.694 z" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      </g>
+    </g>
+    <g>
+      <path d="M405.561,172.144 L405.561,192.81" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      <g>
+        <path d="M402.561,192.81 L405.561,200.81 L408.561,192.81 z" fill="#383734"/>
+        <path d="M402.561,192.81 L405.561,200.81 L408.561,192.81 z" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      </g>
+    </g>
+    <g>
+      <path d="M405.622,48.77 L405.519,96.657" fill-opacity="0" stroke="#484743" stroke-width="1"/>
+      <g>
+        <path d="M402.519,96.651 L405.502,104.657 L408.519,96.664 z" fill="#484743"/>
+        <path d="M402.519,96.651 L405.502,104.657 L408.519,96.664 z" fill-opacity="0" stroke="#484743" stroke-width="1"/>
+      </g>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 114.404, 142.447)">
+      <tspan x="-26.703" y="8.5" font-family=".LucidaGrandeUI" font-size="24" fill="#2A86C0">RAM</tspan>
+    </text>
+    <g>
+      <path d="M186,48.77 L186,97" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      <g>
+        <path d="M183,97 L186,105 L189,97 z" fill="#383734"/>
+        <path d="M183,97 L186,105 L189,97 z" fill-opacity="0" stroke="#383734" stroke-width="1"/>
+      </g>
+    </g>
+    <path d="M405.561,111.305 L405.561,169.111" fill-opacity="0" stroke="#383733" stroke-width="1" stroke-dasharray="3,2"/>
+    <path d="M444.402,192.874 L444.482,300.02" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+    <path d="M149.309,166.925 L110.546,191.185" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+    <path d="M426.555,166.925 L444.402,192.874" fill-opacity="0" stroke="#0A5093" stroke-width="1"/>
+  </g>
+</svg>

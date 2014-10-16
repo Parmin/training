@@ -37,6 +37,7 @@ Sharding is Concerned with Scale
 
 Vertical Scaling
 ----------------
+
 - Adding more RAM, faster disks, etc.  
 - When is this the solution?  
 - First, consider a concept called the ``working set``.  
@@ -45,7 +46,7 @@ Vertical Scaling
 The Working Set
 ---------------
 
-TODO: ADD A FIGURE
+.. include:: /images/working-set-exceeds-ram.rst
 
 .. only:: instructor
 
@@ -117,11 +118,7 @@ A Scalable Model
 Sharding Basics
 ---------------
 
-TODO : Get this image working.
-
-.. .. figure:: /images/sharded-collection.png
-..     :width: 500 px
-..     :align: center
+.. include:: /images/sharded-collection.rst
 
 .. only:: instructor
 

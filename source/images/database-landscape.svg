@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="960" height="580" viewBox="0, 0, 960, 580">
+  <g id="Image">
+    <g>
+      <g>
+        <path d="M40.5,523.5 L927.9,523.5" fill-opacity="0" stroke="#6CB33F" stroke-width="3"/>
+        <path d="M927.9,527.7 L939.1,523.5 L927.9,519.3 z" fill="#6CB33F" fill-opacity="1" stroke="#6CB33F" stroke-width="3" stroke-opacity="1"/>
+      </g>
+      <text transform="matrix(1, 0, 0, 1, 490.5, 545)">
+        <tspan x="-138" y="6.5" font-family="Inconsolata" font-size="24" fill="#1C4494">Depth of Functionality</tspan>
+      </text>
+    </g>
+    <g>
+      <g>
+        <path d="M41.5,34.1 L41.5,523.5" fill-opacity="0" stroke="#6CB33F" stroke-width="3"/>
+        <path d="M45.7,34.1 L41.5,22.9 L37.3,34.1 z" fill="#6CB33F" fill-opacity="1" stroke="#6CB33F" stroke-width="3" stroke-opacity="1"/>
+      </g>
+      <text transform="matrix(0, -1, 1, 0, 20.5, 271.5)">
+        <tspan x="-154.5" y="5" font-family="Inconsolata" font-size="24" fill="#1C4494">Scalability &amp; Performance</tspan>
+      </text>
+    </g>
+    <g>
+      <path d="M895,392.11 C895,390.945 892.094,390 888.504,390 L701.496,390 C697.91,390 695,390.945 695,392.11 L695,452.888 C695,454.054 697.91,455 701.496,455 L888.504,455 C892.094,455 895,454.054 895,452.888 L895,392.11" fill="#939393"/>
+      <text transform="matrix(1, -0, 0, 1, 795, 424)">
+        <tspan x="-56.804" y="10.5" font-family="GillSans" font-size="36" fill="#FFFFFF">RDBMS</tspan>
+      </text>
+    </g>
+    <path d="M823.5,457.5 C846.833,492.298 865.207,496.5 902.5,496.5" fill-opacity="0" stroke="#1C4494" stroke-width="3" stroke-dasharray="18,15" stroke-linecap="round"/>
+    <g>
+      <g>
+        <path d="M307,95.11 C307,93.945 304.094,93 300.504,93 L113.496,93 C109.91,93 107,93.945 107,95.11 L107,155.888 C107,157.054 109.91,158 113.496,158 L300.504,158 C304.094,158 307,157.054 307,155.888 L307,95.11" fill="#939393"/>
+        <text transform="matrix(1, -0, 0, 1, 207, 127)">
+          <tspan x="-86.801" y="10.5" font-family="GillSans" font-size="36" fill="#FFFFFF">Memcached</tspan>
+        </text>
+      </g>
+      <path d="M307.5,124.515 C321.574,122.591 772.5,180.5 720.343,251.5" fill-opacity="0" stroke="#1C4494" stroke-width="3" stroke-dasharray="18,15"/>
+    </g>
+    <path d="M717.5,246.5 C740.5,230 784.41,336.23 801.5,387.5" fill-opacity="0" stroke="#1C4494" stroke-width="3" stroke-dasharray="18,15" stroke-linecap="round"/>
+    <g>
+      <path d="M841,206.11 C841,204.945 838.094,204 834.504,204 L647.496,204 C643.91,204 641,204.945 641,206.11 L641,266.888 C641,268.054 643.91,269 647.496,269 L834.504,269 C838.094,269 841,268.054 841,266.888 L841,206.11" fill="#3299CC"/>
+      <text transform="matrix(1, 0, 0, 1, 741, 236.5)">
+        <tspan x="-74.057" y="12" font-family="GillSans" font-size="36" fill="#FFFFFF">MongoDB</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

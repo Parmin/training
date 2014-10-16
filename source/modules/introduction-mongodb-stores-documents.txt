@@ -152,11 +152,7 @@ The ``_id`` Field
 ObjectIds
 ---------
 
-TODO: REPLACE WITH FIGURE.
-
-.. figure:: /figures/figure_id_values.jpg
-   :width: 700px
-   :align: center
+.. include:: /images/objectId.rst
 
 .. only:: instructor
 

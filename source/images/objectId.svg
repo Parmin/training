@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="680" height="100" viewBox="0, 0, 680, 100">
+  <g id="Layer_1">
+    <path d="M285.697,45.833 L322.25,45.75" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M332.788,45.833 L367.75,45.75" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M379.379,45.833 L415.5,46" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M520.651,45.833 L556.5,46" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M429.25,46.25 L464.872,46.333" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M477,46.25 L512.213,46.333" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M567.742,45.833 L604,46" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M614.833,45.833 L650.25,46" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M143.424,45.833 L180.5,45.75" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M190.515,45.833 L226.75,45.75" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M237.606,45.833 L273.5,45.75" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <path d="M96.333,45.833 L132,45.75" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
+    <text transform="matrix(1, 0, 0, 1, 184.47, 9.833)">
+      <tspan x="-19.166" y="5.5" font-family="Inconsolata" font-size="18" fill="#1C4494">Date</tspan>
+    </text>
+    <path d="M279.833,5.333 L279.833,65.333" fill-opacity="0" stroke="#1D4494" stroke-width="2" stroke-dasharray="4,2"/>
+    <path d="M420.833,5.833 L420.833,65.833" fill-opacity="0" stroke="#1D4494" stroke-width="2" stroke-dasharray="4,2"/>
+    <text transform="matrix(1, 0, 0, 1, 350.038, 9.833)">
+      <tspan x="-50.416" y="5.5" font-family="Inconsolata" font-size="18" fill="#1C4494">MAC address</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 469.917, 9.833)">
+      <tspan x="-14.916" y="5.5" font-family="Inconsolata" font-size="18" fill="#1C4494">PID</tspan>
+    </text>
+    <path d="M516.833,5.833 L516.833,65.833" fill-opacity="0" stroke="#1D4494" stroke-width="2" stroke-dasharray="4,2"/>
+    <text transform="matrix(1, 0, 0, 1, 589.167, 9.833)">
+      <tspan x="-32.166" y="5.5" font-family="Inconsolata" font-size="18" fill="#1C4494">Counter</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 365.667, 86.667)">
+      <tspan x="-84.667" y="2.5" font-family="Inconsolata" font-size="18" fill="#1C4494">12 byte Hex String</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 46.333, 43.833)">
+      <tspan x="-41" y="2.5" font-family="Inconsolata" font-size="18" fill="#1C4494">ObjectId:</tspan>
+    </text>
+  </g>
+</svg>
