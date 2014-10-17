@@ -13,7 +13,7 @@ used for the following classes:
 -  MongoDB Admin Training
 
 The build environment has many dependencies. We recommend you download
-the `instructor package`_ (last built 1 October 2014) which
+the `instructor package`_ (last built 17 October 2014) which
 contains the most recent build of all materials. See the Test-Driving
 Built Materials section below for instructions on using the materials.
 
@@ -62,7 +62,7 @@ We may need to write a section on performance.
 Test-Driving Built Materials
 ----------------------------
 
-Download the `instructor package`_ (last built 1 October 2014).
+Download the `instructor package`_ (last built 17 October 2014).
 This package contains the instructor guide and presentation slides.
 
 Extract the files in the tarball and open the contents.html file in a
