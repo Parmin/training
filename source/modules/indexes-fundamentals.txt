@@ -23,7 +23,9 @@ Upon completing this module students should understand:
 Why Indexes? 
 ------------
 
-.. include:: /images/btree-index.rst
+.. figure:: /images/btree-index.png
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 

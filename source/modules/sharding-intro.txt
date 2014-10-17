@@ -46,7 +46,10 @@ Vertical Scaling
 The Working Set
 ---------------
 
-.. include:: /images/working-set-exceeds-ram.rst
+.. figure:: /images/working-set-exceeds-ram.png
+   :width: 700px
+   :align: center
+
 
 .. only:: instructor
 

@@ -57,7 +57,9 @@ A MongoDB document expressed using JSON syntax.
 Scalability
 -----------
 
-.. include:: /images/vertical-scaling.rst
+.. figure:: /images/vertical-scaling.png
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
@@ -75,7 +77,9 @@ Scalability
 Scaling with MongoDB
 --------------------
 
-.. include:: /images/sharded-collection.rst
+.. figure:: /images/sharded-collection.png
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
@@ -90,7 +94,9 @@ Scaling with MongoDB
 Database Landscape
 ------------------
 
-.. include:: /images/database-landscape.rst
+.. figure:: /images/database-landscape.rst
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
@@ -110,7 +116,9 @@ Database Landscape
 MongoDB Deployment Models
 -------------------------
 
-.. include:: /images/deployments.rst
+.. figure:: /images/deployments.png
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 

@@ -248,7 +248,10 @@ Medical Patient Data (Continued)
 Medical Patient Data (Continued)
 --------------------------------
 
-.. include:: /images/data-model-8-in-memory.rst
+.. figure:: /images/data-model-8-in-memory.png
+   :width: 700px
+   :align: center
+
 
 ..   :title: Documents with Both Useful and Useless Data (Solution #1)
 
@@ -269,7 +272,10 @@ Medical Patient Data (Continued)
 Medical Patient Data (Continued)
 --------------------------------
 
-.. include:: /images/data-model-12-in-memory.rst
+.. figure:: /images/data-model-12-in-memory.png
+   :width: 700px
+   :align: center
+
 
 ..   :title: Documents with Only Useful Data (Solution #2)
 
