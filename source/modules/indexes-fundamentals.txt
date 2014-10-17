@@ -152,6 +152,7 @@ Indexes and Read/Write Performance
 - An index is modified any time a document: 
 
   - Is inserted
+  - Is deleted
   - Is updated in such a way that its indexed field changes
   - If an update causes a document to move on disk
 
@@ -170,11 +171,21 @@ Use Indexes with Care
 - Every query should use an index.  
 - Every index should be used by a query.
 - Any write operation that touches an indexed field will require each index to be updated.
-- Indexes require memory. 
+- Indexes require RAM.
+- Be judicious about the choice of key.
+- Do not repeat prefixes in your key values.
 
 .. only:: instructor
 
    .. note::
 
-      - If your system is limited in its memory usage, then using the index will force other data out of memory. 
+      - If your system has limited RAM, then using the index will force other data out of memory. 
       - When you need to access those documents, they will need to be paged in again.
+
+
+
+
+    Please talk about sparse
+    Please talk about unique
+        Enforcement of single B-tree bucket to document pointer clause.
+

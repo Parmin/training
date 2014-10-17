@@ -1,14 +1,8 @@
-Exercise: Find Based on 2d Coords
----------------------------------
+Example: Find Based on 2d Coords
+--------------------------------
 
-Write a query to find all documents within 3 degrees of the point [ -2.5, -0.5 ] in the twoD collection.
+Write a query to find all documents in the testcol collection that have an xy field value that falls entirely within the circle with center at [ -2.5, -0.5 ] and a radius of 3.
 
-.. only:: instructor
-  
-   .. note::
-
-      Answer:
-
-      .. code-block:: javascript
+.. code-block:: javascript
     
-         db.twoD.find( { xy : { $geoWithin : { $center : [ [ -2.5, -0.5 ], 3 ] } } } 
+   db.testcol.find( { xy : { $geoWithin : { $center : [ [ -2.5, -0.5 ], 3 ] } } } 

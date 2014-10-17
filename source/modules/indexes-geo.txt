@@ -17,15 +17,74 @@ Upon completing this module, students should understand:
 - How to query using 2dsphere indexes
 
 
-
 Introduction to Geospatial Indexes
 ----------------------------------
 
-Geospatial indexes are used to quickly determine geometric relationships on a two-dimensional surface, such as:
+We can use geospatial indexes to quickly determine geometric relationships:
 
-- All points within a circle
+- All points within a certain radius of another point.
 - Whether or not points fall within a polygon
 - Whether or not two polygons intersect
+
+
+Example, Part 1
+---------------
+
+TODO: REPLACE WITH FIGURE.
+
+.. figure:: /figures/2dGeospatial.jpg
+   :width: 700px
+   :align: center
+
+
+.. only:: instructor
+
+   .. note:: 
+
+      - To get an idea of what geospatial indexes do for us, let's look at an example.
+      - Initially, it is easiest to think about this in terms of two dimensions.
+      - And one type of geospatial index in MongoDB is a flat 2d index.
+      - With a geospatial index we can, for example, search for nearby items.
+      - This is the type of service that many phone apps provide when, say, searching for a nearby cafe.
+      - In this example, we might have a query location identified by the red x in this coordinate system.
+
+
+Example, Part 2
+---------------
+
+TODO: REPLACE WITH FIGURE.
+
+.. figure:: /figures/2dGeospatial.jpg
+   :width: 700px
+   :align: center
+
+.. only:: instructor
+
+   .. note:: 
+
+      - A geospatial index is based on a location field within documents in a collection.
+      - The structure of location values depends on the type of geospatial index. We will go into more detail on this in a few minutes.
+      - In this figure we are representing the location of each document in our collection by a black x.
+
+
+Example, Part 3
+---------------
+
+TODO: REPLACE WITH FIGURE.
+
+.. figure:: /figures/2dGeospatial.jpg
+   :width: 700px
+   :align: center
+
+.. only:: instructor
+
+   .. note:: 
+
+      - A geospatial index enables us to efficiently query a collection based on geometric relationships between documents and the query.
+      - For example, we can quickly locate all documents within a certain radius of our query location.
+      - This figure illustrates a ``$near`` query in a 2d geospatial index. 
+
+
 
 
 Flat vs. Spherical Indexes
@@ -109,14 +168,14 @@ There are two accepted formats:
 Querying Documents Using a 2d Index
 -----------------------------------
 
-- use ``$geoWithin`` for an area 
+- Use ``$near`` to retrieve documents close to a given point.
+- Use ``$geoWithin`` to find documents with a shape contained entirely within the query shape.
+- Use the following operators to specify a query shape:
   
   - ``$box``
   - ``$polygon``
   - ``$center`` (circle)
 
-- use ``$near`` to order points by distance
-- run the command ``$geoNear`` for more options.
 
 .. include:: /exercises/indexes-geo-2d-query.txt
 
