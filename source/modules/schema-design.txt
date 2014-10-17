@@ -248,12 +248,9 @@ Medical Patient Data (Continued)
 Medical Patient Data (Continued)
 --------------------------------
 
-TODO: REMAKE THIS DRAWING
+.. include:: /images/data-model-8-in-memory.rst
 
-.. figure:: /images/data-modeling-documents-include-useless-data.png
-   :align: center
-   :width: 600 px
-   :title: Documents with Both Useful and Useless Data (Solution #1)
+..   :title: Documents with Both Useful and Useless Data (Solution #1)
 
 .. only:: instructor
 
@@ -272,11 +269,9 @@ TODO: REMAKE THIS DRAWING
 Medical Patient Data (Continued)
 --------------------------------
 
-TODO: REMAKE THIS DRAWING
+.. include:: /images/data-model-12-in-memory.rst
 
-.. figure:: /figures/data-modeling-documents-include-only-useful-data.png
-   :align: center
-   :title: Documents with Only Useful Data (Solution #2)
+..   :title: Documents with Only Useful Data (Solution #2)
 
 .. only:: instructor
 

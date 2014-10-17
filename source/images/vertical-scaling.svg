@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="500" height="350" viewBox="0, 0, 500, 350">
+  <g id="Layer_1">
+    <path d="M151,186.044 C151,183.535 149.155,181.5 146.875,181.5 L28.125,181.5 C25.848,181.5 24,183.535 24,186.044 L24,316.952 C24,319.463 25.848,321.5 28.125,321.5 L146.875,321.5 C149.155,321.5 151,319.463 151,316.952 L151,186.044" fill="#B2B2B2"/>
+    <text transform="matrix(1, 0, 0, 1, 92.837, 248.8)">
+      <tspan x="-33.163" y="-17.5" font-family="GillSans" font-size="21" fill="#0C60B2">CPU</tspan>
+      <tspan x="-33.163" y="6.5" font-family="GillSans" font-size="21" fill="#0C60B2">RAM</tspan>
+      <tspan x="-33.163" y="30.5" font-family="GillSans" font-size="21" fill="#0C60B2">I/O</tspan>
+    </text>
+    <path d="M471,22.796 C471,17.938 468.283,14 464.926,14 L290.074,14 C286.721,14 284,17.938 284,22.796 L284,276.196 C284,281.058 286.721,285 290.074,285 L464.926,285 C468.283,285 471,281.058 471,276.196 L471,22.796" fill="#B2B2B2"/>
+    <text transform="matrix(1, 0, 0, 1, 391.214, 144.683)">
+      <tspan x="-50.298" y="-40" font-family="GillSans" font-size="36" fill="#0C60B2">CPU</tspan>
+      <tspan x="-50.298" y="1" font-family="GillSans" font-size="36" fill="#0C60B2">RAM</tspan>
+      <tspan x="-50.298" y="42" font-family="GillSans" font-size="36" fill="#0C60B2">I/O</tspan>
+    </text>
+    <g>
+      <path d="M160.5,263.5 L266.452,187.432" fill-opacity="0" stroke="#0C60B2" stroke-width="3"/>
+      <path d="M268.902,190.843 L275.55,180.9 L264.003,184.02 z" fill="#0C60B2" fill-opacity="1" stroke="#0C60B2" stroke-width="3" stroke-opacity="1"/>
+    </g>
+  </g>
+</svg>

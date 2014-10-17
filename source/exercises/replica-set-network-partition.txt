@@ -84,7 +84,7 @@ Scenario E: 3 Data Nodes in 3 DCs
 - What happens here if any one of the nodes/DCs fail? 
 - What about recovery time?
 
-TODO: Add diagram with 1 data node in each DC.
+.. include:: /images/replica-set-3nodes-1-per-dc.rst
 
 .. only:: instructor
 

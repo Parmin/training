@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="480" height="780" viewBox="0, 0, 480, 780">
+  <g id="Layer_1">
+    <g>
+      <path d="M161.75,55.5 C123.09,55.5 91.75,45.762 91.75,33.75 C91.75,21.738 123.09,12 161.75,12 C200.41,12 231.75,21.738 231.75,33.75 C231.75,45.762 200.41,55.5 161.75,55.5 z" fill="#EEEEEE"/>
+      <path d="M161.75,55.5 C123.09,55.5 91.75,45.762 91.75,33.75 C91.75,21.738 123.09,12 161.75,12 C200.41,12 231.75,21.738 231.75,33.75 C231.75,45.762 200.41,55.5 161.75,55.5 z" fill-opacity="0" stroke="#B2B2B2" stroke-width="2"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 161.25, 33.25)">
+      <tspan x="-23.75" y="5" font-family="Inconsolata" font-size="18" fill="#625F5E">START</tspan>
+    </text>
+    <g>
+      <path d="M91.25,100.417 L232.25,100.417 L232.25,150.667 L91.25,150.667 L91.25,100.417 z" fill="#EEEEEE"/>
+      <path d="M91.25,100.417 L232.25,100.417 L232.25,150.667 L91.25,150.667 L91.25,100.417 z" fill-opacity="0" stroke="#625F5E" stroke-width="2"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 161.25, 125.042)">
+      <tspan x="-45" y="-4.375" font-family="Inconsolata" font-size="18" fill="#625F5E">Connect to</tspan>
+      <tspan x="-27" y="15.625" font-family="Inconsolata" font-size="18" fill="#625F5E">Server</tspan>
+    </text>
+    <g>
+      <path d="M95.441,244.875 L161.405,196.13 L228.059,246.625 L162.095,295.37 L95.441,244.875 z" fill="#EEEEEE"/>
+      <path d="M95.441,244.875 L161.405,196.13 L228.059,246.625 L162.095,295.37 L95.441,244.875 z" fill-opacity="0" stroke="#B2B2B2" stroke-width="2"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 161.25, 248.25)">
+      <tspan x="-10.5" y="-20.625" font-family="Inconsolata" font-size="21" fill="#625F5E">Is</tspan>
+      <tspan x="-57.75" y="3.375" font-family="Inconsolata" font-size="21" fill="#625F5E">Valid Login</tspan>
+      <tspan x="-5.25" y="27.375" font-family="Inconsolata" font-size="21" fill="#625F5E">?</tspan>
+    </text>
+    <g>
+      <path d="M91.25,340.167 L232.25,340.167 L232.25,390.417 L91.25,390.417 L91.25,340.167 z" fill="#EEEEEE"/>
+      <path d="M91.25,340.167 L232.25,340.167 L232.25,390.417 L91.25,390.417 L91.25,340.167 z" fill-opacity="0" stroke="#625F5E" stroke-width="2"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 161.25, 367.661)">
+      <tspan x="-31.5" y="-6.451" font-family="Inconsolata" font-size="18" fill="#625F5E">Issue a </tspan>
+      <tspan x="-22.5" y="13.549" font-family="Inconsolata" font-size="18" fill="#625F5E">query</tspan>
+    </text>
+    <g>
+      <path d="M161.75,59.893 L161.75,83.843" fill-opacity="0" stroke="#6CB33F" stroke-width="2"/>
+      <path d="M158.15,83.843 L161.75,93.443 L165.35,83.843 z" fill="#6CB33F" fill-opacity="1" stroke="#6CB33F" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <g>
+      <path d="M161.75,155 L161.75,178.95" fill-opacity="0" stroke="#6CB33F" stroke-width="2"/>
+      <path d="M158.15,178.95 L161.75,188.55 L165.35,178.95 z" fill="#6CB33F" fill-opacity="1" stroke="#6CB33F" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <g>
+      <path d="M161.75,299.417 L161.75,323.367" fill-opacity="0" stroke="#6CB33F" stroke-width="2"/>
+      <path d="M158.15,323.367 L161.75,332.967 L165.35,323.367 z" fill="#6CB33F" fill-opacity="1" stroke="#6CB33F" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <g>
+      <path d="M161.75,396.25 L161.75,420.2" fill-opacity="0" stroke="#6CB33F" stroke-width="2"/>
+      <path d="M158.15,420.2 L161.75,429.8 L165.35,420.2 z" fill="#6CB33F" fill-opacity="1" stroke="#6CB33F" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <g>
+      <path d="M230.046,245.404 L294.674,245.536" fill-opacity="0" stroke="#C54601" stroke-width="2"/>
+      <path d="M294.667,249.136 L304.274,245.555 L294.681,241.936 z" fill="#C54601" fill-opacity="1" stroke="#C54601" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <path d="M230.046,486.071 L388.712,486.071" fill-opacity="0" stroke="#C54601" stroke-width="2"/>
+    <g>
+      <path d="M387.379,721.071 L388.028,284.537" fill-opacity="0" stroke="#C54601" stroke-width="2"/>
+      <path d="M391.628,284.543 L388.043,274.937 L384.428,284.532 z" fill="#C54601" fill-opacity="1" stroke="#C54601" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <g>
+      <path d="M91.25,579.667 L232.25,579.667 L232.25,629.917 L91.25,629.917 L91.25,579.667 z" fill="#EEEEEE"/>
+      <path d="M91.25,579.667 L232.25,579.667 L232.25,629.917 L91.25,629.917 L91.25,579.667 z" fill-opacity="0" stroke="#625F5E" stroke-width="2"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 161.25, 604.357)">
+      <tspan x="-40.5" y="4.989" font-family="Inconsolata" font-size="18" fill="#625F5E">Run query</tspan>
+    </text>
+    <g>
+      <path d="M161.75,539.75 L161.75,563.7" fill-opacity="0" stroke="#6CB33F" stroke-width="2"/>
+      <path d="M158.15,563.7 L161.75,573.3 L165.35,563.7 z" fill="#6CB33F" fill-opacity="1" stroke="#6CB33F" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <g>
+      <g>
+        <path d="M386.917,268.333 C348.257,268.333 316.917,258.595 316.917,246.583 C316.917,234.571 348.257,224.833 386.917,224.833 C425.577,224.833 456.917,234.571 456.917,246.583 C456.917,258.595 425.577,268.333 386.917,268.333 z" fill="#C54601"/>
+        <path d="M386.917,268.333 C348.257,268.333 316.917,258.595 316.917,246.583 C316.917,234.571 348.257,224.833 386.917,224.833 C425.577,224.833 456.917,234.571 456.917,246.583 C456.917,258.595 425.577,268.333 386.917,268.333 z" fill-opacity="0" stroke="#E79802" stroke-width="2"/>
+      </g>
+      <g>
+        <text transform="matrix(1, 0, 0, 1, 386.417, 246.083)">
+          <tspan x="-21.5" y="6.284" font-family="Inconsolata" font-size="21" fill="#625F5E">STOP</tspan>
+        </text>
+        <path d="M374.051,240.841 C373.164,239.788 371.848,239.209 370.422,239.209 C368.059,239.209 366.435,240.773 366.435,242.562 C366.435,243.325 366.735,244.309 367.826,245.114 C369.038,246.009 370.927,246.462 371.915,247.082 C372.774,247.62 373.013,248.303 373.013,248.889 C373.013,250.027 372.056,251.262 370.156,251.262 C368.72,251.262 367.613,250.56 367.028,249.819 C366.963,249.736 366.968,249.683 366.969,249.596 C366.97,249.561 366.974,249.446 366.874,249.395 L366.004,250.899 C367.033,252.02 368.499,252.586 370.113,252.586 C373.298,252.586 374.475,250.451 374.475,248.804 C374.475,248.12 374.277,247.206 373.458,246.435 C372.32,245.363 370.476,244.991 369.279,244.291 C368.184,243.65 367.942,242.874 367.942,242.339 C367.942,241.336 368.807,240.421 370.305,240.421 C371.524,240.421 372.461,240.978 372.968,241.717 C373.024,241.798 373.013,241.842 373.016,241.919 C373.02,242.036 373.08,242.077 373.126,242.091 z M376.069,239.264 L376.069,240.587 L379.784,240.587 L379.784,252.385 L381.27,252.385 L381.27,240.587 L385.131,240.587 L385.131,239.264 z M395.812,245.852 C395.812,244.627 395.724,243.002 395.011,241.604 C394.153,239.922 392.665,239.137 391.24,239.137 C389.289,239.137 386.533,240.662 386.533,245.804 C386.533,250.946 389.251,252.566 391.254,252.566 C392.666,252.566 394.172,251.779 395.034,250.035 C395.729,248.629 395.812,247.001 395.812,245.852 z M391.179,240.514 C392.107,240.514 393.226,241.066 393.836,242.583 C394.278,243.683 394.345,244.936 394.345,246.044 C394.345,246.901 394.296,248.236 393.76,249.364 C393.154,250.637 392.14,251.135 391.26,251.135 C389.788,251.135 387.982,249.774 387.982,245.613 C387.982,241.712 389.804,240.514 391.179,240.514 z M397.649,239.282 L397.649,252.367 L399.171,252.367 L399.171,246.586 L401.745,246.586 C402.56,246.586 403.344,246.565 404.139,246.161 C405.349,245.546 405.986,244.293 405.986,242.966 C405.986,241.643 405.348,240.363 404.112,239.726 C403.292,239.304 402.48,239.282 401.636,239.282 z M399.171,240.659 L401.636,240.659 C402.183,240.659 402.709,240.673 403.242,240.94 C404.058,241.35 404.481,242.182 404.481,243.034 C404.481,243.868 404.077,244.648 403.318,245.031 C402.814,245.287 402.315,245.299 401.799,245.299 L399.153,245.299 z" fill="#FFFFFF"/>
+      </g>
+    </g>
+    <g>
+      <path d="M95.441,485.005 L161.405,436.26 L228.059,486.755 L162.095,535.5 L95.441,485.005 z" fill="#EEEEEE"/>
+      <path d="M95.441,485.005 L161.405,436.26 L228.059,486.755 L162.095,535.5 L95.441,485.005 z" fill-opacity="0" stroke="#B2B2B2" stroke-width="2"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 161.25, 488.38)">
+      <tspan x="-15.75" y="-20.625" font-family="Inconsolata" font-size="21" fill="#625F5E">Has </tspan>
+      <tspan x="-52.5" y="3.375" font-family="Inconsolata" font-size="21" fill="#625F5E">Permission</tspan>
+      <tspan x="-5.25" y="27.375" font-family="Inconsolata" font-size="21" fill="#625F5E">?</tspan>
+    </text>
+    <g>
+      <path d="M97.441,720.375 L163.405,671.63 L230.059,722.125 L164.095,770.87 L97.441,720.375 z" fill="#EEEEEE"/>
+      <path d="M97.441,720.375 L163.405,671.63 L230.059,722.125 L164.095,770.87 L97.441,720.375 z" fill-opacity="0" stroke="#B2B2B2" stroke-width="2"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 163.5, 731.75)">
+      <tspan x="-54" y="-7.292" font-family="Inconsolata" font-size="18" fill="#625F5E">More queries</tspan>
+      <tspan x="-4.5" y="12.708" font-family="Inconsolata" font-size="18" fill="#625F5E">?</tspan>
+    </text>
+    <g>
+      <path d="M162.5,633.75 L162.5,657.7" fill-opacity="0" stroke="#6CB33F" stroke-width="2"/>
+      <path d="M158.9,657.7 L162.5,667.3 L166.1,657.7 z" fill="#6CB33F" fill-opacity="1" stroke="#6CB33F" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 185.896, 549.854)">
+      <tspan x="-13.5" y="5.5" font-family="Inconsolata" font-size="18" fill="#18397B">YES</tspan>
+    </text>
+    <g>
+      <path d="M26.604,363.271 L73.054,363.271" fill-opacity="0" stroke="#6CB33F" stroke-width="2"/>
+      <path d="M73.054,366.871 L82.654,363.271 L73.054,359.671 z" fill="#6CB33F" fill-opacity="1" stroke="#6CB33F" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <path d="M28,364 L27.771,721.771" fill-opacity="0" stroke="#6CB33F" stroke-width="2"/>
+    <path d="M28.833,721.25 L95.771,721.271" fill-opacity="0" stroke="#6CB33F" stroke-width="2"/>
+    <text transform="matrix(1, 0, 0, 1, 66.5, 708)">
+      <tspan x="-13.5" y="5.5" font-family="Inconsolata" font-size="18" fill="#18397B">YES</tspan>
+    </text>
+    <path d="M232.046,721.071 L387.379,721.071" fill-opacity="0" stroke="#C54601" stroke-width="2"/>
+    <text transform="matrix(1, 0, 0, 1, 246.546, 475.571)">
+      <tspan x="-9" y="5.5" font-family="Inconsolata" font-size="18" fill="#C54601">NO</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 249.879, 708)">
+      <tspan x="-9" y="5.5" font-family="Inconsolata" font-size="18" fill="#C54601">NO</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 246.879, 234.571)">
+      <tspan x="-9" y="5.5" font-family="Inconsolata" font-size="18" fill="#C54601">NO</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 185.896, 311.5)">
+      <tspan x="-13.5" y="5.5" font-family="Inconsolata" font-size="18" fill="#18397B">YES</tspan>
+    </text>
+  </g>
+</svg>

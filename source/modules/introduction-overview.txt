@@ -57,11 +57,7 @@ A MongoDB document expressed using JSON syntax.
 Scalability
 -----------
 
-TODO: REPLACE WITH FIGURE.
-
-.. figure:: /figures/figure_scaling_up.jpg
-   :width: 700px
-   :align: center
+.. include:: /images/vertical-scaling.rst
 
 .. only:: instructor
 
@@ -79,9 +75,7 @@ TODO: REPLACE WITH FIGURE.
 Scaling with MongoDB
 --------------------
 
-.. figure:: /figures/figure_scaling_out1.png
-   :width: 700px
-   :align: center
+.. include:: /images/sharded-collection.rst
 
 .. only:: instructor
 
@@ -96,11 +90,7 @@ Scaling with MongoDB
 Database Landscape
 ------------------
 
-TODO: REPLACE WITH FIGURE THAT MATCHES OUR COLOR PALETTE.
-
-.. figure:: /figures/figure_database_landscape.png
-   :width: 700px
-   :align: center
+.. include:: /images/database-landscape.rst
 
 .. only:: instructor
 
@@ -120,11 +110,7 @@ TODO: REPLACE WITH FIGURE THAT MATCHES OUR COLOR PALETTE.
 MongoDB Deployment Models
 -------------------------
 
-TODO: REPLACE WITH FIGURE.
-
-.. figure:: /figures/deployment_models.jpg
-   :width: 700px
-   :align: center
+.. include:: /images/deployments.rst
 
 .. only:: instructor
 

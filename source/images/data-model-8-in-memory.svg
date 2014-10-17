@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="510" height="100" viewBox="0, 0, 510, 100">
+  <g id="Layer_1">
+    <g>
+      <path d="M6.985,16.208 L503,16.208 L503,81.877 L6.985,81.877 z" fill="#2A86C0"/>
+      <text transform="matrix(1, 0, 0, 1, 37.811, 64.714)">
+        <tspan x="-26.204" y="7.837" font-family="GillSans" font-size="24" fill="#FFFFFF">RAM</tspan>
+      </text>
+      <path d="M107.495,16.875 L406.993,16.875 L406.993,81.996 L107.495,81.996 z" fill="#6CB33F"/>
+      <path d="M107.046,58.333 L406.993,58.333 L406.993,82 L107.046,82 L107.046,58.333 z" fill="#DD4F01"/>
+      <path d="M144.421,18.875 L144.421,80.875" fill-opacity="0" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+      <path d="M182.421,19.125 L182.421,81.125" fill-opacity="0" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+      <path d="M220.493,19 L220.493,81" fill-opacity="0" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+      <path d="M257.421,18.625 L257.421,80.625" fill-opacity="0" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+      <path d="M294.296,18.5 L294.296,80.5" fill-opacity="0" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+      <path d="M332.296,19 L332.296,81" fill-opacity="0" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+      <path d="M370.243,19.25 L370.243,81.25" fill-opacity="0" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+      <text transform="matrix(1, 0, 0, 1, 161.754, 49.458)">
+        <tspan x="-13.5" y="-18" font-family="Inconsolata" font-size="14" fill="#FFFFFF">{</tspan>
+        <tspan x="-10.5" y="-3" font-family="Inconsolata" font-size="14" fill="#FFFFFF">...</tspan>
+        <tspan x="-10.5" y="12" font-family="Inconsolata" font-size="14" fill="#FFFFFF">...</tspan>
+        <tspan x="-13.5" y="27" font-family="Inconsolata" font-size="14" fill="#FFFFFF">}</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 201.421, 49.458)">
+        <tspan x="-13.5" y="-18" font-family="Inconsolata" font-size="14" fill="#FFFFFF">{</tspan>
+        <tspan x="-10.5" y="-3" font-family="Inconsolata" font-size="14" fill="#FFFFFF">...</tspan>
+        <tspan x="-10.5" y="12" font-family="Inconsolata" font-size="14" fill="#FFFFFF">...</tspan>
+        <tspan x="-13.5" y="27" font-family="Inconsolata" font-size="14" fill="#FFFFFF">}</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 123.671, 49.458)">
+        <tspan x="-13.5" y="-18" font-family="Inconsolata" font-size="14" fill="#FFFFFF">{</tspan>
+        <tspan x="-10.5" y="-3" font-family="Inconsolata" font-size="14" fill="#FFFFFF">...</tspan>
+        <tspan x="-10.5" y="12" font-family="Inconsolata" font-size="14" fill="#FFFFFF">...</tspan>
+        <tspan x="-13.5" y="27" font-family="Inconsolata" font-size="14" fill="#FFFFFF">}</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

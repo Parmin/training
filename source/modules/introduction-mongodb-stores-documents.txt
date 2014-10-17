@@ -152,11 +152,7 @@ The ``_id`` Field
 ObjectIds
 ---------
 
-TODO: REPLACE WITH FIGURE.
-
-.. figure:: /figures/figure_id_values.jpg
-   :width: 700px
-   :align: center
+.. include:: /images/objectId.rst
 
 .. only:: instructor
 
@@ -185,6 +181,8 @@ Storing BSON Documents
 Padding Factor
 --------------  
 
+.. include:: /images/padding.rst
+
 - MongoDB will pad a document with extra bytes if documents in a collection have been observed to grow.  
 - The ``padding factor`` is a multiplier that defaults to 1 (no padding).
 - As documents in a collection grow and need to be moved, MongoDB will begin to add padding.
@@ -192,13 +190,6 @@ Padding Factor
 - Padding provides room for documents to grow into.
 - With padding, documents will not be as likely to move after update operations.
 - This setting is not tunable; it is updated automatically.
-
-.. only:: instructor
-
-   .. note::
-  
-      TODO: THIS SHOULD BE A FIGURE.
-
 
 ``usePowerOf2Sizes``
 --------------------
@@ -217,6 +208,3 @@ Padding Factor
       - Power of two sizes makes it easier for MongoDB to find new document to fill fragmented space. 
       - Power of two sizing was introduced in MongoDB 2.4, but must be enabled using the colMod operation.  
       - If a collection is read only, users should disable usePowerof2Sizes in MongoDB 2.6 and above. 
-
-
-

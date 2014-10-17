@@ -17,12 +17,7 @@ Upon completing this module students should understand:
 Overview
 --------
 
-TODO: REPLACE WITH FIGURE.
-
-.. figure:: /images/security-auth-categories.jpg
-   :align: center
-   :width: 300 px
-
+.. include:: /images/auth-workflow.rst
 
 .. only:: instructor
 
