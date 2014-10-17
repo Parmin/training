@@ -94,7 +94,7 @@ Scaling with MongoDB
 Database Landscape
 ------------------
 
-.. figure:: /images/database-landscape.rst
+.. figure:: /images/database-landscape.png
    :width: 700px
    :align: center
 
