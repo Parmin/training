@@ -3,201 +3,225 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="1000" height="600" viewBox="0, 0, 1000, 600">
   <g id="Layer_1">
     <path d="M201,4.5 L201,541.5" fill-opacity="0" stroke="#1C418D" stroke-width="2" stroke-dasharray="6,4"/>
-    <path d="M573.5,2.5 L573.5,539.5" fill-opacity="0" stroke="#1C418D" stroke-width="2" stroke-dasharray="6,4"/>
+    <path d="M564.167,4.5 L564.167,541.5" fill-opacity="0" stroke="#1C418D" stroke-width="2" stroke-dasharray="6,4"/>
     <g>
       <g>
+        <path d="M173.667,291.775 C173.667,290.897 171.516,290.185 168.86,290.185 L30.474,290.185 C27.82,290.185 25.667,290.897 25.667,291.775 L25.667,337.593 C25.667,338.472 27.82,339.185 30.474,339.185 L168.86,339.185 C171.516,339.185 173.667,338.472 173.667,337.593 L173.667,291.775" fill="#3299CC"/>
+        <text transform="matrix(1, 0, 0, 1, 99.667, 314.685)">
+          <tspan x="-41.094" y="7.5" font-family="GillSans" font-size="24" fill="#FFFFFF">mongod</tspan>
+        </text>
+      </g>
+      <g>
+        <text transform="matrix(1, -0.001, 0.001, 1, 70.668, 173.224)">
+          <tspan x="-30.36" y="6.5" font-family="GillSans" font-size="21" fill="#3299CC">Writes</tspan>
+        </text>
+      </g>
+      <g>
+        <path d="M70.679,190.797 L70.668,261.597" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
         <g>
-          <path d="M37.32,155.891 C37.32,157.229 37.787,158.312 38.363,158.312 L165.547,158.312 C166.123,158.312 166.589,157.229 166.589,155.891 L166.589,99.566 C166.589,98.229 166.123,97.146 165.547,97.146 L38.363,97.146 C37.787,97.146 37.32,98.229 37.32,99.566 L37.32,155.891" fill="#5A5955"/>
-          <path d="M39.007,128.229 L166.201,128.229" fill-opacity="0" stroke="#F0EFED" stroke-width="1"/>
+          <path d="M65.268,261.596 L70.666,275.997 L76.068,261.598 z" fill="#3299CC"/>
+          <path d="M65.268,261.596 L70.666,275.997 L76.068,261.598 z" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
         </g>
-        <text transform="matrix(1, 0, -0, 1, 101.955, 112.245)">
-          <tspan x="-49.196" y="4.75" font-family="GillSans" font-size="21" fill="#FFFFFE"> </tspan>
-          <tspan x="-46.863" y="4.75" font-family="GillSans" font-size="21" fill="#FFFFFE">Application</tspan>
-        </text>
-        <text transform="matrix(1, 0, -0, 1, 101.955, 142.078)">
-          <tspan x="-27.911" y="4.25" font-family="GillSans" font-size="21" fill="#FFFFFE">Driver</tspan>
-        </text>
+      </g>
+      <text transform="matrix(1, 0, 0, 1, 133.118, 173.197)">
+        <tspan x="-25.918" y="6.5" font-family="GillSans" font-size="21" fill="#5A5955">Reads</tspan>
+      </text>
+      <g>
+        <path d="M133.129,190.797 L133.118,261.597" fill-opacity="0" stroke="#5A5955" stroke-width="5"/>
+        <g>
+          <path d="M127.718,261.597 L133.115,275.997 L138.518,261.598 z" fill="#5A5955"/>
+          <path d="M127.718,261.597 L133.115,275.997 L138.518,261.598 z" fill-opacity="0" stroke="#5A5955" stroke-width="5"/>
+        </g>
+      </g>
+      <g>
         <g>
           <g>
-            <text transform="matrix(1, -0.002, 0.002, 1, 73.682, 180.019)">
-              <tspan x="-29.442" y="0.994" font-family="GillSans" font-size="21" fill="#3299CC">W</tspan>
-              <tspan x="-8.61" y="0.994" font-family="GillSans" font-size="21" fill="#3299CC">rites</tspan>
-            </text>
-            <g>
-              <path d="M74.609,192.59 L74.598,263.39" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
-              <path d="M69.198,263.389 L74.596,277.79 L79.998,263.391 z" fill="#3299CC" fill-opacity="1" stroke="#3299CC" stroke-width="5" stroke-opacity="1"/>
-            </g>
+            <path d="M35.032,155.891 C35.032,157.229 35.499,158.312 36.075,158.312 L163.259,158.312 C163.835,158.312 164.301,157.229 164.301,155.891 L164.301,99.566 C164.301,98.229 163.835,97.146 163.259,97.146 L36.075,97.146 C35.499,97.146 35.032,98.229 35.032,99.566 L35.032,155.891" fill="#5A5955"/>
+            <path d="M36.719,128.229 L163.913,128.229" fill-opacity="0" stroke="#F0EFED" stroke-width="1"/>
           </g>
-          <g>
-            <text transform="matrix(1, 0, -0, 1, 135.707, 174.447)">
-              <tspan x="-25.245" y="6.5" font-family="GillSans" font-size="21" fill="#5A5955">Reads</tspan>
-            </text>
-            <g>
-              <path d="M137.99,192.447 L137.979,263.247" fill-opacity="0" stroke="#5A5955" stroke-width="5"/>
-              <path d="M132.579,263.247 L137.976,277.647 L143.379,263.248 z" fill="#5A5955" fill-opacity="1" stroke="#5A5955" stroke-width="5" stroke-opacity="1"/>
-            </g>
-          </g>
-        </g>
-        <g>
-          <path d="M175.955,287.59 C175.955,286.712 173.804,286 171.148,286 L32.762,286 C30.108,286 27.955,286.712 27.955,287.59 L27.955,333.408 C27.955,334.287 30.108,335 32.762,335 L171.148,335 C173.804,335 175.955,334.287 175.955,333.408 L175.955,287.59" fill="#3299CC"/>
-          <text transform="matrix(1, -0, 0, 1, 101.955, 310.683)">
-            <tspan x="-39.615" y="6.169" font-family="GillSans" font-size="24" fill="#FFFFFF">mongod</tspan>
+          <text transform="matrix(1, 0, 0, 1, 99.667, 110.495)">
+            <tspan x="-48.304" y="6.5" font-family="GillSans" font-size="21" fill="#FFFFFE">Application</tspan>
+          </text>
+          <text transform="matrix(1, 0, 0, 1, 99.667, 139.828)">
+            <tspan x="-29.08" y="6.5" font-family="GillSans" font-size="21" fill="#FFFFFE">Driver</tspan>
           </text>
         </g>
+        <text transform="matrix(1, 0, 0, 1, 99.667, 40)">
+          <tspan x="-55.75" y="6.5" font-family="GillSans" font-size="21" fill="#1C418D">Single Server</tspan>
+        </text>
       </g>
-      <text transform="matrix(1, 0, 0, 1, 101.955, 39)">
-        <tspan x="-68.25" y="6.5" font-family="Inconsolata" font-size="21" fill="#1C418D">Single Server</tspan>
+    </g>
+    <g>
+      <path d="M352.884,335.315 L314.786,430.119" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
+      <path d="M309.776,428.105 L309.417,443.48 L319.797,432.132 z" fill="#3299CC" fill-opacity="1" stroke="#3299CC" stroke-width="5" stroke-opacity="1"/>
+    </g>
+    <g>
+      <path d="M408,338.092 L445.956,424.895" fill-opacity="0" stroke="#3299CC" stroke-width="6"/>
+      <path d="M440.459,427.299 L452.366,439.554 L451.454,422.491 z" fill="#3299CC" fill-opacity="1" stroke="#3299CC" stroke-width="6" stroke-opacity="1"/>
+    </g>
+    <g>
+      <g>
+        <path d="M376.616,453.507 C376.616,452.629 374.465,451.917 371.809,451.917 L233.423,451.917 C230.769,451.917 228.616,452.629 228.616,453.507 L228.616,499.325 C228.616,500.204 230.769,500.917 233.423,500.917 L371.809,500.917 C374.465,500.917 376.616,500.204 376.616,499.325 L376.616,453.507" fill="#6CB340"/>
+        <text transform="matrix(1, 0, 0, 1, 302.616, 476.417)">
+          <tspan x="-40.261" y="7.5" font-family="GillSans" font-size="24" fill="#FFFFFE">mongod</tspan>
+        </text>
+      </g>
+      <g>
+        <path d="M535.384,453.507 C535.384,452.629 533.234,451.917 530.577,451.917 L392.191,451.917 C389.537,451.917 387.384,452.629 387.384,453.507 L387.384,499.325 C387.384,500.204 389.537,500.917 392.191,500.917 L530.577,500.917 C533.234,500.917 535.384,500.204 535.384,499.325 L535.384,453.507" fill="#6CB340"/>
+        <text transform="matrix(1, 0, 0, 1, 461.384, 476.417)">
+          <tspan x="-40.657" y="7.5" font-family="GillSans" font-size="24" fill="#FFFFFE">mongod</tspan>
+        </text>
+      </g>
+    </g>
+    <g>
+      <path d="M456,291.84 C456,290.962 453.849,290.25 451.193,290.25 L312.807,290.25 C310.153,290.25 308,290.962 308,291.84 L308,337.658 C308,338.537 310.153,339.25 312.807,339.25 L451.193,339.25 C453.849,339.25 456,338.537 456,337.658 L456,291.84" fill="#3299CC"/>
+      <text transform="matrix(1, 0, 0, 1, 382, 314.75)">
+        <tspan x="-41.094" y="7.5" font-family="GillSans" font-size="24" fill="#FFFFFF">mongod</tspan>
       </text>
     </g>
     <g>
       <g>
-        <path d="M303.954,152.891 C303.954,154.229 304.421,155.312 304.997,155.312 L432.181,155.312 C432.757,155.312 433.224,154.229 433.224,152.891 L433.224,96.566 C433.224,95.229 432.757,94.146 432.181,94.146 L304.997,94.146 C304.421,94.146 303.954,95.229 303.954,96.566 L303.954,152.891" fill="#5A5955"/>
-        <path d="M305.641,125.229 L432.836,125.229" fill-opacity="0" stroke="#F0EFED" stroke-width="1"/>
+        <text transform="matrix(1, -0.001, 0.001, 1, 353.002, 173.224)">
+          <tspan x="-30.36" y="6.5" font-family="GillSans" font-size="21" fill="#3299CC">Writes</tspan>
+        </text>
       </g>
-      <text transform="matrix(1, 0, -0, 1, 368.589, 110.246)">
-        <tspan x="-49.196" y="4.75" font-family="GillSans" font-size="21" fill="#FFFFFE"> </tspan>
-        <tspan x="-46.863" y="4.75" font-family="GillSans" font-size="21" fill="#FFFFFE">Application</tspan>
-      </text>
-      <text transform="matrix(1, 0, -0, 1, 368.339, 139.079)">
-        <tspan x="-27.911" y="4.25" font-family="GillSans" font-size="21" fill="#FFFFFE">Driver</tspan>
+      <g>
+        <path d="M353.013,190.797 L353.002,261.597" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
+        <g>
+          <path d="M347.602,261.596 L353,275.997 L358.402,261.598 z" fill="#3299CC"/>
+          <path d="M347.602,261.596 L353,275.997 L358.402,261.598 z" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
+        </g>
+      </g>
+      <text transform="matrix(1, 0, 0, 1, 415.451, 173.197)">
+        <tspan x="-25.918" y="6.5" font-family="GillSans" font-size="21" fill="#5A5955">Reads</tspan>
       </text>
       <g>
-        <path d="M339.884,335.25 L302.733,424.125" fill-opacity="0" stroke="#3299CC" stroke-width="6"/>
-        <path d="M297.198,421.811 L296.563,438.887 L308.269,426.439 z" fill="#3299CC" fill-opacity="1" stroke="#3299CC" stroke-width="6" stroke-opacity="1"/>
+        <path d="M415.462,190.797 L415.451,261.597" fill-opacity="0" stroke="#5A5955" stroke-width="5"/>
+        <g>
+          <path d="M410.051,261.597 L415.448,275.997 L420.851,261.598 z" fill="#5A5955"/>
+          <path d="M410.051,261.597 L415.448,275.997 L420.851,261.598 z" fill-opacity="0" stroke="#5A5955" stroke-width="5"/>
+        </g>
+      </g>
+    </g>
+    <g>
+      <g>
+        <path d="M317.366,155.891 C317.366,157.229 317.832,158.312 318.409,158.312 L445.592,158.312 C446.168,158.312 446.634,157.229 446.634,155.891 L446.634,99.566 C446.634,98.229 446.168,97.146 445.592,97.146 L318.409,97.146 C317.832,97.146 317.366,98.229 317.366,99.566 L317.366,155.891" fill="#5A5955"/>
+        <path d="M319.052,128.229 L446.246,128.229" fill-opacity="0" stroke="#F0EFED" stroke-width="1"/>
+      </g>
+      <text transform="matrix(1, 0, 0, 1, 382, 110.495)">
+        <tspan x="-48.304" y="6.5" font-family="GillSans" font-size="21" fill="#FFFFFE">Application</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 382, 139.828)">
+        <tspan x="-29.08" y="6.5" font-family="GillSans" font-size="21" fill="#FFFFFE">Driver</tspan>
+      </text>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 374.7, 40)">
+      <tspan x="-48.45" y="6.5" font-family="GillSans" font-size="21" fill="#1C418D">Replica Set</tspan>
+    </text>
+    <g>
+      <path d="M976.049,448.172 C976.049,447.032 974.002,446.108 971.472,446.108 L839.717,446.108 C837.19,446.108 835.14,447.032 835.14,448.172 L835.14,507.608 C835.14,508.749 837.19,509.673 839.717,509.673 L971.472,509.673 C974.002,509.673 976.049,508.749 976.049,507.608 L976.049,448.172" fill="#6CB340"/>
+      <path d="M976.049,448.172 C976.049,447.032 974.002,446.108 971.472,446.108 L839.717,446.108 C837.19,446.108 835.14,447.032 835.14,448.172 L835.14,507.608 C835.14,508.749 837.19,509.673 839.717,509.673 L971.472,509.673 C974.002,509.673 976.049,508.749 976.049,507.608 L976.049,448.172" fill-opacity="0" stroke="#BBDB88" stroke-width="1" stroke-dasharray="3,2"/>
+    </g>
+    <g>
+      <path d="M969.004,456.436 C969.004,455.296 966.956,454.373 964.427,454.373 L832.671,454.373 C830.144,454.373 828.095,455.296 828.095,456.436 L828.095,515.873 C828.095,517.013 830.144,517.938 832.671,517.938 L964.427,517.938 C966.956,517.938 969.004,517.013 969.004,515.873 L969.004,456.436" fill="#6CB340"/>
+      <path d="M969.004,456.436 C969.004,455.296 966.956,454.373 964.427,454.373 L832.671,454.373 C830.144,454.373 828.095,455.296 828.095,456.436 L828.095,515.873 C828.095,517.013 830.144,517.938 832.671,517.938 L964.427,517.938 C966.956,517.938 969.004,517.013 969.004,515.873 L969.004,456.436" fill-opacity="0" stroke="#ADCB7E" stroke-width="1" stroke-dasharray="3,2"/>
+    </g>
+    <g>
+      <g>
+        <path d="M960.876,464.607 C960.876,463.467 958.829,462.543 956.299,462.543 L824.544,462.543 C822.017,462.543 819.967,463.467 819.967,464.607 L819.967,524.043 C819.967,525.184 822.017,526.108 824.544,526.108 L956.299,526.108 C958.829,526.108 960.876,525.184 960.876,524.043 L960.876,464.607" fill="#6CB340"/>
+        <path d="M960.876,464.607 C960.876,463.467 958.829,462.543 956.299,462.543 L824.544,462.543 C822.017,462.543 819.967,463.467 819.967,464.607 L819.967,524.043 C819.967,525.184 822.017,526.108 824.544,526.108 L956.299,526.108 C958.829,526.108 960.876,525.184 960.876,524.043 L960.876,464.607" fill-opacity="0" stroke="#BBDB88" stroke-width="1" stroke-dasharray="3,2"/>
+      </g>
+      <text transform="matrix(1, 0, 0, 1, 890.422, 487.528)">
+        <tspan x="-30.23" y="6.5" font-family="GillSans" font-size="21" fill="#FFFFFE">Shards</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 890.422, 511.528)">
+        <tspan x="-54.641" y="6.5" font-family="GillSans" font-size="21" fill="#FFFFFE">(replica sets)</tspan>
+      </text>
+    </g>
+    <g>
+      <g>
+        <path d="M748.049,448.156 C748.049,447.025 745.993,446.108 743.453,446.108 L611.143,446.108 C608.605,446.108 606.547,447.025 606.547,448.156 L606.547,507.141 C606.547,508.272 608.605,509.19 611.143,509.19 L743.453,509.19 C745.993,509.19 748.049,508.272 748.049,507.141 L748.049,448.156" fill="#EE9C02"/>
+        <path d="M748.049,448.156 C748.049,447.025 745.993,446.108 743.453,446.108 L611.143,446.108 C608.605,446.108 606.547,447.025 606.547,448.156 L606.547,507.141 C606.547,508.272 608.605,509.19 611.143,509.19 L743.453,509.19 C745.993,509.19 748.049,508.272 748.049,507.141 L748.049,448.156" fill-opacity="0" stroke="#F9DCA0" stroke-width="1" stroke-dasharray="3,2"/>
+      </g>
+      <g>
+        <path d="M740.974,456.357 C740.974,455.227 738.918,454.31 736.378,454.31 L604.068,454.31 C601.53,454.31 599.472,455.227 599.472,456.357 L599.472,515.342 C599.472,516.474 601.53,517.391 604.068,517.391 L736.378,517.391 C738.918,517.391 740.974,516.474 740.974,515.342 L740.974,456.357" fill="#EE9C02"/>
+        <path d="M740.974,456.357 C740.974,455.227 738.918,454.31 736.378,454.31 L604.068,454.31 C601.53,454.31 599.472,455.227 599.472,456.357 L599.472,515.342 C599.472,516.474 601.53,517.391 604.068,517.391 L736.378,517.391 C738.918,517.391 740.974,516.474 740.974,515.342 L740.974,456.357" fill-opacity="0" stroke="#F9DCA0" stroke-width="1" stroke-dasharray="3,2"/>
+      </g>
+      <g>
+        <path d="M734.739,464.466 C734.739,463.335 732.683,462.418 730.143,462.418 L597.833,462.418 C595.295,462.418 593.237,463.335 593.237,464.466 L593.237,523.451 C593.237,524.582 595.295,525.5 597.833,525.5 L730.143,525.5 C732.683,525.5 734.739,524.582 734.739,523.451 L734.739,464.466" fill="#EE9C02"/>
+        <path d="M734.739,464.466 C734.739,463.335 732.683,462.418 730.143,462.418 L597.833,462.418 C595.295,462.418 593.237,463.335 593.237,464.466 L593.237,523.451 C593.237,524.582 595.295,525.5 597.833,525.5 L730.143,525.5 C732.683,525.5 734.739,524.582 734.739,523.451 L734.739,464.466" fill-opacity="0" stroke="#F9DCA0" stroke-width="1" stroke-dasharray="3,2"/>
+      </g>
+      <text transform="matrix(1, 0, 0, 1, 664.124, 487.82)">
+        <tspan x="-60.199" y="6.5" font-family="GillSans" font-size="21" fill="#FFFFFF">Config Server</tspan>
+      </text>
+    </g>
+    <g>
+      <path d="M768.244,486.487 L800.854,485.727" fill-opacity="0" stroke="#B2B2B2" stroke-width="5" stroke-dasharray="10,10"/>
+      <g>
+        <path d="M768.118,481.089 L753.848,486.823 L768.37,491.886 z" fill="#B2B2B2"/>
+        <path d="M768.118,481.089 L753.848,486.823 L768.37,491.886 z" fill-opacity="0" stroke="#B2B2B2" stroke-width="5"/>
+      </g>
+      <g>
+        <path d="M800.98,491.126 L815.25,485.392 L800.728,480.329 z" fill="#B2B2B2"/>
+        <path d="M800.98,491.126 L815.25,485.392 L800.728,480.329 z" fill-opacity="0" stroke="#B2B2B2" stroke-width="5"/>
+      </g>
+    </g>
+    <g>
+      <g>
+        <path d="M859.604,292.09 C859.604,291.212 857.453,290.5 854.797,290.5 L716.411,290.5 C713.757,290.5 711.604,291.212 711.604,292.09 L711.604,337.908 C711.604,338.787 713.757,339.5 716.411,339.5 L854.797,339.5 C857.453,339.5 859.604,338.787 859.604,337.908 L859.604,292.09" fill="#B2B2B2"/>
+        <text transform="matrix(1, 0, 0, 1, 785.604, 315)">
+          <tspan x="-38.761" y="7.5" font-family="GillSans" font-size="24" fill="#FFFFFF">mongos</tspan>
+        </text>
+      </g>
+      <g>
+        <text transform="matrix(1, -0.001, 0.001, 1, 750.939, 173.224)">
+          <tspan x="-30.36" y="6.5" font-family="GillSans" font-size="21" fill="#3299CC">Writes</tspan>
+        </text>
+      </g>
+      <g>
+        <path d="M750.95,190.797 L750.939,261.597" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
+        <g>
+          <path d="M745.539,261.596 L750.937,275.997 L756.339,261.598 z" fill="#3299CC"/>
+          <path d="M745.539,261.596 L750.937,275.997 L756.339,261.598 z" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
+        </g>
+      </g>
+      <text transform="matrix(1, 0, 0, 1, 813.389, 173.197)">
+        <tspan x="-25.918" y="6.5" font-family="GillSans" font-size="21" fill="#5A5955">Reads</tspan>
+      </text>
+      <g>
+        <path d="M813.4,190.797 L813.389,261.597" fill-opacity="0" stroke="#5A5955" stroke-width="5"/>
+        <g>
+          <path d="M807.989,261.597 L813.386,275.997 L818.789,261.598 z" fill="#5A5955"/>
+          <path d="M807.989,261.597 L813.386,275.997 L818.789,261.598 z" fill-opacity="0" stroke="#5A5955" stroke-width="5"/>
+        </g>
       </g>
       <g>
         <g>
-          <text transform="matrix(1, -0.002, 0.002, 1, 340.066, 177.02)">
-            <tspan x="-29.442" y="0.994" font-family="GillSans" font-size="21" fill="#3299CC">W</tspan>
-            <tspan x="-8.61" y="0.994" font-family="GillSans" font-size="21" fill="#3299CC">rites</tspan>
-          </text>
           <g>
-            <path d="M340.994,189.591 L340.982,260.391" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
-            <path d="M335.582,260.39 L340.98,274.791 L346.382,260.392 z" fill="#3299CC" fill-opacity="1" stroke="#3299CC" stroke-width="5" stroke-opacity="1"/>
+            <path d="M715.303,155.891 C715.303,157.229 715.77,158.312 716.346,158.312 L843.53,158.312 C844.106,158.312 844.572,157.229 844.572,155.891 L844.572,99.566 C844.572,98.229 844.106,97.146 843.53,97.146 L716.346,97.146 C715.77,97.146 715.303,98.229 715.303,99.566 L715.303,155.891" fill="#5A5955"/>
+            <path d="M716.99,128.229 L844.184,128.229" fill-opacity="0" stroke="#F0EFED" stroke-width="1"/>
           </g>
-        </g>
-        <g>
-          <text transform="matrix(1, 0, -0, 1, 402.092, 171.449)">
-            <tspan x="-25.245" y="6.5" font-family="GillSans" font-size="21" fill="#5A5955">Reads</tspan>
+          <text transform="matrix(1, 0, 0, 1, 779.938, 110.495)">
+            <tspan x="-48.304" y="6.5" font-family="GillSans" font-size="21" fill="#FFFFFE">Application</tspan>
           </text>
-          <g>
-            <path d="M404.374,189.449 L404.363,260.249" fill-opacity="0" stroke="#5A5955" stroke-width="5"/>
-            <path d="M398.963,260.248 L404.361,274.649 L409.763,260.249 z" fill="#5A5955" fill-opacity="1" stroke="#5A5955" stroke-width="5" stroke-opacity="1"/>
-          </g>
+          <text transform="matrix(1, 0, 0, 1, 779.938, 139.828)">
+            <tspan x="-29.08" y="6.5" font-family="GillSans" font-size="21" fill="#FFFFFE">Driver</tspan>
+          </text>
         </g>
-      </g>
-      <g>
-        <path d="M407.15,334.794 L459.593,419.637" fill-opacity="0" stroke="#3299CC" stroke-width="6"/>
-        <path d="M454.489,422.792 L468.005,433.247 L464.697,416.482 z" fill="#3299CC" fill-opacity="1" stroke="#3299CC" stroke-width="6" stroke-opacity="1"/>
-      </g>
-      <g>
-        <path d="M376.366,446.59 C376.366,445.712 374.215,445 371.559,445 L233.173,445 C230.519,445 228.366,445.712 228.366,446.59 L228.366,492.408 C228.366,493.287 230.519,494 233.173,494 L371.559,494 C374.215,494 376.366,493.287 376.366,492.408 L376.366,446.59" fill="#6CB340"/>
-        <text transform="matrix(1, -0, 0, 1, 302.366, 469.683)">
-          <tspan x="-39.615" y="6.169" font-family="GillSans" font-size="24" fill="#FFFFFE">mongod</tspan>
-        </text>
-      </g>
-      <g>
-        <path d="M543.134,446.59 C543.134,445.712 540.984,445 538.327,445 L399.941,445 C397.287,445 395.134,445.712 395.134,446.59 L395.134,492.408 C395.134,493.287 397.287,494 399.941,494 L538.327,494 C540.984,494 543.134,493.287 543.134,492.408 L543.134,446.59" fill="#6CB340"/>
-        <text transform="matrix(1, -0, 0, 1, 469.134, 469.683)">
-          <tspan x="-39.615" y="6.169" font-family="GillSans" font-size="24" fill="#FFFFFE">mongod</tspan>
-        </text>
-      </g>
-      <g>
-        <path d="M437.339,284.59 C437.339,283.712 435.189,283 432.532,283 L294.146,283 C291.492,283 289.339,283.712 289.339,284.59 L289.339,330.408 C289.339,331.287 291.492,332 294.146,332 L432.532,332 C435.189,332 437.339,331.287 437.339,330.408 L437.339,284.59" fill="#3299CC"/>
-        <text transform="matrix(1, -0, 0, 1, 363.339, 307.683)">
-          <tspan x="-39.615" y="6.169" font-family="GillSans" font-size="24" fill="#FFFFFF">mongod</tspan>
-        </text>
-      </g>
-    </g>
-    <text transform="matrix(1, 0, 0, 1, 385.75, 39)">
-      <tspan x="-57.75" y="6.5" font-family="Inconsolata" font-size="21" fill="#1C418D">Replica Set</tspan>
-    </text>
-    <g>
-      <path d="M689.82,152.891 C689.82,154.229 690.287,155.312 690.863,155.312 L818.047,155.312 C818.623,155.312 819.089,154.229 819.089,152.891 L819.089,96.566 C819.089,95.229 818.623,94.146 818.047,94.146 L690.863,94.146 C690.287,94.146 689.82,95.229 689.82,96.566 L689.82,152.891" fill="#5A5955"/>
-      <path d="M691.507,125.229 L818.701,125.229" fill-opacity="0" stroke="#F0EFED" stroke-width="1"/>
-    </g>
-    <text transform="matrix(1, 0, -0, 1, 754.455, 110.246)">
-      <tspan x="-49.196" y="4.75" font-family="GillSans" font-size="21" fill="#FFFFFE"> </tspan>
-      <tspan x="-46.863" y="4.75" font-family="GillSans" font-size="21" fill="#FFFFFE">Application</tspan>
-    </text>
-    <text transform="matrix(1, 0, -0, 1, 754.205, 139.079)">
-      <tspan x="-27.911" y="4.25" font-family="GillSans" font-size="21" fill="#FFFFFE">Driver</tspan>
-    </text>
-    <g>
-      <path d="M718.731,352.042 L687.519,426.708" fill-opacity="0" stroke="#B2B2B2" stroke-width="5" stroke-dasharray="10,10"/>
-      <path d="M723.713,354.125 L724.284,338.756 L713.748,349.96 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
-      <path d="M682.537,424.626 L681.966,439.994 L692.501,428.791 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
-    </g>
-    <text transform="matrix(1, -0.002, 0.002, 1, 725.932, 177.02)">
-      <tspan x="-29.442" y="0.994" font-family="GillSans" font-size="21" fill="#3299CC">W</tspan>
-      <tspan x="-8.61" y="0.994" font-family="GillSans" font-size="21" fill="#3299CC">rites</tspan>
-    </text>
-    <g>
-      <path d="M726.859,189.591 L726.848,260.391" fill-opacity="0" stroke="#3299CC" stroke-width="5"/>
-      <path d="M721.448,260.39 L726.846,274.791 L732.248,260.392 z" fill="#3299CC" fill-opacity="1" stroke="#3299CC" stroke-width="5" stroke-opacity="1"/>
-    </g>
-    <g>
-      <text transform="matrix(1, 0, -0, 1, 787.957, 171.449)">
-        <tspan x="-25.245" y="6.5" font-family="GillSans" font-size="21" fill="#5A5955">Reads</tspan>
-      </text>
-      <g>
-        <path d="M790.24,189.449 L790.229,260.249" fill-opacity="0" stroke="#5A5955" stroke-width="5"/>
-        <path d="M784.829,260.248 L790.226,274.649 L795.629,260.249 z" fill="#5A5955" fill-opacity="1" stroke="#5A5955" stroke-width="5" stroke-opacity="1"/>
-      </g>
-    </g>
-    <g>
-      <path d="M800.585,350.276 L844.931,422.019" fill-opacity="0" stroke="#B2B2B2" stroke-width="5"/>
-      <path d="M805.178,347.437 L793.014,338.027 L795.992,353.115 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
-      <path d="M840.337,424.858 L852.502,434.268 L849.524,419.18 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
-    </g>
-    <path d="M834.205,283.59 C834.205,282.712 832.054,282 829.397,282 L691.012,282 C688.358,282 686.205,282.712 686.205,283.59 L686.205,329.408 C686.205,330.287 688.358,331 691.012,331 L829.397,331 C832.054,331 834.205,330.287 834.205,329.408 L834.205,283.59" fill="#B2B2B2"/>
-    <text transform="matrix(1, -0, 0, 1, 760.205, 306.683)">
-      <tspan x="-38.115" y="6.169" font-family="GillSans" font-size="24" fill="#FFFFFF">mongos</tspan>
-    </text>
-    <g>
-      <g>
-        <path d="M973.5,448.172 C973.5,447.032 971.453,446.108 968.923,446.108 L837.168,446.108 C834.641,446.108 832.591,447.032 832.591,448.172 L832.591,507.608 C832.591,508.749 834.641,509.673 837.168,509.673 L968.923,509.673 C971.453,509.673 973.5,508.749 973.5,507.608 L973.5,448.172" fill="#6CB340"/>
-        <path d="M973.5,448.172 C973.5,447.032 971.453,446.108 968.923,446.108 L837.168,446.108 C834.641,446.108 832.591,447.032 832.591,448.172 L832.591,507.608 C832.591,508.749 834.641,509.673 837.168,509.673 L968.923,509.673 C971.453,509.673 973.5,508.749 973.5,507.608 L973.5,448.172" fill-opacity="0" stroke="#BBDB88" stroke-width="1" stroke-dasharray="3,2"/>
-      </g>
-      <g>
-        <path d="M966.455,456.436 C966.455,455.296 964.407,454.373 961.878,454.373 L830.122,454.373 C827.595,454.373 825.546,455.296 825.546,456.436 L825.546,515.873 C825.546,517.013 827.595,517.938 830.122,517.938 L961.878,517.938 C964.407,517.938 966.455,517.013 966.455,515.873 L966.455,456.436" fill="#6CB340"/>
-        <path d="M966.455,456.436 C966.455,455.296 964.407,454.373 961.878,454.373 L830.122,454.373 C827.595,454.373 825.546,455.296 825.546,456.436 L825.546,515.873 C825.546,517.013 827.595,517.938 830.122,517.938 L961.878,517.938 C964.407,517.938 966.455,517.013 966.455,515.873 L966.455,456.436" fill-opacity="0" stroke="#ADCB7E" stroke-width="1" stroke-dasharray="3,2"/>
-      </g>
-      <g>
-        <g>
-          <path d="M959.409,464.607 C959.409,463.467 957.362,462.543 954.832,462.543 L823.077,462.543 C820.55,462.543 818.5,463.467 818.5,464.607 L818.5,524.043 C818.5,525.184 820.55,526.108 823.077,526.108 L954.832,526.108 C957.362,526.108 959.409,525.184 959.409,524.043 L959.409,464.607" fill="#6CB340"/>
-          <path d="M959.409,464.607 C959.409,463.467 957.362,462.543 954.832,462.543 L823.077,462.543 C820.55,462.543 818.5,463.467 818.5,464.607 L818.5,524.043 C818.5,525.184 820.55,526.108 823.077,526.108 L954.832,526.108 C957.362,526.108 959.409,525.184 959.409,524.043 L959.409,464.607" fill-opacity="0" stroke="#BBDB88" stroke-width="1" stroke-dasharray="3,2"/>
-        </g>
-        <text transform="matrix(1, -0, 0, 1, 887.455, 500.528)">
-          <tspan x="-27.932" y="-5.5" font-family="GillSans" font-size="21" fill="#FFFFFE">Shards</tspan>
-          <tspan x="-54.223" y="18.5" font-family="GillSans" font-size="21" fill="#FFFFFE">(replica sets)</tspan>
+        <text transform="matrix(1, 0, 0, 1, 779.938, 40)">
+          <tspan x="-70.257" y="6.5" font-family="GillSans" font-size="21" fill="#1C418D">Sharded Cluster</tspan>
         </text>
       </g>
     </g>
     <g>
-      <g>
-        <path d="M745.5,449.156 C745.5,448.025 743.444,447.108 740.904,447.108 L608.594,447.108 C606.056,447.108 603.998,448.025 603.998,449.156 L603.998,508.141 C603.998,509.272 606.056,510.19 608.594,510.19 L740.904,510.19 C743.444,510.19 745.5,509.272 745.5,508.141 L745.5,449.156" fill="#EE9C02"/>
-        <path d="M745.5,449.156 C745.5,448.025 743.444,447.108 740.904,447.108 L608.594,447.108 C606.056,447.108 603.998,448.025 603.998,449.156 L603.998,508.141 C603.998,509.272 606.056,510.19 608.594,510.19 L740.904,510.19 C743.444,510.19 745.5,509.272 745.5,508.141 L745.5,449.156" fill-opacity="0" stroke="#F9DCA0" stroke-width="1" stroke-dasharray="3,2"/>
-      </g>
-      <g>
-        <path d="M738.425,457.357 C738.425,456.227 736.369,455.31 733.829,455.31 L601.519,455.31 C598.981,455.31 596.923,456.227 596.923,457.357 L596.923,516.342 C596.923,517.474 598.981,518.391 601.519,518.391 L733.829,518.391 C736.369,518.391 738.425,517.474 738.425,516.342 L738.425,457.357" fill="#EE9C02"/>
-        <path d="M738.425,457.357 C738.425,456.227 736.369,455.31 733.829,455.31 L601.519,455.31 C598.981,455.31 596.923,456.227 596.923,457.357 L596.923,516.342 C596.923,517.474 598.981,518.391 601.519,518.391 L733.829,518.391 C736.369,518.391 738.425,517.474 738.425,516.342 L738.425,457.357" fill-opacity="0" stroke="#F9DCA0" stroke-width="1" stroke-dasharray="3,2"/>
-      </g>
-      <g>
-        <path d="M732.19,465.466 C732.19,464.335 730.134,463.418 727.594,463.418 L595.284,463.418 C592.746,463.418 590.688,464.335 590.688,465.466 L590.688,524.451 C590.688,525.582 592.746,526.5 595.284,526.5 L727.594,526.5 C730.134,526.5 732.19,525.582 732.19,524.451 L732.19,465.466" fill="#EE9C02"/>
-        <path d="M732.19,465.466 C732.19,464.335 730.134,463.418 727.594,463.418 L595.284,463.418 C592.746,463.418 590.688,464.335 590.688,465.466 L590.688,524.451 C590.688,525.582 592.746,526.5 595.284,526.5 L727.594,526.5 C730.134,526.5 732.19,525.582 732.19,524.451 L732.19,465.466" fill-opacity="0" stroke="#F9DCA0" stroke-width="1" stroke-dasharray="3,2"/>
-      </g>
-      <text transform="matrix(1, 0, 0, 1, 663.634, 494.459)">
-        <tspan x="-62.257" y="1.861" font-family="GillSans" font-size="21" fill="#FFFFFF">Config Server</tspan>
-      </text>
+      <path d="M743.205,355.906 L712.521,427.28" fill-opacity="0" stroke="#B2B2B2" stroke-width="5" stroke-dasharray="10,10"/>
+      <path d="M748.166,358.038 L748.893,342.676 L738.244,353.773 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
+      <path d="M707.56,425.147 L706.834,440.509 L717.482,429.412 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
     </g>
     <g>
-      <path d="M765.695,496.684 L798.305,495.924" fill-opacity="0" stroke="#B2B2B2" stroke-width="5" stroke-dasharray="10,10"/>
-      <path d="M765.569,491.286 L751.299,497.02 L765.821,502.083 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
-      <path d="M798.431,501.323 L812.701,495.589 L798.179,490.526 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
+      <path d="M822.468,357.638 L854.254,430.331" fill-opacity="0" stroke="#B2B2B2" stroke-width="5"/>
+      <path d="M827.416,355.474 L816.699,344.444 L817.52,359.801 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
+      <path d="M849.307,432.494 L860.023,443.525 L859.202,428.167 z" fill="#B2B2B2" fill-opacity="1" stroke="#B2B2B2" stroke-width="5" stroke-opacity="1"/>
     </g>
-    <text transform="matrix(1, 0, 0, 1, 772.25, 42)">
-      <tspan x="-86.75" y="3.5" font-family="Inconsolata" font-size="21" fill="#1C418D">Sharded Cluster</tspan>
-    </text>
   </g>
 </svg>
