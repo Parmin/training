@@ -10,7 +10,7 @@ theme:
   book_path_base: 'MongoDB-training'
   repo: 'docs'
   jira: 'DOCS'
-  sitename: 'MongoDB Training'
+  sitename: 'MongoDB University'
   nav_excluded: []
 sidebars:
   '**':

@@ -78,7 +78,7 @@ Scaling with MongoDB
 --------------------
 
 .. figure:: /images/sharded-collection.png
-   :width: 700px
+   :width: 500px
    :align: center
 
 .. only:: instructor
@@ -94,7 +94,7 @@ Scaling with MongoDB
 Database Landscape
 ------------------
 
-.. figure:: /images/database-landscape.rst
+.. figure:: /images/database-landscape.png
    :width: 700px
    :align: center
 
@@ -108,7 +108,7 @@ Database Landscape
       - At the far right we have traditional RDBMS technologies. 
       - These are full featured, but will not scale easily. 
       - Joins and transactions are difficult to run in parallel.
-      - MongoDB has nearly as much scalability as key value stores.
+      - MongoDB has nearly as much scalability as key-value stores.
       - Gives up only the features that prevent scaling. 
       - We have compensating features that mitigate the impact of that design decision.
 

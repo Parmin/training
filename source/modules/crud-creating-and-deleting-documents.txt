@@ -56,7 +56,7 @@ Inserting Multiple Documents
 
 - You can bulk insert using an array of documents.
 - The default setting is an unordered insert.
-- If any given insert fails, the others will still be attempted.
+- If any given insert fails, MongoDB will still attempt the others.
 - In the next exercise, one insert will fail.
 - The others will succeed.
 
@@ -68,7 +68,7 @@ Ordered Insert
 
 - In many cases it is important to fail bulk inserts on error.
 - Use ``{ ordered : true }`` to ensure ordered inserts.
-- Only those documents inserted before the error will be inserted.
+- Only inserts occurring before the error will complete.
 
 .. include:: /exercises/crud-ordered-insert.txt
 

@@ -14,9 +14,9 @@ file: /modules/nav/aggregation
 description: |
   The MongoDB aggregation framework
 ---
-file: /modules/nav/schema-design
+file: /modules/schema-design.txt
 description: |
-  How to model data effectively
+  Data modeling in MongoDB.
 ---
 file: /modules/nav/replica-sets
 description: | 
@@ -26,7 +26,7 @@ file: /modules/nav/sharding
 description: | 
   Sharding in MongoDB
 ---
-file: /modules/nav/security
+file: /modules/security
 description: |
-  Security in MongoDB
+  An overview of security options for MongoDB.
 ...

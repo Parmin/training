@@ -3,12 +3,24 @@ MongoDB Stores Documents
 ========================
 
 
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- JSON
+- BSON basics
+- That documents are organized into collections
+- ObjectIds
+- Padding Factor
+
+
 JSON
 ----
 
 - JavaScript Object Notation
 - Objects are associative arrays.
-- They are composed of name/value pairs.
+- They are composed of key-value pairs.
 
 
 A Simple JSON Object
@@ -24,10 +36,10 @@ A Simple JSON Object
 
 
 
-JSON Field Names and Values
----------------------------
+JSON Keys and Values
+--------------------
 
-- Field names must be strings.
+- Keys must be strings.
 - Values may be any of the following:
 
   - string (e.g., "Thomas")
@@ -111,7 +123,7 @@ A More Complex BSON Example
 .. code-block:: javascript
 
    // JSON
-   { "favoriteThings" : [ "awesome", 5.05, 1986 ] }
+   { "BSON" : [ "awesome", 5.05, 1986 ] }
 
    // BSON
    "\x3b\x00\x00\x00\x04BSON\x00\x26\x00 
