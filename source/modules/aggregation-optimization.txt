@@ -47,8 +47,8 @@ Aggregation Limits
 Limits Prior to MongoDB 2.6
 ---------------------------
 
-- ``aggregate()`` returned results in a single document. 
-- The upper limit on pipeline memory usage was 16 MB.
+- ``aggregate()`` returned results in a single document up to 16 MB in size. 
+- The upper limit on pipeline memory usage was 10% of RAM.
 
 
 Optimization: Reducing Documents in the Pipeline
@@ -74,7 +74,7 @@ Optimization: Sorting
   - ``$project``
 
 - After these stages, the fields or their values change.
-- ``$sort`` will require a full scan of the documents.
+- ``$sort`` requires a full scan of the input documents.
 
 
 Automatic Optimizations
@@ -84,4 +84,5 @@ MongoDB will perform some optimizations automatically. For example:
 
 - If a ``$project`` stage is used late in the pipeline it may be used to eliminate those fields earlier if possible.
 - A ``$sort`` followed by a ``$match`` will be executed as a ``$match`` followed by a ``$sort`` to reduce the number of documents to be sorted.
+- A ``$skip`` followed by a ``$limit`` will be executed as a ``$limit`` followed by a ``$skip``, with the $limit parameter increased by the $skip amount to allow $sort + $limit coalescence.
 - See: :manual:`Aggregation Pipeline Optimation</core/aggregation-pipeline-optimization/>`
