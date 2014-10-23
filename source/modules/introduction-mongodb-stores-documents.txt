@@ -81,6 +81,7 @@ BSON
 - MongoDB drivers send and receive data in this format.
 - They map BSON to native data structures.
 - BSON provides support for all JSON data types and several others.
+- BSON was designed to be lightweight, traversable and efficient.
 - See bsonspec.org_.
 
 .. _bsonspec.org: http://bsonspec.org/#/specification

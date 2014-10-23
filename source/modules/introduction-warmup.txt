@@ -63,7 +63,7 @@ MongoDB Experience
 - The original idea for 10gen didn’t take off.
 - The founders looked at what they had and asked themselves what was popular. 
 - People really liked the data access layer.
-- The company focused on this aspect of the stack.
+- The company pivoted towards this aspect of the stack.
 
 
 Origin of MongoDB
