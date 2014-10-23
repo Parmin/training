@@ -41,7 +41,8 @@ A MongoDB document expressed using JSON syntax.
        "c" : { 
            "d" : 4 , 
            "e" : "asdf",
-           "f" : true
+           "f" : true,
+           "h" : ISODate("2014-10-23T01:19:40.732Z")
        }
    }   
 
