@@ -31,7 +31,7 @@ Installing MongoDB
 - Visit http://www.mongodb.org/downloads
 - Download and install the appropriate package for your machine.
 - Even-numbered builds are production releases, e.g., 2.4.x, 2.6.x.
-- Odd-numbers indicated development releases, e.g., 2.5.x, 2.7.x.
+- Odd-numbers indicate development releases, e.g., 2.5.x, 2.7.x.
 - 32-bit versions should NOT be used in production (limited to 2GB of data). They are acceptable for training classes.
 
 

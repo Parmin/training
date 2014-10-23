@@ -1,5 +1,5 @@
-Exercise: Inserts Specifying _id
---------------------------------
+Exercise: Inserts Specifying ``_id``
+------------------------------------
 
 Experiment with the following commands.
 

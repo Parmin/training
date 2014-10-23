@@ -38,7 +38,7 @@ Logical Query Operators
 - ``$and``: Match both of two or more values 
 
   - This is the default behavior for queries specifying more than one condition.
-  - Use $and if you need to include the same operator more than once in a query.
+  - Use ``$and`` if you need to include the same operator more than once in a query.
 
 
 .. include:: /exercises/crud-logical-operators.txt
@@ -47,8 +47,8 @@ Logical Query Operators
 Element Query Operators
 -----------------------
 
-- $exists: Returns the document if the field is present or not.
-- $type: Returns the document if the field is of the given type or not.
+- ``$exists``: Returns the document if the field is present or not.
+- ``$type``: Returns the document if the field is of the given type or not.
 - See :manual:`BSON types</reference/bson-types>` for reference on types.
 
 
@@ -59,10 +59,7 @@ Array Query Operators
 ---------------------
 
 - ``$all``: Array field must contain all values listed.
-- ``$size``: Array must have a particular size. 
-
-  - E.g., $size : 2 means 2 elements in the array
-
+- ``$size``: Array must have a particular size. E.g., ``$size : 2`` means 2 elements in the array
 - ``$elemMatch``: All conditions must be matched by at least one element in the array
 
 

@@ -11,7 +11,7 @@ Upon completing this module students should understand:
 - How to query on array elements
 - How to query embedded documents using dot notation
 - How the mongo shell and drivers use cursors
-- Cursor methods: .count(), .sort(), .skip(), .limit()
+- Cursor methods: ``.count()``, ``.sort()``, ``.skip()``, ``.limit()``
 
 
 The ``find()`` Method
@@ -104,10 +104,10 @@ The ``skip()`` Method
 The ``limit()`` Method
 ----------------------
 
-- Limits the number of documents in a result set to the first n.
-- Specify k as the argument to ``limit()``
+- Limits the number of documents in a result set to the first ``k``.
+- Specify ``k`` as the argument to ``limit()``
 - Regardless of the order in which you specify ``limit()``, ``skip()``, and ``sort()`` on a cursor, ``sort()`` happens first.
-- Helps reduce bandwidth consumed by queries.
+- Helps reduce resources consumed by queries.
 
 
 The ``distinct()`` Method
@@ -131,23 +131,5 @@ Experiment with the following commands and note what ``distinct()`` returns.
                         { a : "hello" },
                         { a : { hello : "world" } } ] )
    db.testcol.distinct( "a" )
-
-
-The ``stats()`` method
-----------------------
-
-- Used to get some statistics about a collection.
-
-  - count
-  - size (bytes)
-  - average document size (avgObjSize)
-
-- Most of the fields will be covered later, but you should know about them.
-
-- Syntax
-
-  .. code-block:: javascript
-
-     db.testcol.stats()
 
 

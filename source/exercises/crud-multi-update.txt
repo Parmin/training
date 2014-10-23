@@ -8,12 +8,13 @@ Exercise: Multi-Update
 
    db.testcol.update( { _id : { $lt : 5 } }, { a : 6 } )
 
-   db.testcol.update( { _id : { $lt : 5 } }, { a : 7 }, { multi : true } )
+   db.testcol.update( { _id : { $lt : 5 } }, { a : 7 }, 
+                      { multi : true } )
 
 .. only:: instructor
 
    .. note::
 
-      - db.testcol.update( { _id : { $lt : 5 } }, { a : 6 } ) only updates one document.
-      - db.testcol.update( { _id : { $lt : 5 } }, { a : 7 }, { multi : true } ) updates four documents.
+      - ``db.testcol.update( { _id : { $lt : 5 } }, { a : 6 } )`` only updates one document.
+      - ``db.testcol.update( { _id : { $lt : 5 } }, { a : 7 }, { multi : true } )`` updates four documents.
 

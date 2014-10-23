@@ -190,7 +190,7 @@ Storing BSON Documents
 - Strategies to reduce the effects of document growth:
 
   - Padding factor
-  - usePowerOf2Sizes
+  - ``usePowerOf2Sizes``
 
 
 Padding Factor
@@ -217,7 +217,7 @@ Padding Factor
 
 - When a document must move to a new location this leaves a fragment.  
 - MongoDB will attempt to fill this fragment with a new document eventually.  
-- As of MongoDB 2.6, collections have a setting called "usePowerOf2Sizes" enabled by default.  
+- As of MongoDB 2.6, collections have a setting called ``usePowerOf2Sizes`` enabled by default.  
 - This setting will round the size of the document up to the next power of 2. 
 - E.g, a document that 118 bytes will be allocated 128 bytes. 
 - If moved, the space can be filled with two 64-byte documents, four 32-byte documents, etc.
@@ -228,4 +228,4 @@ Padding Factor
 
       - Power of two sizes makes it easier for MongoDB to find new document to fill fragmented space. 
       - Power of two sizing was introduced in MongoDB 2.4, but must be enabled using the colMod operation.  
-      - If a collection is read only, users should disable usePowerof2Sizes in MongoDB 2.6 and above. 
+      - If a collection is read only, users should disable ``usePowerof2Sizes`` in MongoDB 2.6 and above. 

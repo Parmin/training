@@ -10,17 +10,15 @@ Experiment with the following updates.
        { _id : i, a : i, b: [ 1, 2, 3, 3, "NA", 6 ] } ) } 
 
    db.testcol.update( { _id : 1 }, { $push : { b : 3 } } ) 
-
    db.testcol.update( { _id : 2 }, { $pushAll : { b : [ 1, 2, 3 ] } } )
 
    db.testcol.update( { _id : 2 }, { $pop : { b : "" } } )  
 
    db.testcol.update( { _id : 3 }, { $pull : { b : 3 } } )  
-
-   db.testcol.update( { _id : 4 }, { $pullAll : { b : [ 1, 2, "NA", 4 ] } } )  
+   db.testcol.update( { _id : 4 }, 
+                      { $pullAll : { b : [ 1, 2, "NA", 4 ] } } )  
 
    db.testcol.update( { _id : 5 }, { $addToSet { b : 2 } } )  
-
    db.testcol.update( { _id : 5 }, { $addToSet { b : 4 } } )  
 
 
@@ -34,7 +32,7 @@ Experiment with the following updates.
 
            db.testcol.update( { _id : 1 }, { $push : { b : [ 3, 12 ] } } )  
  
-     - In { $pop : { b : "" } }, the value passed for ``b`` is just a placeholder. Most values will work fine.
-      - In { $pullAll : { b : [ 1, 2, "NA", 4 ] } } the value 4 is not present in the array found in ``b``. This has no effect on the update.
+      - In ``{ $pop : { b : "" } }``, the value passed for ``b`` is just a placeholder. Most values will work fine.
+      - In ``{ $pullAll : { b : [ 1, 2, "NA", 4 ] } }`` the value ``4`` is not present in the array found in ``b``. This has no effect on the update.
 
 

@@ -1,5 +1,5 @@
-Exercise: Querying with Dot Notation, Part 1
---------------------------------------------
+Exercise: Dot Notation, Part 1
+------------------------------
 
 Insert a few documents as follows.
 
@@ -22,8 +22,8 @@ Insert a few documents as follows.
                           number : 745 } } ] )
 
 
-Exercise: Querying with Dot Notation, Part 2
---------------------------------------------
+Exercise: Dot Notation, Part 2
+------------------------------
 
 Experiment with the following queries.
 

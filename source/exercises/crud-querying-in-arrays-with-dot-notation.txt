@@ -1,5 +1,5 @@
-Exercise: Querying Arrays using Dot Notation
---------------------------------------------
+Exercise: Arrays and Dot Notation
+---------------------------------
 
 Experiment with the following commands.
 

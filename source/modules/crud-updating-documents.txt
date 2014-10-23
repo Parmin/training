@@ -93,8 +93,8 @@ Update Operators
 - ``$rename``: Rename a field.
 - ``$set`` (already discussed)
 - ``$unset`` (already discussed)
-- ``$min``: Only update the value if it is smaller than the specified quantity
-- ``$max``: Only update the value if it is larger than the specified quantity
+- ``$min``: Update only if value is smaller than specified quantity
+- ``$max``: Update only if value is larger than specified quantity
 - ``$currentDate``: Set the value of a field to the current :manual:`Date or timestamp</reference/operator/update/currentDate/>`.
 
 
@@ -104,43 +104,79 @@ Update Operators
 Array Operators
 ---------------
 
-- These operators may be applied to array fields.
 - ``$push``: Appends an element to the end of the array.
 - ``$pushAll``: Appends multiple elements to the end of the array.
 - ``$pop``: Removes one element from the end of the array.
 - ``$pull``: Removes all elements in the array that match a specified value.
 - ``$pullAll``: Removes all elements in the array that match any of the specified values.
 - ``$addToSet``: Appends an element to the array if not already present.
-- ``$ Operator``: Acts as a placeholder for the first element that matches the query document and replaces that element with the specified value.
+
+.. only:: instructor
+
+   .. note::
+
+      - These operators may be applied to array fields.
+
 
 .. include:: /exercises/crud-update-array-operators.txt
+
+
+The ``$`` Operator
+------------------
+
+- :manual:`$</reference/operator/update/postional>` is a positional operator that specifies an element in an array to update.
+- It acts as a placeholder for the first element that matches the query document.
+- ``$`` replaces the element in the specified position with the value given.
+- Example:
+
+  .. code-block:: javascript
+
+     db.collection.update(
+         { <array> : value ... },
+         { <update operator> : { "<array>.$" : value } }
+     )
+
+
+Exercise: ``$``
+---------------
+
+Experiment with the following commands.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=5; i++) { db.testcol.insert(
+       { _id: i, a: i, b: [ 1, 2, 3, 3, "NA", 6 ] } ) }
+   db.testcol.find()
+
+   db.testcol.update( { b: "NA" }, { $set: { "b.$" : 11 } }, 
+                      { multi: true } )
+   db.testcol.find()
 
 
 Upserts
 -------
 
-- An upsert is an update with ``upsert : true`` set in the options document.
-- Use when you want to update fields.
-- But do not want to check first whether the documents to be updated already exist.
+- By default, if no document matches an update query, the ``update()`` method does nothing.
+- By specifying ``upsert: true``, ``update()`` will insert a new document if no matching document exists.
 - The ``db.collection.save()`` method is syntactic sugar that performs an upsert if the _id is not yet present
+- Syntax:
+
+  .. code-block:: javascript
+
+     db.collection.update( <query document>, <update document>, 
+                           { upsert: true } )
 
 
 Upsert Mechanics
 ----------------
 
-Syntax:
-
-``db.collection.update( query document, update document, { upsert : true } )``
-
-Mechanics:
-
 - Will update as usual if documents matching the query document exist.
-- The update will be an upsert if no documents match the query document.
-- For a document newly created as a result of an upsert:
+- Will be an upsert if no documents match the query document.
 
-  - MongoDB will add any fields uniquely specified in the query document to the new document.
-  - MongoDB will add an _id if the query did not specify one.
-  - The update will then be performed on the new document.
+  - MongoDB creates a new document using equality conditions in the query document.
+  - Adds an ``_id`` if the query did not specify one.
+  - Performs an update on the new document.
 
 
 Exercise: Upserts
@@ -151,14 +187,15 @@ Experiment with the following upserts.
 .. code-block:: javascript
 
    db.testcol.drop()
-   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i, b : i } ) }
+   for (i=1; i<=5; i++) { 
+       db.testcol.insert( { _id: i, a: i, b: i } ) }
    db.testcol.find()
 
-   db.testcol.update( { a : 4 }, { $inc : { b : 3 } }, { upsert : true } )
+   db.testcol.update( { a: 4 }, { $inc: { b : 3 } }, { upsert: true } )
 
-   db.testcol.update( { a : 12 }, { $inc : { b : 3 } }, { upsert : true } )
+   db.testcol.update( { a: 12 }, { $inc: { b : 3 } }, { upsert: true } )
 
-   db.testcol.update( { _id : 6, a : 6 }, { c : 155 }, { upsert : true } )
+   db.testcol.update( { _id: 6, a: 6 }, { c: 155 }, { upsert: true } )
 
 .. only:: instructor
 
@@ -166,26 +203,27 @@ Experiment with the following upserts.
 
       .. code-block:: javascript
 
-         // updates the document with a : 4 by incrementing b
-         db.testcol.update( { a : 4 }, { $inc : { b : 3 } }, { upsert : true } )
+         // updates the document with a: 4 by incrementing b
+         db.testcol.update( { a: 4 }, { $inc: { b : 3 } }, { upsert: true } )
 
          // 1) creates a new document, 2) assigns an _id, 3) sets a to 12, 
          // 4) performs the update
-         db.testcol.update( { a : 12 }, { $inc : { b : 3 } }, { upsert : true } )
+         db.testcol.update( { a: 12 }, { $inc: { b : 3 } }, { upsert: true } )
 
-         // 1) creates a new document, 2) sets _id : 6 and a : 6, 
+         // 1) creates a new document, 2) sets _id: 6 and a: 6, 
          // 3) update deletes a and sets c to 155.
-         db.testcol.update( { _id : 6, a : 6 }, { c : 155 }, { upsert : true } )
+         db.testcol.update( { _id: 6, a: 6 }, { c: 155 }, { upsert: true } )
 
 
 ``save()``
 ----------
 
-Syntax:
+- Updates the document if the _id is found, inserts it otherwise
+- Syntax:
 
-``db.collection.save( document )``
+  .. code-block:: javascript
 
-Updates the document if the _id is found, inserts it otherwise
+     db.collection.save( document )
 
 
 Exercise: ``save()``

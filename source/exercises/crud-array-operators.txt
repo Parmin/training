@@ -14,15 +14,17 @@ Experiment with the following.
 
    db.testcol.find( { a : { $size : 3 } } )  
 
+   // 2 docs
    db.testcol.find( { a : { $elemMatch : { $gte : 2, $lte : 4 } } } )  
 
-   db.testcol.find( { a : { $lte : 2 , $gte : 2 } } )  // 3 docs
+   // 3 docs
+   db.testcol.find( { a : { $gte : 2, $lte : 4 } } )  
 
 .. only:: instructor
 
    .. note::
 
-      - Comparing the last queries demonstrates $elemMatch.
-      - For the last query, there must be at least one element that matches each of the conditions.
-      - For the query using $elemMatch at least one element must match both conditions.
+      - Comparing the last two queries demonstrates ``$elemMatch``.
+      - For the query using ``$elemMatch`` at least one element must match both conditions.
+      - For the last query, there must be at least one element that matches each of the conditions. One element can match the ``$gte`` condition and another element can match the ``$lte`` condition.
 
