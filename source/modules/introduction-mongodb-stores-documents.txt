@@ -184,6 +184,7 @@ Storing BSON Documents
 ----------------------
 
 - Each document may be a different size from the others.
+- The maximum BSON document size is 16 megabytes.
 - Documents are physically adjacent to each other on disk and in memory.
 - If a document is updated in a way that makes it larger, MongoDB may move the document. 
 - This may cause fragmentation, resulting in unnecessary I/O.  
