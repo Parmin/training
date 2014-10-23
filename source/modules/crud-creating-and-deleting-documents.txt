@@ -120,14 +120,22 @@ Dropping a Collection
 - Indexes are one type of meta data removed.
 - More on meta data later.
 
+.. only:: instructor
+
+   .. note::
+
+      Mention that ``drop()`` is more performant than remove because of the lookup costs associated with ``remove()``.
+
+
 .. include:: /exercises/crud-dropping-a-collection.txt
 
 
 Dropping a Database
 -------------------
 
-- Removes the database on which the method is called.
-- All collections within the database are also removed.
+- You can drop an entire database with ``db.drop()``
+- This drops the database on which the method is called.
+- It also deletes the associated data files from disk, freeing disk space.
 - Beware that in the mongo shell, this does not change database context.  
 
 

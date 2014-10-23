@@ -245,4 +245,23 @@ Exercise: ``save()``
    db.testcol.save( { _id : 3, a : 12, b : 12  } )  // update!!
 
 
+Be Careful with ``save()``
+--------------------------
+
+Be careful that you are not modifying stale data when using ``save()``. For example:
+        
+.. code-block:: javascript
+
+   doc = db.testcol.findOne( { _id: 2 } )
+   doc.c = 11
+
+   db.testcol.update( { _id: 2 }, { $inc: { b : 1 } } )
+   doc = db.testcol.findOne( { _id: 2 } )
+
+   db.testcol.save(doc)
+   doc = db.testcol.findOne( { _id: 2 } )
+	   
+        
+
+
 
