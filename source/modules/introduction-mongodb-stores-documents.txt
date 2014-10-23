@@ -217,7 +217,7 @@ Padding Factor
 
 - When a document must move to a new location this leaves a fragment.  
 - MongoDB will attempt to fill this fragment with a new document eventually.  
-- As of MongoDB 2.6, collections have a setting called ``usePowerOf2Sizes`` enabled by default.  
+- As of MongoDB 2.6, collections have a setting called ``usePowerOf2Sizes`` enabled by default for newly created collections.  
 - This setting will round the size of the document up to the next power of 2. 
 - E.g, a document that 118 bytes will be allocated 128 bytes. 
 - If moved, the space can be filled with two 64-byte documents, four 32-byte documents, etc.
