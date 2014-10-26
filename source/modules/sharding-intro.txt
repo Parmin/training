@@ -6,7 +6,7 @@ Introduction to Sharding
 Learning Objectives
 -------------------
 
-Upon completing this module students should understand:
+Upon completing this module, students should understand:
 
 - What problems sharding solves
 - When sharding is appropriate
@@ -17,7 +17,7 @@ Upon completing this module students should understand:
 Contrast with Replication
 -------------------------
 
-- In an earlier module e discussed Replication.
+- In an earlier module, we discussed Replication.
 - This should never be confused with sharding. 
 - Replication is about high availability and durability.
 
@@ -83,14 +83,13 @@ Sharding - Overview
 - Connections work the same by default.
 
 
-An Model that Does Not Scale
+A Model that Does Not Scale
 ----------------------------
 
 .. figure:: /figures/load-latency-linear2.png
    :align: center
    :width: 500px
-   
-
+ 
 .. only:: instructor
 
    .. note::
@@ -215,7 +214,7 @@ When to Shard
 Possible Imbalance?
 -------------------
 
-- Data will tend to get unbalanced on your sharded cluster. 
+- Data can become unbalanced on your sharded cluster. 
 
   - Some shards might receive more inserts than others.
   - Some shards might have documents that grow more than those in other shards.

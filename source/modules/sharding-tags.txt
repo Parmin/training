@@ -31,14 +31,6 @@ Example: DateTime
 - Invest in high-performance servers for more frequently accessed data.
 
 
-Example: Premium Tier
----------------------
-
-- You have customers who want to pay for a "premium" tier.
-- Give them access to high performance servers.
-- Tag their document ranges appropriately.
-
-
 Example: Location
 -----------------
 
@@ -46,6 +38,26 @@ Example: Location
 - You include the country in the shard tag.
 - Maintain data centers within each country that house the appropriate shards.
 - Meets the country requirement but allows all servers to be part of the same system.
+
+
+Example: Premium Tier
+---------------------
+
+- You have customers who want to pay for a "premium" tier.
+- The shard key permits you to distinguish one customer's documents from all others.
+- Tag the document ranges for each customer so that their documents will be located on shards of the appropriate tier.
+- Shards tagged as premium tier run on high performance servers.
+- Other shards run on commodity hardware.
+- See :manual:`Manage Shard Tags</tutorial/administer-shard-tags/>`
+
+.. only:: instructor
+
+   .. note:: 
+
+      - As customers move from one tier to another it will be necessary to execute commands that either add a given customer's shard key range to the premium tag or remove that range from those tagged as "premium".
+      - During balancing rounds, if the balancer detects that any chunks are not on the correct shards per configured tags, the balancer migrates chunks in tagged ranges to shards associated with those tags.
+      - After re-configuring tags with a shard key range, and associating it with a shard or shards, the cluster may take some time to balance the data among the shards. 
+      See: `Tiered Storage Models in MongoDB: Optimizing Latency and Cost <http://blog.mongodb.org/post/85721044164/tiered-storage-models-in-mongodb-optimizing-latency>`_.
 
 
 Tags - Caveats

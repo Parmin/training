@@ -13,8 +13,4 @@ description: |
 file: /exercises/sharding-set-up-a-cluster
 description: |
   Deploying a sharded cluster.
----
-file: /exercises/sharding-lab
-description: |
-  A more extensive lab that exposes students to the mechanics of sharded clusters and some maintenance tasks.
 ...

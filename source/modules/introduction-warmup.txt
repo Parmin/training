@@ -13,6 +13,8 @@ Introductions
 - My role at MongoDB
 - My background and prior experience
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -32,6 +34,8 @@ Getting to Know You
 - What is your background?
 - Do you have prior experience with MongoDB?
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -45,6 +49,7 @@ Getting to Know You
         - Note this informaton as well.
 
 
+
 MongoDB Experience
 ------------------
 
@@ -53,6 +58,9 @@ MongoDB Experience
 - Who has worked with production MongoDB deployments?
 - Who is more of a developer?
 - Who is more of operations person?
+
+.. include:: /includes/student-notes.rst
+
 
 
 10gen
