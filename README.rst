@@ -2,8 +2,6 @@
 MongoDB Training
 ================
 
-test
-
 Introduction
 ------------
 
