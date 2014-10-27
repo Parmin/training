@@ -34,6 +34,7 @@ Tradeoffs
 - The good thing is that figuring out where to write, etc. is very efficient.
 - But we must have a byte-for-byte match of our data files on the primary and secondaries.
 - The problem is that this couples our replica set members in ways that are inflexible.
+- Binary replication may also replicate disk corruption.
 
 .. only:: instructor
 
@@ -51,6 +52,7 @@ Statement-Based Replication
 - Statement-based replication facilitates greater independence among members of a replica set.
 - MongoDB stores a statement for every operation in a capped collection called the ``oplog``.
 - Secondaries do not simply apply exactly the operation that was issued on the primary.
+
 
 Example
 -------
@@ -85,7 +87,8 @@ Replication Based on the Oplog
 .. only:: instructor
 
    .. note::
-
+      
+      - Can do maintenance without bringing the set down because statement-based replication does not depend on all nodes running the same version of MongoDB or other restrictions that may be imposed by binary replication.
       - In the next exercise, we will see that the oplog is designed so that each statement is idempotent.
       - This feature has several benefits for independent operation of nodes in replica sets.
 

@@ -1,9 +1,7 @@
 .. only:: student and latex
 
-   .. note::
+   Notes:
 
-      .. raw:: latex
+   .. raw:: latex
 
-         \vspace*{5\baselineskip}
-
-         % alternate: \vspace{50mm}
+      \vspace{50mm}

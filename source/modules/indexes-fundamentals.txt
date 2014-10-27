@@ -171,7 +171,6 @@ Use Indexes with Care
 - Any write operation that touches an indexed field will require each index to be updated.
 - Indexes require RAM.
 - Be judicious about the choice of key.
-- Do not repeat prefixes in your key values.
 
 .. only:: instructor
 
@@ -181,9 +180,4 @@ Use Indexes with Care
       - When you need to access those documents, they will need to be paged in again.
 
 
-
-
-    Please talk about sparse
-    Please talk about unique
-        Enforcement of single B-tree bucket to document pointer clause.
 

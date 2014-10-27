@@ -60,8 +60,8 @@ What happens following this network partition?
       - An arbiter is a ``mongod`` instance without data and performs only heartbeats, votes, and vetoes.
 
 
-Scenario D: 5 Data Nodes in 2 DCs
----------------------------------
+Scenario D: 5 Nodes in 2 DCs
+----------------------------
 
 The following is similar to Scenario C, but with the addition of an arbiter in Data Center 1. What happens here?
 
@@ -74,8 +74,6 @@ The following is similar to Scenario C, but with the addition of an arbiter in D
 
       - The current primary is likely to remain primary.
       - The arbiter helps ensure that the primary can reach a majority of the replica set.
-      - If DC2 fails, we still have a primary.
-      - If DC1 fails, we won't have a primary automatically. Either of the two remaining nodes in DC2 needs to be manually promoted by reconfiguring the replica set.
 
 
 Scenario E: 3 Data Nodes in 3 DCs
@@ -84,7 +82,8 @@ Scenario E: 3 Data Nodes in 3 DCs
 - What happens here if any one of the nodes/DCs fail? 
 - What about recovery time?
 
-.. include:: /images/replica-set-3nodes-1-per-dc.rst
+.. figure:: /images/replica-set-3nodes-1-per-dc.png
+   :width: 600px
 
 .. only:: instructor
 

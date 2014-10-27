@@ -18,6 +18,10 @@ file: /modules/indexes-TTL
 description: | 
   Time-To-Live Indexes.
 --- 
+file: /modules/indexes-hashed
+description: | 
+  Hashed Indexes.
+--- 
 file: /modules/indexes-text
 description: | 
   Free text indexes on string fields.

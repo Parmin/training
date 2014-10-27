@@ -20,7 +20,7 @@ Introduction to Compound Indexes
 - It is common to create indexes based on more than one field.
 - These are called ``compound indexes``.
 - You may use up to 31 fields in a compound index.  
-- You many not use hashed fields.
+- You many not use hashed index fields.
 
 
 The Order of Fields Matters

@@ -112,8 +112,8 @@ Example: Multikey Indexes on Multiple Fields
    db.testcol.insert( { _id : 2, x : [ 1, 2 ], y : 1 } )  
 
    // still OK
-   db.testcol.insert( { _id : 2, x : 1, y : [ 1, 2 ] } )  
+   db.testcol.insert( { _id : 3, x : 1, y : [ 1, 2 ] } )  
 
    // Won't work
-   db.testcol.insert( { _id : 2, x : [ 1, 2 ], y : [ 1, 2 ] } )
+   db.testcol.insert( { _id : 4, x : [ 1, 2 ], y : [ 1, 2 ] } )
 
