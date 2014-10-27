@@ -86,7 +86,12 @@ Start of a Balancing Round
   - 2 when the cluster has < 20 chunks
   - 4 when the cluster has 20-79 chunks
   - 8 when the cluster has 80+ chunks
-
+- Balancing is resource intensive for several reasons:
+  
+  - Chunk migration requires copying all the data in the chunk from one shard to another.
+  - MonogDB can migrate only a single chunk at a time.
+  - MongoDB creates splits only after an insert operation.
+- For these reasons, it is possible to define a balancing window, in which the balancer will only runduring scheduled times. 
 
 Chunk Migration Steps
 ---------------------
