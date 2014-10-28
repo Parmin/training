@@ -26,35 +26,6 @@ editions:
   - 'instructor'
   - 'student'
 ## --- ##
-instructor-base:
-  edition: 'instructor'
-  excluded_files: []
-student-base:
-  edition: 'student'
-## --- ##
-student-web-base:
-  inherit: student-base
-  tags:
-    - web
-    - website
-    - student
-student-print-base:
-  inherit: student-base
-  tags:
-    - print
-    - student
-instructor-web-base:
-  inherit: instructor-base
-  tags:
-    - web
-    - website
-    - instructor
-instructor-print-base:
-  inherit: instructor-base
-  tags:
-    - print
-    - instructor
-## --- ##
 dirhtml-student:
   inherit: student-web-base
 html-student:
@@ -92,4 +63,36 @@ gettext-instructor:
   inherit: instructor-web-base
 json-instructor:
   inherit: instructor-web-base
+## --- ##
+student-web-base:
+  inherit: student-base
+  tags:
+    - web
+    - website
+    - student
+  excluded_files: []
+student-print-base:
+  inherit: student-base
+  tags:
+    - print
+    - student
+instructor-web-base:
+  inherit: instructor-base
+  tags:
+    - web
+    - website
+    - instructor
+  excluded_files: []
+instructor-print-base:
+  inherit: instructor-base
+  tags:
+    - print
+    - instructor
+## --- ##
+instructor-base:
+  edition: 'instructor'
+  excluded_files: []
+student-base:
+  edition: 'student'
+  excluded_files: []
 ...
