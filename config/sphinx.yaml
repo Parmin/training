@@ -84,7 +84,7 @@ instructor-web-base:
     - website
     - instructor
   excluded_files:
-    - 'meta/introduction.txt'
+    - 'meta/one-day-fundamentals.txt'
 instructor-print-base:
   inherit: instructor-base
   tags:

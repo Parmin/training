@@ -17,6 +17,8 @@ Exercise: Multikey Indexes and Sorting
    db.testcol.find().sort( { x : -1 } )
 
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

@@ -11,6 +11,8 @@ Create a coordinate pair for each the following airports. Create one variable pe
 - Stansted (London): 51.8850° N, 0.2350° E
 - Luton (London): 51.9000° N, 0.4333° W
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -38,6 +40,8 @@ Exercise: Inserting geoJSON Objects (2)
 - Put all the London area airports into an array called ``londonPorts``.
 - Create a third array for flight numbers: "AA4453", "VA3333", "UA2440"
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -54,6 +58,8 @@ Exercise: Inserting geoJSON Objects (3)
 
 - Create documents for every possible New York to London flight.
 - Include a ``flightNumber`` field for each flight.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 

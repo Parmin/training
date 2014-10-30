@@ -12,6 +12,8 @@ Overview
   - To avoid any potential resource contention 
   - To provide isolation against server failure.
 
+.. include:: /includes/student-notes.rst
+
 
 Create Data Directories
 -----------------------
@@ -31,6 +33,10 @@ On Windows, run the following command instead in Command Prompt or PowerShell:
 
    md c:\data\rs1 c:\data\rs2 c:\data\rs3
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Launch Each Member
 ------------------
@@ -53,6 +59,8 @@ On Windows, run *each* of the following commands in its *own Command Prompt or P
    mongod --replSet myReplSet --dbpath c:\data\rs2 --port 27018 --oplogSize 200 --smallfiles
    mongod --replSet myReplSet --dbpath c:\data\rs3 --port 27019 --oplogSize 200 --smallfiles
 
+.. include:: /includes/student-notes.rst
+
 
 Status
 ------
@@ -61,6 +69,8 @@ Status
 - They were all launched with the same ``replSet`` parameter of "myReplSet".
 - Despite this, the members are not aware of each other yet.
 - This is fine for now.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -76,6 +86,8 @@ Status
       - The same configuration process is used for this deployment as for one that is distributed across multiple machines.
 
 
+.. include:: /includes/np.rst
+
 Connect to a MongoDB Instance
 -----------------------------
 
@@ -86,9 +98,13 @@ Connect to a MongoDB Instance
 
      mongo --port 27017
 
+.. include:: /includes/student-notes.rst
+
 
 Configure the Replica Set
 -------------------------
+
+Note the port number of the primary from the output of ``rs.status()``, which we'll need for the next step.
 
 .. code-block:: javascript
 
@@ -107,8 +123,10 @@ Configure the Replica Set
 
    exit    # or Ctrl-d
 
-Note the port number of the primary from the output of ``rs.status()``, which we'll need for the next step.
+.. include:: /includes/student-notes.rst
 
+
+.. include:: /includes/np.rst
 
 Write to the Primary
 --------------------
@@ -119,14 +137,14 @@ Connect to the primary with mongo shell by issuing a command such as the followi
 
    mongo --port <PRIMARY_PORT>   # e.g. 27017
 
-Now insert a simple test document via mongo shell:
+Now insert a simple test document via mongo shell. Once the insert succeeds, exit the mongo shell.
 
 .. code-block:: javascript
 
    db.testcol.insert({ a: 1 })
    db.testcol.count()
 
-Once the insert succeeds, exit the mongo shell.
+.. include:: /includes/student-notes.rst
 
 
 Read from a Secondary
@@ -145,6 +163,8 @@ Read from the secondary
    rs.slaveOk()
    db.testcol.find()
 
+.. include:: /includes/student-notes.rst
+
 
 Review the Oplog
 ----------------
@@ -154,17 +174,20 @@ Review the Oplog
    use local
    db.oplog.rs.find()
 
+.. include:: /includes/student-notes.rst
 
-Changing replica set configuration
+
+
+Changing Replica Set Configuration
 ----------------------------------
 
-To change the replica set configuration, say the priority of a secondary, first connect to the primary via mongo shell:
+To change the replica set configuration, first connect to the primary via mongo shell:
 
 .. code-block:: bash
 
    mongo --port <PRIMARY_PORT>   # e.g. 27017
 
-Now raise the priority of one of the secondaries. Assuming it is the 3rd node (e.g. on port 27019):
+Let's raise the priority of one of the secondaries. Assuming it is the 3rd node (e.g. on port 27019):
 
 .. code-block:: javascript
 
@@ -172,12 +195,19 @@ Now raise the priority of one of the secondaries. Assuming it is the 3rd node (e
    cfg["members"][2]["priority"] = 10
    rs.reconfig(cfg)
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
 
       - Note that ``cfg["members"][2]["priority"] = 10`` does not actually change the priority.
       - ``rs.reconfig(cfg)`` does.
+
+
+
+Verifying Configuration Change
+------------------------------
 
 You will see errors like the following, which is normal and expected:
 
@@ -200,6 +230,10 @@ The secondary will now become a primary. Wait a few seconds and check by running
 
    rs.status()
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Further Reading
 ---------------

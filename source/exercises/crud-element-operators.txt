@@ -16,3 +16,5 @@ Experiment with the following.
 
    // 2 docs; type 16 is 32-bit int
    db.testcol.find( { a : { $type : 16 } } )       
+
+.. include:: /includes/student-notes.rst

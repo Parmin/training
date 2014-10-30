@@ -14,6 +14,10 @@ Upon completing this module students should understand:
 - Write concern as a means of ensuring durability in MongoDB.
 - The different levels of write concern.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 What happens to the write?
 --------------------------
@@ -21,6 +25,8 @@ What happens to the write?
 - A write is sent to a primary.
 - The primary acknowledges the write to the client.
 - And then the primary becomes unavailable before a secondary can replicate the write
+
+.. include:: /includes/student-notes.rst
 
 
 Answer
@@ -36,6 +42,10 @@ Answer
 
 - This is default behavior in MongoDB and can be controlled using ``write concern``.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Balancing Durability with Performance
 -------------------------------------
@@ -56,6 +66,8 @@ Balancing Durability with Performance
       - Clients may adjust write concern to ensure that the most important operations persist successfully to an entire MongoDB deployment.
       - For other less critical operations, clients can adjust write concern to ensure faster performance.
 
+.. include:: /includes/student-notes.rst
+
 
 Defining Write Concern
 ----------------------
@@ -64,6 +76,10 @@ Defining Write Concern
 - Standardize on specific levels of write concerns for different classes of writes.
 - In the discussion that follows we will look at increasingly strict levels of write concern.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Write Concern: ``{ w : 1 }``
 ----------------------------
@@ -80,6 +96,8 @@ Write Concern: ``{ w : 1 }``
       - The primary sends an acknowledgement back to the client that it received the write operation (in RAM).
       - Allows clients to catch network, duplicate key, and other write errors.
 
+.. include:: /includes/student-notes.rst
+
 
 Example: ``{ w : 1 }``
 ----------------------
@@ -88,6 +106,10 @@ Example: ``{ w : 1 }``
 
    db.edges.insert({ from : "tom185", to : "mary_p" }, { w : 1 })
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Write Concern: ``{ w : 2 }``
 ----------------------------
@@ -103,6 +125,10 @@ Write Concern: ``{ w : 2 }``
       - Ensures the primary completed the write.
       - Ensures at least one secondary replicated the write.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Example: ``{ w : 2 }``
 ----------------------
@@ -115,6 +141,8 @@ Example: ``{ w : 2 }``
                           price : 45.79 } } },
                       { w : 2 })
 
+.. include:: /includes/student-notes.rst
+
 
 Other Write Concerns
 --------------------
@@ -123,6 +151,10 @@ Other Write Concerns
 - This guarantees that write operations have propagated to the specified number of members.
 - E.g., ``{ w : 3 }``, ``{ w : 4}``, etc.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Write Concern: ``{ w : "majority" }``
 ------------------------------------
@@ -133,9 +165,11 @@ Write Concern: ``{ w : "majority" }``
 - Using majority trades off performance for durability.
 - It is suitable for critical writes and to avoid rollbacks.
 
+.. include:: /includes/student-notes.rst
 
-Example: Majority
------------------
+
+Example: ``{ w : "majority" }``
+-------------------------------
 
 .. code-block:: javascript
 
@@ -143,7 +177,10 @@ Example: Majority
                       { $inc : { inStock : -1 } },
                       { w : "majority" })
 
+.. include:: /includes/student-notes.rst
 
+
+.. include:: /includes/np.rst
 
 Quiz: Which write concern?
 --------------------------
@@ -156,6 +193,8 @@ Suppose you have a replica set with 7 data nodes. Your application has critical 
 - { w : 4 }
 - { w : "majority" }
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -167,3 +206,4 @@ Further Reading
 ---------------
 
 See :manual:`Write Concern Reference</reference/write-concern>` for more details on write concern configurations, including setting timeouts and identifying specific replica set members that must acknowledge writes (i.e. :manual:`tag sets</tutorial/configure-replica-set-tag-sets/#replica-set-configuration-tag-sets>`).
+

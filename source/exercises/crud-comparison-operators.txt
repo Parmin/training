@@ -20,3 +20,5 @@ Experiment with the following.
 
    db.testcol.find( { a : { $nin : [ 3, 2 ] } } )  
 
+.. include:: /includes/student-notes.rst
+

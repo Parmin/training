@@ -3,6 +3,8 @@ Exercise: Using $near to Query geoJSON Objects
 
 New York City Hall is at 40.7127° N, 74.0059° W. How many flights are within 15 kilometers of that location?
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
   .. note::

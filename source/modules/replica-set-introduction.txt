@@ -11,6 +11,8 @@ Upon completing this module, students should understand:
 - The many scenarios replication addresses and why
 - How to avoid downtime and data loss using replication
 
+.. include:: /includes/student-notes.rst
+
 
 Use Cases for Replication
 -------------------------
@@ -19,6 +21,10 @@ Use Cases for Replication
 - Disaster Recovery
 - Functional Segregation
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 High Availability (HA)
 ----------------------
@@ -29,6 +35,8 @@ High Availability (HA)
   - Datacenter failure
 
 - This is achieved through automatic failover.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -54,6 +62,10 @@ Disaster Recovery (DR)
   - Hardware failure
   - Service interruption
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Functional Segregation
 ----------------------
@@ -63,6 +75,8 @@ There are opportunities to exploit the topology of a replica set.
 - Based on physical location (e.g. rack or datacenter location)
 - For analytics, reporting, data discovery, system tasks, etc.
 - For backups
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -85,6 +99,8 @@ Replication is Not Designed for Scaling
 
 - Consider sharding for scaling reads and writes.
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -93,12 +109,16 @@ Replication is Not Designed for Scaling
       - Potential system overload: For example, consider a 3 data node replica set using secondaries to scale reads. Each node is serving reads at 70% of its capacity, which is a reasonable utilization rate. What happens if one of the secondaries fail or is intentionally taken down for maintenance (e.g. upgrading the OS or MongoDB)? Even if the load splits evenly between the 2 remaining nodes, they will be at ``70+(70/2)= 105%`` capacity.
 
 
+.. include:: /includes/np.rst
+
 Replica Sets
 ------------
 
 .. figure:: /images/replica-set-read-write-operations-primary.png
    :width: 600px
    :align: center
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -113,12 +133,16 @@ Replica Sets
       - The secondaries elect a new primary automatically. A primary may also voluntarily step down, like when it can no longer reach the majority of nodes to avoid a potential split brain scenario.
 
 
+.. include:: /includes/np.rst
+
 Primary Server
 --------------
 
 - Clients send writes the primary only.
 - MongoDB, Inc. maintains client drivers in many programming languages like Java, C#, Python, Ruby, and PHP.
 - MongoDB drivers are replica set aware.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -135,6 +159,10 @@ Secondaries
 - Secondaries may also replicate from other secondaries. This is called replication chaining.
 - A secondary may become primary as a result of a failover scenario.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Heartbeats
 ----------
@@ -142,6 +170,8 @@ Heartbeats
 .. figure:: /images/replica-set-heartbeat.png
    :width: 600px
    :align: center
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -158,3 +188,5 @@ The Oplog
 - The operations log, or oplog, is a special capped collection that is the basis for replication.
 - The oplog maintains one entry for each document affected by every write operation.
 - Secondaries copy operations from the oplog of their sync source.
+
+.. include:: /includes/student-notes.rst

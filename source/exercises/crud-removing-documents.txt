@@ -17,3 +17,5 @@ Experiment with removing documents. Do a ``find()`` after each command below.
    db.testcol.remove()  // No documents removed
 
    db.testcol.remove( { } )  // All documents removed
+
+.. include:: /includes/student-notes.rst

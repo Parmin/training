@@ -8,3 +8,5 @@ Exercise: Dropping a Collection
 
    db.colToBeDropped.drop()
    show collections  // collection is gone
+
+.. include:: /includes/student-notes.rst

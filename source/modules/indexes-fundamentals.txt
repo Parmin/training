@@ -19,6 +19,9 @@ Upon completing this module students should understand:
      - Ask how many people in the room are familiar with indexes in a relational database. 
      - If the class is already familiar with indexes, just explain that they work the same way in MongoDB. 
 
+.. include:: /includes/student-notes.rst
+
+
 
 Why Indexes? 
 ------------
@@ -26,6 +29,8 @@ Why Indexes?
 .. figure:: /images/btree-index.png
    :width: 700px
    :align: center
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -38,6 +43,8 @@ Why Indexes?
       - MongoDB indexes are based on B-trees.
 
 
+.. include:: /includes/np.rst
+
 Types of Indexes
 ----------------
 
@@ -46,6 +53,8 @@ Types of Indexes
 - Multikey indexes
 - Geospatial indexes
 - Text indexes
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -68,6 +77,7 @@ Exercise: Using ``explain()``
 
    db.tweets.find( { "user.followers_count" : 1000 } ).explain()
 
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -77,6 +87,8 @@ Exercise: Using ``explain()``
       - Review the structure of documents in the tweets collection by doing a find().
       - We'll be looking at the user subdocument for documents in this collection.
 
+
+.. include:: /includes/np.rst
 
 Results of ``explain()``
 ------------------------
@@ -102,6 +114,8 @@ You will see results similar to the following.
        "filterSet" : false
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Understanding ``explain()`` Output
 ----------------------------------
@@ -112,6 +126,10 @@ Understanding ``explain()`` Output
 - An ``nscanned`` value much higher than ``nreturned`` indicates we need a different index.
 - Given ``nscannedObjects``, this query will benefit from an index. 
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Single-Field Indexes
 --------------------
@@ -119,6 +137,8 @@ Single-Field Indexes
 - Based on a single field of the documents in a collection
 - The field may be a top-level field
 - You may also create an index on fields in embedded documents
+
+.. include:: /includes/student-notes.rst
 
 
 Creating an Index
@@ -132,6 +152,8 @@ Creating an Index
    db.tweets.ensureIndex( { "user.followers_count" : 1 } )
    db.tweets.find( { "user.followers_count" : 1000 } ).explain()
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -140,6 +162,8 @@ Creating an Index
       - Operations teams are accustomed to thinking about indexes. 
       - With MongoDB, developers need to be more involved in the creation and use of indexes.
 
+
+.. include:: /includes/np.rst
 
 Indexes and Read/Write Performance
 ----------------------------------
@@ -154,6 +178,9 @@ Indexes and Read/Write Performance
   - Is updated in such a way that its indexed field changes
   - If an update causes a document to move on disk
 
+.. include:: /includes/student-notes.rst
+
+
 
 Index Limitations
 -----------------
@@ -162,6 +189,10 @@ Index Limitations
 - You should NEVER be anywhere close to that upper bound. 
 - Write performance will degrade to unusable at somewhere between 20-30.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Use Indexes with Care
 --------------------- 
@@ -172,12 +203,18 @@ Use Indexes with Care
 - Indexes require RAM.
 - Be judicious about the choice of key.
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
 
       - If your system has limited RAM, then using the index will force other data out of memory. 
       - When you need to access those documents, they will need to be paged in again.
+
+
+
+
 
 
 

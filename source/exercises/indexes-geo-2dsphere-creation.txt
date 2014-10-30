@@ -12,6 +12,8 @@ Exercise: Creating a 2dsphere Index
 - Specify a simple index on ``name``. 
 - Make the second index just a 2dsphere index on destination. 
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

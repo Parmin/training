@@ -17,6 +17,8 @@ Experiment with the following. Do a ``find()`` after each update to see the resu
 
    db.testcol.update( { a : 4 } , { _id : 0 } )
 
+.. include:: /includes/student-notes.rst
+
 
 .. only:: instructor
 

@@ -6,3 +6,5 @@ Write a query to find all documents in the testcol collection that have an xy fi
 .. code-block:: javascript
     
    db.testcol.find( { xy : { $geoWithin : { $center : [ [ -2.5, -0.5 ], 3 ] } } } 
+
+.. include:: /includes/student-notes.rst

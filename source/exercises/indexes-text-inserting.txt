@@ -16,3 +16,5 @@ Let's add some documents to our montyPython collection.
      dialog : "You're using coconuts!" },
    { _id : 55, 
      dialog : "What? A swallow carrying a coconut?" } ] )
+
+.. include:: /includes/student-notes.rst

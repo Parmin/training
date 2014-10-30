@@ -73,6 +73,8 @@ MongoDB Experience
 - People really liked the data access layer.
 - The company pivoted towards this aspect of the stack.
 
+.. include:: /includes/student-notes.rst
+
 
 Origin of MongoDB
 -----------------
@@ -86,4 +88,6 @@ Origin of MongoDB
   - The associated body of data grows.
   - Eventually the application outgrows the database.
   - Meeting performance requirements becomes difficult.
+
+.. include:: /includes/student-notes.rst
 

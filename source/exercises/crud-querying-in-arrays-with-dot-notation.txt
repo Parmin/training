@@ -21,6 +21,8 @@ Experiment with the following commands.
     db.things.find( { "examples.color" : "blue" } ) // two documents
     db.things.find( { "examples.color" : "red" } )  // three documents
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

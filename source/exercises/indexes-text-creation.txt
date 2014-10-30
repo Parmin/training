@@ -6,3 +6,5 @@ Create a text index on the "dialog" field of the montyPython collection.
 .. code-block:: javascript
 
    db.montyPython.ensureIndex( { dialog : "text" } )
+
+.. include:: /includes/student-notes.rst

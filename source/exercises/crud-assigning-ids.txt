@@ -9,6 +9,8 @@ Experiment with the following commands.
 
     db.testcol.find()
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

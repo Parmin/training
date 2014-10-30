@@ -165,7 +165,17 @@ latex_preamble_elements = [ r'\DeclareUnicodeCharacter{FF04}{\$}',
                             r'\PassOptionsToPackage{hyphens}{url}',
                             r'\usepackage{upquote}',
                             r'\pagestyle{plain}',
-                            r'\pagenumbering{arabic}' ]
+                            r'\pagenumbering{arabic}',
+                            r'\usepackage{titlesec}',
+                            r'\newcommand{\sectionbreak}{\clearpage}',
+                            r'\newcommand{\subsectionbreak}{\clearpage}',
+#                            r'\definecolor{TitleColor}{rgb}{0.421,0.640,0.222}',
+                            r'\definecolor{TitleColor}{rgb}{0.0,0.0,0.0}',
+                            r'\definecolor{InnerLinkColor}{rgb}{0.421,0.640,0.222}',
+                            r'\titleformat*{\section}{\Large\sffamily\bfseries}',
+                            r'\titleformat*{\subsection}{\Large\sffamily\bfseries}',
+                            r'\titleformat*{\subsubsection}{\Large\sffamily\bfseries}',
+                           ]
 latex_elements = {
     'preamble': '\n'.join(latex_preamble_elements),
     'pointsize': '10pt',
@@ -186,8 +196,6 @@ man_pages = []
 if 'manpages' in conf.system.files.data:
     for mp in conf.system.files.data.manpages:
         man_pages.append((mp.file, mp.name, mp.title, mp.authors, mp.section))
-
-
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.

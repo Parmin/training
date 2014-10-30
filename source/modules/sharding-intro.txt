@@ -13,6 +13,8 @@ Upon completing this module, students should understand:
 - The importance of the shard key and how to choose a good one
 - Why sharding increases the need for redundancy
 
+.. include:: /includes/student-notes.rst
+
 
 Contrast with Replication
 -------------------------
@@ -24,6 +26,11 @@ Contrast with Replication
   - Taking your data and constantly copying it 
   - Being ready to have another machine step in to field requests.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
+
 Sharding is Concerned with Scale
 --------------------------------
 
@@ -34,6 +41,8 @@ Sharding is Concerned with Scale
   - Vertical scaling
   - Horizontal scaling
 
+.. include:: /includes/student-notes.rst
+
 
 Vertical Scaling
 ----------------
@@ -42,6 +51,10 @@ Vertical Scaling
 - When is this the solution?  
 - First, consider a concept called the ``working set``.  
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 The Working Set
 ---------------
@@ -50,6 +63,7 @@ The Working Set
    :width: 700px
    :align: center
 
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -71,9 +85,11 @@ Limitations of Vertical Scaling
 - There may be requirements to have a large working set that no single machine could possible support.  
 - This is when it is time to scale horizontally.
 
+.. include:: /includes/student-notes.rst
 
-Sharding - Overview
--------------------
+
+Sharding Overview
+-----------------
 
 - MongoDB enables you to scale horizontally through sharding.
 - Sharding is about adding more capacity to your system.
@@ -82,14 +98,20 @@ Sharding - Overview
 - Queries are performed the same way as if sending operations to a single server.
 - Connections work the same by default.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 A Model that Does Not Scale
 ----------------------------
 
-.. figure:: /figures/load-latency-linear2.png
+.. figure:: /images/load-latency-linear2.png
    :align: center
    :width: 500px
  
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -99,12 +121,16 @@ A Model that Does Not Scale
       - Eventually latency is too great and the database has become a bottleneck.
 
 
+.. include:: /includes/np.rst
+
 A Scalable Model
 ----------------
 
-.. figure:: /figures/load-latency-scalable.png
+.. figure:: /images/load-latency-scalable.png
    :align: center
    :width: 500px
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -117,10 +143,14 @@ A Scalable Model
       - MongoDB scales vertically and horizontally (i.e., spreading out the load across several boxes)
 
 
+.. include:: /includes/np.rst
+
 Sharding Basics
 ---------------
 
 .. include:: /images/sharded-collection.rst
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -131,12 +161,16 @@ Sharding Basics
       - Depending on the operation and how your cluster is configured you may need to touch only one server to complete the operation.
 
 
+.. include:: /includes/np.rst
+
 Sharded Cluster Architecture
 ----------------------------
 
-.. figure:: /figures/sharded-cluster-no-config-servers.png
+.. figure:: /images/sharded-cluster-no-config-servers.png
    :align: center
    :width: 400px
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -151,6 +185,8 @@ Sharded Cluster Architecture
       - The server that routes requests is the mongos.
 
 
+.. include:: /includes/np.rst
+
 Mongos
 ------
 
@@ -159,6 +195,8 @@ Mongos
 - A sharded cluster can have as many mongos routers as required.  
 - It is typical for each application server to have one mongos.  
 - Always use more than one mongos to avoid a single point of failure.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -177,6 +215,8 @@ Config Servers
    :width: 600 px
    :align: center
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -194,6 +234,8 @@ Config Servers
       - You can access cluster metadata from a mongos by looking at the ``config`` db.
 
 
+.. include:: /includes/np.rst
+
 Config Server Hardware Requirements
 -----------------------------------
 
@@ -201,6 +243,8 @@ Config Server Hardware Requirements
 - A small amount of disk space (typically a few GB) 
 - A small amount of RAM (typically a few GB) 
 - The larger the sharded cluster, the greater the config server hardware requirements.  
+
+.. include:: /includes/student-notes.rst
 
 
 When to Shard
@@ -210,6 +254,10 @@ When to Shard
 - If your application is write heavy and you experiencing too much latency.
 - If your working set outgrows the memory you can allocate to a single machine.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Possible Imbalance?
 -------------------
@@ -225,6 +273,7 @@ Possible Imbalance?
   - Disk activity
   
 - This would defeat the purpose of sharding.
+.. include:: /includes/student-notes.rst
 
 
 Balancing Shards
@@ -240,6 +289,10 @@ Balancing Shards
 - The MongoDB balancer keeps chunks distributed across shards in equal numbers.
 - However, a balanced sharded cluster depends on a good shard key.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 What is a Shard Key?
 --------------------
@@ -251,6 +304,8 @@ What is a Shard Key?
 - It is used to route operations to the appropriate shard.
 - For reads and writes
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -259,6 +314,8 @@ What is a Shard Key?
       - When you insert a document, the shard key determines which server you will write to.
 
 
+.. include:: /includes/np.rst
+
 Example
 -------
 
@@ -266,6 +323,10 @@ Example
    :width: 400 px
    :align: center
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 With a Good Shard Key
 ---------------------
@@ -276,6 +337,8 @@ You might easily see that:
 - Writes are distributed across all servers.
 - Your disk usage is evenly distributed across shards.
 - Things stay this way as you scale.
+
+.. include:: /includes/student-notes.rst
 
 
 With a Bad Shard Key
@@ -288,6 +351,10 @@ You might see that:
 - Most of your data is on just a few shards.
 - Adding more shards to the cluster will not help.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Choosing a Shard Key
 --------------------
@@ -297,6 +364,8 @@ Generally, you want a shard key:
 - That has high cardinality
 - That is used in read queries
 - For which the values read and write operations use are randomly distributed
+
+.. include:: /includes/student-notes.rst
 
 
 More Specifically
@@ -309,6 +378,10 @@ More Specifically
   - Your shard key supports locality
   - Matching documents will reside on the same shard.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Cardinality
 -----------
@@ -320,6 +393,8 @@ Cardinality
 - Adding more servers will not help.
 - Hashing will not help.
 
+.. include:: /includes/student-notes.rst
+
 
 Non-Monotonic
 -------------
@@ -328,6 +403,8 @@ Non-Monotonic
 - Datetimes, counters, and ObjectIds make bad shard keys.
 - Monotonic shard keys cause all inserts to happen on the same shard.
 - Hashing will solve this problem.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
  
@@ -338,9 +415,13 @@ Non-Monotonic
       - And moving chunks has its own performance costs.
 
 
+.. include:: /includes/np.rst
+
 Shards Should be Replica Sets
 -----------------------------
 
 - As the number of shards increases, the number of servers in your deployment increases.
 - This increases the probability that one server will fail on any given day.
 - With redundancy built into each shard you can mitigate this risk.
+
+.. include:: /includes/student-notes.rst

@@ -20,6 +20,8 @@ Experiment with the following.
    // 3 docs
    db.testcol.find( { a : { $gte : 2, $lte : 4 } } )  
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

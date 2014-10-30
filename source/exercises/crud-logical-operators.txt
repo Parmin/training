@@ -14,6 +14,8 @@ Create a collection we can experiment with.
    db.testcol.insert( { b : 10 } )  // No "a" field
    db.testcol.find()                                          
 
+.. include:: /includes/student-notes.rst
+
 
 Exercise: Logical Operators
 ---------------------------
@@ -32,6 +34,8 @@ Experiment with the following.
 
    db.testcol.find( { $and : [ { $or : [ { a : 1 }, { a : 2 } ] }, 
                                { $or : [ { b : 2 }, { b : 3 } ] } ] } )
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 

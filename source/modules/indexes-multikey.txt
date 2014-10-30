@@ -14,6 +14,8 @@ Upon completing this module, students should understand:
 - How multikey indexes handle sorting
 - Some limitations on multikey indexes
 
+.. include:: /includes/student-notes.rst
+
 
 Introduction to Multikey Indexes
 --------------------------------
@@ -25,6 +27,10 @@ Introduction to Multikey Indexes
 - You created them using ``ensureIndex()`` just as you would with an ordinary single-field index.
 - If there is an array as a value for an indexed field, the index will be multikey on that field.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Example: Array of Numbers
 -------------------------
@@ -43,6 +49,8 @@ Example: Array of Numbers
     db.testcol.find( { "x.2" : 3 } )  
     db.testcol.find( { "x.2" : 3 } ).explain()  
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -57,9 +65,138 @@ Example: Array of Numbers
          db.testcol.find( { "x.2" : 3 } )  
 
 
-.. include:: /exercises/indexes-multikey-array-of-docs.txt
+Exercise: Array of Documents, Part 1
+------------------------------------
 
-.. include:: /exercises/indexes-multikey-arrays-of-arrays.txt
+Create a collection and add an index on the ``x`` field:
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   b = [ { x : [ { name : "Alice", number : 1 }, { name : "Bob", number : 2 },
+                 { name : "Cherry", number : 3 } ] },
+         { x : [ { name : "Cherry", number : 3 },
+                 { name : "Dan", number : 4 } ] },
+         { x : [ { name : "Dan", number : 4 },
+                 { name : "Erica", number : 5 } ] },
+         { x : { name : "Cherry", number : 3 } },
+               { name : "Dan", number : 4 } ]
+   db.testcol.insert(b)
+   db.testcol.ensureIndex( { x : 1 } )
+   db.testcol.find()
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - In this collection there are four documents. 
+      - In each document is an array, ``x``, containing subdocuments.
+      - Each subdocument has a name and number in it 
+      - Always the same number for each name.
+
+.. include:: /includes/np.rst
+
+Exercise: Array of Documents, Part 2
+------------------------------------
+
+For each of the three queries below:
+
+- How many documents will be returned?
+- Will it use our multi-key index? Why or why not?
+- If a query will not use the index, which index will it use?
+
+.. code-block:: javascript
+
+   db.testcol.find( { x : { name : "Cherry", number : 3 } } )
+   db.testcol.find( { x : { number : 3 } } )
+   db.testcol.find( { "x.number" : 3 } )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+     .. code-block:: javascript
+
+        // 3 documents
+        db.testcol.find( { x : { name : "Cherry", number : 3 } } )  
+        // Used the multi-key index. We pass a complete document for ``x``.
+        db.testcol.find( { x : { name : "Cherry", number : 3 } } ).explain()  
+
+        // 3 documents
+        db.testcol.find( { "x.number" : 3 } )  
+        // Does not use the multi-key index.
+        // ``x.number`` is only part of the document that is indexed.
+        db.testcol.find( { "x.number" : 3 } ).explain()
+     
+        // We would need to add an index such as this.
+        db.testcol.ensureIndex( { "x.number" : 1 } )
+        db.testcol.find( { "x.number" : 3 } ).explain()  
+
+
+Exercise: Array of Arrays, Part 1
+---------------------------------
+
+Add some documents and create an index:
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   db.testcol.ensureIndex( { x : 1 } )
+   c = [ { x : [ [ 1, 2 ], [ 2, 3 ], [ 3, 4] ] }, 
+         { x : [ [ 3, 4 ], [ 4, 5 ] ] },
+         { x : [ [ 4, 5 ], [ 5, 6 ] ] },
+         { x : [ 3, 4 ] },
+         { x : [ 4, 5 ] } ] 
+   db.testcol.insert(c)
+   db.testcol.ensureIndex( { x : 1 } )
+   db.testcol.find()
+
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
+
+Exercise: Array of Arrays, Part 2
+---------------------------------
+
+For each of the queries below:
+
+- How many documents will be returned? 
+- Does the query use the multi-key index? Why or why not?
+- If the query does not use the index, what is an index it could use?
+
+.. code-block:: javascript
+
+   db.testcol.find( { x : [ 3, 4 ] } )  
+   db.testcol.find( { x : 3 } )
+   db.testcol.find( { "x.1" : [ 4, 5 ] } )
+   db.testcol.find( { "x.1" : 4 } )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         // 3 documents
+         db.testcol.find( { x : [ 3, 4 ] } )  
+         // Uses the multi-key index
+         db.testcol.find( { x : [ 3, 4 ] } ).explain()  
+
+         // One document found, where the element of x is just a number.
+         db.testcol.find( { x : 3 } )  
+         // Used the index
+         db.testcol.find( { x : 3 } ).explain()  
+
+         db.testcol.find( { "x.1" : [ 4, 5 ] } ).explain() 
+         // Does not use the multi-key index, because it is naive to position.
+         db.testcol.find( { "x.1" : 4 } ).explain()
 
 
 How Multikey Indexes Work
@@ -69,6 +206,11 @@ How Multikey Indexes Work
 - So an array with 17 elements will have 17 entries -- one for each element.
 - Multikey indexes can take up much more space than standard indexes.
 
+.. include:: /includes/student-notes.rst
+
+
+
+.. include:: /includes/np.rst
 
 Multikey Indexes and Sorting
 ----------------------------
@@ -81,9 +223,13 @@ Multikey Indexes and Sorting
 - This applies to array values generally.
 - It is not a specific property of multikey indexes.
 
+.. include:: /includes/student-notes.rst
+
 
 .. include:: /exercises/indexes-multikey-sorting.txt
 
+
+.. include:: /includes/np.rst
 
 Limitations on Multikey Indexes
 -------------------------------
@@ -95,6 +241,8 @@ Limitations on Multikey Indexes
 - You cannot have a shard key use a multikey index 
 - We discuss shard keys in another module.
 - The index on the _id field cannot become a multikey index.
+
+.. include:: /includes/student-notes.rst
 
 
 Example: Multikey Indexes on Multiple Fields
@@ -116,4 +264,6 @@ Example: Multikey Indexes on Multiple Fields
 
    // Won't work
    db.testcol.insert( { _id : 4, x : [ 1, 2 ], y : [ 1, 2 ] } )
+
+.. include:: /includes/student-notes.rst
 

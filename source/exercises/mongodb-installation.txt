@@ -13,6 +13,8 @@ Upon completing this exercise students should understand:
 - How to run MongoDB
 - How to run the Mongo shell
 
+.. include:: /includes/student-notes.rst
+
 
 Production Releases
 -------------------
@@ -24,6 +26,9 @@ Production Releases
 - Linux
 - Solaris
 
+.. include:: /includes/student-notes.rst
+
+.. include:: /includes/np.rst
 
 Installing MongoDB
 ------------------
@@ -33,6 +38,8 @@ Installing MongoDB
 - Even-numbered builds are production releases, e.g., 2.4.x, 2.6.x.
 - Odd-numbers indicate development releases, e.g., 2.5.x, 2.7.x.
 - 32-bit versions should NOT be used in production (limited to 2GB of data). They are acceptable for training classes.
+
+.. include:: /includes/student-notes.rst
 
 
 Setup
@@ -46,6 +53,8 @@ Setup
 
    sudo chmod 770 /data/db
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -55,6 +64,8 @@ Setup
       - Make sure you have write permission on this directory.
 
 
+.. include:: /includes/np.rst
+
 Launch a ``mongod``
 -------------------
 
@@ -63,6 +74,8 @@ Launch a ``mongod``
    /<path_to_mongodb>/bin/mongod --help
 
    /<path_to_mongodb>/bin/mongod
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -100,12 +113,16 @@ Import Exercise Data
 
    mongorestore -d sample digg
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
       
       - Import the data provided on the USB drive into the *sample* database.
 
+
+.. include:: /includes/np.rst
 
 Launch a Mongo Shell
 --------------------
@@ -121,6 +138,8 @@ Display available commands.
 .. code-block:: bash
 
    help
+
+.. include:: /includes/student-notes.rst
 
 
 Explore Databases
@@ -140,6 +159,8 @@ To use a particular database we can type the following.
 
    db
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -149,6 +170,8 @@ To use a particular database we can type the following.
       - Highlight the power of the Mongo shell here. 
       - It is a fully programmable JavaScript environment.
 
+
+.. include:: /includes/np.rst
 
 Exploring Collections
 ---------------------
@@ -162,6 +185,7 @@ Exploring Collections
 
    db.collection.find()
 
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -186,6 +210,10 @@ Admin Commands
 - Confirm that the mongod process has indeed stopped. 
 - Once you have, please restart it. 
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 The MongoDB Data Directory
 --------------------------
@@ -204,6 +232,8 @@ The MongoDB Data Directory
 
   - The names of the files correspond to available databases.
   - A single database may have multiple files.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 

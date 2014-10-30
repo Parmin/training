@@ -7,3 +7,5 @@ Using the text index, find all documents in the montyPython collection with the 
 
    // Returns 3 documents.
    db.montyPython.find( { $text : { $search : "swallow" } } )
+
+.. include:: /includes/student-notes.rst

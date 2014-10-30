@@ -17,6 +17,8 @@ Exercise: Using ``count()``
    // Another way of writing the same query
    db.testcol.find( { a : { $lte : 42 } } ).count(  )  
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

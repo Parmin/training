@@ -14,6 +14,8 @@ Upon completing this module, students should understand:
 - ObjectIds
 - Padding Factor
 
+.. include:: /includes/student-notes.rst
+
 
 JSON
 ----
@@ -21,6 +23,8 @@ JSON
 - JavaScript Object Notation
 - Objects are associative arrays.
 - They are composed of key-value pairs.
+
+.. include:: /includes/student-notes.rst
 
 
 A Simple JSON Object
@@ -33,6 +37,8 @@ A Simple JSON Object
           "lastname" : "Smith",
           "age" : 29
       }
+
+.. include:: /includes/student-notes.rst
 
 
 
@@ -52,6 +58,9 @@ JSON Keys and Values
 - More detail at json.org_.
 
 .. _json.org: http://json.org/
+
+.. include:: /includes/student-notes.rst
+
 
 
 Example Field Values
@@ -73,6 +82,8 @@ Example Field Values
 	]
    }
 
+.. include:: /includes/student-notes.rst
+
 
 BSON
 ----
@@ -92,6 +103,8 @@ BSON
 
       E.g., a BSON object will be mapped to a dictionary in Python.      
 
+.. include:: /includes/student-notes.rst
+
 
 BSON Hello World
 ----------------
@@ -105,6 +118,7 @@ BSON Hello World
    "\x16\x00\x00\x00\x02hello\x00 
     \x06\x00\x00\x00world\x00\x00"
 
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -117,6 +131,8 @@ BSON Hello World
       - world\\x00 (field value) 
       - \\x00 (end of the document)
 
+
+.. include:: /includes/np.rst
 
 A More Complex BSON Example
 ---------------------------
@@ -132,6 +148,8 @@ A More Complex BSON Example
     \x00awesome\x00\x011\x00\x33\x33\x33\x33\x33\x33 
     \x14\x40\x102\x00\xc2\x07\x00\x00 
     \x00\x00"
+
+.. include:: /includes/student-notes.rst
 
 
 Documents, Collections, and Databases
@@ -150,6 +168,10 @@ Documents, Collections, and Databases
   - products.movies
   - products.music
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 The ``_id`` Field
 -----------------
@@ -161,6 +183,8 @@ The ``_id`` Field
 - Most drivers will actually create the ObjectId if no ``_id`` is specified.
 - The ``_id`` field is unique to a collection (namespace).
 
+.. include:: /includes/student-notes.rst
+
 
 ObjectIds
 ---------
@@ -168,6 +192,8 @@ ObjectIds
 .. figure:: /images/objectId.png
    :width: 700px
    :align: center
+
+.. include:: /includes/student-notes.rst
    
 
 .. only:: instructor
@@ -180,6 +206,8 @@ ObjectIds
       - Then a 2-byte process ID
       - Finally, 3 bytes that are monotonically increasing for each new ObjectId created within a collection. 
 
+
+.. include:: /includes/np.rst
 
 Storing BSON Documents
 ----------------------
@@ -194,6 +222,8 @@ Storing BSON Documents
   - Padding factor
   - ``usePowerOf2Sizes``
 
+.. include:: /includes/student-notes.rst
+
 
 Padding Factor
 --------------  
@@ -201,6 +231,8 @@ Padding Factor
 .. figure:: /images/padding.png
    :width: 700px
    :align: center
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -214,6 +246,8 @@ Padding Factor
       - This setting is not tunable; it is updated automatically.
 
 
+.. include:: /includes/np.rst
+
 ``usePowerOf2Sizes``
 --------------------
 
@@ -223,6 +257,8 @@ Padding Factor
 - This setting will round the size of the document up to the next power of 2. 
 - E.g, a document that 118 bytes will be allocated 128 bytes. 
 - If moved, the space can be filled with two 64-byte documents, four 32-byte documents, etc.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 

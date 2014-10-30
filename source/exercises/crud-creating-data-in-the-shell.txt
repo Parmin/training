@@ -11,3 +11,5 @@ Experiment with the following commands.
 
    db.stuff.find()
 
+.. include:: /includes/student-notes.rst
+

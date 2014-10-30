@@ -17,3 +17,5 @@ Find all documents in the montyPython collection with either the word 'coconut' 
             $meta : "textScore"
         }
     } ).sort( { score: { $meta: "textScore" } } )
+
+.. include:: /includes/student-notes.rst

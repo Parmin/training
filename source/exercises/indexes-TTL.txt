@@ -5,6 +5,8 @@ Create a TTL index on the 'ttl' collection that will delete documents older
 than 30 seconds. Write a script that will insert documents at a rate of one
 per second.
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
   ..note::
@@ -30,3 +32,4 @@ per second.
             print(db.foo.count());
             sleep(100);
         } 
+

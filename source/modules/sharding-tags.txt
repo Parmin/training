@@ -12,6 +12,8 @@ Upon completing this module students should understand:
 - Advantages of using shard tags
 - Potential drawbacks of shard tags
 
+.. include:: /includes/student-notes.rst
+
 
 Tags - Overview
 ---------------
@@ -19,6 +21,8 @@ Tags - Overview
 - Shard tags allow you to "tie" data to one or more shards.
 - A shard tag describes a range of shard key values.
 - If a chunk is in the shard tag range, it will live on a shard with that tag.
+
+.. include:: /includes/student-notes.rst
 
 
 Example: DateTime
@@ -30,6 +34,10 @@ Example: DateTime
 - These shards can be on cheaper, slower machines.
 - Invest in high-performance servers for more frequently accessed data.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Example: Location
 -----------------
@@ -38,6 +46,8 @@ Example: Location
 - You include the country in the shard tag.
 - Maintain data centers within each country that house the appropriate shards.
 - Meets the country requirement but allows all servers to be part of the same system.
+
+.. include:: /includes/student-notes.rst
 
 
 Example: Premium Tier
@@ -50,6 +60,8 @@ Example: Premium Tier
 - Other shards run on commodity hardware.
 - See :manual:`Manage Shard Tags</tutorial/administer-shard-tags/>`
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note:: 
@@ -60,6 +72,8 @@ Example: Premium Tier
       See: `Tiered Storage Models in MongoDB: Optimizing Latency and Cost <http://blog.mongodb.org/post/85721044164/tiered-storage-models-in-mongodb-optimizing-latency>`_.
 
 
+.. include:: /includes/np.rst
+
 Tags - Caveats
 --------------
 
@@ -68,3 +82,5 @@ Tags - Caveats
   - You're not only worrying about your overall server load, you're worrying about server load for each of your tags.
 
 - Your chunks will evenly distribute themselves across the available chunks. You cannot control things more fine grained than your tags.
+
+.. include:: /includes/student-notes.rst

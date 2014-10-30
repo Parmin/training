@@ -20,3 +20,5 @@ Experiment with the following update operators.
 
    db.testcol.update( { _id : 1 }, 
                       { $currentDate : { c : { $type : "timestamp" } } } )
+
+.. include:: /includes/student-notes.rst

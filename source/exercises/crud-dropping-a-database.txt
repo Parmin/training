@@ -15,3 +15,5 @@ Exercise: Dropping a Database
    show dbs  // The db is gone
 
    use test  // take us back to the test db
+
+.. include:: /includes/student-notes.rst

@@ -13,6 +13,8 @@ Upon completing this module students should understand:
 - How to efficiently handle queries involving some combination of equality matches, ranges, and sorting.
 - Some limitations on compound indexes.
 
+.. include:: /includes/student-notes.rst
+
 
 Introduction to Compound Indexes
 --------------------------------
@@ -22,6 +24,10 @@ Introduction to Compound Indexes
 - You may use up to 31 fields in a compound index.  
 - You many not use hashed index fields.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 The Order of Fields Matters
 ---------------------------
@@ -46,6 +52,8 @@ Specifically we want to consider how the index will be used for:
 
      db.example.find( { a : 15, b : 17 } ).sort( { b : -1 } )
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -62,6 +70,10 @@ Designing Compound Indexes
 - You can optimize after a little experimentation.
 - We will explore this in the context of a running example.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Example: A Simple Message Board
 -------------------------------
@@ -71,6 +83,8 @@ Requirements:
 - Find all messages in a specified timestamp range.
 - Select for whether the messages are anonymous or not.
 - Sort by rating from highest to lowest.
+
+.. include:: /includes/student-notes.rst
 
 
 Load the Data
@@ -85,6 +99,10 @@ Load the Data
          { "timestamp" : 5, "username" : "martha", "rating" : 5 } ]
    db.messages.insert(a)
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Start with a Simple Index
 -------------------------
@@ -101,7 +119,9 @@ Now let's query for messages with timestamp in the range 2 through 4 inclusive.
 
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 } } ).explain()
 
-.. only:: instructor::
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
 
    .. note::
 
@@ -118,6 +138,8 @@ Query Adding ``username``
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -125,6 +147,8 @@ Query Adding ``username``
       - Let's add the ``user`` field to our query.
       - Now ``nscanned`` > ``n``. 
 
+
+.. include:: /includes/np.rst
 
 Include ``username`` in Our Index
 ---------------------------------
@@ -136,6 +160,8 @@ Include ``username`` in Our Index
                             { name : "myindex" } )
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -158,6 +184,8 @@ timestamp  username
 5          "martha"
 =========  ===========
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -166,6 +194,8 @@ timestamp  username
       - The documents with timestamp values 2, 3, and 4 were found first.
       - Then the associated anonymous values had to be evaluated.
 
+
+.. include:: /includes/np.rst
 
 A Different Compound Index
 --------------------------
@@ -178,6 +208,8 @@ Drop the index and build a new one with user.
                             { name : "myindex" } )
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -199,6 +231,8 @@ username     timestamp
 "martha"     5
 ===========  =========
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -216,6 +250,10 @@ Let Selectivity Drive Field Order
 - When dealing with multiple equality values, start with the most selective.
 - If a common range query is more selective instead (rare), specify the range component first.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Adding in the Sort
 ------------------
@@ -228,6 +266,8 @@ Finally, let's add the sort and run the query.
                        timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -254,6 +294,8 @@ Let's modify the index again to allow the database to sort for us.
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -264,6 +306,8 @@ Let's modify the index again to allow the database to sort for us.
       - To have the index structured this way we need to specify the field for sorting (rating) before the range field (timestamp).
       - Note that this requires us to consider a tradeoff.
 
+
+.. include:: /includes/np.rst
 
 Avoiding an In-Memory Sort
 --------------------------
@@ -279,6 +323,8 @@ Rebuild the index as follows.
                        timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -298,4 +344,6 @@ General Rules of Thumb
 - Equality before range.
 - Equality before sorting.  
 - Sorting before range.
+
+.. include:: /includes/student-notes.rst
 

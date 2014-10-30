@@ -11,3 +11,5 @@ Exercise: Using $set with multi
 
                       { $set : { a : 1 } }, 
                       { multi : true } )
+
+.. include:: /includes/student-notes.rst

@@ -18,6 +18,8 @@ Experiment with the following sequence of commands.
 
    db.testcol.find( { b : 3, a : 7 } )
 
+.. include:: /includes/student-notes.rst
+
 
 .. only:: instructor
 

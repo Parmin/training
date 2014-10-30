@@ -16,6 +16,8 @@ Upon completing this module students should understand:
 - Embedded documents
 - Fundamentals of BSON
 
+.. include:: /includes/student-notes.rst
+
 
 MongoDB is a Document Database
 ------------------------------
@@ -27,6 +29,9 @@ Documents are associative arrays like:
 - PHP arrays
 - JSON objects
 
+.. include:: /includes/student-notes.rst
+
+.. include:: /includes/np.rst
 
 An Example MongoDB Document
 ---------------------------
@@ -46,6 +51,8 @@ A MongoDB document expressed using JSON syntax.
        }
    }   
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -55,12 +62,16 @@ A MongoDB document expressed using JSON syntax.
       - This is a fundamental departure from relational databases where rows are flat.
 
 
-Scalability
------------
+.. include:: /includes/np.rst
+
+Vertical Scaling
+----------------
 
 .. figure:: /images/vertical-scaling.png
    :width: 700px
    :align: center
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -75,12 +86,16 @@ Scalability
 
     
 
+.. include:: /includes/np.rst
+
 Scaling with MongoDB
 --------------------
 
 .. figure:: /images/sharded-collection.png
    :width: 500px
    :align: center
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -92,12 +107,16 @@ Scaling with MongoDB
       - MongoDB is highly performant on commodity hardware.	
 
 
+.. include:: /includes/np.rst
+
 Database Landscape
 ------------------
 
 .. figure:: /images/database-landscape.png
    :width: 700px
    :align: center
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -114,12 +133,16 @@ Database Landscape
       - We have compensating features that mitigate the impact of that design decision.
 
 
+.. include:: /includes/np.rst
+
 MongoDB Deployment Models
 -------------------------
 
 .. figure:: /images/deployments.png
    :width: 700px
    :align: center
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 

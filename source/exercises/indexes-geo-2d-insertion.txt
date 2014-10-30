@@ -6,6 +6,8 @@ Exercise: Inserting Documents with 2d Fields
 - Longitude values should be -3 and 3 respectively.
 - Latitude values should be 0 and 0.4 respectively.
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

@@ -18,6 +18,8 @@ Experiment with the following. Do a ``find()`` after each update to view the res
 
    db.testcol.update( { _id : 4 } , { $unset : a } )
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

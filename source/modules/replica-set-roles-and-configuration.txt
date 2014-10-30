@@ -12,6 +12,10 @@ Upon completing this module students should understand:
 - The use of hidden secondaries for data analytics and other purposes (when secondary reads are used).
 - The use of slaveDelay to protect against operator error.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Example: A Five-Member Replica Set Configuration
 ------------------------------------------------
@@ -22,6 +26,9 @@ Example: A Five-Member Replica Set Configuration
   - This is just a clarifying convention for this example.
   - MongoDB does not care about host names except to establish connections.
 - The nodes in this replica set have a variety of roles in this application.
+
+.. include:: /includes/student-notes.rst
+
 
 Configuration
 -------------
@@ -40,6 +47,10 @@ Configuration
      ]
    }
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Principal Data Center
 ---------------------
@@ -48,6 +59,8 @@ Principal Data Center
 
    { _id : 0, host : "dc1-1.example.net", priority : 5 },
    { _id : 1, host : "dc1-2.example.net", priority : 5 },
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -66,6 +79,8 @@ Data Center 2
 
    { _id : 2, host : "dc2-1.example.net:27017" },
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -74,6 +89,8 @@ Data Center 2
       - ``dc2-1`` could become primary, but only if both ``dc1-1`` and ``dc1-2`` are down.
       - If there is a network partition and clients can only reach DC2, we can manually failover to ``dc2-1``.
 
+
+.. include:: /includes/np.rst
 
 What about ``dc1-3`` and ``dc2-2``?
 -----------------------------------
@@ -88,6 +105,7 @@ What about ``dc1-3`` and ``dc2-2``?
    { _id : 4, host : "dc2-2.example.net:27017", hidden : true, 
      slaveDelay: 7200 }
 
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -105,6 +123,8 @@ What about ``dc2-2``?
 
    { _id : 4, host : "dc2-2.example.net:27017", hidden : true, 
      slaveDelay : 7200 }
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 

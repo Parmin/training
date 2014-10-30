@@ -15,6 +15,8 @@ What is Read Preference?
 
 - Only read from a secondary if you can tolerate possibly stale data, as not all writes might have replicated.
 
+.. include:: /includes/student-notes.rst
+
 
 Use Cases
 ---------
@@ -22,6 +24,8 @@ Use Cases
 - Running systems operations without affecting the front-end application.
 - Providing local reads for geographically distributed applications.
 - Maintaining availability during a failover.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -32,6 +36,8 @@ Use Cases
       - Use ``primaryPreferred`` if you want an application to read from the primary under normal circumstances, but to allow possibly stale reads from secondaries during failover.
 
 
+.. include:: /includes/np.rst
+
 Not for Scaling
 ---------------
 
@@ -39,11 +45,13 @@ Not for Scaling
 - :manual:`Sharding </sharding>` increases read and write capacity by distributing operations across a group of machines.
 - Sharding is a better strategy for adding capacity.
 
+.. include:: /includes/student-notes.rst
+
 
 Read Preference Modes
 ---------------------
 
-MongoDB drivers support the following read preferences.
+MongoDB drivers support the following read preferences. Note that ``hidden`` nodes will never be read from when connected via the replica set.
 
 - **primary**: Default. All operations read from the primary.
 - **primaryPreferred**: Read from the primary but if it is unavailable, read from secondary members.
@@ -51,7 +59,10 @@ MongoDB drivers support the following read preferences.
 - **secondaryPreferred**: Read from secondary members but if no secondaries are available, read from the primary.
 - **nearest**: Read from member of the replica set with the least network latency, regardless of the member's type.
 
-Note that ``hidden`` nodes will never be read from when connected via the replica set.
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Tag Sets
 --------
@@ -69,5 +80,7 @@ For example, in the mongo shell:
    conf.members[1].tags = { dc : "east", use : "reporting" }
    conf.members[2].tags = { use : "production" }
    rs.reconfig(conf)
+
+.. include:: /includes/student-notes.rst
 
 

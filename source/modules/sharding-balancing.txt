@@ -14,6 +14,8 @@ Upon completing this module students should understand:
 - Advantages of pre-splitting chunks
 - How the balancer Works
 
+.. include:: /includes/student-notes.rst
+
 
 Chunks and the Balancer
 -----------------------
@@ -24,6 +26,10 @@ Chunks and the Balancer
 - The balancer decides where chunks go.
 - It handles migrations of chunks from one server to another.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Chunks in a Newly Sharded Collection
 ------------------------------------
@@ -37,6 +43,8 @@ Chunks in a Newly Sharded Collection
      { $minKey : 1 } to { $maxKey : 1 }
 
 - All shard key values from the smallest possible to the largest fall in this chunk's range
+
+.. include:: /includes/student-notes.rst
 
 
 Chunk Splits
@@ -58,6 +66,10 @@ Chunk Splits
       - Chunk splitting is just a bookkeeping entry in the metadata. 
       - No data bearing documents are altered.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Pre-Splitting Chunks
 --------------------
@@ -74,6 +86,8 @@ Pre-Splitting Chunks
 
       - A large data import will take time to split and balance without pre-splitting.
 
+.. include:: /includes/student-notes.rst
+
 
 Start of a Balancing Round
 --------------------------
@@ -87,6 +101,10 @@ Start of a Balancing Round
   - 4 when the cluster has 20-79 chunks
   - 8 when the cluster has 80+ chunks
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Chunk Migration Steps
 ---------------------
@@ -99,6 +117,8 @@ Chunk Migration Steps
 #. The destination shard will now handle all reads/writes.
 #. The source shard deletes its copy of the chunk.
 
+.. include:: /includes/student-notes.rst
+
 
 Concluding a Balancing Round
 ----------------------------
@@ -109,3 +129,5 @@ Concluding a Balancing Round
   - To the shard with the fewest
 
 - A balancing round ends when all shards differ by at most one chunk.
+
+.. include:: /includes/student-notes.rst

@@ -18,6 +18,8 @@ Experiment with the following sequence of commands.
 
     db.testcol.find( { a : [ 3, 4, 5 ] } )  // only the second document
 
+.. include:: /includes/student-notes.rst
+
 
 .. only:: instructor
 

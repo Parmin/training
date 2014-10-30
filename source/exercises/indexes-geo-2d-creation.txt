@@ -8,6 +8,8 @@ Create a 2d index on the collection ``testcol`` with:
 - 10 bits of precision 
 - The field indexed should be ``xy``.
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

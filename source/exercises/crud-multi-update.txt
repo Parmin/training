@@ -11,6 +11,8 @@ Exercise: Multi-Update
    db.testcol.update( { _id : { $lt : 5 } }, { a : 7 }, 
                       { multi : true } )
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

@@ -20,6 +20,8 @@ Experiment with the following sort commands.
 
    db.testcol.find().sort( { $natural : 1 } )  
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::

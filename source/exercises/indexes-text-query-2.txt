@@ -10,3 +10,5 @@ Exercise: Querying Using Two Words
    // Finds 4 documents, 3 of which contain only one of the two words.   
    db.montyPython.find( { $text : { $search : "coconut swallow" } } )
 
+.. include:: /includes/student-notes.rst
+

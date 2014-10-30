@@ -13,6 +13,9 @@ Upon completing this module students should understand
 - Array update operators
 - The concept of an upsert and use cases.
 
+.. include:: /includes/student-notes.rst
+
+
 
 The ``update()`` Method
 -----------------------
@@ -27,6 +30,10 @@ The ``update()`` Method
 
 - ``update()`` cannot delete a document.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Parameters to ``update()``
 --------------------------
@@ -42,9 +49,13 @@ Parameters to ``update()``
   - Take care to simply modify documents if that is what you intend.
   - Replacing documents in the entirety is easy to do by mistake.
 
+.. include:: /includes/student-notes.rst
+
 
 .. include:: /exercises/crud-basic-queries-using-update.txt
 
+
+.. include:: /includes/np.rst
 
 ``update()`` Defaults to one Document
 -------------------------------------
@@ -52,6 +63,8 @@ Parameters to ``update()``
 - By default, ``update()`` modifies the first document found that matches the query.
 - The default use case is one where there is only one document that fits the query.
 - This is to reduce the chances of unintended collection scans for updates.
+
+.. include:: /includes/student-notes.rst
 
 
 
@@ -63,9 +76,13 @@ Updating Multiple Documents
 - Specify ``multi : true`` as one field in this document.
 - Bear in mind that without an appropriate index, you may scan every document in the collection.
 
+.. include:: /includes/student-notes.rst
+
 
 .. include:: /exercises/crud-multi-update.txt
 
+
+.. include:: /includes/np.rst
 
 Updating Fields
 ---------------
@@ -76,6 +93,8 @@ Updating Fields
 - Any fields you do not specify will not be modified.
 - You can remove a field using ``$unset``.
 
+.. include:: /includes/student-notes.rst
+
 
 .. include:: /exercises/crud-set-and-unset.txt
 
@@ -84,6 +103,8 @@ Updating Fields
 
    .. include /exercises/crud-set-with-multi.txt
 
+
+.. include:: /includes/np.rst
 
 Update Operators
 ----------------
@@ -95,11 +116,15 @@ Update Operators
 - ``$unset`` (already discussed)
 - ``$min``: Update only if value is smaller than specified quantity
 - ``$max``: Update only if value is larger than specified quantity
-- ``$currentDate``: Set the value of a field to the current :manual:`Date or timestamp</reference/operator/update/currentDate/>`.
+- ``$currentDate``: Set the value of a field to the current date or timestamp.
+
+.. include:: /includes/student-notes.rst
 
 
 .. include:: /exercises/crud-update-operators.txt
 
+
+.. include:: /includes/np.rst
 
 Array Operators
 ---------------
@@ -111,6 +136,8 @@ Array Operators
 - ``$pullAll``: Removes all elements in the array that match any of the specified values.
 - ``$addToSet``: Appends an element to the array if not already present.
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -120,6 +147,8 @@ Array Operators
 
 .. include:: /exercises/crud-update-array-operators.txt
 
+
+.. include:: /includes/np.rst
 
 The ``$`` Operator
 ------------------
@@ -135,6 +164,8 @@ The ``$`` Operator
          { <array> : value ... },
          { <update operator> : { "<array>.$" : value } }
      )
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: ``$``
@@ -153,6 +184,10 @@ Experiment with the following commands.
                       { multi: true } )
    db.testcol.find()
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Upserts
 -------
@@ -167,6 +202,8 @@ Upserts
      db.collection.update( <query document>, <update document>, 
                            { upsert: true } )
 
+.. include:: /includes/student-notes.rst
+
 
 Upsert Mechanics
 ----------------
@@ -178,6 +215,10 @@ Upsert Mechanics
   - Adds an ``_id`` if the query did not specify one.
   - Performs an update on the new document.
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Exercise: Upserts
 -----------------
@@ -196,6 +237,8 @@ Experiment with the following upserts.
    db.testcol.update( { a: 12 }, { $inc: { b : 3 } }, { upsert: true } )
 
    db.testcol.update( { _id: 6, a: 6 }, { c: 155 }, { upsert: true } )
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -225,6 +268,10 @@ Experiment with the following upserts.
 
      db.collection.save( document )
 
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
 
 Exercise: ``save()``
 --------------------
@@ -244,6 +291,8 @@ Exercise: ``save()``
 
    db.testcol.save( { _id : 3, a : 12, b : 12  } )  // update!!
 
+.. include:: /includes/student-notes.rst
+
 
 Be Careful with ``save()``
 --------------------------
@@ -260,6 +309,8 @@ Be careful that you are not modifying stale data when using ``save()``. For exam
 
    db.testcol.save(doc)
    doc = db.testcol.findOne( { _id: 2 } )
+
+.. include:: /includes/student-notes.rst
 	   
         
 
