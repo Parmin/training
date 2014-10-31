@@ -27,7 +27,6 @@ Why Indexes?
 ------------
 
 .. figure:: /images/btree-index.png
-   :width: 700px
    :align: center
 
 .. include:: /includes/student-notes.rst

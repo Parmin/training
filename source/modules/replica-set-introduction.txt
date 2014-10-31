@@ -115,7 +115,7 @@ Replica Sets
 ------------
 
 .. figure:: /images/replica-set-read-write-operations-primary.png
-   :width: 600px
+   :width: 600
    :align: center
 
 .. include:: /includes/student-notes.rst
@@ -168,7 +168,7 @@ Heartbeats
 ----------
 
 .. figure:: /images/replica-set-heartbeat.png
-   :width: 600px
+   :width: 700px
    :align: center
 
 .. include:: /includes/student-notes.rst

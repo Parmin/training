@@ -163,6 +163,8 @@ if 'pdfs' in conf.system.files.data:
 latex_preamble_elements = [ r'\DeclareUnicodeCharacter{FF04}{\$}',
                             r'\DeclareUnicodeCharacter{FF0E}{.}',
                             r'\PassOptionsToPackage{hyphens}{url}',
+                            r'\usepackage{graphicx}',
+                            r'\setkeys{Gin}{width=\linewidth}',
                             r'\usepackage{upquote}',
                             r'\pagestyle{plain}',
                             r'\pagenumbering{arabic}',

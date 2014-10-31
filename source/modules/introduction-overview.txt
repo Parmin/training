@@ -31,7 +31,6 @@ Documents are associative arrays like:
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /includes/np.rst
 
 An Example MongoDB Document
 ---------------------------
@@ -51,8 +50,6 @@ A MongoDB document expressed using JSON syntax.
        }
    }   
 
-.. include:: /includes/student-notes.rst
-
 .. only:: instructor
 
    .. note::
@@ -68,10 +65,8 @@ Vertical Scaling
 ----------------
 
 .. figure:: /images/vertical-scaling.png
-   :width: 700px
+   :width: 600
    :align: center
-
-.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -86,16 +81,12 @@ Vertical Scaling
 
     
 
-.. include:: /includes/np.rst
-
 Scaling with MongoDB
 --------------------
 
 .. figure:: /images/sharded-collection.png
-   :width: 500px
+   :width: 500
    :align: center
-
-.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -113,10 +104,8 @@ Database Landscape
 ------------------
 
 .. figure:: /images/database-landscape.png
-   :width: 700px
+   :width: 700
    :align: center
-
-.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -133,16 +122,12 @@ Database Landscape
       - We have compensating features that mitigate the impact of that design decision.
 
 
-.. include:: /includes/np.rst
-
 MongoDB Deployment Models
 -------------------------
 
 .. figure:: /images/deployments.png
-   :width: 700px
+   :width: 800
    :align: center
-
-.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 

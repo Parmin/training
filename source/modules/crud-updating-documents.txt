@@ -47,7 +47,7 @@ Parameters to ``update()``
 - The update parameter:
 
   - Take care to simply modify documents if that is what you intend.
-  - Replacing documents in the entirety is easy to do by mistake.
+  - Replacing documents in their entirety is easy to do by mistake.
 
 .. include:: /includes/student-notes.rst
 

@@ -4,16 +4,16 @@ Exercise: Multikey Indexes and Sorting
 .. code-block:: javascript
 
    db.testcol.drop()   
-   a = [ { x : [ 1, 11 ] }, { x : [ 2, 10 ] }, { x : [ 3 ] }, { x : [ 4 ] },
-         { x : [ 5 ] } ]
+   a = [ { x : [ 1, 11 ] }, { x : [ 2, 10 ] }, { x : [ 3 ] }, 
+         { x : [ 4 ] }, { x : [ 5 ] } ]
    db.testcol.insert(a)
 
    db.testcol.ensureIndex( { x : 1 } )  
 
-   // x : [ 1, 11 ] array comes first, because it contains the lowest value
+   // x : [ 1, 11 ] array comes first. It contains the lowest value.
    db.testcol.find().sort( { x : 1 } )  
 
-   // x : [ 1, 11 ] array still comes first, because it contains the highest value
+   // x : [ 1, 11 ] array still comes first. Contains the highest value.
    db.testcol.find().sort( { x : -1 } )
 
 

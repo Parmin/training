@@ -107,8 +107,8 @@ A Model that Does Not Scale
 ----------------------------
 
 .. figure:: /images/load-latency-linear2.png
+   :width: 500
    :align: center
-   :width: 500px
  
 .. include:: /includes/student-notes.rst
 
@@ -127,8 +127,8 @@ A Scalable Model
 ----------------
 
 .. figure:: /images/load-latency-scalable.png
+   :width: 500
    :align: center
-   :width: 500px
 
 .. include:: /includes/student-notes.rst
 
@@ -148,7 +148,9 @@ A Scalable Model
 Sharding Basics
 ---------------
 
-.. include:: /images/sharded-collection.rst
+.. figure:: /images/sharded-collection.png
+   :width: 500
+   :align: center
 
 .. include:: /includes/student-notes.rst
 
@@ -167,8 +169,8 @@ Sharded Cluster Architecture
 ----------------------------
 
 .. figure:: /images/sharded-cluster-no-config-servers.png
+   :width: 500
    :align: center
-   :width: 400px
 
 .. include:: /includes/student-notes.rst
 
@@ -212,7 +214,7 @@ Config Servers
 --------------
 
 .. figure:: /images/sharded-cluster-production-architecture.png
-   :width: 600 px
+   :width: 700 px
    :align: center
 
 .. include:: /includes/student-notes.rst

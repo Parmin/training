@@ -132,8 +132,6 @@ BSON Hello World
       - \\x00 (end of the document)
 
 
-.. include:: /includes/np.rst
-
 A More Complex BSON Example
 ---------------------------
 
@@ -171,8 +169,6 @@ Documents, Collections, and Databases
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 The ``_id`` Field
 -----------------
 
@@ -190,7 +186,7 @@ ObjectIds
 ---------
 
 .. figure:: /images/objectId.png
-   :width: 700px
+   :width: 800
    :align: center
 
 .. include:: /includes/student-notes.rst
@@ -206,8 +202,6 @@ ObjectIds
       - Then a 2-byte process ID
       - Finally, 3 bytes that are monotonically increasing for each new ObjectId created within a collection. 
 
-
-.. include:: /includes/np.rst
 
 Storing BSON Documents
 ----------------------
@@ -229,7 +223,7 @@ Padding Factor
 --------------  
 
 .. figure:: /images/padding.png
-   :width: 700px
+   :width: 800
    :align: center
 
 .. include:: /includes/student-notes.rst
@@ -245,8 +239,6 @@ Padding Factor
       - At a padding factor of 2, the document will be inserted at twice its actual size.
       - This setting is not tunable; it is updated automatically.
 
-
-.. include:: /includes/np.rst
 
 ``usePowerOf2Sizes``
 --------------------
