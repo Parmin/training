@@ -92,7 +92,7 @@ Scaling with MongoDB
 
    .. note::
 
-      - MongoDB is designed to be horizontally scalable.
+      - MongoDB is designed to be horizontally scalable (linear).
       - MongoDB scales by enabling you to shard your data.
       - When you need more performance, you just buy another machine and add it to your cluster. 
       - MongoDB is highly performant on commodity hardware.	
