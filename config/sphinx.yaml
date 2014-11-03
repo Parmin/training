@@ -76,6 +76,7 @@ student-print-base:
   inherit: student-base
   tags:
     - print
+    - offset
     - student
 instructor-web-base:
   inherit: instructor-base

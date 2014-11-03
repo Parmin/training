@@ -17,19 +17,6 @@ version:
   release: '2.6.0'
   branch: '2.6'
 system:
-  make:
-    generated:
-      - 'integration'
-      - 'meta'
-      - 'push'
-      - 'sphinx'
-    static:
-      - 'makefile.compatibility'
-      - 'makefile.clean'
-      - 'makefile.dtf'
-  tools:
-    pinned: false
-    ref: HEAD
   files:
     - 'pdfs.yaml'
     - 'sphinx_local.yaml'
