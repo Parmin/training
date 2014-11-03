@@ -118,13 +118,13 @@ Exercise: Using Array Operators
                               { $pullAll : { b : [ 1, 2, "hello", 4 ] } } )  
     // The array elements are pulled; the 4 doesn't matter
     db.arrayOperators.find()
-    db.arrayOperators.update( { _id : 5 }, { $addToSet { b : 2 } } )  
+    db.arrayOperators.update( { _id : 5 }, { $addToSet : { b : 2 } } )  
     // no effect; element already present
     db.arrayOperators.find()
-    db.arrayOperators.update( { _id : 5 }, { $addToSet { b : 3 } } )  
+    db.arrayOperators.update( { _id : 5 }, { $addToSet : { b : 3 } } )  
     // no effect; element already present twice
     db.arrayOperators.find()
-    db.arrayOperators.update( { _id : 5 }, { $addToSet { b : 4 } } )  
+    db.arrayOperators.update( { _id : 5 }, { $addToSet : { b : 4 } } )  
     // 4 gets pushed
     db.arrayOperators.find()
 
