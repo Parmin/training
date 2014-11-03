@@ -152,7 +152,6 @@ Add some documents and create an index:
          { x : [ 3, 4 ] },
          { x : [ 4, 5 ] } ] 
    db.testcol.insert(c)
-   db.testcol.ensureIndex( { x : 1 } )
    db.testcol.find()
 
 .. include:: /includes/student-notes.rst

@@ -14,7 +14,7 @@ file: /modules/nav/aggregation
 description: |
   The MongoDB aggregation framework
 ---
-file: /modules/schema-design.txt
+file: /modules/schema-design
 description: |
   Data modeling in MongoDB.
 ---

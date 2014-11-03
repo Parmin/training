@@ -45,10 +45,8 @@ Implicit ``_id`` Assignment
 .. include:: /exercises/crud-assigning-ids.txt
 
 
-``_id`` Field and Inserts
--------------------------
-
-Inserts will fail if:
+``_id`` Inserts will fail if...
+-------------------------------
 
 - There is already a document in the collection with that ``_id``.
 - You try to assign an array to the ``_id``.
@@ -61,14 +59,34 @@ Inserts will fail if:
 
 .. include:: /includes/np.rst
 
-Inserting Multiple Documents
-----------------------------
 
-- You can bulk insert using an array of documents.
-- The default setting is an unordered insert.
-- If any given insert fails, MongoDB will still attempt the others.
-- In the next exercise, one insert will fail.
-- The others will succeed.
+Bulk Inserts
+------------
+
+- MongoDB 2.6 introduced bulk inserts. 
+- You may bulk insert using an array of documents.
+- The API has two core concepts: 
+
+  - Ordered bulk operations
+  - Unordered bulk operations 
+
+- The main difference is in the way the operations are executed in bulk. 
+
+.. only:: instructor
+
+   .. note::
+
+      - In the case of an ordered bulk operation, every operation will be executed in the order they are added to the bulk operation. 
+      - In the case of an unordered bulk operation however there is no guarantee what order the operations are executed. 
+      - With an unordered bulk operation, the operations in the list may be reordered to increase performance.
+
+Ordered Insert
+--------------
+
+- For ordered inserts MongoDB will stop processing inserts upon encountering an error.
+- Meaning that only inserts occurring before an error will complete.
+- The default setting for ``db.collection.insert`` is an ordered insert.
+- See the next exercise for an example.
 
 .. include:: /includes/student-notes.rst
 
@@ -77,16 +95,38 @@ Inserting Multiple Documents
 .. include:: /includes/np.rst
 
     
-Ordered Insert
---------------
+Unordered Insert
+----------------
 
-- In many cases it is important to fail bulk inserts on error.
-- Use ``{ ordered : true }`` to ensure ordered inserts.
-- Only inserts occurring before the error will complete.
+- Pass ``{ ordered : false }`` to insert to perform unordered inserts.
+- If any given insert fails, MongoDB will still attempt the others.
+- The inserts may be executed in a different order from the way in which you specified them.
+- The next exercise is very similar to the previous one.
+- However, we are using ``{ ordered : false }`` 
+- One insert will fail, but all the rest will succeed. 
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /exercises/crud-ordered-insert.txt
+
+Exercise: Unordered Insert
+--------------------------
+
+Experiment with the following bulk insert.
+
+.. code-block:: javascript
+
+   db.otherThings.insert( [ { _id : 19, type : "atom", symbol : "K" },
+                            { _id : 20, type : "car", color : "red" }, 
+                            { _id : 20, type : "planet", name : "Saturn" },
+                            { type : "office", 
+                              street : "229 West 43rd Street, 5th Floor",
+                              city : "New York",
+                              state : "NY" } ],
+                          { ordered : false } )
+   db.otherThings.find()
+
+.. include:: /includes/student-notes.rst
+
 
 
 .. include:: /includes/np.rst

@@ -60,8 +60,8 @@ Logical Query Operators
 Element Query Operators
 -----------------------
 
-- ``$exists``: Returns the document if the field is present or not.
-- ``$type``: Returns the document if the field is of the given type or not.
+- ``$exists``: Select documents based on the existence of a particular field
+- ``$type``: Select documents based on their type.
 - See :manual:`BSON types</reference/bson-types>` for reference on types.
 
 .. include:: /includes/student-notes.rst

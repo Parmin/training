@@ -209,7 +209,7 @@ Let's raise the priority of one of the secondaries. Assuming it is the 3rd node 
 Verifying Configuration Change
 ------------------------------
 
-You will see errors like the following, which is normal and expected:
+You will see errors like the following, which are expected:
 
 .. code-block:: shell
 
@@ -224,7 +224,7 @@ Verify that the replica set configuration is now as expected:
 
    rs.conf()
 
-The secondary will now become a primary. Wait a few seconds and check by running:
+The secondary will now become a primary. Check by running:
 
 .. code-block:: javascript
 

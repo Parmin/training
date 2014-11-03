@@ -1,7 +1,7 @@
 Exercise: Inserting Multiple Documents
 --------------------------------------
 
-Experiment with the following commands.
+Experiment with the following bulk insert.
 
 .. code-block:: javascript
 
@@ -16,3 +16,10 @@ Experiment with the following commands.
    db.things.find()
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note:: 
+
+      - This example has a duplicate key error.
+      - Only the first 2 documents will be inserted.

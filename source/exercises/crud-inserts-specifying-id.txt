@@ -1,7 +1,5 @@
-Exercise: Inserts Specifying ``_id``
-------------------------------------
-
-Experiment with the following commands.
+Exercise: Inserts will fail if...
+---------------------------------
 
 .. code-block:: javascript
 
@@ -14,3 +12,24 @@ Experiment with the following commands.
    db.foo.insert( { "hello" } )
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - The following will fail because it attempts to use an array as an ``_id``.
+
+        .. code-block:: javascript
+
+           db.foo.insert( { _id : [ 1, 2, 3 ] } )
+
+      - The second insert with ``_id : 3`` will fail because there is already a document with ``_id`` of 3 in the collection.
+
+      - The following will fail because it is a malformed document (i.e. no field name, just a value).
+
+      .. code-block:: javascript
+
+         db.foo.insert( { "hello" } )
+
+
+      

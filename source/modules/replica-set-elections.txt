@@ -19,7 +19,8 @@ Members and Votes
 -----------------
 
 .. figure:: /figures/replica-set-three-data-centers-votes.png
-   :width: 600px
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
@@ -38,7 +39,8 @@ Calling Elections
 -----------------
 
 .. figure:: /images/replica-set-trigger-election.png
-   :width: 500px
+   :width: 600px
+   :align: center
 
 .. only:: instructor
 

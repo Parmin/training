@@ -149,7 +149,7 @@ Sharding Basics
 ---------------
 
 .. figure:: /images/sharded-collection.png
-   :width: 500
+   :width: 450
    :align: center
 
 .. include:: /includes/student-notes.rst
@@ -169,7 +169,7 @@ Sharded Cluster Architecture
 ----------------------------
 
 .. figure:: /images/sharded-cluster-no-config-servers.png
-   :width: 500
+   :width: 450
    :align: center
 
 .. include:: /includes/student-notes.rst

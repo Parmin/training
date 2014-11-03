@@ -11,7 +11,8 @@ Scenario A: 3 Data Nodes in 1 DC
 Which secondary will become the new primary?
 
 .. figure:: /figures/replica-set-1dc-primary-down.png
-   :width: 600px
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
@@ -27,7 +28,8 @@ Scenario B: 3 Data Nodes in 2 DCs
 Which member will become primary following this type of network partition?
 
 .. figure:: /figures/replica-set-3nodes-2dc-network-partition.png
-   :width: 600px
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
@@ -45,7 +47,8 @@ Scenario C: 4 Data Nodes in 2 DCs
 What happens following this network partition?
 
 .. figure:: /figures/replica-set-4nodes-2dc-cant-elect.png
-   :width: 600px
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
@@ -66,7 +69,8 @@ Scenario D: 5 Nodes in 2 DCs
 The following is similar to Scenario C, but with the addition of an arbiter in Data Center 1. What happens here?
 
 .. figure:: /figures/replica-set-4nodes-1arbiter-2datacenters.png
-   :width: 600px
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
@@ -83,12 +87,14 @@ Scenario E: 3 Data Nodes in 3 DCs
 - What about recovery time?
 
 .. figure:: /images/replica-set-3nodes-1-per-dc.png
-   :width: 600px
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
    .. note::
 
+      - The intent is to explain the advantage of deploying to 3 DCs - it's the minimum number of DCs in order for MongoDB to automatically failover if any one DC fails. This is generally what we recommend to customers in our consult and health check reports, though many continue to use 2 DCs due to costs and legacy reasons.
       - To have automated failover in the event of single DC level failure, there must be at least 3 DCs. Otherwise the DC with the minority of nodes must be manually reconfigured.
       - One of the data nodes can be replaced by an arbiter to reduce costs.
 
@@ -99,14 +105,14 @@ Scenario F: 5 data nodes in 3 DCs
 What happens here if any one of the nodes/DCs fail? What about recovery time?
 
 .. figure:: /figures/replica-set-three-data-centers-votes.png
-   :width: 600px
+   :width: 700px
+   :align: center
 
 .. only:: instructor
 
    .. note::
 
-      - Even higher costs with more data nodes.
-      - Having two data nodes in the main DCs help reduce cross-DC traffic during recovery and thus also reducing the time it takes.
-      - Data node in DC3 can be priority 0 for purely DR proposes.
+      - Adds another data node to each "main" DC to reduce typically slow and costly cross DC network traffic if an initial sync or similar recovery is needed, as the recovering node can pull from a local replica instead. 
+      - Depending on the data sizes, operational budget, and requirements, this can be overkill.
       - The data node in DC3 can be replaced by an arbiter to reduce costs.
 
