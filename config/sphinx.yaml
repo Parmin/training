@@ -31,9 +31,11 @@ dirhtml-student:
 html-student:
   inherit: student-web-base
 latex-student:
-  inherit: student-web-base
+  inherit: student-print-base
+  tags:
+    - offset
 epub-student:
-  inherit: student-web-base
+  inherit: student-print-base
 singlehtml-student:
   inherit: student-web-base
 linkcheck-student:
@@ -52,9 +54,11 @@ dirhtml-instructor:
 html-instructor:
   inherit: instructor-web-base
 latex-instructor:
-  inherit: instructor-web-base
+  inherit: instructor-print-base
+  tags:
+    - offset
 epub-instructor:
-  inherit: instructor-web-base
+  inherit: instructor-print-base
 singlehtml-instructor:
   inherit: instructor-web-base
 linkcheck-instructor:
@@ -76,7 +80,6 @@ student-print-base:
   inherit: student-base
   tags:
     - print
-    - offset
     - student
 instructor-web-base:
   inherit: instructor-base
