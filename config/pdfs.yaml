@@ -12,8 +12,7 @@ title: 'MongoDB Training'
 author: 'MongoDB, Inc.'
 class: 'howto'
 tag: 'manual'
-edition:
-  - 'student'
+edition: 'student'
 ---
 source: 'meta/one-day-fundamentals'
 output: 'one-day-fundamentals.tex'
