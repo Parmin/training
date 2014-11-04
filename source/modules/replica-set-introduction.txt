@@ -114,9 +114,7 @@ Replication is Not Designed for Scaling
 Replica Sets
 ------------
 
-.. figure:: /images/replica-set-read-write-operations-primary.png
-   :width: 600
-   :align: center
+.. include:: /images/replica-set-read-write-operations-primary.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -167,9 +165,7 @@ Secondaries
 Heartbeats
 ----------
 
-.. figure:: /images/replica-set-heartbeat.png
-   :width: 700px
-   :align: center
+.. include:: /images/replica-set-heartbeat.rst
 
 .. include:: /includes/student-notes.rst
 

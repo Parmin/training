@@ -59,9 +59,7 @@ Vertical Scaling
 The Working Set
 ---------------
 
-.. figure:: /images/working-set-exceeds-ram.png
-   :width: 700px
-   :align: center
+.. include:: /images/working-set-exceeds-ram.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -106,9 +104,7 @@ Sharding Overview
 A Model that Does Not Scale
 ----------------------------
 
-.. figure:: /images/load-latency-linear2.png
-   :width: 500
-   :align: center
+.. include:: /images/load-latency-linear2.rst
  
 .. include:: /includes/student-notes.rst
 
@@ -126,9 +122,7 @@ A Model that Does Not Scale
 A Scalable Model
 ----------------
 
-.. figure:: /images/load-latency-scalable.png
-   :width: 500
-   :align: center
+.. include:: /images/load-latency-scalable.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -148,9 +142,7 @@ A Scalable Model
 Sharding Basics
 ---------------
 
-.. figure:: /images/sharded-collection.png
-   :width: 450
-   :align: center
+.. include:: /images/sharded-collection.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -168,9 +160,7 @@ Sharding Basics
 Sharded Cluster Architecture
 ----------------------------
 
-.. figure:: /images/sharded-cluster-no-config-servers.png
-   :width: 450
-   :align: center
+.. include:: /images/sharded-cluster-no-config-servers.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -213,9 +203,7 @@ Mongos
 Config Servers
 --------------
 
-.. figure:: /images/sharded-cluster-production-architecture.png
-   :width: 700 px
-   :align: center
+.. include:: /images/sharded-cluster-production-architecture.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -321,9 +309,7 @@ What is a Shard Key?
 Example
 -------
 
-.. figure:: /images/sharded-cluster-targeted-query.png
-   :width: 400 px
-   :align: center
+.. include:: /images/sharded-cluster-targeted-query.rst
 
 .. include:: /includes/student-notes.rst
 

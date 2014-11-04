@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="810" height="360" viewBox="0, 0, 810, 360">
+  <g id="Layer_1">
+    <g>
+      <g>
+        <path d="M19.341,298.942 L754.673,26.352" fill="#1C5FB2"/>
+        <path d="M19.341,298.942 L754.673,26.352" fill-opacity="0" stroke="#1C5FB2" stroke-width="12.6"/>
+      </g>
+      <g>
+        <path d="M758.803,37.49 L784.379,15.34 L750.544,15.212 z" fill="#1C5FB2"/>
+        <path d="M758.803,37.49 L784.379,15.34 L750.544,15.212 z" fill-opacity="0" stroke="#1C5FB2" stroke-width="12.6"/>
+      </g>
+    </g>
+    <g>
+      <g>
+        <path d="M19.341,327.6 L752.251,267.93" fill="#1C5FB2"/>
+        <path d="M19.341,327.6 L752.251,267.93" fill-opacity="0" stroke="#1C5FB2" stroke-width="12.6"/>
+      </g>
+      <g>
+        <path d="M753.214,279.77 L783.826,265.36 L751.286,256.09 z" fill="#1C5FB2"/>
+        <path d="M753.214,279.77 L783.826,265.36 L751.286,256.09 z" fill-opacity="0" stroke="#1C5FB2" stroke-width="12.6"/>
+      </g>
+    </g>
+    <text transform="matrix(1.8, 0, 0, 1.8, 71.843, 229.99)">
+      <tspan x="-29.168" y="8.5" font-family="HelveticaNeue-Bold" font-size="24" fill="#000000">Load</tspan>
+    </text>
+    <text transform="matrix(1.8, 0, 0, 1.8, 641.852, 229.99)">
+      <tspan x="-45.848" y="8.5" font-family="HelveticaNeue-Bold" font-size="24" fill="#000000">Latency</tspan>
+    </text>
+  </g>
+</svg>

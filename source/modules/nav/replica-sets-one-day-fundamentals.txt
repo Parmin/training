@@ -1,0 +1,9 @@
+============
+Replica Sets
+============
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-replica-sets-one-day-fundamentals.rst
+
+.. include:: /includes/toc/replica-sets-one-day-fundamentals.rst             

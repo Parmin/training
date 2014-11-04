@@ -1,0 +1,14 @@
+:orphan:
+
+=====================================
+MongoDB One-Day Fundamentals Training
+=====================================
+
+.. toctree::
+
+   /modules/nav/introduction
+   /modules/nav/crud
+   /modules/nav/indexes-one-day-fundamentals
+   /modules/nav/replica-sets-one-day-fundamentals
+   /modules/nav/sharding
+

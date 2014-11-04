@@ -185,9 +185,7 @@ The ``_id`` Field
 ObjectIds
 ---------
 
-.. figure:: /images/objectId.png
-   :width: 800
-   :align: center
+.. include:: /images/objectId.rst
 
 .. include:: /includes/student-notes.rst
    
@@ -222,9 +220,7 @@ Storing BSON Documents
 Padding Factor
 --------------  
 
-.. figure:: /images/padding.png
-   :width: 800
-   :align: center
+.. include:: /images/padding.rst
 
 .. include:: /includes/student-notes.rst
 

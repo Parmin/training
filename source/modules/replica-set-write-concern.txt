@@ -84,9 +84,7 @@ Defining Write Concern
 Write Concern: ``{ w : 1 }``
 ----------------------------
 
-.. figure:: /images/crud-write-concern-ack-print.png
-   :width: 600
-   :align: center
+.. include:: /images/crud-write-concern-ack-print.rst
 
 .. only:: instructor
 
@@ -115,9 +113,7 @@ Example: ``{ w : 1 }``
 Write Concern: ``{ w : 2 }``
 ----------------------------
 
-.. figure:: /images/crud-write-concern-w2.png
-   :width: 500px
-   :align: center
+.. include:: /images/crud-write-concern-w2.rst
 
 .. only:: instructor
 

@@ -50,9 +50,7 @@ Chunks in a Newly Sharded Collection
 Chunk Splits
 ------------
 
-.. figure:: /images/sharding-splitting.png
-   :width: 600
-   :align: center
+.. include:: /images/sharding-splitting.rst
 
 .. only:: instructor
 

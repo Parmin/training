@@ -1,0 +1,82 @@
+==============
+Hashed Indexes
+==============
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- What a hashed index is.
+- When to use one.
+
+.. include:: /includes/student-notes.rst
+
+
+What is a Hashed Index?
+-----------------------
+
+- Hashed indexes are based on field values like any other index. 
+- The difference is that the values are hashed and it is the hashed value that is indexed.
+- The hashing function collapses sub-documents and computes the hash for the entire value.
+- MongoDB can use the hashed index to support equality queries.
+- Hashed indexes do not support multi-key indexes, i.e. indexes on array fields.
+- Nor do they support range queries.
+
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
+
+Why Hashed Indexes?
+-------------------
+
+- In MongoDB, the primary use for hashed indexes is to support sharding a collection using a hashed shard key. 
+- In some cases, the field we would like to use to shard data would make it difficult to scale using sharding.
+- Using a hashed shard key to shard a collection ensures an even distribution of data and overcomes this problem.
+- See :manual:`Shard a Collection Using a Hashed Shard Key</tutorial/shard-collection-with-a-hashed-shard-key/>` for more details.
+- We discuss sharding in detail in another module.
+
+.. include:: /includes/student-notes.rst
+
+
+Limitations
+-----------
+
+- You may not create compound indexes that have hashed index fields
+- You may not specify a unique constraint on a hashed index
+- You can create both a hashed index and a non-hashed index on the same field. 
+
+.. only:: instructor
+
+   .. note:: 
+
+      - For a field on which there is both a hashed index and a non-hashed index, MongoDB will use the non-hashed index for range queries.
+
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /includes/np.rst
+
+Floating Point Numbers
+----------------------
+
+- MongoDB hashed indexes truncate floating point numbers to 64-bit integers before hashing. 
+- Do not use a hashed index for floating point numbers that cannot be reliably converted to 64-bit integers.
+- MongoDB hashed indexes do not support floating point values larger than 2\ :sup:`53`.
+
+.. include:: /includes/student-notes.rst
+
+
+Creating a Hashed Index
+-----------------------
+
+Create a hashed index using an operation that resembles the following. This operation creates a hashed index for the active collection on the ``a`` field.
+
+.. code-block:: javascript
+
+   db.active.ensureIndex( { a: "hashed" } )
+
+.. include:: /includes/student-notes.rst
+
