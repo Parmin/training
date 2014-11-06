@@ -20,7 +20,7 @@ Aggregation Basics
 ------------------
 
 - Use the aggregation framework to transform and analyze data in MongoDB collections.
-- For those who are used to SQL, aggregation bears some similarities to the ``GROUP BY`` statement.
+- For those who are used to SQL, aggregation can be similar to ``GROUP BY``.
 - The aggregation framework is based on the concept of a pipeline. 
 
 
@@ -32,36 +32,37 @@ The Aggregation Pipeline
 
   - Receives a set of documents as input.
   - Performs an operation on those documents.
-  - Produces a set of documents for use by stages that follow.
+  - Produces a set of documents for use by the following stage.
 
 - A pipeline has the following syntax:
 
   .. code-block:: javascript
 
      db.collection.aggregate( [ { stage1 }, { stage2 }, ... ],
-                                { options } )
+                              { options } )
 
 
 Aggregation Stages
 ------------------
 
-- ``match``: Similar to ``find()``
-- ``project``: Shape documents
-- ``sort``: Like the cursor method of the same name
-- ``skip``: Like the cursor method of the same name
-- ``limit``: Like the cursor method of the same name 
-- ``unwind``: Used for working with arrays
-- ``group``: Used to aggregate field values from multiple documents
-- ``out``: Creates a new collection from the output of an aggregation
+- ``$match``: Similar to ``find()``
+- ``$project``: Shape documents
+- ``$sort``: Like the cursor method of the same name
+- ``$skip``: Like the cursor method of the same name
+- ``$limit``: Like the cursor method of the same name 
+- ``$unwind``: Used for working with arrays
+- ``$group``: Used to aggregate field values from multiple documents
+- ``$out``: Creates a new collection from the output of an aggregation
   pipeline)
 
 
 The Match Stage
 ---------------
 
-- The ``$match`` operator works like the query parameter to ``find()``, ``update()``, and ``remove()``.
-- Documents in the pipeline that match the query document will be passed on
+- The ``$match`` operator works like the query phase of ``find()``, ``update()``, and ``remove()``.
+- Documents in the pipeline that match the query document will be passed to subsequent stages.
 - ``$match`` is often the first operator used in an aggregation stage.
+- Like other aggregation operators, ``$match`` can occur multiple times in a single pipeline.
 
 
 Exercise: The Match Stage
@@ -84,10 +85,10 @@ The Project Stage
 
 - $project allows you to shape the documents into what you need for the next stage. 
 - The simplest form of shaping is using $project to select only the fields you are interested in.
-- You can also restructure documents that pass through a project stage.
+- $project can also create new fields from other fields in the input document.
 
-  - E.g., you can pull a value out of an embedded document and put it at the top level.  
-  - E.g., you can create a ratio from the values of two fields as pass along as a single field.
+  - *E.g.*, you can pull a value out of an embedded document and put it at the top level.  
+  - *E.g.*, you can create a ratio from the values of two fields as pass along as a single field.
 
 - $project produces 1 output document for every input document it sees.
 
@@ -150,10 +151,11 @@ A Twitter Dataset
 -----------------
 
 - We now have a basic understanding of the aggregation framework.
-- Let's now look at some richer examples that illustrate the power of MongoDB aggregation.
-- For these we will use a collection of tweets.
-- As with any data of this type, it is a snapshot in time.
-- It may not reflect the structure of Twitter feeds as the look today.
+- Let's look at some richer examples that illustrate the power of MongoDB aggregation.
+- These examples operate on a collection of tweets.
+
+  - As with any dataset of this type, it's a snapshot in time.
+  - It may not reflect the structure of Twitter feeds as they look today.
 
 
 Tweets Data Model
@@ -186,7 +188,7 @@ Analyzing Tweets
 ----------------
 
 - Imagine the types of analyses one might want to do on tweets. 
-- It is common to analyze the behavior of users and the networks involved. 
+- It's common to analyze the behavior of users and the networks involved. 
 - Our examples will focus on this type of analysis
 
 .. only:: instructor
@@ -194,122 +196,7 @@ Analyzing Tweets
    .. note::
 
       - We should also mention that our tweet documents actually contain many more fields.
-      - We are showing just those relevant to the analyses we will do.
-
-
-Rank Users by Number of Tweets
-------------------------------
-
-- With this type of data, it is common to rank users based on some metric.
-- Let's look at who tweets the most.
-- We will use the aggregation framework to do this.
-
-
-Process
--------
-
-- Group together all tweets by a user for every user in our collection
-- Count the tweets for each user
-- Sort in decreasing order
-
-
-Exercise: Ranking Users by Number of Tweets
--------------------------------------------
-
-Try this aggregation pipeline for yourself.
-
-.. code-block:: javascript
-
-   db.tweets.aggregate( [
-       { $group: { _id: "$user.screen_name",
-                   count: { $sum: 1 } } },
-       { $sort: { count: -1 } } 
-   ] )
-
-.. only:: instructor
-
-   .. note::
-
-      - $group operations require that we specify which field to group on.
-      - In this case, we group documents based on the user's screen name.
-      - With $group, we aggregate values using arithmetic or array operators.
-      - Here we are counting the number of documents for each screen name.
-      - We do that by using the $sum operator 
-      - This will add 1 to the count field for each document produced by the $group stage.
-      - Note that there will be one document produced by $group for each screen name.
-      - The $sort stage receives these documents as input and sorts them by the value of the count field
-
-
-Exercise: Tweet Source
-----------------------
-
-- The tweets in our twitter collection have a field called "source". 
-- This field describes the application that was used to create the tweet. 
-- Write an aggregation pipeline that identifies the applications most frequently used to publish tweets.
-
-.. only:: instructor
-
-   .. note::
-
-      .. code-block:: javascript
-
-	 db.tweets.aggregation( [
-	     { "$group" : { "_id" : "$source",
-			    "count" : { "$sum" : 1 } } },
-	     { "$sort" : { "count" : -1 } } 
-	 ] )
-
-
-
-The Group Stage
-----------------
-
-- For those coming from the relational world, ``$group`` is similar to the SQL ``GROUP BY`` statement.
-- $group operations require that we specify which field to group on.
-- Documents with the same identifier will be aggregated together.
-- With $group, we aggregate values using arithmetic or array operators.
-
-
-Group using $avg
-----------------
-
-.. code-block:: javascript
-
-   db.testcol.aggregate( [ { $group : { _id : { a : "$a" },
-                                        b_avg : { $avg : "$b" } } } ] )
-
-
-Group using $push
------------------
-
-For each user, aggregate all their tweets into a single array.
-
-.. code-block:: javascript
-
-   db.tweets.aggregate( [
-      { "$group" : { "_id" : "$user.screen_name",
-                     "tweet_texts" : { "$push" : "$text" },
-                     "count" : { "$sum" : 1 } } },
-      { "$sort" : { "count" : -1 } },
-      { "$limit" : 5 } 
-   ] )
-
-
-
-Group Aggregation Operators
----------------------------
-
-The complete list of operators available in the group stage:
-
-- $addToSet
-- $first
-- $last
-- $max
-- $min
-- $avg
-- $push
-- $sum
-
+      - We are showing just those fields relevant to the aggregations we'll do.
 
 
 Friends and Followers
@@ -386,6 +273,121 @@ Exercise: $match and $project
                             "screen_name" : "$user.screen_name" } },
            { "$sort" : { "followers" : -1 } },
            { "$limit" : 1 } ]
+
+
+The Group Stage
+----------------
+
+- For those coming from the relational world, ``$group`` is similar to the SQL ``GROUP BY`` statement.
+- $group operations require that we specify which field to group on.
+- Documents with the same identifier will be aggregated together.
+- With $group, we aggregate values using arithmetic or array operators.
+
+
+Group using $avg
+----------------
+
+.. code-block:: javascript
+
+   db.testcol.aggregate( [ { $group : { _id : { a : "$a" },
+                                        b_avg : { $avg : "$b" } } } ] )
+
+
+Group using $push
+-----------------
+
+For each user, aggregate all their tweets into a single array.
+
+.. code-block:: javascript
+
+   db.tweets.aggregate( [
+      { "$group" : { "_id" : "$user.screen_name",
+                     "tweet_texts" : { "$push" : "$text" },
+                     "count" : { "$sum" : 1 } } },
+      { "$sort" : { "count" : -1 } },
+      { "$limit" : 5 } 
+   ] )
+
+
+
+Group Aggregation Operators
+---------------------------
+
+The complete list of operators available in the group stage:
+
+- $addToSet
+- $first
+- $last
+- $max
+- $min
+- $avg
+- $push
+- $sum
+
+
+
+Rank Users by Number of Tweets
+------------------------------
+
+- One common task is to rank users based on some metric.
+- Let's look at who tweets the most.
+- We will use the aggregation framework to do this.
+
+
+Process
+-------
+
+- Group together all tweets by a user for every user in our collection
+- Count the tweets for each user
+- Sort in decreasing order
+
+
+Exercise: Ranking Users by Number of Tweets
+-------------------------------------------
+
+Try this aggregation pipeline for yourself.
+
+.. code-block:: javascript
+
+   db.tweets.aggregate( [
+       { $group: { _id: "$user.screen_name",
+                   count: { $sum: 1 } } },
+       { $sort: { count: -1 } } 
+   ] )
+
+.. only:: instructor
+
+   .. note::
+
+      - $group operations require that we specify which field to group on.
+      - In this case, we group documents based on the user's screen name.
+      - With $group, we aggregate values using arithmetic or array operators.
+      - Here we are counting the number of documents for each screen name.
+      - We do that by using the $sum operator 
+      - This will add 1 to the count field for each document produced by the $group stage.
+      - Note that there will be one document produced by $group for each screen name.
+      - The $sort stage receives these documents as input and sorts them by the value of the count field
+
+
+Exercise: Tweet Source
+----------------------
+
+- The tweets in our twitter collection have a field called ``source``. 
+- This field describes the application that was used to create the tweet. 
+- Write an aggregation pipeline that identifies the applications most frequently used to publish tweets.
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+	 db.tweets.aggregation( [
+	     { "$group" : { "_id" : "$source",
+			    "count" : { "$sum" : 1 } } },
+	     { "$sort" : { "count" : -1 } } 
+	 ] )
+
 
 
 
