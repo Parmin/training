@@ -48,9 +48,9 @@ Setup
 
    PATH=$PATH:path_to_mongodb/bin
 
-   sudo mkdir /data/db
+   sudo mkdir -p /data/db
 
-   sudo chmod 770 /data/db
+   sudo chmod -R 777 /data/db
 
 .. include:: /includes/student-notes.rst
 

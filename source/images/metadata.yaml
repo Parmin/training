@@ -296,7 +296,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 250
+    width: 350
 ---
 name: deployments
 alt: "Deployment models: standalone, replica set, and sharded cluster."
