@@ -28,7 +28,6 @@ Production Releases
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /includes/np.rst
 
 Installing MongoDB
 ------------------
@@ -63,8 +62,6 @@ Setup
       - Once installed, create the MongoDB data directory.
       - Make sure you have write permission on this directory.
 
-
-.. include:: /includes/np.rst
 
 Launch a ``mongod``
 -------------------
@@ -122,8 +119,6 @@ Import Exercise Data
       - Import the data provided on the USB drive into the *sample* database.
 
 
-.. include:: /includes/np.rst
-
 Launch a Mongo Shell
 --------------------
 
@@ -171,8 +166,6 @@ To use a particular database we can type the following.
       - It is a fully programmable JavaScript environment.
 
 
-.. include:: /includes/np.rst
-
 Exploring Collections
 ---------------------
 
@@ -212,8 +205,6 @@ Admin Commands
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 The MongoDB Data Directory
 --------------------------

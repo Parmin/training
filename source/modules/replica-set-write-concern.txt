@@ -17,8 +17,6 @@ Upon completing this module students should understand:
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 What happens to the write?
 --------------------------
 
@@ -44,8 +42,6 @@ Answer
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Balancing Durability with Performance
 -------------------------------------
@@ -79,12 +75,10 @@ Defining Write Concern
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Write Concern: ``{ w : 1 }``
 ----------------------------
 
-.. include:: /images/crud-write-concern-ack-print.rst
+.. include:: /images/crud-write-concern-ack.rst
 
 .. only:: instructor
 
@@ -108,8 +102,6 @@ Example: ``{ w : 1 }``
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Write Concern: ``{ w : 2 }``
 ----------------------------
 
@@ -125,8 +117,6 @@ Write Concern: ``{ w : 2 }``
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Example: ``{ w : 2 }``
 ----------------------
@@ -152,8 +142,6 @@ Other Write Concerns
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Write Concern: ``{ w : "majority" }``
 ------------------------------------
 
@@ -177,8 +165,6 @@ Example: ``{ w : "majority" }``
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Quiz: Which write concern?
 --------------------------

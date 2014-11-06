@@ -41,8 +41,6 @@ Why Indexes?
       - MongoDB indexes are based on B-trees.
 
 
-.. include:: /includes/np.rst
-
 Types of Indexes
 ----------------
 
@@ -86,8 +84,6 @@ Exercise: Using ``explain()``
       - We'll be looking at the user subdocument for documents in this collection.
 
 
-.. include:: /includes/np.rst
-
 Results of ``explain()``
 ------------------------
 
@@ -127,8 +123,6 @@ Understanding ``explain()`` Output
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Single-Field Indexes
 --------------------
 
@@ -161,8 +155,6 @@ Creating an Index
       - With MongoDB, developers need to be more involved in the creation and use of indexes.
 
 
-.. include:: /includes/np.rst
-
 Indexes and Read/Write Performance
 ----------------------------------
 
@@ -189,8 +181,6 @@ Index Limitations
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Use Indexes with Care
 --------------------- 

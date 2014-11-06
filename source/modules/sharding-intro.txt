@@ -29,8 +29,6 @@ Contrast with Replication
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Sharding is Concerned with Scale
 --------------------------------
 
@@ -53,8 +51,6 @@ Vertical Scaling
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 The Working Set
 ---------------
@@ -99,8 +95,6 @@ Sharding Overview
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 A Model that Does Not Scale
 ----------------------------
 
@@ -116,8 +110,6 @@ A Model that Does Not Scale
       - On a single server, latency tends to increase linearly with load.
       - Eventually latency is too great and the database has become a bottleneck.
 
-
-.. include:: /includes/np.rst
 
 A Scalable Model
 ----------------
@@ -137,8 +129,6 @@ A Scalable Model
       - MongoDB scales vertically and horizontally (i.e., spreading out the load across several boxes)
 
 
-.. include:: /includes/np.rst
-
 Sharding Basics
 ---------------
 
@@ -154,8 +144,6 @@ Sharding Basics
       - When you perform a read or write operation it will go to a router that will then direct the query to the appropriate server.
       - Depending on the operation and how your cluster is configured you may need to touch only one server to complete the operation.
 
-
-.. include:: /includes/np.rst
 
 Sharded Cluster Architecture
 ----------------------------
@@ -176,8 +164,6 @@ Sharded Cluster Architecture
       - As mentioned, read/write operations go through a router.
       - The server that routes requests is the mongos.
 
-
-.. include:: /includes/np.rst
 
 Mongos
 ------
@@ -224,8 +210,6 @@ Config Servers
       - You can access cluster metadata from a mongos by looking at the ``config`` db.
 
 
-.. include:: /includes/np.rst
-
 Config Server Hardware Requirements
 -----------------------------------
 
@@ -247,8 +231,6 @@ When to Shard
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Possible Imbalance?
 -------------------
 
@@ -263,6 +245,7 @@ Possible Imbalance?
   - Disk activity
   
 - This would defeat the purpose of sharding.
+
 .. include:: /includes/student-notes.rst
 
 
@@ -281,8 +264,6 @@ Balancing Shards
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 What is a Shard Key?
 --------------------
@@ -304,17 +285,13 @@ What is a Shard Key?
       - When you insert a document, the shard key determines which server you will write to.
 
 
-.. include:: /includes/np.rst
-
-Example
--------
+Targeted Query Using Shard Key
+------------------------------
 
 .. include:: /images/sharded-cluster-targeted-query.rst
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 With a Good Shard Key
 ---------------------
@@ -342,8 +319,6 @@ You might see that:
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Choosing a Shard Key
 --------------------
 
@@ -368,8 +343,6 @@ More Specifically
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Cardinality
 -----------
@@ -402,8 +375,6 @@ Non-Monotonic
       - But in the meantime one server gets hammered while others are idle.
       - And moving chunks has its own performance costs.
 
-
-.. include:: /includes/np.rst
 
 Shards Should be Replica Sets
 -----------------------------

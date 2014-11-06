@@ -226,7 +226,7 @@ Padding Factor
 
 .. only:: instructor
 
-   .. notes::
+   .. note::
 
       - Padding provides room for documents to grow into.
       - As documents in a collection grow and need to be moved, MongoDB will begin to add padding.

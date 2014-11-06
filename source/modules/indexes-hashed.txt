@@ -27,8 +27,6 @@ What is a Hashed Index?
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Why Hashed Indexes?
 -------------------
 
@@ -56,8 +54,6 @@ Limitations
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Floating Point Numbers
 ----------------------

@@ -36,8 +36,6 @@ Use Cases
       - Use ``primaryPreferred`` if you want an application to read from the primary under normal circumstances, but to allow possibly stale reads from secondaries during failover.
 
 
-.. include:: /includes/np.rst
-
 Not for Scaling
 ---------------
 
@@ -61,8 +59,6 @@ MongoDB drivers support the following read preferences. Note that ``hidden`` nod
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Tag Sets
 --------

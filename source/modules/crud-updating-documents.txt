@@ -33,8 +33,6 @@ The ``update()`` Method
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Parameters to ``update()``
 --------------------------
 
@@ -54,8 +52,6 @@ Parameters to ``update()``
 
 .. include:: /exercises/crud-basic-queries-using-update.txt
 
-
-.. include:: /includes/np.rst
 
 ``update()`` Defaults to one Document
 -------------------------------------
@@ -82,8 +78,6 @@ Updating Multiple Documents
 .. include:: /exercises/crud-multi-update.txt
 
 
-.. include:: /includes/np.rst
-
 Updating Fields
 ---------------
 
@@ -104,8 +98,6 @@ Updating Fields
    .. include /exercises/crud-set-with-multi.txt
 
 
-.. include:: /includes/np.rst
-
 Update Operators
 ----------------
 
@@ -123,8 +115,6 @@ Update Operators
 
 .. include:: /exercises/crud-update-operators.txt
 
-
-.. include:: /includes/np.rst
 
 Array Operators
 ---------------
@@ -147,8 +137,6 @@ Array Operators
 
 .. include:: /exercises/crud-update-array-operators.txt
 
-
-.. include:: /includes/np.rst
 
 The ``$`` Operator
 ------------------
@@ -187,8 +175,6 @@ Experiment with the following commands.
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Upserts
 -------
 
@@ -217,8 +203,6 @@ Upsert Mechanics
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Exercise: Upserts
 -----------------
@@ -270,8 +254,6 @@ Experiment with the following upserts.
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Exercise: ``save()``
 --------------------

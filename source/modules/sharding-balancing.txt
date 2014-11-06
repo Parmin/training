@@ -29,8 +29,6 @@ Chunks and the Balancer
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Chunks in a Newly Sharded Collection
 ------------------------------------
 
@@ -67,8 +65,6 @@ Chunk Splits
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Pre-Splitting Chunks
 --------------------
 
@@ -101,8 +97,6 @@ Start of a Balancing Round
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Chunk Migration Steps
 ---------------------

@@ -37,8 +37,6 @@ Example: DateTime
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Example: Location
 -----------------
 
@@ -71,8 +69,6 @@ Example: Premium Tier
       - After re-configuring tags with a shard key range, and associating it with a shard or shards, the cluster may take some time to balance the data among the shards. 
       See: `Tiered Storage Models in MongoDB: Optimizing Latency and Cost <http://blog.mongodb.org/post/85721044164/tiered-storage-models-in-mongodb-optimizing-latency>`_.
 
-
-.. include:: /includes/np.rst
 
 Tags - Caveats
 --------------

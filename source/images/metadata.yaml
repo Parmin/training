@@ -3,403 +3,403 @@ alt: "Fits only 8 documents in memory, including data you don't need."
 output:
    - type: 'print'
      tag: 'print'
-     dpi: 2400
+     dpi: 300
      width: 1600
    - type: 'web'
-     dpi: 2400
-     width: 2800
+     dpi: 72
+     width: 800
    - type: 'offset'
      tag: 'offset'
-     dpi: 1200
-     width: 800
+     dpi: 300
+     width: 300
 ---
 name: data-modeling-documents-include-only-useful-data
 alt: "This now fits 12 documents in the same amount of memory, with everything you need."
 output:
    - type: 'print'
      tag: 'print'
-     dpi: 2400
+     dpi: 300
      width: 1600
    - type: 'web'
-     dpi: 2400
-     width: 2800
+     dpi: 72
+     width: 800
    - type: 'offset'
      tag: 'offset'
-     dpi: 1200
-     width: 800
+     dpi: 300
+     width: 300
 ---
 name: crud-write-concern-ack
 alt: "Write operation to a ``mongod`` instance with write concern of ``acknowledged``. The client waits for acknowledgment of success or exception."
 output:
    - type: 'print'
      tag: 'print'
-     dpi: 2400
+     dpi: 300
      width: 1600
    - type: 'web'
-     dpi: 2400
-     width: 2800
+     dpi: 72
+     width: 800
    - type: 'offset'
      tag: 'offset'
-     dpi: 1200
-     width: 800
+     dpi: 300
+     width: 200
 ---
 name: crud-write-concern-unack
 alt: "Write operation to a ``mongod`` instance with write concern of ``unacknowledged``. The client does not wait for any acknowledgment."
 output:
    - type: 'print'
      tag: 'print'
-     dpi: 2400
+     dpi: 300
      width: 1600
    - type: 'web'
-     dpi: 2400
-     width: 2800
+     dpi: 72
+     width: 800
    - type: 'offset'
      tag: 'offset'
-     dpi: 1200
-     width: 800
+     dpi: 300
+     width: 200
 ---
 name: security-auth-categories
 alt: "Flowchart for authentication and authorization"
 output:
    - type: 'print'
      tag: 'print'
-     dpi: 2400
+     dpi: 300
      width: 1600
    - type: 'web'
-     dpi: 2400
-     width: 2800
+     dpi: 72
+     width: 800
    - type: 'offset'
      tag: 'offset'
-     dpi: 1200
-     width: 800
+     dpi: 300
+     width: 300
 ---
 name: load-latency-scalable
 alt: "Latency vs. Load for a system that does scale with users."
 output:
    - type: 'print'
      tag: 'print'
-     dpi: 2400
+     dpi: 300
      width: 1600
    - type: 'web'
-     dpi: 2400
-     width: 2800
+     dpi: 72
+     width: 800
    - type: 'offset'
      tag: 'offset'
-     dpi: 1200
-     width: 800
+     dpi: 300
+     width: 200
 ---
 name: load-latency-linear2
 alt: "Latency vs. Load for a system that doesn't scale with users."
 output:
    - type: 'print'
      tag: 'print'
-     dpi: 2400
+     dpi: 300
      width: 1600
    - type: 'web'
-     dpi: 2400
-     width: 2800
+     dpi: 72
+     width: 800
    - type: 'offset'
      tag: 'offset'
-     dpi: 1200
-     width: 800
+     dpi: 300
+     width: 200
 ---
 name: crud-write-concern-w2
 alt: "Write operation to a replica set with write concern level of ``w:2`` or write to the primary and at least one secondary."
 output:
    - type: 'print'
      tag: 'print'
-     dpi: 2400
+     dpi: 300
      width: 1600
    - type: 'web'
-     dpi: 2400
-     width: 2800
+     dpi: 72
+     width: 800
    - type: 'offset'
      tag: 'offset'
-     dpi: 1200
-     width: 800
+     dpi: 300
+     width: 200
 ---
 name: replica-set-trigger-election
 alt: "Diagram of an election of a new primary. In a three member replica set with two secondaries, the primary becomes unreachable. The loss of a primary triggers an election where one of the secondaries becomes the new primary"
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 300
 ---
 name: replica-set-read-write-operations-primary
 alt: "Diagram of a 3-node replica set."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 250
 ---
 name: replica-set-heartbeat
 alt: "Nodes in a replica set regularly ping all other nodes to ensure they can be reached."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 300
 ---
 name: sharded-collection
-alt: "Horizontal scaling."
+alt: "Horizontal scaling in MongoDB through sharding."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 500
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 270
 ---
 name: sharded-cluster-targeted-query
 alt: "Targeted query in a sharded cluster."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 200
 ---
 name: sharding-splitting
 alt: "An example of splitting a chunk."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 200
 ---
 name: sharded-cluster-no-config-servers
 alt: "A sharded cluster with no config servers."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
-    width: 2800
+    dpi: 300
+    width: 800
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 200
 ---
 name: sharded-cluster-production-architecture
 alt: "A sharded cluster architecture for production."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 300
 ---
 name: database-landscape
 alt: "Database landscape"
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 1000
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 350
 ---
 name: objectId
 alt: "ObjectId: 12-byte hexadecimal string."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 400
 ---
 name: vertical-scaling
-alt: "Vertical scaling."
+alt: "Vertical scaling means buying higher-capacity, more-expensive hardware."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 200
 ---
 name: working-set-exceeds-ram
 alt: "Working set exceeds RAM."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 250
 ---
 name: deployments
 alt: "Deployment models: standalone, replica set, and sharded cluster."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 1000
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 400
 ---
 name: padding
 alt: "Padding."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 350
 ---
 name: auth-workflow
 alt: "Authentication and Authorization workflow."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 300
 ---
 name: replica-set-3nodes-1-per-dc
 alt: "3 Data Nodes Distributed Across 3 Data Centers"
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 300
 ---
 name: btree-index
 alt: "Index on x."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 350
 ---
 name: data-model-8-in-memory
 alt: "Data model with too much information in documents. Can fit only 8 documents in memory."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 300
 ---
 name: data-model-12-in-memory
 alt: "Data model with only needed information in documents. Can fit 12 documents in memory."
 output:
   - type: print
     tag: 'print'
-    dpi: 2400
+    dpi: 300
     width: 1600
   - type: web
-    dpi: 2400
-    width: 2800
+    dpi: 72
+    width: 800
   - type: 'offset'
     tag: 'offset'
-    dpi: 1200
-    width: 800
+    dpi: 300
+    width: 300
 ...

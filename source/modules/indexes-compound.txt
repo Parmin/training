@@ -22,12 +22,10 @@ Introduction to Compound Indexes
 - It is common to create indexes based on more than one field.
 - These are called ``compound indexes``.
 - You may use up to 31 fields in a compound index.  
-- You many not use hashed index fields.
+- You may not use hashed index fields.
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 The Order of Fields Matters
 ---------------------------
@@ -73,7 +71,6 @@ Designing Compound Indexes
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
 
 Example: A Simple Message Board
 -------------------------------
@@ -102,7 +99,6 @@ Load the Data
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
 
 Start with a Simple Index
 -------------------------
@@ -148,7 +144,6 @@ Query Adding ``username``
       - Now ``nscanned`` > ``n``. 
 
 
-.. include:: /includes/np.rst
 
 Include ``username`` in Our Index
 ---------------------------------
@@ -195,7 +190,6 @@ timestamp  username
       - Then the associated anonymous values had to be evaluated.
 
 
-.. include:: /includes/np.rst
 
 A Different Compound Index
 --------------------------
@@ -253,8 +247,6 @@ Let Selectivity Drive Field Order
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Adding in the Sort
 ------------------
 
@@ -307,7 +299,6 @@ Let's modify the index again to allow the database to sort for us.
       - Note that this requires us to consider a tradeoff.
 
 
-.. include:: /includes/np.rst
 
 Avoiding an In-Memory Sort
 --------------------------

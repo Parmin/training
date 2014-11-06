@@ -15,8 +15,6 @@ Upon completing this module students should understand:
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Example: A Five-Member Replica Set Configuration
 ------------------------------------------------
 
@@ -49,8 +47,6 @@ Configuration
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Principal Data Center
 ---------------------
@@ -89,8 +85,6 @@ Data Center 2
       - ``dc2-1`` could become primary, but only if both ``dc1-1`` and ``dc1-2`` are down.
       - If there is a network partition and clients can only reach DC2, we can manually failover to ``dc2-1``.
 
-
-.. include:: /includes/np.rst
 
 What about ``dc1-3`` and ``dc2-2``?
 -----------------------------------

@@ -36,8 +36,6 @@ On Windows, run the following command instead in Command Prompt or PowerShell:
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Launch Each Member
 ------------------
 
@@ -86,8 +84,6 @@ Status
       - The same configuration process is used for this deployment as for one that is distributed across multiple machines.
 
 
-.. include:: /includes/np.rst
-
 Connect to a MongoDB Instance
 -----------------------------
 
@@ -125,8 +121,6 @@ Note the port number of the primary from the output of ``rs.status()``, which we
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Write to the Primary
 --------------------
@@ -232,8 +226,6 @@ The secondary will now become a primary. Check by running:
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Further Reading
 ---------------

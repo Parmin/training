@@ -30,8 +30,6 @@ Introduction to Multikey Indexes
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Example: Array of Numbers
 -------------------------
 
@@ -96,7 +94,6 @@ Create a collection and add an index on the ``x`` field:
       - Each subdocument has a name and number in it 
       - Always the same number for each name.
 
-.. include:: /includes/np.rst
 
 Exercise: Array of Documents, Part 2
 ------------------------------------
@@ -157,7 +154,6 @@ Add some documents and create an index:
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
 
 Exercise: Array of Arrays, Part 2
 ---------------------------------
@@ -209,8 +205,6 @@ How Multikey Indexes Work
 
 
 
-.. include:: /includes/np.rst
-
 Multikey Indexes and Sorting
 ----------------------------
 
@@ -227,8 +221,6 @@ Multikey Indexes and Sorting
 
 .. include:: /exercises/indexes-multikey-sorting.txt
 
-
-.. include:: /includes/np.rst
 
 Limitations on Multikey Indexes
 -------------------------------

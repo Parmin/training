@@ -76,8 +76,6 @@ MongoDB Experience
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Origin of MongoDB
 -----------------
 

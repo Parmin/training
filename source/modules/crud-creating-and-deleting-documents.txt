@@ -28,8 +28,6 @@ Creating New Documents
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /includes/np.rst
-
 .. include:: /exercises/crud-inserting-a-document.txt
 
 
@@ -45,8 +43,8 @@ Implicit ``_id`` Assignment
 .. include:: /exercises/crud-assigning-ids.txt
 
 
-``_id`` Inserts will fail if...
--------------------------------
+Inserts will fail if...
+-----------------------
 
 - There is already a document in the collection with that ``_id``.
 - You try to assign an array to the ``_id``.
@@ -56,8 +54,6 @@ Implicit ``_id`` Assignment
 
 .. include:: /exercises/crud-inserts-specifying-id.txt
 
-
-.. include:: /includes/np.rst
 
 
 Bulk Inserts
@@ -80,6 +76,9 @@ Bulk Inserts
       - In the case of an unordered bulk operation however there is no guarantee what order the operations are executed. 
       - With an unordered bulk operation, the operations in the list may be reordered to increase performance.
 
+.. include:: /includes/student-notes.rst
+
+
 Ordered Insert
 --------------
 
@@ -91,8 +90,6 @@ Ordered Insert
 .. include:: /includes/student-notes.rst
 
 .. include:: /exercises/crud-inserting-multiple-documents.txt
-
-.. include:: /includes/np.rst
 
     
 Unordered Insert
@@ -129,8 +126,6 @@ Experiment with the following bulk insert.
 
 
 
-.. include:: /includes/np.rst
-
 The Shell is a JavaScript Interpreter
 -------------------------------------
 
@@ -160,8 +155,6 @@ You may delete documents from a MongoDB deployment in several ways.
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Using ``remove()``
 ------------------
 
@@ -177,8 +170,6 @@ Using ``remove()``
 
 .. include:: /exercises/crud-removing-documents.txt
 
-
-.. include:: /includes/np.rst
 
 Dropping a Collection
 ---------------------
@@ -201,8 +192,6 @@ Dropping a Collection
 .. include:: /exercises/crud-dropping-a-collection.txt
 
 
-
-.. include:: /includes/np.rst
 
 Dropping a Database
 -------------------

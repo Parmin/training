@@ -27,8 +27,6 @@ The ``find()`` Method
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Query by Example
 ----------------
 
@@ -42,8 +40,6 @@ Query by Example
 
 .. include:: /exercises/crud-querying-by-example.txt
 
-
-.. include:: /includes/np.rst
 
 Querying Arrays
 ---------------
@@ -64,8 +60,6 @@ Querying Arrays
 
 .. include:: /exercises/crud-querying-arrays.txt
 
-
-.. include:: /includes/np.rst
 
 Querying with Dot Notation
 --------------------------
@@ -103,8 +97,6 @@ Insert a few documents as follows.
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Exercise: Dot Notation, Part 2
 ------------------------------
 
@@ -124,8 +116,6 @@ Experiment with the following queries.
 
 .. include:: /exercises/crud-querying-in-arrays-with-dot-notation.txt
 
-
-.. include:: /includes/np.rst
 
 Cursors
 -------
@@ -166,8 +156,6 @@ Experiment with the following commands.
       - ``it`` causes the shell to iterate over the next 20 documents.
       - Can continue issuing ``it`` commands until all documents are seen.
 
-
-.. include:: /includes/np.rst
 
 Exercise: Introducing Cursors, Part 2
 -------------------------------------
@@ -226,8 +214,6 @@ Cursor Methods
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 .. include:: /exercises/crud-using-count.txt
 
 
@@ -265,8 +251,6 @@ The ``distinct()`` Method
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Exercise: Using ``distinct()``
 ------------------------------

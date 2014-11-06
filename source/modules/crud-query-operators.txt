@@ -30,8 +30,6 @@ Comparison Query Operators
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 .. include:: /exercises/crud-comparison-operators.txt
 
 
@@ -50,17 +48,13 @@ Logical Query Operators
 
 
 
-.. include:: /includes/np.rst
-
 .. include:: /exercises/crud-logical-operators.txt
 
-
-.. include:: /includes/np.rst
 
 Element Query Operators
 -----------------------
 
-- ``$exists``: Select documents based on the existence of a particular field
+- ``$exists``: Select documents based on the existence of a particular field.
 - ``$type``: Select documents based on their type.
 - See :manual:`BSON types</reference/bson-types>` for reference on types.
 
@@ -70,7 +64,6 @@ Element Query Operators
 .. include:: /exercises/crud-element-operators.txt
 
 
-.. include:: /includes/np.rst
 
 Array Query Operators
 ---------------------

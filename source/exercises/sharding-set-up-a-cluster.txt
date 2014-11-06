@@ -31,10 +31,8 @@ Our Sharded Cluster
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
-Specifically
-------------
+Sharded Cluster Configuration
+-----------------------------
 
 - Three shards:
 
@@ -67,8 +65,6 @@ Build Our Data Directories
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Initiate a Replica Set
 ----------------------
@@ -114,8 +110,6 @@ Spin Up a Second Replica Set
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 A Third Replica Set
 -------------------
     
@@ -158,8 +152,6 @@ Status Check
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /includes/np.rst
-
 Launch Config Servers
 ---------------------
 .. code-block:: bash
@@ -191,8 +183,6 @@ Now our mongos's. We need to tell them about our config servers.
 
 .. include:: /includes/student-notes.rst
 
-
-.. include:: /includes/np.rst
 
 Add All Shards
 --------------

@@ -58,6 +58,7 @@ A MongoDB document expressed using JSON syntax.
       - Documents are hierarchical data structures.
       - This is a fundamental departure from relational databases where rows are flat.
 
+.. include:: /includes/student-notes.rst
 
 .. include:: /includes/np.rst
 
@@ -77,6 +78,8 @@ Vertical Scaling
       - The largest machines cost much more than commodity hardware. 
       - If your application is successful, you may find you simply cannot buy a large enough a machine to support your workload. 
 
+.. include:: /includes/student-notes.rst
+
     
 
 Scaling with MongoDB
@@ -93,8 +96,8 @@ Scaling with MongoDB
       - When you need more performance, you just buy another machine and add it to your cluster. 
       - MongoDB is highly performant on commodity hardware.	
 
+.. include:: /includes/student-notes.rst
 
-.. include:: /includes/np.rst
 
 Database Landscape
 ------------------
@@ -114,6 +117,8 @@ Database Landscape
       - MongoDB has nearly as much scalability as key-value stores.
       - Gives up only the features that prevent scaling. 
       - We have compensating features that mitigate the impact of that design decision.
+
+.. include:: /includes/student-notes.rst
 
 
 MongoDB Deployment Models
@@ -138,6 +143,8 @@ MongoDB Deployment Models
         - Your data is distributed across several shards.
         - The shards are themselves replica sets. 
         - This provides high availability and redundancy at scale.
+
+.. include:: /includes/student-notes.rst
 
 
 
