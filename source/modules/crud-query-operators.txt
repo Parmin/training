@@ -61,7 +61,30 @@ Element Query Operators
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /exercises/crud-element-operators.txt
+Exercise: Element Operators
+---------------------------
+
+Experiment with the following.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   // by default the mongo shell treats all numbers as floating-point values
+   db.testcol.insert( [ { a : 1 }, { b : 1 }, { a : NumberInt(2) }, { b : "b" } ] )
+
+   db.testcol.find( { a : { $exists : true } } )   
+
+   // type 1 is Double
+   db.testcol.find( { b : { $type : 1 } } )        
+
+   // type 2 is String
+   db.testcol.find( { b : { $type : 2 } } )        
+
+   // type 16 is 32-bit integer 
+   // The mongo shell provides NumberInt() and NumberLong() to handle integers
+   db.testcol.find( { a : { $type : 16 } } )       
+
+.. include:: /includes/student-notes.rst
 
 
 

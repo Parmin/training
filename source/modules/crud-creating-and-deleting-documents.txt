@@ -177,7 +177,7 @@ Dropping a Collection
 - You can drop an entire collection with ``db.collection.drop()``
 - The collection and all documents will be deleted.
 - It will also remove any metadata associated with that collection.
-- Indexes are one type of meta data removed.
+- Indexes are one type of metadata removed.
 - More on meta data later.
 
 .. include:: /includes/student-notes.rst

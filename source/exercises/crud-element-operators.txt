@@ -6,15 +6,19 @@ Experiment with the following.
 .. code-block:: javascript
 
    db.testcol.drop()
-   db.testcol.insert( [ { a : 1 }, { b : 1 }, { a : 2 }, { b : "b" } ] )
+   // by default the mongo shell treats all numbers as floating-point values
+   db.testcol.insert( [ { a : 1 }, { b : 1 }, { a : NumberInt(2) }, { b : "b" } ] )
 
-   // 2 docs
    db.testcol.find( { a : { $exists : true } } )   
 
-   // 1 doc; type 2 is string
+   // type 1 is Double
+   db.testcol.find( { b : { $type : 1 } } )        
+
+   // type 2 is String
    db.testcol.find( { b : { $type : 2 } } )        
 
-   // 2 docs; type 16 is 32-bit int
+   // type 16 is 32-bit integer 
+   // The mongo shell provides NumberInt() and NumberLong() to handle integers
    db.testcol.find( { a : { $type : 16 } } )       
 
 .. include:: /includes/student-notes.rst

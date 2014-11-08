@@ -217,8 +217,42 @@ Cursor Methods
 .. include:: /exercises/crud-using-count.txt
 
 
+Exercise: Using ``sort()``
+--------------------------
 
-.. include:: /exercises/crud-using-sort.txt
+Experiment with the following sort commands.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=20; i++) { 
+       db.testcol.insert( { a : Math.floor( Math.random() * 10 + 1 ), 
+                            b : Math.floor( Math.random() * 10 + 1 ) } ) 
+   }
+
+   db.testcol.find()                            
+
+   // sort descending; use 1 for ascending
+   db.testcol.find().sort( { a : -1 } )         
+
+   // sort by b, then a
+   db.testcol.find().sort( { b : 1, a : 1 } )   
+
+   // $natural order is just the order on disk.
+   db.testcol.find().sort( { $natural : 1 } )  
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Sort can be executed on a cursor until the point where the first document is actually read.
+      - If you never delete any documents or change their size, this will be the same order in which you inserted them.
+      - Sorting two or more fields breaks the convention of javascript objects that key / value pairs are unordered.
+      - In some drivers you may need to take special care with this.
+      - For example, in Python, you would usually query with a dictionary. 
+      - But dictionaries are unordered in Python, so you would use an array of tuples instead.
 
 
 The ``skip()`` Method
@@ -260,8 +294,9 @@ Experiment with the following commands and note what ``distinct()`` returns.
 .. code-block:: javascript
 
    db.testcol.drop()    
-   db.testcol.insert( [ { a : 1 , b : 3 },
+   db.testcol.insert( [ { a : 2 , b : 3 },
                         { a : 2 },
+                        { a : "hello" },
                         { a : "hello" },
                         { a : { hello : "world" } } ] )
    db.testcol.distinct( "a" )

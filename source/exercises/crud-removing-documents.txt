@@ -9,12 +9,12 @@ Experiment with removing documents. Do a ``find()`` after each command below.
 
    db.testcol.remove( { a : 1 } )  // Remove the first document
 
-   db.testcol.remove( { a : { $lt : 5 } } )  // Remove four more
+   db.testcol.remove( { a : { $lt : 5 } } )  // Remove three more
 
    db.testcol.remove( { a : { $lt : 10 } },
                             { justOne : true } )  // Remove one more
 
-   db.testcol.remove()  // No documents removed
+   db.testcol.remove()  // Error: requires a query document.
 
    db.testcol.remove( { } )  // All documents removed
 

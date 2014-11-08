@@ -50,7 +50,94 @@ Parameters to ``update()``
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /exercises/crud-basic-queries-using-update.txt
+``$set`` and ``$unset``
+-----------------------
+
+- Update one or more fields using the ``$set`` operator.
+- If the field already exists, using ``$set`` will change its value.
+- If the field does not exist, ``$set`` will create it and set it to the new value.
+- Any fields you do not specify will not be modified.
+- You can remove a field using ``$unset``.
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: ``$set`` and ``$unset``
+---------------------------------
+
+Experiment with the following. Do a ``find()`` after each update to view the results.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i, b : i } ) }
+
+   db.testcol.update( { _id : 3 }, { $set : { a : 6 } } )  
+
+   db.testcol.update( { _id : 5 } , { $set : { c : 5 } } ) 
+
+   db.testcol.update( { _id : 5 } , { $set : { c : 7 , a : 7 } } )
+
+   db.testcol.update( { _id : 5 } , { d : 4 } )
+
+   db.testcol.update( { _id : 4 } , { $unset :  { a : 1 } } )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - db.testcol.update( { _id : 3 }, { $set : { a : 6 } } ) just updates the ``a`` field.
+      - db.testcol.update( { _id : 5 }, { $set : { c : 5 } } ) adds a ``c`` field to the matching document.
+      - db.testcol.update( { _id : 5 }, { $set : { c : 7 , a : 7 } } ) modifies only the ``c`` and ``a`` fields.
+      - db.testcol.update( { _id : 5 }, { d : 4 } ) is the type of update that is probably a mistake. 
+
+        - It will replace the document with _id : 5 in its entirety.
+	- The new document will be, { d : 4 }.
+
+      - db.testcol.update( { _id : 4 }, { $unset : a } ) removes the ``a`` field.
+
+
+Update Operators
+----------------
+
+- ``$inc``: Increment a field's value by the specified amount.
+- ``$mul``: Multiply a field's value by the specified amount.
+- ``$rename``: Rename a field.
+- ``$set`` (already discussed)
+- ``$unset`` (already discussed)
+- ``$min``: Update only if value is smaller than specified quantity
+- ``$max``: Update only if value is larger than specified quantity
+- ``$currentDate``: Set the value of a field to the current date or timestamp.
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Update Operators
+--------------------------
+
+Experiment with the following update operators.
+
+.. code-block:: javascript
+
+   db.testcol.drop()   
+   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i, b : i } ) }
+
+   db.testcol.update( { _id : 2 }, { $inc : { a : -3 } } )        
+
+   db.testcol.update( { _id : 1 }, { $inc : { q : 1 } } )  
+
+   db.testcol.update( { _id : 3 }, { $mul : { a : 4 } } )  
+
+   db.testcol.update( { _id : 4 }, { $rename : { a : "xyz" } } )
+
+   db.testcol.update( { _id : 5 }, { $min : { a : 3 } } )  
+
+   db.testcol.update( { _id : 1 }, 
+                      { $currentDate : { c : { $type : "timestamp" } } } )
+
+.. include:: /includes/student-notes.rst
 
 
 ``update()`` Defaults to one Document
@@ -69,51 +156,35 @@ Updating Multiple Documents
 
 - In order to update multiple documents, we use the third (optional) parameter to ``update()``.
 - The third parameter is an options document.
-- Specify ``multi : true`` as one field in this document.
+- Specify ``multi: true`` as one field in this document.
 - Bear in mind that without an appropriate index, you may scan every document in the collection.
 
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /exercises/crud-multi-update.txt
+Exercise: Multi-Update
+----------------------
 
+Use ``db.testcol.find()`` after each of these updates.
 
-Updating Fields
----------------
+.. code-block:: javascript
 
-- Update one or more fields using the ``$set`` operator.
-- If the field already exists, using ``$set`` will change its value.
-- If the field does not exist, ``$set`` will create it and set it to the new value.
-- Any fields you do not specify will not be modified.
-- You can remove a field using ``$unset``.
+   db.testcol.drop()
+   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i } ) }
 
-.. include:: /includes/student-notes.rst
+   db.testcol.update( { _id : { $lt : 5 } }, { $set : { a : 6 } } )
 
-
-.. include:: /exercises/crud-set-and-unset.txt
-
-
-.. following document doesn't exist. commenting to prevent error
-
-   .. include /exercises/crud-set-with-multi.txt
-
-
-Update Operators
-----------------
-
-- ``$inc``: Increment a field's value by the specified amount.
-- ``$mul``: Multiply a field's value by the specified amount.
-- ``$rename``: Rename a field.
-- ``$set`` (already discussed)
-- ``$unset`` (already discussed)
-- ``$min``: Update only if value is smaller than specified quantity
-- ``$max``: Update only if value is larger than specified quantity
-- ``$currentDate``: Set the value of a field to the current date or timestamp.
+   db.testcol.update( { _id : { $lt : 5 } }, { $set : { a : 7 } }, 
+                      { multi : true } )
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
 
-.. include:: /exercises/crud-update-operators.txt
+   .. note::
+
+      - ``db.testcol.update( { _id : { $lt : 5 } }, { $set : { a : 6 } } )`` only updates one document.
+      - ``db.testcol.update( { _id : { $lt : 5 } }, { $set : { a : 7 } }, { multi : true } )`` updates four documents.
 
 
 Array Operators
@@ -135,11 +206,49 @@ Array Operators
       - These operators may be applied to array fields.
 
 
-.. include:: /exercises/crud-update-array-operators.txt
+Exercise: Array Operators
+-------------------------
+
+Experiment with the following updates.
+
+.. code-block:: javascript
+
+   db.testcol.drop()   
+   for (i=1; i<=5; i++) { db.testcol.insert( 
+       { _id : i, a : i, b: [ 1, 2, 3, 3, "NA", 6 ] } ) } 
+
+   db.testcol.update( { _id : 1 }, { $push : { b : 3 } } ) 
+   db.testcol.update( { _id : 2 }, { $pushAll : { b : [ 1, 2, 3 ] } } )
+
+   db.testcol.update( { _id : 2 }, { $pop : { b : "" } } )  
+
+   db.testcol.update( { _id : 3 }, { $pull : { b : 3 } } )  
+   db.testcol.update( { _id : 4 }, 
+                      { $pullAll : { b : [ 1, 2, "NA", 4 ] } } )  
+
+   db.testcol.update( { _id : 5 }, { $addToSet : { b : 2 } } )  
+   db.testcol.update( { _id : 5 }, { $addToSet : { b : 4 } } )  
+
+.. include:: /includes/student-notes.rst
 
 
-The ``$`` Operator
-------------------
+.. only:: instructor
+
+   .. note::
+   
+      - If you have time you might want to show the students:
+
+        .. code-block:: javascript
+
+           db.testcol.update( { _id : 1 }, { $push : { b : [ 3, 12 ] } } )  
+ 
+      - In ``{ $pop : { b : "" } }``, the value passed for ``b`` is just a placeholder. Most values will work fine.
+      - In ``{ $pullAll : { b : [ 1, 2, "NA", 4 ] } }`` the value ``4`` is not present in the array found in ``b``. This has no effect on the update.
+
+
+
+The Positional ``$`` Operator
+-----------------------------
 
 - :manual:`$</reference/operator/update/postional>` is a positional operator that specifies an element in an array to update.
 - It acts as a placeholder for the first element that matches the query document.
@@ -156,8 +265,8 @@ The ``$`` Operator
 .. include:: /includes/student-notes.rst
 
 
-Exercise: ``$``
----------------
+Exercise: The Positional ``$`` Operator
+---------------------------------------
 
 Experiment with the following commands.
 
@@ -259,7 +368,8 @@ Exercise: ``save()``
 --------------------
 
 .. code-block:: javascript
-   
+
+   db.testcol.drop()   
    for (i=1; i<=5; i++) { db.testcol.save( { _id : i, a : i, b : i } ) }
    db.testcol.find()
 
@@ -283,14 +393,20 @@ Be careful that you are not modifying stale data when using ``save()``. For exam
         
 .. code-block:: javascript
 
+   db.testcol.drop()
+   db.testcol.insert( { _id : 2, a : 2, b : 2 } )
+
+   db.testcol.find( { _id : 2 } )
    doc = db.testcol.findOne( { _id: 2 } )
-   doc.c = 11
 
    db.testcol.update( { _id: 2 }, { $inc: { b : 1 } } )
-   doc = db.testcol.findOne( { _id: 2 } )
+   db.testcol.find()
 
-   db.testcol.save(doc)
-   doc = db.testcol.findOne( { _id: 2 } )
+   doc.c = 11
+   doc
+
+   db.testcol.save(doc)  // just lost our incrementing of b.
+   db.testcol.find()
 
 .. include:: /includes/student-notes.rst
 	   
