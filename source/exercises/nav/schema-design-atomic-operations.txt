@@ -1,7 +1,0 @@
-================================
-Schema Design: Atomic Operations
-================================
-
-.. default-domain:: mongodb
-
-.. include:: /includes/toc/exercises-schema-design-atomic-operations.rst

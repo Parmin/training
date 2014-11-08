@@ -1,9 +1,0 @@
-==================
-Updating Documents
-==================
-
-.. default-domain:: mongodb
-
-.. include:: /includes/toc/dfn-list-exercises.rst
-
-.. include:: /includes/toc/exercises-crud-updating-documents.rst             
