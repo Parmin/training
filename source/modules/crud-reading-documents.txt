@@ -30,7 +30,7 @@ The ``find()`` Method
 Query by Example
 ----------------
 
-- To query MongoDB, specify a document containing the field / value pairs you want to match
+- To query MongoDB, specify a document containing the key / value pairs you want to match
 - You need only specify values for fields you care about.
 - Other fields will not be used to exclude documents.
 - The result set will include all documents in a collection that match.
@@ -38,7 +38,38 @@ Query by Example
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /exercises/crud-querying-by-example.txt
+Exercise: Querying by Example
+-----------------------------
+
+Experiment with the following sequence of commands.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   db.testcol.insert( [ { _id : 1, a : 5, b : 3 },
+                        { _id : 3, b : 5, c : 12 },
+                        { a : 7, b : 3 },
+                        { c : 5, b : 7 } ] )
+   db.testcol.find()
+
+   db.testcol.find( { a : 5 } )
+
+   db.testcol.find( { b : 3, a : 7 } )
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+   .. note::
+
+      Matching Rules:
+
+      - Any field specified in the query must be in each document returned.
+      - Values for returned documents must match the conditions specified in the query document.
+      - If multiple fields are specified, all must be present in each document returned.
+      - Think of it as a logical AND for all fields.
+
 
 
 Querying Arrays
@@ -58,23 +89,53 @@ Querying Arrays
       Students might find it helpful to think of an array field as having multiple values -- one for each of its elements.
 
 
-.. include:: /exercises/crud-querying-arrays.txt
+Exercise: Querying Arrays
+-------------------------
+
+Experiment with the following sequence of commands.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   db.testcol.insert( [ { a : [ 1, 2, 3 ] },
+                        { a : [ 3, 4, 5 ] },
+                        { a : [ 5, 6, 7 ] } ] )
+
+    // These match documents where a contains the value specified
+    db.testcol.find( { a : 3 } )
+    db.testcol.find( { a : 5 } )
+
+    // These match documents where a equals the value specified
+    db.testcol.find( { a : [ 3, 5 ] } )  // no documents
+    db.testcol.find( { a : [ 3, 4, 5 ] } )  // only the second document
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+   .. note::
+
+      Later, we'll see operators that will allow us to do things like match all documents where an array field contains any of a set of values.
 
 
 Querying with Dot Notation
 --------------------------
 
 - Dot notation is used to query on fields in embedded documents.
-- The format is ``"field1.field2" : value``.
+- The syntax is:
+
+  .. code-block:: javascript 
+
+     "field1.field2" : value
+
 - Put quotes around the field name when using dot notation.
-- An example follows.
 
 .. include:: /includes/student-notes.rst
 
-Exercise: Dot Notation, Part 1
-------------------------------
 
-Insert a few documents as follows.
+Exercise: Querying with Dot Notation
+------------------------------------
 
 .. code-block:: javascript
 
@@ -94,27 +155,50 @@ Insert a few documents as follows.
                           street : "43rd Street", 
                           number : 745 } } ] )
 
+   db.buildings.find( { "location.street" : "7th Ave" } ) // Two matches 
+
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Dot Notation, Part 2
-------------------------------
+Exercise: Arrays and Dot Notation
+---------------------------------
 
-Experiment with the following queries.
+Experiment with the following commands.
 
 .. code-block:: javascript
 
-   // Two matches
-   db.buildings.find( { "location.street" : "7th Ave" } )  
+   db.things.insert( [ 
+       { type : "fruit", 
+         examples : [ { type : "banana", color : "yellow" },
+                      { type : "apple", color : "red" }, 
+                      { type : "mango", color : "red" } ] },
+       { type : "cars", 
+         examples : [ { model : "Camaro", color : "red" },
+                      { model : "Pinto", color : "yellow" },
+                      { model : "Tacoma", color : "blue" } ] },
+       { type : "planets", 
+         examples : [ { name : "Mars", color : "red" },
+                      { name : "Venus", color : "blue" }, 
+                      { name : "Earth", color : "blue" } ] } ] )
 
-   // One match
-   db.buildings.find( { "location.street" : "7th Ave", 
-                        "location.floor" : 7 } )
+    db.things.find( { "examples.color" : "blue" } ) // two documents
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
 
-.. include:: /exercises/crud-querying-in-arrays-with-dot-notation.txt
+   .. note::
+
+      - This query finds documents where:
+
+        - There is an ``examples`` field.
+        - The ``examples`` field contains one or more embedded documents.
+        - At least one embedded document has a field ``color``.
+        - The field ``color`` has the specified value ("blue").
+
+      - In this collection, ``examples`` is actually an array field.
+      - The embedded documents we are matching are held within these arrays.
+
 
 
 Cursors
@@ -128,8 +212,8 @@ Cursors
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Introducing Cursors, Part 1
--------------------------------------
+Exercise: Introducing Cursors
+-----------------------------
 
 Experiment with the following commands.
 
@@ -157,51 +241,30 @@ Experiment with the following commands.
       - Can continue issuing ``it`` commands until all documents are seen.
 
 
-Exercise: Introducing Cursors, Part 2
--------------------------------------
-
-Experiment with the following commands.
+Exercise: Cursor Objects in the Mongo Shell
+-------------------------------------------
 
 .. code-block:: javascript
 
+   // Assigns the cursor returned by find() to a variable x
    var x = db.testcol.find()
 
-   x.next()                 
+   // Displays the first document in the result set.
+   x.next()
 
-   x.hasNext()              
+   // True because there are more documents in the result set.
+   x.hasNext()
 
-   y = x.next()             
+   // Assigns the next document in the result set to the variable y.
+   y = x.next()
 
-   y.a                       
+   // Return value is the value of the a field of this document.
+   y.a
 
-   x 
+   // Displaying a cursor prints the next 20 documents in the result set.
+   x
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      .. code-block:: javascript
-
-         // Assigns the cursor returned by find() to a variable x
-	 var x = db.testcol.find()
-
-         // Displays the first document in the result set.
-	 x.next()                 
-
-         // True because there are more documents in the result set.
-	 x.hasNext()              
-
-         // Assigns the next document in the result set to the variable y.
-         y = x.next()             
-
-         // Return value is the value of the a field of this document.
-	 y.a 
-          
-         // Displaying a cursor prints the next 20 documents in the result set.            
-	 x 
-
 
 
 Cursor Methods
@@ -214,7 +277,34 @@ Cursor Methods
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /exercises/crud-using-count.txt
+Exercise: Using ``count()``
+---------------------------
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=100; i++) { db.testcol.insert( { a : i } ) }
+
+   // all 100 
+   db.testcol.count()   
+
+   // just 41 docs
+   db.testcol.count( { a : { $lt : 42 } } )  
+
+   // Another way of writing the same query
+   db.testcol.find( { a : { $lt : 42 } } ).count(  )  
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - You may pass a query document like you would to ``find()``.
+      - ``count()`` will count only the documents matching the query.
+      - Will return the number of documents in the collection if you do not specify a query document.
+      - The last query in the above achieves the same result because it operates on the cursor returned by ``find()``.
+
 
 
 Exercise: Using ``sort()``

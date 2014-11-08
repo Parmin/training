@@ -28,7 +28,28 @@ Creating New Documents
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /exercises/crud-inserting-a-document.txt
+Exercise: Inserting a Document
+------------------------------
+
+Experiment with the following commands.
+
+.. code-block:: javascript
+
+   use sample
+
+   db.hellos.insert( { a : "hello, world!" } )
+
+   db.hellos.find()
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+        
+      - Make sure the students are performing the operations along with you.
+      - Some students will have trouble starting things up, so be helpful at this stage.
+
 
 
 Implicit ``_id`` Assignment
@@ -40,7 +61,26 @@ Implicit ``_id`` Assignment
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /exercises/crud-assigning-ids.txt
+Exercise: Assigning _ids
+------------------------
+
+Experiment with the following commands.
+
+.. code-block:: javascript
+
+    db.hellos.insert( { _id : 253, a : "a string" } )
+
+    db.hellos.find()
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Note that you can assign an _id to be of almost any type.
+      - It does not need to be an ObjectId.
+
 
 
 Inserts will fail if...
@@ -52,7 +92,43 @@ Inserts will fail if...
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /exercises/crud-inserts-specifying-id.txt
+
+Exercise: Inserts will fail if...
+---------------------------------
+
+.. code-block:: javascript
+
+   // fails because _id can't have an array value
+   db.hellos.insert( { _id : [ 1, 2, 3 ] } )
+
+   // succeeds
+   db.hellos.insert( { _id : 3 } )
+
+   // fails because of duplicate id
+   db.hellos.insert( { _id : 3 } )
+
+   // malformed document
+   db.hellos.insert( { "hello" } )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - The following will fail because it attempts to use an array as an ``_id``.
+
+        .. code-block:: javascript
+
+           db.hellos.insert( { _id : [ 1, 2, 3 ] } )
+
+      - The second insert with ``_id : 3`` will fail because there is already a document with ``_id`` of 3 in the collection.
+
+      - The following will fail because it is a malformed document (i.e. no field name, just a value).
+
+      .. code-block:: javascript
+
+         db.hellos.insert( { "hello" } )
 
 
 
@@ -79,8 +155,8 @@ Bulk Inserts
 .. include:: /includes/student-notes.rst
 
 
-Ordered Insert
---------------
+Ordered Bulk Insert
+-------------------
 
 - For ordered inserts MongoDB will stop processing inserts upon encountering an error.
 - Meaning that only inserts occurring before an error will complete.
@@ -89,11 +165,36 @@ Ordered Insert
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /exercises/crud-inserting-multiple-documents.txt
+
+Exercise: Ordered Bulk Insert
+-----------------------------
+
+Experiment with the following bulk insert.
+
+.. code-block:: javascript
+
+   db.things.insert( [ { _id : 19, type : "atom", symbol : "K" },
+                       { _id : 20, type : "car", color : "red" }, 
+                       { _id : 20, type : "planet", name : "Saturn" },
+                       { type : "office", 
+                         street : "229 West 43rd Street, 5th Floor",
+                         city : "New York",
+                         state : "NY" } ] )
+
+   db.things.find()
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note:: 
+
+      - This example has a duplicate key error.
+      - Only the first 2 documents will be inserted.
 
     
-Unordered Insert
-----------------
+Unordered Bulk Insert
+---------------------
 
 - Pass ``{ ordered : false }`` to insert to perform unordered inserts.
 - If any given insert fails, MongoDB will still attempt the others.
@@ -105,8 +206,8 @@ Unordered Insert
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Unordered Insert
---------------------------
+Exercise: Unordered Bulk Insert
+-------------------------------
 
 Experiment with the following bulk insert.
 
@@ -168,7 +269,30 @@ Using ``remove()``
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /exercises/crud-removing-documents.txt
+Exercise: Removing Documents
+----------------------------
+
+Experiment with removing documents. Do a ``find()`` after each ``remove()`` command below.
+
+.. code-block:: javascript
+
+   for (i=1; i<=20; i++) { db.testcol.insert( { _id : i, a : i } ) }
+
+   db.testcol.remove( { a : 1 } )  // Remove the first document
+
+   // $lt is a query operator that enables us to select documents that
+   // are less than some value. More on operators soon.
+   db.testcol.remove( { a : { $lt : 5 } } )  // Remove three more
+
+   db.testcol.remove( { a : { $lt : 10 } },
+                            { justOne : true } )  // Remove one more
+
+   db.testcol.remove()  // Error: requires a query document.
+
+   db.testcol.remove( { } )  // All documents removed
+
+.. include:: /includes/student-notes.rst
+
 
 
 Dropping a Collection
@@ -204,4 +328,23 @@ Dropping a Database
 .. include:: /includes/student-notes.rst
 
 
-.. include:: /exercises/crud-dropping-a-database.txt
+Exercise: Dropping a Database
+-----------------------------
+
+.. code-block:: javascript
+
+   use tempDB
+   db.testcol1.insert( { a : 1 } )
+   db.testcol2.insert( { a : 1 } )
+
+   show dbs  // Here they are
+   show collections  // Shows the two collections
+
+   db.dropDatabase()
+   show collections  // No collections
+   show dbs  // The db is gone
+
+   use sample  // take us back to the sample db
+
+.. include:: /includes/student-notes.rst
+

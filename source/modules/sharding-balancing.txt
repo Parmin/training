@@ -106,6 +106,8 @@ Balancing is Resource Intensive
 - MongoDB creates splits only after an insert operation.
 - For these reasons, it is possible to define a balancing window to ensure the balancer will only run during scheduled times. 
 
+.. include:: /includes/student-notes.rst
+
 
 Chunk Migration Steps
 ---------------------
