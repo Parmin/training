@@ -98,6 +98,15 @@ Start of a Balancing Round
 .. include:: /includes/student-notes.rst
 
 
+Balancing is Resource Intensive
+-------------------------------
+
+- Chunk migration requires copying all the data in the chunk from one shard to another.
+- MonogDB can migrate only a single chunk at a time.
+- MongoDB creates splits only after an insert operation.
+- For these reasons, it is possible to define a balancing window to ensure the balancer will only run during scheduled times. 
+
+
 Chunk Migration Steps
 ---------------------
 

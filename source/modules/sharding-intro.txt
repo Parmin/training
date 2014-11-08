@@ -234,7 +234,7 @@ When to Shard
 Possible Imbalance?
 -------------------
 
-- Data can become unbalanced on your sharded cluster. 
+- Depending on how you configure sharding, data can become unbalanced on your sharded cluster. 
 
   - Some shards might receive more inserts than others.
   - Some shards might have documents that grow more than those in other shards.
@@ -270,8 +270,8 @@ What is a Shard Key?
 
 - You must define a shard key for a sharded collection.
 - Based on one or more fields that every document must contain.
-- Must be immutable.
-- The shard key determines where documents are located.
+- Is immutable.
+- The shard key determines where documents are located in the cluster.
 - It is used to route operations to the appropriate shard.
 - For reads and writes
 
@@ -325,8 +325,9 @@ Choosing a Shard Key
 Generally, you want a shard key:
 
 - That has high cardinality
-- That is used in read queries
+- That is used in the majority of read queries
 - For which the values read and write operations use are randomly distributed
+- For which the majority or reads are routed to a particular server
 
 .. include:: /includes/student-notes.rst
 
@@ -364,6 +365,7 @@ Non-Monotonic
 - Datetimes, counters, and ObjectIds make bad shard keys.
 - Monotonic shard keys cause all inserts to happen on the same shard.
 - Hashing will solve this problem.
+- However, doing range queries with a hashed shard key will perform a scatter-gather query across the cluster.
 
 .. include:: /includes/student-notes.rst
 

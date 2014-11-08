@@ -93,8 +93,6 @@ Native MongoDB Auth
       - Be careful to create a user who can create other users.
       - Otherwise you'll be stuck with the users you initially create.
 
-.. include:: /exercises/security-enable-mongod-cr.txt
-
 .. include:: /exercises/security-create-useradmin.txt
 
 
