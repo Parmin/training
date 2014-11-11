@@ -31,7 +31,7 @@ Overview
       - Network Exposure: Is this query or login coming from the place we expect?
     
     - You are welcome to use any features you desire, or none.
-    - Security is off by default.
+    - All security is off by default.
 
 
 Authentication Options
@@ -71,6 +71,8 @@ Encryption (SSL)
 - MongoDB can be configured at build time to run with SSL.
 - To get it, build from the source code with --ssl.
 - Alternatively, use MongoDB Enterprise.
+- Allows you to use public key encryption.
+- You can also validate with x.509 certificates.
 
 
 Native MongoDB Auth
@@ -86,13 +88,12 @@ Native MongoDB Auth
 
 .. only:: instructor
 
-   .. note::
-      
-      - Be careful to create a user who can create other users.
-      - Otherwise you'll be stuck with the users you initially create.
+  .. note::
+     
+    - Be careful to create a user who can create other users.
+    - Otherwise you'll be stuck with the users you initially create.
 
 .. include:: /exercises/security-create-useradmin.txt
-
 
 
 Using MongoDB Roles
@@ -107,16 +108,15 @@ Using MongoDB Roles
 - userAdmins may create other users
 - But they cannot read/write without other roles.
 
-
 .. only:: instructor
 
-   .. note::
+  .. note::
 
-      - Users must specify the db when logging in.
-      - Trying to log into another db won't work
-      - Users may follow ``-p`` with the password
-      - They may also enter the password after hitting enter. 
-      - The ``mongo`` command will prompt for the password before launching the shell.
+    - Users must specify the db when logging in.
+    - Trying to log into another db won't work
+    - Users may follow ``-p`` with the password
+    - They may also enter the password after hitting enter. 
+    - The ``mongo`` command will prompt for the password before launching the shell.
 
 .. include:: /exercises/security-create-readwrite.txt
 
