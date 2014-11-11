@@ -18,9 +18,7 @@ Upon completing this module students should understand:
 Members and Votes
 -----------------
 
-.. figure:: /figures/replica-set-three-data-centers-votes.png
-   :width: 700px
-   :align: center
+.. include:: /images/replica-set-three-data-centers-votes.rst
 
 .. only:: instructor
 
@@ -38,9 +36,7 @@ Members and Votes
 Calling Elections
 -----------------
 
-.. figure:: /images/replica-set-trigger-election.png
-   :width: 600px
-   :align: center
+.. include:: /images/replica-set-trigger-election.rst
 
 .. only:: instructor
 

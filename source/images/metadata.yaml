@@ -131,7 +131,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 200
 ---
 name: replica-set-read-write-operations-primary
 alt: "Diagram of a 3-node replica set."
@@ -341,10 +341,115 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 150
 ---
 name: replica-set-3nodes-1-per-dc
 alt: "3 Data Nodes Distributed Across 3 Data Centers"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 800
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 100
+---
+name: replica-set-3nodes-2dc-network-partition
+alt: "3 data nodes in 2 data centers after a network partition"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 800
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 200
+---
+name: replica-set-three-data-centers-votes
+alt: "3 Data Nodes Distributed Across 3 Data Centers"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 800
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: replica-set-three-data-centers-votes-exercise
+alt: "Five Data Nodes Distributed Across 3 Data Centers"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 800
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 200
+---
+name: replica-set-1dc-primary-down
+alt: "3 data nodes in 1 data center and the primary has gone down."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 800
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 100
+---
+name: replica-set-4nodes-2dc-cant-elect
+alt: "4 nodes in 2 data centers following a network partition."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 800
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 200
+---
+name: replica-set-4nodes-1arbiter-2datacenters
+alt: "4 data nodes and an arbiter in 2 data centers following a network partition."
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 800
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 200
+---
+name: replica-set-3nodes-1-per-dc
+alt: "3 nodes, 1 per data center"
 output:
   - type: print
     tag: 'print'

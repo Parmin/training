@@ -49,20 +49,27 @@ Sharded Cluster Configuration
 Build Our Data Directories
 --------------------------
 
+On Linux or MacOS, run the following in the terminal to create the data directories we'll need.
+
 .. code-block:: bash
+
+   mkdir -p ~/data/cluster/config/{c0,c1,c2}
+   mkdir -p ~/data/cluster/shard0/{m0,m1,arb}
+   mkdir -p ~/data/cluster/shard1/{m0,m1,arb}
+   mkdir -p ~/data/cluster/shard2/{m0,m1,arb}
+   mkdir -p ~/data/cluster/{s0,s1}
+
+On Windows, run the following commands instead:
+
+.. code-block:: powershell
+
+   md c:\data\cluster\config\c0 c:\data\cluster\config\c1 c:\data\cluster\config\c2
+   md c:\data\cluster\shard0\m0 c:\data\cluster\shard0\m1 c:\data\cluster\shard0\arb
+   md c:\data\cluster\shard1\m0 c:\data\cluster\shard1\m1 c:\data\cluster\shard1\arb
+   md c:\data\cluster\shard2\m0 c:\data\cluster\shard2\m1 c:\data\cluster\shard2\arb
+   md c:\data\cluster\s0 c:\data\cluster\s1
+
     
-   CLUSTER=/data/cluster
-   CONFIG=$CLUSTER/config
-   SHARD0=$CLUSTER/shard0
-   SHARD1=$CLUSTER/shard1
-   SHARD2=$CLUSTER/shard2
-
-   mkdir -p $CONFIG/c0 $CONFIG/c1 $CONFIG/c2
-   mkdir -p $SHARD0/m0 $SHARD0/m1 $SHARD0/arb
-   mkdir -p $SHARD1/m0 $SHARD1/m1 $SHARD1/arb
-   mkdir -p $SHARD2/m0 $SHARD2/m1 $SHARD2/arb
-   mkdir -p $CLUSTER/s0 $CLUSTER/s1
-
 .. include:: /includes/student-notes.rst
 
 
@@ -72,17 +79,17 @@ Initiate a Replica Set
 .. code-block:: bash
 
    mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD0/m0 --logpath $SHARD0/m0/mongod.log --fork --port 27107
+   ~/data/cluster/shard0/m0 --logpath ~/data/cluster/shard0/m0/mongod.log --fork --port 27107
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath 
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath
    $SHARD0/m1 --logpath $SHARD0/m1/mongod.log --fork --port 27108
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath 
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath
    $SHARD0/arb --logpath $SHARD0/arb/mongod.log --fork --port 27109
 
-   echo "cfg = { '_id' : 'shard0', 'version' : 1, 'members' : [ { '_id' : 
-   0, 'host' : 'localhost:27107' }, { '_id' : 1, 'host' : 'localhost:27108' 
-   }, { '_id' : 2, 'host' : 'localhost:27109', 'arbiterOnly' : true } ] }; 
+   echo "cfg = { '_id' : 'shard0', 'version' : 1, 'members' : [ { '_id' :
+   0, 'host' : 'localhost:27107' }, { '_id' : 1, 'host' : 'localhost:27108'
+   }, { '_id' : 2, 'host' : 'localhost:27109', 'arbiterOnly' : true } ] };
    rs.initiate(cfg);" | mongo --port 27107
 
 .. include:: /includes/student-notes.rst

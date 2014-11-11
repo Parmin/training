@@ -11,17 +11,14 @@ Upon completing this module, students should understand:
 - The importance of a good schema
 - What differentiates a good schema from a bad one
 - Why this depends upon the use case
-- How to design a good schema in an example
+- How to design a good schema
 
 
 Overview
 --------
 
-- Schema design is based around one concept:
-
-  - The structure of documents affects performance.
-
 - Schema design is about getting good performance.
+- The structure of documents affects performance.
 - You will not and should not try to normalize your data.
 - You must build your schema around your data usage.
 

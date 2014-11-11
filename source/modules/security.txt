@@ -17,9 +17,7 @@ Upon completing this module students should understand:
 Overview
 --------
 
-.. figure:: /images/auth-workflow.png
-   :width: 300px
-   :align: center
+.. include:: /images/auth-workflow.rst
 
 .. only:: instructor
 

@@ -10,9 +10,7 @@ Scenario A: 3 Data Nodes in 1 DC
 
 Which secondary will become the new primary?
 
-.. figure:: /figures/replica-set-1dc-primary-down.png
-   :width: 700px
-   :align: center
+.. include:: /images/replica-set-1dc-primary-down.rst
 
 .. only:: instructor
 
@@ -27,9 +25,7 @@ Scenario B: 3 Data Nodes in 2 DCs
 
 Which member will become primary following this type of network partition?
 
-.. figure:: /figures/replica-set-3nodes-2dc-network-partition.png
-   :width: 700px
-   :align: center
+.. include:: /images/replica-set-3nodes-2dc-network-partition.rst
 
 .. only:: instructor
 
@@ -46,9 +42,7 @@ Scenario C: 4 Data Nodes in 2 DCs
 
 What happens following this network partition?
 
-.. figure:: /figures/replica-set-4nodes-2dc-cant-elect.png
-   :width: 700px
-   :align: center
+.. include:: /images/replica-set-4nodes-2dc-cant-elect.rst
 
 .. only:: instructor
 
@@ -68,9 +62,7 @@ Scenario D: 5 Nodes in 2 DCs
 
 The following is similar to Scenario C, but with the addition of an arbiter in Data Center 1. What happens here?
 
-.. figure:: /figures/replica-set-4nodes-1arbiter-2datacenters.png
-   :width: 700px
-   :align: center
+.. include:: /images/replica-set-4nodes-1arbiter-2datacenters.rst
 
 .. only:: instructor
 
@@ -86,9 +78,7 @@ Scenario E: 3 Data Nodes in 3 DCs
 - What happens here if any one of the nodes/DCs fail? 
 - What about recovery time?
 
-.. figure:: /images/replica-set-3nodes-1-per-dc.png
-   :width: 700px
-   :align: center
+.. include:: /images/replica-set-3nodes-1-per-dc.rst
 
 .. only:: instructor
 
@@ -104,9 +94,7 @@ Scenario F: 5 data nodes in 3 DCs
 
 What happens here if any one of the nodes/DCs fail? What about recovery time?
 
-.. figure:: /figures/replica-set-three-data-centers-votes.png
-   :width: 700px
-   :align: center
+.. include:: /images/replica-set-three-data-centers-votes.rst
 
 .. only:: instructor
 

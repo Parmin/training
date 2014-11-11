@@ -21,7 +21,11 @@ TTL Index Basics
 Creating a TTL Index
 --------------------
 
-- Create with db.collection.ensureIndex( { field_name : 1 },
-                                         { expireAfterSeconds : some_number } )
+Create with:
+
+.. code-block:: javascript
+
+   db.collection.ensureIndex( { field_name : 1 },
+                              { expireAfterSeconds : some_number } )
 
 .. include:: /exercises/indexes-TTL.txt

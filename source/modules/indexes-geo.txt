@@ -32,10 +32,7 @@ Example, Part 1
 
 TODO: REPLACE WITH FIGURE.
 
-.. figure:: /figures/2dGeospatial.jpg
-   :width: 700px
-   :align: center
-
+/figures/2dGeospatial.jpg
 
 .. only:: instructor
 
@@ -54,9 +51,7 @@ Example, Part 2
 
 TODO: REPLACE WITH FIGURE.
 
-.. figure:: /figures/2dGeospatial.jpg
-   :width: 700px
-   :align: center
+/figures/2dGeospatial.jpg
 
 .. only:: instructor
 
@@ -72,9 +67,7 @@ Example, Part 3
 
 TODO: REPLACE WITH FIGURE.
 
-.. figure:: /figures/2dGeospatial.jpg
-   :width: 700px
-   :align: center
+/figures/2dGeospatial.jpg
 
 .. only:: instructor
 

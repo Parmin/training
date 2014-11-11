@@ -24,8 +24,9 @@ Upon completing this module students should understand:
       - After a short time the server will begin to demonstrate performance issues
       - Describe program, run it and view the performance decline in mongostat
     
+
 Performance Tools Overview
-------------------
+--------------------------
 
 - mongostat
 - mongotop
@@ -36,23 +37,30 @@ Performance Tools Overview
 - db.serverStatus()
 
 mongostat
-------------------
+---------
+
 - mongostat is used to get a sample of a servers performance every second
 - good way to see current operations, pagefaults, locking, network traffic and memory usage
 - does not give a view into historic performance, use MMS for that
 
+
 db.<col>.stats()
-------------------
+----------------
+
 - used to view the current stats for a collection
 - everything is in bytes; use the multiplier parameter to view in KB, MB, etc
 - paddingFactor is a multiplier on document size at insert or when a document moves
 
+
 db.stats()
-------------------
+----------
+
 - similar to db.<col>.stats() except at scope of the entire database
 
+
 The profiler
-------------------
+------------
+
 - captures "slow" queries
 - user may define what "slow" is
 - default is 100ms: db.setProfilerLevel(1)
@@ -72,7 +80,8 @@ The profiler
       - Allow class to discover this as the data is examined
       
 Analyzing profiler data
-------------------
+-----------------------
+
 - The namespace is defined
 - The query is displayed
 - Note the nscanned and n numbers, this should help you determine if an index is used
