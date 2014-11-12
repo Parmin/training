@@ -11,21 +11,24 @@ Upon completing this module students should understand:
 - The tools MongoDB provides for performance analysis
 
   - mongostat
+  - mongotop
   - the profiler
   - stats
+  - serverStatus
 
 - Tips & tricks to improve performance
  
 
 .. only:: instructor
 
-   .. note::
+  .. note::
 
-      - A program that uses insert() and findAndModify() in a loop without indexes is useful to demonstrate a server beginning to display performance issues
-      - A node.js program for this exists here: https://github.com/NathanZamecnik/messagequeue/blob/master/index.js
-      - Acts as a message queue, writers write to the system while readers try and find messages with status "new" using findAndModify()
-      - After a short time the server will begin to demonstrate performance issues
-      - Describe program, run it and view the performance decline in mongostat
+    - A node.js program for this exists here: 
+
+      - https://github.com/NathanZamecnik/messagequeue/blob/master/index.js
+
+    - I intend to convert this to something the shell can use at some point.
+    - Acts as a message queue, writers write to the system while readers read.
     
 
 Performance Tools Overview
@@ -38,71 +41,119 @@ Performance Tools Overview
 - db.setProfilingLevel()
 - db.serverStatus()
 
-<<<<<<< HEAD
-mongostat
----------
+``mongostat`` and ``mongotop``
+------------------------------
 
-- mongostat is used to get a sample of a servers performance every second
-- good way to see current operations, pagefaults, locking, network traffic and memory usage
-- does not give a view into historic performance, use MMS for that
+- ``mongostat`` samples a server every second.
 
+  - See current ops, pagefaults, network traffic, etc.
+  - Does not give a view into historic performance; use MMS for that.
 
-db.<col>.stats()
-----------------
-
-- used to view the current stats for a collection
-- everything is in bytes; use the multiplier parameter to view in KB, MB, etc
-- paddingFactor is a multiplier on document size at insert or when a document moves
+- ``mongotop`` looks at the time spent on reads/writes in each collection.
 
 
-db.stats()
-----------
+Exercise: ``mongostat`` (setup)
+-------------------------------
 
-- similar to db.<col>.stats() except at scope of the entire database
+In one window, perform the following query:
+
+.. code-block:: javascript
+
+  db.testcol.drop()
+  for (i=1; i<=10000; i++) { 
+      arr = [];
+      for (j=1; j<=1000; j++) { 
+          doc = { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)};
+          arr.push(doc)
+      };
+      db.testcol.insert(arr);
+      var x = db.testcol.find( { b : 255 } );
+      x.next();
+      var x = db.testcol.find( { _id : 1000 * (i-1) + 255 } );
+      x.next();
+      var x = "asdf";
+      db.testcol.update( { a : i, b : 255 }, { $set : { d : x.pad(1000) } });
+      print(i)
+  }
 
 
-The profiler
-------------
+Exercise: ``mongostat`` (run)
+-----------------------------
 
-=======
+- In another window/tab, run mongostat. 
+- You will see:
 
-Mongostat and Mongotop
-----------------------
+  - Inserts
+  - Queries
+  - Updates
 
-- Mongostat samples a server every second
 
-  - see current ops, pagefaults, network traffic, etc.
-  - does not give a view into historic performance
+Exercise: ``mongostat`` (create index)
+--------------------------------------
 
-    - use MMS for that
+- In a third window, create an index when you see things slowing down:
 
-- Mongotop looks at the time spent on reads/writes in each collection
+  .. code-block:: javascript
+
+     db.testcol.ensureIndex( { a : 1, b : 1 } )
+
+- Look at mongostat. 
+- Notice that things are going significantly faster. 
+- Then, let's drop that and build another index.
+
+  .. code-block:: javascript
+
+     db.testcol.dropIndexes()
+     db.testcol.ensureIndex( { b : 1, a : 1 } )
 
 
 db.collection.stats()
-------------------
+---------------------
+
 - Used to view the current stats for a collection.
 - Everything is in bytes; use the multiplier parameter to view in KB, MB, etc
 - You can also use db.stats() to do this at scope of the entire database
+
+
+Exercise: Using Collection Stats
+--------------------------------
+
+Look at the output of the following:
+
+.. code-block:: javascript
+
+  db.testcol.drop()  
+  db.testcol.insert( { a : 1 } )
+  db.testcol.stats()
+  var x = "asdf"
+  db.testcol2.insert( { a : x.pad(10000000) } )
+  db.testcol2.stats()
+  db.stats()
 
 
 The Profiler
 ------------
 
 - Off by default.
-- To reset:
+- To reset
 
   .. code-block:: javascript
 
      db.setProfilerLevel(0)
 
-- Captures "slow" queries
-- You may define what "slow" is
-- The default is 100ms: 
+- At setting 1, it captures "slow" queries.
+- You may define what "slow" is.
+- Default is 100ms: 
 
   .. code-block:: javascript
 
      db.setProfilerLevel(1)
+
+- E.g., to capture 20 ms: 
+
+  .. code-block:: javascript
+
+     db.setProfilerLevel(1, 20)
 
 
 The Profiler (continued)
@@ -114,33 +165,79 @@ The Profiler (continued)
   - Turns all reads into writes.
 
 - Always turn the profiler off when done (set level to 0)
-- Creates db.system.profile collection
+- Creates ``db.system.profile`` collection
 
 
+Exercise: Exploring the Profiler
+--------------------------------
 
-# EXERCISE BELOW
+Perform the following, then look in your db.system.profile.
+
+.. code-block:: javascript
+
+  db.setProfilingLevel(0)
+  db.testcol.drop()
+  db.system.profile.drop()
+  db.setProfilingLevel(2)
+  db.testcol.insert( { a : 1 } )
+  db.testcol.find()
+  var x = "asdf"
+  db.testcol.insert( { a : x.pad(10000000) } )  // ~10 MB
+  db.setProfilingLevel(0)
+  db.system.profile.find().pretty()
+
+
 .. only:: instructor
 
-   .. note::
+  .. note::
 
-<<<<<<< HEAD
-      - Enable the profiler at default settings
-      - Run for 5 seconds
-      - Slow operations are captured
-      - The issue is there is not a proper index on the message field
-      - Allow class to discover this as the data is examined
+    - Mention to the students what the fields mean.
+    - Things to keep in mind:
+
+      - op can be command, query, or update
+      - ns is sometimes the db.collection namespace
+      
+        - but sometimes db.$cmd for commands
+
+      - key updates refers to index keys
+      - ts (timestamp) is useful for some queries if problems cluster.
+
+
+Server Status
+-------------
+
+- Shown by typing db.serverStatus().
+- Takes a snapshot.
+- By taking diffs, you can see system trends.
+- Most of the data that MMS gets is from here.
+- Most useful when taking diffs.
+
+
+Exercise: Using Server Status
+-----------------------------
+
+- Open up two windows. In the first, type: 
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   var x = "asdf"
+   for (i=0; i<=10000000; i++) { db.testcol.insert( { a : x.pad(100000) } ) }
+
+- In the second window, type periodically:
+
+.. code-block:: javascript
+
+   var x = db.serverStatus(); x.metrics.document
+
       
 Analyzing profiler data
 -----------------------
 
-- The namespace is defined
-- The query is displayed
-- Note the nscanned and n numbers, this should help you determine if an index is used
-- After fixing problems, drop system.profile collection and restart and a defined speed, like 25ms
-=======
-      - Enable the profiler at default settings.
-      - Run for 5 seconds.
-      - Slow operations are captured.
-      - The issue is there is not a proper index on the message field.
-      - Allow class to discover this as the data is examined.
->>>>>>> b4f6f6c048284c66fe8604dedebe99cbe50f7a23
+- Enable the profiler at default settings.
+- Run for 5 seconds.
+- Slow operations are captured.
+- The issue is there is not a proper index on the message field.
+- Allow class to discover this as the data is examined.
+- You will see how fast documents are getting inserted.
+- It will be slow because the documents are big.
