@@ -9,10 +9,13 @@ Learning Objectives
 Upon completing this module students should understand:
 
 - The tools MongoDB provides for performance analysis
-- How to use mongostat
-- How to use the profiler
-- How to get stats on a collection and database
-- How to view current operations
+
+  - mongostat
+  - the profiler
+  - stats
+
+- Tips & tricks to improve performance
+ 
 
 .. only:: instructor
 
@@ -30,12 +33,12 @@ Performance Tools Overview
 
 - mongostat
 - mongotop
-- db.<col>.stats()
-- db.stats()
+- db.collection.stats()
 - db.currentOp()
 - db.setProfilingLevel()
 - db.serverStatus()
 
+<<<<<<< HEAD
 mongostat
 ---------
 
@@ -61,18 +64,66 @@ db.stats()
 The profiler
 ------------
 
-- captures "slow" queries
-- user may define what "slow" is
-- default is 100ms: db.setProfilerLevel(1)
-- user defined: db.setProfilerLevel(2,50)
-- off: db.setProfilingLevel(0)
-- always turn the profiler off when done
-- creates db.system.profile collection
+=======
 
+Mongostat and Mongotop
+----------------------
+
+- Mongostat samples a server every second
+
+  - see current ops, pagefaults, network traffic, etc.
+  - does not give a view into historic performance
+
+    - use MMS for that
+
+- Mongotop looks at the time spent on reads/writes in each collection
+
+
+db.collection.stats()
+------------------
+- Used to view the current stats for a collection.
+- Everything is in bytes; use the multiplier parameter to view in KB, MB, etc
+- You can also use db.stats() to do this at scope of the entire database
+
+
+The Profiler
+------------
+
+- Off by default.
+- To reset:
+
+  .. code-block:: javascript
+
+     db.setProfilerLevel(0)
+
+- Captures "slow" queries
+- You may define what "slow" is
+- The default is 100ms: 
+
+  .. code-block:: javascript
+
+     db.setProfilerLevel(1)
+
+
+The Profiler (continued)
+------------------------
+
+- If the profiler level is 2, it captures all queries.
+
+  - This will severely impact performance.
+  - Turns all reads into writes.
+
+- Always turn the profiler off when done (set level to 0)
+- Creates db.system.profile collection
+
+
+
+# EXERCISE BELOW
 .. only:: instructor
 
    .. note::
 
+<<<<<<< HEAD
       - Enable the profiler at default settings
       - Run for 5 seconds
       - Slow operations are captured
@@ -86,3 +137,10 @@ Analyzing profiler data
 - The query is displayed
 - Note the nscanned and n numbers, this should help you determine if an index is used
 - After fixing problems, drop system.profile collection and restart and a defined speed, like 25ms
+=======
+      - Enable the profiler at default settings.
+      - Run for 5 seconds.
+      - Slow operations are captured.
+      - The issue is there is not a proper index on the message field.
+      - Allow class to discover this as the data is examined.
+>>>>>>> b4f6f6c048284c66fe8604dedebe99cbe50f7a23

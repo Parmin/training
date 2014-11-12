@@ -89,12 +89,11 @@ Data Center 2
 What about ``dc1-3`` and ``dc2-2``?
 -----------------------------------
 
-- Both are hidden.
-- Clients will not distribute reads to hidden members, even if secondary read preferences are used (more on read preferences later).
-- We use hidden members for dedicated tasks.
-
 .. code-block:: javascript
 
+   // Both are hidden.
+   // Clients will not distribute reads to hidden members.
+   // We use hidden members for dedicated tasks.
    { _id : 3, host : "dc1-3.example.net:27017", hidden : true },
    { _id : 4, host : "dc2-2.example.net:27017", hidden : true, 
      slaveDelay: 7200 }
