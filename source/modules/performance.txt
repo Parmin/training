@@ -13,23 +13,25 @@ Upon completing this module students should understand:
   - mongostat
   - the profiler
   - stats
+  - serverStatus
 
 - Tips & tricks to improve performance
  
 
 .. only:: instructor
 
-   .. note::
+  .. note::
 
-      - A program that uses insert() and findAndModify() in a loop without indexes is useful to demonstrate a server beginning to display performance issues
-      - A node.js program for this exists here: https://github.com/NathanZamecnik/messagequeue/blob/master/index.js
-      - Acts as a message queue, writers write to the system while readers try and find messages with status "new" using findAndModify()
-      - After a short time the server will begin to demonstrate performance issues
-      - Describe program, run it and view the performance decline in mongostat
+    - A node.js program for this exists here: 
+
+      - https://github.com/NathanZamecnik/messagequeue/blob/master/index.js
+
+    - I intend to convert this to something the shell can use at some point.
+    - Acts as a message queue, writers write to the system while readers read.
     
 
 Performance Tools Overview
-------------------
+--------------------------
 
 - mongostat
 - mongotop
@@ -53,21 +55,25 @@ Mongostat and Mongotop
 
 
 db.collection.stats()
-------------------
+---------------------
+
 - Used to view the current stats for a collection.
 - Everything is in bytes; use the multiplier parameter to view in KB, MB, etc
 - You can also use db.stats() to do this at scope of the entire database
+
+
+.. include:: /exercises/performance-collection-stats.txt
 
 
 The Profiler
 ------------
 
 - Off by default; to reset, db.setProfilerLevel(0)
-- captures "slow" queries
+- At setting 1, it captures "slow" queries
 
     - user may define what "slow" is
-
-- default is 100ms: db.setProfilerLevel(1) == db.setProfilerLevel(1, 100)
+    - default is 100ms: db.setProfilerLevel(1)
+    - e.g., to capture 20 ms: db.setProfilerLevel(1, 20)
 
 
 The Profiler (continued)
@@ -79,17 +85,53 @@ The Profiler (continued)
   - Turs all reads into writes.
 
 - Always turn the profiler off when done (set level to 0)
-- creates db.system.profile collection
+- When on, the profiler writes to db.system.profile
 
 
+The system.profile Collection
+-----------------------------
 
-# EXERCISE BELOW
-.. only:: instructor
+- Has the format
 
-   .. note::
+.. code-block:: javascript
 
-      - Enable the profiler at default settings.
-      - Run for 5 seconds.
-      - Slow operations are captured.
-      - The issue is there is not a proper index on the message field.
-      - Allow class to discover this as the data is examined.
+  {
+      "op" : "command",  // can also be "query" or "update"
+      "ns" : "test.$cmd",  // often db.collection
+      "command" : { "profile" : 0 },
+      "keyUpdates" : 0,
+      "numYield" : 0,
+      "lockStats" :
+      {
+          "timeLockedMicros" :
+          {
+              "r" : NumberLong(0),
+              "w" : NumberLong(12)
+          },
+          "timeAcquiringMicros" :
+          {
+              "r" : NumberLong(0),
+              "w" : NumberLong(6)
+          }
+      },
+      "responseLength" : 58,
+      "millis" : 0,  // length of time to perform the query
+      "execStats" : {  },
+      "ts" : ISODate("2014-11-11T19:51:02.459Z"),
+      // timestamp is good for querying for a time range
+      "client" : "127.0.0.1",
+      "allUsers" : [ ],
+      "user" : ""
+  }
+
+.. include:: exercises/performance-profiler-overview.txt
+
+
+Server Status
+-------------
+
+- Shown by typing db.serverStatus().
+- Takes a snapshot.
+- By taking diffs, you can see system trends.
+- Most of the data that MMS gets is from here.
+- Most useful when taking diffs.

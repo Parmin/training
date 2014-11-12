@@ -1,0 +1,14 @@
+Example: Using Collection Stats
+-------------------------------
+
+Look at the output of the following:
+
+.. code-block:: javascript
+
+  db.testcol.drop()  
+  db.testcol.insert( { a : 1 } )
+  db.testcol.stats()
+  var x = "asdf"
+  db.testcol2.insert( { a : x.pad(10000000) } )
+  db.testcol2.stats()
+  db.stats()
