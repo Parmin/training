@@ -11,6 +11,7 @@ Upon completing this module students should understand:
 - The tools MongoDB provides for performance analysis
 
   - mongostat
+  - mongotop
   - the profiler
   - stats
   - serverStatus
@@ -98,8 +99,6 @@ Look at mongostat. Notice that things are going significantly faster. Then, let'
   db.testcol.ensureIndex( { b : 1, a : 1 } )
 
 
-
-
 db.collection.stats()
 ---------------------
 
@@ -147,43 +146,6 @@ The Profiler (continued)
 - When on, the profiler writes to db.system.profile
 
 
-The system.profile Collection
------------------------------
-
-- Has the format
-
-.. code-block:: javascript
-
-  {
-      "op" : "command",  // can also be "query" or "update"
-      "ns" : "test.$cmd",  // often db.collection
-      "command" : { "profile" : 0 },
-      "keyUpdates" : 0,
-      "numYield" : 0,
-      "lockStats" :
-      {
-          "timeLockedMicros" :
-          {
-              "r" : NumberLong(0),
-              "w" : NumberLong(12)
-          },
-          "timeAcquiringMicros" :
-          {
-              "r" : NumberLong(0),
-              "w" : NumberLong(6)
-          }
-      },
-      "responseLength" : 58,
-      "millis" : 0,  // length of time to perform the query
-      "execStats" : {  },
-      "ts" : ISODate("2014-11-11T19:51:02.459Z"),
-      // timestamp is good for querying for a time range
-      "client" : "127.0.0.1",
-      "allUsers" : [ ],
-      "user" : ""
-  }
-
-
 Exercise: Exploring the Profiler
 --------------------------------
 
@@ -200,6 +162,23 @@ Perform the following, then look in your db.system.profile.
   var x = "asdf"
   db.testcol.insert( { a : x.pad(10000000) } )  // ~10 MB
   db.setProfilingLevel(0)
+  db.system.profile.find().pretty()
+
+
+.. only:: instructor
+
+  .. note::
+
+    - Mention to the students what the fields mean.
+    - Things to keep in mind:
+
+      - op can be command, query, or update
+      - ns is sometimes the db.collection namespace
+      
+        - but sometimes db.$cmd for commands
+
+      - key updates refers to index keys
+      - ts (timestamp) is useful for some queries if problems cluster.
 
 
 Server Status
@@ -214,7 +193,6 @@ Server Status
 
 Exercise: Using Server Status
 -----------------------------
-
 
 - Open up two windows. In the first, type: 
 
