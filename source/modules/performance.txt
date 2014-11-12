@@ -54,6 +54,52 @@ Mongostat and Mongotop
 - Mongotop looks at the time spent on reads/writes in each collection
 
 
+Exercise: Mongostat
+-------------------
+
+Perform the following:
+
+In one window, perform the following query:
+
+.. code-block:: javascript
+
+  db.testcol.drop()
+  for (i=1; i<=10000; i++) { 
+      arr = [];
+      for (j=1; j<=1000; j++) { 
+          doc = { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)};
+          arr.push(doc)
+      };
+      db.testcol.insert(arr);
+      var x = db.testcol.find( { b : 255 } );
+      x.next();
+      var x = db.testcol.find( { _id : 1000 * (i-1) + 255 } );
+      x.next();
+      var x = "asdf";
+      db.testcol.update( { a : i, b : 255 }, { $set : { d : x.pad(1000) } });
+      print(i)
+  }
+
+In another window/tab, run mongostat. You will see:
+
+- Inserts
+- Queries
+- Updates
+
+In a third window, create an index when you see things slowing down:
+
+.. code-block:: javascript
+
+  db.testcol.ensureIndex( { a : 1, b : 1 } )
+
+Look at mongostat. Notice that things are going significantly faster. Then, let's drop that and build yet another index.
+
+  db.testcol.dropIndexes()
+  db.testcol.ensureIndex( { b : 1, a : 1 } )
+
+
+
+
 db.collection.stats()
 ---------------------
 
@@ -62,7 +108,20 @@ db.collection.stats()
 - You can also use db.stats() to do this at scope of the entire database
 
 
-.. include:: /exercises/performance-collection-stats.txt
+Exercise: Using Collection Stats
+--------------------------------
+
+Look at the output of the following:
+
+.. code-block:: javascript
+
+  db.testcol.drop()  
+  db.testcol.insert( { a : 1 } )
+  db.testcol.stats()
+  var x = "asdf"
+  db.testcol2.insert( { a : x.pad(10000000) } )
+  db.testcol2.stats()
+  db.stats()
 
 
 The Profiler
@@ -124,7 +183,23 @@ The system.profile Collection
       "user" : ""
   }
 
-.. include:: exercises/performance-profiler-overview.txt
+
+Exercise: Exploring the Profiler
+--------------------------------
+
+Perform the following, then look in your db.system.profile.
+
+.. code-block:: javascript
+
+  db.setProfilingLevel(0)
+  db.testcol.drop()
+  db.system.profile.drop()
+  db.setProfilingLevel(2)
+  db.testcol.insert( { a : 1 } )
+  db.testcol.find()
+  var x = "asdf"
+  db.testcol.insert( { a : x.pad(10000000) } )  // ~10 MB
+  db.setProfilingLevel(0)
 
 
 Server Status
@@ -135,3 +210,25 @@ Server Status
 - By taking diffs, you can see system trends.
 - Most of the data that MMS gets is from here.
 - Most useful when taking diffs.
+
+
+Exercise: Using Server Status
+-----------------------------
+
+
+- Open up two windows. In the first, type: 
+
+.. code-block:: javascript
+
+  db.testcol.drop()
+  var x = "asdf"
+  for (i=0; i<=10000000; i++) { db.testcol.insert( { a : x.pad(100000) } ) }
+
+- In the second window, type periodically:
+
+.. code-block:: javascript
+
+  var x = db.serverStatus(); x.metrics.document
+
+- You will see how fast documents are getting inserted.
+- It will be slow b/c the documents are big.
