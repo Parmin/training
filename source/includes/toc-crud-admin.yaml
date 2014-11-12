@@ -1,0 +1,8 @@
+file: /modules/crud-creating-and-deleting-documents
+description: | 
+  Inserting documents into collections, deleting documents, and dropping collections.
+--- 
+file: /modules/crud-reading-documents
+description: | 
+  The find() command, query documents, dot notation, and cursors.
+...
