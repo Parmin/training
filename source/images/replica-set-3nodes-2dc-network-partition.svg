@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="740" height="280" viewBox="0, 0, 740, 280">
+  <g id="Layer_1">
+    <text transform="matrix(1, 0, 0, 1, 87.418, 22.93)">
+      <tspan x="-80.908" y="5.5" font-family="Inconsolata" font-size="24" fill="#311E13">Data Center 1</tspan>
+    </text>
+    <path d="M334.147,38.715 L555.853,38.715 L555.853,269.285 L334.147,269.285 z" fill-opacity="0" stroke="#301C11" stroke-width="4"/>
+    <text transform="matrix(1, 0, 0, 1, 412.566, 24.215)">
+      <tspan x="-80.908" y="5.5" font-family="Inconsolata" font-size="24" fill="#311E13">Data Center 2</tspan>
+    </text>
+    <path d="M8,38.43 L229.706,38.43 L229.706,269 L8,269 z" fill-opacity="0" stroke="#301C11" stroke-width="4"/>
+    <g>
+      <path d="M218,50.985 C218,49.819 215.094,48.875 211.504,48.875 L24.496,48.875 C20.91,48.875 18,49.819 18,50.985 L18,111.763 C18,112.929 20.91,113.875 24.496,113.875 L211.504,113.875 C215.094,113.875 218,112.929 218,111.763 L218,50.985" fill="#2A86C0"/>
+      <text transform="matrix(1, 0, 0, 1, 120.026, 80.375)">
+        <tspan x="-66.383" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFF">Primary</tspan>
+      </text>
+    </g>
+    <path d="M218,125.325 C218,124.16 215.094,123.215 211.504,123.215 L24.496,123.215 C20.91,123.215 18,124.16 18,125.325 L18,186.103 C18,187.269 20.91,188.215 24.496,188.215 L211.504,188.215 C215.094,188.215 218,187.269 218,186.103 L218,125.325" fill="#5CA831"/>
+    <text transform="matrix(1, 0, 0, 1, 123.853, 157)">
+      <tspan x="-89.56" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFE">Secondary</tspan>
+    </text>
+    <path d="M544.147,51.534 C544.147,50.369 541.241,49.424 537.651,49.424 L350.643,49.424 C347.057,49.424 344.147,50.369 344.147,51.534 L344.147,112.312 C344.147,113.478 347.057,114.424 350.643,114.424 L537.651,114.424 C541.241,114.424 544.147,113.478 544.147,112.312 L544.147,51.534" fill="#5CA831"/>
+    <text transform="matrix(1, 0, 0, 1, 453.587, 83.375)">
+      <tspan x="-89.56" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFE">Secondary</tspan>
+    </text>
+    <g>
+      <path d="M218,198.11 C218,196.945 215.094,196 211.504,196 L24.496,196 C20.91,196 18,196.945 18,198.11 L18,258.888 C18,260.054 20.91,261 24.496,261 L211.504,261 C215.094,261 218,260.054 218,258.888 L218,198.11" fill="#EC9638"/>
+      <text transform="matrix(1, 0, 0, 1, 119.473, 227.5)">
+        <tspan x="-63" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFE">Arbiter</tspan>
+      </text>
+    </g>
+    <path d="M544.147,126.61 C544.147,125.445 541.241,124.5 537.651,124.5 L350.643,124.5 C347.057,124.5 344.147,125.445 344.147,126.61 L344.147,187.388 C344.147,188.554 347.057,189.5 350.643,189.5 L537.651,189.5 C541.241,189.5 544.147,188.554 544.147,187.388 L544.147,126.61" fill="#5CA831"/>
+    <text transform="matrix(1, 0, 0, 1, 452.62, 159)">
+      <tspan x="-89.56" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFE">Secondary</tspan>
+    </text>
+    <path d="M258.893,13 C263.333,28.139 284.261,35.28 291.893,48 C297.775,57.804 268.142,89.252 264.893,99 C261.146,110.242 293.594,117.807 295.893,127 C299.335,140.771 271.894,168.994 269.893,181 C268.302,190.547 307.303,214.361 304.893,224 C301.621,237.088 277.239,252.96 271.893,269" fill-opacity="0" stroke="#301C11" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

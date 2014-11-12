@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="240" height="280" viewBox="0, 0, 240, 280">
+  <g id="Layer_1">
+    <text transform="matrix(1, 0, 0, 1, 87.418, 22.93)">
+      <tspan x="-80.908" y="5.5" font-family="Inconsolata" font-size="24" fill="#311E13">Data Center 1</tspan>
+    </text>
+    <path d="M8,38.43 L229.706,38.43 L229.706,269 L8,269 z" fill-opacity="0" stroke="#301C11" stroke-width="4"/>
+    <path d="M218,50.985 C218,49.819 215.094,48.875 211.504,48.875 L24.496,48.875 C20.91,48.875 18,49.819 18,50.985 L18,111.763 C18,112.929 20.91,113.875 24.496,113.875 L211.504,113.875 C215.094,113.875 218,112.929 218,111.763 L218,50.985" fill="#2A86C0"/>
+    <text transform="matrix(1, 0, 0, 1, 118, 81.375)">
+      <tspan x="-66.383" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFF">Primary</tspan>
+    </text>
+    <path d="M218,124.54 C218,123.375 215.094,122.43 211.504,122.43 L24.496,122.43 C20.91,122.43 18,123.375 18,124.54 L18,185.318 C18,186.484 20.91,187.43 24.496,187.43 L211.504,187.43 C215.094,187.43 218,186.484 218,185.318 L218,124.54" fill="#5CA831"/>
+    <text transform="matrix(1, 0, 0, 1, 128.44, 154.93)">
+      <tspan x="-89.56" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFE">Secondary</tspan>
+    </text>
+    <path d="M218,198.11 C218,196.945 215.094,196 211.504,196 L24.496,196 C20.91,196 18,196.945 18,198.11 L18,258.888 C18,260.054 20.91,261 24.496,261 L211.504,261 C215.094,261 218,260.054 218,258.888 L218,198.11" fill="#5CA831"/>
+    <text transform="matrix(1, 0, 0, 1, 128.44, 228.5)">
+      <tspan x="-89.56" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFE">Secondary</tspan>
+    </text>
+    <path d="M18,50.985 L218,111.763" fill-opacity="0" stroke="#FF0000" stroke-width="4"/>
+    <path d="M256,-127 L255,-127" fill-opacity="0" stroke="#FB0000" stroke-width="1"/>
+    <path d="M18,111.763 L218,50.985" fill-opacity="0" stroke="#FF0000" stroke-width="4"/>
+  </g>
+</svg>
