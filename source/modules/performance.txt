@@ -9,7 +9,15 @@ Learning Objectives
 Upon completing this module students should understand:
 
 - The tools MongoDB provides for performance analysis
+
+  - mongostat
+  - mongotop
+  - the profiler
+  - stats
+  - serverStatus
+
 - Tips & tricks to improve performance
+ 
 
 .. only:: instructor
 
@@ -30,7 +38,7 @@ Performance Tools Overview
 - mongotop
 - db.collection.stats()
 - db.currentOp()
-- the profiler (db.setProfilingLevel())
+- db.setProfilingLevel()
 - db.serverStatus()
 
 ``mongostat`` and ``mongotop``
@@ -97,76 +105,6 @@ Exercise: ``mongostat`` (create index)
 
      db.testcol.dropIndexes()
      db.testcol.ensureIndex( { b : 1, a : 1 } )
-
-
-Exercise: Mongotop
-------------------
-
-- Perform the following:
-
-.. code-block:: javascript
-
-  db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
-      arr = [];
-      for (j=1; j<=1000; j++) { 
-          doc = { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)};
-          arr.push(doc)
-      };
-      db.testcol.insert(arr);
-      var x = db.testcol.find( { b : 255 } );
-      x.next();
-      var x = db.testcol.find( { _id : 1000 * (i-1) + 255 } );
-      x.next();
-      var x = "asdf";
-      db.testcol.update( { a : i, b : 255 }, { $set : { d : x.pad(1000) } });
-      print(i)
-  }
-
-- In another window, run mongotop.
-- Note that you can see the activity on the server for reads/writes/total.
-
-db.currentOp()
---------------
-
-- currentOp is a tool that asks what the db is doing at the moment.
-- currentOp is useful for finding long-running processes.
-- Fields of interest:
-
-  - microsecs_running
-  - op
-  - query
-  - lock
-  - waitingForLock
-
-
-Exercise: db.currentOp()
-------------------------
-
-- Perform the following in the shell: 
-
-.. code-block:: javascript
-
-  db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
-      arr = [];
-      for (j=1; j<=1000; j++) { 
-          doc = { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)};
-          arr.push(doc)
-      };
-      db.testcol.insert(arr);
-      var x = db.testcol.find( { b : 255 } );
-      x.next();
-      var x = db.testcol.find( { _id : 1000 * (i-1) + 255 } );
-      x.next();
-      var x = "asdf";
-      db.testcol.update( { a : i, b : 255 }, { $set : { d : x.pad(1000) } });
-      print(i)
-  }
-
-- Connect with a separate shell, and repeatedly run db.currentOp()
-- Notice that the running time gets longer & longer, on average.
-
 
 
 db.collection.stats()
@@ -302,119 +240,4 @@ Analyzing profiler data
 - The issue is there is not a proper index on the message field.
 - Allow class to discover this as the data is examined.
 - You will see how fast documents are getting inserted.
-<<<<<<< HEAD
-- It will be slow b/c the documents are big.
-
-
-Performance Improvement Techniques
-----------------------------------
-
-- Appropriate write concerns
-- Bulk operations
-- Good schema design
-- Good Shard Key choice
-- Good indexes
-
-
-Performance Tips: Write Concern
--------------------------------
-
-- Increasing the write concern increases data safety
-- But it also can hurt performance
-- Especially when there are network issues
-
-
-Performance Tips: Bulk Operations
----------------------------------
-
-- These are more useful the higher the write concern
-- Allows the server to bulk write & bulk acknowledge
-- Can be done with inserts & updates
-- Unordered Bulk Ops can be faster, and will continue on error.
-
-
-Exercise: Bulk Inserts
-----------------------
-
-- First, set up a replica set with seven members.
-
-  - This is easiest with mtools, where you can just type:
-
-    - $ mlaunch init --replicaset --nodes 7
-
-- Perform the following, with writeConcern : 1 and no bulk inserts:
-
-.. code-block:: javascript
-
-  db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
-      for (j=1; j<=1000; j++) { 
-          db.testcol.insert( { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j) }, { writeConcern : { w : 1 } } );
-      };
-      print(i);
-  }
-
-- Run mongostat and see how fast that happens. 
-- Increase the write concern to 7 (safer but slower):
-
-.. code-block:: javascript
-
-  db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
-      for (j=1; j<=1000; j++) { 
-          db.testcol.insert({ _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)}, { writeConcern : { w : 7 } } );
-      };
-      print(i);
-  }
-
-- Again, run mongostat.
-- Finally, let's use bulk inserts to our advantage:
-- Note that writeConcern is still { w : 7 } 
-
-.. code-block:: javascript
-
-  db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
-      arr = []
-      for (j=1; j<=1000; j++) { 
-          arr.push( { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j) } );
-      };
-      db.testcol.insert( arr, { writeConcern : { w : 7 } } );
-      print(i);
-  }
-
-
-Schema Design
--------------
-
-- The structure of documents affects performance
-- For each call for data from the application:
-
-  - You can have lots of queries, or as few as one.
-
-- For each write operation from the application:
-
-  - You can have lots of updates, or as few as one.
-
-- To see more, see our data modeling section.
-
-
-Shard Key Choice
-----------------
-
-- Your shard key should be based on your most common use case(s).
-- It can mean the difference between:
-  
-  - one of your servers working 
-  - all of them working
-
-
-Indexes and Performance
------------------------
-
-- Queries (including updates) that don't use an index will cripple performance.
-- In compound indexes, order matters:
-
-  - Sort on a field that comes before any range used in the index.
-  - You can't skip fields; they must be used in order.
-  - For examples, see the 'indexing' section.
+- It will be slow because the documents are big.

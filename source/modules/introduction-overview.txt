@@ -131,6 +131,7 @@ MongoDB Deployment Models
    .. note::
 
       - MongoDB supports high availability through automated failover. 
+      - Do not use a single-server deployment in production.
       - Typical deployments use replica sets of 3 or more nodes.
 
         - The primary node will accept all writes, and possibly all reads. 

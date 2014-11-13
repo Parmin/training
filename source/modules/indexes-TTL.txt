@@ -21,7 +21,45 @@ TTL Index Basics
 Creating a TTL Index
 --------------------
 
-- Create with db.collection.ensureIndex( { field_name : 1 },
-                                         { expireAfterSeconds : some_number } )
+Create with:
 
-.. include:: /exercises/indexes-TTL.txt
+.. code-block:: javascript
+
+   db.collection.ensureIndex( { field_name : 1 },
+                              { expireAfterSeconds : some_number } )
+
+Exercise: Creating a TTL Index
+------------------------------
+
+Let's create a TTL index on the ``ttl`` collection that will delete documents older than 30 seconds. Write a script that will insert documents at a rate of one
+per second.
+
+.. code-block:: javascript
+    
+   db.testcol.drop()
+   db.testcol.ensureIndex( { a : 1 }, { expireAfterSeconds : 30 } )
+
+   i = 0
+   while (true) {
+       i += 1;
+       db.testcol.insert( { a : ISODate(), b : i } );
+       sleep(1000);  // Sleep for 1 second
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Check the Collection
+------------------------------
+
+Then, leaving that window open, open up a new terminal and connect to the database with the mongo shell. This will allow us to verify the TTL behavior.
+
+.. code-block:: javascript
+    
+   // look at the output and wait. After a ramp-up of up to a minute or so,
+   // count() will be reset to 30 once/minute.
+   while (true) {
+       print(db.testcol.count());
+       sleep(100);
+   } 
+

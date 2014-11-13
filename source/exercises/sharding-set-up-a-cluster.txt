@@ -49,20 +49,27 @@ Sharded Cluster Configuration
 Build Our Data Directories
 --------------------------
 
+On Linux or MacOS, run the following in the terminal to create the data directories we'll need.
+
 .. code-block:: bash
+
+   mkdir -p ~/data/cluster/config/{c0,c1,c2}
+   mkdir -p ~/data/cluster/shard0/{m0,m1,arb}
+   mkdir -p ~/data/cluster/shard1/{m0,m1,arb}
+   mkdir -p ~/data/cluster/shard2/{m0,m1,arb}
+   mkdir -p ~/data/cluster/{s0,s1}
+
+On Windows, run the following commands instead:
+
+.. code-block:: powershell
+
+   md c:\data\cluster\config\c0 c:\data\cluster\config\c1 c:\data\cluster\config\c2
+   md c:\data\cluster\shard0\m0 c:\data\cluster\shard0\m1 c:\data\cluster\shard0\arb
+   md c:\data\cluster\shard1\m0 c:\data\cluster\shard1\m1 c:\data\cluster\shard1\arb
+   md c:\data\cluster\shard2\m0 c:\data\cluster\shard2\m1 c:\data\cluster\shard2\arb
+   md c:\data\cluster\s0 c:\data\cluster\s1
+
     
-   CLUSTER=/data/cluster
-   CONFIG=$CLUSTER/config
-   SHARD0=$CLUSTER/shard0
-   SHARD1=$CLUSTER/shard1
-   SHARD2=$CLUSTER/shard2
-
-   mkdir -p $CONFIG/c0 $CONFIG/c1 $CONFIG/c2
-   mkdir -p $SHARD0/m0 $SHARD0/m1 $SHARD0/arb
-   mkdir -p $SHARD1/m0 $SHARD1/m1 $SHARD1/arb
-   mkdir -p $SHARD2/m0 $SHARD2/m1 $SHARD2/arb
-   mkdir -p $CLUSTER/s0 $CLUSTER/s1
-
 .. include:: /includes/student-notes.rst
 
 
@@ -71,19 +78,23 @@ Initiate a Replica Set
 
 .. code-block:: bash
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD0/m0 --logpath $SHARD0/m0/mongod.log --fork --port 27107
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
+          --dbpath ~/data/cluster/shard0/m0 --logpath ~/data/cluster/shard0/m0/mongod.log \
+          --fork --port 27107
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD0/m1 --logpath $SHARD0/m1/mongod.log --fork --port 27108
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
+          --dbpath ~/data/cluster/shard0/m1 --logpath ~/data/cluster/shard0/m1/mongod.log \
+          --fork --port 27108
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD0/arb --logpath $SHARD0/arb/mongod.log --fork --port 27109
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
+          --dbpath ~/data/cluster/shard0/arb --logpath ~/data/cluster/shard0/arb/mongod.log \
+          --fork --port 27109
 
-   echo "cfg = { '_id' : 'shard0', 'version' : 1, 'members' : [ { '_id' : 
-   0, 'host' : 'localhost:27107' }, { '_id' : 1, 'host' : 'localhost:27108' 
-   }, { '_id' : 2, 'host' : 'localhost:27109', 'arbiterOnly' : true } ] }; 
-   rs.initiate(cfg);" | mongo --port 27107
+   echo "cfg = {'_id': 'shard0', 'version': 1, 
+                'members': [{'_id' : 0, 'host' : 'localhost:27107'}, 
+                            {'_id': 1, 'host': 'localhost:27108' }, 
+                            {'_id': 2, 'host': 'localhost:27109', 'arbiterOnly': true}]}; 
+        rs.initiate(cfg);" | mongo --port 27107
 
 .. include:: /includes/student-notes.rst
 
@@ -93,19 +104,23 @@ Spin Up a Second Replica Set
     
 .. code-block:: bash
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD1/m0 --logpath $SHARD1/m0/mongod.log --fork --port 27117
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
+          --dbpath ~/data/cluster/shard1/m0 --logpath ~/data/cluster/shard1/m0/mongod.log \
+          --fork --port 27117
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD1/m1 --logpath $SHARD1/m1/mongod.log --fork --port 27118
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
+          --dbpath ~/data/cluster/shard1/m1 --logpath ~/data/cluster/shard1/m1/mongod.log \
+          --fork --port 27118
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD1/arb --logpath $SHARD1/arb/mongod.log --fork --port 27119
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
+          --dbpath ~/data/cluster/shard1/arb --logpath ~/data/cluster/shard1/arb/mongod.log \
+          --fork --port 27119
 
-   echo "cfg = { '_id' : 'shard1', 'version' : 1, 'members' : [ { '_id' : 
-   0, 'host' : 'localhost:27117' }, { '_id' : 1, 'host' : 'localhost:27118' 
-   }, { '_id' : 2, 'host' : 'localhost:27119', 'arbiterOnly' : true } ] }; 
-   rs.initiate(cfg);" | mongo --port 27117
+   echo "cfg = {'_id': 'shard1', 'version': 1, 
+                'members': [{'_id': 0, 'host': 'localhost:27117'}, 
+                            {'_id': 1, 'host': 'localhost:27118'}, 
+                            {'_id': 2, 'host': 'localhost:27119', 'arbiterOnly': true}]}; 
+        rs.initiate(cfg);" | mongo --port 27117
 
 .. include:: /includes/student-notes.rst
 
@@ -115,19 +130,23 @@ A Third Replica Set
     
 .. code-block:: bash
 
-   mongod --replSet shard2 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD2/m0 --logpath $SHARD2/m0/mongod.log --fork --port 27127
+   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
+          --dbpath ~/data/cluster/shard2/m0 --logpath ~/data/cluster/shard2/m0/mongod.log \
+          --fork --port 27127
 
-   mongod --replSet shard2 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD2/m1 --logpath $SHARD2/m1/mongod.log --fork --port 27128
+   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
+          --dbpath ~/data/cluster/shard2/m1 --logpath ~/data/cluster/shard2/m1/mongod.log \
+          --fork --port 27128
 
-   mongod --replSet shard2 --smallfiles --nojournal --noprealloc --dbpath 
-   $SHARD2/arb --logpath $SHARD2/arb/mongod.log --fork --port 27129
+   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
+          --dbpath ~/data/cluster/shard2/arb --logpath ~/data/cluster/shard2/arb/mongod.log \
+          --fork --port 27129
 
-   echo "cfg = { '_id' : 'shard2', 'version' : 1, 'members' : [ { '_id' : 
-   0, 'host' : 'localhost:27127' }, { '_id' : 1, 'host' : 'localhost:27128' 
-   }, { '_id' : 2, 'host' : 'localhost:27129', 'arbiterOnly' : true } ] }; 
-   rs.initiate(cfg);" | mongo --port 27127
+   echo "cfg = {'_id': 'shard2', 'version': 1, 
+                'members': [{'_id': 0, 'host': 'localhost:27127'}, 
+                            {'_id': 1, 'host': 'localhost:27128'}, 
+                            {'_id': 2, 'host': 'localhost:27129', 'arbiterOnly': true}]}; 
+        rs.initiate(cfg);" | mongo --port 27127
 
 .. include:: /includes/student-notes.rst
 
@@ -156,14 +175,17 @@ Launch Config Servers
 ---------------------
 .. code-block:: bash
 
-   mongod --smallfiles --nojournal --noprealloc --dbpath $CONFIG/c0 
-   --logpath $CONFIG/c0/mongod.log --fork --port 27227 --configsvr
+   mongod --smallfiles --nojournal --noprealloc \
+          --dbpath $CONFIG/c0 --logpath ~/data/cluster/config/c0/mongod.log \
+          --fork --port 27227 --configsvr
 
-   mongod --smallfiles --nojournal --noprealloc --dbpath $CONFIG/c1 
-   --logpath $CONFIG/c1/mongod.log --fork --port 27228 --configsvr
+   mongod --smallfiles --nojournal --noprealloc \
+          --dbpath $CONFIG/c1 --logpath ~/data/cluster/config/c1/mongod.log \
+          --fork --port 27228 --configsvr
 
-   mongod --smallfiles --nojournal --noprealloc --dbpath $CONFIG/c2 
-   --logpath $CONFIG/c2/mongod.log --fork --port 27229 --configsvr
+   mongod --smallfiles --nojournal --noprealloc \
+          --dbpath $CONFIG/c2 --logpath ~/data/cluster/config/c2/mongod.log \
+          --fork --port 27229 --configsvr
 
 .. include:: /includes/student-notes.rst
 
@@ -175,11 +197,11 @@ Now our mongos's. We need to tell them about our config servers.
 
 .. code-block:: bash
 
-   mongos --logpath $CLUSTER/s0/mongos.log --fork --port 27017 --configdb 
-   localhost:27227,localhost:27228,localhost:27229
+   mongos --logpath ~/data/cluster/s0/mongos.log --fork --port 27017 \
+          --configdb localhost:27227,localhost:27228,localhost:27229
 
-   mongos --logpath $CLUSTER/s1/mongos.log --fork --port 27018 --configdb 
-   localhost:27227,localhost:27228,localhost:27229
+   mongos --logpath ~/data/cluster/s1/mongos.log --fork --port 27018 \
+          --configdb localhost:27227,localhost:27228,localhost:27229
 
 .. include:: /includes/student-notes.rst
 
@@ -189,9 +211,8 @@ Add All Shards
 
 .. code-block:: bash
 
-   echo 'sh.addShard( "shard0/localhost:27107" ); sh.addShard(
-   "shard1/localhost:27117" ); sh.addShard( "shard2/localhost:27127" ); 
-   sh.status()' | mongo
+   echo 'sh.addShard( "shard0/localhost:27107" ); sh.addShard("shard1/localhost:27117" ); 
+        sh.addShard( "shard2/localhost:27127" ); sh.status()' | mongo
 
 .. note::
 
@@ -207,13 +228,12 @@ Enable sharding for the test database, shard a collection, and insert some docum
 
 .. code-block:: bash
 
-   echo 'sh.enableSharding("test"); sh.shardCollection("test.testcol", 
-   { a : 1, b : 1 } )' | mongo
+   echo 'sh.enableSharding("test"); sh.shardCollection("test.testcol", { a : 1, b : 1 } )' | mongo
 
    echo 'for (i=0; i<10000; i++) { docArr = []; for (j=0; j<1000; j++) { 
-   docArr.push( { a : i, b : j, c : "Filler String 000000000000000000000
-   000000000000000000000000000000000000000000000000000000000000000000000
-   000000000000000" } )  }; db.testcol.insert(docArr) }' | mongo
+        docArr.push( { a : i, b : j, c : "Filler String 000000000000000000000
+        000000000000000000000000000000000000000000000000000000000000000000000
+        000000000000000" } )  }; db.testcol.insert(docArr) }' | mongo
 
 .. include:: /includes/student-notes.rst
 

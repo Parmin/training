@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="740" height="280" viewBox="0, 0, 740, 280">
+  <g id="Layer_1">
+    <text transform="matrix(1, 0, 0, 1, 87.418, 22.93)">
+      <tspan x="-80.908" y="5.5" font-family="Inconsolata" font-size="24" fill="#311E13">Data Center 1</tspan>
+    </text>
+    <path d="M334.147,38.715 L555.853,38.715 L555.853,269.285 L334.147,269.285 z" fill-opacity="0" stroke="#301C11" stroke-width="4"/>
+    <text transform="matrix(1, 0, 0, 1, 412.566, 24.215)">
+      <tspan x="-80.908" y="5.5" font-family="Inconsolata" font-size="24" fill="#311E13">Data Center 2</tspan>
+    </text>
+    <path d="M8,38.43 L229.706,38.43 L229.706,269 L8,269 z" fill-opacity="0" stroke="#301C11" stroke-width="4"/>
+    <g>
+      <path d="M218,84.985 C218,83.819 215.094,82.875 211.504,82.875 L24.496,82.875 C20.91,82.875 18,83.819 18,84.985 L18,145.763 C18,146.929 20.91,147.875 24.496,147.875 L211.504,147.875 C215.094,147.875 218,146.929 218,145.763 L218,84.985" fill="#2A86C0"/>
+      <text transform="matrix(1, 0, 0, 1, 120.026, 114.375)">
+        <tspan x="-66.383" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFF">Primary</tspan>
+      </text>
+    </g>
+    <path d="M218,180.54 C218,179.375 215.094,178.43 211.504,178.43 L24.496,178.43 C20.91,178.43 18,179.375 18,180.54 L18,241.318 C18,242.484 20.91,243.43 24.496,243.43 L211.504,243.43 C215.094,243.43 218,242.484 218,241.318 L218,180.54" fill="#5CA831"/>
+    <text transform="matrix(1, 0, 0, 1, 126.473, 212.93)">
+      <tspan x="-89.56" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFE">Secondary</tspan>
+    </text>
+    <path d="M544.147,180.825 C544.147,179.66 541.241,178.715 537.651,178.715 L350.643,178.715 C347.057,178.715 344.147,179.66 344.147,180.825 L344.147,241.603 C344.147,242.769 347.057,243.715 350.643,243.715 L537.651,243.715 C541.241,243.715 544.147,242.769 544.147,241.603 L544.147,180.825" fill="#5CA831"/>
+    <text transform="matrix(1, 0, 0, 1, 450.62, 211.215)">
+      <tspan x="-89.56" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFE">Secondary</tspan>
+    </text>
+    <path d="M544.147,83.534 C544.147,82.369 541.241,81.424 537.651,81.424 L350.643,81.424 C347.057,81.424 344.147,82.369 344.147,83.534 L344.147,144.312 C344.147,145.478 347.057,146.424 350.643,146.424 L537.651,146.424 C541.241,146.424 544.147,145.478 544.147,144.312 L544.147,83.534" fill="#5CA831"/>
+    <text transform="matrix(1, 0, 0, 1, 451.62, 115.924)">
+      <tspan x="-89.56" y="8" font-family="Inconsolata" font-size="36" fill="#FFFFFE">Secondary</tspan>
+    </text>
+    <path d="M260,14 C264.441,29.139 285.368,36.28 293,49 C298.882,58.804 269.249,90.252 266,100 C262.253,111.242 294.702,118.807 297,128 C300.443,141.771 273.001,169.994 271,182 C269.409,191.547 308.41,215.361 306,225 C302.728,238.088 278.347,253.96 273,270" fill-opacity="0" stroke="#301C11" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

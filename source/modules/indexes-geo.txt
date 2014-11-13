@@ -27,64 +27,44 @@ We can use geospatial indexes to quickly determine geometric relationships:
 - Whether or not two polygons intersect
 
 
-Example, Part 1
----------------
+Easiest to Start with 2 Dimensions
+----------------------------------
 
-TODO: REPLACE WITH FIGURE.
-
-.. figure:: /figures/2dGeospatial.jpg
-   :width: 700px
-   :align: center
-
-
-.. only:: instructor
-
-   .. note:: 
-
-      - To get an idea of what geospatial indexes do for us, let's look at an example.
-      - Initially, it is easiest to think about this in terms of two dimensions.
-      - And one type of geospatial index in MongoDB is a flat 2d index.
-      - With a geospatial index we can, for example, search for nearby items.
-      - This is the type of service that many phone apps provide when, say, searching for a nearby cafe.
-      - In this example, we might have a query location identified by the red x in this coordinate system.
-
-
-Example, Part 2
----------------
-
-TODO: REPLACE WITH FIGURE.
-
-.. figure:: /figures/2dGeospatial.jpg
-   :width: 700px
-   :align: center
+- Initially, it is easiest to think about geospatial indexes in two dimensions.
+- And one type of geospatial index in MongoDB is a flat 2d index.
+- With a geospatial index we can, for example, search for nearby items.
+- This is the type of service that many phone apps provide when, say, searching for a nearby cafe.
+- We might have a query location identified by an X in a 2d coordinate system.
 
 .. only:: instructor
 
-   .. note:: 
+   .. note::
 
-      - A geospatial index is based on a location field within documents in a collection.
-      - The structure of location values depends on the type of geospatial index. We will go into more detail on this in a few minutes.
-      - In this figure we are representing the location of each document in our collection by a black x.
+      - Instructor, please draw a 2d coordinate system with axes for lat and lon.
+      - Draw a red (or some other color) x to represent the query document.
 
 
-Example, Part 3
----------------
+Location Field
+--------------
 
-TODO: REPLACE WITH FIGURE.
-
-.. figure:: /figures/2dGeospatial.jpg
-   :width: 700px
-   :align: center
+- A geospatial index is based on a location field within documents in a collection.
+- The structure of location values depends on the type of geospatial index. 
+- We will go into more detail on this in a few minutes.
+- We can identify other documents in this collection with Xs in our 2d coordinate system.
 
 .. only:: instructor
 
-   .. note:: 
+   .. note::
 
-      - A geospatial index enables us to efficiently query a collection based on geometric relationships between documents and the query.
-      - For example, we can quickly locate all documents within a certain radius of our query location.
-      - This figure illustrates a ``$near`` query in a 2d geospatial index. 
+      - Draw several Xs to represent other documents.
 
 
+Find Nearby Documents
+---------------------
+
+- A geospatial index enables us to efficiently query a collection based on geometric relationships between documents and the query.
+- For example, we can quickly locate all documents within a certain radius of our query location.
+- In this example, we've illustrated a ``$near`` query in a 2d geospatial index.
 
 
 Flat vs. Spherical Indexes

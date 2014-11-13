@@ -191,3 +191,5 @@ Further Reading
 
 See :manual:`Write Concern Reference</reference/write-concern>` for more details on write concern configurations, including setting timeouts and identifying specific replica set members that must acknowledge writes (i.e. :manual:`tag sets</tutorial/configure-replica-set-tag-sets/#replica-set-configuration-tag-sets>`).
 
+.. include:: /includes/np.rst
+
