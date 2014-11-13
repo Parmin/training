@@ -43,7 +43,7 @@ Objectives
 Status
 ------
 
-Currently, there are drafts of all planned sections, including:
+Currently, there are drafts of the following sections:
 
 -  Introduction
 -  CRUD
@@ -53,8 +53,9 @@ Currently, there are drafts of all planned sections, including:
 -  Replica Sets
 -  Sharding
 -  Security
+-  Performance Troubleshooting
 
-We may need to write a section on performance.
+We need to include sections on Backup and Recovery and MMS.
 
 Test-Driving Built Materials
 ----------------------------
