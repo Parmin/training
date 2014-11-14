@@ -1,0 +1,96 @@
+=================
+Disaster Recovery
+=================
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- FILL THIS IN!!
+
+
+Disasters Do Happen
+-------------------
+
+.. include:: disasters_happen.png
+
+
+Human Disasters
+---------------
+
+.. include:: human_disasters.png
+
+
+Terminology: RPO vs. RTO
+------------------------
+
+- RPO: Recovery Point Objective
+
+  - How much data can you afford to lose?
+
+- RTO: Recovery Time Objective
+
+  - How long can you afford to be off-line?
+
+
+Terminology: DR vs. HA
+----------------------
+
+- DR: Disaster Recovery 
+- HA: High Availability
+- Distinct business requirements
+- Technical solutions may converge
+
+Quiz
+----
+
+- Q: What's the hardest thing about backups?
+- A: Restoring them!
+- *Regularly test that restoration works!*
+
+
+Backup Options
+--------------
+
+- Document Level
+
+  - Logical
+  - mongodump, mongorestore
+
+- File system level
+ 
+  - Physical
+  - Copy files
+  - Volume/disk snapshots
+
+
+Document Level Backups - Mongodump
+----------------------------------
+
+- Dumps collection to BSON files
+- Mirrors your structure
+- Can be run live or in offline mode
+- Does not include indexes
+
+  - They are rebuilt during restore
+
+- _--dbpath_ for direct file access
+- _--oplog_ to record oplog while backing up
+- _--query/filter_ selective dump
+
+
+File System Level
+-----------------
+
+- *Must use journaling!*
+- Copy _/data/db_ files
+- Or snapshot volume (e.g., LVM, SAN, EBS)
+- Seriously, always use journaling!
+
+
+
+
+
+
+

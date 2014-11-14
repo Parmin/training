@@ -9,7 +9,7 @@ theme:
   google_analytics: 'UA-000000000'
   book_path_base: 'MongoDB-training'
   repo: 'docs'
-  jira: 'DOCS'
+  jira: 'EDU'
   sitename: 'MongoDB University'
   nav_excluded: []
 sidebars:
