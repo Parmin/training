@@ -323,11 +323,23 @@ Bulk Operations
 Exercise: Bulk Inserts
 ----------------------
 
-- First, set up a replica set with seven members.
+Let's spin up a 3-member replica set:
 
-  - This is easiest with mtools, where you can just type:
+.. code-block::
 
-    - $ mlaunch init --replicaset --nodes 7
+  mkdir -p /data/replset/{1,2,3}
+  mongod --logpath /data/replset/1/mongod.log \
+  --dbpath /data/replset/1 --replSet mySet --port 27017 --fork
+  mongod --logpath /data/replset/2/mongod.log \
+  --dbpath /data/replset/2 --replSet mySet --port 27018 --fork
+  mongod --logpath /data/replset/3/mongod.log \
+  --dbpath /data/replset/3 --replSet mySet --port 27019 --fork
+
+INIT="conf = { _id : 'mySet', members : [ { _id : 0, "
+INIT="$INIT host : 'localhost:27017' }, { _id : 1, host "
+INIT="$INIT : 'localhost:27018' }, { _id : 2, host : "
+INIT="$INIT 'localhost:27019' } ] }; rs.initiate(conf) "
+echo $INIT | mongo
 
 - Perform the following, with writeConcern : 1 and no bulk inserts:
 
@@ -336,27 +348,29 @@ Exercise: Bulk Inserts
   db.testcol.drop()
   for (i=1; i<=10000; i++) { 
       for (j=1; j<=1000; j++) { 
-          db.testcol.insert( { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j) }, { writeConcern : { w : 1 } } );
+          db.testcol.insert( { _id : (1000 * (i-1) + j),
+                               a : i, b : j, c : (1000 * (i-1)+ j) },
+                             { writeConcern : { w : 1 } } );
       };
       print(i);
   }
 
 - Run ``mongostat`` and see how fast that happens. 
-- Increase the write concern to 7 (safer but slower):
+- Increase the write concern to 3 (safer but slower):
 
 .. code-block:: javascript
 
   db.testcol.drop()
   for (i=1; i<=10000; i++) { 
       for (j=1; j<=1000; j++) { 
-          db.testcol.insert({ _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)}, { writeConcern : { w : 7 } } );
+          db.testcol.insert({ _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)}, { writeConcern : { w : 3 } } );
       };
       print(i);
   }
 
 - Again, run mongostat.
 - Finally, let's use bulk inserts to our advantage:
-- Note that writeConcern is still { w : 7 } 
+- Note that writeConcern is still { w : 3 } 
 
 .. code-block:: javascript
 
@@ -366,7 +380,7 @@ Exercise: Bulk Inserts
       for (j=1; j<=1000; j++) { 
           arr.push( { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j) } );
       };
-      db.testcol.insert( arr, { writeConcern : { w : 7 } } );
+      db.testcol.insert( arr, { writeConcern : { w : 3 } } );
       print(i);
   }
 
