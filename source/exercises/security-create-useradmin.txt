@@ -23,6 +23,8 @@ Exercise: Create an Admin User, Part 1
          db.createUser( newUserDoc )
          exit
 
+.. include:: /includes/student-notes.rst
+
 
 Exercise: Create an Admin User, Part 2
 --------------------------------------
@@ -45,3 +47,5 @@ Exercise: Create an Admin User, Part 2
       
       - Once a user is created, the localhost exception no longer applies.
       - If that first user can't create other users, you will be extremely limited in your ability 
+
+.. include:: /includes/student-notes.rst

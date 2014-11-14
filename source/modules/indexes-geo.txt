@@ -16,6 +16,9 @@ Upon completing this module, students should understand:
 - Types of geoJSON objects
 - How to query using 2dsphere indexes
 
+.. include:: /includes/student-notes.rst
+
+
 
 Introduction to Geospatial Indexes
 ----------------------------------
@@ -26,6 +29,9 @@ We can use geospatial indexes to quickly determine geometric relationships:
 - Whether or not points fall within a polygon
 - Whether or not two polygons intersect
 
+.. include:: /includes/student-notes.rst
+
+
 
 Easiest to Start with 2 Dimensions
 ----------------------------------
@@ -35,6 +41,8 @@ Easiest to Start with 2 Dimensions
 - With a geospatial index we can, for example, search for nearby items.
 - This is the type of service that many phone apps provide when, say, searching for a nearby cafe.
 - We might have a query location identified by an X in a 2d coordinate system.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -52,6 +60,8 @@ Location Field
 - We will go into more detail on this in a few minutes.
 - We can identify other documents in this collection with Xs in our 2d coordinate system.
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -66,6 +76,8 @@ Find Nearby Documents
 - For example, we can quickly locate all documents within a certain radius of our query location.
 - In this example, we've illustrated a ``$near`` query in a 2d geospatial index.
 
+.. include:: /includes/student-notes.rst
+
 
 Flat vs. Spherical Indexes
 --------------------------
@@ -78,6 +90,8 @@ There are two types of geospatial indexes:
   - Takes into account the curvature of the earth.
   - Joins any two points using a geodesic or "great circle arc".
   - Deviates from flat geometry as you get further from the equator, and as your points get further apart.
+
+.. include:: /includes/student-notes.rst
 
 
 Flat Geospatial Index
@@ -92,6 +106,8 @@ Flat Geospatial Index
   - You do not plan to use geoJSON objects such as LineStrings or Polygons.
   - You are not going to use points far enough North or South to worry about the Earth's curvature.
 
+.. include:: /includes/student-notes.rst
+
 
 Spherical Geospatial Index
 --------------------------
@@ -100,6 +116,8 @@ Spherical Geospatial Index
 - If you want to plot the shortest path from the Klondike to Siberia, this will know to go over the North Pole.
 - Uses geoJSON objects (Points, LineString, and Polygons).
 - Coordinate pairs are converted into geoJSON Points.
+
+.. include:: /includes/student-notes.rst
 
 
 Creating a 2d Index
@@ -118,6 +136,8 @@ Possible options key-value pairs:
 - ``min : <lower bound>``
 - ``max : <upper bound>``
 - ``bits : <bits of precision for geohash>``
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -142,6 +162,8 @@ There are two accepted formats:
   - ``lng`` (longitude)
   - ``lat`` (latitude)
 
+.. include:: /includes/student-notes.rst
+
 .. include:: /exercises/indexes-geo-2d-insertion.txt
 
 
@@ -156,6 +178,8 @@ Querying Documents Using a 2d Index
   - ``$polygon``
   - ``$center`` (circle)
 
+.. include:: /includes/student-notes.rst
+
 
 .. include:: /exercises/indexes-geo-2d-query.txt
 
@@ -169,6 +193,8 @@ You can index one or more 2dsphere fields in an index.
 
    db.collection.ensureIndex( { <location field> : "2dsphere" } )
 
+.. include:: /includes/student-notes.rst
+
 
 The geoJSON Specification
 -------------------------
@@ -177,6 +203,8 @@ The geoJSON Specification
 - The spec is at http://geojson.org/geojson-spec.html
 - This spec is incorporated in MongoDB 2dsphere indexes.
 - Includes Point, LineString, Polygon, and combinations of these.
+
+.. include:: /includes/student-notes.rst
 
 
 geoJSON Considerations
@@ -197,6 +225,8 @@ geoJSON Considerations
         - Does NOT go through the point [ 0, 5 ]
         - DOES go through the point [ 0, 90 ] (i.e., the North Pole).
 
+.. include:: /includes/student-notes.rst
+
 
 Simple Types of 2dsphere Objects
 --------------------------------
@@ -208,6 +238,8 @@ Simple Types of 2dsphere Objects
    { <field_name> : { type : "Point", 
                       coordinates : [ <longitude>, <latitude> ] } }
 
+.. include:: /includes/student-notes.rst
+
 
 **LineString**: A geodesic line that is defined by its two end Points
 
@@ -218,6 +250,8 @@ Simple Types of 2dsphere Objects
                                       [ <longitude 2>, <latitude 2> ],
                                       ...,
                                       [ <longitude n>, <latitude n> ] ] } } 
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -249,6 +283,8 @@ Polygon with One Hole:
                                       [ <Points that define inner polygon> ] ] 
                     } } 
 
+.. include:: /includes/student-notes.rst
+
 
 
 
@@ -259,6 +295,8 @@ Other Types of 2dsphere Objects
 - **MultiLine**: One or more LineStrings in one document
 - **MultiPolygon**: One or more Polygons in one document
 - **GeometryCollection**: One or more geoJSON objects in one document
+
+.. include:: /includes/student-notes.rst
 
 .. include:: /exercises/indexes-geo-2dsphere-inserts.txt
 
@@ -284,3 +322,5 @@ Querying 2dsphere Objects
 ``$geoWithin``: Only returns documents with a location completely contained within the query.
 
 ``$geoIntersects``: Returns documents with their indexed field intersecting any part of the shape in the query.
+
+.. include:: /includes/student-notes.rst

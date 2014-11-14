@@ -1,45 +1,31 @@
-====================
-Performance Tutorial
-====================
+===========================
+Performance Troubleshooting
+===========================
 
 
 Learning Objectives
 -------------------
 
-Upon completing this module students should understand:
+Upon completing this module students should understand MongoDB tools for performance troubleshooting.
 
-- The tools MongoDB provides for performance analysis
+- ``mongostat``
+- ``mongotop``
+- The profiler
+- ``db.collection.stats()``
+- ``db.serverStatus()``
 
-  - mongostat
-  - mongotop
-  - the profiler
-  - stats
-  - serverStatus
 
-- Tips & tricks to improve performance
- 
-
-.. only:: instructor
-
-  .. note::
-
-    - A node.js program for this exists here: 
-
-      - https://github.com/NathanZamecnik/messagequeue/blob/master/index.js
-
-    - I intend to convert this to something the shell can use at some point.
-    - Acts as a message queue, writers write to the system while readers read.
-    
-
-Performance Tools Overview
---------------------------
+Reporting Tools Overview
+------------------------
 
 - mongostat
 - mongotop
 - db.collection.stats()
-- db.currentOp()
 - db.setProfilingLevel()
 - db.serverStatus()
+
+.. include:: /includes/student-notes.rst
+
 
 ``mongostat`` and ``mongotop``
 ------------------------------
@@ -51,11 +37,13 @@ Performance Tools Overview
 
 - ``mongotop`` looks at the time spent on reads/writes in each collection.
 
+.. include:: /includes/student-notes.rst
+
 
 Exercise: ``mongostat`` (setup)
 -------------------------------
 
-In one window, perform the following query:
+In one window, perform the following commands.
 
 .. code-block:: javascript
 
@@ -76,6 +64,8 @@ In one window, perform the following query:
       print(i)
   }
 
+.. include:: /includes/student-notes.rst
+
 
 Exercise: ``mongostat`` (run)
 -----------------------------
@@ -86,6 +76,8 @@ Exercise: ``mongostat`` (run)
   - Inserts
   - Queries
   - Updates
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: ``mongostat`` (create index)
@@ -106,6 +98,8 @@ Exercise: ``mongostat`` (create index)
      db.testcol.dropIndexes()
      db.testcol.ensureIndex( { b : 1, a : 1 } )
 
+.. include:: /includes/student-notes.rst
+
 
 db.collection.stats()
 ---------------------
@@ -113,6 +107,8 @@ db.collection.stats()
 - Used to view the current stats for a collection.
 - Everything is in bytes; use the multiplier parameter to view in KB, MB, etc
 - You can also use db.stats() to do this at scope of the entire database
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Using Collection Stats
@@ -130,30 +126,20 @@ Look at the output of the following:
   db.testcol2.stats()
   db.stats()
 
+.. include:: /includes/student-notes.rst
+
 
 The Profiler
 ------------
 
 - Off by default.
-- To reset
-
-  .. code-block:: javascript
-
-     db.setProfilerLevel(0)
-
+- To reset, ``db.setProfilerLevel(0)``
 - At setting 1, it captures "slow" queries.
 - You may define what "slow" is.
-- Default is 100ms: 
+- Default is 100ms: ``db.setProfilerLevel(1)``
+- E.g., to capture 20 ms: ``db.setProfilerLevel(1, 20)``
 
-  .. code-block:: javascript
-
-     db.setProfilerLevel(1)
-
-- E.g., to capture 20 ms: 
-
-  .. code-block:: javascript
-
-     db.setProfilerLevel(1, 20)
+.. include:: /includes/student-notes.rst
 
 
 The Profiler (continued)
@@ -166,6 +152,8 @@ The Profiler (continued)
 
 - Always turn the profiler off when done (set level to 0)
 - Creates ``db.system.profile`` collection
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Exploring the Profiler
@@ -185,6 +173,8 @@ Perform the following, then look in your db.system.profile.
   db.testcol.insert( { a : x.pad(10000000) } )  // ~10 MB
   db.setProfilingLevel(0)
   db.system.profile.find().pretty()
+
+.. include:: /includes/student-notes.rst
 
 
 .. only:: instructor
@@ -210,7 +200,8 @@ Server Status
 - Takes a snapshot.
 - By taking diffs, you can see system trends.
 - Most of the data that MMS gets is from here.
-- Most useful when taking diffs.
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Using Server Status
@@ -218,26 +209,17 @@ Exercise: Using Server Status
 
 - Open up two windows. In the first, type: 
 
-.. code-block:: javascript
+  .. code-block:: javascript
 
-   db.testcol.drop()
-   var x = "asdf"
-   for (i=0; i<=10000000; i++) { db.testcol.insert( { a : x.pad(100000) } ) }
+     db.testcol.drop()
+     var x = "asdf"
+     for (i=0; i<=10000000; i++) { db.testcol.insert( { a : x.pad(100000) } ) }
 
 - In the second window, type periodically:
 
-.. code-block:: javascript
+  .. code-block:: javascript
 
-   var x = db.serverStatus(); x.metrics.document
+     var x = db.serverStatus(); x.metrics.document
 
+.. include:: /includes/student-notes.rst
       
-Analyzing profiler data
------------------------
-
-- Enable the profiler at default settings.
-- Run for 5 seconds.
-- Slow operations are captured.
-- The issue is there is not a proper index on the message field.
-- Allow class to discover this as the data is examined.
-- You will see how fast documents are getting inserted.
-- It will be slow because the documents are big.

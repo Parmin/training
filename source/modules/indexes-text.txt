@@ -12,6 +12,8 @@ Upon completing this module, students should understand:
 - How to search using text indexes
 - How to rank search results by relevance score
 
+.. include:: /includes/student-notes.rst
+
 
 What is a Text Index?
 ---------------------
@@ -20,6 +22,8 @@ What is a Text Index?
 - MongoDB supports text search for a number of languages.
 - Text indexes drop language-specific stop words (e.g. in English "the", "an", "a", "and", etc.)
 - Text indexes use simple, language-specific suffix stemming (e.g., "running" to "run")
+
+.. include:: /includes/student-notes.rst
 
 
 Creating a Text Index
@@ -30,6 +34,8 @@ You create a text index a little bit differently than you create a standard inde
 .. code-block:: javascript
 
    db.collection.ensureIndex( { <field name> : "text" } )
+
+.. include:: /includes/student-notes.rst
 
 
 .. include:: /exercises/indexes-text-creation.txt
@@ -42,6 +48,8 @@ Text Indexes are Similar to Multikey Indexes
 - A multikey index with each of the words in ``dialog`` as values.
 - You can query the field using the ``$text`` operator. 
 
+.. include:: /includes/student-notes.rst
+
 .. include:: /exercises/indexes-text-inserting.txt
 
 
@@ -53,6 +61,8 @@ Next, let's query the collection. The syntax is:
 .. code-block:: javascript
 
    db.collection.find( { $text : { $search : "query terms go here" } } )
+
+.. include:: /includes/student-notes.rst
 
 .. include:: /exercises/indexes-text-query-1.txt
 
@@ -70,6 +80,8 @@ Search for a Phrase
   
      db.montyPython.find( { $text: { $search: "\"European swallow\"" } } )
 
+.. include:: /includes/student-notes.rst
+
 
 Text Search Score
 -----------------
@@ -86,3 +98,5 @@ Text Search Score
      ).sort(
              { textScore: { $meta: "textScore" } }
      ) )
+
+.. include:: /includes/student-notes.rst

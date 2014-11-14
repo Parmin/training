@@ -4,6 +4,8 @@ Exercise: Elections in Failover Scenarios
 - We have learned about electing a primary in replica sets
 - Let's look at some scenarios in which failover might be necessary.
 
+.. include:: /includes/student-notes.rst
+
 
 Scenario A: 3 Data Nodes in 1 DC
 --------------------------------
@@ -11,6 +13,8 @@ Scenario A: 3 Data Nodes in 1 DC
 Which secondary will become the new primary?
 
 .. include:: /images/replica-set-1dc-primary-down.rst
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -20,12 +24,15 @@ Which secondary will become the new primary?
       - And on the optime.
 
 
+
 Scenario B: 3 Data Nodes in 2 DCs
 ---------------------------------
 
 Which member will become primary following this type of network partition?
 
 .. include:: /images/replica-set-3nodes-2dc-network-partition.rst
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -37,12 +44,15 @@ Which member will become primary following this type of network partition?
       - If DC1 fails, we won't have a primary automatically. The remaining node in DC2 needs to be manually promoted by reconfiguring the replica set.
 
 
+
 Scenario C: 4 Data Nodes in 2 DCs
 ---------------------------------
 
 What happens following this network partition?
 
 .. include:: /images/replica-set-4nodes-2dc-cant-elect.rst
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -57,6 +67,7 @@ What happens following this network partition?
       - An arbiter is a ``mongod`` instance without data and performs only heartbeats, votes, and vetoes.
 
 
+
 Scenario D: 5 Nodes in 2 DCs
 ----------------------------
 
@@ -64,12 +75,15 @@ The following is similar to Scenario C, but with the addition of an arbiter in D
 
 .. include:: /images/replica-set-4nodes-1arbiter-2datacenters.rst
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
 
       - The current primary is likely to remain primary.
       - The arbiter helps ensure that the primary can reach a majority of the replica set.
+
 
 
 Scenario E: 3 Data Nodes in 3 DCs
@@ -80,6 +94,8 @@ Scenario E: 3 Data Nodes in 3 DCs
 
 .. include:: /images/replica-set-3nodes-1-per-dc.rst
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
@@ -89,12 +105,15 @@ Scenario E: 3 Data Nodes in 3 DCs
       - One of the data nodes can be replaced by an arbiter to reduce costs.
 
 
+
 Scenario F: 5 data nodes in 3 DCs
 ---------------------------------
 
 What happens here if any one of the nodes/DCs fail? What about recovery time?
 
 .. include:: /images/replica-set-three-data-centers-votes.rst
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -103,4 +122,5 @@ What happens here if any one of the nodes/DCs fail? What about recovery time?
       - Adds another data node to each "main" DC to reduce typically slow and costly cross DC network traffic if an initial sync or similar recovery is needed, as the recovering node can pull from a local replica instead. 
       - Depending on the data sizes, operational budget, and requirements, this can be overkill.
       - The data node in DC3 can be replaced by an arbiter to reduce costs.
+
 

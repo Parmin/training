@@ -11,12 +11,18 @@ Upon completing this module students should understand:
 - When a TTL indexed document will get deleted.
 - Limitations of TTL indexes.
 
+.. include:: /includes/student-notes.rst
+
+
 TTL Index Basics
 ----------------
 
 - TTL is short for "Time To Live".
 - This must index a field of type "Date" (including ISODate) or "Timestamp"
 - Any Date field older than expireAfterSeconds will get deleted at some point
+
+.. include:: /includes/student-notes.rst
+
 
 Creating a TTL Index
 --------------------
@@ -27,6 +33,9 @@ Create with:
 
    db.collection.ensureIndex( { field_name : 1 },
                               { expireAfterSeconds : some_number } )
+
+.. include:: /includes/student-notes.rst
+
 
 Exercise: Creating a TTL Index
 ------------------------------
@@ -62,4 +71,6 @@ Then, leaving that window open, open up a new terminal and connect to the databa
        print(db.testcol.count());
        sleep(100);
    } 
+
+.. include:: /includes/student-notes.rst
 

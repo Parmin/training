@@ -25,6 +25,8 @@ Exercise: Creating a ``readWrite`` User, Part 1
          db.createUser(vespa)
          exit
 
+.. include:: /includes/student-notes.rst
+
 
 Exercise: Creating a ``readWrite`` User, Part 2
 -----------------------------------------------
@@ -51,3 +53,5 @@ Log in with the user you just created.
          use test2
          show collections  // can't
          db.foo.find()  // can't
+
+.. include:: /includes/student-notes.rst

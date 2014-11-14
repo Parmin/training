@@ -33,6 +33,8 @@ Overview
     - You are welcome to use any features you desire, or none.
     - All security is off by default.
 
+.. include:: /includes/student-notes.rst
+
 
 Authentication Options
 ----------------------
@@ -41,6 +43,8 @@ Authentication Options
 - x.509 Authentication (using x.509 Certificates)
 - Kerberos (through an Enterprise subscription)
 - LDAP
+
+.. include:: /includes/student-notes.rst
 
 
 Authorization via MongoDB
@@ -56,6 +60,8 @@ Authorization via MongoDB
   - Some roles apply to all databases
   - You can also create custom roles.
 
+.. include:: /includes/student-notes.rst
+
 
 Network Exposure Options
 ------------------------
@@ -63,6 +69,8 @@ Network Exposure Options
 - bindIp limits the ip addresses the server listens on.
 - Using a non-standard port can provide a layer of obscurity.
 - MongoDB should still be run only in a trusted environment.
+
+.. include:: /includes/student-notes.rst
 
 
 Encryption (SSL)
@@ -73,6 +81,8 @@ Encryption (SSL)
 - Alternatively, use MongoDB Enterprise.
 - Allows you to use public key encryption.
 - You can also validate with x.509 certificates.
+
+.. include:: /includes/student-notes.rst
 
 
 Native MongoDB Auth
@@ -92,6 +102,8 @@ Native MongoDB Auth
      
     - Be careful to create a user who can create other users.
     - Otherwise you'll be stuck with the users you initially create.
+
+.. include:: /includes/student-notes.rst
 
 .. include:: /exercises/security-create-useradmin.txt
 
@@ -118,6 +130,8 @@ Using MongoDB Roles
     - They may also enter the password after hitting enter. 
     - The ``mongo`` command will prompt for the password before launching the shell.
 
+.. include:: /includes/student-notes.rst
+
 .. include:: /exercises/security-create-readwrite.txt
 
 
@@ -128,3 +142,5 @@ MongoDB Custom User Roles
 - You do this by modifying the system.roles collection.
 - You can also inherit privileges from other roles into a given role.
 - You won't remember how to do this, so if you need it, consult the :manual:`docs </core/security-introduction/>`.
+
+.. include:: /includes/student-notes.rst

@@ -320,7 +320,7 @@ Dropping a Collection
 Dropping a Database
 -------------------
 
-- You can drop an entire database with ``db.drop()``
+- You can drop an entire database with ``db.dropDatabase()``
 - This drops the database on which the method is called.
 - It also deletes the associated data files from disk, freeing disk space.
 - Beware that in the mongo shell, this does not change database context.  

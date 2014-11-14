@@ -29,4 +29,8 @@ description: |
 file: /modules/security
 description: |
   An overview of security options for MongoDB.
+---
+file: /modules/performance
+description: |
+  An introduction to MongoDB tools for performance troubleshooting.
 ...

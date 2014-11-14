@@ -13,6 +13,8 @@ Upon completing this module students should understand:
 - Why oplog operations are idempotent.
 - That the oplog is a capped collection and the implications this holds for syncing members.
 
+.. include:: /includes/student-notes.rst
+
 
 Binary Replication
 ------------------
@@ -28,6 +30,9 @@ Binary Replication
 - In short, we would keep track of actual bytes and very specific locations.
 - We would simply replicate these changes across secondaries.
 
+.. include:: /includes/student-notes.rst
+
+
 Tradeoffs
 ---------
 
@@ -35,6 +40,8 @@ Tradeoffs
 - But we must have a byte-for-byte match of our data files on the primary and secondaries.
 - The problem is that this couples our replica set members in ways that are inflexible.
 - Binary replication may also replicate disk corruption.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -52,6 +59,8 @@ Statement-Based Replication
 - Statement-based replication facilitates greater independence among members of a replica set.
 - MongoDB stores a statement for every operation in a capped collection called the ``oplog``.
 - Secondaries do not simply apply exactly the operation that was issued on the primary.
+
+.. include:: /includes/student-notes.rst
 
 
 Example
@@ -78,6 +87,8 @@ This will be represented in the oplog with records such as the following:
    { "ts" : Timestamp(1407159845, 2), "h" : NumberLong("-6814297392442406598"),
      "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 9971 } }
 
+.. include:: /includes/student-notes.rst
+
 
 Replication Based on the Oplog
 ------------------------------
@@ -88,6 +99,8 @@ Replication Based on the Oplog
   - With regard to MongoDB version.
   - In terms of how data is stored on disk.
   - Freedom to do maintenance without the need to bring the entire set down.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -108,9 +121,11 @@ Operations in the Oplog are Idempotent
 - Whether applied once or multiple times it produces the same result.
 - Necessary if you want to be able to copy data while simultaneously accepting writes.
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
-   .. notes::
+   .. note::
 
       We need to be able to copy while accepting writes when:
 
@@ -130,6 +145,8 @@ The Oplog Window
   - It makes room for new documents.
   - By overwriting the oldest documents in the collection.
 
+.. include:: /includes/student-notes.rst
+
 
 Sizing the Oplog
 ----------------
@@ -139,4 +156,6 @@ Sizing the Oplog
 
   - So that the oplog window is large enough to support replication
   - To give you a large enough history for any diagnostics you might wish to run.
+
+.. include:: /includes/student-notes.rst
 

@@ -14,11 +14,15 @@ Upon completing this module students should understand:
 - What prompts an election
 - How a new primary is selected
 
+.. include:: /includes/student-notes.rst
+
 
 Members and Votes
 -----------------
 
 .. include:: /images/replica-set-three-data-centers-votes.rst
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -33,10 +37,13 @@ Members and Votes
       - A member must have greater than 50% of the votes in order to be elected primary.
 
 
+
 Calling Elections
 -----------------
 
 .. include:: /images/replica-set-trigger-election.rst
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -50,6 +57,7 @@ Calling Elections
       - If other members agree that the primary is not available, an election will be held.
 
 
+
 Selecting a New Primary
 -----------------------
 
@@ -59,6 +67,8 @@ Three factors are important in the selection of a primary:
 - Optime
 - Connections
 
+.. include:: /includes/student-notes.rst
+
 
 Priority
 --------
@@ -67,6 +77,8 @@ Priority
 - The default is 1.
 - Servers with a priority of 0 will never become primary.
 - Priority values are floating point numbers 0 - 1000 inclusive.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -86,6 +98,8 @@ Optime
 - To be elected primary, a member must have the most recent optime.
 - Only optimes of visible members are compared.
 
+.. include:: /includes/student-notes.rst
+
 
 Connections
 -----------
@@ -93,6 +107,8 @@ Connections
 - Must be able to connect to a majority of the members in the replica set.
 - Majority refers to the total number of votes.
 - Not the total number of members.
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -108,5 +124,6 @@ When will a primary step down?
 - If a secondary is eligible for election and has a higher priority.
 - If it cannot contact a majority of the members of the replica set.
 
+.. include:: /includes/student-notes.rst
 
 .. include:: /exercises/replica-set-network-partition.txt
