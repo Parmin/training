@@ -33,4 +33,8 @@ description: |
 file: /modules/performance
 description: |
   An introduction to MongoDB tools for performance troubleshooting.
+---
+file: /modules/backup
+description: |
+  MongoDB backup strategies.
 ...

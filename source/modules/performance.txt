@@ -93,7 +93,7 @@ Exercise: ``mongostat`` (create index)
 Exercise: ``mongotop``
 ----------------------
 
-Perform the following:
+Perform the following then, in another window, run ``mongotop``.
 
 .. code-block:: javascript
 
@@ -101,21 +101,23 @@ Perform the following:
   for (i=1; i<=10000; i++) { 
       arr = [];
       for (j=1; j<=1000; j++) { 
-          doc = { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)};
+          doc = {_id: (1000*(i-1)+j), a: i, b: j, c: (1000*(i-1)+j)};
           arr.push(doc)
       };
       db.testcol.insert(arr);
-      var x = db.testcol.find( { b : 255 } );
-      x.next();
-      var x = db.testcol.find( { _id : 1000 * (i-1) + 255 } );
-      x.next();
+      var x = db.testcol.find( {b: 255} ); x.next();
+      var x = db.testcol.find( {_id: 1000*(i-1)+255} ); x.next();
       var x = "asdf";
-      db.testcol.update( { a : i, b : 255 }, { $set : { d : x.pad(1000) } });
+      db.testcol.update( {a: i, b: 255}, {$set: {d: x.pad(1000)}});
       print(i)
   }
 
-- In another window, run mongotop.
-- Note that you can see the activity on the server for reads/writes/total.
+.. only:: instructor
+
+   .. note:: 
+   
+      Direct the students to the fact that you can see the activity on the server for reads/writes/total.
+
 
 
 db.currentOp()
@@ -135,7 +137,7 @@ db.currentOp()
 Exercise: db.currentOp()
 ------------------------
 
-- Perform the following in the shell: 
+Do the following then, connect with a separate shell, and repeatedly run db.currentOp().
 
 .. code-block:: javascript
 
@@ -143,21 +145,23 @@ Exercise: db.currentOp()
   for (i=1; i<=10000; i++) { 
       arr = [];
       for (j=1; j<=1000; j++) { 
-          doc = { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)};
+          doc = {_id: (1000*(i-1)+j), a: i, b: j, c: (1000*(i-1)+j)};
           arr.push(doc)
       };
       db.testcol.insert(arr);
-      var x = db.testcol.find( { b : 255 } );
-      x.next();
-      var x = db.testcol.find( { _id : 1000 * (i-1) + 255 } );
-      x.next();
+      var x = db.testcol.find( {b: 255} ); x.next();
+      var x = db.testcol.find( {_id: 1000*(i-1)+255 }); x.next();
       var x = "asdf";
-      db.testcol.update( { a : i, b : 255 }, { $set : { d : x.pad(1000) } });
+      db.testcol.update( {a: i, b: 255}, {$set: {d: x.pad(1000)}});
       print(i)
   }
 
-- Connect with a separate shell, and repeatedly run db.currentOp()
-- Notice that the running time gets longer & longer, on average.
+
+.. only:: instructor
+
+   .. note::
+
+      Point out to students that the running time gets longer & longer, on average.
 
 
 db.collection.stats()
@@ -271,7 +275,9 @@ Exercise: Using ``db.serverStatus()``
 
      db.testcol.drop()
      var x = "asdf"
-     for (i=0; i<=10000000; i++) { db.testcol.insert( { a : x.pad(100000) } ) }
+     for (i=0; i<=10000000; i++) { 
+         db.testcol.insert( { a : x.pad(100000) } ) 
+     }
 
 - In the second window, type periodically:
 
@@ -320,26 +326,27 @@ Bulk Operations
 - Can be done with both inserts and updates.
 
 
-Exercise: Bulk Inserts
-----------------------
+Exercise: Comparing bulk inserts with ``mongostat``
+---------------------------------------------------
 
 Let's spin up a 3-member replica set:
 
 .. code-block::
 
-  mkdir -p /data/replset/{1,2,3}
-  mongod --logpath /data/replset/1/mongod.log \
-  --dbpath /data/replset/1 --replSet mySet --port 27017 --fork
-  mongod --logpath /data/replset/2/mongod.log \
-  --dbpath /data/replset/2 --replSet mySet --port 27018 --fork
+   mkdir -p /data/replset/{1,2,3}
+   mongod --logpath /data/replset/1/mongod.log \
+   --dbpath /data/replset/1 --replSet mySet --port 27017 --fork
+   mongod --logpath /data/replset/2/mongod.log \
+   --dbpath /data/replset/2 --replSet mySet --port 27018 --fork
   mongod --logpath /data/replset/3/mongod.log \
   --dbpath /data/replset/3 --replSet mySet --port 27019 --fork
 
-INIT="conf = { _id : 'mySet', members : [ { _id : 0, "
-INIT="$INIT host : 'localhost:27017' }, { _id : 1, host "
-INIT="$INIT : 'localhost:27018' }, { _id : 2, host : "
-INIT="$INIT 'localhost:27019' } ] }; rs.initiate(conf) "
-echo $INIT | mongo
+  echo "conf = {_id: 'mySet', members: [{_id: 0, host: 'localhost:27017'}, {_id: 1, host: 'localhost:27018'}, 
+       {_id: 2, host: 'localhost:27019'}]}; rs.initiate(conf)" | mongo 
+
+
+``mongostat``, bulk inserts with ``{w: 1}``
+-------------------------------------------
 
 - Perform the following, with writeConcern : 1 and no bulk inserts:
 
@@ -355,34 +362,49 @@ echo $INIT | mongo
       print(i);
   }
 
-- Run ``mongostat`` and see how fast that happens. 
-- Increase the write concern to 3 (safer but slower):
+Run ``mongostat`` and see how fast that happens. 
+
+
+Bulk inserts with ``{w: 3}``
+----------------------------
+
+Increase the write concern to 3 (safer but slower):
 
 .. code-block:: javascript
 
   db.testcol.drop()
   for (i=1; i<=10000; i++) { 
       for (j=1; j<=1000; j++) { 
-          db.testcol.insert({ _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)}, { writeConcern : { w : 3 } } );
+          db.testcol.insert(
+	      { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j)}, 
+	      { writeConcern: { w: 3 } } 
+          );
       };
       print(i);
   }
 
-- Again, run mongostat.
+Again, run mongostat.
+
+
+``mongostat``, bulk inserts with ``{w: 3}``
+-------------------------------------------
+
 - Finally, let's use bulk inserts to our advantage:
-- Note that writeConcern is still { w : 3 } 
+- Note that writeConcern is still { w: 3 } 
 
 .. code-block:: javascript
 
-  db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
-      arr = []
-      for (j=1; j<=1000; j++) { 
-          arr.push( { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j) } );
-      };
-      db.testcol.insert( arr, { writeConcern : { w : 3 } } );
-      print(i);
-  }
+   db.testcol.drop()
+   for (i=1; i<=10000; i++) { 
+       arr = []
+       for (j=1; j<=1000; j++) { 
+           arr.push( 
+	       { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j) } 
+           ); 
+       };
+       db.testcol.insert( arr, { writeConcern : { w : 3 } } );
+       print(i);
+   }
 
 
 Performance Tips: Schema Design
@@ -411,5 +433,5 @@ Indexes and Performance
 
   - Sort on a field that comes before any range used in the index.
   - You can't skip fields; they must be used in order.
-  - For examples, see the 'indexing' section.
+  - Revisit the indexing section for more detail.
       
