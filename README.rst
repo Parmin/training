@@ -2,8 +2,26 @@
 MongoDB Training
 ================
 
-Introduction
-------------
+Status
+------
+
+We are currently field testing the following sections in a number of public and private trainings:
+
+-  Introduction
+-  CRUD
+-  Indexes
+-  Aggregation
+-  Data Modeling
+-  Replica Sets
+-  Sharding
+-  Security
+-  Performance Troubleshooting
+-  Backup and Recovery
+
+We need to include a section on MMS.
+
+Overview
+--------
 
 This project is a comprehensive revision of MongoDB training materials
 used for the following classes:
@@ -39,24 +57,6 @@ Objectives
 
 -  Modular materials for greater flexibility in how trainings are
    organized
-
-Status
-------
-
-We are currently field testing the following sections in a number of public and private trainings:
-
--  Introduction
--  CRUD
--  Indexes
--  Aggregation
--  Data Modeling
--  Replica Sets
--  Sharding
--  Security
--  Performance Troubleshooting
--  Backup and Recovery
-
-We need to include a section on MMS.
 
 Test-Driving Built Materials
 ----------------------------
