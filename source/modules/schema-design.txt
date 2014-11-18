@@ -1,5 +1,5 @@
 =============
-Data Modeling
+Schema Design
 =============
 
 
@@ -17,7 +17,6 @@ Upon completing this module, students should understand:
 Overview
 --------
 
-- Schema design is about getting good performance.
 - The structure of documents affects performance.
 - You will not and should not try to normalize your data.
 - You must build your schema around your data usage.
@@ -41,40 +40,42 @@ Schema Design Considerations
 
     - These are mutually exclusive because: 
     
-      - The easiest way to have the smallest possible amount of data in each document is to have LOTS of documents with a tiny piece of data in each.
-      - But the easiest way to minimize the number of documents returned by a query is to have huge documents with lots of data in each.
+      - The easiest way to have the smallest possible document: 
+      
+        - Have LOTS of documents with a tiny piece of data in each.
+
+      - The easiest way to have few documents:
+      
+        - Pack all data of conceivable relevance into one BIG document.
 
 
 Find Queries and RAM
 --------------------
 
 - RAM is a precious commodity.
-- Documents already in RAM load MUCH faster.
+
+  - Documents already in RAM load MUCH faster.
+
 - When a document is queried that is not already in RAM:
 
   - A page fault occurs.
   - The document is read from disk into memory.
   - Other documents get pushed out of memory.
 
-    - This makes future page faults more likely.
+- Useless data will push out useful data when it gets loaded.
 
 
 Find Queries and RAM (Continued)
 --------------------------------
 
+- We want to separate useful & useless data.
 - If the documents are smaller (ceteris paribus):
 
-  - More of them can fit in memory.
-  - A higher percentage of them fit into memory.
-  - Queries are faster, on average.
+  - You won't have to query data you're not using.
+  - More useful pieces of data can fit in memory.
+  - Queries on a given number of them are faster, on average.
 
-- Try to keep documents as small as possible
-
-.. only:: instructor
-
-  .. note::
-
-    Unfortunately, this is not the only consideration.
+- Try to keep documents as small as possible.
 
 
 Find Queries and Spinning Disks
@@ -88,6 +89,8 @@ Find Queries and Spinning Disks
 
 - Querying many documents at once means many seeks.
 - The same data in fewer documents means fewer seeks.
+
+  - Even if there is some useless data in the documents, too.
 
 .. only:: instructor
 
@@ -112,7 +115,7 @@ Many Small vs. Few Large Documents (Continued)
 
   - Data that's called together should be grouped together.
    
-    - Same amount of data in 0-1 seeks instead of 0-many
+    - Same amount of data in 1 seek instead of many.
 
   - Especially if it's queried frequently.
   - Push rarely used data elsewhere.
@@ -120,7 +123,30 @@ Many Small vs. Few Large Documents (Continued)
 - This gets us close to a good balance of: 
   
   - Reducing the number of seeks.
-  - Not pulling unused data into memory.
+  - Not pulling unused data into memory (very often).
+
+
+Patterns: “Belongs To” vs. “Belongs In” & References
+----------------------------------------------------
+
+- While modeling data, you will want to ask yourself: 
+
+  - Do certain objects belong together in a document? 
+  - Or should they should be referenced?
+
+- Each of these might be useful, depending on your situation.
+
+
+"Belongs To" vs. "Belongs In" & References (Continued)
+------------------------------------------------------
+
+- If an object belongs to multiple documents, reference it.
+- If referencing, getting your data will now require 2 or more queries.
+- Sometimes it is worthwhile to create copies of your data
+
+  - One in each document that would otherwise reference it
+  - We call this 'denormalizing'
+  - Should be done with small pieces of data.
 
 
 Data Modeling Scenarios: Introduction
@@ -128,7 +154,7 @@ Data Modeling Scenarios: Introduction
 
 - Now we will design some schemas.
 - You'll see these ideas put into practice.
-- I'll do a couple, then you will do one.
+- I'll do one, then you will do one.
 
 .. only:: instructor
 
@@ -199,7 +225,7 @@ Medical Patient Data (Continued)
   - diagnosis
   - medication
   - binary data
-  - One document per visit, total.
+  - One big document per visit, total.
 
 .. only:: instructor
 
@@ -286,27 +312,6 @@ Medical Patient Data (Continued)
      
        - Fewer page faults
        - More effective use of RAM
-
-
-“Belongs To” vs. “Belongs In” & References
-------------------------------------------
-
-- While modeling data, you will want to ask yourself: 
-
-  - Do certain objects belong together in a document? 
-  - Or should they should be referenced?
-
-- Each of these might be useful, depending on your situation.
-
-
-"Belongs To" vs. "Belongs In" & References (Continued)
-------------------------------------------------------
-
-- If an object belongs to multiple documents, reference it.
-- If referencing, getting your data will now require 2 or more queries.
-- Sometimes it is worthwhile to create copies of your data to save time in querying.
-
-  - We call this 'denormalizing'
 
 
 Scenario #2: Library Card Catalog System
