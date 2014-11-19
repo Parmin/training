@@ -1,0 +1,9 @@
+:orphan:
+
+==============================
+MongoDB Advanced Data Modeling
+==============================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-contents.rst
