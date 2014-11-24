@@ -1,0 +1,11 @@
+======================================
+MongoDB Advanced Data Modeling Moduels
+======================================
+
+.. default-domain:: mongodb
+
+These are training modules for the Advanced Data Modeling course.
+
+.. include:: /includes/toc/dfn-list-contents.rst
+
+.. include:: /includes/toc/contents.rst

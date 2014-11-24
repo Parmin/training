@@ -1,0 +1,16 @@
+source: 'contents'
+output: 'training.tex'
+title: 'MongoDB Advanced Data Modeling, Instructor Guide'
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'manual'
+edition: 'instructor'
+---
+source: 'contents'
+output: 'training.tex'
+title: 'MongoDB Advanced Data Modeling'
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'manual'
+edition: 'student'
+...
