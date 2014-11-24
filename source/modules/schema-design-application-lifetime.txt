@@ -1,0 +1,219 @@
+==============================================
+Schema Design During an Application's Lifetime
+==============================================
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand the basic philosophy of schema design in MongoDB through:
+
+- Development
+- Production
+- Iterative Modifications
+
+.. include:: /includes/student-notes.rst
+
+Development Phase
+-----------------
+
+Support basic CRUD functionality:
+
+- Inserts for authors and books
+- Find authors by name
+- Find books by basics of title, subject, etc.
+
+.. include:: /includes/student-notes.rst
+
+
+Development Phase: Known Query Patterns
+---------------------------------------
+
+.. code-block:: javascript
+
+   // Find authors by last name.
+   db.authors.ensureIndex({ "lastName": 1 })
+
+   // Find books by slug for detail view
+   db.books.ensureIndex({ "slug": 1 })
+
+   // Find books by subject (multi-key)
+   db.books.ensureIndex({ "subjects": 1 })
+
+   // Find books by publisher (index on embedded doc)
+   db.books.ensureIndex({ "publisher.name": 1 })
+
+.. include:: /includes/student-notes.rst
+
+
+Production Phase
+----------------
+
+Evolve the schema to meet the application's read and write patterns.
+
+.. include:: /includes/student-notes.rst
+
+
+Production Phase: Read Patterns
+-------------------------------
+
+List books by author last name
+
+.. code-block:: javascript
+
+   authors = db.authors.find({ lastName: /^f.*/i }, { _id: 1 });
+
+   authorIds = authors.map(function(x) { return x._id; });
+
+   db.books.find({author: { $in: authorIds }});
+
+.. include:: /includes/student-notes.rst
+
+
+Addressing List Books by Last Name
+----------------------------------
+
+"Cache" the author name in an embedded document.
+
+.. code-block:: javascript
+
+   {
+       _id: 1,
+       title: "The Great Gatsby",
+       author: {
+	   firstName: "F. Scott",
+	   lastName: "Fitzgerald"
+       }
+       // Other fields follow…
+   }
+
+Queries are now one step
+
+.. code-block:: javascript
+
+   db.books.find({ "author.firstName": /^f.*/i })
+
+.. include:: /includes/student-notes.rst
+
+
+Production Phase: Write Patterns
+--------------------------------
+
+Users can review a book.
+
+.. code-block:: javascript
+
+   review = {
+       user: 1,
+       text: "I thought this book was great!",
+       rating: 5
+   };
+
+   db.books.update(
+       { _id: 3 },
+       { $push: { reviews: review }}
+   );
+
+Caveats:
+
+- Document size limit (16MB)
+- Storage fragmentation after many updates/deletes
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Recent Reviews
+------------------------
+
+- Display the 10 most recent reviews by a user.
+- Make efficient use of memory and disk seeks.
+
+.. include:: /includes/student-notes.rst
+
+
+Solution: Recent Reviews, Schema
+--------------------------------
+
+Store users' reviews in monthly buckets.
+
+.. code-block:: javascript
+
+   // db.reviews (one document per user per month)
+   {   _id: "bob-201412",
+       reviews: [
+	   {   _id: ObjectId("…"),
+	       rating: 5,
+	       text: "This book is excellent!",
+	       created_at: ISODate("2014-12-10T21:14:07.096Z")
+	   },
+	   {   _id: ObjectId("…"),
+	       rating: 2,
+	       text: "I didn't really enjoy this book.",
+	       created_at: ISODate("2014-12-11T20:12:50.594Z")
+	   }
+       ]
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+Solution: Recent Reviews, Update
+--------------------------------
+
+Adding a new review to the appropriate bucket
+
+.. code-block:: javascript
+
+   myReview = {
+       _id: ObjectId("…"),
+       rating: 3,
+       text: "An average read.",
+       created_at: ISODate("2012-10-13T12:26:11.502Z")
+   };
+
+   db.reviews.update(
+	 { _id: "bob-201210" },
+	 { $push: { reviews: myReview }}
+   );
+
+.. include:: /includes/student-notes.rst
+
+
+Solution: Recent Reviews, Read
+------------------------------
+
+Display the 10 most recent reviews by a user
+
+.. code-block:: javascript
+
+   cursor = db.reviews.find(
+       { _id: /^bob-/ },
+       { reviews: { $slice: -10 }}
+   ).sort({ _id: -1 }).batchSize(5);
+
+   num = 0;
+
+   while (cursor.hasNext() &amp;&amp; num &lt; 10) {
+       doc = cursor.next();
+
+       for (var i = 0; i &lt; doc.reviews.length &amp;&amp; num &lt; 10; ++i, ++num) {
+	   printjson(doc.reviews[i]);
+       }
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+Solution: Recent Reviews, Delete
+--------------------------------
+
+Deleting a review
+
+.. code-block:: javascript
+
+   cursor = db.reviews.update(
+       { _id: "bob-201210" },
+       { $pull: { reviews: { _id: ObjectId("…") }}}
+   );
+
+.. include:: /includes/student-notes.rst
+

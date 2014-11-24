@@ -13,6 +13,8 @@ Upon completing this module students should understand:
 - User roles in MongoDB
 - How to manage user roles in MongoDB
 
+.. include:: /includes/student-notes.rst
+
 
 Overview
 --------

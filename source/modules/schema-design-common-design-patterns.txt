@@ -1,0 +1,339 @@
+=============================
+Common Schema Design Patterns
+=============================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand common design patterns for modeling:
+
+- 1-1 Relationships
+- 1-M Relationships
+- M-M Relationships
+- Tree Structures
+
+.. include:: /includes/student-notes.rst
+
+
+1-1 Relationship
+----------------
+
+Let's pretend that authors only write one book.
+
+.. include:: /includes/student-notes.rst
+
+
+1-1: Linking
+------------
+
+Either side, or both, can track the relationship.
+
+.. code-block:: javascript
+
+   db.books.findOne()
+   {
+       _id: 1,
+       title: "The Great Gatsby",
+       slug: "9781857150193-the-great-gatsby",
+       author: 1,
+       // Other fields follow…
+   }
+
+   db.authors.findOne({ _id: 1 })
+   {
+       _id: 1,
+       firstName: "F. Scott",
+       lastName: "Fitzgerald"
+       book: 1,
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+1-1: Embedding
+--------------
+
+.. code-block:: javascript
+
+   db.books.findOne()
+   {
+       _id: 1,
+       title: "The Great Gatsby",
+       slug: "9781857150193-the-great-gatsby",
+       author: {
+	   firstName: "F. Scott",
+	   lastName: "Fitzgerald"
+       }
+       // Other fields follow…
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+1-M Relationship
+----------------
+
+In reality, authors may write multiple books.
+
+.. include:: /includes/student-notes.rst
+
+
+1-M: Array of IDs
+-----------------
+
+The "one" side tracks the relationship.
+
+- Flexible and space-efficient
+- Additional query needed for non-ID lookups
+
+.. code-block:: javascript
+
+   db.authors.findOne()
+   {
+       _id: 1,
+       firstName: "F. Scott",
+       lastName: "Fitzgerald",
+       books: [1, 3, 20]
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+1-M: Single Field with ID
+-------------------------
+
+The "many" side tracks the relationship.
+
+.. code-block:: javascript
+
+   db.books.find({ author: 1 })
+   {
+       _id: 1,
+       title: "The Great Gatsby",
+       slug: "9781857150193-the-great-gatsby",
+       author: 1,
+       // Other fields follow…
+   }
+
+   {
+       _id: 3,
+       title: "This Side of Paradise",
+       slug: "9780679447238-this-side-of-paradise",
+       author: 1,
+       // Other fields follow…
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+1-M: Array of Documents
+-----------------------
+
+.. code-block:: javascript
+
+   db.authors.findOne()
+   {
+       _id: 1,
+       firstName: "F. Scott",
+       lastName: "Fitzgerald",
+       books: [
+	   { _id: 1, title: "The Great Gatsby" },
+	   { _id: 3, title: "This Side of Paradise" }
+       ]
+       // Other fields follow…
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+M-M Relationship
+----------------
+
+Some books may also have co-authors.
+
+.. include:: /includes/student-notes.rst
+
+
+M-M: Array of IDs on Both Sides
+-------------------------------
+
+.. code-block:: javascript
+
+   db.books.findOne()
+   {
+       _id: 1,
+       title: "The Great Gatsby",
+       authors: [1, 5]
+       // Other fields follow…
+   }
+
+   db.authors.findOne()
+   {
+       _id: 1,
+       firstName: "F. Scott",
+       lastName: "Fitzgerald",
+       books: [1, 3, 20]
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+M-M: Array of IDs on Both Sides
+-------------------------------
+
+Query for all books by a given author.
+
+.. code-block:: javascript
+
+   db.books.find({ authors: 1 });
+
+Query for all authors of a given book
+
+.. code-block:: javascript
+
+   db.authors.find({ books: 1 });
+
+.. include:: /includes/student-notes.rst
+
+
+M-M: Array of IDs on One Side
+-----------------------------
+
+.. code-block:: javascript
+
+   db.books.findOne()
+   {
+       _id: 1,
+       title: "The Great Gatsby",
+       authors: [1, 5]
+       // Other fields follow…
+   }
+
+   db.authors.find({ _id: { $in: [1, 5] }})
+   {
+       _id: 1,
+       firstName: "F. Scott",
+       lastName: "Fitzgerald"
+   }
+
+   {
+       _id: 5,
+       firstName: "Unknown",
+       lastName: "Co-author"
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+M-M: Array of IDs on One Side
+-----------------------------
+
+Query for all books by a given author
+
+.. code-block:: javascript
+
+   db.books.find({ authors: 1 });
+
+Query for all authors of a given book
+
+.. code-block:: javascript
+
+   book = db.books.findOne(
+       { title: "The Great Gatsby" },
+       { authors: 1 }
+   );
+
+   db.authors.find({ _id: { $in: book.authors }});
+
+.. include:: /includes/student-notes.rst
+
+
+Tree Structures
+---------------
+
+E.g., modeling a subject hierarchy.
+
+.. include:: /includes/student-notes.rst
+
+
+Allow users to browse by subject
+--------------------------------
+
+.. code-block:: javascript
+
+   db.subjects.findOne()
+   {
+       _id: 1,
+       name: "American Literature",
+       sub_category: {
+	    name: "1920s",
+	    sub_category: { name: "Jazz Age" }
+      }
+   }
+
+- How can you search this collection?
+- Be aware of document size limitations
+- Benefit from hierarchy being in same document
+
+.. include:: /includes/student-notes.rst
+
+
+Alternative: Parents and Ancestors
+----------------------------------
+
+.. code-block:: javascript
+
+   db.subjects.find()
+   {   _id: "American Literature" }
+
+   {   _id : "1920s",
+       ancestors: ["American Literature"],
+       parent: "American Literature"
+   }
+
+   {   _id: "Jazz Age",
+       ancestors: ["American Literature", "1920s"],
+       parent: "1920s"
+   }
+
+   {   _id: "Jazz Age in New York",
+       ancestors: ["American Literature", "1920s", "Jazz Age"],
+       parent: "Jazz Age"
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+Find Sub-Categories
+-------------------
+
+.. code-block:: javascript
+
+   db.subjects.find({ ancestors: "1920s" })
+   {
+       _id: "Jazz Age",
+       ancestors: ["American Literature", "1920s"],
+       parent: "1920s"
+   }
+
+   {
+       _id: "Jazz Age in New York",
+       ancestors: ["American Literature", "1920s", "Jazz Age"],
+       parent: "Jazz Age"
+   }
+
+.. include:: /includes/student-notes.rst
+
+
+Summary
+-------
+
+- Schema design is different in MongoDB.
+- Basic data design principles apply.
+- It's about your application.
+- It's about your data and how it's used.
+- It's about the entire lifetime of your application.
+
+.. include:: /includes/student-notes.rst
+

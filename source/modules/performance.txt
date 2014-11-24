@@ -15,6 +15,8 @@ Upon completing this module students should understand basic performance trouble
 - ``db.collection.stats()``
 - ``db.serverStatus()``
 
+.. include:: /includes/student-notes.rst
+
 
 ``mongostat`` and ``mongotop``
 ------------------------------
@@ -118,6 +120,8 @@ Perform the following then, in another window, run ``mongotop``.
    
       Direct the students to the fact that you can see the activity on the server for reads/writes/total.
 
+.. include:: /includes/student-notes.rst
+
 
 
 db.currentOp()
@@ -132,6 +136,8 @@ db.currentOp()
   - query
   - lock
   - waitingForLock
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: db.currentOp()
@@ -162,6 +168,8 @@ Do the following then, connect with a separate shell, and repeatedly run db.curr
    .. note::
 
       Point out to students that the running time gets longer & longer, on average.
+
+.. include:: /includes/student-notes.rst
 
 
 db.collection.stats()
@@ -237,9 +245,6 @@ Perform the following, then look in your db.system.profile.
   db.setProfilingLevel(0)
   db.system.profile.find().pretty()
 
-.. include:: /includes/student-notes.rst
-
-
 .. only:: instructor
 
   .. note::
@@ -254,6 +259,10 @@ Perform the following, then look in your db.system.profile.
 
       - key updates refers to index keys
       - ts (timestamp) is useful for some queries if problems cluster.
+
+
+.. include:: /includes/student-notes.rst
+
 
 
 ``db.serverStatus()``
@@ -299,6 +308,8 @@ Analyzing profiler data
 - You will see how fast documents are getting inserted.
 - It will be slow b/c the documents are big.
 
+.. include:: /includes/student-notes.rst
+
 
 Performance Improvement Techniques
 ----------------------------------
@@ -309,6 +320,8 @@ Performance Improvement Techniques
 - Good Shard Key choice
 - Good indexes
 
+.. include:: /includes/student-notes.rst
+
 
 Performance Tips: Write Concern
 -------------------------------
@@ -316,6 +329,8 @@ Performance Tips: Write Concern
 - Increasing the write concern increases data safety.
 - This will have an impact on performance, however.
 - This is especially true when there are network issues.
+
+.. include:: /includes/student-notes.rst
 
 
 Bulk Operations
@@ -325,24 +340,28 @@ Bulk Operations
 - These enable the server to bulk write and bulk acknowledge.
 - Can be done with both inserts and updates.
 
+.. include:: /includes/student-notes.rst
+
 
 Exercise: Comparing bulk inserts with ``mongostat``
 ---------------------------------------------------
 
 Let's spin up a 3-member replica set:
 
-.. code-block::
+.. code-block:: bash
 
    mkdir -p /data/replset/{1,2,3}
    mongod --logpath /data/replset/1/mongod.log \
    --dbpath /data/replset/1 --replSet mySet --port 27017 --fork
    mongod --logpath /data/replset/2/mongod.log \
    --dbpath /data/replset/2 --replSet mySet --port 27018 --fork
-  mongod --logpath /data/replset/3/mongod.log \
-  --dbpath /data/replset/3 --replSet mySet --port 27019 --fork
+   mongod --logpath /data/replset/3/mongod.log \
+   --dbpath /data/replset/3 --replSet mySet --port 27019 --fork
 
-  echo "conf = {_id: 'mySet', members: [{_id: 0, host: 'localhost:27017'}, {_id: 1, host: 'localhost:27018'}, 
-       {_id: 2, host: 'localhost:27019'}]}; rs.initiate(conf)" | mongo 
+   echo "conf = {_id: 'mySet', members: [{_id: 0, host: 'localhost:27017'}, {_id: 1, host: 'localhost:27018'}, 
+        {_id: 2, host: 'localhost:27019'}]}; rs.initiate(conf)" | mongo 
+
+.. include:: /includes/student-notes.rst
 
 
 ``mongostat``, bulk inserts with ``{w: 1}``
@@ -363,6 +382,8 @@ Let's spin up a 3-member replica set:
   }
 
 Run ``mongostat`` and see how fast that happens. 
+
+.. include:: /includes/student-notes.rst
 
 
 Bulk inserts with ``{w: 3}``
@@ -385,6 +406,8 @@ Increase the write concern to 3 (safer but slower):
 
 Again, run mongostat.
 
+.. include:: /includes/student-notes.rst
+
 
 ``mongostat``, bulk inserts with ``{w: 3}``
 -------------------------------------------
@@ -406,14 +429,18 @@ Again, run mongostat.
        print(i);
    }
 
+.. include:: /includes/student-notes.rst
 
-Performance Tips: Schema Design
--------------------------------
+
+Schema Design
+-------------
 
 - The structure of documents affects performance.
 - Optimize for your application's read/write patterns.
 - We want as few requests to the database as possible to perform a given application task.
 - See the data modeling section for more information.
+
+.. include:: /includes/student-notes.rst
 
 
 Shard Key Considerations
@@ -423,6 +450,8 @@ Shard Key Considerations
 - Create a shard key such that only a small number of documents will have the same value.
 - Create a shard key that has a high degree of randomness.
 - Your shard key should enable a mongos to target a single shard for a given query.
+
+.. include:: /includes/student-notes.rst
 
 
 Indexes and Performance
@@ -435,3 +464,5 @@ Indexes and Performance
   - You can't skip fields; they must be used in order.
   - Revisit the indexing section for more detail.
       
+.. include:: /includes/student-notes.rst
+

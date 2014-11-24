@@ -1,0 +1,9 @@
+===================
+Backup and Recovery
+===================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-backup-essentials.rst
+
+.. include:: /includes/toc/backup-essentials.rst             

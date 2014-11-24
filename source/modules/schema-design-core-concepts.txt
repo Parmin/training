@@ -1,0 +1,399 @@
+===========================
+Schema Design Core Concepts
+===========================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- Basic schema design principles for MongoDB
+- Tradeoffs for embedded documents in a schema
+- Tradeoffs for linked documents in a schema
+- The use of array fields as part of a schema design
+
+
+What is a schema?
+-----------------
+
+- Maps concepts and relationships to data
+- Sets expectations for the data
+- Minimizes overhead of iterative modifications
+- Ensures compatibility
+
+
+Example: Normalized Data Model
+------------------------------
+
+::
+
+   User:           Book:           Author:
+   - username      - title         - firstName
+   - firstName     - isbn          - lastName
+   - lastName      - language
+                   - createdBy    
+                   - author
+
+
+Example: Denormalized Version
+-----------------------------
+
+::
+
+   User:           Book:          
+   - username      - title        
+   - firstName     - isbn         
+   - lastName      - language
+                   - createdBy
+                   - author
+                     - firstName
+                     - lastName
+
+
+Schema Design in MongoDB
+------------------------
+
+- Schema is defined at the application-level
+- Design is part of each phase in its lifetime
+- There is no magic formula
+
+
+Three Considerations
+--------------------
+
+- The data your application needs
+- Your application's read usage of the data
+- Your application's write usage of the data
+
+
+Case Study
+----------
+
+- A Library Web Application
+- Different schemas are possible.
+
+
+Author Schema
+-------------
+
+.. code-block:: javascript
+
+   {
+       "_id": int,
+       "firstName": string,
+       "lastName": string
+   }
+
+
+User Schema
+-----------
+
+.. code-block:: javascript
+
+   {
+       "_id": int,
+       "username": string,
+       "password": string
+   }
+
+
+Book Schema
+-----------
+
+.. code-block:: javascript
+
+   {  "_id": int,
+      "title": string,
+      "slug": string,
+      "author": int,
+      "available": boolean,
+      "isbn": string,
+      "pages": int,
+      "publisher": {
+	  "city": string,
+	  "date": date,
+	  "name": string
+      },
+      "subjects": [ string, string ],
+      "language": string,
+      "reviews": [ { "user": int, "text": string },
+	           { "user": int, "text": string } ]
+  }
+
+
+Example Documents: Author
+-------------------------
+
+.. code-block:: javascript
+
+   {
+       _id: 1,
+       firstName: "F. Scott",
+       lastName: "Fitzgerald"
+   }
+
+
+Example Documents: User
+-----------------------
+
+.. code-block:: javascript
+
+   {
+       _id: 1,
+       username: "emily@10gen.com",
+       password: "slsjfk4odk84k209dlkdj90009283d"
+   }
+
+
+Example Documents: Book
+-----------------------
+
+.. code-block:: javascript
+
+   {   _id: 1,
+       title: "The Great Gatsby",
+       slug: "9781857150193-the-great-gatsby",
+       author: 1,
+       available: true,
+       isbn: "9781857150193",
+       pages: 176,
+       publisher: {
+	   name: "Everyman's Library",
+	   date: ISODate("1991-09-19T00:00:00Z"),
+	   city: "London"
+       },
+       subjects: ["Love stories", "1920s", "Jazz Age"],
+       language: "English",
+       reviews: [ { user: 1, text: "One of the best…" },
+	  	  { user: 2, text: "It's hard to…" } ]
+   }
+
+
+Embedded Documents
+------------------
+
+- AKA sub-documents or embedded objects
+- What advantages do they have?
+- When should they be used?
+
+
+Example: Embedded Documents
+---------------------------
+
+.. code-block:: javascript
+  
+   {   _id: 1,
+       title: "The Great Gatsby",
+       slug: "9781857150193-the-great-gatsby",
+       author: 1,
+       available: true,
+       isbn: "9781857150193",
+       pages: 176,
+       publisher: {
+	   name: "Everyman's Library",
+	   date: ISODate("1991-09-19T00:00:00Z"),
+	   city: "London"
+       },
+       subjects: ["Love stories", "1920s", "Jazz Age"],
+       language: "English",
+       reviews: [ { user: 1, text: "One of the best…" },
+	  	  { user: 2, text: "It's hard to…" } ]
+   }
+
+
+Embedded Documents: Pros and Cons
+---------------------------------
+
+- Great for read performance
+- One seek to find the document
+- At most, one sequential read to retrieve from disk
+- Writes can be slow if constantly adding to objects
+
+
+Linked Documents
+----------------
+
+- What advantages does this approach have?
+- When should they be used?
+
+
+Example: Linked Documents
+-------------------------
+
+.. code-block:: javascript
+   :emphasize-lines: 4, 14, 16
+
+   {   _id: 1,
+       title: "The Great Gatsby",
+       slug: "9781857150193-the-great-gatsby",
+       author: 1,
+       available: true,
+       isbn: "9781857150193",
+       pages: 176,
+       publisher: { publisher_name: "Everyman's Library",
+	            date: ISODate("1991-09-19T00:00:00Z"),
+	            publisher_city: "London" },
+       subjects: ["Love stories", "1920s", "Jazz Age"],
+       language: "English",
+       reviews: [ 
+                  { user: 1, 
+                    text: "One of the best…" },
+	          { user: 2, 
+                    text: "It's hard to…" } ]
+   }
+
+
+Linked Documents: Pros and Cons
+-------------------------------
+
+- More, smaller documents
+- Can make queries by ID very simple
+- Accessing linked documents requires extra seeks + reads. 
+- What effect does this have on the system?
+
+
+Arrays
+------
+
+- Array of scalars
+- Array of documents
+
+
+Array of Scalars
+----------------
+
+.. code-block:: javascript
+   :emphasize-lines: 13
+
+   {   _id: 1,
+       title: "The Great Gatsby",
+       slug: "9781857150193-the-great-gatsby",
+       author: 1,
+       available: true,
+       isbn: "9781857150193",
+       pages: 176,
+       publisher: {
+	   name: "Everyman's Library",
+	   date: ISODate("1991-09-19T00:00:00Z"),
+	   city: "London"
+       },
+       subjects: ["Love stories", "1920s", "Jazz Age"],
+       language: "English",
+       reviews: [ { user: 1, text: "One of the best…" },
+	          { user: 2, text: "It's hard to…" } ]
+   }
+
+
+Array of Documents
+------------------
+
+.. code-block:: javascript
+   :emphasize-lines: 15-16
+
+   {   _id: 1,
+       title: "The Great Gatsby",
+       slug: "9781857150193-the-great-gatsby",
+       author: 1,
+       available: true,
+       isbn: "9781857150193",
+       pages: 176,
+       publisher: {
+	   name: "Everyman's Library",
+	   date: ISODate("1991-09-19T00:00:00Z"),
+	   city: "London"
+       },
+       subjects: ["Love stories", "1920s", "Jazz Age"],
+       language: "English",
+       reviews: [ { user: 1, text: "One of the best…" },
+	          { user: 2, text: "It's hard to…" } ]
+   }
+
+
+Exercise: Users and Book Reviews
+--------------------------------
+
+Design a schema for users and their book reviews. Usernames are immutable.
+
+- Users
+
+  - username (string)
+  - email (string)
+
+- Reviews
+
+  - text (string)
+  - rating (integer)
+  - created_at (date)
+
+
+
+
+Solution A: Users and Book Reviews
+----------------------------------
+
+Reviews may be queried by user or book
+
+.. code-block:: javascript
+
+   // db.users (one document per user)
+   {  
+        _id: ObjectId("…"),
+       username: "bob",
+       email: "bob@example.com"
+   }
+
+   // db.reviews (one document per review)
+   {   
+       _id: ObjectId("…"),
+       user: ObjectId("…"),
+       book: ObjectId("…"),
+       rating: 5,
+       text: "This book is excellent!",
+       created_at: ISODate("2012-10-10T21:14:07.096Z")
+   }
+
+
+Solution B: Users and Book Reviews
+----------------------------------
+
+Optimized to retrieve reviews by user
+
+.. code-block:: javascript
+
+   // db.users, one document per user with all reviews
+   {   
+       _id: ObjectId("…"),
+       username: "bob",
+       email: "bob@example.com",
+       reviews: [
+	   {   book: ObjectId("…"),
+	       rating: 5,
+	       text: "This book is excellent!",
+	       created_at: ISODate("2012-10-10T21:14:07.096Z")
+	   }
+       ]
+   }
+
+
+Solution C: Users and Book Reviews
+----------------------------------
+
+Optimized to retrieve reviews by book
+
+.. code-block:: javascript
+
+   // db.users (one document per user)
+   {   _id: ObjectId("…"),
+       username: "bob",
+       email: "bob@example.com"
+   }
+
+   // db.books, one document per book with all reviews
+   {   _id: ObjectId("…"),
+       // Other book fields…
+       reviews: [ {   user: ObjectId("…"),
+	              rating: 5,
+	              text: "This book is excellent!",
+	              created_at: ISODate("2014-11-10T21:14:07.096Z") } ]
+   }

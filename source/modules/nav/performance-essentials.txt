@@ -1,0 +1,9 @@
+===============================
+Reporting Tools and Diagnostics
+===============================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-performance-essentials.rst
+
+.. include:: /includes/toc/performance-essentials.rst             
