@@ -2,40 +2,16 @@
 MongoDB Training
 ================
 
-Status
-------
-
-We are currently field testing the following sections in a number of public and private trainings:
-
--  Introduction
--  CRUD
--  Indexes
--  Aggregation
--  Data Modeling
--  Replica Sets
--  Sharding
--  Security
--  Performance Troubleshooting
--  Backup and Recovery
-
-We need to include a section on MMS.
-
 Overview
 --------
 
-This project is a comprehensive revision of MongoDB training materials
-used for the following classes:
+This repository contains the MongoDB training materials used for the following classes:
 
 -  MongoDB Essentials Training
 -  MongoDB Developer Training
 -  MongoDB Admin Training
 
-The build environment has many dependencies. We recommend you download
-the `instructor package`_ (last built 19 November 2014) which
-contains the most recent build of all materials. See the Test-Driving
-Built Materials section below for instructions on using the materials.
-
-**Reviews are nearly complete. We are now field testing.** 
+Instructor and student are in the `presentation`_ directory of the repo. See the `Using Instructor Materials`_ section below.
 
 Objectives
 ----------
@@ -51,21 +27,17 @@ Objectives
    -  A workbook to be distributed to students to enable them to easily
       follow lessons and exercises and take notes
 
--  Training materials that are easier to maintain and that encourage
+-  Training materials that are easy to maintain and that encourage
    contributions in the form of pull requests from those who deliver
    MongoDB training and others in the company
 
 -  Modular materials for greater flexibility in how trainings are
    organized
 
-Test-Driving Built Materials
-----------------------------
+Using Instructor Materials
+--------------------------
 
-Download the `instructor package`_ (last built 19 November 2014).
-This package contains the instructor guide and presentation slides.
-
-Extract the files in the tarball and open the contents.html file in a
-web browser.
+Do a pull on the repo, unzip `presentation/instructor-package.tar.gz`_, and open **contents.html**.
 
 .. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png
    :alt: Contents page
@@ -89,4 +61,25 @@ This will bring up another browser window containing html-based slides.
 These decks respond to keyboard events such as arrow keys and the space
 bar in the same way as Microsoft Powerpoint.
 
-.. _instructor package: https://s3.amazonaws.com/edu-static.mongodb.com/training/instructor-package.tar.gz
+Status
+------
+
+Completed sections include:
+
+-  Introduction
+-  CRUD
+-  Indexes
+-  Aggregation
+-  Data Modeling
+-  Replica Sets
+-  Sharding
+-  Security
+-  Performance Troubleshooting
+-  Backup and Recovery
+
+We need to include a section on MMS.
+
+
+.. _presentation : https://github.com/mongodb/docs-training/blob/master/presentation
+
+.. _presentation/instructor-package.tar.gz : https://github.com/mongodb/docs-training/blob/master/presentation/instructor-package.tar.gz
