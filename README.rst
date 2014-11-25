@@ -30,12 +30,8 @@ used for the following classes:
 -  MongoDB Developer Training
 -  MongoDB Admin Training
 
-The build environment has many dependencies. We recommend you download
-the `instructor package`_ (last built 24 November 2014) which
-contains the most recent build of all materials. See the Test-Driving
-Built Materials section below for instructions on using the materials.
-
-**Reviews are nearly complete. We are now field testing.** 
+The build environment has many dependencies. We recommend you retrieve materials from the `presentations`_ directory of the repo. See the Test-Driving
+Built Materials section below for instructions on using the html instructor materials and slides.
 
 Objectives
 ----------
@@ -61,11 +57,9 @@ Objectives
 Test-Driving Built Materials
 ----------------------------
 
-Download the `instructor package`_ (last built 24 November 2014).
-This package contains the instructor guide and presentation slides.
+Do a pull on the repo and unzip presentations/instructor-package.tar.gz. This package contains the instructor guide and presentation slides.
 
-Extract the files in the tarball and open the contents.html file in a
-web browser.
+Open the contents.html file in a web browser.
 
 .. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png
    :alt: Contents page
@@ -89,4 +83,4 @@ This will bring up another browser window containing html-based slides.
 These decks respond to keyboard events such as arrow keys and the space
 bar in the same way as Microsoft Powerpoint.
 
-.. _instructor package: https://github.com/mongodb/docs-training/blob/master/presentation/instructor-package.tar.gz
+.. _presentation : https://github.com/mongodb/docs-training/blob/master/presentation
