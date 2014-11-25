@@ -38,9 +38,7 @@ Objectives
 Using Instructor Materials
 --------------------------
 
-Do a pull on the repo and unzip `presentation/instructor-package.tar.gz`_. This package contains the instructor guide and presentation slides.
-
-**Open contents.html**
+Do a pull on the repo, unzip `presentation/instructor-package.tar.gz`_, and open **contents.html**. This package contains the instructor guide and presentation slides.
 
 .. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png
    :alt: Contents page
