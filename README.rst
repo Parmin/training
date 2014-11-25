@@ -11,8 +11,7 @@ This repository contains the MongoDB training materials used for the following c
 -  MongoDB Developer Training
 -  MongoDB Admin Training
 
-The build environment has many dependencies. We recommend you retrieve materials from the `presentation`_ directory of the repo. See the Test-Driving
-Built Materials section below for instructions on using the html instructor materials and slides.
+Instructor and student are in the `presentation`_ directory of the repo. See the Using Instructor Materials section below.
 
 Objectives
 ----------
@@ -38,7 +37,7 @@ Objectives
 Using Instructor Materials
 --------------------------
 
-Do a pull on the repo, unzip `presentation/instructor-package.tar.gz`_, and open **contents.html**. This package contains the instructor guide and presentation slides.
+Do a pull on the repo, unzip `presentation/instructor-package.tar.gz`_, and open **contents.html**.
 
 .. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png
    :alt: Contents page
