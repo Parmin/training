@@ -13,6 +13,8 @@ Upon completing this module students should understand:
 - How MongoDB automatically reorders pipeline stages to improve efficiency
 - Changes in the aggregation framework from MongoDB 2.4 to 2.6.
 
+.. include:: /includes/student-notes.rst
+
 
 Aggregation Options
 -------------------
@@ -29,6 +31,8 @@ Aggregation Options
   - ``allowDiskUse : true`` - permit the use of disk for memory-intensive queries
   - ``explain : true`` - display how indexes are used to perform the aggregation.
 
+.. include:: /includes/student-notes.rst
+
 
 Aggregation Limits
 ------------------
@@ -43,12 +47,16 @@ Aggregation Limits
 
 - $group and $sort might require all documents in memory at once.
 
+.. include:: /includes/student-notes.rst
+
 
 Limits Prior to MongoDB 2.6
 ---------------------------
 
 - ``aggregate()`` returned results in a single document up to 16 MB in size. 
 - The upper limit on pipeline memory usage was 10% of RAM.
+
+.. include:: /includes/student-notes.rst
 
 
 Optimization: Reducing Documents in the Pipeline
@@ -61,6 +69,8 @@ Optimization: Reducing Documents in the Pipeline
   - $limit: 
 
 - They should be used as early as possible in the pipeline.
+
+.. include:: /includes/student-notes.rst
 
 
 Optimization: Sorting
@@ -76,6 +86,8 @@ Optimization: Sorting
 - After these stages, the fields or their values change.
 - ``$sort`` requires a full scan of the input documents.
 
+.. include:: /includes/student-notes.rst
+
 
 Automatic Optimizations
 -----------------------
@@ -86,3 +98,7 @@ MongoDB will perform some optimizations automatically. For example:
 - A ``$sort`` followed by a ``$match`` will be executed as a ``$match`` followed by a ``$sort`` to reduce the number of documents to be sorted.
 - A ``$skip`` followed by a ``$limit`` will be executed as a ``$limit`` followed by a ``$skip``, with the $limit parameter increased by the $skip amount to allow $sort + $limit coalescence.
 - See: :manual:`Aggregation Pipeline Optimation</core/aggregation-pipeline-optimization/>`
+
+.. include:: /includes/student-notes.rst
+
+

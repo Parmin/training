@@ -1,14 +1,14 @@
-==============================================
-Schema Design During an Application's Lifetime
-==============================================
+================
+Schema Evolution
+================
 
 Learning Objectives
 -------------------
 
-Upon completing this module, students should understand the basic philosophy of schema design in MongoDB through:
+Upon completing this module, students should understand the basic philosophy of evolving a MongoDB schema during an application's lifetime:
 
-- Development
-- Production
+- Development Phase
+- Production Phase
 - Iterative Modifications
 
 .. include:: /includes/student-notes.rst

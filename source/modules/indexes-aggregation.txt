@@ -11,16 +11,21 @@ Upon completing this module, students should understand
 - Why indexes may become unavailable after certain stages
 - Which indexes can be used for special stages
 
+.. include:: /includes/student-notes.rst
 
 
 Overview
 --------
 
-- Indexes can be used during the aggregation pipeline, and are used automatically when possible.
-- However, they need to have access to the documents that are indexed. Once the documents have been transformed, it is difficult for the indexes to operate.
+- Indexes can be used during the aggregation pipeline
+- They are used automatically when possible.
+- Stages need to have access to the documents that are indexed. 
+- Once documents have been transformed, it is difficult for indexes to operate.
+
+.. include:: /includes/student-notes.rst
 
 
-Aggregation Stages and Indexes
+
 ------------------------------
 
 - $match

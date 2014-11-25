@@ -68,10 +68,9 @@ MongoDB Experience
 
 - MongoDB was initially created in 2008 as part of a hosted application stack.
 - The company was originally called 10gen.
-- The original idea for 10gen didn’t take off.
-- The founders looked at what they had and asked themselves what was popular. 
-- People really liked the data access layer.
-- The company pivoted towards this aspect of the stack.
+- As part of their overarching plan to create the 10gen platform, the company built a database. 
+- Suddenly everybody said: "I like that! Give me that database!" 
+- And 10gen became MongoDB, Inc.
 
 .. include:: /includes/student-notes.rst
 

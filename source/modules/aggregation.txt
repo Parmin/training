@@ -15,6 +15,8 @@ Upon completing this module students should understand:
 - Group aggregation operators
 - Using the same operator in multiple stages of an aggregation pipeline
 
+.. include:: /includes/student-notes.rst
+
 
 Aggregation Basics
 ------------------
@@ -22,6 +24,8 @@ Aggregation Basics
 - Use the aggregation framework to transform and analyze data in MongoDB collections.
 - For those who are used to SQL, aggregation can be similar to ``GROUP BY``.
 - The aggregation framework is based on the concept of a pipeline. 
+
+.. include:: /includes/student-notes.rst
 
 
 The Aggregation Pipeline
@@ -41,6 +45,8 @@ The Aggregation Pipeline
      db.collection.aggregate( [ { stage1 }, { stage2 }, ... ],
                               { options } )
 
+.. include:: /includes/student-notes.rst
+
 
 Aggregation Stages
 ------------------
@@ -55,6 +61,8 @@ Aggregation Stages
 - ``$out``: Creates a new collection from the output of an aggregation
   pipeline)
 
+.. include:: /includes/student-notes.rst
+
 
 The Match Stage
 ---------------
@@ -63,6 +71,8 @@ The Match Stage
 - Documents in the pipeline that match the query document will be passed to subsequent stages.
 - ``$match`` is often the first operator used in an aggregation stage.
 - Like other aggregation operators, ``$match`` can occur multiple times in a single pipeline.
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: The Match Stage
@@ -79,6 +89,8 @@ Select only the first two documents using a match stage in an aggregation pipeli
     // 2 docs are output from the aggregation pipeline
     db.testcol.aggregate( [ { $match : { a : { $lte : 2 } } } ] )  
 
+.. include:: /includes/student-notes.rst
+
 
 The Project Stage
 -----------------
@@ -91,6 +103,8 @@ The Project Stage
   - *E.g.*, you can create a ratio from the values of two fields as pass along as a single field.
 
 - $project produces 1 output document for every input document it sees.
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Selecting fields with $project
@@ -119,6 +133,8 @@ Use the $project operator to pass specific fields in output documents.
       - ``{ $project : { _id : 0, a : 1 } }``: supress projection of _id
       - ``{ $project : { a : 1, "c.d": 1 } }``: use dot notation to specify fields in embedded documents.
 
+.. include:: /includes/student-notes.rst
+
 
 Exercise: Renaming fields with $project
 ---------------------------------------
@@ -130,6 +146,8 @@ Use the $project operator to rename a field
    db.testcol.aggregate( [ { $project : { _id : 0, 
                                           sequenceNumber : "$a", 
                                           b : 1 } } ] )
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Shaping documents with $project
@@ -146,6 +164,8 @@ Experiment with the following projections.
 
 More about :manual:`$divide</reference/operator/aggregation/divide/>` in another lesson.
 
+.. include:: /includes/student-notes.rst
+
 
 A Twitter Dataset
 -----------------
@@ -156,6 +176,8 @@ A Twitter Dataset
 
   - As with any dataset of this type, it's a snapshot in time.
   - It may not reflect the structure of Twitter feeds as they look today.
+
+.. include:: /includes/student-notes.rst
 
 
 Tweets Data Model
@@ -183,6 +205,8 @@ Tweets Data Model
        },
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Analyzing Tweets
 ----------------
@@ -197,6 +221,8 @@ Analyzing Tweets
 
       - We should also mention that our tweet documents actually contain many more fields.
       - We are showing just those fields relevant to the aggregations we'll do.
+
+.. include:: /includes/student-notes.rst
 
 
 Friends and Followers
@@ -216,6 +242,8 @@ Friends and Followers
 
   - Ignore anyone with no friends and no followers.
   - Calculate who has the highest followers to friends ratio.
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Friends and Followers
@@ -242,6 +270,8 @@ Exercise: Friends and Followers
       - Discuss the ratio projection
       - Discuss screen_name projection
       - Give an overview of other operators we might use in projections
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: $match and $project
@@ -274,6 +304,8 @@ Exercise: $match and $project
            { "$sort" : { "followers" : -1 } },
            { "$limit" : 1 } ]
 
+.. include:: /includes/student-notes.rst
+
 
 The Group Stage
 ----------------
@@ -283,6 +315,8 @@ The Group Stage
 - Documents with the same identifier will be aggregated together.
 - With $group, we aggregate values using arithmetic or array operators.
 
+.. include:: /includes/student-notes.rst
+
 
 Group using $avg
 ----------------
@@ -291,6 +325,8 @@ Group using $avg
 
    db.testcol.aggregate( [ { $group : { _id : { a : "$a" },
                                         b_avg : { $avg : "$b" } } } ] )
+
+.. include:: /includes/student-notes.rst
 
 
 Group using $push
@@ -308,6 +344,8 @@ For each user, aggregate all their tweets into a single array.
       { "$limit" : 5 } 
    ] )
 
+.. include:: /includes/student-notes.rst
+
 
 
 Group Aggregation Operators
@@ -324,6 +362,8 @@ The complete list of operators available in the group stage:
 - $push
 - $sum
 
+.. include:: /includes/student-notes.rst
+
 
 
 Rank Users by Number of Tweets
@@ -333,6 +373,8 @@ Rank Users by Number of Tweets
 - Let's look at who tweets the most.
 - We will use the aggregation framework to do this.
 
+.. include:: /includes/student-notes.rst
+
 
 Process
 -------
@@ -340,6 +382,8 @@ Process
 - Group together all tweets by a user for every user in our collection
 - Count the tweets for each user
 - Sort in decreasing order
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Ranking Users by Number of Tweets
@@ -368,6 +412,8 @@ Try this aggregation pipeline for yourself.
       - Note that there will be one document produced by $group for each screen name.
       - The $sort stage receives these documents as input and sorts them by the value of the count field
 
+.. include:: /includes/student-notes.rst
+
 
 Exercise: Tweet Source
 ----------------------
@@ -389,6 +435,8 @@ Exercise: Tweet Source
 	 ] )
 
 
+.. include:: /includes/student-notes.rst
+
 
 
 The Unwind Stage
@@ -401,6 +449,8 @@ The Unwind Stage
 
 - User mentions are stored as within an embedded document for entities.
 - This embedded document also lists any urls and hashtags used in the tweet.
+
+.. include:: /includes/student-notes.rst
 
 
 Example: User Mentions in a Tweet
@@ -426,6 +476,8 @@ Example: User Mentions in a Tweet
     },
     ...
 
+.. include:: /includes/student-notes.rst
+
 
 Using $unwind
 -------------
@@ -441,7 +493,6 @@ Who includes the most user mentions in their tweets?
        { $sort: { count: -1 } },
        { $limit: 1 })
 
-
 .. only:: instructor
 
    .. note::
@@ -451,6 +502,8 @@ Who includes the most user mentions in their tweets?
       - Each of these documents is passed to the $group stage that follows.
       - They will be grouped by the user who created the tweet and counted.
       - As a result we will have a count of the total number of user mentions made by any one tweeter.
+
+.. include:: /includes/student-notes.rst
 
 
 Data Processing Pipelines
@@ -465,6 +518,8 @@ Data Processing Pipelines
 
 - Many tasks require us to include more than one stage using a given operator. 
 
+.. include:: /includes/student-notes.rst
+
 
 Most Unique User Mentions
 -------------------------
@@ -473,6 +528,8 @@ Most Unique User Mentions
 - We just looked at a pipeline to find the tweeter that mentioned the most users.
 - Let's change this so that it is more of a question about a tweeter's active network. 
 - We might ask which tweeter has mentioned the most unique users in their tweets.
+
+.. include:: /includes/student-notes.rst
 
 
 Same Operator ($group), Multiple Stages
@@ -503,6 +560,8 @@ Which tweeter has mentioned the most unique users in their tweets?
       - We then do another unwind stage to produce a document for each unique user mention.
       - And count these in a second $group stage. 
 
+.. include:: /includes/student-notes.rst
+
 
 The Sort Stage
 --------------
@@ -511,6 +570,8 @@ The Sort Stage
 - Works like the ``sort()`` cursor method
 - 1 to sort ascending; -1 to sort descending
 - E.g, db.testcol.aggregate( [ { $sort : { b : 1, a : -1 } } ] )
+
+.. include:: /includes/student-notes.rst
 
 
 The Skip Stage
@@ -523,6 +584,7 @@ The Skip Stage
 
   - db.testcol.aggregate( [ { $skip : 3 }, ... ] )
 
+.. include:: /includes/student-notes.rst
 
 
 The Limit Stage
@@ -535,6 +597,8 @@ The Limit Stage
 
   - db.testcol.aggregate( [ { $limit: 3 }, ... ] )
 
+.. include:: /includes/student-notes.rst
+
 
 The Out Stage
 -------------
@@ -543,6 +607,8 @@ The Out Stage
 - Can only be the last stage in the pipeline.
 - If a collection by the name already exists, it replaces that collection.
 - Syntax is { $out : "collection_name" }
+
+.. include:: /includes/student-notes.rst
 
 
 

@@ -1,0 +1,17 @@
+:orphan:
+
+==========================
+MongoDB Developer Training
+==========================
+
+.. toctree::
+
+   /modules/nav/introduction
+   /modules/nav/crud
+   /modules/nav/indexes-dev
+   /modules/nav/aggregation
+   /modules/nav/schema-design
+   /modules/nav/replica-sets-dev
+   /modules/nav/sharding-dev
+   /modules/nav/supplementary-dev
+

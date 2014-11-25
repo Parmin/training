@@ -1,6 +1,6 @@
-===============================
-Reporting Tools and Diagnostics
-===============================
+===========================
+Performance Troubleshooting
+===========================
 
 .. default-domain:: mongodb
 

@@ -13,4 +13,5 @@ MongoDB Administrators Training
    /modules/nav/sharding
    /modules/nav/security-admin
    /modules/nav/performance-admin
+   /modules/nav/backup-admin
 

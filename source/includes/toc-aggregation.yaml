@@ -5,8 +5,4 @@ description: |
 file: /modules/aggregation-optimization
 description: | 
   Resource management in the aggregation pipeline.
---- 
-file: /modules/indexes-aggregation
-description: | 
-  Using indexes in the Aggregation Pipeline.
 ...

@@ -1,0 +1,9 @@
+========
+Sharding
+========
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-sharding-dev.rst
+
+.. include:: /includes/toc/sharding-dev.rst
