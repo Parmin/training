@@ -129,12 +129,12 @@ A Scalable Model
       - MongoDB scales vertically and horizontally (i.e., spreading out the load across several boxes)
 
 
+.. include:: /includes/np.rst
+
 Sharding Basics
 ---------------
 
 .. include:: /images/sharded-collection.rst
-
-.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -143,6 +143,10 @@ Sharding Basics
       - When you shard a collection it is distributed across several servers.
       - When you perform a read or write operation it will go to a router that will then direct the query to the appropriate server.
       - Depending on the operation and how your cluster is configured you may need to touch only one server to complete the operation.
+
+.. include:: /includes/student-notes.rst
+
+
 
 
 Sharded Cluster Architecture
@@ -284,6 +288,8 @@ What is a Shard Key?
       - For reads and updates, the shard key determines which shard holds the document and will handle the operation.
       - When you insert a document, the shard key determines which server you will write to.
 
+
+.. include:: /includes/np.rst
 
 Targeted Query Using Shard Key
 ------------------------------

@@ -358,8 +358,9 @@ Let's spin up a 3-member replica set:
    mongod --logpath /data/replset/3/mongod.log \
    --dbpath /data/replset/3 --replSet mySet --port 27019 --fork
 
-   echo "conf = {_id: 'mySet', members: [{_id: 0, host: 'localhost:27017'}, {_id: 1, host: 'localhost:27018'}, 
-        {_id: 2, host: 'localhost:27019'}]}; rs.initiate(conf)" | mongo 
+   echo "conf = {_id: 'mySet', members: [{_id: 0, host: 'localhost:27017'}, \
+        {_id: 1, host: 'localhost:27018'}, {_id: 2, host: 'localhost:27019'}]}; \ 
+        rs.initiate(conf)" | mongo 
 
 .. include:: /includes/student-notes.rst
 

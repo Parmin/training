@@ -1,8 +1,8 @@
 :orphan:
 
-===============================
-MongoDB Administrators Training
-===============================
+==============================
+MongoDB Administrator Training
+==============================
 
 .. toctree::
 

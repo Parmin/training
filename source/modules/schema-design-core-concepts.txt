@@ -13,6 +13,8 @@ Upon completing this module, students should understand:
 - Tradeoffs for linked documents in a schema
 - The use of array fields as part of a schema design
 
+.. include:: /includes/student-notes.rst
+
 
 What is a schema?
 -----------------
@@ -21,6 +23,8 @@ What is a schema?
 - Sets expectations for the data
 - Minimizes overhead of iterative modifications
 - Ensures compatibility
+
+.. include:: /includes/student-notes.rst
 
 
 Example: Normalized Data Model
@@ -34,6 +38,8 @@ Example: Normalized Data Model
    - lastName      - language
                    - createdBy    
                    - author
+
+.. include:: /includes/student-notes.rst
 
 
 Example: Denormalized Version
@@ -50,6 +56,8 @@ Example: Denormalized Version
                      - firstName
                      - lastName
 
+.. include:: /includes/student-notes.rst
+
 
 Schema Design in MongoDB
 ------------------------
@@ -57,6 +65,8 @@ Schema Design in MongoDB
 - Schema is defined at the application-level
 - Design is part of each phase in its lifetime
 - There is no magic formula
+
+.. include:: /includes/student-notes.rst
 
 
 Three Considerations
@@ -66,12 +76,16 @@ Three Considerations
 - Your application's read usage of the data
 - Your application's write usage of the data
 
+.. include:: /includes/student-notes.rst
+
 
 Case Study
 ----------
 
 - A Library Web Application
 - Different schemas are possible.
+
+.. include:: /includes/student-notes.rst
 
 
 Author Schema
@@ -85,6 +99,8 @@ Author Schema
        "lastName": string
    }
 
+.. include:: /includes/student-notes.rst
+
 
 User Schema
 -----------
@@ -96,6 +112,8 @@ User Schema
        "username": string,
        "password": string
    }
+
+.. include:: /includes/student-notes.rst
 
 
 Book Schema
@@ -121,6 +139,8 @@ Book Schema
 	           { "user": int, "text": string } ]
   }
 
+.. include:: /includes/student-notes.rst
+
 
 Example Documents: Author
 -------------------------
@@ -133,6 +153,8 @@ Example Documents: Author
        lastName: "Fitzgerald"
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Example Documents: User
 -----------------------
@@ -144,6 +166,8 @@ Example Documents: User
        username: "emily@10gen.com",
        password: "slsjfk4odk84k209dlkdj90009283d"
    }
+
+.. include:: /includes/student-notes.rst
 
 
 Example Documents: Book
@@ -169,6 +193,8 @@ Example Documents: Book
 	  	  { user: 2, text: "It's hard to…" } ]
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Embedded Documents
 ------------------
@@ -176,6 +202,8 @@ Embedded Documents
 - AKA sub-documents or embedded objects
 - What advantages do they have?
 - When should they be used?
+
+.. include:: /includes/student-notes.rst
 
 
 Example: Embedded Documents
@@ -201,6 +229,8 @@ Example: Embedded Documents
 	  	  { user: 2, text: "It's hard to…" } ]
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Embedded Documents: Pros and Cons
 ---------------------------------
@@ -210,12 +240,16 @@ Embedded Documents: Pros and Cons
 - At most, one sequential read to retrieve from disk
 - Writes can be slow if constantly adding to objects
 
+.. include:: /includes/student-notes.rst
+
 
 Linked Documents
 ----------------
 
 - What advantages does this approach have?
 - When should they be used?
+
+.. include:: /includes/student-notes.rst
 
 
 Example: Linked Documents
@@ -243,6 +277,8 @@ Example: Linked Documents
                     text: "It's hard to…" } ]
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Linked Documents: Pros and Cons
 -------------------------------
@@ -252,12 +288,16 @@ Linked Documents: Pros and Cons
 - Accessing linked documents requires extra seeks + reads. 
 - What effect does this have on the system?
 
+.. include:: /includes/student-notes.rst
+
 
 Arrays
 ------
 
 - Array of scalars
 - Array of documents
+
+.. include:: /includes/student-notes.rst
 
 
 Array of Scalars
@@ -284,6 +324,8 @@ Array of Scalars
 	          { user: 2, text: "It's hard to…" } ]
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Array of Documents
 ------------------
@@ -309,6 +351,8 @@ Array of Documents
 	          { user: 2, text: "It's hard to…" } ]
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Exercise: Users and Book Reviews
 --------------------------------
@@ -326,6 +370,8 @@ Design a schema for users and their book reviews. Usernames are immutable.
   - rating (integer)
   - created_at (date)
 
+
+.. include:: /includes/student-notes.rst
 
 
 
@@ -353,6 +399,8 @@ Reviews may be queried by user or book
        created_at: ISODate("2012-10-10T21:14:07.096Z")
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Solution B: Users and Book Reviews
 ----------------------------------
@@ -374,6 +422,8 @@ Optimized to retrieve reviews by user
 	   }
        ]
    }
+
+.. include:: /includes/student-notes.rst
 
 
 Solution C: Users and Book Reviews
@@ -397,3 +447,6 @@ Optimized to retrieve reviews by book
 	              text: "This book is excellent!",
 	              created_at: ISODate("2014-11-10T21:14:07.096Z") } ]
    }
+
+.. include:: /includes/student-notes.rst
+

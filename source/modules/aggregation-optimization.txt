@@ -89,6 +89,8 @@ Optimization: Sorting
 .. include:: /includes/student-notes.rst
 
 
+.. include:: /includes/np.rst
+
 Automatic Optimizations
 -----------------------
 

@@ -117,9 +117,11 @@ The oplog is a capped collection in the ``local`` database of each replica set m
      "o" : { "msg" : "initiating set" } }
    ...
    { "ts" : Timestamp(1406945076, 1), "h" : NumberLong("-9144645443320713428"), "v" : 2, 
-    "op" : "u", "ns" : "store.products", "o2" : { "_id" : 2 }, "o" : { "$set" : { "inStock" : 19 } } }
+    "op" : "u", "ns" : "store.products", "o2" : { "_id" : 2 }, 
+    "o" : { "$set" : { "inStock" : 19 } } }
    { "ts" : Timestamp(1406945076, 2), "h" : NumberLong("-7873096834441143322"), "v" : 2, 
-     "op" : "u", "ns" : "store.products", "o2" : { "_id" : 5 }, "o" : { "$set" : { "inStock" : 49 } } }
+     "op" : "u", "ns" : "store.products", "o2" : { "_id" : 5 }, 
+     "o" : { "$set" : { "inStock" : 49 } } }
 
 .. include:: /includes/student-notes.rst
 

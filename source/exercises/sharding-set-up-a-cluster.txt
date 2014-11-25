@@ -90,9 +90,9 @@ Initiate a Replica Set
           --dbpath ~/data/cluster/shard0/arb --logpath ~/data/cluster/shard0/arb/mongod.log \
           --fork --port 27109
 
-   echo "cfg = {'_id': 'shard0', 'version': 1, 
-                'members': [{'_id' : 0, 'host' : 'localhost:27107'}, 
-                            {'_id': 1, 'host': 'localhost:27108' }, 
+   echo "cfg = {'_id': 'shard0', 'version': 1, \
+                'members': [{'_id' : 0, 'host' : 'localhost:27107'}, \
+                            {'_id': 1, 'host': 'localhost:27108' }, \
                             {'_id': 2, 'host': 'localhost:27109', 'arbiterOnly': true}]}; 
         rs.initiate(cfg);" | mongo --port 27107
 
@@ -116,9 +116,9 @@ Spin Up a Second Replica Set
           --dbpath ~/data/cluster/shard1/arb --logpath ~/data/cluster/shard1/arb/mongod.log \
           --fork --port 27119
 
-   echo "cfg = {'_id': 'shard1', 'version': 1, 
-                'members': [{'_id': 0, 'host': 'localhost:27117'}, 
-                            {'_id': 1, 'host': 'localhost:27118'}, 
+   echo "cfg = {'_id': 'shard1', 'version': 1, \
+                'members': [{'_id': 0, 'host': 'localhost:27117'}, \
+                            {'_id': 1, 'host': 'localhost:27118'}, \
                             {'_id': 2, 'host': 'localhost:27119', 'arbiterOnly': true}]}; 
         rs.initiate(cfg);" | mongo --port 27117
 
@@ -142,9 +142,9 @@ A Third Replica Set
           --dbpath ~/data/cluster/shard2/arb --logpath ~/data/cluster/shard2/arb/mongod.log \
           --fork --port 27129
 
-   echo "cfg = {'_id': 'shard2', 'version': 1, 
-                'members': [{'_id': 0, 'host': 'localhost:27127'}, 
-                            {'_id': 1, 'host': 'localhost:27128'}, 
+   echo "cfg = {'_id': 'shard2', 'version': 1, \
+                'members': [{'_id': 0, 'host': 'localhost:27127'}, \
+                            {'_id': 1, 'host': 'localhost:27128'}, \
                             {'_id': 2, 'host': 'localhost:27129', 'arbiterOnly': true}]}; 
         rs.initiate(cfg);" | mongo --port 27127
 
@@ -211,7 +211,7 @@ Add All Shards
 
 .. code-block:: bash
 
-   echo 'sh.addShard( "shard0/localhost:27107" ); sh.addShard("shard1/localhost:27117" ); 
+   echo 'sh.addShard( "shard0/localhost:27107" ); sh.addShard("shard1/localhost:27117" ); \
         sh.addShard( "shard2/localhost:27127" ); sh.status()' | mongo
 
 .. note::
@@ -230,9 +230,9 @@ Enable sharding for the test database, shard a collection, and insert some docum
 
    echo 'sh.enableSharding("test"); sh.shardCollection("test.testcol", { a : 1, b : 1 } )' | mongo
 
-   echo 'for (i=0; i<10000; i++) { docArr = []; for (j=0; j<1000; j++) { 
-        docArr.push( { a : i, b : j, c : "Filler String 000000000000000000000
-        000000000000000000000000000000000000000000000000000000000000000000000
+   echo 'for (i=0; i<10000; i++) { docArr = []; for (j=0; j<1000; j++) { \
+        docArr.push( { a : i, b : j, c : "Filler String 000000000000000000000 \
+        000000000000000000000000000000000000000000000000000000000000000000000 \
         000000000000000" } )  }; db.testcol.insert(docArr) }' | mongo
 
 .. include:: /includes/student-notes.rst
