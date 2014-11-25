@@ -30,7 +30,7 @@ used for the following classes:
 -  MongoDB Developer Training
 -  MongoDB Admin Training
 
-The build environment has many dependencies. We recommend you retrieve materials from the `presentations`_ directory of the repo. See the Test-Driving
+The build environment has many dependencies. We recommend you retrieve materials from the `presentation`_ directory of the repo. See the Test-Driving
 Built Materials section below for instructions on using the html instructor materials and slides.
 
 Objectives
