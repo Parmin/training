@@ -2,29 +2,10 @@
 MongoDB Training
 ================
 
-Status
-------
-
-We are currently field testing the following sections in a number of public and private trainings:
-
--  Introduction
--  CRUD
--  Indexes
--  Aggregation
--  Data Modeling
--  Replica Sets
--  Sharding
--  Security
--  Performance Troubleshooting
--  Backup and Recovery
-
-We need to include a section on MMS.
-
 Overview
 --------
 
-This project is a comprehensive revision of MongoDB training materials
-used for the following classes:
+This repository contains the MongoDB training materials used for the following classes:
 
 -  MongoDB Essentials Training
 -  MongoDB Developer Training
@@ -47,7 +28,7 @@ Objectives
    -  A workbook to be distributed to students to enable them to easily
       follow lessons and exercises and take notes
 
--  Training materials that are easier to maintain and that encourage
+-  Training materials that are easy to maintain and that encourage
    contributions in the form of pull requests from those who deliver
    MongoDB training and others in the company
 
@@ -82,5 +63,24 @@ link at the bottom of the navigation pane.
 This will bring up another browser window containing html-based slides.
 These decks respond to keyboard events such as arrow keys and the space
 bar in the same way as Microsoft Powerpoint.
+
+Status
+------
+
+Completed sections include:
+
+-  Introduction
+-  CRUD
+-  Indexes
+-  Aggregation
+-  Data Modeling
+-  Replica Sets
+-  Sharding
+-  Security
+-  Performance Troubleshooting
+-  Backup and Recovery
+
+We need to include a section on MMS.
+
 
 .. _presentation : https://github.com/mongodb/docs-training/blob/master/presentation
