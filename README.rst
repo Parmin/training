@@ -11,7 +11,7 @@ This repository contains the MongoDB training materials used for the following c
 -  MongoDB Developer Training
 -  MongoDB Admin Training
 
-Instructor and student are in the `presentation`_ directory of the repo. See the Using Instructor Materials section below.
+Instructor and student are in the `presentation`_ directory of the repo. See the `Using Instructor Materials`_ section below.
 
 Objectives
 ----------
