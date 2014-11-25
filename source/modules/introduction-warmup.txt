@@ -70,7 +70,6 @@ MongoDB Experience
 - The company was originally called 10gen.
 - As part of their overarching plan to create the 10gen platform, the company built a database. 
 - Suddenly everybody said: "I like that! Give me that database!" 
-- And 10gen became MongoDB, Inc.
 
 .. include:: /includes/student-notes.rst
 
