@@ -35,12 +35,12 @@ Objectives
 -  Modular materials for greater flexibility in how trainings are
    organized
 
-Test-Driving Built Materials
-----------------------------
+Using Instructor Materials
+--------------------------
 
 Do a pull on the repo and unzip `presentation/instructor-package.tar.gz`_. This package contains the instructor guide and presentation slides.
 
-Open the contents.html file in a web browser.
+**Open contents.html**
 
 .. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png
    :alt: Contents page
