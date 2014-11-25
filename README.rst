@@ -57,7 +57,7 @@ Objectives
 Test-Driving Built Materials
 ----------------------------
 
-Do a pull on the repo and unzip presentations/instructor-package.tar.gz. This package contains the instructor guide and presentation slides.
+Do a pull on the repo and unzip presentation/instructor-package.tar.gz. This package contains the instructor guide and presentation slides.
 
 Open the contents.html file in a web browser.
 
