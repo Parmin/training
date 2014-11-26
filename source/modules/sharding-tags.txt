@@ -3,7 +3,7 @@ Shard Tags
 ==========
 
 
-Learing Objectives
+Learning Objectives
 ------------------
 
 Upon completing this module students should understand:
