@@ -185,8 +185,10 @@ Example Documents: Book
        },
        subjects: ["Love stories", "1920s", "Jazz Age"],
        language: "English",
-       reviews: [ { user: 1, text: "One of the best…" },
-                  { user: 2, text: "It's hard to…" } ]
+       reviews: [
+           { user: 1, text: "One of the best…" },
+           { user: 2, text: "It's hard to…" }
+       ]
    }
 
 .. include:: /includes/student-notes.rst
@@ -207,13 +209,7 @@ Example: Embedded Documents
 
 .. code-block:: javascript
   
-   {   _id: 1,
-       title: "The Great Gatsby",
-       slug: "9781857150193-the-great-gatsby",
-       author: 1,
-       available: true,
-       isbn: "9781857150193",
-       pages: 176,
+   {   ...
        publisher: {
            name: "Everyman's Library",
            date: ISODate("1991-09-19T00:00:00Z"),
@@ -221,8 +217,10 @@ Example: Embedded Documents
        },
        subjects: ["Love stories", "1920s", "Jazz Age"],
        language: "English",
-       reviews: [ { user: 1, text: "One of the best…" },
-                  { user: 2, text: "It's hard to…" } ]
+       reviews: [
+           { user: 1, text: "One of the best…" },
+           { user: 2, text: "It's hard to…" }
+       ]
    }
 
 .. include:: /includes/student-notes.rst
@@ -252,24 +250,13 @@ Example: Linked Documents
 -------------------------
 
 .. code-block:: javascript
-   :emphasize-lines: 4, 14, 16
 
-   {   _id: 1,
-       title: "The Great Gatsby",
-       slug: "9781857150193-the-great-gatsby",
+   {   ...
        author: 1,
-       available: true,
-       isbn: "9781857150193",
-       pages: 176,
-       publisher: {
-           name: "Everyman's Library",
-           date: ISODate("1991-09-19T00:00:00Z"),
-           city: "London"
-       },
-       subjects: ["Love stories", "1920s", "Jazz Age"],
-       language: "English",
-       reviews: [ { user: 1, text: "One of the best…" },
-                  { user: 2, text: "It's hard to…" } ]
+       reviews: [
+           { user: 1, text: "One of the best…" },
+           { user: 2, text: "It's hard to…" }
+       ]
    }
 
 .. include:: /includes/student-notes.rst
@@ -301,22 +288,8 @@ Array of Scalars
 .. code-block:: javascript
    :emphasize-lines: 13
 
-   {   _id: 1,
-       title: "The Great Gatsby",
-       slug: "9781857150193-the-great-gatsby",
-       author: 1,
-       available: true,
-       isbn: "9781857150193",
-       pages: 176,
-       publisher: {
-           name: "Everyman's Library",
-           date: ISODate("1991-09-19T00:00:00Z"),
-           city: "London"
-       },
+   {   ...
        subjects: ["Love stories", "1920s", "Jazz Age"],
-       language: "English",
-       reviews: [ { user: 1, text: "One of the best…" },
-                  { user: 2, text: "It's hard to…" } ]
    }
 
 .. include:: /includes/student-notes.rst
@@ -328,22 +301,11 @@ Array of Documents
 .. code-block:: javascript
    :emphasize-lines: 15-16
 
-   {   _id: 1,
-       title: "The Great Gatsby",
-       slug: "9781857150193-the-great-gatsby",
-       author: 1,
-       available: true,
-       isbn: "9781857150193",
-       pages: 176,
-       publisher: {
-           name: "Everyman's Library",
-           date: ISODate("1991-09-19T00:00:00Z"),
-           city: "London"
-       },
-       subjects: ["Love stories", "1920s", "Jazz Age"],
-       language: "English",
-       reviews: [ { user: 1, text: "One of the best…" },
-                  { user: 2, text: "It's hard to…" } ]
+   {   ...
+       reviews: [
+           { user: 1, text: "One of the best…" },
+           { user: 2, text: "It's hard to…" }
+       ]
    }
 
 .. include:: /includes/student-notes.rst
