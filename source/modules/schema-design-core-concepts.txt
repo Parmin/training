@@ -93,8 +93,7 @@ Author Schema
 
 .. code-block:: javascript
 
-   {
-       "_id": int,
+   {   "_id": int,
        "firstName": string,
        "lastName": string
    }
@@ -107,8 +106,7 @@ User Schema
 
 .. code-block:: javascript
 
-   {
-       "_id": int,
+   {   "_id": int,
        "username": string,
        "password": string
    }
@@ -129,14 +127,14 @@ Book Schema
       "isbn": string,
       "pages": int,
       "publisher": {
-	  "city": string,
-	  "date": date,
-	  "name": string
+          "city": string,
+          "date": date,
+          "name": string
       },
       "subjects": [ string, string ],
       "language": string,
       "reviews": [ { "user": int, "text": string },
-	           { "user": int, "text": string } ]
+                   { "user": int, "text": string } ]
   }
 
 .. include:: /includes/student-notes.rst
@@ -147,8 +145,7 @@ Example Documents: Author
 
 .. code-block:: javascript
 
-   {
-       _id: 1,
+   {   _id: 1,
        firstName: "F. Scott",
        lastName: "Fitzgerald"
    }
@@ -161,8 +158,7 @@ Example Documents: User
 
 .. code-block:: javascript
 
-   {
-       _id: 1,
+   {   _id: 1,
        username: "emily@10gen.com",
        password: "slsjfk4odk84k209dlkdj90009283d"
    }
@@ -183,14 +179,16 @@ Example Documents: Book
        isbn: "9781857150193",
        pages: 176,
        publisher: {
-	   name: "Everyman's Library",
-	   date: ISODate("1991-09-19T00:00:00Z"),
-	   city: "London"
+           name: "Everyman's Library",
+           date: ISODate("1991-09-19T00:00:00Z"),
+           city: "London"
        },
        subjects: ["Love stories", "1920s", "Jazz Age"],
        language: "English",
-       reviews: [ { user: 1, text: "One of the best…" },
-	  	  { user: 2, text: "It's hard to…" } ]
+       reviews: [
+           { user: 1, text: "One of the best…" },
+           { user: 2, text: "It's hard to…" }
+       ]
    }
 
 .. include:: /includes/student-notes.rst
@@ -211,22 +209,18 @@ Example: Embedded Documents
 
 .. code-block:: javascript
   
-   {   _id: 1,
-       title: "The Great Gatsby",
-       slug: "9781857150193-the-great-gatsby",
-       author: 1,
-       available: true,
-       isbn: "9781857150193",
-       pages: 176,
+   {   ...
        publisher: {
-	   name: "Everyman's Library",
-	   date: ISODate("1991-09-19T00:00:00Z"),
-	   city: "London"
+           name: "Everyman's Library",
+           date: ISODate("1991-09-19T00:00:00Z"),
+           city: "London"
        },
        subjects: ["Love stories", "1920s", "Jazz Age"],
        language: "English",
-       reviews: [ { user: 1, text: "One of the best…" },
-	  	  { user: 2, text: "It's hard to…" } ]
+       reviews: [
+           { user: 1, text: "One of the best…" },
+           { user: 2, text: "It's hard to…" }
+       ]
    }
 
 .. include:: /includes/student-notes.rst
@@ -256,25 +250,13 @@ Example: Linked Documents
 -------------------------
 
 .. code-block:: javascript
-   :emphasize-lines: 4, 14, 16
 
-   {   _id: 1,
-       title: "The Great Gatsby",
-       slug: "9781857150193-the-great-gatsby",
+   {   ...
        author: 1,
-       available: true,
-       isbn: "9781857150193",
-       pages: 176,
-       publisher: { publisher_name: "Everyman's Library",
-	            date: ISODate("1991-09-19T00:00:00Z"),
-	            publisher_city: "London" },
-       subjects: ["Love stories", "1920s", "Jazz Age"],
-       language: "English",
-       reviews: [ 
-                  { user: 1, 
-                    text: "One of the best…" },
-	          { user: 2, 
-                    text: "It's hard to…" } ]
+       reviews: [
+           { user: 1, text: "One of the best…" },
+           { user: 2, text: "It's hard to…" }
+       ]
    }
 
 .. include:: /includes/student-notes.rst
@@ -306,22 +288,8 @@ Array of Scalars
 .. code-block:: javascript
    :emphasize-lines: 13
 
-   {   _id: 1,
-       title: "The Great Gatsby",
-       slug: "9781857150193-the-great-gatsby",
-       author: 1,
-       available: true,
-       isbn: "9781857150193",
-       pages: 176,
-       publisher: {
-	   name: "Everyman's Library",
-	   date: ISODate("1991-09-19T00:00:00Z"),
-	   city: "London"
-       },
+   {   ...
        subjects: ["Love stories", "1920s", "Jazz Age"],
-       language: "English",
-       reviews: [ { user: 1, text: "One of the best…" },
-	          { user: 2, text: "It's hard to…" } ]
    }
 
 .. include:: /includes/student-notes.rst
@@ -333,22 +301,11 @@ Array of Documents
 .. code-block:: javascript
    :emphasize-lines: 15-16
 
-   {   _id: 1,
-       title: "The Great Gatsby",
-       slug: "9781857150193-the-great-gatsby",
-       author: 1,
-       available: true,
-       isbn: "9781857150193",
-       pages: 176,
-       publisher: {
-	   name: "Everyman's Library",
-	   date: ISODate("1991-09-19T00:00:00Z"),
-	   city: "London"
-       },
-       subjects: ["Love stories", "1920s", "Jazz Age"],
-       language: "English",
-       reviews: [ { user: 1, text: "One of the best…" },
-	          { user: 2, text: "It's hard to…" } ]
+   {   ...
+       reviews: [
+           { user: 1, text: "One of the best…" },
+           { user: 2, text: "It's hard to…" }
+       ]
    }
 
 .. include:: /includes/student-notes.rst
@@ -383,15 +340,13 @@ Reviews may be queried by user or book
 .. code-block:: javascript
 
    // db.users (one document per user)
-   {  
-        _id: ObjectId("…"),
+   {   _id: ObjectId("…"),
        username: "bob",
        email: "bob@example.com"
    }
 
    // db.reviews (one document per review)
-   {   
-       _id: ObjectId("…"),
+   {   _id: ObjectId("…"),
        user: ObjectId("…"),
        book: ObjectId("…"),
        rating: 5,
@@ -410,16 +365,15 @@ Optimized to retrieve reviews by user
 .. code-block:: javascript
 
    // db.users, one document per user with all reviews
-   {   
-       _id: ObjectId("…"),
+   {   _id: ObjectId("…"),
        username: "bob",
        email: "bob@example.com",
        reviews: [
-	   {   book: ObjectId("…"),
-	       rating: 5,
-	       text: "This book is excellent!",
-	       created_at: ISODate("2012-10-10T21:14:07.096Z")
-	   }
+         {   book: ObjectId("…"),
+             rating: 5,
+             text: "This book is excellent!",
+             created_at: ISODate("2012-10-10T21:14:07.096Z")
+         }
        ]
    }
 
@@ -442,10 +396,13 @@ Optimized to retrieve reviews by book
    // db.books, one document per book with all reviews
    {   _id: ObjectId("…"),
        // Other book fields…
-       reviews: [ {   user: ObjectId("…"),
-	              rating: 5,
-	              text: "This book is excellent!",
-	              created_at: ISODate("2014-11-10T21:14:07.096Z") } ]
+       reviews: [
+         {   user: ObjectId("…"),
+             rating: 5,
+             text: "This book is excellent!",
+             created_at: ISODate("2014-11-10T21:14:07.096Z")
+         }
+       ]
    }
 
 .. include:: /includes/student-notes.rst
