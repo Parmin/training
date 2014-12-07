@@ -262,9 +262,9 @@ Example: Linked Documents
        isbn: "9781857150193",
        pages: 176,
        publisher: {
-           publisher_name: "Everyman's Library",
+           name: "Everyman's Library",
            date: ISODate("1991-09-19T00:00:00Z"),
-           publisher_city: "London"
+           city: "London"
        },
        subjects: ["Love stories", "1920s", "Jazz Age"],
        language: "English",
