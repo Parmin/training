@@ -103,13 +103,23 @@ Configure the Replica Set
 .. code-block:: javascript
 
    rs.initiate()
-   rs.add("localhost:27018")
-   rs.add("localhost:27019")
+   // wait a few seconds
+   host = db.serverStatus().host.split(':')[0]
+   rs.add   (host+':27018')
+   rs.addArb(host+':27019')
 
    // Keep running rs.status() until there's a primary and 2 secondaries
    rs.status()
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - ``rs.initiate()`` will use the FQDN. If we simply use ``localhost``
+        when adding the data node and arbiter, MongoDB will refuse to mix the
+        two and return an error.
 
 
 Write to the Primary
