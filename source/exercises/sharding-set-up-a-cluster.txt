@@ -82,7 +82,7 @@ Initiate a Replica Set
           --dbpath ~/data/cluster/shard0/m0 --logpath ~/data/cluster/shard0/m0/mongod.log \
           --fork --port 27107
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
           --dbpath ~/data/cluster/shard0/m1 --logpath ~/data/cluster/shard0/m1/mongod.log \
           --fork --port 27108
 
