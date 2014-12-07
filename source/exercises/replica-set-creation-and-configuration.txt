@@ -92,7 +92,7 @@ Connect to a MongoDB Instance
 
   .. code-block:: bash
 
-     mongo --port 27017
+     mongo    // connect to the default port 27017
 
 .. include:: /includes/student-notes.rst
 
@@ -100,24 +100,14 @@ Connect to a MongoDB Instance
 Configure the Replica Set
 -------------------------
 
-Note the port number of the primary from the output of ``rs.status()``, which we'll need for the next step.
-
 .. code-block:: javascript
 
-   var config = {
-     _id: "mySet",
-     members: [
-       { _id: 0, host: "localhost:27017" },
-       { _id: 1, host: "localhost:27018" },
-       { _id: 2, host: "localhost:27019" }
-     ]
-   }
-   rs.initiate(config)
+   rs.initiate()
+   rs.add("localhost:27018")
+   rs.add("localhost:27019")
 
-   # Keep running rs.status() until there's a primary and 2 secondaries
+   // Keep running rs.status() until there's a primary and 2 secondaries
    rs.status()
-
-   exit    # or Ctrl-d
 
 .. include:: /includes/student-notes.rst
 
@@ -125,18 +115,15 @@ Note the port number of the primary from the output of ``rs.status()``, which we
 Write to the Primary
 --------------------
 
-Connect to the primary with mongo shell by issuing a command such as the following:
-
-.. code-block:: bash
-
-   mongo --port <PRIMARY_PORT>   # e.g. 27017
-
-Now insert a simple test document via mongo shell. Once the insert succeeds, exit the mongo shell.
+While still connected to the primary (port 27017) with mongo shell, insert a
+simple test document:
 
 .. code-block:: javascript
 
    db.testcol.insert({ a: 1 })
    db.testcol.count()
+
+   exit    // Or Ctrl-d
 
 .. include:: /includes/student-notes.rst
 
@@ -148,7 +135,7 @@ Connect to one of the secondaries. E.g.:
 
 .. code-block:: bash
 
-   mongo --port <NON_PRIMARY_PORT>   # e.g. 27018
+   mongo --port 27018
 
 Read from the secondary
 
@@ -197,7 +184,6 @@ Let's raise the priority of one of the secondaries. Assuming it is the 3rd node 
 
       - Note that ``cfg["members"][2]["priority"] = 10`` does not actually change the priority.
       - ``rs.reconfig(cfg)`` does.
-
 
 
 Verifying Configuration Change
