@@ -173,15 +173,15 @@ Launch Config Servers
 .. code-block:: bash
 
    mongod --smallfiles --nojournal --noprealloc \
-          --dbpath $CONFIG/c0 --logpath ~/data/cluster/config/c0/mongod.log \
+          --dbpath ~/data/cluster/config/c0 --logpath ~/data/cluster/config/c0/mongod.log \
           --fork --port 27227 --configsvr
 
    mongod --smallfiles --nojournal --noprealloc \
-          --dbpath $CONFIG/c1 --logpath ~/data/cluster/config/c1/mongod.log \
+          --dbpath ~/data/cluster/config/c1 --logpath ~/data/cluster/config/c1/mongod.log \
           --fork --port 27228 --configsvr
 
    mongod --smallfiles --nojournal --noprealloc \
-          --dbpath $CONFIG/c2 --logpath ~/data/cluster/config/c2/mongod.log \
+          --dbpath ~/data/cluster/config/c2 --logpath ~/data/cluster/config/c2/mongod.log \
           --fork --port 27229 --configsvr
 
 .. include:: /includes/student-notes.rst
