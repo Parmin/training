@@ -90,11 +90,10 @@ Initiate a Replica Set
           --dbpath ~/data/cluster/shard0/arb --logpath ~/data/cluster/shard0/arb/mongod.log \
           --fork --port 27109
 
-   echo "cfg = {'_id': 'shard0', 'version': 1, \
-                'members': [{'_id' : 0, 'host' : 'localhost:27107'}, \
-                            {'_id': 1, 'host': 'localhost:27108' }, \
-                            {'_id': 2, 'host': 'localhost:27109', 'arbiterOnly': true}]}; 
-        rs.initiate(cfg);" | mongo --port 27107
+   mongo --port 27107 --eval "host=db.serverStatus().host.split(':')[0];\
+       rs.initiate(); sleep(3000);\
+       rs.add   (host+':27108');\
+       rs.addArb(host+':27109')"
 
 .. include:: /includes/student-notes.rst
 
@@ -116,11 +115,10 @@ Spin Up a Second Replica Set
           --dbpath ~/data/cluster/shard1/arb --logpath ~/data/cluster/shard1/arb/mongod.log \
           --fork --port 27119
 
-   echo "cfg = {'_id': 'shard1', 'version': 1, \
-                'members': [{'_id': 0, 'host': 'localhost:27117'}, \
-                            {'_id': 1, 'host': 'localhost:27118'}, \
-                            {'_id': 2, 'host': 'localhost:27119', 'arbiterOnly': true}]}; 
-        rs.initiate(cfg);" | mongo --port 27117
+   mongo --port 27117 --eval "host=db.serverStatus().host.split(':')[0];\
+       rs.initiate(); sleep(3000);\
+       rs.add   (host+':27118');\
+       rs.addArb(host+':27119')"
 
 .. include:: /includes/student-notes.rst
 
@@ -142,11 +140,10 @@ A Third Replica Set
           --dbpath ~/data/cluster/shard2/arb --logpath ~/data/cluster/shard2/arb/mongod.log \
           --fork --port 27129
 
-   echo "cfg = {'_id': 'shard2', 'version': 1, \
-                'members': [{'_id': 0, 'host': 'localhost:27127'}, \
-                            {'_id': 1, 'host': 'localhost:27128'}, \
-                            {'_id': 2, 'host': 'localhost:27129', 'arbiterOnly': true}]}; 
-        rs.initiate(cfg);" | mongo --port 27127
+   mongo --port 27117 --eval "host=db.serverStatus().host.split(':')[0];\
+       rs.initiate(); sleep(3000);\
+       rs.add   (host+':27128');\
+       rs.addArb(host+':27129')"
 
 .. include:: /includes/student-notes.rst
 
