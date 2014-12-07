@@ -284,10 +284,11 @@ Exercise: $match and $project
 
   .. code-block:: javascript
 
-     { u'_id': ObjectId('52fd2490bac3fa1975477702'),
-       u'followers': 2597,
-       u'screen_name': u'marbles',
-       u'tweets': 12334}
+     { _id        : ObjectId('52fd2490bac3fa1975477702'),
+       followers  : 2597,
+       screen_name: 'marbles',
+       tweets     : 12334
+     }
 
 
 .. only:: instructor
