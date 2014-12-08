@@ -26,10 +26,10 @@ Bulk Operations: Syntax
 -----------------------
 
 - Bulk operations are created using one of two commands:
-    - db.collection.initializeOrderedBulkOp()
+    - db.<COLLECTION>.initializeOrderedBulkOp()
         - Ordered bulk operations are done one after another, and if one fails,
           all subsequent writes fail (though previous ones are performed)
-    - db.collection.initializeUnorderedBulkOp()
+    - db.<COLLECTION>.initializeUnorderedBulkOp()
         - Unordered bulk operations are done in no particular order, and if one
           fails, all others will still be attempted
 - You then use the find() method to add the query portion, and 

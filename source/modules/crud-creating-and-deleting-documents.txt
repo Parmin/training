@@ -24,7 +24,7 @@ Creating New Documents
 
   .. code-block:: javascript
 
-     db.collection.insert( { "name" : "susan" } )
+     db.<COLLECTION>.insert( { "name" : "susan" } )
 
 .. include:: /includes/student-notes.rst
 
@@ -160,7 +160,7 @@ Ordered Bulk Insert
 
 - For ordered inserts MongoDB will stop processing inserts upon encountering an error.
 - Meaning that only inserts occurring before an error will complete.
-- The default setting for ``db.collection.insert`` is an ordered insert.
+- The default setting for ``db.<COLLECTION>.insert`` is an ordered insert.
 - See the next exercise for an example.
 
 .. include:: /includes/student-notes.rst
@@ -298,7 +298,7 @@ Experiment with removing documents. Do a ``find()`` after each ``remove()`` comm
 Dropping a Collection
 ---------------------
 
-- You can drop an entire collection with ``db.collection.drop()``
+- You can drop an entire collection with ``db.<COLLECTION>.drop()``
 - The collection and all documents will be deleted.
 - It will also remove any metadata associated with that collection.
 - Indexes are one type of metadata removed.

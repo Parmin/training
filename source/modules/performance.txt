@@ -12,7 +12,7 @@ Upon completing this module students should understand basic performance trouble
 - ``mongotop``
 - ``db.setProfilingLevel()``
 - ``db.currentOp()``
-- ``db.collection.stats()``
+- ``db.<COLLECTION>.stats()``
 - ``db.serverStatus()``
 
 .. include:: /includes/student-notes.rst
@@ -172,7 +172,7 @@ Do the following then, connect with a separate shell, and repeatedly run db.curr
 .. include:: /includes/student-notes.rst
 
 
-db.collection.stats()
+db.<COLLECTION>.stats()
 ---------------------
 
 - Used to view the current stats for a collection.
@@ -253,7 +253,7 @@ Perform the following, then look in your db.system.profile.
     - Things to keep in mind:
 
       - op can be command, query, or update
-      - ns is sometimes the db.collection namespace
+      - ns is sometimes the db.<COLLECTION> namespace
       
         - but sometimes db.$cmd for commands
 

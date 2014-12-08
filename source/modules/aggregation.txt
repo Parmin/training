@@ -42,7 +42,7 @@ The Aggregation Pipeline
 
   .. code-block:: javascript
 
-     db.collection.aggregate( [ { stage1 }, { stage2 }, ... ],
+     db.<COLLECTION>.aggregate( [ { stage1 }, { stage2 }, ... ],
                               { options } )
 
 .. include:: /includes/student-notes.rst
