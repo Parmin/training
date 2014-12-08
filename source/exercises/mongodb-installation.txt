@@ -174,9 +174,9 @@ Exploring Collections
 
    show collections
 
-   db.collection.help()
+   db.<COLLECTION>.help()
 
-   db.collection.find()
+   db.<COLLECTION>.find()
 
 .. include:: /includes/student-notes.rst
 

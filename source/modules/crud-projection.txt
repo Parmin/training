@@ -30,7 +30,7 @@ Using Projection
 - Similar to matching, you want to specify the fields to include by specifying
   a value of 1
 
-  - db.collection.find( { }, { field1 : 1, field2 : 1 } )
+  - db.<COLLECTION>.find( { }, { field1 : 1, field2 : 1 } )
 
 - Explicitly xclude fields with a value of 0
 

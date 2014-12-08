@@ -24,7 +24,7 @@ Aggregation Options
 
   .. code-block:: javascript
 
-     db.collection.aggregate( [ { stage1 }, { stage2 }, ... ], { options } )
+     db.<COLLECTION>.aggregate( [ { stage1 }, { stage2 }, ... ], { options } )
 
 - Following are some of the fields that may be passed in the options document.
 

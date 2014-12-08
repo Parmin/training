@@ -89,7 +89,7 @@ Disadvantage of Hashed Indexes
 
 - A hashed index cannot be used in a range query
 
-  - e.g. db.collection.find( { a : { $gte : 5 } } )  // needs to hit every server if the shard key is { a : "hashed" } 
+  - e.g. db.<COLLECTION>.find( { a : { $gte : 5 } } )  // needs to hit every server if the shard key is { a : "hashed" } 
 
 
 Sharding and Replication

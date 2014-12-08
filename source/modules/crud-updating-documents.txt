@@ -258,7 +258,7 @@ The Positional ``$`` Operator
 
   .. code-block:: javascript
 
-     db.collection.update(
+     db.<COLLECTION>.update(
          { <array> : value ... },
          { <update operator> : { "<array>.$" : value } }
      )
@@ -290,12 +290,12 @@ Upserts
 
 - By default, if no document matches an update query, the ``update()`` method does nothing.
 - By specifying ``upsert: true``, ``update()`` will insert a new document if no matching document exists.
-- The ``db.collection.save()`` method is syntactic sugar that performs an upsert if the _id is not yet present
+- The ``db.<COLLECTION>.save()`` method is syntactic sugar that performs an upsert if the _id is not yet present
 - Syntax:
 
   .. code-block:: javascript
 
-     db.collection.update( <query document>, <update document>, 
+     db.<COLLECTION>.update( <query document>, <update document>, 
                            { upsert: true } )
 
 .. include:: /includes/student-notes.rst
@@ -360,7 +360,7 @@ Experiment with the following upserts.
 
   .. code-block:: javascript
 
-     db.collection.save( document )
+     db.<COLLECTION>.save( document )
 
 .. include:: /includes/student-notes.rst
 

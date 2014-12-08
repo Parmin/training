@@ -26,7 +26,7 @@ What is CRUD?
 MongoDB CRUD Operations
 -----------------------
 
-- Create: :method:`db.collection.insert()`
-- Read: :method:`db.collection.find()`
-- Update: :method:`db.collection.update()`
-- Delete: :method:`db.collection.remove()`, :method:`db.collection.drop()`
+- Create: :method:`db.<COLLECTION>.insert()`
+- Read: :method:`db.<COLLECTION>.find()`
+- Update: :method:`db.<COLLECTION>.update()`
+- Delete: :method:`db.<COLLECTION>.remove()`, :method:`db.<COLLECTION>.drop()`
