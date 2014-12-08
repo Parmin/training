@@ -82,7 +82,7 @@ Initiate a Replica Set
           --dbpath ~/data/cluster/shard0/m0 --logpath ~/data/cluster/shard0/m0/mongod.log \
           --fork --port 27107
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
           --dbpath ~/data/cluster/shard0/m1 --logpath ~/data/cluster/shard0/m1/mongod.log \
           --fork --port 27108
 
@@ -90,11 +90,14 @@ Initiate a Replica Set
           --dbpath ~/data/cluster/shard0/arb --logpath ~/data/cluster/shard0/arb/mongod.log \
           --fork --port 27109
 
-   echo "cfg = {'_id': 'shard0', 'version': 1, \
-                'members': [{'_id' : 0, 'host' : 'localhost:27107'}, \
-                            {'_id': 1, 'host': 'localhost:27108' }, \
-                            {'_id': 2, 'host': 'localhost:27109', 'arbiterOnly': true}]}; 
-        rs.initiate(cfg);" | mongo --port 27107
+   mongo --port 27107 --eval "\
+       rs.initiate(); sleep(3000);\
+       rs.add   ('<HOSTNAME>:27108');\
+       rs.addArb('<HOSTNAME>:27109')"
+
+Where ``<HOSTNAME>`` is the Fully Qualified Domain Name (FQDN) of the host. For
+example, the hostname from the output of ``db.serverStatus().host`` in Mongo
+Shell.
 
 .. include:: /includes/student-notes.rst
 
@@ -116,11 +119,10 @@ Spin Up a Second Replica Set
           --dbpath ~/data/cluster/shard1/arb --logpath ~/data/cluster/shard1/arb/mongod.log \
           --fork --port 27119
 
-   echo "cfg = {'_id': 'shard1', 'version': 1, \
-                'members': [{'_id': 0, 'host': 'localhost:27117'}, \
-                            {'_id': 1, 'host': 'localhost:27118'}, \
-                            {'_id': 2, 'host': 'localhost:27119', 'arbiterOnly': true}]}; 
-        rs.initiate(cfg);" | mongo --port 27117
+   mongo --port 27117 --eval "\
+       rs.initiate(); sleep(3000);\
+       rs.add   ('<HOSTNAME>:27118');\
+       rs.addArb('<HOSTNAME>:27119')"
 
 .. include:: /includes/student-notes.rst
 
@@ -142,11 +144,10 @@ A Third Replica Set
           --dbpath ~/data/cluster/shard2/arb --logpath ~/data/cluster/shard2/arb/mongod.log \
           --fork --port 27129
 
-   echo "cfg = {'_id': 'shard2', 'version': 1, \
-                'members': [{'_id': 0, 'host': 'localhost:27127'}, \
-                            {'_id': 1, 'host': 'localhost:27128'}, \
-                            {'_id': 2, 'host': 'localhost:27129', 'arbiterOnly': true}]}; 
-        rs.initiate(cfg);" | mongo --port 27127
+   mongo --port 27127 --eval "\
+       rs.initiate(); sleep(3000);\
+       rs.add   ('<HOSTNAME>:27128');\
+       rs.addArb('<HOSTNAME>:27129')"
 
 .. include:: /includes/student-notes.rst
 
@@ -176,15 +177,15 @@ Launch Config Servers
 .. code-block:: bash
 
    mongod --smallfiles --nojournal --noprealloc \
-          --dbpath $CONFIG/c0 --logpath ~/data/cluster/config/c0/mongod.log \
+          --dbpath ~/data/cluster/config/c0 --logpath ~/data/cluster/config/c0/mongod.log \
           --fork --port 27227 --configsvr
 
    mongod --smallfiles --nojournal --noprealloc \
-          --dbpath $CONFIG/c1 --logpath ~/data/cluster/config/c1/mongod.log \
+          --dbpath ~/data/cluster/config/c1 --logpath ~/data/cluster/config/c1/mongod.log \
           --fork --port 27228 --configsvr
 
    mongod --smallfiles --nojournal --noprealloc \
-          --dbpath $CONFIG/c2 --logpath ~/data/cluster/config/c2/mongod.log \
+          --dbpath ~/data/cluster/config/c2 --logpath ~/data/cluster/config/c2/mongod.log \
           --fork --port 27229 --configsvr
 
 .. include:: /includes/student-notes.rst
