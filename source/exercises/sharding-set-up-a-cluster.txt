@@ -90,10 +90,14 @@ Initiate a Replica Set
           --dbpath ~/data/cluster/shard0/arb --logpath ~/data/cluster/shard0/arb/mongod.log \
           --fork --port 27109
 
-   mongo --port 27107 --eval "host=db.serverStatus().host.split(':')[0];\
+   mongo --port 27107 --eval "\
        rs.initiate(); sleep(3000);\
-       rs.add   (host+':27108');\
-       rs.addArb(host+':27109')"
+       rs.add   ('<HOSTNAME>:27108');\
+       rs.addArb('<HOSTNAME>:27109')"
+
+Where ``<HOSTNAME>`` is the Fully Qualified Domain Name (FQDN) of the host. For
+example, the hostname from the output of ``db.serverStatus().host`` in Mongo
+Shell.
 
 .. include:: /includes/student-notes.rst
 
@@ -115,10 +119,10 @@ Spin Up a Second Replica Set
           --dbpath ~/data/cluster/shard1/arb --logpath ~/data/cluster/shard1/arb/mongod.log \
           --fork --port 27119
 
-   mongo --port 27117 --eval "host=db.serverStatus().host.split(':')[0];\
+   mongo --port 27117 --eval "\
        rs.initiate(); sleep(3000);\
-       rs.add   (host+':27118');\
-       rs.addArb(host+':27119')"
+       rs.add   ('<HOSTNAME>:27118');\
+       rs.addArb('<HOSTNAME>:27119')"
 
 .. include:: /includes/student-notes.rst
 
@@ -140,10 +144,10 @@ A Third Replica Set
           --dbpath ~/data/cluster/shard2/arb --logpath ~/data/cluster/shard2/arb/mongod.log \
           --fork --port 27129
 
-   mongo --port 27117 --eval "host=db.serverStatus().host.split(':')[0];\
+   mongo --port 27127 --eval "\
        rs.initiate(); sleep(3000);\
-       rs.add   (host+':27128');\
-       rs.addArb(host+':27129')"
+       rs.add   ('<HOSTNAME>:27128');\
+       rs.addArb('<HOSTNAME>:27129')"
 
 .. include:: /includes/student-notes.rst
 
