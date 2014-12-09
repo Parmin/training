@@ -69,8 +69,8 @@ Backup Options
 .. include:: /includes/student-notes.rst
 
 
-Document Level Backups - ``mongodump``
---------------------------------------
+Document Level: ``mongodump``
+-----------------------------
 
 - Dumps collection to BSON files
 - Mirrors your structure
@@ -144,8 +144,8 @@ File System Backups: Pros and Cons
 .. include:: /includes/student-notes.rst
 
 
-Document Level - mongorestore
------------------------------
+Document Level: ``mongorestore``
+--------------------------------
 
 - ``mongorestore``
 - ``--oplogReplay`` replay oplog to point-in-time

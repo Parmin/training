@@ -104,9 +104,8 @@ Configure the Replica Set
 
    rs.initiate()
    // wait a few seconds
-   host = db.serverStatus().host.split(':')[0]
-   rs.add   (host+':27018')
-   rs.addArb(host+':27019')
+   rs.add   ('<HOSTNAME>:27128')
+   rs.addArb('<HOSTNAME>:27129')
 
    // Keep running rs.status() until there's a primary and 2 secondaries
    rs.status()

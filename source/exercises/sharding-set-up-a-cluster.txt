@@ -79,15 +79,18 @@ Initiate a Replica Set
 .. code-block:: bash
 
    mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard0/m0 --logpath ~/data/cluster/shard0/m0/mongod.log \
+          --dbpath ~/data/cluster/shard0/m0 \
+          --logpath ~/data/cluster/shard0/m0/mongod.log \
           --fork --port 27107
 
    mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard0/m1 --logpath ~/data/cluster/shard0/m1/mongod.log \
+          --dbpath ~/data/cluster/shard0/m1 \
+          --logpath ~/data/cluster/shard0/m1/mongod.log \
           --fork --port 27108
 
    mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard0/arb --logpath ~/data/cluster/shard0/arb/mongod.log \
+          --dbpath ~/data/cluster/shard0/arb \
+          --logpath ~/data/cluster/shard0/arb/mongod.log \
           --fork --port 27109
 
    mongo --port 27107 --eval "\
@@ -95,9 +98,6 @@ Initiate a Replica Set
        rs.add   ('<HOSTNAME>:27108');\
        rs.addArb('<HOSTNAME>:27109')"
 
-Where ``<HOSTNAME>`` is the Fully Qualified Domain Name (FQDN) of the host. For
-example, the hostname from the output of ``db.serverStatus().host`` in Mongo
-Shell.
 
 .. include:: /includes/student-notes.rst
 
@@ -108,15 +108,18 @@ Spin Up a Second Replica Set
 .. code-block:: bash
 
    mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard1/m0 --logpath ~/data/cluster/shard1/m0/mongod.log \
+          --dbpath ~/data/cluster/shard1/m0 \
+          --logpath ~/data/cluster/shard1/m0/mongod.log \
           --fork --port 27117
 
    mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard1/m1 --logpath ~/data/cluster/shard1/m1/mongod.log \
+          --dbpath ~/data/cluster/shard1/m1 \
+          --logpath ~/data/cluster/shard1/m1/mongod.log \
           --fork --port 27118
 
    mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard1/arb --logpath ~/data/cluster/shard1/arb/mongod.log \
+          --dbpath ~/data/cluster/shard1/arb \
+          --logpath ~/data/cluster/shard1/arb/mongod.log \
           --fork --port 27119
 
    mongo --port 27117 --eval "\
@@ -133,15 +136,18 @@ A Third Replica Set
 .. code-block:: bash
 
    mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard2/m0 --logpath ~/data/cluster/shard2/m0/mongod.log \
+          --dbpath ~/data/cluster/shard2/m0 \
+          --logpath ~/data/cluster/shard2/m0/mongod.log \
           --fork --port 27127
 
    mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard2/m1 --logpath ~/data/cluster/shard2/m1/mongod.log \
+          --dbpath ~/data/cluster/shard2/m1 \
+          --logpath ~/data/cluster/shard2/m1/mongod.log \
           --fork --port 27128
 
    mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard2/arb --logpath ~/data/cluster/shard2/arb/mongod.log \
+          --dbpath ~/data/cluster/shard2/arb \
+          --logpath ~/data/cluster/shard2/arb/mongod.log \
           --fork --port 27129
 
    mongo --port 27127 --eval "\
@@ -177,15 +183,18 @@ Launch Config Servers
 .. code-block:: bash
 
    mongod --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/config/c0 --logpath ~/data/cluster/config/c0/mongod.log \
+          --dbpath ~/data/cluster/config/c0 \
+          --logpath ~/data/cluster/config/c0/mongod.log \
           --fork --port 27227 --configsvr
 
    mongod --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/config/c1 --logpath ~/data/cluster/config/c1/mongod.log \
+          --dbpath ~/data/cluster/config/c1 \
+          --logpath ~/data/cluster/config/c1/mongod.log \
           --fork --port 27228 --configsvr
 
    mongod --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/config/c2 --logpath ~/data/cluster/config/c2/mongod.log \
+          --dbpath ~/data/cluster/config/c2 \
+          --logpath ~/data/cluster/config/c2/mongod.log \
           --fork --port 27229 --configsvr
 
 .. include:: /includes/student-notes.rst
@@ -212,8 +221,9 @@ Add All Shards
 
 .. code-block:: bash
 
-   echo 'sh.addShard( "shard0/localhost:27107" ); sh.addShard("shard1/localhost:27117" ); \
-        sh.addShard( "shard2/localhost:27127" ); sh.status()' | mongo
+   echo 'sh.addShard( "shard0/localhost:27107" ); \
+         sh.addShard("shard1/localhost:27117" ); \
+         sh.addShard( "shard2/localhost:27127" ); sh.status()' | mongo
 
 .. note::
 
@@ -229,7 +239,8 @@ Enable sharding for the test database, shard a collection, and insert some docum
 
 .. code-block:: bash
 
-   echo 'sh.enableSharding("test"); sh.shardCollection("test.testcol", { a : 1, b : 1 } )' | mongo
+   echo 'sh.enableSharding("test"); \
+         sh.shardCollection("test.testcol", { a : 1, b : 1 } )' | mongo
 
    echo 'for (i=0; i<10000; i++) { docArr = []; for (j=0; j<1000; j++) { \
         docArr.push( { a : i, b : j, c : "Filler String 000000000000000000000 \

@@ -82,7 +82,7 @@ output:
      width: 1600
    - type: 'web'
      dpi: 72
-     width: 300
+     width: 400
    - type: 'offset'
      tag: 'offset'
      dpi: 300
@@ -97,7 +97,7 @@ output:
      width: 1600
    - type: 'web'
      dpi: 72
-     width: 300
+     width: 400
    - type: 'offset'
      tag: 'offset'
      dpi: 300

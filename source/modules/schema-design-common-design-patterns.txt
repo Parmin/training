@@ -216,7 +216,6 @@ M-M: Array of IDs on One Side
        firstName: "F. Scott",
        lastName: "Fitzgerald"
    }
-
    {
        _id: 5,
        firstName: "Unknown",

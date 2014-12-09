@@ -42,7 +42,7 @@ In one window, perform the following commands.
   for (i=1; i<=10000; i++) { 
       arr = [];
       for (j=1; j<=1000; j++) { 
-          doc = { _id : (1000 * (i-1) + j), a : i, b : j, c : (1000 * (i-1)+ j)};
+          doc = { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j) };
           arr.push(doc)
       };
       db.testcol.insert(arr);
@@ -297,7 +297,7 @@ Exercise: Using ``db.serverStatus()``
 .. include:: /includes/student-notes.rst
 
 
-Analyzing profiler data
+Analyzing Profiler Data
 -----------------------
 
 - Enable the profiler at default settings.
@@ -352,11 +352,11 @@ Let's spin up a 3-member replica set:
 
    mkdir -p /data/replset/{1,2,3}
    mongod --logpath /data/replset/1/mongod.log \
-   --dbpath /data/replset/1 --replSet mySet --port 27017 --fork
+          --dbpath /data/replset/1 --replSet mySet --port 27017 --fork
    mongod --logpath /data/replset/2/mongod.log \
-   --dbpath /data/replset/2 --replSet mySet --port 27018 --fork
+          --dbpath /data/replset/2 --replSet mySet --port 27018 --fork
    mongod --logpath /data/replset/3/mongod.log \
-   --dbpath /data/replset/3 --replSet mySet --port 27019 --fork
+          --dbpath /data/replset/3 --replSet mySet --port 27019 --fork
 
    echo "conf = {_id: 'mySet', members: [{_id: 0, host: 'localhost:27017'}, \
         {_id: 1, host: 'localhost:27018'}, {_id: 2, host: 'localhost:27019'}]}; \ 
@@ -368,7 +368,7 @@ Let's spin up a 3-member replica set:
 ``mongostat``, bulk inserts with ``{w: 1}``
 -------------------------------------------
 
-- Perform the following, with writeConcern : 1 and no bulk inserts:
+Perform the following, with writeConcern : 1 and no bulk inserts:
 
 .. code-block:: javascript
 
