@@ -37,7 +37,7 @@ output:
      width: 1600
    - type: 'web'
      dpi: 72
-     width: 350
+     width: 450
    - type: 'offset'
      tag: 'offset'
      dpi: 300
@@ -142,7 +142,7 @@ output:
     width: 1600
   - type: web
     dpi: 72
-    width: 400
+    width: 500
   - type: 'offset'
     tag: 'offset'
     dpi: 300
@@ -157,7 +157,7 @@ output:
     width: 1600
   - type: web
     dpi: 72
-    width: 400
+    width: 500
   - type: 'offset'
     tag: 'offset'
     dpi: 300
@@ -232,7 +232,7 @@ output:
     width: 1600
   - type: web
     dpi: 72
-    width: 500
+    width: 550
   - type: 'offset'
     tag: 'offset'
     dpi: 300
@@ -292,7 +292,7 @@ output:
     width: 1600
   - type: web
     dpi: 72
-    width: 500
+    width: 550
   - type: 'offset'
     tag: 'offset'
     dpi: 300
