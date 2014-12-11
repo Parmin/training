@@ -11,6 +11,7 @@ Upon completing this module students should understand:
 - How to query on array elements
 - How to query embedded documents using dot notation
 - How the mongo shell and drivers use cursors
+- Projections
 - Cursor methods: ``.count()``, ``.sort()``, ``.skip()``, ``.limit()``
 
 .. include:: /includes/student-notes.rst
@@ -199,6 +200,74 @@ Experiment with the following commands.
       - In this collection, ``examples`` is actually an array field.
       - The embedded documents we are matching are held within these arrays.
 
+
+Projections
+-----------
+
+- You may choose to have only certain fields appear in result documents.
+- This is called projection.
+- You specify a projection by passing a second parameter to ``find()``.
+
+
+Projection: Example
+-------------------
+
+.. code-block:: javascript
+
+   db.people.findOne( { price : { $lt : 300 } } )
+   {
+	   "_id" : 1,
+	   "product" : "ePod",
+	   "price" : 200,
+	   "reviews" : [
+		   {
+			   "user" : "fred",
+			   "comment" : "OK!",
+			   "rating" : 5
+		   }
+	   ]
+   }     
+
+   db.people.findOne( { price : { $lt : 300 } }, { product : 1, price : 1 } )
+   {
+	   "_id" : 1,
+	   "product" : "ePod",
+	   "price" : 200,
+   }     
+
+
+Projection Documents
+--------------------   
+  
+- Include fields with ``fieldName: 1``.
+
+  - Any field not named will be excluded
+  - except _id, which must be explicitly excluded.
+
+- Exclude fields with ``fieldName: 0``. 
+
+  - Any field not named will be included.
+
+
+Exercise: Projections
+---------------------
+
+.. code-block:: javascript
+
+   for (i=1; i<=20; i++) { 
+       db.proj.insert( { _id : i, a : i, b : i, c: i } )
+   }
+   db.proj.find()
+   db.proj.find( { _id : 3 }, { a : 1, b : 1 } ) // no c
+   db.proj.find( { _id : { $gte : 10 } }, { b : 0 } ) // no b
+   db.proj.find( { _id : 4 }, { _id : 0, a : 1 } ) // just a
+   db.proj.find( { _id : 5 }, { _id : 0, a : 0 } ) // just b, c
+   db.proj.find( { _id : 6 }, { a : 1, b : 0 } ) // illegal
+   db.proj.drop()
+
+.. only:: instructor
+
+   The last ``find()`` fails because MongoDB cannot determine how to handle unnamed fields such as ``c``.
 
 
 Cursors
