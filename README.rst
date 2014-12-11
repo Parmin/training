@@ -56,7 +56,7 @@ Slides
 The Presenter Console
 ---------------------
 
-.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console.png
+.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console_annotated.png
    :alt: Presenter Console
 
 
