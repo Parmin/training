@@ -35,14 +35,13 @@ Using Instructor Materials
 
 Instructor materials are provided in `presentation/instructor-package.tar.gz`_. As an instructor you will primarily use:
 
-- The instructor guide
+- The HTML instructor guide
 - Slides
 - The presenter's console for slides
 
 See below for examples of each.
 
-
-.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instsructor_guide_html.png
+.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide_html.png
    :alt: Instructor Guide
 
 .. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/slides.png
