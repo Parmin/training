@@ -63,11 +63,11 @@ The Working Set
 
    .. note::
 
-      - The working set contains the documents and indexes that are currently being used by an application.
-      - It is best if the working set fits in RAM.
-      - In this figure there are many more documented in use than can fit in RAM.  
-      - This would result in page faults affecting performance.  
-      - More RAM would cover a larger area of the database.  
+      - The working set for a MongoDB database is the portion of your data that clients access most often.
+      - Your working set should stay in memory, otherwise random disk operations will hurt performance.
+      - For the fastest processing, ensure that your indexes fit entirely in RAM so that the system can avoid reading the index from disk.
+      - In some cases, only recently indexed values must be in RAM.
+
    
 
 Limitations of Vertical Scaling

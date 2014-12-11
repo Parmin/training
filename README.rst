@@ -16,50 +16,41 @@ Instructor and student are in the `presentation`_ directory of the repo. See the
 Objectives
 ----------
 
--  To support instructors in learning and delivering MongoDB trainings
-   by providing the following resources:
+-  To support instructors in learning and delivering MongoDB trainings by providing:
 
-   -  A easily-navigated instructor guide complete with outline, training
-      content, and instructor notes
+   -  A easily-navigated instructor guide.
 
-   -  Figures, slides, exercises, and notes for delivery in class
+   -  Slides, exercises, and presenter notes for delivery in class
 
-   -  A workbook to be distributed to students to enable them to easily
-      follow lessons and exercises and take notes
+   -  A workbook enabling students to follow lessons and exercises and take notes
 
--  Training materials that are easy to maintain and that encourage
-   contributions in the form of pull requests from those who deliver
-   MongoDB training and others in the company
+-  Well-maintained training resources that encourage contributions from instructors
 
 -  Modular materials for greater flexibility in how trainings are
    organized
 
+
 Using Instructor Materials
 --------------------------
 
-Do a pull on the repo, unzip `presentation/instructor-package.tar.gz`_, and open **contents.html**.
+Instructor materials are provided in `presentation/instructor-package.tar.gz`_. As an instructor you will primarily use:
 
-.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/contents.png
-   :alt: Contents page
+- The instructor guide
+- Slides
+- The presenter's console for slides
 
-The nav on the left enables instructors to browse the modules in the
-instructor guide. Each subsection is designed to be one slide’s worth of
-material.
+See below for examples of each.
 
-.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide.png
-   :alt: Contents page
 
-For presentation to students, we have deployed a version of these
-materials in the form of slides. To see the deck for a given module,
-navigate to that module in the instructor guide and click the slides
-link at the bottom of the navigation pane.
+.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instsructor_guide_html.png
+   :alt: Instructor Guide
 
-.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide_click_slides.png
-   :alt: Contents page
+.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/slides.png
+   :alt: Slides
 
-This will bring up another browser window containing html-based slides.
-These decks respond to keyboard events such as arrow keys and the space
-bar in the same way as Microsoft Powerpoint.
+.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console.png
+   :alt: Presenter Console
+
 
 Status
 ------
