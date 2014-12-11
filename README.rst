@@ -77,6 +77,7 @@ These materials are now used for MongoDB instructor-led training. Sections inclu
 -  Backup and Recovery
 
 Currently working on:
+
 -  An MMS section.
 -  MongoDB 2.8 updates.
 -  Updates based on feedback from instructors. See: https://jira.mongodb.org/browse/EDU-1674
