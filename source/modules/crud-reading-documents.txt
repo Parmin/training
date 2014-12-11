@@ -200,7 +200,6 @@ Experiment with the following commands.
       - The embedded documents we are matching are held within these arrays.
 
 
-
 Cursors
 -------
 
