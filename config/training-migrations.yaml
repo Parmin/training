@@ -3,6 +3,7 @@ sources:
   - images/crud-write-concern-ack.svg
   - images/crud-write-concern-unack.svg
   - images/crud-write-concern-w2.svg
+  - images/index-for-covered-query.svg
   - images/replica-set-trigger-election.svg
   - images/replica-set-read-write-operations-primary.svg
   - images/sharded-collection.svg
