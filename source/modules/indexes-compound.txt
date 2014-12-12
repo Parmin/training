@@ -338,3 +338,36 @@ General Rules of Thumb
 
 .. include:: /includes/student-notes.rst
 
+
+Covered Queries
+---------------
+
+.. include:: /images/index-for-covered-query.rst
+
+- When a query and projection include only the indexed fields, MongoDB will return results directly from the index.
+- There is no need to scan any documents or bring documents into memory. 
+- These covered queries can be very efficient.
+
+
+Exercise: Covered Queries
+-------------------------
+
+Perform the following operations. Look at ``indexOnly`` in the ``explain()`` output.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=20; i++) { 
+     db.testcol.insert( { _id : i, a : i, b : i, c : i, d : i } )
+   };
+   db.testcol.ensureIndex( { a : 1, b : 1, c : 1 } )
+   
+   // Not covered because _id is  present.
+   db.testcol.find( { a : 3 }, { a : 1, b : 1, c : 1 } ).explain()
+
+   // Not covered because other fields may exist in matching docs.
+   db.testcol.find( { a : 3 }, { _id : 0, d : 0 } ).explain()
+
+   // Covered query!
+   db.testcol.find( { a : 3 }, { _id : 0, a : 1, b : 1, c : 1 } ).explain()
+
