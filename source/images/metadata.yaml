@@ -146,7 +146,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 250
+    width: 200
 ---
 name: replica-set-heartbeat
 alt: "Nodes in a replica set regularly ping all other nodes to ensure they can be reached."
@@ -161,7 +161,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 250
 ---
 name: sharded-collection
 alt: "Horizontal scaling in MongoDB through sharding."
@@ -176,7 +176,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 270
+    width: 250
 ---
 name: sharded-cluster-targeted-query
 alt: "Targeted query in a sharded cluster."
@@ -191,7 +191,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 200
+    width: 150
 ---
 name: sharding-splitting
 alt: "An example of splitting a chunk."
@@ -206,7 +206,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 200
+    width: 150
 ---
 name: sharded-cluster-no-config-servers
 alt: "A sharded cluster with no config servers."
@@ -221,7 +221,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 200
+    width: 150
 ---
 name: sharded-cluster-production-architecture
 alt: "A sharded cluster architecture for production."
@@ -236,7 +236,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 250
 ---
 name: database-landscape
 alt: "Database landscape"
@@ -251,7 +251,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 350
+    width: 250
 ---
 name: objectId
 alt: "ObjectId: 12-byte hexadecimal string."
@@ -266,7 +266,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 400
+    width: 300
 ---
 name: vertical-scaling
 alt: "Vertical scaling means buying higher-capacity, more-expensive hardware."
@@ -296,7 +296,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 350
+    width: 250
 ---
 name: deployments
 alt: "Deployment models: standalone, replica set, and sharded cluster."
@@ -311,7 +311,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 400
+    width: 350
 ---
 name: padding
 alt: "Padding."
@@ -326,7 +326,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 350
+    width: 300
 ---
 name: auth-workflow
 alt: "Authentication and Authorization workflow."
@@ -476,7 +476,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 350
+    width: 300
 ---
 name: data-model-8-in-memory
 alt: "Data model with too much information in documents. Can fit only 8 documents in memory."

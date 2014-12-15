@@ -60,7 +60,7 @@ A MongoDB document expressed using JSON syntax.
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /includes/np.rst
+
 
 Vertical Scaling
 ----------------

@@ -208,6 +208,8 @@ Projections
 - This is called projection.
 - You specify a projection by passing a second parameter to ``find()``.
 
+.. include:: /includes/student-notes.rst
+
 
 Projection: Example
 -------------------
@@ -235,6 +237,8 @@ Projection: Example
 	   "price" : 200,
    }     
 
+.. include:: /includes/student-notes.rst
+
 
 Projection Documents
 --------------------   
@@ -247,6 +251,8 @@ Projection Documents
 - Exclude fields with ``fieldName: 0``. 
 
   - Any field not named will be included.
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Projections
@@ -268,6 +274,8 @@ Exercise: Projections
 .. only:: instructor
 
    The last ``find()`` fails because MongoDB cannot determine how to handle unnamed fields such as ``c``.
+
+.. include:: /includes/student-notes.rst
 
 
 Cursors
