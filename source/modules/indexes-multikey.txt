@@ -42,25 +42,15 @@ Example: Array of Numbers
           { x : [ 4, 5 ], y : [ "a", "b" ] },
           { x : 3, y : [ "a", "b" ] }, { x : 4, y : [ "a", "b" ] } ]
     db.testcol.insert( a )        
-    db.testcol.find( { x : 3 } )  
+
+    // Used the index
     db.testcol.find( { x : 3 } ).explain()  
-    db.testcol.find( { "x.2" : 3 } )  
+
+    // One document found.
+    // Index not used, because it is naive to position.
     db.testcol.find( { "x.2" : 3 } ).explain()  
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      .. code-block:: javascript
-
-         // Used the index
-         db.testcol.find( { x : 3 } ).explain()  
-
-         // One document found.
-         // Index not used, because it is naive to position.
-         db.testcol.find( { "x.2" : 3 } )  
 
 
 Exercise: Array of Documents, Part 1

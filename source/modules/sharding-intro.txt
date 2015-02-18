@@ -129,8 +129,6 @@ A Scalable Model
       - MongoDB scales vertically and horizontally (i.e., spreading out the load across several boxes)
 
 
-.. include:: /includes/np.rst
-
 Sharding Basics
 ---------------
 
@@ -288,8 +286,6 @@ What is a Shard Key?
       - For reads and updates, the shard key determines which shard holds the document and will handle the operation.
       - When you insert a document, the shard key determines which server you will write to.
 
-
-.. include:: /includes/np.rst
 
 Targeted Query Using Shard Key
 ------------------------------

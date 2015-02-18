@@ -1,6 +1,10 @@
 file: /modules/indexes-fundamentals
 description: | 
   An introduction to MongoDB indexes.
+
+  .. only:: instructor
+
+     This should take from now until next year.
 --- 
 file: /modules/indexes-compound
 description: | 

@@ -115,34 +115,30 @@ Now let's query for messages with timestamp in the range 2 through 4 inclusive.
 
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 } } ).explain()
 
+Analysis:
+
+- Explain plan shows good performance, i.e. ``nscanned`` = ``n``.  
+- However, this does not satisfy our query.  
+- Need to query again with { username : "anonymous" } as part of the query.
+
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - Explain plan shows good performance, i.e. ``nscanned`` = ``n``.  
-      - However, this does not satisfy our query.  
-      - Need to query again with { username : "anonymous" } as part of the query.
 
 
 Query Adding ``username``
 -------------------------
+
+Let's add the ``user`` field to our query.
 
 .. code-block:: javascript
 
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
+``explain`` shows:
+
+- ``nscanned`` > ``n``. 
+
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - Let's add the ``user`` field to our query.
-      - Now ``nscanned`` > ``n``. 
-
 
 
 Include ``username`` in Our Index
@@ -156,14 +152,13 @@ Include ``username`` in Our Index
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
+``explain`` shows:
+
+- ``nscanned`` is still greater than n. 
+- Why?
+
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
-
-   .. note::
-
-      - ``nscanned`` is still greater than n. 
-      - Why?
 
 
 ``ncanned`` > n
@@ -200,16 +195,17 @@ Drop the index and build a new one with user.
    db.messages.dropIndex( "myindex" );
    db.messages.ensureIndex( { username : 1 , timestamp : 1 }, 
                             { name : "myindex" } )
+
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
+``explain`` shows:
+
+- nscanned is 2 
+- n is 2
+
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
-
-   .. note::
-
-      - Now ``nscanned`` is 2 and ``n`` is 2. 
 
 
 ``nscanned`` == ``n`` == 2
@@ -232,7 +228,7 @@ username     timestamp
    .. note::
   
       - This illustrates why.
-      - There is fundamental difference in the way the index is structured.
+      - There is a fundamental difference in the way the index is structured.
       - This supports a more efficient treatment of our query.
 
 
@@ -259,16 +255,13 @@ Finally, let's add the sort and run the query.
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
 
+- Note that the ``scanAndOrder`` field is set to true.
+- This means that MongoDB had to perform a sort in memory.  
+- In memory sorts for queries that retrieve large numbers of documents can degrade performance significantly.
+- Especially, if they are used frequently.
+
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
-
-   .. note::
-
-      - Note that the ``scanAndOrder`` field is set to true.
-      - This means that MongoDB had to perform a sort in memory.  
-      - In memory sorts for queries that retrieve large numbers of documents can degrade performance significantly.
-      - Especially, if they are used frequently.
 
 
 In-Memory Sorts
@@ -286,17 +279,12 @@ Let's modify the index again to allow the database to sort for us.
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
 
+- The explain plan remains unchanged, because the sort field comes after the range fields.
+- The index does not store entries in order by rating.
+- Note that this requires us to consider a tradeoff.
+
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
-
-   .. note::
-
-      - The explain plan remains unchanged.
-      - The field being sorted on comes after the range fields.
-      - The index does not store entries in order by rating.
-      - To have the index structured this way we need to specify the field for sorting (rating) before the range field (timestamp).
-      - Note that this requires us to consider a tradeoff.
 
 
 
@@ -315,18 +303,13 @@ Rebuild the index as follows.
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
 
+
+- Tradeoff between ``nscanned`` and ``scanAndOrder``
+- ``nscanned`` is 3 and and ``n`` is 2. 
+- Best we can do in this case and in this situation is fine.
+- However, if ``nscanned`` is much larger than ``n``, this might not be the best index.  
+
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - We have a tradeoff between ``nscanned`` and ``scanAndOrder``
-      - Now ``scanAndOrder`` is set to ``false``. 
-      - However, ``nscanned`` is 3 and and ``n`` is 2. 
-      - This is the best we can do in this case and in this situation is fine.
-      - However, if ``nscanned`` is much larger than ``n``, this might not be the best index.  
-      - You will have to evaluate your use case to determine how to make this tradeoff.
 
 
 General Rules of Thumb
@@ -347,6 +330,8 @@ Covered Queries
 - When a query and projection include only the indexed fields, MongoDB will return results directly from the index.
 - There is no need to scan any documents or bring documents into memory. 
 - These covered queries can be very efficient.
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Covered Queries
@@ -371,3 +356,4 @@ Perform the following operations. Look at ``indexOnly`` in the ``explain()`` out
    // Covered query!
    db.testcol.find( { a : 3 }, { _id : 0, a : 1, b : 1, c : 1 } ).explain()
 
+.. include:: /includes/student-notes.rst
