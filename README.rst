@@ -82,7 +82,7 @@ These materials are now used for MongoDB instructor-led training. Sections inclu
 Currently working on:
 
 -  An MMS section.
--  MongoDB 2.8 updates.
+-  MongoDB 3.0 updates.
 -  Updates based on feedback from instructors. See: https://jira.mongodb.org/browse/EDU-1674
 
 .. _presentation : https://github.com/mongodb/docs-training/blob/master/presentation

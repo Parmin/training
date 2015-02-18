@@ -22,7 +22,7 @@ What happens to the write?
 
 - A write is sent to a primary.
 - The primary acknowledges the write to the client.
-- And then the primary becomes unavailable before a secondary can replicate the write
+- The primary then becomes unavailable before a secondary can replicate the write
 
 .. include:: /includes/student-notes.rst
 
