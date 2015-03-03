@@ -73,7 +73,7 @@ Vertical Scaling
 
       Another difference is in terms of scalability. With an RDBMS:
 
-      - If you need to support a larger workload, you buy bigger machine. 
+      - If you need to support a larger workload, you buy a bigger machine. 
       - The problem is, machines are not priced linearly. 
       - The largest machines cost much more than commodity hardware. 
       - If your application is successful, you may find you simply cannot buy a large enough a machine to support your workload. 
