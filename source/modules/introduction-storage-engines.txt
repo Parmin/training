@@ -190,11 +190,11 @@ Notable features of the WiredTiger storage engine that do not exist in the MMAPv
 .. include:: /includes/student-notes.rst
 
 
-Wired Tiger Compression Options
+WiredTiger Compression Options
 -------------------------------
 
-- snappy (default): less CPU usage than zlib, less reduction in data size
-- zlib: greater CPU usage than snappy, greater reduction in data size
+- **snappy (default):** less CPU usage than zlib, less reduction in data size
+- **zlib:** greater CPU usage than snappy, greater reduction in data size
 - no compression
 
 .. include:: /includes/student-notes.rst
