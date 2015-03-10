@@ -41,12 +41,18 @@ Overview
 Authentication Options
 ----------------------
 
-- MONGODB-CR Authentication (username & password)
+- Chanllenge/response authentication using SCRAM-SHA-1 (username & password)
 - x.509 Authentication (using x.509 Certificates)
 - Kerberos (through an Enterprise subscription)
 - LDAP
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Although there is a SCRAM-SHA-2 algorithm that addressed some vulnerabilities in SCRAM-SHA-1, it would not benefit MongoDB.
 
 
 Authorization via MongoDB
@@ -90,7 +96,7 @@ Encryption (SSL)
 Native MongoDB Auth
 -------------------
 
-- Uses the Challenge/Response mechanism
+- Uses SCRAM-SHA-1 for challenge/response
 - Sometimes called MongoDB-CR
 - Start a mongod instance with ``--auth`` to enable this feature
 - You can initially login using localhost
@@ -104,6 +110,8 @@ Native MongoDB Auth
      
     - Be careful to create a user who can create other users.
     - Otherwise you'll be stuck with the users you initially create.
+    - When upgrading a node to 3.0, it will still use the legacy challenge response mechanism until authSchemaUpgrade is run
+    - When creating a new user on 3.0, you will not be able to connect to it via a 2.6 shell (the 2.6 shell doesn't use SCRAM-SHA-1)
 
 .. include:: /includes/student-notes.rst
 
