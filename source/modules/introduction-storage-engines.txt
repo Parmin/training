@@ -47,18 +47,25 @@ Starting in MongoDB 3.0, two storage engine options are available:
 .. include:: /includes/student-notes.rst
 
 
-Common Storage Engine Settings
-------------------------------
+Specifying a MongoDB Storage Engine
+-----------------------------------
 
-There are a number of storage engine settings common to all storage engines in MongoDB.  The following settings are commonly adjusted:
+The storage engine parameter can be used to specify which storage engine to use for MongoDB.
 
-**dbpath**
+.. code-block:: javascript
 
-Path to store data for the MongoDB instance
+  mongod --storageEngine wiredTiger
 
-**storageEngine**
 
-MMAPv1 (default) or WiredTiger
+
+Specifying a Location to Store Data Files
+-----------------------------------------
+
+**dbpath parameter**
+
+.. code-block:: javascript
+
+  mongod --dbpath /data/db
 
 See the MongoDB docs for a complete list of |docs_link|.
 
@@ -75,8 +82,6 @@ MMAPv1 Storage Engine
 
 MMAPv1 is MongoDB's original storage engine and the default storage engine for MongoDB.
 
-MMAPv1 is based on memory mapped files, which maps the data files on the hard drive into virtual memory
-
 .. code-block:: javascript
 
   mongod
@@ -89,6 +94,12 @@ is equivalent to the following command:
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+
+      - MMAPv1 is based on memory mapped files, which maps the data files on the hard drive into virtual memory
+
 
 MMAPv1 Storage Engine Record Allocation
 ---------------------------------------
@@ -99,9 +110,21 @@ MMAPv1 excels at workloads where documents do not outgrow their original record 
 - Reads
 - In-place updates
 
-By default, records are allocated in powers of 2.  Each record has a size in bytes that is a power of 2 larger than the document.  This allocation strategy decreases the likelihood of a document movement as the document grows in size.
+MMAPv1 Power of 2 Sizes Allocation Strategy
+-------------------------------------------
+
+- By default, records are allocated in powers of 2
+- Each record has a size in bytes that is a power of 2 larger than the document
+- This allocation strategy decreases the likelihood of a document movement as the document grows in size
 
 .. include:: /includes/student-notes.rst
+
+Compression in MongoDB
+----------------------
+
+- Compress documents and indexes at the expense of CPU
+- Can significantly reduce the amount of disk space needed
+- Compression does not exist in the MMAPv1 storage engine
 
 
 WiredTiger Storage Engine
@@ -122,38 +145,59 @@ Notable features of the WiredTiger storage engine that do not exist in the MMAPv
 .. include:: /includes/student-notes.rst
 
 
-WiredTiger Storage Engine Compression
--------------------------------------
+Wired Tiger Compression Options
+-------------------------------
 
-The **wiredTigerCollectionBlockCompressor** option can be used to configure the compression algorithm to use for WiredTiger.  
-
-The following compression options are supported:
-
-- snappy (default)
-- zlib
+- snappy (default): less CPU usage than zlib, less reduction in data size
+- zlib: greater CPU usage than snappy, greater reduction in data size
 - no compression
 
 .. include:: /includes/student-notes.rst
 
 
+wiredTigerCollectionBlockCompressor
+-----------------------------------
+
+The **wiredTigerCollectionBlockCompressor** parameter can be used to configure the compression algorithm to use for WiredTiger:
+
+.. code-block:: javascript
+
+  mongod --wiredTigerCollectionBlockCompressor zlib
+
+
 WiredTiger Cache Size
 ---------------------
 
-Unlike MMAPv1, WiredTiger can be configured to use a finite amount of RAM.  
-
 **wiredTigerCacheSizeGB** can be used to designate the amount of RAM for the WiredTiger storage engine.
 
-By default, this value is set to the maximum of half of physical RAM or 1GB.
+- By default, this value is set to the maximum of half of physical RAM or 1GB
+- If the database server shares a machine with an application server, it is now easier to designate the amount of RAM the database server can use
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
 
-MongoDB Storage Engine API
---------------------------
+   .. note::
 
-MongoDB 3.0 introduced a storage engine API, abstracting all storage engine functionality in the MongoDB code base to make it easier for third parties to develop their own MongoDB storage engines.
+      - Unlike MMAPv1, WiredTiger can be configured to use a finite amount of RAM.  
 
-For example, a future MongoDB replica set could contain the same database replicated across several different storage engines:
+
+
+
+The Future of Storage Engines in MongoDB
+----------------------------------------
+
+MongoDB 3.0 introduced a storage engine API:
+
+- Abstracted storage engine functionality in the code base
+- Easier for MongoDB to develop future storage engines
+- Easier for third parties to develop their own MongoDB storage engines
+
+
+Future Uses Cases for Additional MongoDB Storage Engines
+--------------------------------------------------------
+
+A future MongoDB replica set could contain the same database replicated across several different storage engines:
 
 - WiredTiger (operational data)
 - HDFS (optimized for Hadoop processing)
