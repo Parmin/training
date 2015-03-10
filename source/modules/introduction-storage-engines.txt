@@ -26,6 +26,12 @@ A database storage engine is the software within a database to perform all updat
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+
+      - Talk through the diagram and how storage engines are used to abstract access to the data
+
 
 How Storage Engines Effect Performance
 --------------------------------------
@@ -35,6 +41,12 @@ How Storage Engines Effect Performance
 - Compression algorithms
 - Index format and implementation
 - On-disk format
+
+.. only:: instructor
+
+   .. note::
+
+      - Can use an extreme example, such as the difference between an in-memory storage engine and mmap/wiredtiger for write performance
 
 
 MongoDB Storage Engines
@@ -57,6 +69,11 @@ The storage engine parameter can be used to specify which storage engine to use 
 
   mongod --storageEngine wiredTiger
 
+.. only:: instructor
+
+   .. note::
+
+      - mmapv1 is used if storageEngine parameter isn't specified  
 
 
 Specifying a Location to Store Data Files
@@ -73,6 +90,12 @@ See the MongoDB docs for a complete list of |docs_link|.
 .. |docs_link| raw:: html
 
    <a href="http://docs.mongodb.org/manual/reference/program/mongod/#storage-options" target="_blank">storage options</a>
+
+.. only:: instructor
+
+   .. note::
+
+      - Other files are also stored here, such as mongod.lock file and the journal
 
 
 .. include:: /includes/student-notes.rst
@@ -111,6 +134,13 @@ MMAPv1 excels at workloads where documents do not outgrow their original record 
 - Reads
 - In-place updates
 
+.. only:: instructor
+
+   .. note::
+
+      - None of the use cases above grow the documents (and potentially force them to move), one flaw with mmapv1
+
+
 MMAPv1 Power of 2 Sizes Allocation Strategy
 -------------------------------------------
 
@@ -119,6 +149,12 @@ MMAPv1 Power of 2 Sizes Allocation Strategy
 - This allocation strategy decreases the likelihood of a document movement as the document grows in size
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Good time to draw this allocation strategy on the board and how it works
 
 Compression in MongoDB
 ----------------------
@@ -170,7 +206,7 @@ The **wiredTigerCollectionBlockCompressor** parameter can be used to configure t
 WiredTiger Cache Size
 ---------------------
 
-**wiredTigerCacheSizeGB** can be used to designate the amount of RAM for the WiredTiger storage engine.
+**wiredTigerCacheSizeGB** parameter can be used to designate the amount of RAM for the WiredTiger storage engine.
 
 - By default, this value is set to the maximum of half of physical RAM or 1GB
 - If the database server shares a machine with an application server, it is now easier to designate the amount of RAM the database server can use
@@ -182,8 +218,6 @@ WiredTiger Cache Size
    .. note::
 
       - Unlike MMAPv1, WiredTiger can be configured to use a finite amount of RAM.  
-
-
 
 
 The Future of Storage Engines in MongoDB
@@ -205,6 +239,12 @@ A future MongoDB replica set could contain the same database replicated across s
 - HDFS (optimized for Hadoop processing)
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Good time to draw what this replica set could look like on the board and talk through even more possibilities
 
 
 
