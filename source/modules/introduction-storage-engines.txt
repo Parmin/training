@@ -15,8 +15,8 @@ Upon completing this module, students should understand:
 .. include:: /includes/student-notes.rst
 
 
-What is a Database Storage Engine
----------------------------------
+What is a Database Storage Engine?
+----------------------------------
 
 A database storage engine is the software within a database to perform all update, delete, remove, and insert functionality:
 
@@ -168,7 +168,7 @@ Compression in MongoDB
 ----------------------
 
 - Compress documents and indexes at the expense of CPU
-- Can significantly reduce the amount of disk space needed
+- Can significantly reduce the amount of disk space / memory needed
 - Compression does not exist in the MMAPv1 storage engine
 
 
@@ -200,10 +200,10 @@ WiredTiger Compression Options
 .. include:: /includes/student-notes.rst
 
 
-wiredTigerCollectionBlockCompressor
------------------------------------
+``wiredTigerCollectionBlockCompressor``
+---------------------------------------
 
-The **wiredTigerCollectionBlockCompressor** parameter can be used to configure the compression algorithm to use for WiredTiger:
+This parameter can be used to configure the compression algorithm to use for WiredTiger:
 
 .. code-block:: javascript
 
@@ -211,10 +211,10 @@ The **wiredTigerCollectionBlockCompressor** parameter can be used to configure t
          --wiredTigerCollectionBlockCompressor zlib
 
 
-WiredTiger Cache Size
----------------------
+``wiredTigerCacheSize``
+-----------------------
 
-**wiredTigerCacheSizeGB** parameter can be used to designate the amount of RAM for the WiredTiger storage engine.
+This parameter can be used to designate the amount of RAM for the WiredTiger storage engine.
 
 - By default, this value is set to the maximum of half of physical RAM or 1GB
 - If the database server shares a machine with an application server, it is now easier to designate the amount of RAM the database server can use
@@ -228,8 +228,8 @@ WiredTiger Cache Size
       - Unlike MMAPv1, WiredTiger can be configured to use a finite amount of RAM.  
 
 
-The Future of Storage Engines in MongoDB
-----------------------------------------
+Storage Engine API
+------------------
 
 MongoDB 3.0 introduced a storage engine API:
 
@@ -238,8 +238,8 @@ MongoDB 3.0 introduced a storage engine API:
 - Easier for third parties to develop their own MongoDB storage engines
 
 
-Future Uses Cases for Additional MongoDB Storage Engines
---------------------------------------------------------
+Future Uses Cases for MongoDB Storage Engines
+---------------------------------------------
 
 A future MongoDB replica set could contain the same database replicated across several different storage engines:
 
