@@ -22,6 +22,7 @@ A database storage engine is the software within a database to perform all updat
 
 
 .. image:: /images/introduction-storage-engines.svg
+   :align: center
 
 .. include:: /includes/student-notes.rst
 
@@ -162,7 +163,8 @@ The **wiredTigerCollectionBlockCompressor** parameter can be used to configure t
 
 .. code-block:: javascript
 
-  mongod --wiredTigerCollectionBlockCompressor zlib
+  mongod --storageEngine wiredTiger 
+         --wiredTigerCollectionBlockCompressor zlib
 
 
 WiredTiger Cache Size
