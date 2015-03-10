@@ -15,6 +15,27 @@ Upon completing this module, students should understand:
 .. include:: /includes/student-notes.rst
 
 
+What is a Database Storage Engine
+---------------------------------
+
+A database storage engine is the software within a database to perform all update, delete, remove, and insert functionlity:
+
+
+.. image:: /images/introduction-storage-engines.svg
+
+.. include:: /includes/student-notes.rst
+
+
+How Storage Engines Effect Performance
+--------------------------------------
+
+- Writing and reading documents
+- Concurrency
+- Compression algorithms
+- Index format and implementation
+- On-disk format
+
+
 MongoDB Storage Engines
 -----------------------
 
