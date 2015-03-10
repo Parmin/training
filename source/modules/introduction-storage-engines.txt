@@ -18,7 +18,7 @@ Upon completing this module, students should understand:
 MongoDB Storage Engines
 -----------------------
 
-With MongoDB 3.0, two storage engine options are available:
+Starting in MongoDB 3.0, two storage engine options are available:
 
 - MMAPv1 (default)
 - WiredTiger
