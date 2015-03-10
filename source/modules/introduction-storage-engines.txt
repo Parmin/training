@@ -60,9 +60,12 @@ Path to store data for the MongoDB instance
 
 MMAPv1 (default) or WiredTiger
 
-A complete list of storage options can be found at the following url:
+See the MongoDB docs for a complete list of |docs_link|.
 
-- http://docs.mongodb.org/manual/reference/program/mongod/#storage-options
+.. |docs_link| raw:: html
+
+   <a href="http://docs.mongodb.org/manual/reference/program/mongod/#storage-options" target="_blank">storage options</a>
+
 
 .. include:: /includes/student-notes.rst
 
