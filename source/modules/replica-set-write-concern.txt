@@ -147,7 +147,7 @@ Write Concern: ``{ w : "majority" }``
 -------------------------------------
 
 - Ensures the primary completed the write (in RAM).
-- Ensures write operations have propagated to a majority of a replica set's members.
+- Ensures write operations have propagated to a majority of a replica set's **voting** members.
 - Avoids hard coding assumptions about the size of your replica set into your application.
 - Using majority trades off performance for durability.
 - It is suitable for critical writes and to avoid rollbacks.
