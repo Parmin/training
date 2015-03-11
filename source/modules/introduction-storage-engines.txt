@@ -200,10 +200,10 @@ WiredTiger Compression Options
 .. include:: /includes/student-notes.rst
 
 
-``wiredTigerCollectionBlockCompressor``
----------------------------------------
+Configuring Compression in WiredTiger
+-------------------------------------
 
-This parameter can be used to configure the compression algorithm to use for WiredTiger:
+Use the ``wiredTigerCollectionBlockCompressor`` parameter. E.g., 
 
 .. code-block:: javascript
 
@@ -211,10 +211,10 @@ This parameter can be used to configure the compression algorithm to use for Wir
          --wiredTigerCollectionBlockCompressor zlib
 
 
-``wiredTigerCacheSize``
------------------------
+Configuring Memory Usage in WiredTiger
+--------------------------------------
 
-This parameter can be used to designate the amount of RAM for the WiredTiger storage engine.
+Use the ``wiredTigerCacheSize`` parameter to designate the amount of RAM for the WiredTiger storage engine.
 
 - By default, this value is set to the maximum of half of physical RAM or 1GB
 - If the database server shares a machine with an application server, it is now easier to designate the amount of RAM the database server can use
