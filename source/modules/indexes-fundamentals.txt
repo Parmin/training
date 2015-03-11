@@ -87,40 +87,190 @@ Exercise: Using ``explain()``
 Results of ``explain()``
 ------------------------
 
-You will see results similar to the following.
+With the default ``explain()`` verbosity, you will see results similar to the following:
 
 .. code-block:: javascript
 
-   {
-       "cursor" : "BasicCursor",
-       "isMultiKey" : false,
-       "n" : 8,
-       "nscannedObjects" : 51428,
-       "nscanned" : 51428,
-       "nscannedObjectsAllPlans" : 51428,
-       "nscannedAllPlans" : 51428,
-       "scanAndOrder" : false,
-       "indexOnly" : false,
-       "nYields" : 401,
-       "nChunkSkips" : 0,
-       "millis" : 161,
-       "server" : "new-host-3.home:27017",
-       "filterSet" : false
-   }
+  { 
+    "queryPlanner" : {
+      "plannerVersion" : 1,
+      "namespace" : "twitter.tweets",
+      "indexFilterSet" : false,
+      "parsedQuery" : {
+        "user.followers_count" : {
+          "$eq" : 1000
+        }
+      },
+
+.. include:: /includes/student-notes.rst
+
+Results of ``explain()`` - Continued
+------------------------------------
+
+.. code-block:: javascript
+
+      "winningPlan" : {
+          "stage" : "COLLSCAN",
+          "filter" : {
+            "user.followers_count" : {
+              "$eq" : 1000
+            }
+          },
+          "direction" : "forward"
+        },
+        "rejectedPlans" : [ ]
+      },
+      ...
+    }
 
 .. include:: /includes/student-notes.rst
 
 
-Understanding ``explain()`` Output
-----------------------------------
+``explain()`` Verbosity Can Be Adjusted
+---------------------------------------
 
-- ``n`` displays the number of documents that match the query. 
-- ``nscannedObjects`` displays the number of documents the retrieval engine considered during the query. 
-- ``nscanned`` displays how many documents in an existing index were scanned. 
-- An ``nscanned`` value much higher than ``nreturned`` indicates we need a different index.
-- Given ``nscannedObjects``, this query will benefit from an index. 
+- **default:** determines the winning query plan but does not execute query
+- **executionStats:** executes query and gathers statistics
+- **allPlansExecution:** runs all candidate plans to completion and gathers statistics
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Default will be helpful if you're worried running the query could cause sever performance problems
+      - executionStats will be the most common verbosity level used
+      - allPlansExecution is for trying to determine WHY it is choosing the index it is (out of other candidates)
+
+
+``explain("executionStats")``
+-----------------------------
+
+.. code-block:: javascript
+
+  > db.tweets.find( { "user.followers_count" : 1000 } )
+    .explain("executionStats")
+
+Now we have query statistics:
+
+.. code-block:: javascript
+
+  ..
+  "executionStats" : {
+    "executionSuccess" : true,
+    "nReturned" : 8,
+    "executionTimeMillis" : 107,
+    "totalKeysExamined" : 0,
+    "totalDocsExamined" : 51428,
+    "executionStages" : {
+      "stage" : "COLLSCAN",
+      "filter" : {
+        "user.followers_count" : {
+          "$eq" : 1000
+        }
+      },
+
+.. include:: /includes/student-notes.rst
+
+``explain("executionStats")`` - Continued
+-----------------------------------------
+
+.. code-block:: javascript
+
+      "nReturned" : 8,
+      "executionTimeMillisEstimate" : 100,
+      "works" : 51430,
+      "advanced" : 8,
+      "needTime" : 51421,
+      "needFetch" : 0,
+      "saveState" : 401,
+      "restoreState" : 401,
+      "isEOF" : 1,
+      "invalidates" : 0,
+      "direction" : "forward",
+      "docsExamined" : 51428
+    }
+    ...
+  }
+
+.. include:: /includes/student-notes.rst
+
+
+``explain("executionStats")`` Output
+------------------------------------
+
+- ``nReturned`` displays the number of documents that match the query. 
+- ``totalDocsExamined`` displays the number of documents the retrieval engine considered during the query. 
+- ``totalKeysExamined`` displays how many documents in an existing index were scanned. 
+- A ``totalKeysExamined`` or ``totalDocsExamined`` value much higher than ``nReturned`` indicates we need a different index.
+- Given ``totalDocsExamined``, this query will benefit from an index. 
+
+.. include:: /includes/student-notes.rst
+
+
+Using ``explain()`` on Other Operations
+---------------------------------------
+
+- aggregate
+- count
+- find
+- group
+- remove
+- update
+
+.. include:: /includes/student-notes.rst
+
+``explain()`` Returns an ``ExplainableCollection``
+----------------------------------------------
+
+.. code-block:: javascript
+
+  > var explainable = db.tweets.explain()
+  > explainable.find( { "user.followers_count" : 1000 } )
+
+equivalent to 
+
+.. code-block:: javascript
+
+  > db.tweets.explain().find( { "user.followers_count" : 1000 } )
+
+also equivalent to
+
+.. code-block:: javascript
+
+  > db.tweets.find( { "user.followers_count" : 1000 } ).explain()
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - This will get confusing for students, may want to spend extra time here with more examples
+
+
+Using ``explain()`` for Write Operations
+----------------------------------------
+
+Simulate number of writes that would have occurred, and determine the index(es) used:
+
+.. code-block:: javascript
+
+  > db.tweets.explain("executionStats").remove({ "user.followers_count" : 1000 })
+
+.. code-block:: javascript
+
+  > db.tweets.explain("executionStats").update({ "user.followers_count" : 1000 },
+    { $set : { "large_following" : true } } )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Walk through the "nWouldModify" field in the output to show how many documents would have been updated
 
 
 Single-Field Indexes
