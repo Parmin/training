@@ -203,7 +203,7 @@ Now we have query statistics:
 - ``nReturned`` displays the number of documents that match the query. 
 - ``totalDocsExamined`` displays the number of documents the retrieval engine considered during the query. 
 - ``totalKeysExamined`` displays how many documents in an existing index were scanned. 
-- An ``totalKeysExamined`` or ``totalDocsExamined`` value much higher than ``nReturned`` indicates we need a different index.
+- A ``totalKeysExamined`` or ``totalDocsExamined`` value much higher than ``nReturned`` indicates we need a different index.
 - Given ``totalDocsExamined``, this query will benefit from an index. 
 
 .. include:: /includes/student-notes.rst
@@ -221,7 +221,7 @@ Using ``explain()`` on Other Operations
 
 .. include:: /includes/student-notes.rst
 
-``explain()`` Returns an ExplainableCollection
+``explain()`` Returns an ``ExplainableCollection``
 ----------------------------------------------
 
 .. code-block:: javascript
