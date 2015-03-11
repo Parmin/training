@@ -82,6 +82,21 @@ There are opportunities to exploit the topology of a replica set.
       - Backup data from secondaries to avoid performance penalties on the primary, especially when using tools like ``mongodump`` which are I/O intensive and evict the working set from memory (significant when data size is larger than RAM and disks are slow).
       - Dedicate secondaries for other purposes such as analytics jobs.
 
+Large Replica Sets
+------------------
+
+Functional segregation can be further exploited by using large replica sets.
+
+- 50 node replica set limit
+- Useful for deployments with a large number of data centers or offices
+- Read only workloads can position secondaries in data centers around the world (closer to application servers)
+  
+.. only:: instructor
+
+   .. note::
+
+      - Sample use case: bank reference data distributed to 20+ data centers around the world, then consumed by the local application server
+
 
 Replication is Not Designed for Scaling
 ---------------------------------------
@@ -117,7 +132,7 @@ Replica Sets
    .. note::
 
       - MongoDB implements replication in the form of replica sets. Don't use the term master-slave as that is what we had before replica sets. It still exists for some corner cases (e.g. > 12 replicas) but should otherwise be avoided.
-      - A replica set consists of one or more ``mongod`` servers. Maximum 12 nodes in total and up to 7 with votes.
+      - A replica set consists of one or more ``mongod`` servers. Maximum 50 nodes in total and up to 7 with votes.
       - There is at most one ``mongod`` that is "primary" at any one time (though there are edge cases/bugs when there is more than one).
       - There are usually two or more other ``mongod`` instances that are secondaries.
       - Secondaries may become primary if there is a failover event of some kind.
