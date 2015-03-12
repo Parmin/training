@@ -1,8 +1,8 @@
 .. This includes the page title and the MongoDB graphics:
 .. include:: agenda-header.tmpl
 
-MongoDB Essentials Training Agenda
-==================================
+MongoDB Admin Training Agenda
+=============================
 
 
 Introduction (1:30)
