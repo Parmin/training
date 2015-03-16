@@ -114,6 +114,8 @@ Import Exercise Data
 
    mongorestore -d sample digg
 
+**Note:** If there is an error importing data directly from a USB drive, please copy the sampledata.zip file to your local computer first.
+
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
