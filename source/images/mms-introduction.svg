@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <g>
+  <title>Layer 1</title>
+  <rect stroke="#000000" id="svg_3" height="236" width="523.99999" y="224" x="59" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffffff"/>
+  <rect id="svg_18" height="57" width="508" y="263" x="66" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_17" height="57" width="508" y="329" x="67" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_22" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" y="363.5" x="323" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">Backups</text>
+  <rect id="svg_19" height="57" width="508" y="395" x="67" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_6" height="106" width="52" y="64" x="58" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <rect id="svg_8" height="106" width="52" y="64.5" x="118" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <rect id="svg_7" height="0" width="25" y="69" x="90" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <rect id="svg_9" height="106" width="52" y="64.5" x="177" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <rect id="svg_10" height="106" width="52" y="64.5" x="236" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <rect id="svg_11" height="106" width="52" y="64.5" x="295" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <rect id="svg_12" height="106" width="52" y="64.5" x="354" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <rect id="svg_13" height="106" width="52" y="64.5" x="413" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <rect id="svg_14" height="106" width="52" y="64.5" x="472" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <rect id="svg_15" height="106" width="52" y="64.5" x="531" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_16" y="42" x="321" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">MongoDB Clusters Managed by MMS</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_20" y="250" x="322" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">MMS</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_21" y="300" x="323" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#020000">Monitoring</text>
+  <text id="svg_23" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" y="431.5" x="323" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">Automation</text>
+  <path stroke="#000000" transform="rotate(-89.79183197021484 322.39959716796875,196.32843017578122) " id="svg_24" d="m305.39954,196.32843l9.85776,-13.91602l0,6.95833l14.28571,0l0,-6.95833l9.85663,13.91602l-9.85663,13.91602l0,-6.95761l-14.28571,0l0,6.95761l-9.85776,-13.91602z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#fffefc"/>
+ </g>
+</svg>

@@ -1,0 +1,9 @@
+===
+MMS
+===
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-mms.rst
+
+.. include:: /includes/toc/mms.rst             

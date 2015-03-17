@@ -1,0 +1,75 @@
+==========
+Monitoring
+==========
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- MMS monitoring fundamentals
+- How to set up alerts in MMS
+
+.. include:: /includes/student-notes.rst
+
+Monitoring in MMS
+-----------------
+
+- Identify cluster performance issues
+- Identify individual nodes in cluster with performance issues
+- Visualize performance through graphs and overlays
+- Configure and set alerts
+  
+MMS Monitoring Agent
+--------------------
+
+- Requests metrics from each host in the cluster
+- Sends those metrics to MMS server
+- Must be able to contact every host in the cluster (agent can live in a private network)
+- Must have access to contact MMS website with metrics from hosts
+  
+MMS Monitoring Agent Configuration
+----------------------------------
+
+- Can use HTTP proxy
+- Can gather hardware statistics via munin-node
+- Agent can optionally gather database statistics, and record slow queries (sampled)
+  
+
+MMS Monitoring Agent Security
+-----------------------------
+
+- SSL certificate for SSL clusters
+- LDAP/Kerberos supported
+- Agent must have "clusterMonitor" role on each host
+
+
+MMS Monitoring Demo
+-------------------
+
+Visit mms.mongodb.com
+
+  
+Navigating MMS Charts
+---------------------
+
+- Add charts to view by clicking the name of the chart at the bottom of the host's page
+- "i" icon next to each chart title can be clicked to learn what the chart means
+- Holding down the left mouse button and dragging on top of the chart will let you zoom in
+
+
+MMS Metric Storage
+------------------
+
+- Minute-level metrics for 48 hours
+- Hourly metrics for about 3 months
+- Daily metrics for the life of the cluster
+  
+
+MMS Alerts
+----------
+
+- Every chart can be alerted on
+- Changes to the state of the cluster can trigger alerts (e.g. a failover)
+- Alerts can be sent to email, SMS, HipChat, or PagerDuty

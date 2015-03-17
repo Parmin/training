@@ -1,0 +1,80 @@
+===========
+Ops Manager
+===========
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- Ops Manager overview
+- Ops Manager components
+- Considerations for sizing an Ops Manager environment
+
+.. include:: /includes/student-notes.rst
+
+MongoDB Ops Manager
+-------------------
+
+- On-premises version of MMS
+- Everything stays within private network
+  
+Ops Manager Architecture
+------------------------
+
+<insert diagram>
+  
+Ops Manager Components
+----------------------
+
+- Application server(s): web interface
+- Monitoring databases: all monitoring metrics
+- Backup infrastructure: cluster backups and restores
+  
+Ops Manager Architecture
+------------------------
+
+<insert diagram here>
+
+
+Ops Manager Application Server
+------------------------------
+
+- 15GB RAM, 50GB of disk space are required
+- Equivalent to a m3.xlarge AWS instance
+  
+Ops Manager Monitoring Database
+-------------------------------
+
+- All monitoring metrics stored here
+- Replica set, however, a standalone MongoDB node can also be used
+  
+
+Ops Manager Backup Infrastructure
+---------------------------------
+
+- Blockstore database
+- Backup daemon process (manages applying oplog entries, creating snapshots, etc.)
+
+
+Blockstore Database
+-------------------
+
+- Replica set, a standalone MongoDB node can also be used
+- Must be sized carefully
+- All snapshots are stored here
+- Block level de-duping, the same block isn't stored twice (significantly reduces database size for deployment with low/moderate writes)
+
+Backup Daemon Process
+---------------------
+
+- The "workhorse" of the backup infrastructure
+- Creates a local copy of the database it is backing up (references "HEAD" database)
+- Requires 2-3X data space (of the database it is backing up)
+- Can run multiple daemons, pointing to multiple blockstores (for large clusters)
+
+Sample Large Cluster Architecture
+---------------------------------
+
+<insert diagram>

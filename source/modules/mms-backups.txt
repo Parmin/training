@@ -1,0 +1,63 @@
+=======
+Backups
+=======
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- How MMS Backups work
+- Advantages to MMS Backups
+
+.. include:: /includes/student-notes.rst
+
+Methods for Backing Up MongoDB
+------------------------------
+
+- mongodump
+- File system backups
+- MMS Backups
+  
+Comparing MongoDB Backup Methods
+--------------------------------
+
+<insert chart>
+
+MMS Backups
+-----------
+
+- Based off oplogs (even for the config servers)
+- Point-in-time recovery for replica sets, snapshots for sharded clusters 
+- Oplog on config server for sharded cluster backup
+- Ability to exclude collections, databases (such as logs)
+- Rentention rules can be defined
+  
+MMS Backups Restore
+-------------------
+
+- Specify which backup to restore
+- SCP push or HTTPS pull (one time use link) for data files
+  
+MMS Backups: Behind the Scenes
+------------------------------
+
+<insert diagram>
+
+
+MMS Backups: Behind the Scenes
+------------------------------
+
+- Local copy of every replica set stored by MMS Backups
+- Oplog entries applies on top of local copy
+- Local copy is used for snapshotting
+- Very little impact to the cluster (equivalent to adding another secondary)
+  
+
+MMS Backups: Behind the Scenes
+------------------------------
+
+- Backup agent (can be managed by Automation agent)
+- Backup agent sends oplog entries to MMS service to be apply on local copy
+

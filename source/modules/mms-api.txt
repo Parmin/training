@@ -1,0 +1,57 @@
+=======
+MMS API
+=======
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- Overview of the MMS API
+- Sample use cases for the MMS API
+
+.. include:: /includes/student-notes.rst
+
+What is the MMS API
+-------------------
+
+Always users to programatically:
+
+- Access monitoring data
+- Backup functionality (Request backups, change snapshot schedules, etc.)
+- Automation cluster configuration (modify, view)
+  
+MMS API Documentation
+---------------------
+
+|docs_link|
+
+.. |docs_link| raw:: html
+
+   <a href="https://docs.mms.mongodb.com/core/api/" target="_blank">https://docs.mms.mongodb.com/core/api/</a>
+
+Sample MMS API Uses Cases
+-------------------------
+
+- Ingest MMS Monitoring Data
+- Programatically Restore Environments
+- Configuration Management
+
+  
+Ingest MMS Monitoring Data
+--------------------------
+
+The MMS monitoring API can be used to ingest monitoring data into another system, such as Nagios, HP OpenView, or your own internal dashboard
+  
+Programatically Restore Environments
+------------------------------------
+
+Use the MMS backup API to programatically restore an integration testing environment based on the last production snapshot.
+
+Configuration Management
+------------------------
+
+Use the MMS automation API to integrate with exisiting configuration management tools (such as Chef or Puppet) to automate creating and mainitaing environments.
+  
+

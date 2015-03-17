@@ -30,6 +30,10 @@ file: /modules/security
 description: |
   An overview of security options for MongoDB.
 ---
+file: /modules/nav/mms
+description: |
+  An overview of the MongoDB Management Service (MMS)
+---
 file: /modules/performance
 description: |
   An introduction to MongoDB tools for performance troubleshooting.
