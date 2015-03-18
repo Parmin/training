@@ -20,7 +20,15 @@ Monitoring in MMS
 - Identify individual nodes in cluster with performance issues
 - Visualize performance through graphs and overlays
 - Configure and set alerts
-  
+
+MMS Monitoring Use Cases
+------------------------
+
+- Alert on performance issues, to catch them before they turn into an outage
+- Diagnose performance problems
+- Historical performance analysis
+- Monitor cluster health
+
 MMS Monitoring Agent
 --------------------
 

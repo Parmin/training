@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <g>
+  <title>Layer 1</title>
+  <rect stroke="#000000" id="svg_4" fill="#ffffff" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="424.5" y="64.5" width="155" height="172"/>
+  <rect id="svg_8" stroke="#000000" fill="#ffffff" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="241.5" y="64" width="155" height="172"/>
+  <rect id="svg_6" stroke="#000000" fill="#ffffff" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="55.5" y="64" width="155" height="172"/>
+  <rect stroke="#000000" id="svg_9" fill="#43a001" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="62.5" y="192" width="140" height="36"/>
+  <text style="cursor: move;" stroke="#000000" transform="matrix(0.676542341709137,0,0,0.5833333134651184,-3.7703033294528723,80.83333718776703) " xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" id="svg_12" y="227.42857" x="200.68264" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">Automation Agent</text>
+  <rect stroke="#000000" fill="#ffffff" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="59" y="334" width="523.99999" height="126" id="svg_3"/>
+  <rect fill="#ffffff" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="67" y="395" width="508" height="57" id="svg_19"/>
+  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="90" y="69" width="25" height="0" id="svg_7"/>
+  <text style="cursor: move;" fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="321" y="42" id="svg_16" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" font-weight="bold">Machines in Data Center</text>
+  <text fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="318" y="366" id="svg_20" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" font-weight="bold">MMS</text>
+  <text fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="323" y="431.5" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" font-weight="bold" id="svg_23">Automation</text>
+  <rect id="svg_10" stroke="#000000" fill="#43a001" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="250" y="192" width="140" height="36"/>
+  <text id="svg_13" stroke="#000000" transform="matrix(0.676542341709137,0,0,0.5833333134651184,-3.7703033294528723,80.83333718776703) " xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" y="229.07927" x="477.09104" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">Automation Agent</text>
+  <rect id="svg_11" stroke="#000000" fill="#43a001" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="432" y="191" width="140" height="36"/>
+  <text id="svg_14" stroke="#000000" transform="matrix(0.676542341709137,0,0,0.5833333134651184,-3.7703033294528723,80.83333718776703) " xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" y="225.6507" x="746.10598" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">Automation Agent</text>
+  <path transform="rotate(90.66243743896484 131.43498229980466,284.54254150390625) " id="svg_17" d="m96.07999,284.54214l20.49966,-20.4996l0,10.24948l29.71034,0l0,-10.24948l20.49998,20.4996l-20.49998,20.5004l0,-10.25085l-29.71034,0l0,10.25085l-20.49966,-20.5004z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#000000"/>
+  <path id="svg_18" transform="rotate(90.66243743896484 319,284) " d="m283.64502,283.9996l20.49966,-20.4996l0,10.24948l29.71033,0l0,-10.24948l20.5,20.4996l-20.5,20.5004l0,-10.25085l-29.71033,0l0,10.25085l-20.49966,-20.5004z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#000000"/>
+  <path id="svg_21" transform="rotate(90.66243743896484 499.99999999999994,284) " d="m464.64502,283.9996l20.49966,-20.4996l0,10.24948l29.7103,0l0,-10.24948l20.50006,20.4996l-20.50006,20.5004l0,-10.25085l-29.7103,0l0,10.25085l-20.49966,-20.5004z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#000000"/>
+ </g>
+</svg>

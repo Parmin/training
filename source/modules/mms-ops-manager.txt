@@ -19,11 +19,7 @@ MongoDB Ops Manager
 
 - On-premises version of MMS
 - Everything stays within private network
-  
-Ops Manager Architecture
-------------------------
 
-<insert diagram>
   
 Ops Manager Components
 ----------------------
@@ -35,8 +31,10 @@ Ops Manager Components
 Ops Manager Architecture
 ------------------------
 
-<insert diagram here>
+.. image:: /images/mms-ops-manager.svg
+   :align: center
 
+.. include:: /includes/student-notes.rst
 
 Ops Manager Application Server
 ------------------------------
@@ -74,7 +72,3 @@ Backup Daemon Process
 - Requires 2-3X data space (of the database it is backing up)
 - Can run multiple daemons, pointing to multiple blockstores (for large clusters)
 
-Sample Large Cluster Architecture
----------------------------------
-
-<insert diagram>

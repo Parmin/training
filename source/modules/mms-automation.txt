@@ -35,6 +35,14 @@ How Does MMS Automation Work?
 - Minutes later, cluster design is complete, cluster is in goal state
   
 .. include:: /includes/student-notes.rst
+
+MMS Automation Agents
+---------------------
+
+.. image:: /images/mms-automation.svg
+   :align: center
+
+.. include:: /includes/student-notes.rst
   
 Sample Automation Use Case
 --------------------------

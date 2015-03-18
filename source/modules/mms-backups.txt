@@ -23,7 +23,16 @@ Methods for Backing Up MongoDB
 Comparing MongoDB Backup Methods
 --------------------------------
 
-<insert chart>
+==================  =========  ===========  ==================  =========================
+Considerations      Mongodump  File System  MMS Backup (Cloud)  Ops Manager (On-prem MMS)
+==================  =========  ===========  ==================  =========================
+Initial Complexity  Medium     High         Low                 High
+Replica Set PIT     Yes**      Yes**        Yes                 Yes
+Sharded Snapshot    No         Yes**        Yes                 Yes
+Restore Time        Slow       Fast         Medium              Medium
+==================  =========  ===========  ==================  =========================
+
+****Requires advanced scripting**
 
 MMS Backups
 -----------
@@ -43,7 +52,10 @@ MMS Backups Restore
 MMS Backups: Behind the Scenes
 ------------------------------
 
-<insert diagram>
+.. image:: /images/mms-backups.svg
+   :align: center
+
+.. include:: /includes/student-notes.rst
 
 
 MMS Backups: Behind the Scenes
