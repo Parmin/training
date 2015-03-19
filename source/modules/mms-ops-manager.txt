@@ -39,6 +39,14 @@ Ops Manager Architecture
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+
+      - Theese deployments can get complex, talk about all the pieces
+      - Multiple backup daemons/blockstores for large clusters
+
+
 Ops Manager Application Server
 ------------------------------
 

@@ -124,3 +124,10 @@ MMS Automation Demo
 -------------------
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Go to your Admin page (within MMS) -> My groups, create a new group, and walk through the process of setting up a small cluster on your laptop
+

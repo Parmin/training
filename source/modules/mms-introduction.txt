@@ -44,6 +44,13 @@ MMS Use Cases
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+
+      - Use these use cases to get students interested in how MMS can save them a lot of time
+
+
 MMS Deployment Options
 ----------------------
 

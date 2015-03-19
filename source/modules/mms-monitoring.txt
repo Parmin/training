@@ -67,6 +67,13 @@ MMS Monitoring Demo
 Visit mms.mongodb.com
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - The 10gen mongo-perf group may be interesting for demo'ing to the class
+
   
 Navigating MMS Charts
 ---------------------

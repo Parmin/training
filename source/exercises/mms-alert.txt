@@ -19,6 +19,13 @@ Create an alert through MMS for any node within your cluster where total queues 
 
 The alert should send an email when it is triggered.
 
+.. only:: instructor
+
+   .. note::
+
+      - This alert can be created by going to Activity -> Alert Settings -> Create 
+
+
 
 
 

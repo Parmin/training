@@ -38,6 +38,13 @@ Restore Time        Slow       Fast         Medium              Medium
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+
+      - Instructors should spend a lot of time on this chart, lots of considerations here
+
+
 MMS Backups
 -----------
 
@@ -64,6 +71,12 @@ MMS Backups: Behind the Scenes
    :align: center
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Can talk about the daemon process, HEAD database, and blockstore with this diagram
 
 
 MMS Backups: Behind the Scenes

@@ -35,7 +35,7 @@ Using your personal computer, create a cluster using MMS automation with the fol
 
       - Windows is not supported, Windows users should work with another person in the class or work on a remote Linux machine
       - The entire cluster should be deployed on a single server (or the students laptop)
-      - Registration is free, and won't require a credit card as long as the student stay below 8 servers
+      - Registration is free, and won't require a credit card as long as the student stays below 8 servers
   
 Exercise #2
 -----------
@@ -52,6 +52,7 @@ Modify the cluster topology from Exercise #1 to the following:
    .. note::
 
       - Students may complete this in one or two steps
+      - Cluster configuration should be modified, then redeployed
 
 
 
