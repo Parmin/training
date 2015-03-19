@@ -8,7 +8,7 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- A summary of the MongoDB Management Service (MMS) 
+- Features of the MongoDB Management Service (MMS) 
 - Available deployment options for MMS
 - The components of MMS
 - MMS demo

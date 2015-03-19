@@ -8,8 +8,8 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- MMS Automation internal workflow
 - Use cases for MMS Automation
+- The MMS Automation internal workflow
 
 .. include:: /includes/student-notes.rst
 

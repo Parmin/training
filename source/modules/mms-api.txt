@@ -16,10 +16,10 @@ Upon completing this module students should understand:
 What is the MMS API
 -------------------
 
-Always users to programatically:
+Always users to programmatically:
 
 - Access monitoring data
-- Backup functionality (Request backups, change snapshot schedules, etc.)
+- Backup functionality (request backups, change snapshot schedules, etc.)
 - Automation cluster configuration (modify, view)
   
 MMS API Documentation
@@ -34,9 +34,9 @@ MMS API Documentation
 Sample MMS API Uses Cases
 -------------------------
 
-- Ingest MMS Monitoring Data
-- Programatically Restore Environments
-- Configuration Management
+- Ingest MMS monitoring data
+- Programmatically restore environments
+- Configuration management
 
   
 Ingest MMS Monitoring Data
@@ -47,11 +47,11 @@ The MMS monitoring API can be used to ingest monitoring data into another system
 Programatically Restore Environments
 ------------------------------------
 
-Use the MMS backup API to programatically restore an integration testing environment based on the last production snapshot.
+Use the MMS backup API to programmatically restore an integration or testing environment based on the last production snapshot.
 
 Configuration Management
 ------------------------
 
-Use the MMS automation API to integrate with exisiting configuration management tools (such as Chef or Puppet) to automate creating and mainitaing environments.
+Use the MMS automation API to integrate with existing configuration management tools (such as Chef or Puppet) to automate creating and maintaining environments.
   
 

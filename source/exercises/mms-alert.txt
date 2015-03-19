@@ -17,7 +17,7 @@ Exercise #1
 
 Create an alert through MMS for any node within your cluster where total queues (reader and writer queues) average above 100 per second.  
 
-The alert should send you an email when it is triggered.
+The alert should send an email when it is triggered.
 
 
 

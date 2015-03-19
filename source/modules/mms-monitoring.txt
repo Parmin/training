@@ -21,6 +21,8 @@ Monitoring in MMS
 - Visualize performance through graphs and overlays
 - Configure and set alerts
 
+.. include:: /includes/student-notes.rst
+
 MMS Monitoring Use Cases
 ------------------------
 
@@ -28,6 +30,8 @@ MMS Monitoring Use Cases
 - Diagnose performance problems
 - Historical performance analysis
 - Monitor cluster health
+  
+.. include:: /includes/student-notes.rst
 
 MMS Monitoring Agent
 --------------------
@@ -37,6 +41,8 @@ MMS Monitoring Agent
 - Must be able to contact every host in the cluster (agent can live in a private network)
 - Must have access to contact MMS website with metrics from hosts
   
+.. include:: /includes/student-notes.rst
+  
 MMS Monitoring Agent Configuration
 ----------------------------------
 
@@ -44,6 +50,7 @@ MMS Monitoring Agent Configuration
 - Can gather hardware statistics via munin-node
 - Agent can optionally gather database statistics, and record slow queries (sampled)
   
+.. include:: /includes/student-notes.rst
 
 MMS Monitoring Agent Security
 -----------------------------
@@ -52,12 +59,14 @@ MMS Monitoring Agent Security
 - LDAP/Kerberos supported
 - Agent must have "clusterMonitor" role on each host
 
+.. include:: /includes/student-notes.rst
 
 MMS Monitoring Demo
 -------------------
 
 Visit mms.mongodb.com
 
+.. include:: /includes/student-notes.rst
   
 Navigating MMS Charts
 ---------------------
@@ -66,6 +75,7 @@ Navigating MMS Charts
 - "i" icon next to each chart title can be clicked to learn what the chart means
 - Holding down the left mouse button and dragging on top of the chart will let you zoom in
 
+.. include:: /includes/student-notes.rst
 
 MMS Metric Storage
 ------------------
@@ -74,6 +84,7 @@ MMS Metric Storage
 - Hourly metrics for about 3 months
 - Daily metrics for the life of the cluster
   
+.. include:: /includes/student-notes.rst
 
 MMS Alerts
 ----------
@@ -81,3 +92,5 @@ MMS Alerts
 - Every chart can be alerted on
 - Changes to the state of the cluster can trigger alerts (e.g. a failover)
 - Alerts can be sent to email, SMS, HipChat, or PagerDuty
+
+.. include:: /includes/student-notes.rst
