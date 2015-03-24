@@ -45,8 +45,8 @@ Installing MongoDB
 .. include:: /includes/student-notes.rst
 
 
-Setup
------
+Linux Setup
+-----------
 
 .. code-block:: bash
 
@@ -65,6 +65,40 @@ Setup
       - You might want to add the MongoDB bin directory to your path, e.g.
       - Once installed, create the MongoDB data directory.
       - Make sure you have write permission on this directory.
+
+
+Windows Setup
+-------------
+
+- Download and run the .msi Windows installer from mongodb.org/downloads
+- By default, binaries will be placed in the "C:\\Program Files\\MongoDB\\Server\\<VERSION>\\bin" directory
+- It is helpful to add the location of the MongoDB binaries to your path: System Properties > Advanced > Environment Variables
+  
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Can also install Windows as a service, but not recommended since we need multiple mongod processes for future exercises
+
+Windows Setup
+-------------
+
+Ensure there is a directory for your MongoDB data files (the default location is \\data\\db).
+
+.. code-block:: bash
+  
+  md \data\db
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Optionally, talk about the --dbpath variable and specifying a different location for the data files
+
 
 
 Launch a ``mongod``
