@@ -8,8 +8,8 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- How MMS Backups work
-- Advantages to MMS Backups
+- How MMS / Ops Manager Backups work
+- Advantages to MMS / Ops Manager Backups
 
 .. include:: /includes/student-notes.rst
 
@@ -18,7 +18,7 @@ Methods for Backing Up MongoDB
 
 - mongodump
 - File system backups
-- MMS Backups
+- MMS / Ops Manager Backups
 
 .. include:: /includes/student-notes.rst
   
@@ -45,8 +45,8 @@ Restore Time        Slow       Fast         Medium              Medium
       - Instructors should spend a lot of time on this chart, lots of considerations here
 
 
-MMS Backups
------------
+MMS / Ops Manager Backups
+-------------------------
 
 - Based off oplogs (even for the config servers)
 - Point-in-time recovery for replica sets, snapshots for sharded clusters 
@@ -56,16 +56,16 @@ MMS Backups
 
 .. include:: /includes/student-notes.rst
   
-MMS Backups Restore
--------------------
+MMS / Ops Manager Backups Restore
+---------------------------------
 
 - Specify which backup to restore
 - SCP push or HTTPS pull (one time use link) for data files
   
 .. include:: /includes/student-notes.rst
 
-MMS Backups: Behind the Scenes
-------------------------------
+MMS / Ops Manager Backups: Behind the Scenes
+--------------------------------------------
 
 .. image:: /images/mms-backups.svg
    :align: center
@@ -79,20 +79,20 @@ MMS Backups: Behind the Scenes
       - Can talk about the daemon process, HEAD database, and blockstore with this diagram
 
 
-MMS Backups: Behind the Scenes
-------------------------------
+MMS / Ops Manager Backups: Behind the Scenes
+--------------------------------------------
 
-- Local copy of every replica set stored by MMS Backups
+- Local copy of every replica set stored by MMS / Ops Manager
 - Oplog entries applied on top of local copy
 - Local copy is used for snapshotting
 - Very little impact to the cluster (equivalent to adding another secondary)
   
 .. include:: /includes/student-notes.rst
 
-MMS Backups: Behind the Scenes
-------------------------------
+MMS / Ops Manager Backups: Behind the Scenes
+--------------------------------------------
 
 - Backup agent (can be managed by Automation agent)
-- Backup agent sends oplog entries to MMS service to be apply on local copy
+- Backup agent sends oplog entries to MMS / Ops Manager service to be apply on local copy
 
 .. include:: /includes/student-notes.rst

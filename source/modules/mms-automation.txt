@@ -8,13 +8,13 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- Use cases for MMS Automation
-- The MMS Automation internal workflow
+- Use cases for MMS / Ops Manager Automation
+- The MMS / Ops Manager Automation internal workflow
 
 .. include:: /includes/student-notes.rst
 
-What is MMS Automation
-----------------------
+What is Automation
+------------------
 
 Fully managed MongoDB deployment on your own servers:
 
@@ -25,19 +25,19 @@ Fully managed MongoDB deployment on your own servers:
   
 .. include:: /includes/student-notes.rst
   
-How Does MMS Automation Work?
------------------------------
+How Does MMS / Ops Manager Automation Work?
+-------------------------------------------
 
-- MMS Automation agent installed on each server in cluster
-- Administrator creates design goal for system (through MMS interface)
-- MMS Automation agents periodically check with MMS to get new design instructions
+- Automation agent installed on each server in cluster
+- Administrator creates design goal for system (through MMS / Ops Manager interface)
+- Automation agents periodically check with MMS / Ops Manager to get new design instructions
 - Agents create and follows a plan for implementing cluster design
 - Minutes later, cluster design is complete, cluster is in goal state
   
 .. include:: /includes/student-notes.rst
 
-MMS Automation Agents
----------------------
+Automation Agents
+-----------------
 
 .. image:: /images/mms-automation.svg
    :align: center
@@ -50,32 +50,32 @@ Sample Automation Use Case
 Administrator wants to create a 100 shard cluster, with each shard comprised of a 3 node replica set:
 
 - Administrator installs automation agent on 300 servers
-- Cluster design is created in MMS, then deployed to agents
+- Cluster design is created in MMS / Ops Manager, then deployed to agents
 - Agents execute instructions until 100 shard cluster is complete (usually several minutes)
   
 .. include:: /includes/student-notes.rst
   
-Upgrades with MMS Automation
-----------------------------
+Upgrades with MMS / Ops Manager Automation
+------------------------------------------
 
 - Upgrades without automation can be a manually intensive process (e.g. 300 servers)
 - A lot of edge cases when scripting (e.g. 1 shard has problems, or one replica set is a mixed version)
-- One click upgrade with MMS Automation for the entire cluster
+- One click upgrade with MMS / Ops Manager Automation for the entire cluster
   
 .. include:: /includes/student-notes.rst
 
-MMS Automation: Behind the Scenes
---------------------------------
+Automation: Behind the Scenes
+-----------------------------
 
-- Agents ping MMS for new instructions
+- Agents ping MMS / Ops Manager for new instructions
 - Instructions contained in cluster configuration file (has the state of the cluster changed?)
 
 .. include:: /includes/student-notes.rst
 
-MMS Automation: Behind the Scenes
---------------------------------
+Automation: Behind the Scenes
+-----------------------------
 
-- Agents compare their local configuration file with the latest version from MMS
+- Agents compare their local configuration file with the latest version from MMS / Ops Manager
 - Configuration file in json
 - All communications over SSL
 
@@ -89,10 +89,10 @@ MMS Automation: Behind the Scenes
   
 .. include:: /includes/student-notes.rst
 
-MMS Automation: Behind the Scenes
---------------------------------
+Automation: Behind the Scenes
+-----------------------------
 
-When version number of configuration file on MMS is greater than local version, agent begins making a plan to implement changes:
+When version number of configuration file on MMS / Ops Manager is greater than local version, agent begins making a plan to implement changes:
 
 .. code-block:: javascript
 
@@ -113,8 +113,8 @@ When version number of configuration file on MMS is greater than local version, 
 
 .. include:: /includes/student-notes.rst
 
-MMS Automation: Behind the Scenes
---------------------------------
+Automation: Behind the Scenes
+-----------------------------
 
 Automation agent is considered to be in goal state after all cluster changes (related to the individual agent) have been implemented.
 

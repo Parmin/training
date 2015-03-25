@@ -1,6 +1,6 @@
-=======
-MMS API
-=======
+===
+API
+===
 
 
 Learning Objectives 
@@ -8,13 +8,13 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- Overview of the MMS API
-- Sample use cases for the MMS API
+- Overview of the MMS / Ops Manager API
+- Sample use cases for the MMS / Ops Manager API
 
 .. include:: /includes/student-notes.rst
 
-What is the MMS API
--------------------
+What is the MMS / Ops Manager API
+---------------------------------
 
 Always users to programmatically:
 
@@ -24,8 +24,8 @@ Always users to programmatically:
 
 .. include:: /includes/student-notes.rst
   
-MMS API Documentation
----------------------
+API Documentation
+-----------------
 
 |docs_link|
 
@@ -39,19 +39,19 @@ MMS API Documentation
 
       - Open the link in a browser and walk through some of the API calls, such as monitoring stats for a group
 
-Sample MMS API Uses Cases
--------------------------
+Sample API Uses Cases
+---------------------
 
-- Ingest MMS monitoring data
+- Ingest MMS / Ops Manager monitoring data
 - Programmatically restore environments
 - Configuration management
 
 .. include:: /includes/student-notes.rst
   
-Ingest MMS Monitoring Data
---------------------------
+Ingest Monitoring Data
+----------------------
 
-The MMS monitoring API can be used to ingest monitoring data into another system, such as Nagios, HP OpenView, or your own internal dashboard
+The monitoring API can be used to ingest monitoring data into another system, such as Nagios, HP OpenView, or your own internal dashboard
 
 .. include:: /includes/student-notes.rst
 
@@ -65,7 +65,7 @@ The MMS monitoring API can be used to ingest monitoring data into another system
 Programatically Restore Environments
 ------------------------------------
 
-Use the MMS backup API to programmatically restore an integration or testing environment based on the last production snapshot.
+Use the backup API to programmatically restore an integration or testing environment based on the last production snapshot.
 
 .. include:: /includes/student-notes.rst
 
@@ -79,7 +79,7 @@ Use the MMS backup API to programmatically restore an integration or testing env
 Configuration Management
 ------------------------
 
-Use the MMS automation API to integrate with existing configuration management tools (such as Chef or Puppet) to automate creating and maintaining environments.
+Use the automation API to integrate with existing configuration management tools (such as Chef or Puppet) to automate creating and maintaining environments.
 
 .. include:: /includes/student-notes.rst
 

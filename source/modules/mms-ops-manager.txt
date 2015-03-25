@@ -1,6 +1,6 @@
-===========
-Ops Manager
-===========
+==========================
+Architecture (Ops Manager)
+==========================
 
 
 Learning Objectives 
@@ -26,7 +26,7 @@ Ops Manager Components
 ----------------------
 
 - Application server(s): web interface
-- Monitoring databases: all monitoring metrics
+- Ops Manager application database: monitoring metrics, automation configuration, etc.
 - Backup infrastructure: cluster backups and restores
   
 .. include:: /includes/student-notes.rst
@@ -55,10 +55,10 @@ Ops Manager Application Server
   
 .. include:: /includes/student-notes.rst
 
-Ops Manager Monitoring Database
--------------------------------
+Ops Manager Application Database
+--------------------------------
 
-- All monitoring metrics stored here
+- All monitoring metrics, automation configurations, etc. stored here
 - Replica set, however, a standalone MongoDB node can also be used
   
 .. include:: /includes/student-notes.rst
