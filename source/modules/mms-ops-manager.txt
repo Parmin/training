@@ -22,8 +22,9 @@ MongoDB Ops Manager
 
 .. include:: /includes/student-notes.rst
   
-Ops Manager Components
-----------------------
+
+Components
+----------
 
 - Application server(s): web interface
 - Ops Manager application database: monitoring metrics, automation configuration, etc.
@@ -31,8 +32,9 @@ Ops Manager Components
   
 .. include:: /includes/student-notes.rst
 
-Ops Manager Architecture
-------------------------
+
+Architecture
+------------
 
 .. image:: /images/mms-ops-manager.svg
    :align: center
@@ -47,29 +49,32 @@ Ops Manager Architecture
       - Multiple backup daemons/blockstores for large clusters
 
 
-Ops Manager Application Server
-------------------------------
+Application Server
+------------------
 
 - 15GB RAM, 50GB of disk space are required
 - Equivalent to a m3.xlarge AWS instance
   
 .. include:: /includes/student-notes.rst
 
-Ops Manager Application Database
---------------------------------
+
+Application Database
+--------------------
 
 - All monitoring metrics, automation configurations, etc. stored here
 - Replica set, however, a standalone MongoDB node can also be used
   
 .. include:: /includes/student-notes.rst
 
-Ops Manager Backup Infrastructure
----------------------------------
+
+Backup Infrastructure
+---------------------
 
 - Blockstore database
 - Backup daemon process (manages applying oplog entries, creating snapshots, etc.)
 
 .. include:: /includes/student-notes.rst
+
 
 Blockstore Database
 -------------------
@@ -80,6 +85,7 @@ Blockstore Database
 - Block level de-duping, the same block isn't stored twice (significantly reduces database size for deployment with low/moderate writes)
 
 .. include:: /includes/student-notes.rst
+
 
 Backup Daemon Process
 ---------------------

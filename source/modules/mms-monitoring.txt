@@ -13,6 +13,7 @@ Upon completing this module students should understand:
 
 .. include:: /includes/student-notes.rst
 
+
 Monitoring in MMS / Ops Manager
 -------------------------------
 
@@ -22,6 +23,7 @@ Monitoring in MMS / Ops Manager
 - Configure and set alerts
 
 .. include:: /includes/student-notes.rst
+
 
 Monitoring Use Cases
 --------------------
@@ -33,6 +35,7 @@ Monitoring Use Cases
   
 .. include:: /includes/student-notes.rst
 
+
 Monitoring Agent
 ----------------
 
@@ -42,9 +45,10 @@ Monitoring Agent
 - Must have access to contact MMS / Ops Manager website with metrics from hosts
   
 .. include:: /includes/student-notes.rst
+
   
-Monitoring Agent Configuration
-------------------------------
+Agent Configuration
+-------------------
 
 - Can use HTTP proxy
 - Can gather hardware statistics via munin-node
@@ -52,8 +56,9 @@ Monitoring Agent Configuration
   
 .. include:: /includes/student-notes.rst
 
-Monitoring Agent Security
--------------------------
+
+Agent Security
+--------------
 
 - SSL certificate for SSL clusters
 - LDAP/Kerberos supported
@@ -61,8 +66,9 @@ Monitoring Agent Security
 
 .. include:: /includes/student-notes.rst
 
-MMS Monitoring Demo
--------------------
+
+Monitoring Demo
+---------------
 
 Visit mms.mongodb.com
 
@@ -75,8 +81,8 @@ Visit mms.mongodb.com
       - The 10gen mongo-perf group may be interesting for demo'ing to the class
 
   
-Navigating MMS / Ops Manager Charts
------------------------------------
+Navigating MMS Charts
+---------------------
 
 - Add charts to view by clicking the name of the chart at the bottom of the host's page
 - "i" icon next to each chart title can be clicked to learn what the chart means
@@ -84,8 +90,9 @@ Navigating MMS / Ops Manager Charts
 
 .. include:: /includes/student-notes.rst
 
-Metric Storage
---------------
+
+Metrics
+-------
 
 - Minute-level metrics for 48 hours
 - Hourly metrics for about 3 months
@@ -93,8 +100,9 @@ Metric Storage
   
 .. include:: /includes/student-notes.rst
 
-MMS / Ops Manager Alerts
-------------------------
+
+Alerts
+------
 
 - Every chart can be alerted on
 - Changes to the state of the cluster can trigger alerts (e.g. a failover)
