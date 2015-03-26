@@ -39,21 +39,30 @@ A MongoDB document expressed using JSON syntax.
 
 .. code-block:: javascript
 
-   {
-       "a" : 3,
-       "b" : [3, 2, 7], 
-       "c" : { 
-           "d" : 4 , 
-           "e" : "asdf",
-           "f" : true,
-           "h" : ISODate("2014-10-23T01:19:40.732Z")
-       }
-   }   
+  {
+    "_id" : "/apple-reports-second-quarter-revenue",
+    "headline" : "Apple Reported Second Quarter Revenue Today",
+    "date" : ISODate("2015-03-24T22:35:21.908Z"),
+    "author" : {
+      "name" : "Bob Walker",
+      "title" : "Lead Business Editor"
+    },
+    "copy" : "Apple beat Wall St expectations by reporting ...",
+    "tags" : [ 
+      "AAPL", "Earnings", "Cupertino"
+    ],
+    "comments" : [
+      { "name" : "Frank", "comment" : "Great Story" },
+      { "name" : "Wendy", "comment" : "When can I buy an Apple Watch?" }
+    ]
+  }
 
 .. only:: instructor
 
    .. note::
 
+      - How would you represent this document in a relation database?
+      - What are the pros/cons to this design? (hint: 1 million comments)
       - Where relational databases store rows, MongoDB stores documents.
       - Documents are hierarchical data structures.
       - This is a fundamental departure from relational databases where rows are flat.
