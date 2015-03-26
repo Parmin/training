@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <g>
+  <title>Layer 1</title>
+  <rect stroke="#000000" fill="#43a001" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="85" y="62" width="106" height="85" id="svg_6"/>
+  <rect stroke="#000000" fill="#ffffff" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="373" y="35" width="228" height="411" id="svg_3"/>
+  <rect stroke="#000000" fill="#ffffff" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="52" y="411" width="192" height="36" id="svg_18"/>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" id="svg_11" y="112" x="138" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">P</text>
+  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="105" y="69" width="25" height="0" id="svg_7"/>
+  <text fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="142" y="43" id="svg_16" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" font-weight="bold">MongoDB Cluster</text>
+  <text stroke="#000000" transform="matrix(0.9298437833786011,0,0,1,41.81529748812318,0) " fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="479.8491" y="65" id="svg_20" font-size="24" text-anchor="middle" xml:space="preserve" font-weight="bold" font-family="Helvetica">MMS / Ops Manager</text>
+  <text style="cursor: move;" font-weight="bold" stroke="#000000" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" id="svg_4" y="437" x="148.48003" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">Backup Agent</text>
+  <rect id="svg_8" stroke="#000000" fill="#43a001" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="86" y="162.5" width="106" height="85"/>
+  <text id="svg_12" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" y="213.5" x="138" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">S</text>
+  <rect id="svg_9" stroke="#000000" fill="#43a001" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="87" y="264.5" width="106" height="85"/>
+  <text id="svg_13" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" y="314.5" x="140" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">S</text>
+  <path transform="rotate(-90.82284545898438 142.10369873046872,380.00750732421875) " id="svg_15" d="m118.82239,380.00671l13.49922,-13.49921l0,6.74988l19.56403,0l0,-6.74988l13.49936,13.49921l-13.49936,13.50079l0,-6.75092l-19.56403,0l0,6.75092l-13.49922,-13.50079z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#000000"/>
+  <path stroke="#000000" id="svg_19" d="m266.71875,426.99921l24.22607,-13.49924l0,6.74991l35.11017,0l0,-6.74991l24.22635,13.49924l-24.22635,13.50076l0,-6.75089l-35.11017,0l0,6.75089l-24.22607,-13.50076z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#000000"/>
+ </g>
+</svg>

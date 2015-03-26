@@ -1,0 +1,91 @@
+==============================================
+MongoDB Management Service (MMS) & Ops Manager
+==============================================
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- Features of the MongoDB Management Service (MMS) & Ops Manager 
+- Available deployment options
+- The components of MMS & Ops Manager
+- MMS demo
+
+.. include:: /includes/student-notes.rst
+
+MMS and Ops Manager
+-------------------
+
+All services for managing a MongoDB cluster or group of clusters:
+
+- Monitoring
+- Automation
+- Backups
+
+.. include:: /includes/student-notes.rst
+
+
+Deployment Options
+------------------
+
+- MMS: Hosted, http://mms.mongodb.com
+- Ops Manager: On-premises 
+
+.. include:: /includes/student-notes.rst
+
+Architecture
+------------
+
+.. image:: /images/mms-introduction.svg
+   :align: center
+
+.. include:: /includes/student-notes.rst
+
+MMS
+---
+
+- Manage MongoDB instances anywhere with a connection to MMS
+- Option to provision servers via AWS integration
+  
+Ops Manager
+-----------
+
+On-premises MMS, with additional features for:
+
+- Alerting (SNMP)
+- Deployment configuration (e.g. backup redundancy across internal data centers)
+- Global control of multiple MongoDB clusters
+
+.. include:: /includes/student-notes.rst
+
+
+MMS and Ops Manager Use Cases
+-----------------------------
+
+- Manage a 1000 node cluster (monitoring, backups, automation)
+- Manage a personal project (3 node replica set on AWS, using MMS)
+- Manage 40 deployments (with each deployment having different requirements)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Use these use cases to get students interested in how MMS can save them a lot of time
+
+
+Creating an MMS Account
+-----------------------
+
+Free account at mms.mongodb.com
+
+.. include:: /includes/student-notes.rst
+
+
+
+
+
+

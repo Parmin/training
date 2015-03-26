@@ -1,0 +1,89 @@
+===
+API
+===
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- Overview of the MMS / Ops Manager API
+- Sample use cases for the MMS / Ops Manager API
+
+.. include:: /includes/student-notes.rst
+
+
+What is the MMS / Ops Manager API?
+----------------------------------
+
+Always users to programmatically:
+
+- Access monitoring data
+- Backup functionality (request backups, change snapshot schedules, etc.)
+- Automation cluster configuration (modify, view)
+
+.. include:: /includes/student-notes.rst
+
+  
+API Documentation
+-----------------
+
+|docs_link|
+
+.. |docs_link| raw:: html
+
+   <a href="https://docs.mms.mongodb.com/core/api/" target="_blank">https://docs.mms.mongodb.com/core/api/</a>
+
+.. only:: instructor
+
+   .. note::
+
+      - Open the link in a browser and walk through some of the API calls, such as monitoring stats for a group
+
+
+Sample API Uses Cases
+---------------------
+
+- Ingest MMS / Ops Manager monitoring data
+- Programmatically restore environments
+- Configuration management
+
+.. include:: /includes/student-notes.rst
+
+  
+Ingest Monitoring Data
+----------------------
+
+The monitoring API can be used to ingest monitoring data into another system, such as Nagios, HP OpenView, or your own internal dashboard
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Most large companies use other systems for monitoring, point out how the MMS API can help here
+
+
+Programatically Restore Environments
+------------------------------------
+
+Use the backup API to programmatically restore an integration or testing environment based on the last production snapshot.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Fairly common practice for DBAs, except a lot of them are doing this manually
+
+
+Configuration Management
+------------------------
+
+Use the automation API to integrate with existing configuration management tools (such as Chef or Puppet) to automate creating and maintaining environments.
+
+.. include:: /includes/student-notes.rst
+

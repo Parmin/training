@@ -1,0 +1,36 @@
+file: /modules/mms-introduction
+description: |
+  Learn about what MMS offers
+---
+file: /modules/mms-automation
+description: |
+  MMS Automation
+---
+file: /exercises/mms-automation
+description: |
+  Set up a cluster with MMS Automation
+---
+file: /modules/mms-monitoring
+description: |
+  Monitor a cluster with MMS
+---
+file: /exercises/mms-alert
+description: |
+  Create an alert on MMS
+---
+file: /modules/mms-backups
+description: |
+  Use MMS to create and administer backups
+---
+file: /modules/mms-api
+description: |
+  Using the MMS API
+---
+file: /modules/mms-ops-manager
+description: |
+  Ops Manager
+---
+file: /exercises/mms-ops-manager
+description: |
+  Install Ops Manager
+...

@@ -1,0 +1,32 @@
+=========================
+Exercise: Create an Alert
+=========================
+
+Learning Objectives 
+-------------------
+
+Upon completing this exercise students should understand:
+
+- How to create an alert in MMS
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise #1
+-----------
+
+Create an alert through MMS for any node within your cluster where total queues (reader and writer queues) average above 100 per second.  
+
+The alert should send an email when it is triggered.
+
+.. only:: instructor
+
+   .. note::
+
+      - This alert can be created by going to Activity -> Alert Settings -> Create 
+
+
+
+
+
+

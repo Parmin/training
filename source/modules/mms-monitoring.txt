@@ -1,0 +1,111 @@
+==========
+Monitoring
+==========
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- MMS / Ops Manager monitoring fundamentals
+- How to set up alerts in MMS / Ops Manager
+
+.. include:: /includes/student-notes.rst
+
+
+Monitoring in MMS / Ops Manager
+-------------------------------
+
+- Identify cluster performance issues
+- Identify individual nodes in cluster with performance issues
+- Visualize performance through graphs and overlays
+- Configure and set alerts
+
+.. include:: /includes/student-notes.rst
+
+
+Monitoring Use Cases
+--------------------
+
+- Alert on performance issues, to catch them before they turn into an outage
+- Diagnose performance problems
+- Historical performance analysis
+- Monitor cluster health
+  
+.. include:: /includes/student-notes.rst
+
+
+Monitoring Agent
+----------------
+
+- Requests metrics from each host in the cluster
+- Sends those metrics to MMS / Ops Manager server
+- Must be able to contact every host in the cluster (agent can live in a private network)
+- Must have access to contact MMS / Ops Manager website with metrics from hosts
+  
+.. include:: /includes/student-notes.rst
+
+  
+Agent Configuration
+-------------------
+
+- Can use HTTP proxy
+- Can gather hardware statistics via munin-node
+- Agent can optionally gather database statistics, and record slow queries (sampled)
+  
+.. include:: /includes/student-notes.rst
+
+
+Agent Security
+--------------
+
+- SSL certificate for SSL clusters
+- LDAP/Kerberos supported
+- Agent must have "clusterMonitor" role on each host
+
+.. include:: /includes/student-notes.rst
+
+
+Monitoring Demo
+---------------
+
+Visit mms.mongodb.com
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - The 10gen mongo-perf group may be interesting for demo'ing to the class
+
+  
+Navigating MMS Charts
+---------------------
+
+- Add charts to view by clicking the name of the chart at the bottom of the host's page
+- "i" icon next to each chart title can be clicked to learn what the chart means
+- Holding down the left mouse button and dragging on top of the chart will let you zoom in
+
+.. include:: /includes/student-notes.rst
+
+
+Metrics
+-------
+
+- Minute-level metrics for 48 hours
+- Hourly metrics for about 3 months
+- Daily metrics for the life of the cluster
+  
+.. include:: /includes/student-notes.rst
+
+
+Alerts
+------
+
+- Every chart can be alerted on
+- Changes to the state of the cluster can trigger alerts (e.g. a failover)
+- Alerts can be sent to email, SMS, HipChat, or PagerDuty
+
+.. include:: /includes/student-notes.rst

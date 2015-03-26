@@ -1,0 +1,98 @@
+==========================
+Architecture (Ops Manager)
+==========================
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- Ops Manager overview
+- Ops Manager components
+- Considerations for sizing an Ops Manager environment
+
+.. include:: /includes/student-notes.rst
+
+MongoDB Ops Manager
+-------------------
+
+- On-premises version of MMS
+- Everything stays within private network
+
+.. include:: /includes/student-notes.rst
+  
+
+Components
+----------
+
+- Application server(s): web interface
+- Ops Manager application database: monitoring metrics, automation configuration, etc.
+- Backup infrastructure: cluster backups and restores
+  
+.. include:: /includes/student-notes.rst
+
+
+Architecture
+------------
+
+.. image:: /images/mms-ops-manager.svg
+   :align: center
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Theese deployments can get complex, talk about all the pieces
+      - Multiple backup daemons/blockstores for large clusters
+
+
+Application Server
+------------------
+
+- 15GB RAM, 50GB of disk space are required
+- Equivalent to a m3.xlarge AWS instance
+  
+.. include:: /includes/student-notes.rst
+
+
+Application Database
+--------------------
+
+- All monitoring metrics, automation configurations, etc. stored here
+- Replica set, however, a standalone MongoDB node can also be used
+  
+.. include:: /includes/student-notes.rst
+
+
+Backup Infrastructure
+---------------------
+
+- Blockstore database
+- Backup daemon process (manages applying oplog entries, creating snapshots, etc.)
+
+.. include:: /includes/student-notes.rst
+
+
+Blockstore Database
+-------------------
+
+- Replica set, a standalone MongoDB node can also be used
+- Must be sized carefully
+- All snapshots are stored here
+- Block level de-duping, the same block isn't stored twice (significantly reduces database size for deployment with low/moderate writes)
+
+.. include:: /includes/student-notes.rst
+
+
+Backup Daemon Process
+---------------------
+
+- The "workhorse" of the backup infrastructure
+- Creates a local copy of the database it is backing up (references "HEAD" database)
+- Requires 2-3X data space (of the database it is backing up)
+- Can run multiple daemons, pointing to multiple blockstores (for large clusters)
+
+.. include:: /includes/student-notes.rst

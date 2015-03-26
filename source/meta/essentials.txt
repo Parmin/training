@@ -14,6 +14,7 @@ MongoDB Essentials Training
    /modules/nav/replica-sets
    /modules/nav/sharding
    /modules/nav/security-essentials
+   /modules/nav/mms
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
 

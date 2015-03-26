@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <g>
+  <title>Layer 1</title>
+  <rect height="172" width="155" y="64.5" x="424.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffffff" id="svg_4" stroke="#000000"/>
+  <rect height="172" width="155" y="64" x="241.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffffff" stroke="#000000" id="svg_8"/>
+  <rect height="172" width="155" y="64" x="55.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffffff" stroke="#000000" id="svg_6"/>
+  <rect height="36" width="140" y="192" x="62.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#43a001" id="svg_9" stroke="#000000"/>
+  <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="200.68264" y="227.42857" id="svg_12" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" transform="matrix(0.676542341709137,0,0,0.5833333134651184,-3.7703033294528723,80.83333718776703) " stroke="#000000">Automation Agent</text>
+  <rect id="svg_3" height="126" width="523.99999" y="334" x="59" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffffff" stroke="#000000"/>
+  <rect id="svg_19" height="57" width="508" y="395" x="67" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_7" height="0" width="25" y="69" x="90" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" id="svg_16" y="42" x="321" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">Machines in Data Center</text>
+  <text style="cursor: move;" stroke="#000000" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" id="svg_20" y="366" x="318" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">MMS / Ops Manager</text>
+  <text id="svg_23" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" y="431.5" x="323" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">Automation</text>
+  <rect height="36" width="140" y="192" x="250" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#43a001" stroke="#000000" id="svg_10"/>
+  <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="477.09104" y="229.07927" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" transform="matrix(0.676542341709137,0,0,0.5833333134651184,-3.7703033294528723,80.83333718776703) " stroke="#000000" id="svg_13">Automation Agent</text>
+  <rect height="36" width="140" y="191" x="432" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#43a001" stroke="#000000" id="svg_11"/>
+  <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="746.10598" y="225.6507" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" transform="matrix(0.676542341709137,0,0,0.5833333134651184,-3.7703033294528723,80.83333718776703) " stroke="#000000" id="svg_14">Automation Agent</text>
+  <path fill="#000000" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m96.07999,284.54214l20.49966,-20.4996l0,10.24948l29.71034,0l0,-10.24948l20.49997,20.4996l-20.49997,20.5004l0,-10.25085l-29.71034,0l0,10.25085l-20.49966,-20.5004z" id="svg_17" transform="rotate(90.66243743896484 131.43498229980466,284.54254150390625) "/>
+  <path fill="#000000" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m283.64502,283.9996l20.49966,-20.4996l0,10.24948l29.71033,0l0,-10.24948l20.5,20.4996l-20.5,20.5004l0,-10.25085l-29.71033,0l0,10.25085l-20.49966,-20.5004z" transform="rotate(90.66243743896484 319,284) " id="svg_18"/>
+  <path fill="#000000" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m464.64502,283.9996l20.49966,-20.4996l0,10.24948l29.7103,0l0,-10.24948l20.50006,20.4996l-20.50006,20.5004l0,-10.25085l-29.7103,0l0,10.25085l-20.49966,-20.5004z" transform="rotate(90.66243743896484 499.99999999999994,284) " id="svg_21"/>
+ </g>
+</svg>

@@ -1,0 +1,60 @@
+============================
+Exercise: Cluster Automation
+============================
+
+Learning Objectives 
+-------------------
+
+Upon completing this exercise students should understand:
+
+- How to deploy, dynamically resize, and upgrade a cluster with MMS Automation
+
+.. include:: /includes/student-notes.rst
+
+
+MMS Automation Support
+----------------------
+
+Windows machines are not supported at this time.
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise #1
+-----------
+
+Using your personal computer, create a cluster using MMS automation with the following topology:
+
+- 3 shards
+- Each shard is a 3 node replica set (2 data bearing nodes, 1 arbiter)
+- Version 2.6.8 of MongoDB
+
+.. only:: instructor
+
+   .. note::
+
+      - Windows is not supported, Windows users should work with another person in the class or work on a remote Linux machine
+      - The entire cluster should be deployed on a single server (or the students laptop)
+      - Registration is free, and won't require a credit card as long as the student stays below 8 servers
+  
+Exercise #2
+-----------
+
+Modify the cluster topology from Exercise #1 to the following:
+
+- 4 shards (add one shard)
+- Version 3.0.1 of MongoDB (upgrade from 2.6.8 -> 3.0.1)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Students may complete this in one or two steps
+      - Cluster configuration should be modified, then redeployed
+
+
+
+
+

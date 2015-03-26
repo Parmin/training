@@ -1,0 +1,101 @@
+=======
+Backups
+=======
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- How MMS / Ops Manager Backups work
+- Advantages to MMS / Ops Manager Backups
+
+.. include:: /includes/student-notes.rst
+
+Methods for Backing Up MongoDB
+------------------------------
+
+- mongodump
+- File system backups
+- MMS / Ops Manager Backups
+
+.. include:: /includes/student-notes.rst
+  
+Comparing MongoDB Backup Methods
+--------------------------------
+
+==================  =========  ===========  ==================  =========================
+Considerations      Mongodump  File System  MMS Backup (Cloud)  Ops Manager (On-prem MMS)
+==================  =========  ===========  ==================  =========================
+Initial Complexity  Medium     High         Low                 High
+Replica Set PIT     Yes**      Yes**        Yes                 Yes
+Sharded Snapshot    No         Yes**        Yes                 Yes
+Restore Time        Slow       Fast         Medium              Medium
+==================  =========  ===========  ==================  =========================
+
+****Requires advanced scripting**
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Instructors should spend a lot of time on this chart, lots of considerations here
+
+
+MMS / Ops Manager Backups
+-------------------------
+
+- Based off oplogs (even for the config servers)
+- Point-in-time recovery for replica sets, snapshots for sharded clusters 
+- Oplog on config server for sharded cluster backup
+- Ability to exclude collections, databases (such as logs)
+- Retention rules can be defined
+
+.. include:: /includes/student-notes.rst
+
+  
+Restoring from MMS / Ops Manager
+--------------------------------
+
+- Specify which backup to restore
+- SCP push or HTTPS pull (one time use link) for data files
+  
+.. include:: /includes/student-notes.rst
+
+
+Architecture
+------------
+
+.. image:: /images/mms-backups.svg
+   :align: center
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Can talk about the daemon process, HEAD database, and blockstore with this diagram
+
+
+Snapshotting
+------------
+
+- Local copy of every replica set stored by MMS / Ops Manager
+- Oplog entries applied on top of local copy
+- Local copy is used for snapshotting
+- Very little impact to the cluster (equivalent to adding another secondary)
+  
+.. include:: /includes/student-notes.rst
+
+
+Backup Agent
+------------
+
+- Backup agent (can be managed by Automation agent)
+- Backup agent sends oplog entries to MMS / Ops Manager service to be apply on local copy
+
+.. include:: /includes/student-notes.rst
