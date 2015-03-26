@@ -13,8 +13,9 @@ Upon completing this module students should understand:
 
 .. include:: /includes/student-notes.rst
 
-What is the MMS / Ops Manager API
----------------------------------
+
+What is the MMS / Ops Manager API?
+----------------------------------
 
 Always users to programmatically:
 
@@ -23,6 +24,7 @@ Always users to programmatically:
 - Automation cluster configuration (modify, view)
 
 .. include:: /includes/student-notes.rst
+
   
 API Documentation
 -----------------
@@ -39,6 +41,7 @@ API Documentation
 
       - Open the link in a browser and walk through some of the API calls, such as monitoring stats for a group
 
+
 Sample API Uses Cases
 ---------------------
 
@@ -47,6 +50,7 @@ Sample API Uses Cases
 - Configuration management
 
 .. include:: /includes/student-notes.rst
+
   
 Ingest Monitoring Data
 ----------------------

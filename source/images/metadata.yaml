@@ -522,4 +522,19 @@ output:
     tag: 'offset'
     dpi: 300
     width: 300
+---
+name: introduction-storage-engines
+alt: "Storage engines"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 700
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
 ...

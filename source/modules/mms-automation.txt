@@ -13,8 +13,8 @@ Upon completing this module students should understand:
 
 .. include:: /includes/student-notes.rst
 
-What is Automation
-------------------
+What is Automation?
+-------------------
 
 Fully managed MongoDB deployment on your own servers:
 
@@ -25,8 +25,8 @@ Fully managed MongoDB deployment on your own servers:
   
 .. include:: /includes/student-notes.rst
   
-How Does MMS / Ops Manager Automation Work?
--------------------------------------------
+How Does Automation Work?
+-------------------------
 
 - Automation agent installed on each server in cluster
 - Administrator creates design goal for system (through MMS / Ops Manager interface)
@@ -44,8 +44,8 @@ Automation Agents
 
 .. include:: /includes/student-notes.rst
   
-Sample Automation Use Case
---------------------------
+Sample Use Case
+---------------
 
 Administrator wants to create a 100 shard cluster, with each shard comprised of a 3 node replica set:
 
@@ -55,8 +55,8 @@ Administrator wants to create a 100 shard cluster, with each shard comprised of 
   
 .. include:: /includes/student-notes.rst
   
-Upgrades with MMS / Ops Manager Automation
-------------------------------------------
+Upgrades Using Automation
+-------------------------
 
 - Upgrades without automation can be a manually intensive process (e.g. 300 servers)
 - A lot of edge cases when scripting (e.g. 1 shard has problems, or one replica set is a mixed version)
@@ -64,17 +64,11 @@ Upgrades with MMS / Ops Manager Automation
   
 .. include:: /includes/student-notes.rst
 
+
 Automation: Behind the Scenes
 -----------------------------
 
 - Agents ping MMS / Ops Manager for new instructions
-- Instructions contained in cluster configuration file (has the state of the cluster changed?)
-
-.. include:: /includes/student-notes.rst
-
-Automation: Behind the Scenes
------------------------------
-
 - Agents compare their local configuration file with the latest version from MMS / Ops Manager
 - Configuration file in json
 - All communications over SSL
@@ -89,8 +83,9 @@ Automation: Behind the Scenes
   
 .. include:: /includes/student-notes.rst
 
-Automation: Behind the Scenes
------------------------------
+
+Configuration File
+------------------
 
 When version number of configuration file on MMS / Ops Manager is greater than local version, agent begins making a plan to implement changes:
 
@@ -113,15 +108,17 @@ When version number of configuration file on MMS / Ops Manager is greater than l
 
 .. include:: /includes/student-notes.rst
 
-Automation: Behind the Scenes
------------------------------
+
+Automation Goal State
+---------------------
 
 Automation agent is considered to be in goal state after all cluster changes (related to the individual agent) have been implemented.
 
 .. include:: /includes/student-notes.rst
 
-MMS Automation Demo
--------------------
+
+Demo
+----
 
 .. include:: /includes/student-notes.rst
 
