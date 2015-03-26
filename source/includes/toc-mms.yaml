@@ -29,4 +29,8 @@ description: |
 file: /modules/mms-ops-manager
 description: |
   Ops Manager
+---
+file: /exercises/mms-ops-manager
+description: |
+  Install Ops Manager
 ...

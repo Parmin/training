@@ -1,0 +1,91 @@
+=============================
+Exercise: Install Ops Manager
+=============================
+
+Learning Objectives 
+-------------------
+
+Upon completing this exercise students should understand:
+
+- The components needed for Ops Manager
+- How to successfully install Ops Mananger
+
+.. include:: /includes/student-notes.rst
+
+
+Install Ops Manager
+-------------------
+
+A Linux machine with at least 15GB of RAM is required
+
+.. include:: /includes/student-notes.rst
+
+Install Ops Manager
+-------------------
+
+We will follow an outline of the installation instructions here:
+
+https://docs.opsmanager.mongodb.com/current/tutorial/install-basic-deployment/
+
+
+Exercise #1
+-----------
+
+Prepare your environment for running all Ops Manager components: Monitoring, Automation, and Backups
+
+- Set up a 3 node replica set for the Ops Manager application database (2 data bearing nodes, 1 arbiter)
+- Set up a 3 node replica set for Ops Manager backups (2 data bearing nodes, 1 arbiter)
+- Verify both replica sets have been installed and configured correctly
+
+.. only:: instructor
+
+   .. note::
+
+      - This is sometimes the hardest part of setting up Ops Manager for users, ensuring everything has been set up correctly behind the scenes
+  
+Exercise #2
+-----------
+
+Install the Ops Manager application
+
+- Ops Manager application requires a license for commercial use
+- Download the Ops manager application (after completing form): http://www.mongodb.com/download
+- Installation instructions (from above): docs.opsmanager.mongodb.com
+- Verify Ops Manager is running successfully
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - The Ops Manager application can be installed via an RPM, once the configuration file is updated, the application can be started (that is pretty much it to installing Ops Manager monitoring/automation)
+
+Exercise #3
+-----------
+
+Install the Ops Manager Backup Daemon
+
+- The Ops Manager backup daemon is required for using Ops Manager for backups
+- Download and install the backup daemon (using the link from the past exercise)
+- Verify the installation was successful by looking at the logs in: <install_dir>/logs
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Users sometimes get caught on permissions issues, especially for the HEAD directory
+        
+
+Exercise #4
+-----------
+
+Verify the Ops Manager installation was successful:
+
+https://docs.opsmanager.mongodb.com/current/tutorial/test-new-deployment/
+
+
+
+
