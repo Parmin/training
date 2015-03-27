@@ -98,17 +98,20 @@ Experiment with the following sequence of commands.
 .. code-block:: javascript
 
   db.movies.drop()
-  db.movies.insert( [ { "title" : "Batman", "category" [ "action", "adventure" ] },
-                     { "title" : "Godzilla", "category" [ "action", "adventure", "sci-fi" ] }
-                     { "title" : "Home Alone", "category" [ "family", "comedy" ],
-                    ] )
+  db.movies.insert( 
+    [ { "title" : "Batman", "category" : [ "action", "adventure" ] },
+      { "title" : "Godzilla", "category" : [ "action", "adventure", "sci-fi" ] },
+      { "title" : "Home Alone", "category" : [ "family", "comedy" ] }
+    ] )
 
-  // These match documents where a contains the value specified
+  // Match documents where "category" contains the value specified
   db.movies.find( { "category" : "action" } )
 
-  // These match documents where a equals the value specified
+  // Match documents where "category" equals the value specified
   db.movies.find( { "category" : [ "action", "sci-fi" ] } )  // no documents
-  db.movies.find( { "category" : [ "action", "adventure", "sci-fi" ] } )  // only the second document
+
+  // only the second document
+  db.movies.find( { "category" : [ "action", "adventure", "sci-fi" ] } )  
 
 .. include:: /includes/student-notes.rst
 
@@ -146,13 +149,15 @@ Exercise: Querying with Dot Notation
              "box_office" : { "gross" : 760, 
                               "budget" : 237,
                               "opening_weekend" : 77
-                            },
+                            }
+         },
          { 
              "title" : "E.T.", 
              "box_office" : { "gross" : 349, 
                               "budget" : 10.5,
                               "opening_weekend" : 14
                             }
+          }
         ] )
 
    db.movies.find( { "box_office" : { "gross" : 760 } } ) // no values
@@ -212,33 +217,40 @@ Projections
 .. include:: /includes/student-notes.rst
 
 
+Projection: Example (Setup)
+---------------------------
+
+.. code-block:: javascript
+
+   db.movies.insert(
+   {
+      "title" : "Forrest Gump",
+      "category" : [ "drama", "romance" ],
+      "imdb_rating" : 8.8,
+      "filming_locations" : [
+        { "city" : "Savannah", "state" : "GA", "country" : "USA" },
+        { "city" : "Monument Valley", "state" : "UT", "country" : "USA" },
+        { "city" : "Los Anegeles", "state" : "CA", "country" : "USA" }
+      ],
+      "box_office" : {
+        "gross" : 557,
+        "opening_weekend" : 24,
+        "budget" : 55
+      }
+    })    
+
+.. include:: /includes/student-notes.rst
+
 Projection: Example
 -------------------
 
 .. code-block:: javascript
 
-   db.movies.insert(
-     {
-  	   "title" : "Forrest Gump",
-  	   "category" : [ "drama", "romance" ],
-       "imdb_rating" : 8.8,
-       "filming_locations" : [
-          { "city" : "Savannah", "state" : "GA", "country" : "USA" },
-          { "city" : "Monument Valley", "state" : "UT", "country" : "USA" },
-          { "city" : "Los Anegeles", "state" : "CA", "country" : "USA" }
-       ],
-  	   "box_office" : {
-          "gross" : 557,
-          "opening_weekend" : 24,
-          "budget" : 55
-       }
-    })    
-
    db.movies.findOne( { "title" : "Forrest Gump" }, { "title" : 1, "imdb_rating" : 1 } )
    {
-     "_id" : ObjectId("5515942d31117f52a5122353"),
-	   "title" : "Forrest Gump",
-	   "imdb_rating" : 8.8
+      "_id" : ObjectId("5515942d31117f52a5122353"),
+      "title" : "Forrest Gump",
+      "imdb_rating" : 8.8
    }     
 
 .. include:: /includes/student-notes.rst
@@ -268,12 +280,16 @@ Exercise: Projections
        db.movies.insert( { "_id" : i, "title" : i, "imdb_rating" : i, "box_office" : i } )
    }
    db.movies.find()
-   db.movies.find( { "_id" : 3 }, { "title" : 1, "imdb_rating" : 1 } ) // no "box_office"
-   db.movies.find( { "_id" : { $gte : 10 } }, { "imdb_rating" : 0 } ) // no "imdb_rating"
-   db.movies.find( { "_id" : 4 }, { "_id" : 0, "title" : 1 } ) // just "title"
-   db.movies.find( { "_id" : 5 }, { _id : 0, "title" : 0 } ) // just "imdb_rating", "box_office"
-   db.movies.find( { "_id" : 6 }, { "title" : 1, "imdb_rating" : 0 } ) // Can't mix inclusion/exclusion except _id
-   db.movies.drop()
+   // no "box_office"
+   db.movies.find( { "_id" : 3 }, { "title" : 1, "imdb_rating" : 1 } )
+   // no "imdb_rating" 
+   db.movies.find( { "_id" : { $gte : 10 } }, { "imdb_rating" : 0 } ) 
+   // just "title"
+   db.movies.find( { "_id" : 4 }, { "_id" : 0, "title" : 1 } )
+   // just "imdb_rating", "box_office"
+   db.movies.find( { "_id" : 5 }, { _id : 0, "title" : 0 } ) 
+   // Can't mix inclusion/exclusion except _id
+   db.movies.find( { "_id" : 6 }, { "title" : 1, "imdb_rating" : 0 } ) 
 
 .. only:: instructor
 

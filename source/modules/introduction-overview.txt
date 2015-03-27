@@ -61,7 +61,7 @@ A MongoDB document expressed using JSON syntax.
 
    .. note::
 
-      - How would you represent this document in a relation database?
+      - How would you represent this document in a relational database? How many tables, how many queries per page load?
       - What are the pros/cons to this design? (hint: 1 million comments)
       - Where relational databases store rows, MongoDB stores documents.
       - Documents are hierarchical data structures.
