@@ -74,7 +74,13 @@ Launch a ``mongod``
 
    /<path_to_mongodb>/bin/mongod --help
 
+   Launch mongod with the MMAPv1 storage engine:
+
    /<path_to_mongodb>/bin/mongod
+
+   Launch mongod with the WiredTiger storage engine:
+
+   /<path_to_mongodb>/bin/mongod --storageEngine wiredTiger
 
 .. include:: /includes/student-notes.rst
 
@@ -212,8 +218,8 @@ Admin Commands
 .. include:: /includes/student-notes.rst
 
 
-The MongoDB Data Directory
---------------------------
+The MongoDB Data Directory (MMAPv1)
+-----------------------------------
 
 
 .. code-block:: bash
@@ -243,4 +249,23 @@ The MongoDB Data Directory
       - sample.2 is 256 MB, etc. 
       - This continues until sample.5, which is 2 GB
       - All subsequent data files are also 2 GB.
+
+The MongoDB Data Directory (WiredTiger)
+---------------------------------------
+
+
+.. code-block:: bash
+
+   ls /data/db
+
+- The mongod.lock file
+
+  - Used in the same way as MMAPv1.
+- Data files
+
+  - Each collection and index stored in its own file.
+  - Will fail to start if MMAPv1 files found
+
+.. include:: /includes/student-notes.rst
+
 
