@@ -180,6 +180,33 @@ Experiment with the following.
 .. include :: /includes/student-notes.rst
 
 
+Exercise: $elemMatch
+--------------------
+
+.. code-block:: javascript
+
+  db.movies.insert( { "title" : "Raiders of the Lost Ark",
+                      "filming_locations" : 
+                                [ { "city" : "Los Angeles", "state" : "CA", "country" : "USA" },
+                                  { "city" : "Rome", "state" : "Lazio", "country" : "Italy" },
+                                  { "city" : "Florence", "state" : "SC", "country" : "USA" }
+                                ] },} )
+
+  // This query is incorrect, it won't return what we want
+  db.movies.find( { "filming_location.city" : "Florence", "filming_location.country" : "Italy" })
+
+  // $elemMatch is needed, now there are no results, this is expected
+  db.testcol.find( { "filming_location : { $elemMatch : { "city" : "Florence", "country" : "Italy" } } } )  
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Comparing the last two queries demonstrates ``$elemMatch``.
+      
+
 
 
 
