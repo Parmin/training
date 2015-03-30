@@ -337,23 +337,27 @@ Covered Queries
 Exercise: Covered Queries
 -------------------------
 
-Perform the following operations. Look at ``indexOnly`` in the ``explain()`` output.
-
 .. code-block:: javascript
 
    db.testcol.drop()
    for (i=1; i<=20; i++) { 
-     db.testcol.insert( { _id : i, a : i, b : i, c : i, d : i } )
+     db.testcol.insert({ "_id" : i, "title" : i, "name" : i, 
+                         "rating" : i, "budget" : i })
    };
-   db.testcol.ensureIndex( { a : 1, b : 1, c : 1 } )
+   db.testcol.ensureIndex( { "title" : 1, "name" : 1, "rating" : 1 } )
    
    // Not covered because _id is  present.
-   db.testcol.find( { a : 3 }, { a : 1, b : 1, c : 1 } ).explain()
+   db.testcol.find( { "title" : 3 }, 
+                    { "title" : 1, "name" : 1, "rating" : 1 } 
+                    ).explain("executionStats")
 
    // Not covered because other fields may exist in matching docs.
-   db.testcol.find( { a : 3 }, { _id : 0, d : 0 } ).explain()
+   db.testcol.find( { "title" : 3 }, 
+                    { "_id" : 0, "budget" : 0 } ).explain("executionStats")
 
    // Covered query!
-   db.testcol.find( { a : 3 }, { _id : 0, a : 1, b : 1, c : 1 } ).explain()
+   db.testcol.find( { "title" : 3 }, 
+                    { "_id" : 0, "title" : 1, "name" : 1, "budget" : 1 } 
+                    ).explain("executionStats")
 
 .. include:: /includes/student-notes.rst
