@@ -480,13 +480,13 @@ Experiment with the following commands and note what ``distinct()`` returns.
 
 .. code-block:: javascript
 
-   db.testcol.drop()    
-   db.testcol.insert( [ { a : 2 , b : 3 },
-                        { a : 2 },
-                        { a : "hello" },
-                        { a : "hello" },
-                        { a : { hello : "world" } } ] )
-   db.testcol.distinct( "a" )
+   db.movie_reviews.drop()    
+   db.movie_reviews.insert( [ { "title" : "Jaws", "rating" : 5 },
+                              { "title" : "Home Alone", "rating" : 1 },
+                              { "title" : "Jaws", "rating" : 7 },
+                              { "title" : "Jaws", "rating" : 4 },
+                              { "title" : "Jaws", "rating" : 8 } ] )
+   db.movie_reviews.distinct( "title" )
 
 .. include:: /includes/student-notes.rst
 
