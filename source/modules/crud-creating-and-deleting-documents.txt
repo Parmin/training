@@ -126,7 +126,7 @@ Exercise: Inserts will fail if...
 
         .. code-block:: javascript
 
-           db.hellos.insert( { "_id" : [ "Star Wars", "The Empire Strikes Back", "Return of the Jedi" ] } )
+           db.movies.insert( { "_id" : [ "Star Wars", "The Empire Strikes Back", "Return of the Jedi" ] } )
 
       - The second insert with ``_id : "Star Wars"`` will fail because there is already a document with ``_id`` of "Star Wars" in the collection.
 
@@ -134,7 +134,7 @@ Exercise: Inserts will fail if...
 
       .. code-block:: javascript
 
-         db.hellos.insert( { "Star Wars" } )
+         db.movies.insert( { "Star Wars" } )
 
 
 

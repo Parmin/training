@@ -36,19 +36,20 @@ Specifically we want to consider how the index will be used for:
 
   .. code-block:: javascript
     
-     db.example.find( { a : 15, b : 17 } )
+     db.movies.find( { "budget" : 7, "imdb_rating" : 8 } )
 
 - Range queries, e.g., 
 
   .. code-block:: javascript
 
-     db.example.find( { a : 15, b : { $lt : 85 } } )
+     db.movies.find( { "budget" : 10, "imdb_rating" : { $lt : 9 } } )
 
 - Sorting, e.g., 
 
   .. code-block:: javascript
 
-     db.example.find( { a : 15, b : 17 } ).sort( { b : -1 } )
+     db.movies.find( { "budget" : 10, "imdb_rating" : 6 } 
+                    ).sort( { "imdb_rating" : -1 } )
 
 .. include:: /includes/student-notes.rst
 

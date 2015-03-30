@@ -119,7 +119,7 @@ Experiment with the following.
 
    .. note::
 
-      - ``db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )``
+      - ``db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )`` also returns everything that doesnt have an "imdb_rating"
 
 
 Exercise: Logical Operators 
@@ -132,7 +132,7 @@ Experiment with the following.
    // find movies within an imdb_rating range
    db.movies.find( { "imdb_rating" : { $gt : 5 , $lte : 7 } } )  // and is implicit
 
-   // queries can be nested
+   // queries can be nested, why are there no results?
    db.movies.find( { $and : [ 
       { $or : [ 
         { "category" : "sci-fi", "imdb_rating" : { $gte : 8 } }, 

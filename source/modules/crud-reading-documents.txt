@@ -47,9 +47,9 @@ Experiment with the following sequence of commands.
 .. code-block:: javascript
 
   db.movies.drop()
-  db.movies.insert( [ { "title" : "Jaws", "year" : 1975, "imdb_rating" : 8.1 },
-                      { "title" : "Batman", "year" : 1989, "imdb_rating" : 7.6 },
-                    ] )
+  db.movies.insert([ { "title" : "Jaws", "year" : 1975, "imdb_rating" : 8.1 },
+                    { "title" : "Batman", "year" : 1989, "imdb_rating" : 7.6 },
+                   ] )
   db.movies.find()
 
   db.movies.find( { "year" : 1975 } )
@@ -99,10 +99,10 @@ Experiment with the following sequence of commands.
 
   db.movies.drop()
   db.movies.insert( 
-    [ { "title" : "Batman", "category" : [ "action", "adventure" ] },
-      { "title" : "Godzilla", "category" : [ "action", "adventure", "sci-fi" ] },
-      { "title" : "Home Alone", "category" : [ "family", "comedy" ] }
-    ] )
+   [{ "title" : "Batman", "category" : [ "action", "adventure" ] },
+    { "title" : "Godzilla", "category" : [ "action", "adventure", "sci-fi" ] },
+    { "title" : "Home Alone", "category" : [ "family", "comedy" ] }
+   ])
 
   // Match documents where "category" contains the value specified
   db.movies.find( { "category" : "action" } )
@@ -246,7 +246,8 @@ Projection: Example
 
 .. code-block:: javascript
 
-   db.movies.findOne( { "title" : "Forrest Gump" }, { "title" : 1, "imdb_rating" : 1 } )
+   db.movies.findOne( { "title" : "Forrest Gump" }, 
+                      { "title" : 1, "imdb_rating" : 1 } )
    {
       "_id" : ObjectId("5515942d31117f52a5122353"),
       "title" : "Forrest Gump",
@@ -277,7 +278,8 @@ Exercise: Projections
 .. code-block:: javascript
 
    for (i=1; i<=20; i++) { 
-       db.movies.insert( { "_id" : i, "title" : i, "imdb_rating" : i, "box_office" : i } )
+       db.movies.insert( { "_id" : i, "title" : i, 
+                           "imdb_rating" : i, "box_office" : i } )
    }
    db.movies.find()
    // no "box_office"

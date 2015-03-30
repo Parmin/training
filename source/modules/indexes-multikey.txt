@@ -126,7 +126,7 @@ Add some documents and create an index simulating a player in a game moving on a
 .. code-block:: javascript
 
    db.player.drop()
-   db.player.ensureIndex( { x : 1 } )
+   db.player.ensureIndex( { "last_moves" : 1 } )
    c = [ { "last_moves" : [ [ 1, 2 ], [ 2, 3 ], [ 3, 4] ] }, 
          { "last_moves" : [ [ 3, 4 ], [ 4, 5 ] ] },
          { "last_moves" : [ [ 4, 5 ], [ 5, 6 ] ] },
@@ -150,10 +150,10 @@ For each of the queries below:
 
 .. code-block:: javascript
 
-   db.player.find( { "last_positions" : [ 3, 4 ] } )  
-   db.player.find( { "last_positions" : 3 } )
-   db.player.find( { "last_positions.1" : [ 4, 5 ] } )
-   db.player.find( { "last_positions.2" : [ 2, 3 ] } )
+   db.player.find( { "last_moves" : [ 3, 4 ] } )  
+   db.player.find( { "last_moves" : 3 } )
+   db.player.find( { "last_moves.1" : [ 4, 5 ] } )
+   db.player.find( { "last_moves.2" : [ 2, 3 ] } )
 
 .. include:: /includes/student-notes.rst
 
@@ -164,16 +164,16 @@ For each of the queries below:
       .. code-block:: javascript
 
          // 3 documents
-         db.player.find( { "last_positions" : [ 3, 4 ] } )  
+         db.player.find( { "last_moves" : [ 3, 4 ] } )  
          // Uses the multi-key index
-         db.player.find( { "last_positions" : [ 3, 4 ] } ).explain()  
+         db.player.find( { "last_moves" : [ 3, 4 ] } ).explain()  
 
          // No documents
-         db.player.find( { "last_positions" : 3 } )
+         db.player.find( { "last_moves" : 3 } )
 
          // Does not use the multi-key index, because it is naive to position.
-         db.player.find( { "last_positions.1" : [ 4, 5 ] } )
-         db.player.find( { "last_positions.2" : [ 2, 3 ] } )
+         db.player.find( { "last_moves.1" : [ 4, 5 ] } )
+         db.player.find( { "last_moves.2" : [ 2, 3 ] } )
 
 
 How Multikey Indexes Work

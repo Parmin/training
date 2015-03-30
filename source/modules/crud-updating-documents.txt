@@ -106,7 +106,7 @@ Experiment with the following. Do a ``find()`` after each update to view the res
    // how will this query behave?
    db.movies.update( { "title" : "Batman" }, { "imdb_rating" : 7.7 } )
 
-   db.movies.update( { "title" : "Batman" }, { $unset :  { "budget" : 1 } } )
+   db.movies.update( { "title" : "Home Alone" }, { $unset :  { "budget" : 1 } } )
 
 .. include:: /includes/student-notes.rst
 
@@ -385,9 +385,9 @@ Experiment with the following upserts.
          // 4) performs the update
          db.movies.update( { "title" : "Jaws II" }, { $inc: { "budget" : 5 } }, { upsert: true } )
 
-         // 1) creates a new document, 2) sets "title" : "Jaws III", "category" : [ "horror" ], 
+         // 1) creates a new document, 2) sets "title" : "Jaws III", 
          // 3) Set budget to 1
-         db.movies.update( { "title" : "Jaws III", "category" : [ "horror" ] }, { "budget" : 1 }, { upsert: true } )
+         db.movies.update( { "title" : "Jaws III" }, { "budget" : 1 }, { upsert: true } )
 
 
 ``save()``
