@@ -28,6 +28,7 @@ Using your personal computer, create a cluster using MMS automation with the fol
 - 3 shards
 - Each shard is a 3 node replica set (2 data bearing nodes, 1 arbiter)
 - Version 2.6.8 of MongoDB
+- **To conserve space on your local machine, set "smallfiles" = true and "oplogSize" = 10**
 
 .. only:: instructor
 
