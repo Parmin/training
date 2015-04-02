@@ -26,6 +26,10 @@ file: /modules/mms-api
 description: |
   Using the MMS API
 ---
+file: /exercises/mms-api
+description: |
+  MMS API exercise
+---
 file: /modules/mms-ops-manager
 description: |
   Ops Manager

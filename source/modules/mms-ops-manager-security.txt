@@ -39,12 +39,7 @@ Authenticating Between an Ops Manager Agent and Cluster
 
 - LDAP
 - MongoDB-CR 
-
-Not supported (as of Ops Manager 1.6):
-
-
-- x.509
-- Kerberos
+- Kerberos (Linux only)
 
 .. include:: /includes/student-notes.rst
 
@@ -53,6 +48,7 @@ Not supported (as of Ops Manager 1.6):
    .. note::
 
       - This is a good time to draw a diagram on the whiteboard to work through the various authentication options between the Ops Manager components
+      - **If you're using Automation to manage a cluster, that cluster cannot use SSL or advanced auth**
 
 
 Encrypting Communications
@@ -61,6 +57,12 @@ Encrypting Communications
 - All communications can be encrypted over SSL
   
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- **If you're using Automation to manage a cluster, that cluster cannot use SSL or advanced auth**
 
 
 Ops Manager Groups
