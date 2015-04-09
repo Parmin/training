@@ -25,6 +25,7 @@ This course is for organizations looking to train developer and administrator te
 ### Indexes
 
 * Index Fundamentals
+* Troubleshooting Index Performance
 * Compound Indexes
 * Multikey Indexes
 * Hashed Indexes
@@ -32,18 +33,22 @@ This course is for organizations looking to train developer and administrator te
 * TTL Indexes
 * Text Indexes
 
-## Day 2
-
 ### Aggregation
 
 * Aggregation Tutorial
 * Aggregation Optimizations
 
-### Schema Design
+### Schema Design Part 1
 
 * Schema Design Core Concepts
 * Schema Evolution
+
+## Day 2
+
+### Schema Design Part 2
+
 * Common Design Patterns
+* Application Specific Use Cases
 
 ### Replication, Part 1
 
@@ -52,14 +57,13 @@ This course is for organizations looking to train developer and administrator te
 * Replica Set Roles and Configuration
 * The Oplog: Statement-Based Replication
 
-
-## Day 3
-
 ### Replication, Part 2
 
 * Write Concern
 * Read Preference
 * Exercise: Setting Up a Replica Set
+
+## Day 3
 
 ### Sharding
 
@@ -73,6 +77,13 @@ This course is for organizations looking to train developer and administrator te
 * Authentication Options
 * Roles
 * Exercise: Creating a User and Setting Permissions
+
+### MMS / Ops Manager
+
+* Monitoring Performance 
+* Automating Cluster Upgrades and Provisioning
+* Architecture
+* Exercise: Cluster Automation
 
 ### Performance Troubleshooting
 
