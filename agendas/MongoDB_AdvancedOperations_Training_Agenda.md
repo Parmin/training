@@ -17,16 +17,16 @@ Each scenario develops skills in critical areas such as diagnostics, troubleshoo
 
 ### Backup and Recovery
 
-If you use a backup service like MMS Backup, then most of the time you don’t have to worry about backup. But when something breaks your production data, manual care may be required to repair it. In this section, students work through an extended exercise restoring a single collection to a previous point in time.
+If you use a backup service like MMS Backup, then most of the time you don’t have to worry about backup. But when something breaks your production data, manual care may be required to repair it. In this section, students work through an extended exercise restoring a collection to a previous point in time.
 
 
 ### Replication
 
 Most production deployments of MongoDB should use replica sets, which provide automatic failover. In this section students learn to do the following with minimal downtime:
 
-* Roll out upgrades (with a single failover)
-* Roll out performance fixes (with a single failover)
-* Diagnose and fix a downed node (with no downtime)
+* Roll out upgrades
+* Roll out performance fixes
+* Diagnose and fix a downed node
 
 
 ### MMS Automation
