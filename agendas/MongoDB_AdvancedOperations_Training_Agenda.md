@@ -22,7 +22,7 @@ If you use a backup service like MMS Backup, then most of the time you don’t h
 
 ### Replication
 
-Most production deployments of MongoDB should use replica sets, which provide automatic failover. In this section you’ll learn to do the following with minimal downtime:
+Most production deployments of MongoDB should use replica sets, which provide automatic failover. In this section students learn to do the following with minimal downtime:
 
 * Roll out upgrades (with a single failover)
 * Roll out performance fixes (with a single failover)
