@@ -35,6 +35,8 @@ MongoDB Management Service (MMS) Automation enables users to auto-provision and 
 In this section, students work through an exercise upgrading a MongoDB cluster using MMS Automation.
 
 
+## Day 2
+
 ### The MongoDB Profiler
 
 The scenarios in this section will provide students with experience using the MongoDB profiler. Students will also gain familiarity with the MongoDB aggregation framework as a tool for analytics. Specific scenarios include:
