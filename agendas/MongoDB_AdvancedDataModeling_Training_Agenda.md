@@ -30,10 +30,10 @@ Students will work in groups, with each group focusing on a different type of ap
 
 ### Common Schema Design Patterns
 
-* Time-series Data
+* Time-series data
 * Trees
-* Worker Queues
-* Fan Out on Read/Write
+* Worker queues
+* Fan out on read/write
 * CMS
 
 ### Exercise: Application Schema Design
