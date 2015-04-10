@@ -10,7 +10,7 @@ This course covers the MongoDB query language, data modeling, indexes, and an in
 
 ### Introduction
 
-* Warm Upg
+* Warm Up
 * MongoDB Overview
 * MongoDB Stores Documents
 * Exercise: Installing and Running MongoDB
@@ -25,14 +25,12 @@ This course covers the MongoDB query language, data modeling, indexes, and an in
 ### Indexes
 
 * Index Fundamentals
+* Troubleshooting Index Performance
 * Compound Indexes
 * Multikey Indexes
 * Hashed Indexes
 * Geospatial Indexes
 * Text Indexes
-
-
-## Day 2
 
 ### Aggregation
 
@@ -47,16 +45,26 @@ This course covers the MongoDB query language, data modeling, indexes, and an in
 * Schema Evolution
 * Common Design Patterns
 
+## Day 2
+
 ### Replication
 
 * Introduction to Replica Sets
 * Write Concern
 * Read Preference
+* Development Considerations
 
 ### Sharding
 
 * Introduction to Sharding
-* Shard Tags
+* Choosing a Shard Key
+* Tag Aware Sharding
+
+### MMS / Ops Manager Automation
+
+* Monitoring
+* Automate Cluster Creation
+* Exercise: Cluster Automation
 
 
 <style>#resources_table{display:none;}</style>

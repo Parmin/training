@@ -19,20 +19,17 @@ This course teaches operations teams how to successfully deploy and maintain Mon
 
 * Creating and Deleting Documents
 * Reading Documents
-* Query Operators
+* Basic Query Operators
 * Updating Documents
 
 ### Indexes
 
 * Index Fundamentals
+* Troubleshooting Index Performance
 * Compound Indexes
 * Multikey Indexes
 * Hashed Indexes
-* Geospatial Indexes
 * TTL Indexes
-* Text Indexes
-
-## Day 2
 
 ### Replication
 
@@ -43,6 +40,9 @@ This course teaches operations teams how to successfully deploy and maintain Mon
 * Write Concern
 * Read Preference
 * Exercise: Setting Up a Replica Set
+
+
+## Day 2
 
 ### Sharding
 
@@ -57,16 +57,24 @@ This course teaches operations teams how to successfully deploy and maintain Mon
 * Roles
 * Exercise: Creating a User and Setting Permissions
 
+### MMS / Ops Manager
+
+* Monitoring Performance 
+* Automating Cluster Upgrades and Provisioning
+* Architecture
+* Exercise: Cluster Automation
+
 ### Performance Troubleshooting
 
 * mongostat
 * mongotop
 * The MongoDB Profiler
+* Log Analysis Tools
 
 ### Backup and Recovery
 
 * File System Backup and Restore
 * Sharded Clusters
-* MMS Backup Overview
+* MMS / Ops Manager Backup Overview
 
 <style>#resources_table{display:none;}</style>
