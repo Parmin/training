@@ -53,10 +53,11 @@ Building on the work from the previous exercise, each student group will extend 
 
 ### Schema Design Group Exercise
 
-* Review a large-scale application (the specific application depends on the team)
-* Assign components to student groups
-* Each group develops a schema design for their components
-* Share and discuss results
+The instructor and students will review a large-scale application. The specific application depends on the team being trained.
+
+* Assign individual application components to student groups
+* Each group will develop a complete schema design for their components
+* Share and discuss individual designs and integration
 
 
 <style>#resources_table{display:none;}</style>
