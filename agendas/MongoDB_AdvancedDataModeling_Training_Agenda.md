@@ -55,9 +55,9 @@ Building on the work from the previous exercise, each student group will extend 
 
 The instructor and students will review a large-scale application. The specific application selected for this exercise is customized to meet the needs of the teams being trained.
 
-* Assign individual application components to student groups
-* Each group will develop a complete schema design for their components, including indexes
-* Share and discuss individual designs and integration
+* Instructor will assign individual application components to student groups
+* Groups will develop a complete schema design for their components, including indexes
+* Groups will share and discuss individual designs and integration
 
 
 <style>#resources_table{display:none;}</style>
