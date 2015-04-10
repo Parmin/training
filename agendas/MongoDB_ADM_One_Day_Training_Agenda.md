@@ -6,23 +6,23 @@
 
 Due to greater flexibility in MongoDB, schemas, queries, and indexes often require more consideration than with an RDBMS. A de-normalized data model (as used by most MongoDB systems) has many advantages; however, designing such a model requires careful consideration of use cases. In this one-day course, students will learn to optimize a data model to support specific data access patterns in a variety of common application types. Students will explore advanced schema design patterns with the MongoDB document model, group exercises for learning the patterns, and cases studies for these design patterns. Please contact <a href="mailto:training@mongodb.com">training@mongodb.com</a> with any questions about this course.
 
-### Introduction to Schema Design with the Document Model
+### Introduction to Schema Design with the MongoDB Document Model
 
-* Designing a CMS in MongoDB vs an RDBMS
+* Designing a CMS in MongoDB vs. an RDBMS
 * Optimizing for the use case
 * Managing application requirements
 
 ### Schema Design
 
-* Schema Design Core Concepts
-* Measuring Performance
-* Schema Evolution (Versioning Schema)
-* Read Preference and Write Concern
+* Schema design core concepts
+* Measuring performance
+* Schema evolution (versioning schema)
+* Read preference and write concern
 
-### Exercise: Sample Application Requirements
+### Exercise: Application Requirements
 
-* Different high level application requirements for each group
-* Translate requirements to low level design considerations
+* Review high-level application requirements
+* Translate requirements to low-level design considerations
 * Share and discuss results
 
 ### Common Schema Design Patterns
@@ -33,9 +33,12 @@ Due to greater flexibility in MongoDB, schemas, queries, and indexes often requi
 * Fan Out on Read/Write
 * CMS
 
-### Exercise: Sample Application Schema Design
+### Exercise: Application Schema Design
 
-* Schema, queries, and indexes
+* Based on low-level design developed in the previous exercise, design:
+  * Query patterns
+  * Schema
+  * Indexes
 * Share and discuss results
 
 ### Schema Design Cases Studies
@@ -46,7 +49,9 @@ Due to greater flexibility in MongoDB, schemas, queries, and indexes often requi
 
 ### Schema Design Group Exercise
 
-* Large application schema design exercise for groups (many components)
+* Review large-scale application (the specific application depends on the team)
+* Assign components to student groups
+* Each group develops a schema design for their components
 * Share and discuss results
 
 
