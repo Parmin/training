@@ -12,7 +12,7 @@ Due to greater flexibility in MongoDB, schemas, queries, and indexes often requi
 * Optimizing for the use case
 * Managing application requirements
 
-### Schema Design
+### Schema Design Concepts
 
 * Schema design core concepts
 * Measuring performance
