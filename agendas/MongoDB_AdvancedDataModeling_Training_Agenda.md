@@ -21,9 +21,9 @@ MongoDB provides a high degree of flexibility in designing data models. Therefor
 
 ### Exercise: Application Requirements
 
-Students will work in groups. Each group will focus on a different type of application. The specific applications selected for this training depend on the teams being trained.
-* Review high-level application requirements
-* Translate requirements to low-level design considerations
+* Students will work in groups, with each group focusing on a different type of application. The specific applications selected for this training depend on the teams being trained.
+  * Review high-level application requirements
+  * Translate requirements to low-level design considerations
 * Share and discuss results
 
 ### Common Schema Design Patterns
