@@ -41,7 +41,7 @@ Students will work in groups, with each group focusing on a different type of ap
 Building on the work from the previous exercise, each student group will extend their application designs.
 
 * Consider query patterns
-* Design a schema
+* Design a data model
 * Design indexes
 * Share and discuss results
 
