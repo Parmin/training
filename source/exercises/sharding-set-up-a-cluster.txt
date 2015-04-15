@@ -37,8 +37,8 @@ Sharded Cluster Configuration
 - Three shards:
 
   #. A replica set on ports 27107, 27108, 27109
-  #. A sharded replica set on ports 27117, 27118, 27119
-  #. A sharded replica set on ports 27127, 27128, 27129
+  #. A replica set on ports 27117, 27118, 27119
+  #. A replica set on ports 27127, 27128, 27129
 
 - Three config servers on ports 27217, 27218, 27219
 - Two mongos servers at ports 27017 and 27018
@@ -185,17 +185,17 @@ Launch Config Servers
    mongod --smallfiles --nojournal --noprealloc \
           --dbpath ~/data/cluster/config/c0 \
           --logpath ~/data/cluster/config/c0/mongod.log \
-          --fork --port 27227 --configsvr
+          --fork --port 27217 --configsvr
 
    mongod --smallfiles --nojournal --noprealloc \
           --dbpath ~/data/cluster/config/c1 \
           --logpath ~/data/cluster/config/c1/mongod.log \
-          --fork --port 27228 --configsvr
+          --fork --port 27218 --configsvr
 
    mongod --smallfiles --nojournal --noprealloc \
           --dbpath ~/data/cluster/config/c2 \
           --logpath ~/data/cluster/config/c2/mongod.log \
-          --fork --port 27229 --configsvr
+          --fork --port 27219 --configsvr
 
 .. include:: /includes/student-notes.rst
 
@@ -208,10 +208,10 @@ Now our mongos's. We need to tell them about our config servers.
 .. code-block:: bash
 
    mongos --logpath ~/data/cluster/s0/mongos.log --fork --port 27017 \
-          --configdb localhost:27227,localhost:27228,localhost:27229
+          --configdb localhost:27217,localhost:27218,localhost:27219
 
    mongos --logpath ~/data/cluster/s1/mongos.log --fork --port 27018 \
-          --configdb localhost:27227,localhost:27228,localhost:27229
+          --configdb localhost:27217,localhost:27218,localhost:27219
 
 .. include:: /includes/student-notes.rst
 
