@@ -36,8 +36,7 @@ Components
 Architecture
 ------------
 
-.. image:: /images/mms-ops-manager.svg
-   :align: center
+.. include:: /images/mms-ops-manager.rst
 
 .. include:: /includes/student-notes.rst
 

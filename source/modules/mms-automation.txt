@@ -39,8 +39,7 @@ How Does Automation Work?
 Automation Agents
 -----------------
 
-.. image:: /images/mms-automation.svg
-   :align: center
+.. include:: /images/mms-automation.rst
 
 .. include:: /includes/student-notes.rst
   

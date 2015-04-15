@@ -21,8 +21,7 @@ What is a Database Storage Engine?
 A database storage engine is the software within a database to perform all update, delete, remove, and insert functionality:
 
 
-.. image:: /images/introduction-storage-engines.svg
-   :align: center
+.. include:: /images/introduction-storage-engines.rst
 
 .. include:: /includes/student-notes.rst
 

@@ -38,8 +38,7 @@ Deployment Options
 Architecture
 ------------
 
-.. image:: /images/mms-introduction.svg
-   :align: center
+.. include:: /images/mms-introduction.rst
 
 .. include:: /includes/student-notes.rst
 

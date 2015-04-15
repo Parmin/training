@@ -69,8 +69,7 @@ Restoring from MMS / Ops Manager
 Architecture
 ------------
 
-.. image:: /images/mms-backups.svg
-   :align: center
+.. include:: /images/mms-backups.rst
 
 .. include:: /includes/student-notes.rst
 
