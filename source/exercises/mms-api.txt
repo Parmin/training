@@ -1,0 +1,71 @@
+=================
+Exercise: MMS API
+=================
+
+Learning Objectives 
+-------------------
+
+Upon completing this exercise students should understand:
+
+- Have a basic understanding of working with the MMS API (or Ops Manager if the student chooses)
+
+.. include:: /includes/student-notes.rst
+
+Using the MMS API
+-----------------
+
+If Ops Manager is installed, Ops Manager may also be used in place of MMS for this exercise.
+
+
+Exercise #1
+-----------
+
+Navigate the MMS interface to perform the following:
+
+- Generate an API key
+- Add your personal machince to the API Whitelist
+
+.. only:: instructor
+
+   .. note::
+
+      - Admin -> API Keys and Whitelists
+  
+Exercise #2
+-----------
+
+Modify and run the following curl command to return alerts for your MMS group:
+
+.. code-block:: javascript
+
+	curl -u "username:apiKey" --digest -i 
+	"https://mms.mongodb.com/api/public/v1.0/groups/<GROUP-ID>/alerts"
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Make sure the group id matches a group within the student's account
+      - Ensure the IP address the request was coming from is whitelisted
+      - Ensure the username/apiKey is correct
+        
+Exercise #3
+-----------
+
+How would you find metrics for a given host within your MMS account?  Create an outline for the API calls needed.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - First, query the API for a list of hosts: https://docs.mms.mongodb.com/reference/api/hosts/
+      - Next, query the metrics API call with the host is and name of the metric (or for all metrics): https://docs.mms.mongodb.com/reference/api/hosts/  
+
+
+
+
+

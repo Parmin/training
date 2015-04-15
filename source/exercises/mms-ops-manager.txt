@@ -86,6 +86,20 @@ Verify the Ops Manager installation was successful:
 
 https://docs.opsmanager.mongodb.com/current/tutorial/test-new-deployment/
 
+Exercise #5
+-----------
 
+Use Ops Manager to backup a test cluster:
 
+- Create a 1 node replica set via Ops Manager automation
+- Add sample data to the replica set:
 
+.. code-block:: javascript
+
+	> for (var i=0; i<10000; i++) { db.blog.insert( { "name" : i } )}
+	WriteResult({ "nInserted" : 1 })
+	> db.blog.count()
+	10000
+
+- Use Ops Manager to backup the test cluster
+- Perform a restore via Ops Manager of the test cluster

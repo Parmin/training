@@ -1,0 +1,101 @@
+======================
+Security (Ops Manager)
+======================
+
+
+Learning Objectives 
+-------------------
+
+Upon completing this module students should understand:
+
+- Ops Manager security overview
+- Security and authentication options for Ops Manager
+
+.. include:: /includes/student-notes.rst
+
+Ops Manager User Authentication
+-------------------------------
+
+- Two-Factor authentication can be enabled (uses Google Authenticator)
+- LDAP authentication option
+
+.. include:: /includes/student-notes.rst
+  
+
+Authentication for the Backing Ops Manager Databases
+----------------------------------------------------
+
+Ops Manager application database and blockstore database:
+
+- MongoDB-CR (SCRAM-SHA1)
+- LDAP
+- Kerberos
+
+.. include:: /includes/student-notes.rst
+
+
+Authenticating Between an Ops Manager Agent and Cluster
+-------------------------------------------------------
+
+- LDAP
+- MongoDB-CR 
+- Kerberos (Linux only)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - This is a good time to draw a diagram on the whiteboard to work through the various authentication options between the Ops Manager components
+      - **If you're using Automation to manage a cluster, that cluster cannot use SSL or advanced auth**
+
+
+Encrypting Communications
+-------------------------
+
+- All communications can be encrypted over SSL
+  
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- **If you're using Automation to manage a cluster, that cluster cannot use SSL or advanced auth**
+
+
+Ops Manager Groups
+------------------
+
+- Users can belong to many different groups
+- Users have different levels of access per group
+  
+.. include:: /includes/student-notes.rst
+
+
+User Roles By Group
+-------------------
+
+- Read Only
+- User Admin
+- Monitoring Admin
+- Backup Admin
+- Automation Admin
+- Owner
+  
+.. include:: /includes/student-notes.rst
+
+
+Global User Roles
+-----------------
+
+- Global Read Only
+- Global User Admin
+- Global Monitoring Admin
+- Global Backup Admin
+- Global Automation Admin
+- Global Owner
+
+.. include:: /includes/student-notes.rst
+
