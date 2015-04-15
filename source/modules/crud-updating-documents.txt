@@ -62,6 +62,33 @@ Parameters to ``update()``
 .. include:: /includes/student-notes.rst
 
 
+Exercise: ``$set`` and ``$unset`` (Setup)
+-----------------------------------------
+
+.. code-block:: javascript
+
+  db.movies.insert( [ 
+    { 
+      "title" : "Batman", 
+      "category" : [ "action", "adventure" ], 
+      "imdb_rating" : 7.6, 
+      "budget" : 35 
+    },
+    { 
+      "title" : "Godzilla", 
+      "category" : [ "action", 
+      "adventure", "sci-fi" ], 
+      "imdb_rating" : 6.6 
+    },
+    { 
+      "title" : "Home Alone", 
+      "category" : [ "family", "comedy" ], 
+      "imdb_rating" : 7.4 
+    }
+  ] )
+
+.. include:: /includes/student-notes.rst
+
 Exercise: ``$set`` and ``$unset``
 ---------------------------------
 
@@ -69,18 +96,17 @@ Experiment with the following. Do a ``find()`` after each update to view the res
 
 .. code-block:: javascript
 
-   db.testcol.drop()
-   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i, b : i } ) }
+   db.movies.update( { "title" : "Batman" }, { $set : { "imdb_rating" : 7.7 } } )  
 
-   db.testcol.update( { _id : 3 }, { $set : { a : 6 } } )  
+   db.movies.update( { "title" : "Godzilla" }, { $set : { "budget" : 1 } } ) 
 
-   db.testcol.update( { _id : 5 } , { $set : { c : 5 } } ) 
+   db.movies.update( { "title" : "Home Alone" }, 
+                     { $set : { "budget" : 15, "imdb_rating" : 5.5 } } )
 
-   db.testcol.update( { _id : 5 } , { $set : { c : 7 , a : 7 } } )
+   // how will this query behave?
+   db.movies.update( { "title" : "Batman" }, { "imdb_rating" : 7.7 } )
 
-   db.testcol.update( { _id : 5 } , { d : 4 } )
-
-   db.testcol.update( { _id : 4 } , { $unset :  { a : 1 } } )
+   db.movies.update( { "title" : "Home Alone" }, { $unset :  { "budget" : 1 } } )
 
 .. include:: /includes/student-notes.rst
 
@@ -88,15 +114,36 @@ Experiment with the following. Do a ``find()`` after each update to view the res
 
    .. note::
 
-      - db.testcol.update( { _id : 3 }, { $set : { a : 6 } } ) just updates the ``a`` field.
-      - db.testcol.update( { _id : 5 }, { $set : { c : 5 } } ) adds a ``c`` field to the matching document.
-      - db.testcol.update( { _id : 5 }, { $set : { c : 7 , a : 7 } } ) modifies only the ``c`` and ``a`` fields.
-      - db.testcol.update( { _id : 5 }, { d : 4 } ) is the type of update that is probably a mistake. 
+      - Update will only update the first document it finds by default
+      - Difference between using $set and not using $set is very important
 
-        - It will replace the document with _id : 5 in its entirety.
-	- The new document will be, { d : 4 }.
 
-      - db.testcol.update( { _id : 4 }, { $unset : a } ) removes the ``a`` field.
+Exercise: Update Array Elements by Index
+----------------------------------------
+
+.. code-block:: javascript
+
+   // add a sample document to track mentions per hour
+   db.movie_mentions.insert( { "title" : "E.T.", 
+                               "day" : ISODate("2015-03-27T00:00:00.000Z"), 
+                               "mentions_per_hour" : [ 0, 0, 0, 0, 0, 0, 0,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                 0, 0 ] 
+                              } )
+
+   // update all mentions for the fifth hour of the day
+   db.movie_mentions.update( { "title" : "E.T." } , 
+                             { $set :  { "mentions_per_hour.5" : 2300 } } )                               
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Cool pattern for time series data
+      - Displaying charts is now trivial, can change granularity to by the minute, hour, day, etc.
+
 
 
 Update Operators
@@ -121,22 +168,24 @@ Experiment with the following update operators.
 
 .. code-block:: javascript
 
-   db.testcol.drop()   
-   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i, b : i } ) }
-   db.testcol.find()
+   db.movies.update( { "title" : "Batman" }, { $inc : { "imdb_rating" : 2 } } )        
 
-   db.testcol.update( { _id : 2 }, { $inc : { a : -3 } } )        
+   db.movies.update( { "title" : "Home Alone" }, { $inc : { "budget" : 5 } } )  
 
-   db.testcol.update( { _id : 1 }, { $inc : { q : 1 } } )  
+   db.movies.update( { "title" : "Batman" }, { $mul : { "imdb_rating" : 4 } } )  
 
-   db.testcol.update( { _id : 3 }, { $mul : { a : 4 } } )  
+   db.movies.update( { "title" : "Batman" }, 
+                     { $rename : { "budget" : "estimated_budget" } } )
 
-   db.testcol.update( { _id : 4 }, { $rename : { a : "xyz" } } )
+   db.movies.update( { "title" : "Home Alone" }, { $min : { "budget" : 5 } } )  
 
-   db.testcol.update( { _id : 5 }, { $min : { a : 3 } } )  
+   db.movies.update( { "title" : "Home Alone" }, 
+                     { $currentDate : { "last_updated" : { $type : "timestamp" } } } )
 
-   db.testcol.update( { _id : 1 }, 
-                      { $currentDate : { c : { $type : "timestamp" } } } )
+   // increment movie mentions by 10
+   db.movie_mentions.update( { "title" : "E.T." } , 
+                             { $inc :  { "mentions_per_hour.5" : 10 } } )                               
+
 
 .. include:: /includes/student-notes.rst
 
@@ -169,14 +218,13 @@ Exercise: Multi-Update
 Use ``db.testcol.find()`` after each of these updates.
 
 .. code-block:: javascript
+  
+   // let's start tracking the number of sequals for each movie
+   db.movies.update( { }, { $set : { "sequels" : 0 } } )
 
-   db.testcol.drop()
-   for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i } ) }
-
-   db.testcol.update( { _id : { $lt : 5 } }, { $set : { a : 6 } } )
-
-   db.testcol.update( { _id : { $lt : 5 } }, { $set : { a : 7 } }, 
-                      { multi : true } )
+   // we need { multi : true } to change all documents 
+   db.movies.update( { }, { $set : { "sequels" : 0 } },
+                     { multi : true } )
 
 .. include:: /includes/student-notes.rst
 
@@ -184,8 +232,8 @@ Use ``db.testcol.find()`` after each of these updates.
 
    .. note::
 
-      - ``db.testcol.update( { _id : { $lt : 5 } }, { $set : { a : 6 } } )`` only updates one document.
-      - ``db.testcol.update( { _id : { $lt : 5 } }, { $set : { a : 7 } }, { multi : true } )`` updates four documents.
+      - ``db.movies.update( { }, { $set : { "sequels" : 0 } } )`` only updates one document.
+      - ``db.movies.update( { }, { $set : { "sequels" : 0 } }, { multi : true } )`` updates four documents.
 
 
 Array Operators
@@ -214,21 +262,21 @@ Experiment with the following updates.
 
 .. code-block:: javascript
 
-   db.testcol.drop()   
-   for (i=1; i<=5; i++) { db.testcol.insert( 
-       { _id : i, a : i, b: [ 1, 2, 3, 3, "NA", 6 ] } ) } 
+   db.movies.update( { "title" : "Batman" }, 
+                     { $push : { "category" : "superhero" } } ) 
+   db.movies.update( { "title" : "Batman" }, 
+                     { $pushAll : { "category" : [ "villain", "comicbased" ] } } ) 
+   
+   db.movies.update( { "title" : "Batman" }, 
+                     { $pop : { "category" : 1 } } )  
 
-   db.testcol.update( { _id : 1 }, { $push : { b : 3 } } ) 
-   db.testcol.update( { _id : 2 }, { $pushAll : { b : [ 1, 2, 3 ] } } )
-
-   db.testcol.update( { _id : 2 }, { $pop : { b : "" } } )  
-
-   db.testcol.update( { _id : 3 }, { $pull : { b : 3 } } )  
-   db.testcol.update( { _id : 4 }, 
-                      { $pullAll : { b : [ 1, 2, "NA", 4 ] } } )  
-
-   db.testcol.update( { _id : 5 }, { $addToSet : { b : 2 } } )  
-   db.testcol.update( { _id : 5 }, { $addToSet : { b : 4 } } )  
+   db.movies.update( { "title" : "Batman" }, 
+                     { $pull : { "category" : "action" } } )  
+   db.movies.update( { "title" : "Batman" }, 
+                     { $pullAll : { "category" : [ "villain", "comicbased" ] } } ) 
+    
+   db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )  
+   db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )  
 
 .. include:: /includes/student-notes.rst
 
@@ -237,15 +285,7 @@ Experiment with the following updates.
 
    .. note::
    
-      - If you have time you might want to show the students:
-
-        .. code-block:: javascript
-
-           db.testcol.update( { _id : 1 }, { $push : { b : [ 3, 12 ] } } )  
- 
-      - In ``{ $pop : { b : "" } }``, the value passed for ``b`` is just a placeholder. Most values will work fine.
-      - In ``{ $pullAll : { b : [ 1, 2, "NA", 4 ] } }`` the value ``4`` is not present in the array found in ``b``. This has no effect on the update.
-
+      - Pass $pop a value of -1 to remove the first element of an array and 1 to remove the last element in an array.
 
 
 The Positional ``$`` Operator
@@ -273,14 +313,11 @@ Experiment with the following commands.
 
 .. code-block:: javascript
 
-   db.testcol.drop()
-   for (i=1; i<=5; i++) { db.testcol.insert(
-       { _id: i, a: i, b: [ 1, 2, 3, 3, "NA", 6 ] } ) }
-   db.testcol.find()
-
-   db.testcol.update( { b: "NA" }, { $set: { "b.$" : 11 } }, 
-                      { multi: true } )
-   db.testcol.find()
+   // the "action" category needs to be changed to "action-adventure"
+   db.movies.update( { "category": "action",  }, 
+                     { $set: { "category.$" : "action-adventure" } }, 
+                     { multi: true } )
+   db.movies.find()
 
 .. include:: /includes/student-notes.rst
 
@@ -321,16 +358,17 @@ Experiment with the following upserts.
 
 .. code-block:: javascript
 
-   db.testcol.drop()
-   for (i=1; i<=5; i++) { 
-       db.testcol.insert( { _id: i, a: i, b: i } ) }
-   db.testcol.find()
+   db.movies.update( { "title" : "Jaws" }, 
+                     { $inc: { "budget" : 5 } }, 
+                     { upsert: true } )
 
-   db.testcol.update( { a: 4 }, { $inc: { b : 3 } }, { upsert: true } )
+   db.movies.update( { "title" : "Jaws II" }, 
+                     { $inc: { "budget" : 5 } }, 
+                     { upsert: true } )
 
-   db.testcol.update( { a: 12 }, { $inc: { b : 3 } }, { upsert: true } )
-
-   db.testcol.update( { _id: 6, a: 6 }, { c: 155 }, { upsert: true } )
+   db.movies.update( { "title" : "Jaws III", "category" : [ "horror" ] }, 
+                     { $set : { "budget" : 1 } }, 
+                     { upsert: true } )
 
 .. include:: /includes/student-notes.rst
 
@@ -340,16 +378,16 @@ Experiment with the following upserts.
 
       .. code-block:: javascript
 
-         // updates the document with a: 4 by incrementing b
-         db.testcol.update( { a: 4 }, { $inc: { b : 3 } }, { upsert: true } )
+         // updates the document with "title" = "Jaws" by incrementing "budget"
+         db.movies.update( { "title" : "Jaws" }, { $inc: { "budget" : 5 } }, { upsert: true } )
 
-         // 1) creates a new document, 2) assigns an _id, 3) sets a to 12, 
+         // 1) creates a new document, 2) assigns an _id, 3) sets "title" to "Jaws II" 
          // 4) performs the update
-         db.testcol.update( { a: 12 }, { $inc: { b : 3 } }, { upsert: true } )
+         db.movies.update( { "title" : "Jaws II" }, { $inc: { "budget" : 5 } }, { upsert: true } )
 
-         // 1) creates a new document, 2) sets _id: 6 and a: 6, 
-         // 3) update deletes a and sets c to 155.
-         db.testcol.update( { _id: 6, a: 6 }, { c: 155 }, { upsert: true } )
+         // 1) creates a new document, 2) sets "title" : "Jaws III", 
+         // 3) Set budget to 1
+         db.movies.update( { "title" : "Jaws III" }, { "budget" : 1 }, { upsert: true } )
 
 
 ``save()``
@@ -368,23 +406,25 @@ Experiment with the following upserts.
 Exercise: ``save()``
 --------------------
 
+- If the document does not contain an _id field, then the save() method calls the insert() method. During the operation, the mongo shell will create an ObjectId and assign it to the _id field.
+  
+- If the document contains an _id field, then the save() method is equivalent to an update with the upsert option set to true and the query predicate on the _id field.
+
 .. code-block:: javascript
 
-   db.testcol.drop()   
-   for (i=1; i<=5; i++) { db.testcol.save( { _id : i, a : i, b : i } ) }
-   db.testcol.find()
+   // insert
+   db.movies.save( { "title" : "Beverly Hills Cops", "imdb_rating" : 7.3 })            
 
-   // Look at the code for save. Note that it involves an upsert.
-   db.testcol.save  
-
-   // new document, _id created
-   db.testcol.save( { a : 3 } )                     
-
-   db.testcol.save( { _id : 6, a : 6 } )            // new document
-
-   db.testcol.save( { _id : 3, a : 12, b : 12  } )  // update!!
+   // update with { upsert: true }
+   db.movies.save( { "_id" : 1234, "title" : "Spider Man", "imdb_rating" : 7.3 })  
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - A lot of users prefer to use update/insert, to have more explicit control over the operation
 
 
 Be Careful with ``save()``
@@ -394,20 +434,22 @@ Be careful that you are not modifying stale data when using ``save()``. For exam
         
 .. code-block:: javascript
 
-   db.testcol.drop()
-   db.testcol.insert( { _id : 2, a : 2, b : 2 } )
+   db.movies.drop()
+   db.movies.insert( { "title" : "Jaws", "imdb_rating" : 7.3 } )
 
-   db.testcol.find( { _id : 2 } )
-   doc = db.testcol.findOne( { _id: 2 } )
+   db.movies.find( { "title" : "Jaws" } )
 
-   db.testcol.update( { _id: 2 }, { $inc: { b : 1 } } )
-   db.testcol.find()
+   // store the complete document in the application
+   doc = db.movies.findOne( { "title" : "Jaws" } )
 
-   doc.c = 11
+   db.movies.update( { "title" : "Jaws"  }, { $inc: { "imdb_rating" : 2 } } )
+   db.movies.find()
+
+   doc.imdb_rating = 7.4
    doc
 
-   db.testcol.save(doc)  // just lost our incrementing of b.
-   db.testcol.find()
+   db.movies.save(doc)  // just lost our incrementing of "imdb_rating"
+   db.movies.find()
 
 .. include:: /includes/student-notes.rst
 	   

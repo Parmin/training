@@ -45,13 +45,14 @@ per second.
 
 .. code-block:: javascript
     
-   db.testcol.drop()
-   db.testcol.ensureIndex( { a : 1 }, { expireAfterSeconds : 30 } )
+   db.sessions.drop()
+   db.sessions.ensureIndex( { "last_user_action" : 1 }, 
+                            { "expireAfterSeconds" : 30 } )
 
    i = 0
    while (true) {
        i += 1;
-       db.testcol.insert( { a : ISODate(), b : i } );
+       db.sessions.insert( { "last_user_action" : ISODate(), "b" : i } );
        sleep(1000);  // Sleep for 1 second
    }
 
@@ -68,7 +69,7 @@ Then, leaving that window open, open up a new terminal and connect to the databa
    // look at the output and wait. After a ramp-up of up to a minute or so,
    // count() will be reset to 30 once/minute.
    while (true) {
-       print(db.testcol.count());
+       print(db.sessions.count());
        sleep(100);
    } 
 
