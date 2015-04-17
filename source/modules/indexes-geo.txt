@@ -127,7 +127,7 @@ Creating a 2d index:
 
 .. code-block:: javascript 
 
-   db.<COLLECTION>.ensureIndex( 
+   db.<COLLECTION>.createIndex( 
     { field_name : "2d", <optional additional field> : <value> },
     { <optional options document> } )
 
@@ -191,7 +191,7 @@ You can index one or more 2dsphere fields in an index.
 
 .. code-block:: javascript
 
-   db.<COLLECTION>.ensureIndex( { <location field> : "2dsphere" } )
+   db.<COLLECTION>.createIndex( { <location field> : "2dsphere" } )
 
 .. include:: /includes/student-notes.rst
 

@@ -108,7 +108,7 @@ Start by building an index on { timestamp : 1 }
 
 .. code-block:: javascript
 
-   db.messages.ensureIndex( { timestamp : 1 }, { name : "myindex" } )
+   db.messages.createIndex( { timestamp : 1 }, { name : "myindex" } )
 
 Now let's query for messages with timestamp in the range 2 through 4 inclusive.
 
@@ -118,7 +118,7 @@ Now let's query for messages with timestamp in the range 2 through 4 inclusive.
 
 Analysis:
 
-- Explain plan shows good performance, i.e. ``nscanned`` = ``n``.  
+- Explain plan shows good performance, i.e. ``totalKeysExamined`` = ``n``.  
 - However, this does not satisfy our query.  
 - Need to query again with { username : "anonymous" } as part of the query.
 
@@ -135,9 +135,7 @@ Let's add the ``user`` field to our query.
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-``explain`` shows:
-
-- ``nscanned`` > ``n``. 
+``explain`` shows: ``totalKeysExamined`` > ``n``. 
 
 .. include:: /includes/student-notes.rst
 
@@ -148,22 +146,21 @@ Include ``username`` in Our Index
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.ensureIndex( { timestamp : 1, username : 1 }, 
+   db.messages.createIndex( { timestamp : 1, username : 1 }, 
                             { name : "myindex" } )
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-``explain`` shows:
+``explain`` shows: ``totalKeysExamined`` still > ``n``. 
 
-- ``nscanned`` is still greater than n. 
-- Why?
+Why?
 
 .. include:: /includes/student-notes.rst
 
 
 
-``ncanned`` > n
----------------
+``ncanned`` > ``n``
+-------------------
 
 =========  ===========
 timestamp  username
@@ -194,23 +191,22 @@ Drop the index and build a new one with user.
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.ensureIndex( { username : 1 , timestamp : 1 }, 
+   db.messages.createIndex( { username : 1 , timestamp : 1 }, 
                             { name : "myindex" } )
 
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
 ``explain`` shows:
-
-- nscanned is 2 
+- ``totalKeysExamined`` is 2 
 - n is 2
 
 .. include:: /includes/student-notes.rst
 
 
 
-``nscanned`` == ``n`` == 2
---------------------------
+``totalKeysExamined`` == ``n`` == 2
+-----------------------------------
 
 ===========  =========
 username     timestamp
@@ -256,7 +252,7 @@ Finally, let's add the sort and run the query.
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
 
-- Note that the ``scanAndOrder`` field is set to true.
+- Note that the ``winningPlan`` includes a ``SORT`` stage.
 - This means that MongoDB had to perform a sort in memory.  
 - In memory sorts for queries that retrieve large numbers of documents can degrade performance significantly.
 - Especially, if they are used frequently.
@@ -273,7 +269,7 @@ Let's modify the index again to allow the database to sort for us.
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.ensureIndex( { username : 1 , timestamp : 1, rating : 1 }, 
+   db.messages.createIndex( { username : 1 , timestamp : 1, rating : 1 }, 
                             { name : "myindex" } );
    db.messages.find( { 
                        timestamp : { $gte : 2, $lte : 4 }, 
@@ -297,7 +293,7 @@ Rebuild the index as follows.
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.ensureIndex( { username : 1, rating : 1, timestamp : 1 }, 
+   db.messages.createIndex( { username : 1, rating : 1, timestamp : 1 }, 
                             { name : "myindex" } );
    db.messages.find( { 
                        timestamp : { $gte : 2, $lte : 4 }, 
@@ -305,10 +301,10 @@ Rebuild the index as follows.
                      } ).sort( { rating : -1 } ).explain();
 
 
-- Tradeoff between ``nscanned`` and ``scanAndOrder``
-- ``nscanned`` is 3 and and ``n`` is 2. 
+- We no longer have an in-memory sort, but need to examine more keys.
+- ``totalKeysExamined`` is 3 and and ``n`` is 2. 
 - Best we can do in this case and in this situation is fine.
-- However, if ``nscanned`` is much larger than ``n``, this might not be the best index.  
+- However, if ``totalKeysExamined`` is much larger than ``n``, this might not be the best index.  
 
 .. include:: /includes/student-notes.rst
 
@@ -345,7 +341,7 @@ Exercise: Covered Queries
      db.testcol.insert({ "_id" : i, "title" : i, "name" : i, 
                          "rating" : i, "budget" : i })
    };
-   db.testcol.ensureIndex( { "title" : 1, "name" : 1, "rating" : 1 } )
+   db.testcol.createIndex( { "title" : 1, "name" : 1, "rating" : 1 } )
    
    // Not covered because _id is  present.
    db.testcol.find( { "title" : 3 }, 

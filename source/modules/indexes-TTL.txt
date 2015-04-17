@@ -31,7 +31,7 @@ Create with:
 
 .. code-block:: javascript
 
-   db.<COLLECTION>.ensureIndex( { field_name : 1 },
+   db.<COLLECTION>.createIndex( { field_name : 1 },
                               { expireAfterSeconds : some_number } )
 
 .. include:: /includes/student-notes.rst
@@ -46,7 +46,7 @@ per second.
 .. code-block:: javascript
     
    db.sessions.drop()
-   db.sessions.ensureIndex( { "last_user_action" : 1 }, 
+   db.sessions.createIndex( { "last_user_action" : 1 }, 
                             { "expireAfterSeconds" : 30 } )
 
    i = 0

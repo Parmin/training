@@ -291,7 +291,7 @@ Creating an Index
 
 .. code-block:: javascript
 
-   db.tweets.ensureIndex( { "user.followers_count" : 1 } )
+   db.tweets.createIndex( { "user.followers_count" : 1 } )
    db.tweets.find( { "user.followers_count" : 1000 } ).explain()
 
 .. include:: /includes/student-notes.rst

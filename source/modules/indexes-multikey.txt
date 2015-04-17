@@ -24,7 +24,7 @@ Introduction to Multikey Indexes
 - An index entry is created on each value found in the array.
 - Multikey indexes can support primitives, documents, or sub-arrays.
 - There is nothing special that you need to do to create a multikey index. 
-- You created them using ``ensureIndex()`` just as you would with an ordinary single-field index.
+- You created them using ``createIndex()`` just as you would with an ordinary single-field index.
 - If there is an array as a value for an indexed field, the index will be multikey on that field.
 
 .. include:: /includes/student-notes.rst
@@ -36,7 +36,7 @@ Example: Array of Numbers
 .. code-block:: javascript
 
     db.race_results.drop()
-    db.race_results.ensureIndex( { "lap_times" : 1 } )
+    db.race_results.createIndex( { "lap_times" : 1 } )
     a = [ { "lap_times" : [ 3, 5, 2, 8 ] },
           { "lap_times" : [ 1, 6, 4, 2 ] },
           { "lap_times" : [ 6, 3, 3, 8 ] } ]
@@ -72,9 +72,9 @@ Create a collection and add an index on the ``x`` field:
             { "name" : "Sue", "rating" : 7 } ] }]
    db.blog.insert(b)
 
-   db.blog.ensureIndex( { "comments" : 1 } )
+   db.blog.createIndex( { "comments" : 1 } )
    // vs
-   db.blog.ensureIndex( { "comments.rating" : 1 } )
+   db.blog.createIndex( { "comments.rating" : 1 } )
 
    // for this query
    db.blog.find( { "comments.rating" : 5 })
@@ -126,7 +126,7 @@ Add some documents and create an index simulating a player in a game moving on a
 .. code-block:: javascript
 
    db.player.drop()
-   db.player.ensureIndex( { "last_moves" : 1 } )
+   db.player.createIndex( { "last_moves" : 1 } )
    c = [ { "last_moves" : [ [ 1, 2 ], [ 2, 3 ], [ 3, 4] ] }, 
          { "last_moves" : [ [ 3, 4 ], [ 4, 5 ] ] },
          { "last_moves" : [ [ 4, 5 ], [ 5, 6 ] ] },
@@ -224,7 +224,7 @@ Example: Multikey Indexes on Multiple Fields
 .. code-block:: javascript
 
    db.testcol.drop()
-   db.testcol.ensureIndex( { x : 1, y : 1 } )
+   db.testcol.createIndex( { x : 1, y : 1 } )
 
    // no problems yet
    db.testcol.insert( { _id : 1, x : 1, y : 1 } )  
