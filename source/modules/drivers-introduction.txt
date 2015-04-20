@@ -1,0 +1,127 @@
+===============================
+Introduction to MongoDB Drivers
+===============================
+
+Learning Objectives
+-------------------
+
+- MongoDB drivers available
+- Driver specifications
+- Driver settings
+- Java, Python, and C++ driver examples
+
+
+MongoDB Supported Drivers
+-------------------------
+
+**Maintained and supported by MongoDB:**
+
+C, C++, C#, Java, Node.js, Perl, PHP, Python, Motor, Ruby, Scala
+
+MongoDB Community Supported Drivers
+-----------------------------------
+
+**35+ different drivers for MongoDB:**
+
+Go, Erlang, Clojure, D, Delphi, F#, Groovy, Lisp, Objective C, Prolog, Smalltalk, and more
+
+
+Driver Specs
+------------
+
+To ensure drivers have a consistent functionality, series of publicly available specification documents for:
+
+- Server selection
+- Index management
+- CRUD operations
+- Authentication
+- Etc.
+  
+Driver Settings (Per Operation)
+-------------------------------
+
+- Read preference
+- Write concern
+- Maximum operation time (maxTimeMS)
+- Batch Size (batchSize)
+- Exhaust cursor (exhaust)
+- Etc.
+
+Driver Settings (Per Connection)
+--------------------------------
+
+- Connection timeout
+- Connections per host 
+- Time that a thread will block waiting for a connection (maxWaitTime)
+- Socket keep alive 
+- Sets the multiplier for number of threads allowed to block waiting for a connection
+- Etc.
+
+Insert a Document with the Java Driver
+--------------------------------------
+
+**Connect to a MongoDB instance on localhost:**
+
+.. code-block:: javascript
+
+  MongoClient mongoClient = new MongoClient();
+
+**Access the test database:**
+
+.. code-block:: javascript
+
+  MongoDatabase db = mongoClient.getDatabase("test");
+
+**Insert a myDocument Document into the test.blog collection:**
+
+.. code-block:: javascript
+
+  db.getCollection("blog").insertOne(myDocument);
+
+
+Insert a Document with the Python Driver
+----------------------------------------
+
+**Connect to a MongoDB instance on localhost:**
+
+.. code-block:: javascript
+
+  client = MongoClient()
+
+**Access the test database:**
+
+.. code-block:: javascript
+
+  db = client['test']
+
+**Insert a myDocument Document into the test.blog collection:**
+
+.. code-block:: javascript
+
+  db.blog.insert_one(myDocument);
+
+
+Insert a Document with the C++ Driver
+-------------------------------------
+
+**Connect to the "test" database on localhost:**
+
+.. code-block:: javascript
+
+  mongocxx::instance inst{};
+  mongocxx::client conn{};
+
+  auto db = conn["test"];
+
+
+**Insert a myDocument Document into the test.blog collection:**
+
+.. code-block:: javascript
+
+  auto res = db["blog"].insert_one(myDocument);
+
+
+
+
+
+
