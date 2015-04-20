@@ -107,7 +107,7 @@ Start by building an index on { timestamp : 1 }
 
 .. code-block:: javascript
 
-   db.messages.ensureIndex( { timestamp : 1 }, { name : "myindex" } )
+   db.messages.createIndex( { timestamp : 1 }, { name : "myindex" } )
 
 Now let's query for messages with timestamp in the range 2 through 4 inclusive.
 
@@ -147,7 +147,7 @@ Include ``username`` in Our Index
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.ensureIndex( { timestamp : 1, username : 1 }, 
+   db.messages.createIndex( { timestamp : 1, username : 1 }, 
                             { name : "myindex" } )
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
@@ -193,7 +193,7 @@ Drop the index and build a new one with user.
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.ensureIndex( { username : 1 , timestamp : 1 }, 
+   db.messages.createIndex( { username : 1 , timestamp : 1 }, 
                             { name : "myindex" } )
 
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
@@ -272,7 +272,7 @@ Let's modify the index again to allow the database to sort for us.
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.ensureIndex( { username : 1 , timestamp : 1, rating : 1 }, 
+   db.messages.createIndex( { username : 1 , timestamp : 1, rating : 1 }, 
                             { name : "myindex" } );
    db.messages.find( { 
                        timestamp : { $gte : 2, $lte : 4 }, 
@@ -296,7 +296,7 @@ Rebuild the index as follows.
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.ensureIndex( { username : 1, rating : 1, timestamp : 1 }, 
+   db.messages.createIndex( { username : 1, rating : 1, timestamp : 1 }, 
                             { name : "myindex" } );
    db.messages.find( { 
                        timestamp : { $gte : 2, $lte : 4 }, 
@@ -345,7 +345,7 @@ Perform the following operations. Look at ``indexOnly`` in the ``explain()`` out
    for (i=1; i<=20; i++) { 
      db.testcol.insert( { _id : i, a : i, b : i, c : i, d : i } )
    };
-   db.testcol.ensureIndex( { a : 1, b : 1, c : 1 } )
+   db.testcol.createIndex( { a : 1, b : 1, c : 1 } )
    
    // Not covered because _id is  present.
    db.testcol.find( { a : 3 }, { a : 1, b : 1, c : 1 } ).explain()

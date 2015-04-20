@@ -18,4 +18,4 @@ Create a 2d index on the collection ``testcol`` with:
 
       .. code-block:: javascript
 
-         db.testcol.ensureIndex( { xy : "2d" }, { min : -20, max : 20, bits : 10 } )
+         db.testcol.createIndex( { xy : "2d" }, { min : -20, max : 20, bits : 10 } )

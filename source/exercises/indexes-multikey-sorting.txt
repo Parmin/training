@@ -8,7 +8,7 @@ Exercise: Multikey Indexes and Sorting
          { x : [ 4 ] }, { x : [ 5 ] } ]
    db.testcol.insert(a)
 
-   db.testcol.ensureIndex( { x : 1 } )  
+   db.testcol.createIndex( { x : 1 } )  
 
    // x : [ 1, 11 ] array comes first. It contains the lowest value.
    db.testcol.find().sort( { x : 1 } )  

@@ -72,7 +72,7 @@ Create a hashed index using an operation that resembles the following. This oper
 
 .. code-block:: javascript
 
-   db.active.ensureIndex( { a: "hashed" } )
+   db.active.createIndex( { a: "hashed" } )
 
 .. include:: /includes/student-notes.rst
 

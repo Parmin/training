@@ -33,7 +33,7 @@ You create a text index a little bit differently than you create a standard inde
 
 .. code-block:: javascript
 
-   db.<COLLECTION>.ensureIndex( { <field name> : "text" } )
+   db.<COLLECTION>.createIndex( { <field name> : "text" } )
 
 .. include:: /includes/student-notes.rst
 

@@ -20,10 +20,10 @@ Exercise: Creating a 2dsphere Index
 
       .. code-block:: javascript
 
-         db.flights.ensureIndex( { origin : "2dsphere", 
+         db.flights.createIndex( { origin : "2dsphere", 
                                    destination : "2dsphere", 
                                    flightNumber : 1 } )
 
-         db.flights.ensureIndex( { destination : "2dsphere" } )
+         db.flights.createIndex( { destination : "2dsphere" } )
 
          db.flights.getIndexes() // see the indexes.
