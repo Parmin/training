@@ -304,6 +304,20 @@ Creating an Index
       - Operations teams are accustomed to thinking about indexes. 
       - With MongoDB, developers need to be more involved in the creation and use of indexes.
 
+Listing Indexes
+---------------
+
+.. code-block:: javascript
+
+  db.tweets.getIndexes()
+
+List index keys:
+
+.. code-block:: javascript
+
+  db.tweets.getIndexKeys()
+
+
 
 Indexes and Read/Write Performance
 ----------------------------------
@@ -384,9 +398,9 @@ Defining Unique Indexes
 Building Indexes in the Background
 ----------------------------------
 
-- Building indexes in foreground is a blocking operation
-- Background index creation is non-blocking, however, takes longer to build
-- Initially larger, or less compact, than an index built in the foreground
+- Building indexes in foreground is a blocking operation.
+- Background index creation is non-blocking, however, takes longer to build.
+- Initially larger, or less compact, than an index built in the foreground.
 
 .. code-block:: javascript
 
