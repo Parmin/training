@@ -34,6 +34,10 @@ file: /modules/nav/mms
 description: |
   An overview of the MongoDB Management Service (MMS)
 ---
+file: /modules/nav/drivers
+description: |
+  An overview of the MongoDB drivers
+---
 file: /modules/performance
 description: |
   An introduction to MongoDB tools for performance troubleshooting.
