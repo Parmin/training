@@ -106,7 +106,7 @@ Scenario E: 3 Data Nodes in 3 DCs
 
 
 
-Scenario F: 5 data nodes in 3 DCs
+Scenario F: 5 Data Nodes in 3 DCs
 ---------------------------------
 
 What happens here if any one of the nodes/DCs fail? What about recovery time?

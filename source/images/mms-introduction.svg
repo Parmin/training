@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
- <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
- <g>
-  <title>Layer 1</title>
-  <rect fill="#ffffff" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="59" y="224" width="523.99999" height="236" id="svg_3" stroke="#000000"/>
-  <rect fill="#ffffff" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="66" y="263" width="508" height="57" id="svg_18"/>
-  <rect fill="#ffffff" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="67" y="329" width="508" height="57" id="svg_17"/>
-  <text fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="323" y="363.5" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" font-weight="bold" id="svg_22">Backups</text>
-  <rect fill="#ffffff" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="67" y="395" width="508" height="57" id="svg_19"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="58" y="64" width="52" height="106" id="svg_6"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="118" y="64.5" width="52" height="106" id="svg_8"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="90" y="69" width="25" height="0" id="svg_7"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="177" y="64.5" width="52" height="106" id="svg_9"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="236" y="64.5" width="52" height="106" id="svg_10"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="295" y="64.5" width="52" height="106" id="svg_11"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="354" y="64.5" width="52" height="106" id="svg_12"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="413" y="64.5" width="52" height="106" id="svg_13"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="472" y="64.5" width="52" height="106" id="svg_14"/>
-  <rect fill="#43a001" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="531" y="64.5" width="52" height="106" id="svg_15"/>
-  <text style="cursor: move;" fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="321" y="42" id="svg_16" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" font-weight="bold">MongoDB Clusters</text>
-  <text style="cursor: move;" fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="322" y="250" id="svg_20" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" font-weight="bold">MMS / Ops Manager</text>
-  <text fill="#020000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="323" y="300" id="svg_21" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" font-weight="bold">Monitoring</text>
-  <text fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="323" y="431.5" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" font-weight="bold" id="svg_23">Automation</text>
-  <path fill="#fffefc" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m305.39954,196.32843l9.85776,-13.91602l0,6.95833l14.28571,0l0,-6.95833l9.85663,13.91602l-9.85663,13.91602l0,-6.95761l-14.28571,0l0,6.95761l-9.85776,-13.91602z" id="svg_24" transform="rotate(-89.79183197021484 322.39959716796875,196.32843017578122) " stroke="#000000"/>
- </g>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="640" height="480" viewBox="0, 0, 640, 480">
+  <g id="Layer_1">
+    <path d="M59,224 L583,224 L583,460 L59,460 z" fill="#2A86C0" id="svg_3"/>
+    <path d="M74,394 L568,394 L568,451 L74,451 z" fill="#FFFFFF" id="svg_18"/>
+    <path d="M74,328 L568,328 L568,385 L74,385 z" fill="#FFFFFF" id="svg_18"/>
+    <path d="M74,263 L568,263 L568,320 L74,320 z" fill="#FFFFFF" id="svg_18"/>
+    <text transform="matrix(1, 0, 0, 1, 323, 357.5)" id="svg_22">
+      <tspan x="-36" y="5" font-family="Inconsolata" font-size="24" fill="#000000">Backup</tspan>
+    </text>
+    <path d="M58,64 L110,64 L110,170 L58,170 z" fill="#5CA831" id="svg_6"/>
+    <path d="M118,64.5 L170,64.5 L170,170.5 L118,170.5 z" fill="#5CA831" id="svg_8"/>
+    <path d="M177,64.5 L229,64.5 L229,170.5 L177,170.5 z" fill="#5CA831" id="svg_9"/>
+    <path d="M236,64.5 L288,64.5 L288,170.5 L236,170.5 z" fill="#5CA831" id="svg_10"/>
+    <path d="M295,64.5 L347,64.5 L347,170.5 L295,170.5 z" fill="#5CA831" id="svg_11"/>
+    <path d="M354,64.5 L406,64.5 L406,170.5 L354,170.5 z" fill="#5CA831" id="svg_12"/>
+    <path d="M413,64.5 L465,64.5 L465,170.5 L413,170.5 z" fill="#5CA831" id="svg_13"/>
+    <path d="M472,64.5 L524,64.5 L524,170.5 L472,170.5 z" fill="#5CA831" id="svg_14"/>
+    <path d="M531,64.5 L583,64.5 L583,170.5 L531,170.5 z" fill="#5CA831" id="svg_15"/>
+    <text transform="matrix(1, 0, 0, 1, 321, 34)" id="svg_16">
+      <tspan x="-96" y="5" font-family="Inconsolata" font-size="24" fill="#000000">MongoDB Clusters</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 322, 246)" id="svg_20">
+      <tspan x="-102" y="5" font-family="Inconsolata" font-size="24" fill="#FFFFFF">MMS / Ops Manager</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 323, 294)" id="svg_21">
+      <tspan x="-60" y="5" font-family="Inconsolata" font-size="24" fill="#020000">Monitoring</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 323, 425.5)" id="svg_23">
+      <tspan x="-60" y="5" font-family="Inconsolata" font-size="24" fill="#000000">Automation</tspan>
+    </text>
+    <g id="svg_24">
+      <path d="M322.338,213.328 L308.458,203.42 L315.416,203.445 L315.468,189.16 L308.51,189.135 L322.461,179.329 L336.341,189.236 L329.384,189.21 L329.332,203.496 L336.29,203.521 L322.338,213.328 z" fill="#FFFEFC"/>
+      <path d="M322.338,213.328 L308.458,203.42 L315.416,203.445 L315.468,189.16 L308.51,189.135 L322.461,179.329 L336.341,189.236 L329.384,189.21 L329.332,203.496 L336.29,203.521 L322.338,213.328 z" fill-opacity="0" stroke="#000000" stroke-width="1.5"/>
+    </g>
+  </g>
 </svg>

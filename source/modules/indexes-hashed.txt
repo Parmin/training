@@ -8,8 +8,8 @@ Learning Objectives
 
 Upon completing this module, students should understand:
 
-- What a hashed index is.
-- When to use one.
+- What a hashed index is
+- When to use a hashed index
 
 .. include:: /includes/student-notes.rst
 
@@ -22,7 +22,7 @@ What is a Hashed Index?
 - The hashing function collapses sub-documents and computes the hash for the entire value.
 - MongoDB can use the hashed index to support equality queries.
 - Hashed indexes do not support multi-key indexes, i.e. indexes on array fields.
-- Nor do they support range queries.
+- Hashed indexes do not support range queries.
 
 .. include:: /includes/student-notes.rst
 
@@ -42,8 +42,8 @@ Why Hashed Indexes?
 Limitations
 -----------
 
-- You may not create compound indexes that have hashed index fields
-- You may not specify a unique constraint on a hashed index
+- You may not create compound indexes that have hashed index fields.
+- You may not specify a unique constraint on a hashed index.
 - You can create both a hashed index and a non-hashed index on the same field. 
 
 .. only:: instructor

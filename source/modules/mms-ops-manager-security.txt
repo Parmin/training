@@ -48,21 +48,14 @@ Authenticating Between an Ops Manager Agent and Cluster
    .. note::
 
       - This is a good time to draw a diagram on the whiteboard to work through the various authentication options between the Ops Manager components
-      - **If you're using Automation to manage a cluster, that cluster cannot use SSL or advanced auth**
 
 
 Encrypting Communications
 -------------------------
 
 - All communications can be encrypted over SSL
+- However, currently, if you are using Automation to manage a cluster, that cluster cannot use SSL or advanced auth.
   
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-   		- **If you're using Automation to manage a cluster, that cluster cannot use SSL or advanced auth**
 
 
 Ops Manager Groups

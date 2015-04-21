@@ -120,7 +120,7 @@ Analysis:
 
 - Explain plan shows good performance, i.e. ``totalKeysExamined`` = ``n``.  
 - However, this does not satisfy our query.  
-- Need to query again with { username : "anonymous" } as part of the query.
+- Need to query again with ``{username: "anonymous"}`` as part of the query.
 
 .. include:: /includes/student-notes.rst
 
@@ -135,7 +135,7 @@ Let's add the ``user`` field to our query.
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-``explain`` shows: ``totalKeysExamined`` > ``n``. 
+``totalKeysExamined`` > ``n``. 
 
 .. include:: /includes/student-notes.rst
 
@@ -151,16 +151,14 @@ Include ``username`` in Our Index
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-``explain`` shows: ``totalKeysExamined`` still > ``n``. 
-
-Why?
+``totalKeysExamined`` is still > ``n``. Why?
 
 .. include:: /includes/student-notes.rst
 
 
 
-``ncanned`` > ``n``
--------------------
+``totalKeysExamined`` > ``n``
+-----------------------------
 
 =========  ===========
 timestamp  username
@@ -197,16 +195,14 @@ Drop the index and build a new one with user.
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-``explain`` shows:
-- ``totalKeysExamined`` is 2 
-- n is 2
+``totalKeysExamined`` is 2. ``n`` is 2.
 
 .. include:: /includes/student-notes.rst
 
 
 
-``totalKeysExamined`` == ``n`` == 2
------------------------------------
+``totalKeysExamined`` == ``n``
+------------------------------
 
 ===========  =========
 username     timestamp
@@ -255,7 +251,7 @@ Finally, let's add the sort and run the query.
 - Note that the ``winningPlan`` includes a ``SORT`` stage.
 - This means that MongoDB had to perform a sort in memory.  
 - In memory sorts for queries that retrieve large numbers of documents can degrade performance significantly.
-- Especially, if they are used frequently.
+- This is especially true if they are used frequently.
 
 .. include:: /includes/student-notes.rst
 
@@ -303,7 +299,7 @@ Rebuild the index as follows.
 
 - We no longer have an in-memory sort, but need to examine more keys.
 - ``totalKeysExamined`` is 3 and and ``n`` is 2. 
-- Best we can do in this case and in this situation is fine.
+- This is the best we can do in this situation and this is fine.
 - However, if ``totalKeysExamined`` is much larger than ``n``, this might not be the best index.  
 
 .. include:: /includes/student-notes.rst
@@ -312,9 +308,9 @@ Rebuild the index as follows.
 General Rules of Thumb
 ----------------------
 
-- Equality before range.
-- Equality before sorting.  
-- Sorting before range.
+- Equality before range
+- Equality before sorting
+- Sorting before range
 
 .. include:: /includes/student-notes.rst
 

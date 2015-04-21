@@ -13,6 +13,6 @@ MongoDB Developer Training
    /modules/nav/schema-design
    /modules/nav/replica-sets-dev
    /modules/nav/sharding-dev
-   /modules/nav/mms
+   /modules/nav/mms-developer
    /modules/nav/supplementary-dev
 

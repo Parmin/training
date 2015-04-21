@@ -7,9 +7,9 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- How to create a TTL index.
-- When a TTL indexed document will get deleted.
-- Limitations of TTL indexes.
+- How to create a TTL index
+- When a TTL indexed document will get deleted
+- Limitations of TTL indexes
 
 .. include:: /includes/student-notes.rst
 
@@ -18,8 +18,8 @@ TTL Index Basics
 ----------------
 
 - TTL is short for "Time To Live".
-- This must index a field of type "Date" (including ISODate) or "Timestamp"
-- Any Date field older than expireAfterSeconds will get deleted at some point
+- TTL indexes must be based on a field of type ``Date`` (including ``ISODate``) or ``Timestamp``.
+- Any ``Date`` field older than ``expireAfterSeconds`` will get deleted at some point.
 
 .. include:: /includes/student-notes.rst
 
