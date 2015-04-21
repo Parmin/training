@@ -120,6 +120,24 @@ Configure the Replica Set
         when adding the data node and arbiter, MongoDB will refuse to mix the
         two and return an error.
 
+Problems That May Occur When Initializing the Replica Set
+---------------------------------------------------------
+
+- bindIp parameter is incorrectly set
+- Replica set configuration may need to be explicitly specified to use a different hostname:
+  
+.. code-block:: javascript
+  
+  > conf = {             
+      _id: "<REPLICA-SET-NAME>",
+      members: [
+          { _id : 0, host : "<HOSTNAME>:27017"},
+          { _id : 1, host : "<HOSTNAME>:27018"},
+          { _id : 2, host : "<HOSTNAME>:27019"},
+        ]
+      }
+  > rs.initiate(conf)
+
 
 Write to the Primary
 --------------------
