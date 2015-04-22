@@ -64,8 +64,18 @@ MongoDB Journaling Mechanics
 
 - Journal files in <DATA-DIR>/journal are append only
 - 1GB per journal file
-- Once MongoDB applies all write operations from a journal file to the database data files, it deletes the journal file
+- Once MongoDB applies all write operations from a journal file to the database data files, it deletes the journal file (or re-uses it)
 - Usually only a few journal files in the <DATA-DIR>/journal directory
+
+.. include:: /includes/student-notes.rst
+
+
+MongoDB Journaling Mechanics (Continued)
+----------------------------------------
+
+- Data is flushed from the shared view to data files every 60 seconds (configurable)
+- The operating system may force a flush at a higher frequency than 60 seconds if the system is low on free memory
+- Once a journal file contains only flushed writes, it is no longer needed for recovery and can be deleted or re-used
 
 .. include:: /includes/student-notes.rst
 
