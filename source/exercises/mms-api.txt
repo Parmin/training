@@ -11,10 +11,13 @@ Upon completing this exercise students should understand:
 
 .. include:: /includes/student-notes.rst
 
+
 Using the MMS API
 -----------------
 
-If Ops Manager is installed, Ops Manager may also be used in place of MMS for this exercise.
+If Ops Manager is installed, it may be used in place of MMS for this exercise.
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise #1
@@ -23,7 +26,9 @@ Exercise #1
 Navigate the MMS interface to perform the following:
 
 - Generate an API key
-- Add your personal machince to the API Whitelist
+- Add your personal machine to the API whitelist
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -50,7 +55,8 @@ Modify and run the following curl command to return alerts for your MMS group:
       - Make sure the group id matches a group within the student's account
       - Ensure the IP address the request was coming from is whitelisted
       - Ensure the username/apiKey is correct
-        
+
+
 Exercise #3
 -----------
 

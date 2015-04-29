@@ -312,7 +312,18 @@ Dropping a Collection
       Mention that ``drop()`` is more performant than remove because of the lookup costs associated with ``remove()``.
 
 
-.. include:: /exercises/crud-dropping-a-collection.txt
+Exercise: Dropping a Collection
+-------------------------------
+
+.. code-block:: javascript
+
+   db.colToBeDropped.insert( { a : 1 } )
+   show collections  // Shows the colToBeDropped collection
+
+   db.colToBeDropped.drop()
+   show collections  // collection is gone
+
+.. include:: /includes/student-notes.rst
 
 
 

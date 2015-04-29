@@ -31,16 +31,16 @@ Development Phase: Known Query Patterns
 .. code-block:: javascript
 
    // Find authors by last name.
-   db.authors.ensureIndex({ "lastName": 1 })
+   db.authors.createIndex({ "lastName": 1 })
 
    // Find books by slug for detail view
-   db.books.ensureIndex({ "slug": 1 })
+   db.books.createIndex({ "slug": 1 })
 
    // Find books by subject (multi-key)
-   db.books.ensureIndex({ "subjects": 1 })
+   db.books.createIndex({ "subjects": 1 })
 
    // Find books by publisher (index on embedded doc)
-   db.books.ensureIndex({ "publisher.name": 1 })
+   db.books.createIndex({ "publisher.name": 1 })
 
 .. include:: /includes/student-notes.rst
 

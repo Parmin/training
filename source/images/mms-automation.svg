@@ -1,26 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
- <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
- <g>
-  <title>Layer 1</title>
-  <rect height="172" width="155" y="64.5" x="424.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffffff" id="svg_4" stroke="#000000"/>
-  <rect height="172" width="155" y="64" x="241.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffffff" stroke="#000000" id="svg_8"/>
-  <rect height="172" width="155" y="64" x="55.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffffff" stroke="#000000" id="svg_6"/>
-  <rect height="36" width="140" y="192" x="62.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#43a001" id="svg_9" stroke="#000000"/>
-  <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="200.68264" y="227.42857" id="svg_12" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" transform="matrix(0.676542341709137,0,0,0.5833333134651184,-3.7703033294528723,80.83333718776703) " stroke="#000000">Automation Agent</text>
-  <rect id="svg_3" height="126" width="523.99999" y="334" x="59" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffffff" stroke="#000000"/>
-  <rect id="svg_19" height="57" width="508" y="395" x="67" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#ffffff"/>
-  <rect id="svg_7" height="0" width="25" y="69" x="90" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#43a001"/>
-  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" id="svg_16" y="42" x="321" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">Machines in Data Center</text>
-  <text style="cursor: move;" stroke="#000000" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" id="svg_20" y="366" x="318" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">MMS / Ops Manager</text>
-  <text id="svg_23" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Helvetica" font-size="24" y="431.5" x="323" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">Automation</text>
-  <rect height="36" width="140" y="192" x="250" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#43a001" stroke="#000000" id="svg_10"/>
-  <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="477.09104" y="229.07927" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" transform="matrix(0.676542341709137,0,0,0.5833333134651184,-3.7703033294528723,80.83333718776703) " stroke="#000000" id="svg_13">Automation Agent</text>
-  <rect height="36" width="140" y="191" x="432" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#43a001" stroke="#000000" id="svg_11"/>
-  <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="746.10598" y="225.6507" font-size="24" font-family="Helvetica" text-anchor="middle" xml:space="preserve" transform="matrix(0.676542341709137,0,0,0.5833333134651184,-3.7703033294528723,80.83333718776703) " stroke="#000000" id="svg_14">Automation Agent</text>
-  <path fill="#000000" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m96.07999,284.54214l20.49966,-20.4996l0,10.24948l29.71034,0l0,-10.24948l20.49997,20.4996l-20.49997,20.5004l0,-10.25085l-29.71034,0l0,10.25085l-20.49966,-20.5004z" id="svg_17" transform="rotate(90.66243743896484 131.43498229980466,284.54254150390625) "/>
-  <path fill="#000000" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m283.64502,283.9996l20.49966,-20.4996l0,10.24948l29.71033,0l0,-10.24948l20.5,20.4996l-20.5,20.5004l0,-10.25085l-29.71033,0l0,10.25085l-20.49966,-20.5004z" transform="rotate(90.66243743896484 319,284) " id="svg_18"/>
-  <path fill="#000000" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m464.64502,283.9996l20.49966,-20.4996l0,10.24948l29.7103,0l0,-10.24948l20.50006,20.4996l-20.50006,20.5004l0,-10.25085l-29.7103,0l0,10.25085l-20.49966,-20.5004z" transform="rotate(90.66243743896484 499.99999999999994,284) " id="svg_21"/>
- </g>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="640" height="480" viewBox="0, 0, 640, 480">
+  <g id="Layer_1">
+    <g id="svg_4">
+      <path d="M424.5,64.5 L579.5,64.5 L579.5,236.5 L424.5,236.5 z" fill="#FFFFFF"/>
+      <path d="M424.5,64.5 L579.5,64.5 L579.5,236.5 L424.5,236.5 z" fill-opacity="0" stroke="#000000" stroke-width="1.5"/>
+    </g>
+    <g id="svg_8">
+      <path d="M241.5,64 L396.5,64 L396.5,236 L241.5,236 z" fill="#FFFFFF"/>
+      <path d="M241.5,64 L396.5,64 L396.5,236 L241.5,236 z" fill-opacity="0" stroke="#000000" stroke-width="1.5"/>
+    </g>
+    <g id="svg_6">
+      <path d="M55.5,64 L210.5,64 L210.5,236 L55.5,236 z" fill="#FFFFFF"/>
+      <path d="M55.5,64 L210.5,64 L210.5,236 L55.5,236 z" fill-opacity="0" stroke="#000000" stroke-width="1.5"/>
+    </g>
+    <g>
+      <path d="M62.5,180.583 L202.5,180.583 L202.5,228 L62.5,228 z" fill="#5CA831" id="svg_9"/>
+      <text transform="matrix(0.677, 0, 0, 0.583, 133, 203.315)" id="svg_12">
+        <tspan x="-90" y="-8.968" font-family="Inconsolata" font-size="36" fill="#FFFFFF">Automation </tspan>
+        <tspan x="-45" y="30.032" font-family="Inconsolata" font-size="36" fill="#FFFFFF">Agent</tspan>
+      </text>
+    </g>
+    <g id="svg_3">
+      <path d="M59,334 L583,334 L583,460 L59,460 z" fill="#FFFFFF"/>
+      <path d="M59,334 L583,334 L583,460 L59,460 z" fill-opacity="0" stroke="#000000" stroke-width="1.5"/>
+    </g>
+    <path d="M67,395 L575,395 L575,452 L67,452 z" fill="#5CA831" id="svg_19"/>
+    <text transform="matrix(1, 0, 0, 1, 314.783, 30.5)" id="svg_16">
+      <tspan x="-207" y="11.5" font-family="Inconsolata" font-size="36" fill="#000000">Machines in Data Center</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 318, 366)" id="svg_20">
+      <tspan x="-102" y="5" font-family="Inconsolata" font-size="24" fill="#000000">MMS / Ops Manager</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 323, 424.5)" id="svg_23">
+      <tspan x="-60" y="5" font-family="Inconsolata" font-size="24" fill="#FFFFFF">Automation</tspan>
+    </text>
+    <path d="M131.844,249.19 L152.105,269.925 L141.857,269.807 L141.513,299.515 L151.762,299.634 L131.027,319.895 L110.765,299.16 L121.015,299.278 L121.358,269.57 L111.108,269.451 L131.844,249.19 z" fill-opacity="0" stroke="#000000" stroke-width="1.5" id="svg_17"/>
+    <path d="M319.409,248.647 L339.67,269.383 L329.422,269.264 L329.078,298.973 L339.327,299.091 L318.592,319.353 L298.33,298.617 L308.58,298.736 L308.923,269.027 L298.673,268.909 L319.409,248.647 z" fill-opacity="0" stroke="#000000" stroke-width="1.5" id="svg_18"/>
+    <path d="M500.409,248.647 L520.67,269.383 L510.422,269.264 L510.078,298.973 L520.327,299.091 L499.592,319.353 L479.33,298.617 L489.58,298.736 L489.923,269.027 L479.673,268.909 L500.409,248.647 z" fill-opacity="0" stroke="#000000" stroke-width="1.5" id="svg_21"/>
+    <g>
+      <path d="M249.5,180.583 L389.5,180.583 L389.5,228 L249.5,228 z" fill="#5CA831" id="svg_9"/>
+      <text transform="matrix(0.677, 0, 0, 0.583, 320, 203.315)" id="svg_12">
+        <tspan x="-90" y="-8.968" font-family="Inconsolata" font-size="36" fill="#FFFFFF">Automation </tspan>
+        <tspan x="-45" y="30.032" font-family="Inconsolata" font-size="36" fill="#FFFFFF">Agent</tspan>
+      </text>
+    </g>
+    <g>
+      <path d="M429.5,180.583 L569.5,180.583 L569.5,228 L429.5,228 z" fill="#5CA831" id="svg_9"/>
+      <text transform="matrix(0.677, 0, 0, 0.583, 500, 203.315)" id="svg_12">
+        <tspan x="-90" y="-8.968" font-family="Inconsolata" font-size="36" fill="#FFFFFF">Automation </tspan>
+        <tspan x="-45" y="30.032" font-family="Inconsolata" font-size="36" fill="#FFFFFF">Agent</tspan>
+      </text>
+    </g>
+  </g>
 </svg>

@@ -20,8 +20,8 @@ What is a Text Index?
 
 - A text index is based on the tokens (words, etc.) used in string fields.
 - MongoDB supports text search for a number of languages.
-- Text indexes drop language-specific stop words (e.g. in English "the", "an", "a", "and", etc.)
-- Text indexes use simple, language-specific suffix stemming (e.g., "running" to "run")
+- Text indexes drop language-specific stop words (e.g. in English "the", "an", "a", "and", etc.).
+- Text indexes use simple, language-specific suffix stemming (e.g., "running" to "run").
 
 .. include:: /includes/student-notes.rst
 
@@ -33,12 +33,33 @@ You create a text index a little bit differently than you create a standard inde
 
 .. code-block:: javascript
 
-   db.<COLLECTION>.ensureIndex( { <field name> : "text" } )
+   db.<COLLECTION>.createIndex( { <field name> : "text" } )
 
 .. include:: /includes/student-notes.rst
 
 
 .. include:: /exercises/indexes-text-creation.txt
+
+
+Creating a Text Index with Weighted Fields
+------------------------------------------
+
+- The default weight is 1 for each indexed field.
+- The weight is relative to other weights in a text index.
+
+.. code-block:: javascript
+
+   db.<COLLECTION>.createIndex( 
+       { "title" : "text", "keywords": "text", "author" : "text" },
+       { "weights" : {
+           "title" : 10,
+           "keywords" : 5
+       }})
+
+- Term match in "title" field has 10 times (i.e. 10:1) the impact as a term match in the "author" field.
+
+.. include:: /includes/student-notes.rst
+
 
 
 Text Indexes are Similar to Multikey Indexes
@@ -74,7 +95,7 @@ Search for a Phrase
 -------------------
 
 - To match an exact phrase, include search terms in quotes (escaped).
-- The following query selects documents containing the phrase "coffee cake":
+- The following query selects documents containing the phrase "European swallow":
  
   .. code-block:: javascript
   

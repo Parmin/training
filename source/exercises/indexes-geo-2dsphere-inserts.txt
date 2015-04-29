@@ -38,7 +38,7 @@ Exercise: Inserting geoJSON Objects (2)
 - Now let's make arrays of these.
 - Put all the New York area airports into an array called ``nyPorts``.
 - Put all the London area airports into an array called ``londonPorts``.
-- Create a third array for flight numbers: "AA4453", "VA3333", "UA2440"
+- Create a third array for flight numbers: "AA4453", "VA3333", "UA2440".
 
 .. include:: /includes/student-notes.rst
 

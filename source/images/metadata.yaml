@@ -356,7 +356,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 100
+    width: 300
 ---
 name: replica-set-3nodes-2dc-network-partition
 alt: "3 data nodes in 2 data centers after a network partition"
@@ -447,21 +447,6 @@ output:
     tag: 'offset'
     dpi: 300
     width: 200
----
-name: replica-set-3nodes-1-per-dc
-alt: "3 nodes, 1 per data center"
-output:
-  - type: print
-    tag: 'print'
-    dpi: 300
-    width: 1600
-  - type: web
-    dpi: 72
-    width: 600
-  - type: 'offset'
-    tag: 'offset'
-    dpi: 300
-    width: 300
 ---
 name: btree-index
 alt: "Index on x."
@@ -570,6 +555,36 @@ output:
 ---
 name: mms-ops-manager
 alt: "MMS Ops Manager"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 700
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 400
+---
+name: storage-engine-architecture
+alt: "Storage Engine Architecture"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1600
+  - type: web
+    dpi: 72
+    width: 700
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 400
+---
+name: mms-backups
+alt: "MMS Backups"
 output:
   - type: print
     tag: 'print'

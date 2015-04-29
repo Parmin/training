@@ -25,7 +25,7 @@ Introduction to Geospatial Indexes
 
 We can use geospatial indexes to quickly determine geometric relationships:
 
-- All points within a certain radius of another point.
+- All points within a certain radius of another point
 - Whether or not points fall within a polygon
 - Whether or not two polygons intersect
 
@@ -37,7 +37,7 @@ Easiest to Start with 2 Dimensions
 ----------------------------------
 
 - Initially, it is easiest to think about geospatial indexes in two dimensions.
-- And one type of geospatial index in MongoDB is a flat 2d index.
+- One type of geospatial index in MongoDB is a flat 2d index.
 - With a geospatial index we can, for example, search for nearby items.
 - This is the type of service that many phone apps provide when, say, searching for a nearby cafe.
 - We might have a query location identified by an X in a 2d coordinate system.
@@ -87,9 +87,9 @@ There are two types of geospatial indexes:
 - Flat, made with a ``2d`` index
 - Two-dimensional spherical, made with the ``2dsphere`` index
 
-  - Takes into account the curvature of the earth.
-  - Joins any two points using a geodesic or "great circle arc".
-  - Deviates from flat geometry as you get further from the equator, and as your points get further apart.
+  - Takes into account the curvature of the earth
+  - Joins any two points using a geodesic or "great circle arc"
+  - Deviates from flat geometry as you get further from the equator, and as your points get further apart
 
 .. include:: /includes/student-notes.rst
 
@@ -98,8 +98,8 @@ Flat Geospatial Index
 ---------------------
 
 - This is a Cartesian treatment of coordinate pairs.
-- E.g., would NOT know that the shortest path from Canada to Siberia is over the North Pole (if units are degrees).
-- Can be used to describe any flat surface.
+- E.g., the index would not reflect the fact that the shortest path from Canada to Siberia is over the North Pole (if units are degrees).
+- 2d indexes can be used to describe any flat surface.
 - Recommended if:
 
   - You have legacy coordinate pairs (MongoDB 2.2 or earlier).
@@ -112,9 +112,9 @@ Flat Geospatial Index
 Spherical Geospatial Index
 --------------------------
 
-- Knows about the curvature of the Earth.
+- Spherical indexes model the curvature of the Earth
 - If you want to plot the shortest path from the Klondike to Siberia, this will know to go over the North Pole.
-- Uses geoJSON objects (Points, LineString, and Polygons).
+- Spherical indexes use geoJSON objects (Points, LineString, and Polygons)
 - Coordinate pairs are converted into geoJSON Points.
 
 .. include:: /includes/student-notes.rst
@@ -127,7 +127,7 @@ Creating a 2d index:
 
 .. code-block:: javascript 
 
-   db.<COLLECTION>.ensureIndex( 
+   db.<COLLECTION>.createIndex( 
     { field_name : "2d", <optional additional field> : <value> },
     { <optional options document> } )
 
@@ -191,7 +191,7 @@ You can index one or more 2dsphere fields in an index.
 
 .. code-block:: javascript
 
-   db.<COLLECTION>.ensureIndex( { <location field> : "2dsphere" } )
+   db.<COLLECTION>.createIndex( { <location field> : "2dsphere" } )
 
 .. include:: /includes/student-notes.rst
 
@@ -202,7 +202,7 @@ The geoJSON Specification
 - The geoJSON format encodes location data on the earth.
 - The spec is at http://geojson.org/geojson-spec.html
 - This spec is incorporated in MongoDB 2dsphere indexes.
-- Includes Point, LineString, Polygon, and combinations of these.
+- It includes Point, LineString, Polygon, and combinations of these.
 
 .. include:: /includes/student-notes.rst
 
@@ -210,7 +210,7 @@ The geoJSON Specification
 geoJSON Considerations
 ----------------------
 
-- The coordinates of points are given in degrees (latitude then longitude)
+- The coordinates of points are given in degrees (latitude then longitude).
 - The LineString that joins two points will always be a geodesic.
 - Short lines (around a few hundred kilometers or less) will go about where you would expect them to.
 - Polygons are made of a closed set of LineStrings.
