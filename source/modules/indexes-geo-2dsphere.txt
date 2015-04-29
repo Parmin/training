@@ -21,7 +21,7 @@ Creating a 2dsphere Index
 
 .. code-block:: javascript
 
-    db.<COLLECTION>.ensureIndex( { <location field> : "2dsphere" } )
+    db.<COLLECTION>.createIndex( { <location field> : "2dsphere" } )
 
 .. include:: /exercises/indexes-geo-2dsphere-creation.txt
 

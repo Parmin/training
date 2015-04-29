@@ -40,7 +40,6 @@ Installing MongoDB
 
   - Even-numbered builds are production releases, e.g., 2.4.x, 2.6.x.
   - Odd-numbers indicate development releases, e.g., 2.5.x, 2.7.x.
-  - 32-bit versions should NOT be used in production (limited to 2GB of data). They are acceptable for training classes.
 
 .. include:: /includes/student-notes.rst
 
@@ -50,7 +49,7 @@ Linux Setup
 
 .. code-block:: bash
 
-   PATH=$PATH:path_to_mongodb/bin
+   PATH=$PATH:<path to mongodb>/bin
 
    sudo mkdir -p /data/db
 
@@ -67,12 +66,18 @@ Linux Setup
       - Make sure you have write permission on this directory.
 
 
-Windows Setup
--------------
+Install on Windows
+------------------
 
-- Download and run the .msi Windows installer from mongodb.org/downloads
-- By default, binaries will be placed in the "C:\\Program Files\\MongoDB\\Server\\<VERSION>\\bin" directory
-- It is helpful to add the location of the MongoDB binaries to your path: System Properties > Advanced > Environment Variables
+- Download and run the .msi Windows installer from mongodb.org/downloads.
+- By default, binaries will be placed in the following directory.
+
+  .. code-block:: none
+
+     C:\Program Files\MongoDB\Server\<VERSION>\bin
+
+- It is helpful to add the location of the MongoDB binaries to your path.
+- To do this, from "System Properties" select "Advanced" then "Environment Variables"
   
 .. include:: /includes/student-notes.rst
 
@@ -80,16 +85,19 @@ Windows Setup
 
    .. note::
 
-      - Can also install Windows as a service, but not recommended since we need multiple mongod processes for future exercises
+      Can also install Windows as a service, but not recommended since we need multiple mongod processes for future exercises
 
-Windows Setup
--------------
 
-Ensure there is a directory for your MongoDB data files (the default location is \\data\\db).
+Create a Data Directory on Windows
+----------------------------------
 
-.. code-block:: bash
+- Ensure there is a directory for your MongoDB data files.
+- The default location is ``\data\db``.
+- Create a data directory with a command such as the following.
+
+  .. code-block:: none
   
-  md \data\db
+     md \data\db
 
 .. include:: /includes/student-notes.rst
 
@@ -97,33 +105,40 @@ Ensure there is a directory for your MongoDB data files (the default location is
 
    .. note::
 
-      - Optionally, talk about the --dbpath variable and specifying a different location for the data files
+      Optionally, talk about the --dbpath variable and specifying a different location for the data files
 
 
 
 Launch a ``mongod``
 -------------------
 
+Explore the ``mongod`` command.
+
 .. code-block:: bash
 
-   /<path_to_mongodb>/bin/mongod --help
+   <path to mongodb>/bin/mongod --help
 
-   Launch mongod with the MMAPv1 storage engine:
+Launch a ``mongod`` with the MMAPv1 storage engine:
 
-   /<path_to_mongodb>/bin/mongod
+.. code-block:: bash
 
-   Launch mongod with the WiredTiger storage engine:
+   <path to mongodb>/bin/mongod
 
-   /<path_to_mongodb>/bin/mongod --storageEngine wiredTiger
+Alternatively, launch with the WiredTiger storage engine.
+
+.. code-block:: bash
+
+   <path to mongodb>/bin/mongod --storageEngine wiredTiger
+
+Specify an alternate path for data files using the ``--dbpath`` option. (Make sure the directory already exists.) E.g.,
+
+.. code-block:: none
+
+   <path to mongodb>/bin/mongod --storageEngine wiredTiger
+                                --dbpath /test/mongodb/data/wt
+
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - Open a command shell and explore the mongod command.
-      - Then run mongodb.
 
 .. only:: instructor
 
@@ -131,6 +146,60 @@ Launch a ``mongod``
 
       - Please verify that all students have successfully installed MongoDB.
       - Please verify that all can successfully launch a mongod.
+
+
+The MongoDB Data Directory (MMAPv1)
+-----------------------------------
+
+.. code-block:: bash
+
+   ls /data/db
+
+- The mongod.lock file
+
+  - This prevents multiple mongods from using the same data directory simultaneously.
+  - Each MongoDB database directory has one .lock. 
+  - The lock file contains the process id of the mongod that is using the directory. 
+
+- Data files
+
+  - The names of the files correspond to available databases.
+  - A single database may have multiple files.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Files for a single database increase in size as follows:
+
+      - sample.0 is 64 MB
+      - sample.1 is 128 MB
+      - sample.2 is 256 MB, etc. 
+      - This continues until sample.5, which is 2 GB
+      - All subsequent data files are also 2 GB.
+
+
+The MongoDB Data Directory (WiredTiger)
+---------------------------------------
+
+
+.. code-block:: bash
+
+   ls /data/db
+
+- The mongod.lock file
+
+  - Used in the same way as MMAPv1.
+- Data files
+
+  - Each collection and index stored in its own file.
+  - Will fail to start if MMAPv1 files found
+
+.. include:: /includes/student-notes.rst
+
+
 
 
 Import Exercise Data
@@ -251,55 +320,5 @@ Admin Commands
 
 .. include:: /includes/student-notes.rst
 
-
-The MongoDB Data Directory (MMAPv1)
------------------------------------
-
-
-.. code-block:: bash
-
-   ls /data/db
-
-- The mongod.lock file
-
-  - This prevents multiple mongods from using the same data directory simultaneously.
-  - Each MongoDB database directory has one .lock. 
-  - The lock file contains the process id of the mongod that is using the directory. 
-- Data files
-
-  - The names of the files correspond to available databases.
-  - A single database may have multiple files.
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      Files for a single database increase in size as follows:
-
-      - sample.0 is 64 MB
-      - sample.1 is 128 MB
-      - sample.2 is 256 MB, etc. 
-      - This continues until sample.5, which is 2 GB
-      - All subsequent data files are also 2 GB.
-
-The MongoDB Data Directory (WiredTiger)
----------------------------------------
-
-
-.. code-block:: bash
-
-   ls /data/db
-
-- The mongod.lock file
-
-  - Used in the same way as MMAPv1.
-- Data files
-
-  - Each collection and index stored in its own file.
-  - Will fail to start if MMAPv1 files found
-
-.. include:: /includes/student-notes.rst
 
 

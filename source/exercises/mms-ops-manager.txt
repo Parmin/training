@@ -20,12 +20,15 @@ A Linux machine with at least 15GB of RAM is required
 
 .. include:: /includes/student-notes.rst
 
+
 Install Ops Manager
 -------------------
 
 We will follow an outline of the installation instructions here:
 
 https://docs.opsmanager.mongodb.com/current/tutorial/install-basic-deployment/
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise #1
@@ -37,12 +40,15 @@ Prepare your environment for running all Ops Manager components: Monitoring, Aut
 - Set up a 3 node replica set for Ops Manager backups (2 data bearing nodes, 1 arbiter)
 - Verify both replica sets have been installed and configured correctly
 
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
    .. note::
 
       - This is sometimes the hardest part of setting up Ops Manager for users, ensuring everything has been set up correctly behind the scenes
   
+
 Exercise #2
 -----------
 
@@ -60,6 +66,7 @@ Install the Ops Manager application
    .. note::
 
       - The Ops Manager application can be installed via an RPM, once the configuration file is updated, the application can be started (that is pretty much it to installing Ops Manager monitoring/automation)
+
 
 Exercise #3
 -----------
@@ -86,6 +93,9 @@ Verify the Ops Manager installation was successful:
 
 https://docs.opsmanager.mongodb.com/current/tutorial/test-new-deployment/
 
+.. include:: /includes/student-notes.rst
+
+
 Exercise #5
 -----------
 
@@ -103,3 +113,5 @@ Use Ops Manager to backup a test cluster:
 
 - Use Ops Manager to backup the test cluster
 - Perform a restore via Ops Manager of the test cluster
+
+.. include:: /includes/student-notes.rst
