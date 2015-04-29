@@ -46,7 +46,7 @@ The Instructor Guide
 
 Unzip the instructor package and open index.html to see the instructor guide.
 
-.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/instructor_guide_html.png
+.. figure:: presentation/img/slides-link.png
    :alt: Instructor Guide
 
 Slides
