@@ -15,6 +15,7 @@ MongoDB Essentials Training
    /modules/nav/sharding
    /modules/nav/security-essentials
    /modules/nav/mms
+   /modules/nav/drivers
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
 

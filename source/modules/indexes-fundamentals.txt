@@ -311,6 +311,20 @@ The following creates a single-field index on ``user.followers_count``.
       - Operations teams are accustomed to thinking about indexes. 
       - With MongoDB, developers need to be more involved in the creation and use of indexes.
 
+Listing Indexes
+---------------
+
+.. code-block:: javascript
+
+  db.tweets.getIndexes()
+
+List index keys:
+
+.. code-block:: javascript
+
+  db.tweets.getIndexKeys()
+
+
 
 Listing Indexes
 ---------------
@@ -374,6 +388,50 @@ Use Indexes with Care
 
       - If your system has limited RAM, then using the index will force other data out of memory. 
       - When you need to access those documents, they will need to be paged in again.
+        
+Additional Index Options
+------------------------
+
+- Sparse
+- Unique
+- Background
+  
+Sparse Indexes in MongoDB
+-------------------------
+
+Sparse indexes only contain entries for documents that have the indexed field.
+
+.. code-block:: javascript
+
+  db.<COLLECTION>.createIndex( 
+    { field_name : 1 },
+    { sparse : true } )
+
+Defining Unique Indexes
+-----------------------
+
+- Enforce a unique constraint on the index.
+- Prevent duplicate values from being inserted into the database.  
+- No duplicate values may exist prior to defining the index.
+
+.. code-block:: javascript
+
+  db.<COLLECTION>.createIndex( 
+    { field_name : 1 },
+    { unique : true } )
+
+Building Indexes in the Background
+----------------------------------
+
+- Building indexes in foreground is a blocking operation.
+- Background index creation is non-blocking, however, takes longer to build.
+- Initially larger, or less compact, than an index built in the foreground.
+
+.. code-block:: javascript
+
+  db.<COLLECTION>.createIndex( 
+    { field_name : 1 },
+    { background : true } )
 
 
 Additional Index Options
