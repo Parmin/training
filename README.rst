@@ -66,7 +66,7 @@ The Presenter Console
 Status
 ------
 
-These materials are now used for MongoDB instructor-led training. Sections include:
+These materials are updated for MongoDB 3.0 and used for MongoDB instructor-led training. Sections include:
 
 -  Introduction
 -  CRUD
@@ -76,13 +76,13 @@ These materials are now used for MongoDB instructor-led training. Sections inclu
 -  Replica Sets
 -  Sharding
 -  Security
+-  MMS & Ops Manager
 -  Performance Troubleshooting
 -  Backup and Recovery
 
 Currently working on:
 
--  An MMS section.
--  MongoDB 3.0 updates.
+-  Extensions to the Security section. See: https://jira.mongodb.org/browse/EDU-1827
 -  Updates based on feedback from instructors. See: https://jira.mongodb.org/browse/EDU-1674
 
 .. _presentation : https://github.com/mongodb/docs-training/blob/master/presentation
