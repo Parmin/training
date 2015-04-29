@@ -407,3 +407,36 @@ Optimized to retrieve reviews by book
 
 .. include:: /includes/student-notes.rst
 
+
+Store Binary Files in MongoDB with GridFS
+-----------------------------------------
+
+- Application may have a requirement for binary file storage
+- GridFS is a specification for storing files larger than 16MB in MongoDB
+- Handled automatically by most drivers
+- "mongofiles" is the command line tool for working with GridFS
+
+.. include:: /includes/student-notes.rst
+
+
+How GridFS Works 
+----------------
+
+- Files are split into chunks
+- Default chunk size is 255k
+- fs.files collection stores meta data for the file (name, size, etc.)
+- fs.chunks collection stores chunks for binary file
+
+.. include:: /includes/student-notes.rst
+
+
+Schema Design Use Cases with GridsFS
+------------------------------------
+
+- Store large video files and stream chunks to a user
+- Enterprise assets, replicated across data centers
+- Medical record attachments (x-rays, reports, etc.)
+
+.. include:: /includes/student-notes.rst
+
+
