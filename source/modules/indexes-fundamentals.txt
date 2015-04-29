@@ -63,8 +63,9 @@ Types of Indexes
 Exercise: Using ``explain()``
 -----------------------------
 
-- Let's explore what MongoDB does for the following query by using ``explain()``.
-- We are projecting only ``user.name`` so that the results are easy to read.
+Let's explore what MongoDB does for the following query by using ``explain()``.
+
+We are projecting only ``user.name`` so that the results are easy to read.
 
 .. code-block:: javascript
 
@@ -209,20 +210,24 @@ Now we have query statistics:
 .. include:: /includes/student-notes.rst
 
 
-Using ``explain()`` on Other Operations
----------------------------------------
+Other Operations
+----------------
+
+In addition to find(), we often want to use ``explain()`` to understand how other operations will be handled.
 
 - aggregate
 - count
-- find
 - group
 - remove
 - update
 
 .. include:: /includes/student-notes.rst
 
-``explain()`` Returns an ``ExplainableCollection``
-----------------------------------------------
+
+``db.<COLLECTION>.explain()``
+-----------------------------
+
+``db.<COLLECTION>.explain()`` returns an ExplainableCollection.
 
 .. code-block:: javascript
 
@@ -253,7 +258,7 @@ also equivalent to
 Using ``explain()`` for Write Operations
 ----------------------------------------
 
-Simulate number of writes that would have occurred, and determine the index(es) used:
+Simulate the number of writes that would have occurred and determine the index(es) used:
 
 .. code-block:: javascript
 
@@ -276,9 +281,9 @@ Simulate number of writes that would have occurred, and determine the index(es) 
 Single-Field Indexes
 --------------------
 
-- Based on a single field of the documents in a collection
-- The field may be a top-level field
-- You may also create an index on fields in embedded documents
+- Single-field indexes are based on a single field of the documents in a collection.
+- The field may be a top-level field.
+- You may also create an index on fields in embedded documents.
 
 .. include:: /includes/student-notes.rst
 
@@ -286,13 +291,15 @@ Single-Field Indexes
 Creating an Index
 -----------------
 
-- The following creates a single-field index on ``user.followers_count``. 
-- ``explain()`` indicated there will be a substantial performance improvement in handling this type of query. 
+The following creates a single-field index on ``user.followers_count``. 
 
 .. code-block:: javascript
 
    db.tweets.createIndex( { "user.followers_count" : 1 } )
    db.tweets.find( { "user.followers_count" : 1000 } ).explain()
+
+``explain()`` indicated there will be a substantial performance improvement in handling this type of query. 
+
 
 .. include:: /includes/student-notes.rst
 
@@ -317,6 +324,24 @@ List index keys:
 
   db.tweets.getIndexKeys()
 
+
+
+Listing Indexes
+---------------
+
+List indexes for a collection:
+
+.. code-block:: javascript
+
+   db.tweets.getIndexes()
+
+List index keys:
+
+.. code-block:: javascript
+
+   db.tweets.getIndexKeys()
+
+.. include:: /includes/student-notes.rst
 
 
 Indexes and Read/Write Performance
@@ -407,6 +432,64 @@ Building Indexes in the Background
   db.<COLLECTION>.createIndex( 
     { field_name : 1 },
     { background : true } )
+
+
+Additional Index Options
+------------------------
+
+- Sparse
+- Unique
+- Background
+
+.. include:: /includes/student-notes.rst
+
+
+Sparse Indexes in MongoDB
+-------------------------
+
+Sparse indexes only contain entries for documents that have the indexed field.
+
+.. code-block:: javascript
+
+  db.<COLLECTION>.createIndex( 
+      { field_name : 1 },
+      { sparse : true } )
+
+.. include:: /includes/student-notes.rst
+
+
+Defining Unique Indexes
+-----------------------
+
+- Enforce a unique constraint on the index.
+- Prevent duplicate values from being inserted into the database.  
+- No duplicate values may exist prior to defining the index.
+
+  .. code-block:: javascript
+
+    db.<COLLECTION>.createIndex( 
+        { field_name : 1 },
+        { unique : true } )
+
+.. include:: /includes/student-notes.rst
+
+
+Building Indexes in the Background
+----------------------------------
+
+- Building indexes in foreground is a blocking operation.
+- Background index creation is non-blocking, however, takes longer to build.
+- Initially larger, or less compact, than an index built in the foreground.
+
+  .. code-block:: javascript
+
+    db.<COLLECTION>.createIndex( 
+        { field_name : 1 },
+        { background : true } )
+
+.. include:: /includes/student-notes.rst
+
+
 
 
 

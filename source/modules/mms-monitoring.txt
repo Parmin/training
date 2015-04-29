@@ -32,6 +32,7 @@ Monitoring Use Cases
 - Diagnose performance problems
 - Historical performance analysis
 - Monitor cluster health
+- Capacity planning and scaling requirements
   
 .. include:: /includes/student-notes.rst
 

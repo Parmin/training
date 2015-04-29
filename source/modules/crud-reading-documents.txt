@@ -46,16 +46,16 @@ Experiment with the following sequence of commands.
 
 .. code-block:: javascript
 
-   db.testcol.drop()
-   db.testcol.insert( [ { _id : 1, a : 5, b : 3 },
-                        { _id : 3, b : 5, c : 12 },
-                        { a : 7, b : 3 },
-                        { c : 5, b : 7 } ] )
-   db.testcol.find()
+  db.movies.drop()
+  db.movies.insert([ { "title" : "Jaws", "year" : 1975, "imdb_rating" : 8.1 },
+                     { "title" : "Batman", "year" : 1989, "imdb_rating" : 7.6 },
+                   ] )
+  db.movies.find()
 
-   db.testcol.find( { a : 5 } )
+  db.movies.find( { "year" : 1975 } )
 
-   db.testcol.find( { b : 3, a : 7 } )
+  // Multiple Batman movies from different years, find the correct one
+  db.movies.find( { "year" : 1989, "title" : "Batman" } )
 
 .. include:: /includes/student-notes.rst
 
@@ -97,18 +97,21 @@ Experiment with the following sequence of commands.
 
 .. code-block:: javascript
 
-   db.testcol.drop()
-   db.testcol.insert( [ { a : [ 1, 2, 3 ] },
-                        { a : [ 3, 4, 5 ] },
-                        { a : [ 5, 6, 7 ] } ] )
+  db.movies.drop()
+  db.movies.insert( 
+   [{ "title" : "Batman", "category" : [ "action", "adventure" ] },
+    { "title" : "Godzilla", "category" : [ "action", "adventure", "sci-fi" ] },
+    { "title" : "Home Alone", "category" : [ "family", "comedy" ] }
+   ])
 
-    // These match documents where a contains the value specified
-    db.testcol.find( { a : 3 } )
-    db.testcol.find( { a : 5 } )
+  // Match documents where "category" contains the value specified
+  db.movies.find( { "category" : "action" } )
 
-    // These match documents where a equals the value specified
-    db.testcol.find( { a : [ 3, 5 ] } )  // no documents
-    db.testcol.find( { a : [ 3, 4, 5 ] } )  // only the second document
+  // Match documents where "category" equals the value specified
+  db.movies.find( { "category" : [ "action", "sci-fi" ] } )  // no documents
+
+  // only the second document
+  db.movies.find( { "category" : [ "action", "adventure", "sci-fi" ] } )  
 
 .. include:: /includes/student-notes.rst
 
@@ -140,23 +143,27 @@ Exercise: Querying with Dot Notation
 
 .. code-block:: javascript
 
-   db.buildings.insert( 
+   db.movies.insert( 
        [ { 
-             type : "house", 
-             location : { streetNumber : 123, 
-                          street : "7th Ave" } },
+             "title" : "Avatar", 
+             "box_office" : { "gross" : 760, 
+                              "budget" : 237,
+                              "opening_weekend" : 77
+                            }
+         },
          { 
-             type : "office", 
-             location : { streetNumber : 234, 
-                          street : "7th Ave", 
-                          floor : 7 } }, 
-         { 
-             type : "apartment", 
-             location : { streetNumber : 335, 
-                          street : "43rd Street", 
-                          number : 745 } } ] )
+             "title" : "E.T.", 
+             "box_office" : { "gross" : 349, 
+                              "budget" : 10.5,
+                              "opening_weekend" : 14
+                            }
+          }
+        ] )
 
-   db.buildings.find( { "location.street" : "7th Ave" } ) // Two matches 
+   db.movies.find( { "box_office" : { "gross" : 760 } } ) // no values
+
+   // dot notation
+   db.movies.find( { "box_office.gross" : 760 } )  // expected value
 
 .. include:: /includes/student-notes.rst
 
@@ -168,21 +175,20 @@ Experiment with the following commands.
 
 .. code-block:: javascript
 
-   db.things.insert( [ 
-       { type : "fruit", 
-         examples : [ { type : "banana", color : "yellow" },
-                      { type : "apple", color : "red" }, 
-                      { type : "mango", color : "red" } ] },
-       { type : "cars", 
-         examples : [ { model : "Camaro", color : "red" },
-                      { model : "Pinto", color : "yellow" },
-                      { model : "Tacoma", color : "blue" } ] },
-       { type : "planets", 
-         examples : [ { name : "Mars", color : "red" },
-                      { name : "Venus", color : "blue" }, 
-                      { name : "Earth", color : "blue" } ] } ] )
+   db.movies.insert( [ 
+       { "title" : "E.T.", 
+         "filming_locations" : 
+            [ { "city" : "Culver City", "state" : "CA", "country" : "USA" },
+              { "city" : "Los Angeles", "state" : "CA", "country" : "USA" },
+              { "city" : "Cresecent City", "state" : "CA", "country" : "USA" }
+            ] },
+       { type : "Star Wars", 
+         "filming_locations" : 
+            [ { "city" : "Ajim", "state" : "Jerba", "country" : "Tunisia" },
+              { "city" : "Yuma", "state" : "AZ", "country" : "USA" }
+            ] } ] )
 
-    db.things.find( { "examples.color" : "blue" } ) // two documents
+    db.movies.find( { "filming_locations.country" : "USA" } ) // two documents
 
 .. include:: /includes/student-notes.rst
 
@@ -192,12 +198,12 @@ Experiment with the following commands.
 
       - This query finds documents where:
 
-        - There is an ``examples`` field.
-        - The ``examples`` field contains one or more embedded documents.
-        - At least one embedded document has a field ``color``.
-        - The field ``color`` has the specified value ("blue").
+        - There is a ``filming_locations`` field.
+        - The ``filming_locations`` field contains one or more embedded documents.
+        - At least one embedded document has a field ``country``.
+        - The field ``country`` has the specified value ("USA").
 
-      - In this collection, ``examples`` is actually an array field.
+      - In this collection, ``filming_locations`` is actually an array field.
       - The embedded documents we are matching are held within these arrays.
 
 
@@ -211,30 +217,41 @@ Projections
 .. include:: /includes/student-notes.rst
 
 
+Projection: Example (Setup)
+---------------------------
+
+.. code-block:: javascript
+
+   db.movies.insert(
+   {
+      "title" : "Forrest Gump",
+      "category" : [ "drama", "romance" ],
+      "imdb_rating" : 8.8,
+      "filming_locations" : [
+        { "city" : "Savannah", "state" : "GA", "country" : "USA" },
+        { "city" : "Monument Valley", "state" : "UT", "country" : "USA" },
+        { "city" : "Los Anegeles", "state" : "CA", "country" : "USA" }
+      ],
+      "box_office" : {
+        "gross" : 557,
+        "opening_weekend" : 24,
+        "budget" : 55
+      }
+    })    
+
+.. include:: /includes/student-notes.rst
+
 Projection: Example
 -------------------
 
 .. code-block:: javascript
 
-   db.people.findOne( { price : { $lt : 300 } } )
+   db.movies.findOne( { "title" : "Forrest Gump" }, 
+                      { "title" : 1, "imdb_rating" : 1 } )
    {
-	   "_id" : 1,
-	   "product" : "ePod",
-	   "price" : 200,
-	   "reviews" : [
-		   {
-			   "user" : "fred",
-			   "comment" : "OK!",
-			   "rating" : 5
-		   }
-	   ]
-   }     
-
-   db.people.findOne( { price : { $lt : 300 } }, { product : 1, price : 1 } )
-   {
-	   "_id" : 1,
-	   "product" : "ePod",
-	   "price" : 200,
+      "_id" : ObjectId("5515942d31117f52a5122353"),
+      "title" : "Forrest Gump",
+      "imdb_rating" : 8.8
    }     
 
 .. include:: /includes/student-notes.rst
@@ -261,15 +278,20 @@ Exercise: Projections
 .. code-block:: javascript
 
    for (i=1; i<=20; i++) { 
-       db.proj.insert( { _id : i, a : i, b : i, c: i } )
+       db.movies.insert( { "_id" : i, "title" : i, 
+                           "imdb_rating" : i, "box_office" : i } )
    }
-   db.proj.find()
-   db.proj.find( { _id : 3 }, { a : 1, b : 1 } ) // no c
-   db.proj.find( { _id : { $gte : 10 } }, { b : 0 } ) // no b
-   db.proj.find( { _id : 4 }, { _id : 0, a : 1 } ) // just a
-   db.proj.find( { _id : 5 }, { _id : 0, a : 0 } ) // just b, c
-   db.proj.find( { _id : 6 }, { a : 1, b : 0 } ) // illegal
-   db.proj.drop()
+   db.movies.find()
+   // no "box_office"
+   db.movies.find( { "_id" : 3 }, { "title" : 1, "imdb_rating" : 1 } )
+   // no "imdb_rating" 
+   db.movies.find( { "_id" : { $gte : 10 } }, { "imdb_rating" : 0 } ) 
+   // just "title"
+   db.movies.find( { "_id" : 4 }, { "_id" : 0, "title" : 1 } )
+   // just "imdb_rating", "box_office"
+   db.movies.find( { "_id" : 5 }, { _id : 0, "title" : 0 } ) 
+   // Can't mix inclusion/exclusion except _id
+   db.movies.find( { "_id" : 6 }, { "title" : 1, "imdb_rating" : 0 } ) 
 
 .. only:: instructor
 
@@ -460,13 +482,13 @@ Experiment with the following commands and note what ``distinct()`` returns.
 
 .. code-block:: javascript
 
-   db.testcol.drop()    
-   db.testcol.insert( [ { a : 2 , b : 3 },
-                        { a : 2 },
-                        { a : "hello" },
-                        { a : "hello" },
-                        { a : { hello : "world" } } ] )
-   db.testcol.distinct( "a" )
+   db.movie_reviews.drop()    
+   db.movie_reviews.insert( [ { "title" : "Jaws", "rating" : 5 },
+                              { "title" : "Home Alone", "rating" : 1 },
+                              { "title" : "Jaws", "rating" : 7 },
+                              { "title" : "Jaws", "rating" : 4 },
+                              { "title" : "Jaws", "rating" : 8 } ] )
+   db.movie_reviews.distinct( "title" )
 
 .. include:: /includes/student-notes.rst
 

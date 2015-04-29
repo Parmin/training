@@ -17,7 +17,7 @@ Upon completing this module students should understand:
 What is the MMS / Ops Manager API?
 ----------------------------------
 
-Always users to programmatically:
+Allows users to programmatically:
 
 - Access monitoring data
 - Backup functionality (request backups, change snapshot schedules, etc.)

@@ -7,9 +7,9 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- How to create a TTL index.
-- When a TTL indexed document will get deleted.
-- Limitations of TTL indexes.
+- How to create a TTL index
+- When a TTL indexed document will get deleted
+- Limitations of TTL indexes
 
 .. include:: /includes/student-notes.rst
 
@@ -18,8 +18,8 @@ TTL Index Basics
 ----------------
 
 - TTL is short for "Time To Live".
-- This must index a field of type "Date" (including ISODate) or "Timestamp"
-- Any Date field older than expireAfterSeconds will get deleted at some point
+- TTL indexes must be based on a field of type ``Date`` (including ``ISODate``) or ``Timestamp``.
+- Any ``Date`` field older than ``expireAfterSeconds`` will get deleted at some point.
 
 .. include:: /includes/student-notes.rst
 
@@ -45,13 +45,14 @@ per second.
 
 .. code-block:: javascript
     
-   db.testcol.drop()
-   db.testcol.createIndex( { a : 1 }, { expireAfterSeconds : 30 } )
+   db.sessions.drop()
+   db.sessions.createIndex( { "last_user_action" : 1 }, 
+                            { "expireAfterSeconds" : 30 } )
 
    i = 0
    while (true) {
        i += 1;
-       db.testcol.insert( { a : ISODate(), b : i } );
+       db.sessions.insert( { "last_user_action" : ISODate(), "b" : i } );
        sleep(1000);  // Sleep for 1 second
    }
 
@@ -68,7 +69,7 @@ Then, leaving that window open, open up a new terminal and connect to the databa
    // look at the output and wait. After a ramp-up of up to a minute or so,
    // count() will be reset to 30 once/minute.
    while (true) {
-       print(db.testcol.count());
+       print(db.sessions.count());
        sleep(100);
    } 
 

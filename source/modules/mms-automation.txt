@@ -31,7 +31,7 @@ How Does Automation Work?
 - Automation agent installed on each server in cluster
 - Administrator creates design goal for system (through MMS / Ops Manager interface)
 - Automation agents periodically check with MMS / Ops Manager to get new design instructions
-- Agents create and follows a plan for implementing cluster design
+- Agents create and follow a plan for implementing cluster design
 - Minutes later, cluster design is complete, cluster is in goal state
   
 .. include:: /includes/student-notes.rst
@@ -39,8 +39,7 @@ How Does Automation Work?
 Automation Agents
 -----------------
 
-.. image:: /images/mms-automation.svg
-   :align: center
+.. include:: /images/mms-automation.rst
 
 .. include:: /includes/student-notes.rst
   

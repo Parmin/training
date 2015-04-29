@@ -24,7 +24,7 @@ Introduction to Multikey Indexes
 - An index entry is created on each value found in the array.
 - Multikey indexes can support primitives, documents, or sub-arrays.
 - There is nothing special that you need to do to create a multikey index. 
-- You created them using ``createIndex()`` just as you would with an ordinary single-field index.
+- You create them using ``createIndex()`` just as you would with an ordinary single-field index.
 - If there is an array as a value for an indexed field, the index will be multikey on that field.
 
 .. include:: /includes/student-notes.rst
@@ -35,20 +35,19 @@ Example: Array of Numbers
 
 .. code-block:: javascript
 
-    db.testcol.drop()
-    db.testcol.createIndex( { x : 1 } )
-    a = [ { x : [ 1, 2, 3 ], y : [ "a", "b" ] },
-          { x : [ 3, 4 ], y : [ "a", "b" ] },
-          { x : [ 4, 5 ], y : [ "a", "b" ] },
-          { x : 3, y : [ "a", "b" ] }, { x : 4, y : [ "a", "b" ] } ]
-    db.testcol.insert( a )        
+    db.race_results.drop()
+    db.race_results.createIndex( { "lap_times" : 1 } )
+    a = [ { "lap_times" : [ 3, 5, 2, 8 ] },
+          { "lap_times" : [ 1, 6, 4, 2 ] },
+          { "lap_times" : [ 6, 3, 3, 8 ] } ]
+    db.race_results.insert( a )        
 
     // Used the index
-    db.testcol.find( { x : 3 } ).explain()  
+    db.race_results.find( { lap_times : 1 } ).explain()  
 
     // One document found.
     // Index not used, because it is naive to position.
-    db.testcol.find( { "x.2" : 3 } ).explain()  
+    db.race_results.find( { "lap_times.2" : 3 } ).explain()  
 
 .. include:: /includes/student-notes.rst
 
@@ -60,18 +59,25 @@ Create a collection and add an index on the ``x`` field:
 
 .. code-block:: javascript
 
-   db.testcol.drop()
-   b = [ { x : [ { name : "Alice", number : 1 }, { name : "Bob", number : 2 },
-                 { name : "Cherry", number : 3 } ] },
-         { x : [ { name : "Cherry", number : 3 },
-                 { name : "Dan", number : 4 } ] },
-         { x : [ { name : "Dan", number : 4 },
-                 { name : "Erica", number : 5 } ] },
-         { x : { name : "Cherry", number : 3 } },
-               { name : "Dan", number : 4 } ]
-   db.testcol.insert(b)
-   db.testcol.createIndex( { x : 1 } )
-   db.testcol.find()
+   db.blog.drop()
+   b = [ { "comments" : [ 
+            { "name" : "Bob", "rating" : 1 }, 
+            { "name" : "Frank", "rating" : 5.3 },
+            { "name" : "Susan", "rating" : 3 } ] },
+         { "comments" : [ 
+            { name : "Megan", "rating" : 1 } ] },
+         { "comments" : [ 
+            { "name" : "Luke", "rating" : 1.4 }, 
+            { "name" : "Matt", "rating" : 5 },
+            { "name" : "Sue", "rating" : 7 } ] }]
+   db.blog.insert(b)
+
+   db.blog.createIndex( { "comments" : 1 } )
+   // vs
+   db.blog.createIndex( { "comments.rating" : 1 } )
+
+   // for this query
+   db.blog.find( { "comments.rating" : 5 })
 
 .. include:: /includes/student-notes.rst
 
@@ -79,10 +85,7 @@ Create a collection and add an index on the ``x`` field:
 
    .. note::
 
-      - In this collection there are four documents. 
-      - In each document is an array, ``x``, containing subdocuments.
-      - Each subdocument has a name and number in it 
-      - Always the same number for each name.
+      - Note: JSON is a dictionary and doesn't guarantee order, indexing the top level array (comments array) won't work
 
 
 Exercise: Array of Documents, Part 2
@@ -96,9 +99,9 @@ For each of the three queries below:
 
 .. code-block:: javascript
 
-   db.testcol.find( { x : { name : "Cherry", number : 3 } } )
-   db.testcol.find( { x : { number : 3 } } )
-   db.testcol.find( { "x.number" : 3 } )
+   db.blog.find( { "comments" : { "name" : "Bob", "rating" : 1 } } )
+   db.blog.find( { "comments" : { "rating" : 1 } } )
+   db.blog.find( { "comments.rating" : 1 } )
 
 .. include:: /includes/student-notes.rst
 
@@ -108,38 +111,29 @@ For each of the three queries below:
 
      .. code-block:: javascript
 
-        // 3 documents
-        db.testcol.find( { x : { name : "Cherry", number : 3 } } )  
-        // Used the multi-key index. We pass a complete document for ``x``.
-        db.testcol.find( { x : { name : "Cherry", number : 3 } } ).explain()  
+        // Never do this, won't give you the results expected
+        // JSON is a dictionary, and won't preserve ordering, second query will return no results
 
-        // 3 documents
-        db.testcol.find( { "x.number" : 3 } )  
-        // Does not use the multi-key index.
-        // ``x.number`` is only part of the document that is indexed.
-        db.testcol.find( { "x.number" : 3 } ).explain()
-     
-        // We would need to add an index such as this.
-        db.testcol.createIndex( { "x.number" : 1 } )
-        db.testcol.find( { "x.number" : 3 } ).explain()  
+        db.blog.find( { "comments" : { "name" : "Bob", "rating" : 1 } } )
+        db.blog.find( { "comments" : { "rating" : 1 } } )
 
 
 Exercise: Array of Arrays, Part 1
 ---------------------------------
 
-Add some documents and create an index:
+Add some documents and create an index simulating a player in a game moving on an X,Y grid.
 
 .. code-block:: javascript
 
-   db.testcol.drop()
-   db.testcol.createIndex( { x : 1 } )
-   c = [ { x : [ [ 1, 2 ], [ 2, 3 ], [ 3, 4] ] }, 
-         { x : [ [ 3, 4 ], [ 4, 5 ] ] },
-         { x : [ [ 4, 5 ], [ 5, 6 ] ] },
-         { x : [ 3, 4 ] },
-         { x : [ 4, 5 ] } ] 
-   db.testcol.insert(c)
-   db.testcol.find()
+   db.player.drop()
+   db.player.createIndex( { "last_moves" : 1 } )
+   c = [ { "last_moves" : [ [ 1, 2 ], [ 2, 3 ], [ 3, 4] ] }, 
+         { "last_moves" : [ [ 3, 4 ], [ 4, 5 ] ] },
+         { "last_moves" : [ [ 4, 5 ], [ 5, 6 ] ] },
+         { "last_moves" : [ [ 3, 4 ] ] },
+         { "last_moves" : [ [ 4, 5 ] ] } ] 
+   db.player.insert(c)
+   db.player.find()
 
 .. include:: /includes/student-notes.rst
 
@@ -156,10 +150,10 @@ For each of the queries below:
 
 .. code-block:: javascript
 
-   db.testcol.find( { x : [ 3, 4 ] } )  
-   db.testcol.find( { x : 3 } )
-   db.testcol.find( { "x.1" : [ 4, 5 ] } )
-   db.testcol.find( { "x.1" : 4 } )
+   db.player.find( { "last_moves" : [ 3, 4 ] } )  
+   db.player.find( { "last_moves" : 3 } )
+   db.player.find( { "last_moves.1" : [ 4, 5 ] } )
+   db.player.find( { "last_moves.2" : [ 2, 3 ] } )
 
 .. include:: /includes/student-notes.rst
 
@@ -170,18 +164,16 @@ For each of the queries below:
       .. code-block:: javascript
 
          // 3 documents
-         db.testcol.find( { x : [ 3, 4 ] } )  
+         db.player.find( { "last_moves" : [ 3, 4 ] } )  
          // Uses the multi-key index
-         db.testcol.find( { x : [ 3, 4 ] } ).explain()  
+         db.player.find( { "last_moves" : [ 3, 4 ] } ).explain()  
 
-         // One document found, where the element of x is just a number.
-         db.testcol.find( { x : 3 } )  
-         // Used the index
-         db.testcol.find( { x : 3 } ).explain()  
+         // No documents
+         db.player.find( { "last_moves" : 3 } )
 
-         db.testcol.find( { "x.1" : [ 4, 5 ] } ).explain() 
          // Does not use the multi-key index, because it is naive to position.
-         db.testcol.find( { "x.1" : 4 } ).explain()
+         db.player.find( { "last_moves.1" : [ 4, 5 ] } )
+         db.player.find( { "last_moves.2" : [ 2, 3 ] } )
 
 
 How Multikey Indexes Work
@@ -201,7 +193,7 @@ Multikey Indexes and Sorting
 - If you sort using a multikey index:
 
   - A document will appear at the first position where a value would place the document. 
-  - It does not appear multiple times.
+  - It will not appear multiple times.
 
 - This applies to array values generally.
 - It is not a specific property of multikey indexes.
@@ -219,7 +211,7 @@ Limitations on Multikey Indexes
 - This is because of the combinatorics.
 - For a compound index on two array-valued fields you would end up with N * M entries for one document.
 - You cannot have a hashed multikey index.
-- You cannot have a shard key use a multikey index 
+- You cannot have a shard key use a multikey index. 
 - We discuss shard keys in another module.
 - The index on the _id field cannot become a multikey index.
 

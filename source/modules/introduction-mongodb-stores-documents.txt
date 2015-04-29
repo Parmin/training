@@ -68,19 +68,21 @@ Example Field Values
 
 .. code-block:: javascript
 
-   {
-       "first key" : "value" , 
-       "second key" : {
-	   "first embedded key" : "first embedded value", 
-	   "second embedded key" : "second embedded value"
-	}, 
-	"third key" : [ 
-	    "first array element", 
-	    "second element",
-	    { "embedded key" : "embedded value" }, 
-	    [ 1, 2 ] 
-	]
-   }
+  {
+    "headline" : "Apple Reported Second Quarter Revenue Today",
+    "date" : ISODate("2015-03-24T22:35:21.908Z"),
+    "views" : 1234,
+    "author" : {
+      "name" : "Bob Walker",
+      "title" : "Lead Business Editor"
+    },
+    "tags" : [ 
+      "AAPL", 
+      23,
+      { "name" : "city", "value" : "Cupertino" },
+      [ "Electronics", "Computers" ]
+    ]
+  }
 
 .. include:: /includes/student-notes.rst
 

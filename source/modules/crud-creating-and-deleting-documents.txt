@@ -24,7 +24,11 @@ Creating New Documents
 
   .. code-block:: javascript
 
-     db.<COLLECTION>.insert( { "name" : "susan" } )
+     // Specify the collection name
+     db.<COLLECTION>.insert( { "name" : "Mongo" } )
+
+     // For example
+     db.people.insert( { "name" : "Mongo" } )
 
 .. include:: /includes/student-notes.rst
 
@@ -37,9 +41,9 @@ Experiment with the following commands.
 
    use sample
 
-   db.hellos.insert( { a : "hello, world!" } )
+   db.movies.insert( { "title" : "Jaws" } )
 
-   db.hellos.find()
+   db.movies.find()
 
 .. include:: /includes/student-notes.rst
 
@@ -68,9 +72,9 @@ Experiment with the following commands.
 
 .. code-block:: javascript
 
-    db.hellos.insert( { _id : 253, a : "a string" } )
+    db.movies.insert( { "_id" : "Jaws", "year" : 1975 } )
 
-    db.hellos.find()
+    db.movies.find()
 
 .. include:: /includes/student-notes.rst
 
@@ -99,16 +103,18 @@ Exercise: Inserts will fail if...
 .. code-block:: javascript
 
    // fails because _id can't have an array value
-   db.hellos.insert( { _id : [ 1, 2, 3 ] } )
+   db.movies.insert( { "_id" : [ "Star Wars", 
+                                 "The Empire Strikes Back", 
+                                 "Return of the Jedi" ] } )
 
    // succeeds
-   db.hellos.insert( { _id : 3 } )
+   db.movies.insert( { "_id" : "Star Wars" } )
 
    // fails because of duplicate id
-   db.hellos.insert( { _id : 3 } )
+   db.movies.insert( { "_id" : "Star Wars" } )
 
    // malformed document
-   db.hellos.insert( { "hello" } )
+   db.movies.insert( { "Star Wars" } )
 
 .. include:: /includes/student-notes.rst
 
@@ -120,15 +126,15 @@ Exercise: Inserts will fail if...
 
         .. code-block:: javascript
 
-           db.hellos.insert( { _id : [ 1, 2, 3 ] } )
+           db.movies.insert( { "_id" : [ "Star Wars", "The Empire Strikes Back", "Return of the Jedi" ] } )
 
-      - The second insert with ``_id : 3`` will fail because there is already a document with ``_id`` of 3 in the collection.
+      - The second insert with ``_id : "Star Wars"`` will fail because there is already a document with ``_id`` of "Star Wars" in the collection.
 
       - The following will fail because it is a malformed document (i.e. no field name, just a value).
 
       .. code-block:: javascript
 
-         db.hellos.insert( { "hello" } )
+         db.movies.insert( { "Star Wars" } )
 
 
 
@@ -173,15 +179,12 @@ Experiment with the following bulk insert.
 
 .. code-block:: javascript
 
-   db.things.insert( [ { _id : 19, type : "atom", symbol : "K" },
-                       { _id : 20, type : "car", color : "red" }, 
-                       { _id : 20, type : "planet", name : "Saturn" },
-                       { type : "office", 
-                         street : "229 West 43rd Street, 5th Floor",
-                         city : "New York",
-                         state : "NY" } ] )
+   db.movies.insert( [ { "_id" : "Batman", "year" : 1989 },
+                       { "_id" : "Home Alone", "year" : 1990 }, 
+                       { "_id" : "Ghostbusters", "year" : 1984 },
+                       { "_id" : "Ghostbusters", "year" : 1984 } ] )
 
-   db.things.find()
+   db.movies.find()
 
 .. include:: /includes/student-notes.rst
 
@@ -190,7 +193,7 @@ Experiment with the following bulk insert.
    .. note:: 
 
       - This example has a duplicate key error.
-      - Only the first 2 documents will be inserted.
+      - Only the first 3 documents will be inserted.
 
     
 Unordered Bulk Insert
@@ -213,15 +216,11 @@ Experiment with the following bulk insert.
 
 .. code-block:: javascript
 
-   db.otherThings.insert( [ { _id : 19, type : "atom", symbol : "K" },
-                            { _id : 20, type : "car", color : "red" }, 
-                            { _id : 20, type : "planet", name : "Saturn" },
-                            { type : "office", 
-                              street : "229 West 43rd Street, 5th Floor",
-                              city : "New York",
-                              state : "NY" } ],
-                          { ordered : false } )
-   db.otherThings.find()
+   db.movies.insert( [ { "_id" : "Jaws", "year" : 1975 },
+                       { "_id" : "Titanic", "year" : 1997 }, 
+                       { "_id" : "The Lion King", "year" : 1994 } ], 
+                       { ordered : false } )
+   db.movies.find()
 
 .. include:: /includes/student-notes.rst
 
@@ -313,7 +312,18 @@ Dropping a Collection
       Mention that ``drop()`` is more performant than remove because of the lookup costs associated with ``remove()``.
 
 
-.. include:: /exercises/crud-dropping-a-collection.txt
+Exercise: Dropping a Collection
+-------------------------------
+
+.. code-block:: javascript
+
+   db.colToBeDropped.insert( { a : 1 } )
+   show collections  // Shows the colToBeDropped collection
+
+   db.colToBeDropped.drop()
+   show collections  // collection is gone
+
+.. include:: /includes/student-notes.rst
 
 
 

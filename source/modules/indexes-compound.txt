@@ -36,19 +36,20 @@ Specifically we want to consider how the index will be used for:
 
   .. code-block:: javascript
     
-     db.example.find( { a : 15, b : 17 } )
+     db.movies.find( { "budget" : 7, "imdb_rating" : 8 } )
 
 - Range queries, e.g., 
 
   .. code-block:: javascript
 
-     db.example.find( { a : 15, b : { $lt : 85 } } )
+     db.movies.find( { "budget" : 10, "imdb_rating" : { $lt : 9 } } )
 
 - Sorting, e.g., 
 
   .. code-block:: javascript
 
-     db.example.find( { a : 15, b : 17 } ).sort( { b : -1 } )
+     db.movies.find( { "budget" : 10, "imdb_rating" : 6 } 
+                    ).sort( { "imdb_rating" : -1 } )
 
 .. include:: /includes/student-notes.rst
 
@@ -117,9 +118,9 @@ Now let's query for messages with timestamp in the range 2 through 4 inclusive.
 
 Analysis:
 
-- Explain plan shows good performance, i.e. ``nscanned`` = ``n``.  
+- Explain plan shows good performance, i.e. ``totalKeysExamined`` = ``n``.  
 - However, this does not satisfy our query.  
-- Need to query again with { username : "anonymous" } as part of the query.
+- Need to query again with ``{username: "anonymous"}`` as part of the query.
 
 .. include:: /includes/student-notes.rst
 
@@ -134,9 +135,7 @@ Let's add the ``user`` field to our query.
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-``explain`` shows:
-
-- ``nscanned`` > ``n``. 
+``totalKeysExamined`` > ``n``. 
 
 .. include:: /includes/student-notes.rst
 
@@ -152,17 +151,14 @@ Include ``username`` in Our Index
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-``explain`` shows:
-
-- ``nscanned`` is still greater than n. 
-- Why?
+``totalKeysExamined`` is still > ``n``. Why?
 
 .. include:: /includes/student-notes.rst
 
 
 
-``ncanned`` > n
----------------
+``totalKeysExamined`` > ``n``
+-----------------------------
 
 =========  ===========
 timestamp  username
@@ -199,17 +195,14 @@ Drop the index and build a new one with user.
    db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
                        username : "anonymous" } ).explain()
 
-``explain`` shows:
-
-- nscanned is 2 
-- n is 2
+``totalKeysExamined`` is 2. ``n`` is 2.
 
 .. include:: /includes/student-notes.rst
 
 
 
-``nscanned`` == ``n`` == 2
---------------------------
+``totalKeysExamined`` == ``n``
+------------------------------
 
 ===========  =========
 username     timestamp
@@ -255,10 +248,10 @@ Finally, let's add the sort and run the query.
                        username : "anonymous" 
                      } ).sort( { rating : -1 } ).explain();
 
-- Note that the ``scanAndOrder`` field is set to true.
+- Note that the ``winningPlan`` includes a ``SORT`` stage.
 - This means that MongoDB had to perform a sort in memory.  
 - In memory sorts for queries that retrieve large numbers of documents can degrade performance significantly.
-- Especially, if they are used frequently.
+- This is especially true if they are used frequently.
 
 .. include:: /includes/student-notes.rst
 
@@ -304,10 +297,10 @@ Rebuild the index as follows.
                      } ).sort( { rating : -1 } ).explain();
 
 
-- Tradeoff between ``nscanned`` and ``scanAndOrder``
-- ``nscanned`` is 3 and and ``n`` is 2. 
-- Best we can do in this case and in this situation is fine.
-- However, if ``nscanned`` is much larger than ``n``, this might not be the best index.  
+- We no longer have an in-memory sort, but need to examine more keys.
+- ``totalKeysExamined`` is 3 and and ``n`` is 2. 
+- This is the best we can do in this situation and this is fine.
+- However, if ``totalKeysExamined`` is much larger than ``n``, this might not be the best index.  
 
 .. include:: /includes/student-notes.rst
 
@@ -315,9 +308,9 @@ Rebuild the index as follows.
 General Rules of Thumb
 ----------------------
 
-- Equality before range.
-- Equality before sorting.  
-- Sorting before range.
+- Equality before range
+- Equality before sorting
+- Sorting before range
 
 .. include:: /includes/student-notes.rst
 
@@ -337,23 +330,27 @@ Covered Queries
 Exercise: Covered Queries
 -------------------------
 
-Perform the following operations. Look at ``indexOnly`` in the ``explain()`` output.
-
 .. code-block:: javascript
 
    db.testcol.drop()
    for (i=1; i<=20; i++) { 
-     db.testcol.insert( { _id : i, a : i, b : i, c : i, d : i } )
+     db.testcol.insert({ "_id" : i, "title" : i, "name" : i, 
+                         "rating" : i, "budget" : i })
    };
-   db.testcol.createIndex( { a : 1, b : 1, c : 1 } )
+   db.testcol.createIndex( { "title" : 1, "name" : 1, "rating" : 1 } )
    
    // Not covered because _id is  present.
-   db.testcol.find( { a : 3 }, { a : 1, b : 1, c : 1 } ).explain()
+   db.testcol.find( { "title" : 3 }, 
+                    { "title" : 1, "name" : 1, "rating" : 1 } 
+                    ).explain("executionStats")
 
    // Not covered because other fields may exist in matching docs.
-   db.testcol.find( { a : 3 }, { _id : 0, d : 0 } ).explain()
+   db.testcol.find( { "title" : 3 }, 
+                    { "_id" : 0, "budget" : 0 } ).explain("executionStats")
 
    // Covered query!
-   db.testcol.find( { a : 3 }, { _id : 0, a : 1, b : 1, c : 1 } ).explain()
+   db.testcol.find( { "title" : 3 }, 
+                    { "_id" : 0, "title" : 1, "name" : 1, "budget" : 1 } 
+                    ).explain("executionStats")
 
 .. include:: /includes/student-notes.rst
