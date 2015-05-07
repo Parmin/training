@@ -1,11 +1,10 @@
-MongoDB Essentials Training
-===========================
+MongoDB Administrator Fundamentals
+==================================
 
 
 Introduction (1:30)
 -------------------
 
-- Warm Up (15 minutes)
 - MongoDB Overview (20 minutes)
 - MongoDB Stores Documents (30 minutes)
 - Lab: Installing and Running MongoDB (25 minutes)

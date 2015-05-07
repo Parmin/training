@@ -1,11 +1,10 @@
-MongoDB Essentials Training
-===========================
+MongoDB Developer Fundamentals
+==============================
 
 
-Introduction (1:30)
+Introduction (1:15)
 -------------------
 
-- Warm Up (15 minutes)
 - MongoDB Overview (20 minutes)
 - MongoDB Stores Documents (30 minutes)
 - Lab: Installing and Running MongoDB (25 minutes)
@@ -22,23 +21,21 @@ CRUD (2:30)
 - Lab: Updating Products (15 minutes)
 
   
-Indexes (3:20)
+Indexes (2:05)
 --------------
 
 - Index Fundamentals (15 minutes)
 - Compound Indexes (30 minutes)
 - Lab: Building an Index (15 minutes)
 - Multikey Indexes (20 minutes)
-- Hashed Indexes (15 minutes)
-- Geospatial Indexes (30 minutes)
-- TTL Indexes (10 minutes)
-- Text Indexes (20 minutes)
 - Lab: Finding and Addressing Slow Operations (30 minutes)
 - Lab: Using explain() (15 minutes)
-- Aggregation (2:30)
+
+
+Aggregation (2:30)
+------------------
 - Aggregation Tutorial (60 minutes)
 - Lab: Working with Array Fields (25 minutes) 
-- Aggregation Optimizations (15 minutes)
 - Lab: Repeated Aggregation Stages (25 minutes)
 - Lab: Analyzing Student Records (25 minutes)
 
@@ -77,35 +74,3 @@ Sharding (2:45)
 - Lab: Add a Shard (20 minutes)
 
 
-MMS and Ops Manager (3:40)
---------------------------
-
-- Introduction to MMS and Ops Manager (15 minutes)
-- Automation (20 minutes)
-- Lab: Automation (20 minutes)
-- Monitoring (30 minutes)
-- Lab: Creating Alerts (30 minutes)
-- Backups (20 minutes)
-- MMS / Ops Manager API (20 minutes)
-- Lab: Using the MMS API (30 minutes)
-- Architecture (Ops Manager) (20 minutes)
-- Security (Ops Manager) (15 minutes)
-
-
-Performance Troubleshooting (1:30)
-----------------------------------
-
-- Log Files (10 minutes)
-- Diagnostic Tools (10 minutes)
-- The Profiler (10 minutes)
-- Debugging Performance Issues (30 minutes)
-- Lab: Analyzing Log Files (30 minutes)
-
-
-Backup and Recovery (30 minutes)
---------------------------------
-- File System Backups (15 minutes)
-- Backup and Restore of Sharded Clusters (15 minutes)
-  
-
-Q and A, Additional Topics, and Labs (Time Permitting)
