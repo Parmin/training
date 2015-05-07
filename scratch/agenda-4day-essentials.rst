@@ -102,8 +102,8 @@ Performance Troubleshooting (1:30)
 - Lab: Analyzing Log Files (30 minutes)
 
 
-Backup and Recovery
--------------------
+Backup and Recovery (30 minutes)
+--------------------------------
 - File System Backups (15 minutes)
 - Backup and Restore of Sharded Clusters (15 minutes)
   
