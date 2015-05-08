@@ -39,13 +39,14 @@ This course covers the MongoDB query language, data modeling, indexes, and an in
 * Exercises: Social Media Dataset
 * Aggregation Optimizations
 
+
+## Day 2
+
 ### Schema Design
 
 * Schema Design Core Concepts
 * Schema Evolution
 * Common Design Patterns
-
-## Day 2
 
 ### Replication
 
