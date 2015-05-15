@@ -1,0 +1,51 @@
+=============================
+Group Exercise: Schema Design
+=============================
+
+In this group exercise, we're going to take what we've learned about MongoDB and try to come up with a basic but reasonable data model for an e-commerce site. For users of RDBMSs, the most challenging part of the exercise will be figuring out how to construct a data model when joins aren't allowed. We're going to attempt to model for the following entities and features:
+
+Product Catalog
+---------------
+
+* **Products.** The core of an e-commerce site, products vary quite a bit. In addition to the standard production attributes, we'll want to allow for variations of product type, along with custom attributes. For instance, users may search for blue jackets, red jackets, 11-inch macbooks, or size 12 shoes. The product catalog will contain millions of products.
+* **Product pricing.** Current prices as well a price histories.
+* **Product categories.** Every e-commerce site includes a category hierarchy. We need to allow for that hierarchy, and we also must persist the many-to-many relationship between products and categories.
+* **Product reviews.** Every product has zero or more reviews, and each review can receive votes and comments.
+
+.. only:: instructor
+
+   .. note::
+
+      - The most difficult part to this exercise is querying on arbitrary attributes, e.g. macbooks with 11 inch screens.  Something like "tags" : [ { "key" : "screen_size", "value" : 11}, { "key" : "brand", "value" : "Apple" } ] can be used, but $elemMatch is extremely important here!
+      - Representing the category hierarchy is also interesting
+
+.. include:: /includes/student-notes.rst
+
+
+Product Metrics
+---------------
+
+* **Product views and purchases.** Keep track of the number of times each product is viewed and when each product is purchased.
+* **Top 10 lists.** Create queries for top 10 viewed products, top 10 purchased products.
+* **Graph historical trends.** Create a query to graph how a product is viewed/purchased over the past.
+* **30 days with 1 hour granularity.** This graph will appear on every product page, the query must be very fast.
+
+.. only:: instructor
+
+   .. note::
+
+      - Use arrays here (for hour/day granularity), and aggregate the arrays for other reports
+
+.. include:: /includes/student-notes.rst
+
+
+Deliverables
+------------
+
+* Sample document and schema for each collection
+* Queries the application will use
+* Index definitions
+
+.. include:: /includes/student-notes.rst
+
+

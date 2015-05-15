@@ -1,0 +1,79 @@
+============================
+Exercise: Querying Documents
+============================
+
+1. In the sample database, how many documents are in the scores collection where the score is less than 65?
+-----------------------------------------------------------------------------------------------------------
+   
+.. only:: instructor
+
+   .. note::
+
+      - 832
+      - db.scores.find( { score: { $lt: 65 } } )
+        
+
+.. include:: /includes/student-notes.rst
+
+
+
+2. In the sample database, how many documents in the scores collection have the kind "exam" or "quiz"?
+------------------------------------------------------------------------------------------------------
+   
+.. only:: instructor
+
+   .. note::
+
+      - 2000
+      - db.scores.find().sort({ score: 1 }).limit(1)[0].score
+
+.. include:: /includes/student-notes.rst
+
+
+3. In the sample database, find the lowest quiz score. Find the highest quiz score.
+-----------------------------------------------------------------------------------
+
+.. only:: instructor
+
+   .. note::
+
+      - Can you .limit() with .sort()
+      - db.scores.find().sort({ score:  -1 }).limit(1)[0].score
+
+.. include:: /includes/student-notes.rst
+
+
+4. In the digg.stories collection, write a query to find all stories where the view count is greater than 1000.
+---------------------------------------------------------------------------------------------------------------
+   
+.. only:: instructor
+
+   .. note::
+
+      - Requires querying into subdocuments
+      - db.stories.find( { "shorturl.view_count": { $gt: 1000 } } )
+
+.. include:: /includes/student-notes.rst
+
+5. Find all digg stories where the topic name is ’Television’ or the media type is ’videos’. Skip the first 5 results, and limit the result set to 10.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.. only:: instructor
+
+   .. note::
+
+      - db.stories.find( { "$or": [ { "topic.name": "Television" }, { "media": "news" }]}).skip(5).limit(10)
+        
+.. include:: /includes/student-notes.rst
+   
+6. Query for all digg stories whose media type is either ’news’ or ’images’ and where the topic name is ’Comedy’. (For extra practice, construct two queries using different sets of operators to do this.)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.. only:: instructor
+
+   .. note::
+
+      - db.stories.find( { "media": { $in: [ "news", "images" ] }, "topic.name": "Comedy" })
+        
+.. include:: /includes/student-notes.rst
+      

@@ -25,6 +25,10 @@ description: |
 file: /modules/indexes-text
 description: | 
   Free text indexes on string fields.
+--- 
+file: /exercises/indexes-exercises
+description: |
+  Exercises for indexes in MongoDB.
 ...
 
 

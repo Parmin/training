@@ -9,6 +9,10 @@ description: |
 file: /modules/schema-design-common-design-patterns
 description: | 
   Common design patterns for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB.
+---
+file: /exercises/schema-group-exercise
+description: | 
+  Schema design group exercise
 ...
 
 
