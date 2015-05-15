@@ -19,14 +19,24 @@ This Administrator Fundamentals workshop is designed to teach operations staff a
 
 ## 10AM
 
+### MongoDB Production Notes
+
+* Machine configuration
+* Disk configuration
+
+## 10:15AM
+
 ### CRUD
 
 * Creating and Deleting Documents
 * Reading Documents
-* Basic Query Operators
-* Updating Documents
 
 ## 10:30AM Mid-morning Break
+
+### CRUD Continued
+
+* Basic Query Operators
+* Updating Documents
 
 ### CRUD Exercises
 
@@ -40,10 +50,7 @@ This Administrator Fundamentals workshop is designed to teach operations staff a
 * Index Fundamentals
 * Troubleshooting Index Performance (explain())
 * Intro to mtools (mloginfo --queries) for finding slow queries
-* Compound Indexes
-* Multikey Indexes
-* Hashed Indexes
-* TTL Indexes
+
 
 ## 12PM Lunch
 
@@ -59,19 +66,18 @@ This Administrator Fundamentals workshop is designed to teach operations staff a
 * Read Preference
 * Exercise: Setting Up a Replica Set
 
-## 1:30 PM
+## 2:30PM Afternoon break
+
+## 2:45PM 
 
 ### Sharding
 
 * Introduction to Sharding
 * Balancing Shards
 * Shard Tags
-* Exercise: Setting Up a Sharded Cluster
 * If time: demo sharded cluster creation with MMS
 
-## 2:30PM Afternoon break
-
-## 2:45PM 
+## 4:00PM 
 
 ### Backup and Recovery
 
@@ -79,7 +85,7 @@ This Administrator Fundamentals workshop is designed to teach operations staff a
 * Sharded Clusters
 * MMS / Ops Manager Backup Overview
 
-## 4PM 
+## 4:30PM 
 
 ### Performance Troubleshooting
 
@@ -87,10 +93,6 @@ This Administrator Fundamentals workshop is designed to teach operations staff a
 * mongotop
 * The MongoDB Profiler
 * Log Analysis Tools
-
-## 4:30PM 
-
-### Additional Topics
 
 ## 5PM Wrap-up
 
