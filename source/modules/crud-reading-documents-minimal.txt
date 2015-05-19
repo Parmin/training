@@ -1,0 +1,434 @@
+=================
+Reading Documents
+=================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The query-by-example paradigm of MongoDB
+- How to query on array elements
+- How to query embedded documents using dot notation
+- How the mongo shell and drivers use cursors
+- Projections
+- Cursor methods: ``.count()``, ``.sort()``, ``.skip()``, ``.limit()``
+
+.. include:: /includes/student-notes.rst
+
+
+The ``find()`` Method
+---------------------
+
+- This is the fundamental method by which we read data from MongoDB.
+- We have already used it in its basic form.
+- ``find()`` returns a cursor that enables us to iterate through all documents matching a query.
+- We will discuss cursors later.
+
+.. include:: /includes/student-notes.rst
+
+
+Query by Example
+----------------
+
+- To query MongoDB, specify a document containing the key / value pairs you want to match
+- You need only specify values for fields you care about.
+- Other fields will not be used to exclude documents.
+- The result set will include all documents in a collection that match.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Querying by Example
+----------------------------
+
+.. code-block:: javascript
+
+  db.movies.drop()
+  db.movies.insert([ { "title" : "Jaws", "year" : 1975, "imdb_rating" : 8.1 },
+                     { "title" : "Batman", "year" : 1989, "imdb_rating" : 7.6 },
+                   ] )
+  db.movies.find()
+
+  db.movies.find( { "year" : 1975 } )
+
+  // Multiple Batman movies from different years, find the correct one
+  db.movies.find( { "year" : 1989, "title" : "Batman" } )
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+   .. note::
+
+      Matching Rules:
+
+      - Any field specified in the query must be in each document returned.
+      - Values for returned documents must match the conditions specified in the query document.
+      - If multiple fields are specified, all must be present in each document returned.
+      - Think of it as a logical AND for all fields.
+
+
+
+Querying Arrays
+---------------
+
+- In MongoDB you may query array fields.
+- Specify a single value you expect to find in that array in desired documents.
+- Alternatively, you may specify an entire array in the query document.
+- As we will see later, there are also several operators that enhance our ability to query array fields.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Students might find it helpful to think of an array field as having multiple values -- one for each of its elements.
+
+
+Example: Querying Arrays
+------------------------
+
+.. code-block:: javascript
+
+  db.movies.drop()
+  db.movies.insert( 
+   [{ "title" : "Batman", "category" : [ "action", "adventure" ] },
+    { "title" : "Godzilla", "category" : [ "action", "adventure", "sci-fi" ] },
+    { "title" : "Home Alone", "category" : [ "family", "comedy" ] }
+   ])
+
+  // Match documents where "category" contains the value specified
+  db.movies.find( { "category" : "action" } )
+
+  // Match documents where "category" equals the value specified
+  db.movies.find( { "category" : [ "action", "sci-fi" ] } )  // no documents
+
+  // only the second document
+  db.movies.find( { "category" : [ "action", "adventure", "sci-fi" ] } )  
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+   .. note::
+
+      Later, we'll see operators that will allow us to do things like match all documents where an array field contains any of a set of values.
+
+
+Querying with Dot Notation
+--------------------------
+
+- Dot notation is used to query on fields in embedded documents.
+- The syntax is:
+
+  .. code-block:: javascript 
+
+     "field1.field2" : value
+
+- Put quotes around the field name when using dot notation.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Querying with Dot Notation
+-----------------------------------
+
+.. code-block:: javascript
+
+   db.movies.insert( 
+       [ { 
+             "title" : "Avatar", 
+             "box_office" : { "gross" : 760, 
+                              "budget" : 237,
+                              "opening_weekend" : 77
+                            }
+         },
+         { 
+             "title" : "E.T.", 
+             "box_office" : { "gross" : 349, 
+                              "budget" : 10.5,
+                              "opening_weekend" : 14
+                            }
+          }
+        ] )
+
+   db.movies.find( { "box_office" : { "gross" : 760 } } ) // no values
+
+   // dot notation
+   db.movies.find( { "box_office.gross" : 760 } )  // expected value
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Arrays and Dot Notation
+--------------------------------
+
+.. code-block:: javascript
+
+   db.movies.insert( [ 
+       { "title" : "E.T.", 
+         "filming_locations" : 
+            [ { "city" : "Culver City", "state" : "CA", "country" : "USA" },
+              { "city" : "Los Angeles", "state" : "CA", "country" : "USA" },
+              { "city" : "Cresecent City", "state" : "CA", "country" : "USA" }
+            ] },
+       { type : "Star Wars", 
+         "filming_locations" : 
+            [ { "city" : "Ajim", "state" : "Jerba", "country" : "Tunisia" },
+              { "city" : "Yuma", "state" : "AZ", "country" : "USA" }
+            ] } ] )
+
+    db.movies.find( { "filming_locations.country" : "USA" } ) // two documents
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - This query finds documents where:
+
+        - There is a ``filming_locations`` field.
+        - The ``filming_locations`` field contains one or more embedded documents.
+        - At least one embedded document has a field ``country``.
+        - The field ``country`` has the specified value ("USA").
+
+      - In this collection, ``filming_locations`` is actually an array field.
+      - The embedded documents we are matching are held within these arrays.
+
+
+Projections
+-----------
+
+- You may choose to have only certain fields appear in result documents.
+- This is called projection.
+- You specify a projection by passing a second parameter to ``find()``.
+
+.. include:: /includes/student-notes.rst
+
+
+Projection: Example (Setup)
+---------------------------
+
+.. code-block:: javascript
+
+   db.movies.insert(
+   {
+      "title" : "Forrest Gump",
+      "category" : [ "drama", "romance" ],
+      "imdb_rating" : 8.8,
+      "filming_locations" : [
+        { "city" : "Savannah", "state" : "GA", "country" : "USA" },
+        { "city" : "Monument Valley", "state" : "UT", "country" : "USA" },
+        { "city" : "Los Anegeles", "state" : "CA", "country" : "USA" }
+      ],
+      "box_office" : {
+        "gross" : 557,
+        "opening_weekend" : 24,
+        "budget" : 55
+      }
+    })    
+
+.. include:: /includes/student-notes.rst
+
+
+Projection: Example
+-------------------
+
+.. code-block:: javascript
+
+   db.movies.findOne( { "title" : "Forrest Gump" }, 
+                      { "title" : 1, "imdb_rating" : 1 } )
+   {
+      "_id" : ObjectId("5515942d31117f52a5122353"),
+      "title" : "Forrest Gump",
+      "imdb_rating" : 8.8
+   }     
+
+.. include:: /includes/student-notes.rst
+
+
+Projection Documents
+--------------------   
+  
+- Include fields with ``fieldName: 1``.
+
+  - Any field not named will be excluded
+  - except _id, which must be explicitly excluded.
+
+- Exclude fields with ``fieldName: 0``. 
+
+  - Any field not named will be included.
+
+.. include:: /includes/student-notes.rst
+
+
+Cursors
+-------
+
+- When you use ``find()``, MongoDB returns a cursor.
+- A cursor is a pointer to the result set
+- You can get iterate through documents in the result using ``next()``.
+- By default, the mongo shell will iterate through 20 documents at a time.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Introducing Cursors
+----------------------------
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=10000; i++) { 
+       db.testcol.insert( { a : Math.floor( Math.random() * 100 + 1 ),
+                            b : Math.floor( Math.random() * 100 + 1 ) } )
+   }
+   db.testcol.find()  
+    
+   it  
+   it  
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+   .. note::
+
+      - With the ``find()`` above, the shell iterates over the first 20 documents. 
+      - ``it`` causes the shell to iterate over the next 20 documents.
+      - Can continue issuing ``it`` commands until all documents are seen.
+
+
+Example: Cursor Objects in the Mongo Shell
+------------------------------------------
+
+.. code-block:: javascript
+
+   // Assigns the cursor returned by find() to a variable x
+   var x = db.testcol.find()
+
+   // Displays the first document in the result set.
+   x.next()
+
+   // True because there are more documents in the result set.
+   x.hasNext()
+
+   // Assigns the next document in the result set to the variable y.
+   y = x.next()
+
+   // Return value is the value of the a field of this document.
+   y.a
+
+   // Displaying a cursor prints the next 20 documents in the result set.
+   x
+
+.. include:: /includes/student-notes.rst
+
+
+Cursor Methods
+--------------
+
+- ``count()``: Returns the number of documents in the result set.
+- ``limit()``: Limits the result set to the number of documents specified.
+- ``skip()``: Skips the number of documents specified.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Using ``count()``
+--------------------------
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=100; i++) { db.testcol.insert( { a : i } ) }
+
+   // all 100 
+   db.testcol.count()   
+
+   // just 41 docs
+   db.testcol.count( { a : { $lt : 42 } } )  
+
+   // Another way of writing the same query
+   db.testcol.find( { a : { $lt : 42 } } ).count(  )  
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - You may pass a query document like you would to ``find()``.
+      - ``count()`` will count only the documents matching the query.
+      - Will return the number of documents in the collection if you do not specify a query document.
+      - The last query in the above achieves the same result because it operates on the cursor returned by ``find()``.
+
+
+
+Example: Using ``sort()``
+-------------------------
+
+Experiment with the following sort commands.
+
+.. code-block:: javascript
+
+   db.testcol.drop()
+   for (i=1; i<=20; i++) { 
+       db.testcol.insert( { a : Math.floor( Math.random() * 10 + 1 ), 
+                            b : Math.floor( Math.random() * 10 + 1 ) } ) 
+   }
+
+   db.testcol.find()                            
+
+   // sort descending; use 1 for ascending
+   db.testcol.find().sort( { a : -1 } )         
+
+   // sort by b, then a
+   db.testcol.find().sort( { b : 1, a : 1 } )   
+
+   // $natural order is just the order on disk.
+   db.testcol.find().sort( { $natural : 1 } )  
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Sort can be executed on a cursor until the point where the first document is actually read.
+      - If you never delete any documents or change their size, this will be the same order in which you inserted them.
+      - Sorting two or more fields breaks the convention of javascript objects that key / value pairs are unordered.
+      - In some drivers you may need to take special care with this.
+      - For example, in Python, you would usually query with a dictionary. 
+      - But dictionaries are unordered in Python, so you would use an array of tuples instead.
+
+
+The ``skip()`` Method
+---------------------
+
+- Skips the specified number of documents in the result set.
+- The returned cursor will begin at the first document beyond the number specified.
+- Regardless of the order in which you specify ``skip()`` and ``sort()`` on a cursor, ``sort()`` happens first.
+
+.. include:: /includes/student-notes.rst
+
+
+The ``limit()`` Method
+----------------------
+
+- Limits the number of documents in a result set to the first ``k``.
+- Specify ``k`` as the argument to ``limit()``
+- Regardless of the order in which you specify ``limit()``, ``skip()``, and ``sort()`` on a cursor, ``sort()`` happens first.
+- Helps reduce resources consumed by queries.
+
+.. include:: /includes/student-notes.rst
+
+
+

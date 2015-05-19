@@ -1,0 +1,20 @@
+file: /modules/mms-introduction
+description: |
+  Learn about what MMS offers
+---
+file: /modules/mms-automation
+description: |
+  MMS Automation
+---
+file: /exercises/mms-automation
+description: |
+  Set up a cluster with MMS Automation
+---
+file: /modules/mms-monitoring
+description: |
+  Monitor a cluster with MMS
+---
+file: /modules/mms-backups
+description: |
+  Use MMS to create and administer backups
+...

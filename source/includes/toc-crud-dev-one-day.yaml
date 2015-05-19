@@ -1,0 +1,24 @@
+file: /modules/crud-creating-and-deleting-documents-minimal
+description: | 
+  Inserting documents into collections, deleting documents, and dropping collections.
+--- 
+file: /modules/crud-reading-documents-minimal
+description: | 
+  The find() command, query documents, dot notation, and cursors.
+--- 
+file: /modules/crud-query-operators-minimal
+description: | 
+  MongoDB query operators including: comparison, logical, element, and array operators.
+--- 
+file: /exercises/crud-querying-documents
+description: |
+  Exercises for querying documents in MongoDB.
+---
+file: /modules/crud-updating-documents-minimal
+description: | 
+  Using ``update()`` and associated operators to mutate existing documents.
+--- 
+file: /exercises/crud-updating-documents
+description: |
+  Exercises for updating documents in MongoDB.
+...

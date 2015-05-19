@@ -10,17 +10,20 @@ This course is for organizations looking to train developer and administrator te
 
 ### Introduction
 
-* Warm Upg
+* Warm Up
 * MongoDB Overview
 * MongoDB Stores Documents
-* Exercise: Installing and Running MongoDB
+* Storage Engines
+* Lab: Installing and Running MongoDB
 
 ### CRUD
 
 * Creating and Deleting Documents
 * Reading Documents
 * Query Operators
+* Lab: Finding Documents
 * Updating Documents
+* Lab: Updating Documents
 
 ### Indexes
 
@@ -32,58 +35,58 @@ This course is for organizations looking to train developer and administrator te
 * Geospatial Indexes
 * TTL Indexes
 * Text Indexes
+* Lab: Building and Examining Indexes
 
 ### Aggregation
 
 * Aggregation Tutorial
 * Aggregation Optimizations
+* Lab: Aggregating Zip Code Data
 
-### Schema Design Part 1
-
-* Schema Design Core Concepts
-* Schema Evolution
 
 ## Day 2
 
-### Schema Design Part 2
+### Schema Design
 
+* Schema Design Core Concepts
+* Schema Evolution
 * Common Design Patterns
 * Application Specific Use Cases
+* Lab: Data Model for an E-Commerce Site
 
-### Replication, Part 1
+### Replication
 
 * Introduction to Replica Sets
 * Elections in Replica Sets
 * Replica Set Roles and Configuration
 * The Oplog: Statement-Based Replication
-
-### Replication, Part 2
-
 * Write Concern
 * Read Preference
-* Exercise: Setting Up a Replica Set
-
-## Day 3
+* Lab: Setting Up a Replica Set
 
 ### Sharding
 
 * Introduction to Sharding
 * Balancing Shards
 * Shard Tags
-* Exercise: Setting Up a Sharded Cluster
+* Lab: Setting Up a Sharded Cluster
+
+## Day 3
 
 ### Security
 
 * Authentication Options
 * Roles
-* Exercise: Creating a User and Setting Permissions
+* Lab: Creating a User and Setting Permissions
 
 ### MMS / Ops Manager
 
-* Monitoring Performance 
-* Automating Cluster Upgrades and Provisioning
-* Architecture
-* Exercise: Cluster Automation
+* MMS & Ops Manager
+* Automation
+* Lab: Cluster Automation
+* Monitoring
+* Lab: Creating an Alert
+* Backups
 
 ### Performance Troubleshooting
 

@@ -1,0 +1,198 @@
+===============================
+Creating and Deleting Documents
+===============================
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- How to insert documents into MongoDB collections.
+- ``_id`` fields:
+- How to remove documents from a collection
+- How to remove a collection from a database
+- How to remove a database from a MongoDB deployment
+
+.. include:: /includes/student-notes.rst
+
+
+Creating New Documents
+----------------------
+
+- Create documents using ``insert()``.
+- For example:
+
+  .. code-block:: javascript
+
+     // Specify the collection name
+     db.<COLLECTION>.insert( { "name" : "Mongo" } )
+
+     // For example
+     db.people.insert( { "name" : "Mongo" } )
+
+.. include:: /includes/student-notes.rst
+
+Example: Inserting a Document
+------------------------------
+
+.. code-block:: javascript
+
+   use sample
+
+   db.movies.insert( { "title" : "Jaws" } )
+
+   db.movies.find()
+
+.. include:: /includes/student-notes.rst
+
+
+Implicit ``_id`` Assignment
+---------------------------
+
+- We did not specify an ``_id`` in the document we inserted.
+- If you do not assign one, MongoDB will create one automatically.
+- The value will be of type ObjectId.
+
+.. include:: /includes/student-notes.rst
+
+Example: Assigning _ids
+------------------------
+
+.. code-block:: javascript
+
+    db.movies.insert( { "_id" : "Jaws", "year" : 1975 } )
+
+    db.movies.find()
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Note that you can assign an _id to be of almost any type.
+      - It does not need to be an ObjectId.
+
+
+
+Inserts will fail if...
+-----------------------
+
+- There is already a document in the collection with that ``_id``.
+- You try to assign an array to the ``_id``.
+- The argument is not a well-formed document.
+
+.. include:: /includes/student-notes.rst
+
+
+
+The Shell is a JavaScript Interpreter
+-------------------------------------
+
+- Sometimes it is convenient to create test data using a little JavaScript.
+- The mongo shell is a fully-functional JavaScript interpreter. You may:
+
+  - Define functions
+  - Use loops
+  - Assign variables
+  - Perform inserts
+
+.. include:: /includes/student-notes.rst
+
+
+.. include:: /exercises/crud-creating-data-in-the-shell.txt
+
+
+Deleting Documents
+------------------
+
+You may delete documents from a MongoDB deployment in several ways.
+
+- Use ``remove()`` to delete documents matching a specific set of conditions.
+- Drop an entire collection.
+- Drop a database.
+
+.. include:: /includes/student-notes.rst
+
+
+Using ``remove()``
+------------------
+
+- Remove documents from a collection using ``remove()``.
+- This command has one required parameter, a query document.
+- All documents in the collection matching the query document will be removed.
+- Pass an empty document to remove all documents.
+- Prior to MongoDB 2.6 calling ``remove()`` with no parameters would remove all documents.
+- Limit ``remove()`` to one document using ``justOne``.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Removing Documents
+----------------------------
+
+.. code-block:: javascript
+
+   for (i=1; i<=20; i++) { db.testcol.insert( { _id : i, a : i } ) }
+
+   db.testcol.remove( { a : 1 } )  // Remove the first document
+
+   // $lt is a query operator that enables us to select documents that
+   // are less than some value. More on operators soon.
+   db.testcol.remove( { a : { $lt : 5 } } )  // Remove three more
+
+   db.testcol.remove( { a : { $lt : 10 } },
+                            { justOne : true } )  // Remove one more
+
+   db.testcol.remove()  // Error: requires a query document.
+
+   db.testcol.remove( { } )  // All documents removed
+
+.. include:: /includes/student-notes.rst
+
+
+
+Dropping a Collection
+---------------------
+
+- You can drop an entire collection with ``db.<COLLECTION>.drop()``
+- The collection and all documents will be deleted.
+- It will also remove any metadata associated with that collection.
+- Indexes are one type of metadata removed.
+- More on meta data later.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Mention that ``drop()`` is more performant than remove because of the lookup costs associated with ``remove()``.
+
+
+Example: Dropping a Collection
+-------------------------------
+
+.. code-block:: javascript
+
+   db.colToBeDropped.insert( { a : 1 } )
+   show collections  // Shows the colToBeDropped collection
+
+   db.colToBeDropped.drop()
+   show collections  // collection is gone
+
+.. include:: /includes/student-notes.rst
+
+
+
+Dropping a Database
+-------------------
+
+- You can drop an entire database with ``db.dropDatabase()``
+- This drops the database on which the method is called.
+- It also deletes the associated data files from disk, freeing disk space.
+- Beware that in the mongo shell, this does not change database context.  
+
+.. include:: /includes/student-notes.rst
+
+

@@ -1,0 +1,314 @@
+==================
+Updating Documents
+==================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand
+
+- The ``update()`` method
+- The required parameters for ``update()``
+- Field update operators
+- Array update operators
+- The concept of an upsert and use cases.
+- The findAndModify method
+
+.. include:: /includes/student-notes.rst
+
+
+
+The ``update()`` Method
+-----------------------
+
+- Mutate documents in MongoDB using ``update()``.
+- ``update()`` requires two parameters:
+
+  - A query document used to select documents to be updated
+
+  - An update document that specifies how selected documents will change
+
+
+- ``update()`` cannot delete a document.
+
+.. include:: /includes/student-notes.rst
+
+
+Parameters to ``update()``
+--------------------------
+
+- Keep the following in mind regarding the required parameters for ``update()``
+- The query parameter:
+
+  - Use the same syntax as with ``find()``.
+  - By default only the first document found is updated.
+
+- The update parameter:
+
+  - Take care to simply modify documents if that is what you intend.
+  - Replacing documents in their entirety is easy to do by mistake.
+
+.. include:: /includes/student-notes.rst
+
+
+``$set`` and ``$unset``
+-----------------------
+
+- Update one or more fields using the ``$set`` operator.
+- If the field already exists, using ``$set`` will change its value.
+- If the field does not exist, ``$set`` will create it and set it to the new value.
+- Any fields you do not specify will not be modified.
+- You can remove a field using ``$unset``.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: ``$set`` and ``$unset`` (Setup)
+----------------------------------------
+
+.. code-block:: javascript
+
+  db.movies.insert( [ 
+    { 
+      "title" : "Batman", 
+      "category" : [ "action", "adventure" ], 
+      "imdb_rating" : 7.6, 
+      "budget" : 35 
+    },
+    { 
+      "title" : "Godzilla", 
+      "category" : [ "action", 
+      "adventure", "sci-fi" ], 
+      "imdb_rating" : 6.6 
+    },
+    { 
+      "title" : "Home Alone", 
+      "category" : [ "family", "comedy" ], 
+      "imdb_rating" : 7.4 
+    }
+  ] )
+
+.. include:: /includes/student-notes.rst
+
+Example: ``$set`` and ``$unset``
+--------------------------------
+
+.. code-block:: javascript
+
+   db.movies.update( { "title" : "Batman" }, { $set : { "imdb_rating" : 7.7 } } )  
+
+   db.movies.update( { "title" : "Godzilla" }, { $set : { "budget" : 1 } } ) 
+
+   db.movies.update( { "title" : "Home Alone" }, 
+                     { $set : { "budget" : 15, "imdb_rating" : 5.5 } } )
+
+   // how will this query behave?
+   db.movies.update( { "title" : "Batman" }, { "imdb_rating" : 7.7 } )
+
+   db.movies.update( { "title" : "Home Alone" }, { $unset :  { "budget" : 1 } } )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Update will only update the first document it finds by default
+      - Difference between using $set and not using $set is very important
+
+
+Example: Update Array Elements by Index
+---------------------------------------
+
+.. code-block:: javascript
+
+   // add a sample document to track mentions per hour
+   db.movie_mentions.insert( { "title" : "E.T.", 
+                               "day" : ISODate("2015-03-27T00:00:00.000Z"), 
+                               "mentions_per_hour" : [ 0, 0, 0, 0, 0, 0, 0,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                 0, 0 ] 
+                              } )
+
+   // update all mentions for the fifth hour of the day
+   db.movie_mentions.update( { "title" : "E.T." } , 
+                             { $set :  { "mentions_per_hour.5" : 2300 } } )                               
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Cool pattern for time series data
+      - Displaying charts is now trivial, can change granularity to by the minute, hour, day, etc.
+
+
+Update Operators
+----------------
+
+- ``$inc``: Increment a field's value by the specified amount.
+- ``$mul``: Multiply a field's value by the specified amount.
+- ``$rename``: Rename a field.
+- ``$set`` (already discussed)
+- ``$unset`` (already discussed)
+- ``$min``: Update only if value is smaller than specified quantity
+- ``$max``: Update only if value is larger than specified quantity
+- ``$currentDate``: Set the value of a field to the current date or timestamp.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Update Operators
+-------------------------
+
+.. code-block:: javascript
+
+   db.movies.update( { "title" : "Batman" }, { $inc : { "imdb_rating" : 2 } } )        
+
+   db.movies.update( { "title" : "Home Alone" }, { $inc : { "budget" : 5 } } )  
+
+   db.movies.update( { "title" : "Batman" }, { $mul : { "imdb_rating" : 4 } } )  
+
+   db.movies.update( { "title" : "Batman" }, 
+                     { $rename : { "budget" : "estimated_budget" } } )
+
+   db.movies.update( { "title" : "Home Alone" }, { $min : { "budget" : 5 } } )  
+
+   db.movies.update( { "title" : "Home Alone" }, 
+                     { $currentDate : { "last_updated" : { $type : "timestamp" } } } )
+
+   // increment movie mentions by 10
+   db.movie_mentions.update( { "title" : "E.T." } , 
+                             { $inc :  { "mentions_per_hour.5" : 10 } } )                               
+
+
+.. include:: /includes/student-notes.rst
+
+
+``update()`` Defaults to one Document
+-------------------------------------
+
+- By default, ``update()`` modifies the first document found that matches the query.
+- The default use case is one where there is only one document that fits the query.
+- This is to reduce the chances of unintended collection scans for updates.
+
+.. include:: /includes/student-notes.rst
+
+
+
+Updating Multiple Documents
+---------------------------
+
+- In order to update multiple documents, we use the third (optional) parameter to ``update()``.
+- The third parameter is an options document.
+- Specify ``multi: true`` as one field in this document.
+- Bear in mind that without an appropriate index, you may scan every document in the collection.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Multi-Update
+---------------------
+
+Use ``db.testcol.find()`` after each of these updates.
+
+.. code-block:: javascript
+  
+   // let's start tracking the number of sequals for each movie
+   db.movies.update( { }, { $set : { "sequels" : 0 } } )
+
+   // we need { multi : true } to change all documents 
+   db.movies.update( { }, { $set : { "sequels" : 0 } },
+                     { multi : true } )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - ``db.movies.update( { }, { $set : { "sequels" : 0 } } )`` only updates one document.
+      - ``db.movies.update( { }, { $set : { "sequels" : 0 } }, { multi : true } )`` updates four documents.
+
+
+Array Operators
+---------------
+
+- ``$push``: Appends an element to the end of the array.
+- ``$pushAll``: Appends multiple elements to the end of the array.
+- ``$pop``: Removes one element from the end of the array.
+- ``$pull``: Removes all elements in the array that match a specified value.
+- ``$pullAll``: Removes all elements in the array that match any of the specified values.
+- ``$addToSet``: Appends an element to the array if not already present.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - These operators may be applied to array fields.
+
+
+Example: Array Operators
+------------------------
+
+.. code-block:: javascript
+
+   db.movies.update( { "title" : "Batman" }, 
+                     { $push : { "category" : "superhero" } } ) 
+   db.movies.update( { "title" : "Batman" }, 
+                     { $pushAll : { "category" : [ "villain", "comicbased" ] } } ) 
+   
+   db.movies.update( { "title" : "Batman" }, 
+                     { $pop : { "category" : 1 } } )  
+
+   db.movies.update( { "title" : "Batman" }, 
+                     { $pull : { "category" : "action" } } )  
+   db.movies.update( { "title" : "Batman" }, 
+                     { $pullAll : { "category" : [ "villain", "comicbased" ] } } ) 
+    
+   db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )  
+   db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )  
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+   .. note::
+   
+      - Pass $pop a value of -1 to remove the first element of an array and 1 to remove the last element in an array.
+
+
+``findAndModify()``
+-------------------
+
+Modify a document and return either:
+
+- The pre-modification document
+- If "new:true" is set, the modified document
+
+Helpful for making changes to a document and reading the document in the state before or after the update occurred.
+
+.. include:: /includes/student-notes.rst
+
+
+``findAndModify()`` Example
+---------------------------
+
+.. code-block:: javascript
+
+  db.worker_queue.findAndModify({
+      "query" : { "state" : "unprocessed" },
+      "update" : { $set: { "worker_id" : 123, "state" : "processing" } },
+  })
+
+
+	   
+        
+
+
+
