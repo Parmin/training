@@ -1,16 +1,22 @@
-=============================
-Group Exercise: Schema Design
-=============================
+======================================
+Lab: Data Model for an E-Commerce Site
+======================================
 
-In this group exercise, we're going to take what we've learned about MongoDB and try to come up with a basic but reasonable data model for an e-commerce site. For users of RDBMSs, the most challenging part of the exercise will be figuring out how to construct a data model when joins aren't allowed. We're going to attempt to model for the following entities and features:
+Introduction
+------------
+
+- In this group exercise, we're going to take what we've learned about MongoDB and develop a basic but reasonable data model for an e-commerce site.
+- For users of RDBMSs, the most challenging part of the exercise will be figuring out how to construct a data model when joins aren't allowed.
+- We're going to model for several entities and features.
+
 
 Product Catalog
 ---------------
 
-* **Products.** The core of an e-commerce site, products vary quite a bit. In addition to the standard production attributes, we'll want to allow for variations of product type, along with custom attributes. For instance, users may search for blue jackets, red jackets, 11-inch macbooks, or size 12 shoes. The product catalog will contain millions of products.
-* **Product pricing.** Current prices as well a price histories.
-* **Product categories.** Every e-commerce site includes a category hierarchy. We need to allow for that hierarchy, and we also must persist the many-to-many relationship between products and categories.
-* **Product reviews.** Every product has zero or more reviews, and each review can receive votes and comments.
+- **Products.** Products vary quite a bit. In addition to the standard production attributes, we will allow for variations of product type and custom attributes. E.g., users may search for blue jackets, 11-inch macbooks, or size 12 shoes. The product catalog will contain millions of products.
+- **Product pricing.** Current prices as well a price histories.
+- **Product categories.** Every e-commerce site includes a category hierarchy. We need to allow for both that hierarchy and the many-to-many relationship between products and categories.
+- **Product reviews.** Every product has zero or more reviews and each review can receive votes and comments.
 
 .. only:: instructor
 
@@ -25,10 +31,10 @@ Product Catalog
 Product Metrics
 ---------------
 
-* **Product views and purchases.** Keep track of the number of times each product is viewed and when each product is purchased.
-* **Top 10 lists.** Create queries for top 10 viewed products, top 10 purchased products.
-* **Graph historical trends.** Create a query to graph how a product is viewed/purchased over the past.
-* **30 days with 1 hour granularity.** This graph will appear on every product page, the query must be very fast.
+- **Product views and purchases.** Keep track of the number of times each product is viewed and when each product is purchased.
+- **Top 10 lists.** Create queries for top 10 viewed products, top 10 purchased products.
+- **Graph historical trends.** Create a query to graph how a product is viewed/purchased over the past.
+- **30 days with 1 hour granularity.** This graph will appear on every product page, the query must be very fast.
 
 .. only:: instructor
 
@@ -42,9 +48,11 @@ Product Metrics
 Deliverables
 ------------
 
-* Sample document and schema for each collection
-* Queries the application will use
-* Index definitions
+- Sample document and schema for each collection
+- Queries the application will use
+- Index definitions
+
+Break into groups of two or three and work together to create these deliverables.
 
 .. include:: /includes/student-notes.rst
 
