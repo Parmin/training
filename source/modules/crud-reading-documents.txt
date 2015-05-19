@@ -2,6 +2,7 @@
 Reading Documents
 =================
 
+
 Learning Objectives
 -------------------
 
@@ -39,8 +40,8 @@ Query by Example
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Querying by Example
------------------------------
+Example: Querying by Example
+----------------------------
 
 Experiment with the following sequence of commands.
 
@@ -90,10 +91,8 @@ Querying Arrays
       Students might find it helpful to think of an array field as having multiple values -- one for each of its elements.
 
 
-Exercise: Querying Arrays
--------------------------
-
-Experiment with the following sequence of commands.
+Example: Querying Arrays
+------------------------
 
 .. code-block:: javascript
 
@@ -138,8 +137,8 @@ Querying with Dot Notation
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Querying with Dot Notation
-------------------------------------
+Example: Querying with Dot Notation
+-----------------------------------
 
 .. code-block:: javascript
 
@@ -168,10 +167,8 @@ Exercise: Querying with Dot Notation
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Arrays and Dot Notation
----------------------------------
-
-Experiment with the following commands.
+Example: Arrays and Dot Notation
+--------------------------------
 
 .. code-block:: javascript
 
@@ -272,8 +269,8 @@ Projection Documents
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Projections
----------------------
+Example: Projections
+--------------------
 
 .. code-block:: javascript
 
@@ -311,10 +308,8 @@ Cursors
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Introducing Cursors
------------------------------
-
-Experiment with the following commands.
+Example: Introducing Cursors
+----------------------------
 
 .. code-block:: javascript
 
@@ -340,8 +335,8 @@ Experiment with the following commands.
       - Can continue issuing ``it`` commands until all documents are seen.
 
 
-Exercise: Cursor Objects in the Mongo Shell
--------------------------------------------
+Example: Cursor Objects in the Mongo Shell
+------------------------------------------
 
 .. code-block:: javascript
 
@@ -376,8 +371,8 @@ Cursor Methods
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Using ``count()``
----------------------------
+Example: Using ``count()``
+--------------------------
 
 .. code-block:: javascript
 
@@ -406,10 +401,8 @@ Exercise: Using ``count()``
 
 
 
-Exercise: Using ``sort()``
---------------------------
-
-Experiment with the following sort commands.
+Example: Using ``sort()``
+-------------------------
 
 .. code-block:: javascript
 
@@ -475,10 +468,8 @@ The ``distinct()`` Method
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Using ``distinct()``
-------------------------------
-
-Experiment with the following commands and note what ``distinct()`` returns.
+Example: Using ``distinct()``
+-----------------------------
 
 .. code-block:: javascript
 
@@ -489,6 +480,20 @@ Experiment with the following commands and note what ``distinct()`` returns.
                               { "title" : "Jaws", "rating" : 4 },
                               { "title" : "Jaws", "rating" : 8 } ] )
    db.movie_reviews.distinct( "title" )
+
+   .. only:: instructor
+
+      .. note::
+
+         Returns
+
+	 .. code-block:: javascript
+
+            {
+                "values" : [ "Jaws", "Home Alone" ],
+                "stats" : { ... },
+                "ok" : 1
+            }
 
 .. include:: /includes/student-notes.rst
 

@@ -32,7 +32,7 @@ Creating New Documents
 
 .. include:: /includes/student-notes.rst
 
-Exercise: Inserting a Document
+Example: Inserting a Document
 ------------------------------
 
 Experiment with the following commands.
@@ -65,7 +65,7 @@ Implicit ``_id`` Assignment
 
 .. include:: /includes/student-notes.rst
 
-Exercise: Assigning _ids
+Example: Assigning _ids
 ------------------------
 
 Experiment with the following commands.
@@ -97,7 +97,7 @@ Inserts will fail if...
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Inserts will fail if...
+Example: Inserts will fail if...
 ---------------------------------
 
 .. code-block:: javascript
@@ -172,7 +172,7 @@ Ordered Bulk Insert
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Ordered Bulk Insert
+Example: Ordered Bulk Insert
 -----------------------------
 
 Experiment with the following bulk insert.
@@ -209,7 +209,7 @@ Unordered Bulk Insert
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Unordered Bulk Insert
+Example: Unordered Bulk Insert
 -------------------------------
 
 Experiment with the following bulk insert.
@@ -268,7 +268,7 @@ Using ``remove()``
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Removing Documents
+Example: Removing Documents
 ----------------------------
 
 Experiment with removing documents. Do a ``find()`` after each ``remove()`` command below.
@@ -312,7 +312,7 @@ Dropping a Collection
       Mention that ``drop()`` is more performant than remove because of the lookup costs associated with ``remove()``.
 
 
-Exercise: Dropping a Collection
+Example: Dropping a Collection
 -------------------------------
 
 .. code-block:: javascript
@@ -338,7 +338,7 @@ Dropping a Database
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Dropping a Database
+Example: Dropping a Database
 -----------------------------
 
 .. code-block:: javascript

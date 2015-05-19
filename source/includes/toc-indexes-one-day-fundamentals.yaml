@@ -13,10 +13,6 @@ description: |
 file: /modules/indexes-multikey
 description: | 
   Indexes on array fields.
---- 
-file: /modules/indexes-hashed
-description: | 
-  Hashed Indexes.
 ...
 
 

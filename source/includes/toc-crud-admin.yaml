@@ -5,4 +5,12 @@ description: |
 file: /modules/crud-reading-documents
 description: | 
   The find() command, query documents, dot notation, and cursors.
+--- 
+file: /modules/crud-query-operators
+description: | 
+  MongoDB query operators including: comparison, logical, element, and array operators.
+--- 
+file: /exercises/crud-querying-documents
+description: |
+  Exercises for querying documents in MongoDB.
 ...

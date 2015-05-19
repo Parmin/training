@@ -30,7 +30,7 @@ Comparison Query Operators
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Comparison Operators (Setup)
+Example: Comparison Operators (Setup)
 --------------------------------------
 
 .. code-block:: javascript
@@ -59,10 +59,8 @@ Exercise: Comparison Operators (Setup)
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Comparison Operators
+Example: Comparison Operators
 ------------------------------
-
-Experiment with the following.
 
 .. code-block:: javascript
 
@@ -93,10 +91,8 @@ Logical Query Operators
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Logical Operators
+Example: Logical Operators
 ---------------------------
-
-Experiment with the following.
 
 .. code-block:: javascript
 
@@ -122,10 +118,8 @@ Experiment with the following.
       - ``db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )`` also returns everything that doesnt have an "imdb_rating"
 
 
-Exercise: Logical Operators 
+Example: Logical Operators 
 ---------------------------
-
-Experiment with the following.
 
 .. code-block:: javascript
 
@@ -157,10 +151,8 @@ Element Query Operators
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Element Operators
+Example: Element Operators
 ---------------------------
-
-Experiment with the following.
 
 .. code-block:: javascript
 
@@ -187,10 +179,8 @@ Array Query Operators
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Array Operators
+Example: Array Operators
 -------------------------
-
-Experiment with the following.
 
 .. code-block:: javascript
 
@@ -201,7 +191,7 @@ Experiment with the following.
 .. include :: /includes/student-notes.rst
 
 
-Exercise: $elemMatch
+Example: $elemMatch
 --------------------
 
 .. code-block:: javascript

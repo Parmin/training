@@ -2,6 +2,7 @@
 Updating Documents
 ==================
 
+
 Learning Objectives
 -------------------
 
@@ -63,8 +64,8 @@ Parameters to ``update()``
 .. include:: /includes/student-notes.rst
 
 
-Exercise: ``$set`` and ``$unset`` (Setup)
------------------------------------------
+Example: ``$set`` and ``$unset`` (Setup)
+----------------------------------------
 
 .. code-block:: javascript
 
@@ -90,10 +91,8 @@ Exercise: ``$set`` and ``$unset`` (Setup)
 
 .. include:: /includes/student-notes.rst
 
-Exercise: ``$set`` and ``$unset``
----------------------------------
-
-Experiment with the following. Do a ``find()`` after each update to view the results.
+Example: ``$set`` and ``$unset``
+--------------------------------
 
 .. code-block:: javascript
 
@@ -119,8 +118,8 @@ Experiment with the following. Do a ``find()`` after each update to view the res
       - Difference between using $set and not using $set is very important
 
 
-Exercise: Update Array Elements by Index
-----------------------------------------
+Example: Update Array Elements by Index
+---------------------------------------
 
 .. code-block:: javascript
 
@@ -162,10 +161,8 @@ Update Operators
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Update Operators
---------------------------
-
-Experiment with the following update operators.
+Example: Update Operators
+-------------------------
 
 .. code-block:: javascript
 
@@ -213,8 +210,8 @@ Updating Multiple Documents
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Multi-Update
-----------------------
+Example: Multi-Update
+---------------------
 
 Use ``db.testcol.find()`` after each of these updates.
 
@@ -256,10 +253,8 @@ Array Operators
       - These operators may be applied to array fields.
 
 
-Exercise: Array Operators
--------------------------
-
-Experiment with the following updates.
+Example: Array Operators
+------------------------
 
 .. code-block:: javascript
 
@@ -307,10 +302,8 @@ The Positional ``$`` Operator
 .. include:: /includes/student-notes.rst
 
 
-Exercise: The Positional ``$`` Operator
----------------------------------------
-
-Experiment with the following commands.
+Example: The Positional ``$`` Operator
+--------------------------------------
 
 .. code-block:: javascript
 
@@ -352,10 +345,8 @@ Upsert Mechanics
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Upserts
------------------
-
-Experiment with the following upserts.
+Example: Upserts
+----------------
 
 .. code-block:: javascript
 
@@ -404,8 +395,8 @@ Experiment with the following upserts.
 .. include:: /includes/student-notes.rst
 
 
-Exercise: ``save()``
---------------------
+Example: ``save()``
+-------------------
 
 - If the document does not contain an _id field, then the save() method calls the insert() method. During the operation, the mongo shell will create an ObjectId and assign it to the _id field.
   
