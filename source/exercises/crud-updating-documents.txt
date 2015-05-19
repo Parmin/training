@@ -1,0 +1,65 @@
+=======================
+Lab: Updating Documents
+=======================
+
+
+Exercise: Letter Grades
+-----------------------
+
+- Using the ``sample.scores`` namespace, set the proper "grade" attributes.
+- For example, users with scores greater than 90 get an "A".
+- Set the grade to "B" for scores falling between 80 and 90 and so on for grades "C", "D", and "F".
+
+.. only:: instructor
+
+   .. note::
+
+      - ``db.scores.update( { score: { $gte: 90 } }, { $set: { grade: "A" } }, { multi: true } )``
+      - and so on for ``{ score: { $gte: 80, $lt: 90 } }`` etc.
+      - In the shell you could write a JS script with a loop. In SQL you could do it in one statement, note the difference.
+
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: 10 Extra-Credit Points
+--------------------------------
+
+- You’re being nice, so you decide to add 10 points to every score on every exam where the score is lower than 60.
+- How do you do this update?
+   
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         db.scores.update( { name : "exam", score : { $lt : 60 } },
+                           { $inc : { score : 10 } }, { multi: true } )
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Updating Array Elements
+---------------------------------
+
+Insert a document representing product metrics for a backpack:   
+
+.. code-block:: javascript
+
+   db.product_metrics.insert( 
+      { name: "backpack", 
+        purchasesPast7Days: [ 0, 0, 0, 0, 0, 0, 0] })
+
+Each 0 within the "purchasesPast7Days" field corresponds to a day of the week. The first element is Monday, the second element is Tuesday, etc.).  
+
+Write an update statement to increment the number of backpacks sold on Friday by 200.
+
+.. only:: instructor
+
+   .. note::
+
+      - Talk about how this can be used for time series data, real-time graphs/charts
+      - ``db.product_metrics.update( { "name" : "backpack" }, { $inc : { "purchases_past_7_days.4" : 200 } } )``
+
+.. include:: /includes/student-notes.rst

@@ -1,0 +1,124 @@
+===================================
+Lab: Building and Examining Indexes
+===================================
+
+
+Exercise: What Index Do We Need?
+--------------------------------
+
+Run the the following Javascript file from the handouts.
+
+.. code-block:: bash
+
+   mongo --shell localhost/performance performance.js
+
+In the shell that launches execute the following method
+
+.. code-block:: javascript
+
+   performance.init()
+
+The method above will build a sample data set in the "sensor_readings" collection. What index is needed for this query?
+
+.. code-block:: javascript
+
+   db.sensor_readings.find( { tstamp: { $gte: ISODate("2012-08-01"),
+                                       $lte: ISODate("2012-09-01") },  
+                              active: true } ).limit(3)
+
+.. only:: instructor
+
+   .. note::
+
+      - Work through method of explaining query with .explain("executionStats")
+      - Look at differences between (timestamp, active) and (active, timestamp)
+        
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Avoiding an In-Memory Sort
+------------------------------------
+
+What index is needed for the following query to avoid an in-memory sort?
+   
+.. code-block:: javascript
+
+   db.sensor_readings.find( { active: true } ).sort( { tstamp : -1 } )
+   
+.. only:: instructor
+
+   .. note::
+
+      - { active: 1, tstamp: 1 }
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Avoiding an In-Memory Sort, 2
+---------------------------------------
+
+What index is needed for the following query to avoid an in-memory sort?
+   
+.. code-block:: javascript
+
+   db.sensor_readings.find(
+       { x : { $in : [100, 200, 300, 400] } }
+   ).sort( { tstamp : -1 })
+   
+.. only:: instructor
+
+   .. note::
+
+      - Trick question, the answer most students will give is { x: 1, tstamp: 1 }, however, the $in will require an in-memory sort
+      - (tstamp) or (tstamp, x) are the only indexes that will prevent an in-memory sort, but aren't selective at all
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Determine Indexes Needed 
+----------------------------------
+
+- In a mongo shell run performance.b(). This will run in an infinite loop printing some output as it runs various statements against the server.
+- Now imagine we have detected a performance problem and suspect there is a slow operation running.
+- Find the slow operation and terminate it. Every slow operation is assumed to run for 100ms or more.
+- In order to do this, open a second window (or tab) and run a second instance of the mongo shell.
+- What indexes can we introduce to make the slow queries more efficient? Disregard the index created in the previous exercise.
+
+.. only:: instructor
+
+   .. note::
+   
+      - Look at the logs to find queries over 100ms
+      - { "active": 1 } 
+      - { "str": 1, "x": 1 }
+
+.. include:: /includes/student-notes.rst
+        
+
+Exercise: explain("executionStats")
+-----------------------------------
+
+Drop all indexes from previous exercises:
+
+.. code-block:: javascript
+
+   mongo performance
+   > db.sensor_readings.dropIndexes()
+      
+Create an index for the "active" field:
+
+.. code-block:: javascript
+   
+   db.sensor_readings.createIndex({ "active" : 1 } )
+
+How many index entries and documents are examined for the following query? How many results are returned?
+
+.. code-block:: javascript
+
+   db.sensor_readings.find(
+                            { "active": false, "_id": { $gte: 99, $lte: 1000 } }
+			  ).explain("executionStats")
+
+.. include:: /includes/student-notes.rst
+

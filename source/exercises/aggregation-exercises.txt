@@ -1,0 +1,85 @@
+==============================
+Lab: Aggregating Zip Code Data
+==============================
+
+For the following exercises, import the zips.json file from the USB stick:
+
+.. code-block:: javascript
+   
+   mongoimport -d test -c zips --drop zips.json
+
+
+Exercise: Average Population
+----------------------------
+
+Consider together cities in the states of California (CA) and New York (NY) with populations over 25,000. Calculate the average population of this sample of cities.
+
+Please note:
+
+- Different states might have the same city name.
+- A city might have multiple zip codes.
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         db.zips.aggregate( [
+	     { $match: { state: { $in: ["CA", "NY"] } } },
+	     { $group: { _id: { state: "$state", city: "$city" },
+	                 pop: {$sum: "$pop"} } },
+	     { $match: { pop: {$gt: 25000} } },
+	     { $group: { _id: null,
+	                 pop: {$avg: "$pop"} } }
+	 ] )
+
+
+.. include:: /includes/student-notes.rst
+           
+
+
+Exercise: Cities Starting with a Digit
+--------------------------------------
+
+Calculate the total number of people who live in a zip code in the US where the city starts with a digit.
+
+``$project`` can extract the first digit from any field. E.g.,
+   
+.. code-block:: javascript
+
+   db.zips.aggregate([
+       {$project:
+           {
+               first_char: { $substr: ["$city", 0, 1] },
+           }    
+       }
+   ])
+
+   
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         db.zips.aggregate( [ 
+            { $project : {
+                first_char: { $substr: [ "$city", 0, 1] },
+                pop: 1,
+                city: "$city",
+                zip: "$_id",
+                state: 1
+            } },
+            { $match : {
+                first_char: { $in: [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] }
+            } },
+            {
+               "$group" : { _id: null,
+	                    population: { $sum : "$pop"} }
+            }
+         ] )
+
+
+.. include:: /includes/student-notes.rst
+   

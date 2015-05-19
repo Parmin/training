@@ -5,4 +5,8 @@ description: |
 file: /modules/aggregation-optimization
 description: | 
   Resource management in the aggregation pipeline.
+--- 
+file: /exercises/aggregation-exercises
+description: | 
+  Aggregate zip code data.
 ...

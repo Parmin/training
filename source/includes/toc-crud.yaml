@@ -10,7 +10,15 @@ file: /modules/crud-query-operators
 description: | 
   MongoDB query operators including: comparison, logical, element, and array operators.
 --- 
+file: /exercises/crud-querying-documents
+description: |
+  Exercises for querying documents in MongoDB.
+---
 file: /modules/crud-updating-documents
 description: | 
   Using ``update()`` and associated operators to mutate existing documents.
+--- 
+file: /exercises/crud-updating-documents
+description: |
+  Exercises for updating documents in MongoDB.
 ...
