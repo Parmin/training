@@ -1,0 +1,234 @@
+===============
+Case Study: CMS
+===============
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- Various methods for effectively designing a CMS schema in MongoDB
+- Optimizations to the schema, and their tradeoffs
+
+.. include:: /includes/student-notes.rst
+
+
+Building a CMS with MongoDB
+---------------------------
+
+- CMS stands for content management system
+- Cnn.com, wsj.com, and huffingtonpost.com are good examples to exmplore
+- For the purposes of this case study, let's use any article page from cnn.com
+
+.. include:: /includes/student-notes.rst
+
+
+Building a CMS in a Relational Database
+---------------------------------------
+
+10-15 tables for this example, multiple queries for every page load:
+
+Potential tables
+- story
+- author
+- comment
+- tag
+- link_story_tag
+- link_story_story - related stories
+- etc.
+
+.. include:: /includes/student-notes.rst
+
+
+Building a CMS in MongoDB
+-------------------------
+
+.. code-block:: javascript
+
+  {
+    "_id" : "/apple-reports-second-quarter-revenue",
+    "headline" : "Apple Reported Second Quarter Revenue Today",
+    "date" : ISODate("2015-03-24T22:35:21.908Z"),
+    "author" : {
+      "name" : "Bob Walker",
+      "title" : "Lead Business Editor"
+    },
+    "copy" : "Apple beat Wall St expectations by reporting ...",
+    "tags" : [ 
+      "AAPL", "Earnings", "Cupertino"
+    ],
+    "comments" : [
+      { "name" : "Frank", "comment" : "Great Story", "date" : ISODate("2015-05-19T06:01:17.171Z") },
+      { "name" : "Wendy", "comment" : "When can I buy an Apple Watch?", "date" : ISODate("2015-04-19T06:01:17.171Z") }
+    ]
+  }
+
+
+.. include:: /includes/student-notes.rst
+
+
+Downsides to the MongoDB Design Compared to the Relational Design
+-----------------------------------------------------------------
+
+- Updates to author information is more expensive (data is denormalized)
+- Updates to tag names are more expensive
+  
+
+.. include:: /includes/student-notes.rst
+
+
+Downsides of the MongoDB Design Compared to the Relational Design
+-----------------------------------------------------------------
+
+- Much faster reads (one query to load a page, compared to multiple queries in a relational model)
+
+
+.. include:: /includes/student-notes.rst
+
+Every System Has Tradeoffs
+--------------------------
+
+- Relational design will provide more efficienet writes
+- MongoDB Document design will provide more efficient reads
+- A typcial CMS may see 1000 reads (or more) for every article created (write)
+- MongoDB's document design for this use case is a very effective solution
+
+
+.. include:: /includes/student-notes.rst
+
+Optimizations
+-------------
+
+- Optimizing comments (what happens when an article has 1 million comments?)
+- Include more information associated with each tag
+- Include stock price information with each article
+
+
+.. include:: /includes/student-notes.rst
+
+
+Optimizing Comments Option 1
+----------------------------
+
+- How many comments are shown on the first page of the article?
+- What percentage of users click to read more comments?
+
+.. code-block:: javascript
+
+  {
+    "_id" : "/apple-reports-second-quarter-revenue",
+    "headline" : "Apple Reported Second Quarter Revenue Today",
+    ...
+    "last_10_comments" : [
+      { "name" : "Frank", "comment" : "Great Story", "date" : ISODate() },
+      { "name" : "Wendy", 
+        "comment" : "When can I buy an Apple Watch?",  
+        "date" : ISODate() }
+    ]
+  }
+
+.. include:: /includes/student-notes.rst
+
+
+Optimizing Comments Option 1
+----------------------------
+
+- Adding a new comment requires writing to two collections now, penalty for adding new comments but page loads are faster
+- Write may fail in-between first and second operation
+  
+.. code-block:: javascript
+
+  > db.blog2.update(
+   { "_id" : "/apple-reports-second-quarter-revenue" },
+     {
+       $push: {
+         "comments": {
+            $each: [ { "name" : "Frank", "comment" : "Great Story", "date" : ISODate() } ],
+            $sort: { date: -1 },
+            $slice: 10
+         }
+       }
+     }
+  )
+
+.. code-block:: javascript
+
+  > db.comments.insert( { "story_id" : 123, name" : "Frank", "comment" : "Great Story", "date" : ISODate() })
+
+.. include:: /includes/student-notes.rst
+
+Optimizing Comments Option 2
+----------------------------
+
+- Use a separate collection for comments
+- Now every page load requires at least 2 queries
+- Writes are less expensive
+
+.. code-block:: javascript
+
+  > db.comments.insert( { "story_id" : 123, name" : "Frank", "comment" : "Great Story", "date" : ISODate() })
+   
+
+.. include:: /includes/student-notes.rst
+
+Include More Information With Each Tag
+--------------------------------------
+
+.. code-block:: javascript
+
+  {
+    "_id" : "/apple-reports-second-quarter-revenue",
+    ...
+    "tags" : [ 
+      { "type" : "ticker", "value" : "AAPL" },
+      { "type" : "section", "value" : "Earnings" },
+      { "type" : "location", "value" : "Cupertino" }
+    ]
+  }
+
+.. include:: /includes/student-notes.rst
+
+Include More Information With Each Tag
+--------------------------------------
+
+- $elemMatch is now important for queries
+
+.. code-block:: javascript
+
+  > db.story.find( { 
+    "tags" : { 
+      "$elemMatch" : { 
+        "type" : "section", 
+        "value" : "Earnings" 
+      } 
+    } 
+  } )
+
+
+.. include:: /includes/student-notes.rst
+
+
+Include stock price information with each article
+-------------------------------------------------
+
+- Maintain the latest stock price in a separate collection
+- General rule: don't denormalize data that changes frequently
+
+.. include:: /includes/student-notes.rst
+
+
+
+Class Exercise
+--------------
+
+Design a CMS (similar to above) with the following additional requirements:
+
+- Articles may be in one of three states: "draft", "copy edit", "final"
+- History of articles as they move between states must be captured, as well as comments by the person moving the article to a different state
+- Within each state, every article must be versioned.  In case there is a problem, the editor can quickly revert to the previous version.
+
+
+.. include:: /includes/student-notes.rst
+
+
