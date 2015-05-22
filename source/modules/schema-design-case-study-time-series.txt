@@ -8,9 +8,9 @@ Learning Objectives
 
 Upon completing this module, students should understand:
 
-- Various methods for effectivelt storing time-series data
-- Tradeoffs in methods to store time-series data
-- Queries and methods to display time-series data
+- Various methods for effectively storing time series data
+- Trade-offs in methods to store time series data
+- Queries and methods to display time series data
 
 .. include:: /includes/student-notes.rst
 
@@ -24,8 +24,13 @@ Time Series Use Cases
 - Server Density uses MongoDB to collect server monitoring statistics.
 - Appboy, the leading platform for mobile relationship management, uses MongoDB to track and analyze billions of data points on user behavior.
 
-
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+      
+      - Mention there are a lot of MongoDB customers using MongoDB for time series data
 
 
 Building a Database Monitoring Tool
@@ -38,18 +43,24 @@ Building a Database Monitoring Tool
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+      
+      - Similar to MMS
+
 
 Potential Relational Design
 ---------------------------
 
-RDBMS Row for client "1234" recording 50,000 database operations at 2015-05-29 (23:06:37):
+RDBMS Row for client "1234", recording 50k database operations, at 2015-05-29 (23:06:37):
 
 ::
 
-   clientid (integer): 1234
-   metric (varchar): "op_counter"
-   value (double): 50000
-   timestamp (datetime): 2015-05-29T23:06:37.000Z 
+  "clientid" (integer): 1234
+  "metric (varchar): "op_counter"
+  "value" (double): 50000
+  "timestamp" (datetime): 2015-05-29T23:06:37.000Z 
    
 
 .. include:: /includes/student-notes.rst
@@ -57,7 +68,7 @@ RDBMS Row for client "1234" recording 50,000 database operations at 2015-05-29 (
 Translating the Relational Design to MongoDB Documents
 ------------------------------------------------------
 
-RDBMS Row for client "1234" recording 50,000 database operations at 2015-05-29 (23:06:37):
+RDBMS Row for client "1234", recording 50k database operations, at 2015-05-29 (23:06:37):
 
 ::
 
@@ -65,7 +76,7 @@ RDBMS Row for client "1234" recording 50,000 database operations at 2015-05-29 (
     "clientid": 1234,
     "metric": "op_counter",
     "value": 50000,
-    "timestamp": 2015-05-29T23:06:37.000Z 
+    "timestamp": ISODate("2015-05-29T23:06:37.000Z")
   }
    
 
@@ -76,11 +87,16 @@ Problems With This Design
 -------------------------
 
 - Aggregations become slower over time, as database becomes larger
-- Asyncronous aggregation jobs won't provide real-time data
+- Asynchronous aggregation jobs won't provide real-time data
 - We aren't taking advantage of other MongoDB data types
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+      
+      - "Other MongoDB data types", such as arrays
 
 A Better Design for a Document Database
 ---------------------------------------
@@ -104,6 +120,11 @@ Storing one document per hour (1 minute granularity):
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+      
+      - 0,1,2,3 in the values sub-document represent the minute in the hour
 
 Performing Updates
 ------------------
@@ -125,7 +146,7 @@ Update the exact minute in the hour where the opcounter was recorded:
 Performing Updates By Incrementing Counters
 -------------------------------------------
 
-Increment the counter for the exact minute in the hour where the opcounter was recorded:
+Increment the counter for the exact minute in the hour where the opcounter metric was recorded:
 
 ::
 
@@ -156,7 +177,7 @@ Metrics with 1 minute granularity for the past 24 hours (24 documents):
 
 
 Condensing a Days's Worth of Metric Data Into a Single Document
-----------------------------------------------------------------
+---------------------------------------------------------------
 
 With one minute granularity, we can record a day's worth of data and update it efficiently with the following structure (values.<HOUR_IN_DAY>.<MINUTE_IN_DAY>):
 

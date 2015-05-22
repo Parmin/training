@@ -18,7 +18,7 @@ Building a CMS with MongoDB
 ---------------------------
 
 - CMS stands for content management system
-- Cnn.com, wsj.com, and huffingtonpost.com are good examples to exmplore
+- Cnn.com, wsj.com, and huffingtonpost.com are good examples to explore
 - For the purposes of this case study, let's use any article page from cnn.com
 
 .. include:: /includes/student-notes.rst
@@ -30,6 +30,7 @@ Building a CMS in a Relational Database
 10-15 tables for this example, multiple queries for every page load:
 
 Potential tables
+
 - story
 - author
 - comment
@@ -39,6 +40,12 @@ Potential tables
 - etc.
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+      
+      - Great time to whiteboard how a CMS would look in an RDBMS, then Mongo
 
 
 Building a CMS in MongoDB
@@ -67,11 +74,19 @@ Building a CMS in MongoDB
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+      
+      - Spend a lot of time on the pros/cons of these two designs (RDBMS vs Mongo)
+      - One design optimized for reads, another design optimized for writes
+
+
 
 Downsides to the MongoDB Design Compared to the Relational Design
 -----------------------------------------------------------------
 
-- Updates to author information is more expensive (data is denormalized)
+- Updates to author information are more expensive (data is de-normalized)
 - Updates to tag names are more expensive
   
 
@@ -89,9 +104,9 @@ Downsides of the MongoDB Design Compared to the Relational Design
 Every System Has Tradeoffs
 --------------------------
 
-- Relational design will provide more efficienet writes
+- Relational design will provide more efficient writes
 - MongoDB Document design will provide more efficient reads
-- A typcial CMS may see 1000 reads (or more) for every article created (write)
+- A typical CMS may see 1000 reads (or more) for every article created (write)
 - MongoDB's document design for this use case is a very effective solution
 
 
@@ -134,27 +149,23 @@ Optimizing Comments Option 1
 Optimizing Comments Option 1
 ----------------------------
 
-- Adding a new comment requires writing to two collections now, penalty for adding new comments but page loads are faster
+- Adding a new comment requires writing to two collections
 - Write may fail in-between first and second operation
   
 .. code-block:: javascript
 
-  > db.blog2.update(
+  > db.blog.update(
    { "_id" : "/apple-reports-second-quarter-revenue" },
-     {
-       $push: {
+     { $push: {
          "comments": {
             $each: [ { "name" : "Frank", "comment" : "Great Story", "date" : ISODate() } ],
             $sort: { date: -1 },
-            $slice: 10
-         }
-       }
-     }
-  )
+            $slice: 10 } } } )
 
 .. code-block:: javascript
 
-  > db.comments.insert( { "story_id" : 123, name" : "Frank", "comment" : "Great Story", "date" : ISODate() })
+  > db.comments.insert( { "story_id" : 123, name" : "Frank", 
+    "comment" : "Great Story", "date" : ISODate() })
 
 .. include:: /includes/student-notes.rst
 
@@ -167,7 +178,8 @@ Optimizing Comments Option 2
 
 .. code-block:: javascript
 
-  > db.comments.insert( { "story_id" : 123, name" : "Frank", "comment" : "Great Story", "date" : ISODate() })
+  > db.comments.insert( { "story_id" : 123, name" : "Frank", 
+    "comment" : "Great Story", "date" : ISODate() })
    
 
 .. include:: /includes/student-notes.rst
@@ -213,7 +225,7 @@ Include stock price information with each article
 -------------------------------------------------
 
 - Maintain the latest stock price in a separate collection
-- General rule: don't denormalize data that changes frequently
+- General rule: don't de-normalize data that changes frequently
 
 .. include:: /includes/student-notes.rst
 
