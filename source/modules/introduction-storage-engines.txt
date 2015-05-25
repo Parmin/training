@@ -60,27 +60,6 @@ Storage Engine Journaling
 .. include:: /includes/student-notes.rst
 
 
-MongoDB Journaling Mechanics
-----------------------------
-
-- Journal files in <DATA-DIR>/journal are append only
-- 1GB per journal file
-- Once MongoDB applies all write operations from a journal file to the database data files, it deletes the journal file (or re-uses it)
-- Usually only a few journal files in the <DATA-DIR>/journal directory
-
-.. include:: /includes/student-notes.rst
-
-
-MongoDB Journaling Mechanics (Continued)
-----------------------------------------
-
-- Data is flushed from the shared view to data files every 60 seconds (configurable)
-- The operating system may force a flush at a higher frequency than 60 seconds if the system is low on free memory
-- Once a journal file contains only flushed writes, it is no longer needed for recovery and can be deleted or re-used
-
-.. include:: /includes/student-notes.rst
-
-
 MongoDB Storage Engines
 -----------------------
 
@@ -253,6 +232,43 @@ Use the ``wiredTigerCacheSize`` parameter to designate the amount of RAM for the
    .. note::
 
       - Unlike MMAPv1, WiredTiger can be configured to use a finite amount of RAM.  
+
+
+Journaling in MMAPv1 vs. WiredTiger
+-----------------------------------
+- MMAPv1 uses write-ahead journaling to ensure consistency.
+- WiredTiger uses a write-ahead transaction log in combination with checkpoints to ensure durability.
+- With WiredTiger, the replication process may provide sufficient durability guarantees.
+
+
+MMMAPv1 Journaling Mechanics
+----------------------------
+
+- Journal files in <DATA-DIR>/journal are append only
+- 1GB per journal file
+- Once MongoDB applies all write operations from a journal file to the database data files, it deletes the journal file (or re-uses it)
+- Usually only a few journal files in the <DATA-DIR>/journal directory
+
+.. include:: /includes/student-notes.rst
+
+
+MMAPv1 Journaling Mechanics (Continued)
+----------------------------------------
+
+- Data is flushed from the shared view to data files every 60 seconds (configurable)
+- The operating system may force a flush at a higher frequency than 60 seconds if the system is low on free memory
+- Once a journal file contains only flushed writes, it is no longer needed for recovery and can be deleted or re-used
+
+.. include:: /includes/student-notes.rst
+
+
+WiredTiger Journaling Mechanics
+-------------------------------
+- WiredTiger will commit a checkpoint to disk every 60 seconds or when there are 2 gigabytes of data to write.
+- Between and during checkpoints the data files are always valid.
+- The WiredTiger journal persists all data modifications between checkpoints.
+- If MongoDB exits between checkpoints, it uses the journal to replay all data modified since the last checkpoint. 
+- By default, WiredTiger journal is compressed using snappy.
 
 
 Storage Engine API
