@@ -51,7 +51,7 @@ This course is for organizations looking to train developer and administrator te
 * Schema Design Core Concepts
 * Schema Evolution
 * Common Design Patterns
-* Application Specific Use Cases
+* Application-Specific Use Cases
 * Lab: Data Model for an E-Commerce Site
 
 ### Replication
@@ -71,6 +71,7 @@ This course is for organizations looking to train developer and administrator te
 * Shard Tags
 * Lab: Setting Up a Sharded Cluster
 
+
 ## Day 3
 
 ### Security
@@ -78,6 +79,12 @@ This course is for organizations looking to train developer and administrator te
 * Authentication Options
 * Roles
 * Lab: Creating a User and Setting Permissions
+
+### Backup and Recovery
+
+* File System Backup
+* Restoring from File System Backup
+* Sharded Clusters
 
 ### MMS / Ops Manager
 
@@ -94,10 +101,5 @@ This course is for organizations looking to train developer and administrator te
 * mongotop
 * The MongoDB Profiler
 
-### Backup and Recovery
-
-* File System Backup and Restore
-* Sharded Clusters
-* MMS Backup Overview
 
 <style>#resources_table{display:none;}</style>
