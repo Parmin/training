@@ -1,0 +1,9 @@
+===================
+Backup and Recovery
+===================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-backup-admin-one-day.rst
+
+.. include:: /includes/toc/backup-admin-one-day.rst             

@@ -1,0 +1,9 @@
+=======
+Indexes
+=======
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-indexes-admin-one-day.rst
+
+.. include:: /includes/toc/indexes-admin-one-day.rst             

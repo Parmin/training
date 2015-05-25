@@ -35,8 +35,6 @@ Creating New Documents
 Example: Inserting a Document
 ------------------------------
 
-Experiment with the following commands.
-
 .. code-block:: javascript
 
    use sample
@@ -46,14 +44,6 @@ Experiment with the following commands.
    db.movies.find()
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-        
-      - Make sure the students are performing the operations along with you.
-      - Some students will have trouble starting things up, so be helpful at this stage.
-
 
 
 Implicit ``_id`` Assignment
@@ -67,8 +57,6 @@ Implicit ``_id`` Assignment
 
 Example: Assigning _ids
 ------------------------
-
-Experiment with the following commands.
 
 .. code-block:: javascript
 
@@ -93,134 +81,6 @@ Inserts will fail if...
 - There is already a document in the collection with that ``_id``.
 - You try to assign an array to the ``_id``.
 - The argument is not a well-formed document.
-
-.. include:: /includes/student-notes.rst
-
-
-Example: Inserts will fail if...
----------------------------------
-
-.. code-block:: javascript
-
-   // fails because _id can't have an array value
-   db.movies.insert( { "_id" : [ "Star Wars", 
-                                 "The Empire Strikes Back", 
-                                 "Return of the Jedi" ] } )
-
-   // succeeds
-   db.movies.insert( { "_id" : "Star Wars" } )
-
-   // fails because of duplicate id
-   db.movies.insert( { "_id" : "Star Wars" } )
-
-   // malformed document
-   db.movies.insert( { "Star Wars" } )
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - The following will fail because it attempts to use an array as an ``_id``.
-
-        .. code-block:: javascript
-
-           db.movies.insert( { "_id" : [ "Star Wars", "The Empire Strikes Back", "Return of the Jedi" ] } )
-
-      - The second insert with ``_id : "Star Wars"`` will fail because there is already a document with ``_id`` of "Star Wars" in the collection.
-
-      - The following will fail because it is a malformed document (i.e. no field name, just a value).
-
-      .. code-block:: javascript
-
-         db.movies.insert( { "Star Wars" } )
-
-
-
-Bulk Inserts
-------------
-
-- MongoDB 2.6 introduced bulk inserts. 
-- You may bulk insert using an array of documents.
-- The API has two core concepts: 
-
-  - Ordered bulk operations
-  - Unordered bulk operations 
-
-- The main difference is in the way the operations are executed in bulk. 
-
-.. only:: instructor
-
-   .. note::
-
-      - In the case of an ordered bulk operation, every operation will be executed in the order they are added to the bulk operation. 
-      - In the case of an unordered bulk operation however there is no guarantee what order the operations are executed. 
-      - With an unordered bulk operation, the operations in the list may be reordered to increase performance.
-
-.. include:: /includes/student-notes.rst
-
-
-Ordered Bulk Insert
--------------------
-
-- For ordered inserts MongoDB will stop processing inserts upon encountering an error.
-- Meaning that only inserts occurring before an error will complete.
-- The default setting for ``db.<COLLECTION>.insert`` is an ordered insert.
-- See the next exercise for an example.
-
-.. include:: /includes/student-notes.rst
-
-
-Example: Ordered Bulk Insert
------------------------------
-
-Experiment with the following bulk insert.
-
-.. code-block:: javascript
-
-   db.movies.insert( [ { "_id" : "Batman", "year" : 1989 },
-                       { "_id" : "Home Alone", "year" : 1990 }, 
-                       { "_id" : "Ghostbusters", "year" : 1984 },
-                       { "_id" : "Ghostbusters", "year" : 1984 } ] )
-
-   db.movies.find()
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note:: 
-
-      - This example has a duplicate key error.
-      - Only the first 3 documents will be inserted.
-
-    
-Unordered Bulk Insert
----------------------
-
-- Pass ``{ ordered : false }`` to insert to perform unordered inserts.
-- If any given insert fails, MongoDB will still attempt the others.
-- The inserts may be executed in a different order from the way in which you specified them.
-- The next exercise is very similar to the previous one.
-- However, we are using ``{ ordered : false }`` 
-- One insert will fail, but all the rest will succeed. 
-
-.. include:: /includes/student-notes.rst
-
-
-Example: Unordered Bulk Insert
--------------------------------
-
-Experiment with the following bulk insert.
-
-.. code-block:: javascript
-
-   db.movies.insert( [ { "_id" : "Jaws", "year" : 1975 },
-                       { "_id" : "Titanic", "year" : 1997 }, 
-                       { "_id" : "The Lion King", "year" : 1994 } ], 
-                       { ordered : false } )
-   db.movies.find()
 
 .. include:: /includes/student-notes.rst
 
@@ -270,8 +130,6 @@ Using ``remove()``
 
 Example: Removing Documents
 ----------------------------
-
-Experiment with removing documents. Do a ``find()`` after each ``remove()`` command below.
 
 .. code-block:: javascript
 
@@ -337,24 +195,4 @@ Dropping a Database
 
 .. include:: /includes/student-notes.rst
 
-
-Example: Dropping a Database
------------------------------
-
-.. code-block:: javascript
-
-   use tempDB
-   db.testcol1.insert( { a : 1 } )
-   db.testcol2.insert( { a : 1 } )
-
-   show dbs  // Here they are
-   show collections  // Shows the two collections
-
-   db.dropDatabase()
-   show collections  // No collections
-   show dbs  // The db is gone
-
-   use sample  // take us back to the sample db
-
-.. include:: /includes/student-notes.rst
 

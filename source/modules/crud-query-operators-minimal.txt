@@ -16,6 +16,13 @@ Upon completing this module students should understand the following types of Mo
 .. include:: /includes/student-notes.rst
 
 
+Note
+----
+
+- In this training, we will address a subset of operators.
+- See :manual:`Query Operators</reference/operator/query>` for details on all query operators.
+
+
 Comparison Query Operators
 --------------------------
 
@@ -116,57 +123,6 @@ Example: Logical Operators
    .. note::
 
       - ``db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )`` also returns everything that doesnt have an "imdb_rating"
-
-
-Example: Logical Operators 
----------------------------
-
-.. code-block:: javascript
-
-   // find movies within an imdb_rating range
-   db.movies.find( { "imdb_rating" : { $gt : 5 , $lte : 7 } } )  // and is implicit
-
-   // queries can be nested, why are there no results?
-   db.movies.find( { $and : [ 
-      { $or : [ 
-        { "category" : "sci-fi", "imdb_rating" : { $gte : 8 } }, 
-        { "category" : "family", "imdb_rating" : { $gte : 7 } } 
-      ] } , 
-      { $or : [ 
-        { "category" : "action", "imdb_rating" : { $gte : 6 } } 
-      ] } 
-    ] } )
-
-.. include:: /includes/student-notes.rst
-
-
-
-Element Query Operators
------------------------
-
-- ``$exists``: Select documents based on the existence of a particular field.
-- ``$type``: Select documents based on their type.
-- See :manual:`BSON types</reference/bson-types>` for reference on types.
-
-.. include:: /includes/student-notes.rst
-
-
-Example: Element Operators
----------------------------
-
-.. code-block:: javascript
-
-   db.movies.find( { "budget" : { $exists : true } } )   
-
-   // type 1 is Double
-   db.movies.find( { "budget" : { $type : 1 } } )        
-
-   // type 3 is Object (embedded document)
-   db.movies.find( { "budget" : { $type : 3 } } )        
-
-
-.. include:: /includes/student-notes.rst
-
 
 
 Array Query Operators

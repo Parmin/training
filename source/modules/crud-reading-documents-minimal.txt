@@ -43,8 +43,6 @@ Query by Example
 Example: Querying by Example
 ----------------------------
 
-Experiment with the following sequence of commands.
-
 .. code-block:: javascript
 
   db.movies.drop()
@@ -238,6 +236,7 @@ Projection: Example (Setup)
 
 .. include:: /includes/student-notes.rst
 
+
 Projection: Example
 -------------------
 
@@ -265,34 +264,6 @@ Projection Documents
 - Exclude fields with ``fieldName: 0``. 
 
   - Any field not named will be included.
-
-.. include:: /includes/student-notes.rst
-
-
-Example: Projections
---------------------
-
-.. code-block:: javascript
-
-   for (i=1; i<=20; i++) { 
-       db.movies.insert( { "_id" : i, "title" : i, 
-                           "imdb_rating" : i, "box_office" : i } )
-   }
-   db.movies.find()
-   // no "box_office"
-   db.movies.find( { "_id" : 3 }, { "title" : 1, "imdb_rating" : 1 } )
-   // no "imdb_rating" 
-   db.movies.find( { "_id" : { $gte : 10 } }, { "imdb_rating" : 0 } ) 
-   // just "title"
-   db.movies.find( { "_id" : 4 }, { "_id" : 0, "title" : 1 } )
-   // just "imdb_rating", "box_office"
-   db.movies.find( { "_id" : 5 }, { _id : 0, "title" : 0 } ) 
-   // Can't mix inclusion/exclusion except _id
-   db.movies.find( { "_id" : 6 }, { "title" : 1, "imdb_rating" : 0 } ) 
-
-.. only:: instructor
-
-   The last ``find()`` fails because MongoDB cannot determine how to handle unnamed fields such as ``c``.
 
 .. include:: /includes/student-notes.rst
 
@@ -404,6 +375,8 @@ Example: Using ``count()``
 Example: Using ``sort()``
 -------------------------
 
+Experiment with the following sort commands.
+
 .. code-block:: javascript
 
    db.testcol.drop()
@@ -457,44 +430,5 @@ The ``limit()`` Method
 
 .. include:: /includes/student-notes.rst
 
-
-The ``distinct()`` Method
--------------------------
-
-- Returns all values for a field found in a collection.
-- Only works on one field at a time.
-- Input is a string (not a document)
-
-.. include:: /includes/student-notes.rst
-
-
-Example: Using ``distinct()``
------------------------------
-
-.. code-block:: javascript
-
-   db.movie_reviews.drop()    
-   db.movie_reviews.insert( [ { "title" : "Jaws", "rating" : 5 },
-                              { "title" : "Home Alone", "rating" : 1 },
-                              { "title" : "Jaws", "rating" : 7 },
-                              { "title" : "Jaws", "rating" : 4 },
-                              { "title" : "Jaws", "rating" : 8 } ] )
-   db.movie_reviews.distinct( "title" )
-
-   .. only:: instructor
-
-      .. note::
-
-         Returns
-
-	 .. code-block:: javascript
-
-            {
-                "values" : [ "Jaws", "Home Alone" ],
-                "stats" : { ... },
-                "ok" : 1
-            }
-
-.. include:: /includes/student-notes.rst
 
 

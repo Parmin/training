@@ -1,0 +1,17 @@
+:orphan:
+
+==================================
+MongoDB Administrator Fundamentals
+==================================
+
+.. toctree::
+
+   /modules/nav/introduction
+   /modules/nav/crud-admin-one-day
+   /modules/nav/indexes-admin-one-day
+   /modules/nav/replica-sets-admin-one-day
+   /modules/nav/sharding-admin-one-day
+   /modules/nav/security-admin
+   /modules/nav/backup-admin-one-day
+   /modules/nav/performance-admin
+

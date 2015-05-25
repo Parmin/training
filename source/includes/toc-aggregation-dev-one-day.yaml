@@ -1,0 +1,8 @@
+file: /modules/aggregation
+description: | 
+  An introduction to the the aggregation framework, pipeline concept, and stages.
+--- 
+file: /exercises/aggregation-exercises
+description: | 
+  Aggregate zip code data.
+...

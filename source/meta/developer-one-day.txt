@@ -1,0 +1,14 @@
+:orphan:
+
+==============================
+MongoDB Developer Fundamentals
+==============================
+
+.. toctree::
+
+   /modules/nav/introduction
+   /modules/nav/crud-dev-one-day
+   /modules/nav/indexes-dev
+   /modules/nav/replica-sets
+   /modules/nav/sharding
+
