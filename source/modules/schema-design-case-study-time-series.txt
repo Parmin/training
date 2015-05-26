@@ -8,9 +8,8 @@ Learning Objectives
 
 Upon completing this module, students should understand:
 
-- Various methods for effectively storing time series data
+- Various methods for effectively storing time series data in MongoDB
 - Trade-offs in methods to store time series data
-- Queries and methods to display time series data
 
 .. include:: /includes/student-notes.rst
 
@@ -18,11 +17,11 @@ Upon completing this module, students should understand:
 Time Series Use Cases
 ---------------------
 
-- Silver Spring Networks, the leading provider of smart grid infrastructure, analyzes utility meter data in MongoDB.
-- EnerNOC analyzes billions of energy data points per month to help utilities and private companies optimize their systems, ensure availability and reduce costs.
-- Square maintains a MongoDB-based open source tool called Cube for collecting timestamped events and deriving metrics.
-- Server Density uses MongoDB to collect server monitoring statistics.
-- Appboy, the leading platform for mobile relationship management, uses MongoDB to track and analyze billions of data points on user behavior.
+- Silver Spring Networks, the leading provider of smart grid infrastructure, analyzes utility meter data in MongoDB
+- EnerNOC analyzes billions of energy data points per month to help utilities and private companies optimize their systems, ensure availability and reduce costs
+- Square maintains a MongoDB-based open source tool called Cube for collecting timestamped events and deriving metrics
+- Server Density uses MongoDB to collect server monitoring statistics
+- Appboy, the leading platform for mobile relationship management, uses MongoDB to track and analyze billions of data points on user behavior
 
 .. include:: /includes/student-notes.rst
 
@@ -53,7 +52,7 @@ Building a Database Monitoring Tool
 Potential Relational Design
 ---------------------------
 
-RDBMS Row for client "1234", recording 50k database operations, at 2015-05-29 (23:06:37):
+RDBMS row for client "1234", recording 50k database operations, at 2015-05-29 (23:06:37):
 
 ::
 
@@ -96,6 +95,7 @@ Problems With This Design
 
    .. note::
       
+      - If you use Hadoop, or some other process to aggregate data, charts are as real-time as how often the process runs
       - "Other MongoDB data types", such as arrays
 
 A Better Design for a Document Database
@@ -176,8 +176,8 @@ Metrics with 1 minute granularity for the past 24 hours (24 documents):
 .. include:: /includes/student-notes.rst
 
 
-Condensing a Days's Worth of Metric Data Into a Single Document
----------------------------------------------------------------
+Condensing a Day's Worth of Metric Data Into a Single Document
+--------------------------------------------------------------
 
 With one minute granularity, we can record a day's worth of data and update it efficiently with the following structure (values.<HOUR_IN_DAY>.<MINUTE_IN_DAY>):
 
@@ -201,7 +201,7 @@ Considerations
 --------------
 
 - Document structure depends on the use case
-- Arrays's can be used in place of embedded documents 
+- Arrays can be used in place of embedded documents 
 - Avoid growing documents (and document moves) by pre-allocating blank values
 
 .. include:: /includes/student-notes.rst
