@@ -19,14 +19,20 @@ Design Considerations
 ---------------------
 
 - User relationships (followers, followees)
-- Newsfeed
+- Newsfeed requirements
    
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+    - Mention how the Facebook newsfeed works
 
 User Relationships
 ------------------
 
-What are the problems with this approach:
+What are the problems with the following approach?
 
 .. code-block:: javascript
 
@@ -42,7 +48,7 @@ What are the problems with this approach:
 User Relationships
 ------------------
 
-Relationship must be split into separate documents:
+Relationships must be split into separate documents:
 
 - Celebrity users may have millions of followers
 - Performance improvements
@@ -50,6 +56,11 @@ Relationship must be split into separate documents:
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+
+    - Relationships from work should have different privacy settings, etc.
 
 User Relationships
 ------------------
@@ -83,6 +94,14 @@ Now meta-data about the relationship can be added:
    
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+
+    - Expand further on relationship meta-data, such as how they created the connection, the group the relationship falls into, etc. 
+    - Specific fields can be added per group, e.g. if the group is "school", fields for "graduated" (true/false) and "graduate_school" (true/false) can be easily added
+
+
 Counting User Relationships
 ---------------------------
 
@@ -106,6 +125,12 @@ Counting User Relationships
 
   
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Maintain counts in the user profile to make it less expensive to display the total number of followers for a user on their profile page (if the profile page is heavily viewed)
 
 User Relationship Traversal
 ---------------------------
@@ -165,12 +190,19 @@ When to Use Fanout on Read
 Fanout on Write
 ---------------
 
-- Modify every users timeline: when a new post or activity is created
+- Modify every users timeline when a new post or activity is created by a person they follow
 - Extremely fast page loads
 - Optimized for case where there are far less posts than feed views
 - Scales better for large systems than fanout on read
+- Feed updates can be performed asynchronously 
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - This is actually what the large scale social networks have to do, fanout on read is far too expensive
 
 Fanout on Write
 ---------------
@@ -195,7 +227,7 @@ Fanout on Write
 Fanout on Write
 ---------------
 
-- What happens when Cookie Monster adds a post to 1 million followers?
+- What happens when Cookie Monster creates a new post for his 1 million followers?
 - What happens when posts are edited or updated?
 
 .. include:: /includes/student-notes.rst
@@ -232,7 +264,7 @@ Fanout on Write Considerations
 Fanout on Write
 ---------------
 
-When newsfeed views are smaller than content posts, and the number of users to the system is large, Fanout on write provides a very efficient way to maintain fast performance as the system grows large.
+When newsfeed views are smaller than content posts, and the number of users to the system is large, fanout on write provides a very efficient way to maintain fast performance as the system becomes large.
 
 .. include:: /includes/student-notes.rst
 

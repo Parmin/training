@@ -36,7 +36,7 @@ Potential tables
 - comment
 - tag
 - link_story_tag
-- link_story_story - related stories
+- link_story_story (related stories)
 - etc.
 
 .. include:: /includes/student-notes.rst
@@ -66,8 +66,8 @@ Building a CMS in MongoDB
       "AAPL", "Earnings", "Cupertino"
     ],
     "comments" : [
-      { "name" : "Frank", "comment" : "Great Story", "date" : ISODate("2015-05-19T06:01:17.171Z") },
-      { "name" : "Wendy", "comment" : "When can I buy an Apple Watch?", "date" : ISODate("2015-04-19T06:01:17.171Z") }
+      { "name" : "Frank", "comment" : "Great Story", "date" : ISODate(...) },
+      { "name" : "Wendy", "comment" : "+1", "date" : ISODate(...) }
     ]
   }
 
@@ -83,8 +83,8 @@ Building a CMS in MongoDB
 
 
 
-Downsides to the MongoDB Design Compared to the Relational Design
------------------------------------------------------------------
+Benefits of the Relational Design Compared to the MongoDB Design
+----------------------------------------------------------------
 
 - Updates to author information are more expensive (data is de-normalized)
 - Updates to tag names are more expensive
@@ -93,8 +93,8 @@ Downsides to the MongoDB Design Compared to the Relational Design
 .. include:: /includes/student-notes.rst
 
 
-Downsides of the MongoDB Design Compared to the Relational Design
------------------------------------------------------------------
+Benefits to the MongoDB Design Compared to the Relational Design
+----------------------------------------------------------------
 
 - Much faster reads (one query to load a page, compared to multiple queries in a relational model)
 
@@ -107,7 +107,6 @@ Every System Has Tradeoffs
 - Relational design will provide more efficient writes
 - MongoDB Document design will provide more efficient reads
 - A typical CMS may see 1000 reads (or more) for every article created (write)
-- MongoDB's document design for this use case is a very effective solution
 
 
 .. include:: /includes/student-notes.rst
@@ -118,6 +117,7 @@ Optimizations
 - Optimizing comments (what happens when an article has 1 million comments?)
 - Include more information associated with each tag
 - Include stock price information with each article
+- Fields specific to an article type
 
 
 .. include:: /includes/student-notes.rst
@@ -126,7 +126,7 @@ Optimizations
 Optimizing Comments Option 1
 ----------------------------
 
-- How many comments are shown on the first page of the article?
+- How many comments are shown on the first page of an article?
 - What percentage of users click to read more comments?
 
 .. code-block:: javascript
@@ -158,7 +158,11 @@ Optimizing Comments Option 1
    { "_id" : "/apple-reports-second-quarter-revenue" },
      { $push: {
          "comments": {
-            $each: [ { "name" : "Frank", "comment" : "Great Story", "date" : ISODate() } ],
+            $each: [ { 
+              "name" : "Frank", 
+              "comment" : "Great Story", 
+              "date" : ISODate() 
+            } ],
             $sort: { date: -1 },
             $slice: 10 } } } )
 
@@ -174,7 +178,7 @@ Optimizing Comments Option 2
 
 - Use a separate collection for comments
 - Now every page load requires at least 2 queries
-- Writes are less expensive
+- Adding new comments are less expensive
 
 .. code-block:: javascript
 
@@ -221,7 +225,7 @@ Include More Information With Each Tag
 .. include:: /includes/student-notes.rst
 
 
-Include stock price information with each article
+Include Stock Price Information With Each Article
 -------------------------------------------------
 
 - Maintain the latest stock price in a separate collection
@@ -229,6 +233,38 @@ Include stock price information with each article
 
 .. include:: /includes/student-notes.rst
 
+
+Fields Specific to an Article Type
+----------------------------------
+
+- Fields specific to an article may be added to the document:
+
+.. code-block:: javascript
+
+  {
+    "_id" : "/apple-reports-second-quarter-revenue",
+    ...
+    "executive_profile" : { 
+      "name" : "Tim Cook",
+      "age" : 54,
+      "hometown" : {
+        "city" : "Mobile",
+        "state" : "AL"
+      },
+      "photo_url" : "http://..."
+    }
+  }
+
+
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+   .. note::
+     
+     - As long as the fields aren't part of the query (ideally, every field in the query should be indexed)
 
 
 Class Exercise
