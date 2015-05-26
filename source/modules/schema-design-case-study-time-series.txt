@@ -179,7 +179,7 @@ Metrics with 1 minute granularity for the past 24 hours (24 documents):
 Condensing a Day's Worth of Metric Data Into a Single Document
 --------------------------------------------------------------
 
-With one minute granularity, we can record a day's worth of data and update it efficiently with the following structure (values.<HOUR_IN_DAY>.<MINUTE_IN_DAY>):
+With one minute granularity, we can record a day's worth of data and update it efficiently with the following structure (values.<HOUR_IN_DAY>.<MINUTE_IN_HOUR>):
 
 .. code-block:: javascript
 
@@ -188,9 +188,9 @@ With one minute granularity, we can record a day's worth of data and update it e
       "timestamp": ISODate("2015-05-29T00:00:00.000Z"),
       "metric": "op_counter",
       "values": {
-        "0": { 0: 123, 1: 345, ..., 23: 123},
+        "0": { 0: 123, 1: 345, ..., 59: 123},
         …  
-        "23": { 0: 123, 1: 345, ..., 23: 123}
+        "23": { 0: 123, 1: 345, ..., 59: 123}
       }
   }
 

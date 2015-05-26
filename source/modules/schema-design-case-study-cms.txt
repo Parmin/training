@@ -83,20 +83,24 @@ Building a CMS in MongoDB
 
 
 
-Benefits of the Relational Design Compared to the MongoDB Design
-----------------------------------------------------------------
+Benefits of the Relational Design
+---------------------------------
 
-- Updates to author information are more expensive (data is de-normalized)
-- Updates to tag names are more expensive
+With Normalized Data:
+
+- Updates to author information are inexpensive
+- Updates to tag names are inexpensive
   
 
 .. include:: /includes/student-notes.rst
 
 
-Benefits to the MongoDB Design Compared to the Relational Design
-----------------------------------------------------------------
+Benefits of the MongoDB Design
+------------------------------
 
-- Much faster reads (one query to load a page, compared to multiple queries in a relational model)
+- Much faster reads
+- One query to load a page
+- The relational model would require multiple queries.
 
 
 .. include:: /includes/student-notes.rst
@@ -104,9 +108,9 @@ Benefits to the MongoDB Design Compared to the Relational Design
 Every System Has Tradeoffs
 --------------------------
 
-- Relational design will provide more efficient writes
-- MongoDB Document design will provide more efficient reads
-- A typical CMS may see 1000 reads (or more) for every article created (write)
+- Relational design will provide more efficient writes for some data.
+- MongoDB design will provide efficient reads for common query patterns.
+- A typical CMS may see 1000 reads (or more) for every article created (write).
 
 
 .. include:: /includes/student-notes.rst
@@ -237,7 +241,7 @@ Include Stock Price Information With Each Article
 Fields Specific to an Article Type
 ----------------------------------
 
-- Fields specific to an article may be added to the document:
+Fields specific to an article may be added to the document.
 
 .. code-block:: javascript
 
@@ -264,7 +268,8 @@ Fields Specific to an Article Type
 
    .. note::
      
-     - As long as the fields aren't part of the query (ideally, every field in the query should be indexed)
+     - As long as the fields aren't part of the query.
+     - Ideally, every field in the query should be indexed.
 
 
 Class Exercise
