@@ -50,9 +50,11 @@ User Relationships
 
 Relationships must be split into separate documents:
 
-- Celebrity users may have millions of followers
-- Performance improvements
-- Flexibility in relationship description (work group vs school, etc.)
+- This will provide performance benefits.
+- Other motivations:
+
+  - E.g., celebrity users may have millions of followers.
+  - Different types of relationships may have different fields and requirements.
 
 .. include:: /includes/student-notes.rst
 
@@ -264,7 +266,12 @@ Fanout on Write Considerations
 Fanout on Write
 ---------------
 
-When newsfeed views are smaller than content posts, and the number of users to the system is large, fanout on write provides a very efficient way to maintain fast performance as the system becomes large.
+- When the following are true:
+
+  - The number of newsfeed views are smaller than content posts
+  - The number of users to the system is large
+
+- Fanout on write provides an efficient way to maintain fast performance as the system becomes large.
 
 .. include:: /includes/student-notes.rst
 
