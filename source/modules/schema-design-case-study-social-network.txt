@@ -1,0 +1,290 @@
+==========================
+Case Study: Social Network
+==========================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- Design considerations for building a social network with MongoDB
+- Maintaining relationships between users
+- Creating a feed service (similar to FaceBook's newsfeed)
+
+.. include:: /includes/student-notes.rst
+
+
+Design Considerations
+---------------------
+
+- User relationships (followers, followees)
+- Newsfeed requirements
+   
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+    - Mention how the Facebook newsfeed works
+
+User Relationships
+------------------
+
+What are the problems with the following approach?
+
+.. code-block:: javascript
+
+  {
+    "_id" : "bigbird",
+    "fullname" : "Big Bird",
+    "followers" : [ "oscar", "elmo"],
+    "following" : [ "elmo", "bert"]
+  }
+   
+.. include:: /includes/student-notes.rst
+
+User Relationships
+------------------
+
+Relationships must be split into separate documents:
+
+- This will provide performance benefits.
+- Other motivations:
+
+  - E.g., celebrity users may have millions of followers.
+  - Different types of relationships may have different fields and requirements.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+    - Relationships from work should have different privacy settings, etc.
+
+User Relationships
+------------------
+
+.. code-block:: javascript
+
+  > db.followers.find()
+  { "_id" : ObjectId(), "user" : "bigbird", "following" : "elmo" }
+  { "_id" : ObjectId(), "user" : "bigbird", "following" : "bert" }
+  { "_id" : ObjectId(), "user" : "oscar", "following" : "bigbird" }
+  { "_id" : ObjectId(), "user" : "elmo”", "following" : "bigbird" }
+   
+.. include:: /includes/student-notes.rst
+
+
+Improving User Relationships
+----------------------------
+
+Now meta-data about the relationship can be added:
+
+.. code-block:: javascript
+
+  > db.followers.find()
+  { 
+    "_id" : ObjectId(), 
+    "user" : "bigbird", 
+    "following" : "elmo", 
+    "group" : "work",
+    "follow_start_date" : ISODate("2015-05-19T06:01:17.171Z")
+  }
+   
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+    - Expand further on relationship meta-data, such as how they created the connection, the group the relationship falls into, etc. 
+    - Specific fields can be added per group, e.g. if the group is "school", fields for "graduated" (true/false) and "graduate_school" (true/false) can be easily added
+
+
+Counting User Relationships
+---------------------------
+
+- Counts across a large number of documents may be slow
+- May want to maintain an active count in the user profile 
+- An active count of followers and folowees will be more expensive for creating relationships
+  
+.. include:: /includes/student-notes.rst
+
+Counting User Relationships
+---------------------------
+
+.. code-block:: javascript
+
+  {
+    "_id" : "bigbird",
+    "fullname" : "Big Bird",
+    "followers" : 2,
+    "following" : 2
+  }
+
+  
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Maintain counts in the user profile to make it less expensive to display the total number of followers for a user on their profile page (if the profile page is heavily viewed)
+
+User Relationship Traversal
+---------------------------
+
+- Index needed on (followers.user, followers.following)
+- For reverse lookups, index needed on (followers.following, followers.user)
+- Covered queries should be used in graph lookups (via projection)
+- May also want to maintain two separate collections: followers, followees
+  
+.. include:: /includes/student-notes.rst
+
+User Relationships
+------------------
+
+- We've created a simple, scalable model for storing user relationships
+  
+.. include:: /includes/student-notes.rst
+
+Building a Feed Service
+-----------------------
+
+- Newsfeed similar to Facebook
+- Show latest posts by followed users
+- Newsfeed queries must be extremely fast
+  
+.. include:: /includes/student-notes.rst
+
+
+Feed Service Design Considerations
+----------------------------------
+
+- Fanout on Read
+- Fanout on Write
+  
+.. include:: /includes/student-notes.rst
+
+
+Fanout on Read
+--------------
+
+- Newsfeed is generated in real-time, when page is loaded
+- Simple to implement
+- Space efficient
+- Reads can be very expensive (e.g. if you follow 1 million users)
+  
+.. include:: /includes/student-notes.rst
+
+When to Use Fanout on Read
+--------------------------
+
+- Newsfeed is viewed less often than posts are made
+- Small scale system, users follow few people
+- Historic timeline information is commonly viewed
+ 
+.. include:: /includes/student-notes.rst
+
+Fanout on Write
+---------------
+
+- Modify every users timeline when a new post or activity is created by a person they follow
+- Extremely fast page loads
+- Optimized for case where there are far less posts than feed views
+- Scales better for large systems than fanout on read
+- Feed updates can be performed asynchronously 
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - This is actually what the large scale social networks have to do, fanout on read is far too expensive
+
+Fanout on Write
+---------------
+
+.. code-block:: javascript
+
+  > db.feed.find({"user : "bigbird"}).sort({"date" : -1})
+  {
+    "_id" : ObjectId(),
+    "user" : "bigbird",
+    "date" : ISODate("2015-05-19T06:01:17.171Z"),
+    "content" : {
+      "user" : "cookiemonster",
+      "post" : "I love cookies!"
+    }
+  }
+
+
+.. include:: /includes/student-notes.rst
+
+
+Fanout on Write
+---------------
+
+- What happens when Cookie Monster creates a new post for his 1 million followers?
+- What happens when posts are edited or updated?
+
+.. include:: /includes/student-notes.rst
+
+
+Fanout on Write (Non-embedded content)
+--------------------------------------
+
+.. code-block:: javascript
+
+  > db.feed.find({"user : "bigbird"}).sort({"date" : -1})
+  {
+    "_id" : ObjectId(),
+    "user" : "bigbird",
+    "date" : ISODate("2015-05-19T06:01:17.171Z"),
+    "content_id" : ObjectId("...de1")
+  }
+
+  > db.content.find({"_id" : ObjectId("...de1")"})
+
+
+.. include:: /includes/student-notes.rst
+
+
+Fanout on Write Considerations
+------------------------------
+
+- Content can be embedded or referenced
+- Feed items may be organized in buckets per user per day
+- Feed items can also be bucketed in batches (such as 100 posts per document)
+
+.. include:: /includes/student-notes.rst
+
+Fanout on Write
+---------------
+
+- When the following are true:
+
+  - The number of newsfeed views are smaller than content posts
+  - The number of users to the system is large
+
+- Fanout on write provides an efficient way to maintain fast performance as the system becomes large.
+
+.. include:: /includes/student-notes.rst
+
+
+Class Exercise
+--------------
+
+Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
+
+- Design a schema for the user graph
+- Design a schema for a Twitter user's newsfeed (including retweets, favorites, and replies)
+
+
+.. include:: /includes/student-notes.rst
+
+

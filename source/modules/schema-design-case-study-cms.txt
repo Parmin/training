@@ -1,0 +1,287 @@
+===============
+Case Study: CMS
+===============
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- Various methods for effectively designing a CMS schema in MongoDB
+- Optimizations to the schema, and their tradeoffs
+
+.. include:: /includes/student-notes.rst
+
+
+Building a CMS with MongoDB
+---------------------------
+
+- CMS stands for content management system
+- Cnn.com, wsj.com, and huffingtonpost.com are good examples to explore
+- For the purposes of this case study, let's use any article page from cnn.com
+
+.. include:: /includes/student-notes.rst
+
+
+Building a CMS in a Relational Database
+---------------------------------------
+
+10-15 tables for this example, multiple queries for every page load:
+
+Potential tables
+
+- story
+- author
+- comment
+- tag
+- link_story_tag
+- link_story_story (related stories)
+- etc.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+      
+      - Great time to whiteboard how a CMS would look in an RDBMS, then Mongo
+
+
+Building a CMS in MongoDB
+-------------------------
+
+.. code-block:: javascript
+
+  {
+    "_id" : "/apple-reports-second-quarter-revenue",
+    "headline" : "Apple Reported Second Quarter Revenue Today",
+    "date" : ISODate("2015-03-24T22:35:21.908Z"),
+    "author" : {
+      "name" : "Bob Walker",
+      "title" : "Lead Business Editor"
+    },
+    "copy" : "Apple beat Wall St expectations by reporting ...",
+    "tags" : [ 
+      "AAPL", "Earnings", "Cupertino"
+    ],
+    "comments" : [
+      { "name" : "Frank", "comment" : "Great Story", "date" : ISODate(...) },
+      { "name" : "Wendy", "comment" : "+1", "date" : ISODate(...) }
+    ]
+  }
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+      
+      - Spend a lot of time on the pros/cons of these two designs (RDBMS vs Mongo)
+      - One design optimized for reads, another design optimized for writes
+
+
+
+Benefits of the Relational Design
+---------------------------------
+
+With Normalized Data:
+
+- Updates to author information are inexpensive
+- Updates to tag names are inexpensive
+  
+
+.. include:: /includes/student-notes.rst
+
+
+Benefits of the MongoDB Design
+------------------------------
+
+- Much faster reads
+- One query to load a page
+- The relational model would require multiple queries.
+
+
+.. include:: /includes/student-notes.rst
+
+Every System Has Tradeoffs
+--------------------------
+
+- Relational design will provide more efficient writes for some data.
+- MongoDB design will provide efficient reads for common query patterns.
+- A typical CMS may see 1000 reads (or more) for every article created (write).
+
+
+.. include:: /includes/student-notes.rst
+
+Optimizations
+-------------
+
+- Optimizing comments (what happens when an article has 1 million comments?)
+- Include more information associated with each tag
+- Include stock price information with each article
+- Fields specific to an article type
+
+
+.. include:: /includes/student-notes.rst
+
+
+Optimizing Comments Option 1
+----------------------------
+
+- How many comments are shown on the first page of an article?
+- What percentage of users click to read more comments?
+
+.. code-block:: javascript
+
+  {
+    "_id" : "/apple-reports-second-quarter-revenue",
+    "headline" : "Apple Reported Second Quarter Revenue Today",
+    ...
+    "last_10_comments" : [
+      { "name" : "Frank", "comment" : "Great Story", "date" : ISODate() },
+      { "name" : "Wendy", 
+        "comment" : "When can I buy an Apple Watch?",  
+        "date" : ISODate() }
+    ]
+  }
+
+.. include:: /includes/student-notes.rst
+
+
+Optimizing Comments Option 1
+----------------------------
+
+- Adding a new comment requires writing to two collections
+- Write may fail in-between first and second operation
+  
+.. code-block:: javascript
+
+  > db.blog.update(
+   { "_id" : "/apple-reports-second-quarter-revenue" },
+     { $push: {
+         "comments": {
+            $each: [ { 
+              "name" : "Frank", 
+              "comment" : "Great Story", 
+              "date" : ISODate() 
+            } ],
+            $sort: { date: -1 },
+            $slice: 10 } } } )
+
+.. code-block:: javascript
+
+  > db.comments.insert( { "story_id" : 123, name" : "Frank", 
+    "comment" : "Great Story", "date" : ISODate() })
+
+.. include:: /includes/student-notes.rst
+
+Optimizing Comments Option 2
+----------------------------
+
+- Use a separate collection for comments
+- Now every page load requires at least 2 queries
+- Adding new comments are less expensive
+
+.. code-block:: javascript
+
+  > db.comments.insert( { "story_id" : 123, name" : "Frank", 
+    "comment" : "Great Story", "date" : ISODate() })
+   
+
+.. include:: /includes/student-notes.rst
+
+Include More Information With Each Tag
+--------------------------------------
+
+.. code-block:: javascript
+
+  {
+    "_id" : "/apple-reports-second-quarter-revenue",
+    ...
+    "tags" : [ 
+      { "type" : "ticker", "value" : "AAPL" },
+      { "type" : "section", "value" : "Earnings" },
+      { "type" : "location", "value" : "Cupertino" }
+    ]
+  }
+
+.. include:: /includes/student-notes.rst
+
+Include More Information With Each Tag
+--------------------------------------
+
+- $elemMatch is now important for queries
+
+.. code-block:: javascript
+
+  > db.story.find( { 
+    "tags" : { 
+      "$elemMatch" : { 
+        "type" : "section", 
+        "value" : "Earnings" 
+      } 
+    } 
+  } )
+
+
+.. include:: /includes/student-notes.rst
+
+
+Include Stock Price Information With Each Article
+-------------------------------------------------
+
+- Maintain the latest stock price in a separate collection
+- General rule: don't de-normalize data that changes frequently
+
+.. include:: /includes/student-notes.rst
+
+
+Fields Specific to an Article Type
+----------------------------------
+
+Fields specific to an article may be added to the document.
+
+.. code-block:: javascript
+
+  {
+    "_id" : "/apple-reports-second-quarter-revenue",
+    ...
+    "executive_profile" : { 
+      "name" : "Tim Cook",
+      "age" : 54,
+      "hometown" : {
+        "city" : "Mobile",
+        "state" : "AL"
+      },
+      "photo_url" : "http://..."
+    }
+  }
+
+
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+   .. note::
+     
+     - As long as the fields aren't part of the query.
+     - Ideally, every field in the query should be indexed.
+
+
+Class Exercise
+--------------
+
+Design a CMS (similar to above) with the following additional requirements:
+
+- Articles may be in one of three states: "draft", "copy edit", "final"
+- History of articles as they move between states must be captured, as well as comments by the person moving the article to a different state
+- Within each state, every article must be versioned.  In case there is a problem, the editor can quickly revert to the previous version.
+
+
+.. include:: /includes/student-notes.rst
+
+

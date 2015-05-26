@@ -1,0 +1,223 @@
+============================
+Case Study: Time Series Data
+============================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- Various methods for effectively storing time series data in MongoDB
+- Trade-offs in methods to store time series data
+
+.. include:: /includes/student-notes.rst
+
+
+Time Series Use Cases
+---------------------
+
+- Silver Spring Networks, the leading provider of smart grid infrastructure, analyzes utility meter data in MongoDB
+- EnerNOC analyzes billions of energy data points per month to help utilities and private companies optimize their systems, ensure availability and reduce costs
+- Square maintains a MongoDB-based open source tool called Cube for collecting timestamped events and deriving metrics
+- Server Density uses MongoDB to collect server monitoring statistics
+- Appboy, the leading platform for mobile relationship management, uses MongoDB to track and analyze billions of data points on user behavior
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+      
+      - Mention there are a lot of MongoDB customers using MongoDB for time series data
+
+
+Building a Database Monitoring Tool
+-----------------------------------
+
+- Monitor hundreds of thousands of database servers
+- Ingest metrics every 1-2 seconds
+- Scale the system as new database servers are added
+- Provide real-time graphs and charts to users
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+      
+      - Similar to MMS
+
+
+Potential Relational Design
+---------------------------
+
+RDBMS row for client "1234", recording 50k database operations, at 2015-05-29 (23:06:37):
+
+::
+
+  "clientid" (integer): 1234
+  "metric (varchar): "op_counter"
+  "value" (double): 50000
+  "timestamp" (datetime): 2015-05-29T23:06:37.000Z 
+   
+
+.. include:: /includes/student-notes.rst
+
+Translating the Relational Design to MongoDB Documents
+------------------------------------------------------
+
+RDBMS Row for client "1234", recording 50k database operations, at 2015-05-29 (23:06:37):
+
+::
+
+  {
+    "clientid": 1234,
+    "metric": "op_counter",
+    "value": 50000,
+    "timestamp": ISODate("2015-05-29T23:06:37.000Z")
+  }
+   
+
+.. include:: /includes/student-notes.rst
+
+
+Problems With This Design
+-------------------------
+
+- Aggregations become slower over time, as database becomes larger
+- Asynchronous aggregation jobs won't provide real-time data
+- We aren't taking advantage of other MongoDB data types
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+      
+      - If you use Hadoop, or some other process to aggregate data, charts are as real-time as how often the process runs
+      - "Other MongoDB data types", such as arrays
+
+A Better Design for a Document Database
+---------------------------------------
+
+Storing one document per hour (1 minute granularity):
+
+::
+
+  {
+    "clientid" : 1234,
+    "timestamp": ISODate("2015-05-29T23:06:00.000Z"),
+    "metric": "op_counter",
+    "values": {
+      0: 0,
+      …  
+      37: 50000,
+      … 
+      59: 2000000
+    }
+  }
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+      
+      - 0,1,2,3 in the values sub-document represent the minute in the hour
+
+Performing Updates
+------------------
+
+Update the exact minute in the hour where the op_counter was recorded:
+
+::
+
+  > db.metrics_by_minute.update( { 
+    "clientid" : 1234,
+    "timestamp": ISODate("2015-05-29T23:06:00.000Z"),
+    "metric": "op_counter"}, 
+    { $set : { "values.37" : 50000 } })
+
+
+.. include:: /includes/student-notes.rst
+
+
+Performing Updates By Incrementing Counters
+-------------------------------------------
+
+Increment the counter for the exact minute in the hour where the op_counter metric was recorded:
+
+::
+
+  > db.metrics_by_minute.update( { 
+    "clientid" : 1234,
+    "timestamp": ISODate("2015-05-29T23:06:00.000Z"),
+    "metric": "op_counter"}, 
+    { $inc : { "values.37" : 50000 } })
+
+
+.. include:: /includes/student-notes.rst
+
+
+Displaying Real-time Charts
+---------------------------
+
+Metrics with 1 minute granularity for the past 24 hours (24 documents):
+
+::
+
+  > db.metrics_by_minute.find( { 
+    "clientid" : 1234,
+    "metric": "op_counter"})
+    .sort ({ "timestamp" : -1 })
+    .limit(24)
+
+.. include:: /includes/student-notes.rst
+
+
+Condensing a Day's Worth of Metric Data Into a Single Document
+--------------------------------------------------------------
+
+With one minute granularity, we can record a day's worth of data and update it efficiently with the following structure (values.<HOUR_IN_DAY>.<MINUTE_IN_HOUR>):
+
+.. code-block:: javascript
+
+   {
+      "clientid" : 1234,
+      "timestamp": ISODate("2015-05-29T00:00:00.000Z"),
+      "metric": "op_counter",
+      "values": {
+        "0": { 0: 123, 1: 345, ..., 59: 123},
+        …  
+        "23": { 0: 123, 1: 345, ..., 59: 123}
+      }
+  }
+
+.. include:: /includes/student-notes.rst
+
+
+Considerations
+--------------
+
+- Document structure depends on the use case
+- Arrays can be used in place of embedded documents 
+- Avoid growing documents (and document moves) by pre-allocating blank values
+
+.. include:: /includes/student-notes.rst
+
+Class Exercise
+--------------
+
+Look through some charts in MongoDB's MMS, how would you represent the schema for those charts, considering:
+
+- 1 minute granularity for 48 hours
+- 5 minute granularity for 48 hours
+- 1 hour granularity for 2 months
+- 1 day granularity forever
+- Expire and roll-up data
+- Queries for charts
+
+.. include:: /includes/student-notes.rst
+
+
