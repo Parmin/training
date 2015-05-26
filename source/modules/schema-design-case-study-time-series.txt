@@ -129,7 +129,7 @@ Storing one document per hour (1 minute granularity):
 Performing Updates
 ------------------
 
-Update the exact minute in the hour where the opcounter was recorded:
+Update the exact minute in the hour where the op_counter was recorded:
 
 ::
 
@@ -146,7 +146,7 @@ Update the exact minute in the hour where the opcounter was recorded:
 Performing Updates By Incrementing Counters
 -------------------------------------------
 
-Increment the counter for the exact minute in the hour where the opcounter metric was recorded:
+Increment the counter for the exact minute in the hour where the op_counter metric was recorded:
 
 ::
 
