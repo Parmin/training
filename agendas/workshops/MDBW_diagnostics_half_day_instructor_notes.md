@@ -71,6 +71,7 @@ After working through all the possibilities, the following index is the best for
 	- Compression algorithms with WT: Zlib, Snappy, none
 	- Smallfiles effects file size allocation performance (relevant to MMAP)
 
+* Lab: Building and Examining Indexes (from materials, /instructor-package/exercises/indexes-exercises.html)
 * Killing bad queries (db.currentOp())
 
 ## 10:30AM Mid-morning Break
@@ -84,6 +85,7 @@ After working through all the possibilities, the following index is the best for
 	- How long does it take to establish a connection to the database, or we efficiently pooling connections?
 * How schema design can effect application performance
 	- Walk through the different ways to design a CMS, denormalize the author information for articles will have what impact? Etc.
+	- Case Study: Social Network (from materials)
 * Shard key considerations
 	- Design a Google analytics competitior, tradeoffs for shard keys: (siteid (for for writes) vs hashed[_id] (good for writes, bad for reads)
 * Case study: bad schema design for a social network
