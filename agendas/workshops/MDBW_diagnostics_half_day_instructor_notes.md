@@ -17,7 +17,7 @@ In this workshop, the instructor will introduce useful tools (both supported and
 * MongoDB Overview 
 	 - In case any students don't have an understanding of how MongoDB work (documents, collections, etc.)
 * MongoDB Stores Documents
-* Components to MongoDB Diagnostics: the MongoDB Server, Application Settings, Hardware Settings
+* Components to MongoDB Diagnostics: the MongoDB Server (indexes, operations), Application Settings (schema, driver settings), Hardware Settings (disk settings, ulimits, etc.)
 	- These are the three main components this course with focus on
 
 ## 9:15AM
@@ -30,6 +30,17 @@ In this workshop, the instructor will introduce useful tools (both supported and
 * Indexes and utilizing .explain("executionStats")
 	- Work through the index section of our in-person training materials
 	- Explain how to optimize a query with .explain("executionStats"), make sure to cover sorting
+	- Explain for write operations (remove, update, etc.), how it works
+* In-class exercise:
+
+::
+
+	for (var i=0; i<1000; i++) { db.blog.insert( { "headline" : i, "date" : i + 1, "section" : i+2 } ); }
+
+	- db.blog.find( { "headline" : 200 } )
+	- db.blog.find( { "headline" : 200, section: 50 } ) - which order should the index be in?
+	- db.blog.find( { "headline" : 200 }).sort( { "date" : -1 }) - index?
+
 * Case Study: bad query with sort
 	
 You've created a blog comment system, it contains four comments (insert each to the database in front of the class)::
@@ -60,6 +71,8 @@ After working through all the possibilities, the following index is the best for
 	- Compression algorithms with WT: Zlib, Snappy, none
 	- Smallfiles effects file size allocation performance (relevant to MMAP)
 
+* Killing bad queries (db.currentOp())
+
 ## 10:30AM Mid-morning Break
 
 ## 10:45 
@@ -85,9 +98,11 @@ After working through all the possibilities, the following index is the best for
 
 * MongoDB Production Notes
 	- NUMA, ulimits, readahead for MMAP, TCP Keepalive (not in production notes)
+	- MongoDB production notes: http://docs.mongodb.org/manual/administration/production-notes/
 * Disk Settings
 	- RAID 10 vs RAID 0 with MongoDB replication
 	- SSD vs spinning disks
+* TCP Keepalive?
 
 ## 12:00PM
 
