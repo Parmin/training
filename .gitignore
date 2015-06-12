@@ -6,6 +6,7 @@ build/*
 *.pyc
 *.pyo
 *.bak
+*.class
 .DS_Store
 TAGS
 mongodb-domain.yaml
@@ -27,5 +28,6 @@ source/includes/generated/includes-overview.rst
 source/includes/generated/
 source/includes/option/
 source/figures
+mongomart/java/target
 docs-mongodb
 docs-tools
