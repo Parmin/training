@@ -37,8 +37,8 @@
     <div class="row">
         <div class="col-md-12">
             <ol class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li class="active">All Products</li>
+                <li><a href="/">Home</a></li>
+                <li class="active">${category_param}</li>
             </ol>
         </div>
     </div>
@@ -49,7 +49,7 @@
         <div class="col-md-2">
             <div class="list-group">
                 <#list categories as category>
-                    <a href="?category=${category.name}" class="list-group-item active"><span class="badge">${category.num_items}</span>${category.name}</a>
+                    <a href="?category=${category.name}" class="list-group-item <#if category_param == category.name>active</#if>"><span class="badge">${category.num_items}</span>${category.name}</a>
                 </#list>
             </div>
         </div>

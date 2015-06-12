@@ -139,7 +139,7 @@
         <div class="well">
             <h4>Add a Review:</h4>
             <form action="/add-review" role="form">
-                <input type="hidden" name="itemid" value="1" />
+                <input type="hidden" name="itemid" value="${itemid}" />
                 <div class="form-group">
                     <label for="review">Review:</label>
                     <textarea name="review" class="form-control" rows="3"></textarea>

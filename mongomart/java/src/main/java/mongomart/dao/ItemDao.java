@@ -80,12 +80,17 @@ public class ItemDao {
         aggregateStages.add(sortStage);
 
         MongoCursor<Document> cursor = itemCollection.aggregate(aggregateStages, Document.class).useCursor(true).iterator();
+
+        int total_count = 0;
         while (cursor.hasNext()) {
             Document resultDoc = cursor.next();
             Category category = new Category(resultDoc.getString("_id"), resultDoc.getInteger("num"));
             System.out.println("Category: " + resultDoc.getString("_id") + ", num:" + resultDoc.getInteger("num"));
             categories.add(category);
+            total_count += resultDoc.getInteger("num");
         }
+
+        categories.add(0, new Category("All", total_count));
 
         return categories;
     }

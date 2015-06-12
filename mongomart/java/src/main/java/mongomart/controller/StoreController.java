@@ -23,7 +23,9 @@ public class StoreController {
         ItemDao itemDao = new ItemDao(itemDatabase);
 
         get("/item", (request, response) -> {
-            Item item = itemDao.getItem(1);
+            String itemid = request.queryParams("id");
+
+            Item item = itemDao.getItem(new Integer(itemid));
 
             /*
             Item item = new Item();
@@ -38,6 +40,7 @@ public class StoreController {
 
             HashMap<String, Object> attributes = new HashMap<String, Object>();
             attributes.put("item", item);
+            attributes.put("itemid", itemid);
             attributes.put("related_items", related_items);
 
             // The hello.ftl file is located in directory:
@@ -56,11 +59,13 @@ public class StoreController {
             }
             else {
                 items = itemDao.getItems();
+                category = "All";
             }
 
             HashMap<String, Object> attributes = new HashMap<String, Object>();
             attributes.put("items", items);
             attributes.put("categories", categories);
+            attributes.put("category_param", category);
 
             // The hello.ftl file is located in directory:
             // src/test/resources/spark/template/freemarker
