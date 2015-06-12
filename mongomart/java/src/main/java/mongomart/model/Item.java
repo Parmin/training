@@ -33,20 +33,21 @@ public class Item implements CollectibleCodec<Item> {
     @Override
     public void encode(final BsonWriter writer, final Item value, final EncoderContext encoderContext) {
         Document document = new Document();
-        document.append("_id", id);
-        document.append("title", title);
-        document.append("description", description);
-        document.append("cateogry", category);
-        document.append("price", price);
-        document.append("stars", stars);
-        document.append("img_url", img_url);
-        document.append("slogan", slogan);
+        document.append("_id", value.id);
+        document.append("title", value.title);
+        document.append("description", value.description);
+        document.append("cateogry", value.category);
+        document.append("price", value.price);
+        document.append("stars", value.stars);
+        document.append("img_url", value.img_url);
+        document.append("slogan", value.slogan);
         itemCodec.encode(writer, document, encoderContext);
     }
 
     @Override
     public Item decode(final BsonReader reader, final DecoderContext decoderContext) {
         Document document = itemCodec.decode(reader, decoderContext);
+
         Item item = new Item();
         item.setId(document.getInteger("_id"));
         item.setTitle(document.getString("title"));
@@ -56,7 +57,25 @@ public class Item implements CollectibleCodec<Item> {
         item.setStars(document.getInteger("stars"));
         item.setImg_url(document.getString("img_url"));
         item.setSlogan(document.getString("slogan"));
-        item.setReviews(new ArrayList<Review>());
+        if (document.containsKey("reviews") && document.get("reviews") instanceof List) {
+            List<Review> reviews = new ArrayList<>();
+            List<Document> reviewsList = (List<Document>)document.get("reviews");
+
+            for (Document reviewDoc : reviewsList) {
+                Review review = new Review();
+                review.setComment(reviewDoc.getString("comment"));
+                review.setName(reviewDoc.getString("name"));
+                review.setStars(reviewDoc.getInteger("stars"));
+                review.setDate(reviewDoc.getDate("date"));
+                reviews.add(review);
+            }
+
+            item.setReviews(reviews);
+        }
+        else {
+            item.setReviews(new ArrayList<Review>());
+        }
+
         return item;
     }
 

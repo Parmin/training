@@ -125,6 +125,8 @@
                             ${review.comment}
                         </div>
                     </div>
+
+                    <hr />
                 </#list>
 
             </div>
@@ -137,7 +139,7 @@
         <div class="well">
             <h4>Add a Review:</h4>
             <form action="/add-review" role="form">
-                <input type="hidden" name="itemid" value="123" />
+                <input type="hidden" name="itemid" value="1" />
                 <div class="form-group">
                     <label for="review">Review:</label>
                     <textarea name="review" class="form-control" rows="3"></textarea>

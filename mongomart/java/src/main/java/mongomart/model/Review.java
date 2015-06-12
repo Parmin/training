@@ -1,15 +1,93 @@
 package mongomart.model;
 
+import org.bson.*;
+import org.bson.codecs.*;
+import org.bson.types.ObjectId;
+
 import java.util.Date;
 
 /**
  * Created by jason on 6/9/15.
  */
-public class Review {
+public class Review implements CollectibleCodec<Review> {
+    ObjectId id;
     String name;
     Date date;
     String comment;
     int stars;
+
+    private Codec<Document> reviewCodec;
+
+    public Review() {
+        this.reviewCodec = new DocumentCodec();
+    }
+
+    public Review(Codec<Document> reviewCodec) {
+        this.reviewCodec = reviewCodec;
+    }
+
+    @Override
+    public void encode(final BsonWriter writer, final Review value, final EncoderContext encoderContext) {
+        Document document = new Document();
+        document.append("_id", value.id);
+        document.append("name", value.name);
+        document.append("date", value.date);
+        document.append("comment", value.comment);
+        document.append("stars", value.stars);
+        reviewCodec.encode(writer, document, encoderContext);
+    }
+
+    @Override
+    public Review decode(final BsonReader reader, final DecoderContext decoderContext) {
+        Document document = reviewCodec.decode(reader, decoderContext);
+        Review review = new Review();
+        review.setId(document.getObjectId("_id"));
+        review.setName(document.getString("name"));
+        review.setDate(document.getDate("date"));
+        review.setComment(document.getString("comment"));
+        review.setStars(document.getInteger("stars"));
+        return review;
+    }
+
+    @Override
+    public Class<Review> getEncoderClass() {
+        return Review.class;
+    }
+
+    @Override
+    public Review generateIdIfAbsentFromDocument(Review review)
+    {
+        if (!documentHasId(review))
+        {
+            id = new ObjectId();
+        }
+        return review;
+    }
+
+    @Override
+    public boolean documentHasId(Review review)
+    {
+        return review.getId() == null;
+    }
+
+    @Override
+    public BsonValue getDocumentId(Review review)
+    {
+        if (review.getId() == null)
+        {
+            throw new IllegalStateException("The document does not contain an _id");
+        }
+
+        return new BsonObjectId(review.getId());
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

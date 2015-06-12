@@ -7,6 +7,7 @@ import freemarker.template.Configuration;
 import mongomart.controller.AdminController;
 import mongomart.controller.StoreController;
 import mongomart.model.Item;
+import mongomart.model.Review;
 import org.bson.Document;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistries;
@@ -35,10 +36,12 @@ public class MongoMart {
     public MongoMart(String mongoURIString) throws IOException {
         Codec<Document> defaultDocumentCodec = MongoClient.getDefaultCodecRegistry().get(Document.class);
         Item item = new Item(defaultDocumentCodec);
+        Review review = new Review(defaultDocumentCodec);
 
         CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
                 MongoClient.getDefaultCodecRegistry(),
-                CodecRegistries.fromCodecs(item)
+                CodecRegistries.fromCodecs(item),
+                CodecRegistries.fromCodecs(review)
         );
 
         final MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoURIString));
