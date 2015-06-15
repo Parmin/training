@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
+        <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
 
         <title>${item.title} - MongoMart</title>
 
@@ -37,8 +39,8 @@
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">${item.category}</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/?category=${item.category}">${item.category}</a></li>
                     <li class="active">${item.title}</li>
                 </ol>
             </div>
@@ -126,7 +128,6 @@
                         </div>
                     </div>
 
-                    <hr />
                 </#list>
 
             </div>
@@ -163,7 +164,7 @@
                         <input type="radio" name="stars" id="stars" value="4"> 4 star
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="stars" id="stars" value="5"> 5 star
+                        <input type="radio" name="stars" id="stars" value="5" checked> 5 star
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit Review</button>
@@ -181,7 +182,7 @@
 
             <#list related_items as related_item>
                 <div class="col-sm-3 col-xs-6">
-                    <a href="/item?id=">
+                    <a href="/item?id=${related_item.id}">
                         <img class="img-responsive portfolio-item" src="${related_item.img_url}" alt="">
                     </a>
                 </div>

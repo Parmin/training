@@ -8,8 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
 
-    <title>MongoMarket - Shop MongoDB Gear</title>
+    <title>MongoMart - Shop MongoDB Gear</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -49,7 +51,7 @@
         <div class="col-md-2">
             <div class="list-group">
                 <#list categories as category>
-                    <a href="?category=${category.name}" class="list-group-item <#if category_param == category.name>active</#if>"><span class="badge">${category.num_items}</span>${category.name}</a>
+                    <a href="/?category=${category.name}" class="list-group-item <#if category_param == category.name>active</#if>"><span class="badge">${category.num_items}</span>${category.name}</a>
                 </#list>
             </div>
         </div>
@@ -84,30 +86,19 @@
             <div class="row text-center">
                 <div class="col-lg-12">
                     <ul class="pagination">
-                        <li>
-                            <a href="#">&laquo;</a>
-                        </li>
-                        <li class="active">
-                            <a href="#">1</a>
-                        </li>
-                        <li>
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">5</a>
-                        </li>
-                        <li>
-                            <a href="#">&raquo;</a>
-                        </li>
+                        <#list 0..num_pages as i>
+                            <li <#if page == (i)>class="active"</#if>>
+                                <a href="/?page=${i}&category=${category_param}">${i+1}</a>
+                            </li>
+                        </#list>
                     </ul>
                 </div>
             </div>
+
+            <div style="text-align:center;">
+                <i>${item_count} Products</i>
+            </div>
+
             <!-- /.row -->
         </div>
 

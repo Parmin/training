@@ -3,6 +3,7 @@ package mongomart.controller;
 import com.mongodb.client.MongoDatabase;
 import freemarker.template.Configuration;
 import mongomart.config.FreeMarkerEngine;
+import mongomart.config.Utils;
 import mongomart.dao.ItemDao;
 import mongomart.model.Category;
 import mongomart.model.Item;
@@ -27,21 +28,12 @@ public class StoreController {
 
             Item item = itemDao.getItem(new Integer(itemid));
 
-            /*
-            Item item = new Item();
-            item.populateDummyValues();
-            */
-
-            ArrayList<Item> related_items = new ArrayList<Item>();
-            related_items.add(item);
-            related_items.add(item);
-            related_items.add(item);
-            related_items.add(item);
+            ArrayList<Item> related_items = itemDao.getItems("0");
 
             HashMap<String, Object> attributes = new HashMap<String, Object>();
             attributes.put("item", item);
             attributes.put("itemid", itemid);
-            attributes.put("related_items", related_items);
+            attributes.put("related_items", related_items.subList(0, 4));
 
             // The hello.ftl file is located in directory:
             // src/test/resources/spark/template/freemarker
@@ -50,22 +42,35 @@ public class StoreController {
 
         get("/", (request, response) -> {
             String category = request.queryParams("category");
+            String page = request.queryParams("page");
+
             ArrayList<Item> items = new ArrayList<Item>();
             ArrayList<Category> categories = itemDao.getCategoriesAndNumProducts();
+            long itemCount = 0;
 
             // Search by category
-            if (category != null && !category.trim().equals("")) {
-                items = itemDao.getItemsByCategory(category);
+            if (category != null && (!category.equals("All") && !category.trim().equals(""))) {
+                items = itemDao.getItemsByCategory(category, page);
+                itemCount = itemDao.getItemsByCategoryCount(category);
             }
             else {
-                items = itemDao.getItems();
+                items = itemDao.getItems(page);
+                itemCount = itemDao.getItemsCount();
                 category = "All";
+            }
+
+            int num_pages = 0;
+            if (itemCount > itemDao.getItemsPerPage()) {
+                num_pages = (int)Math.ceil(itemCount / itemDao.getItemsPerPage());
             }
 
             HashMap<String, Object> attributes = new HashMap<String, Object>();
             attributes.put("items", items);
+            attributes.put("item_count", itemCount);
             attributes.put("categories", categories);
             attributes.put("category_param", category);
+            attributes.put("page", Utils.getIntFromString(page));
+            attributes.put("num_pages", num_pages);
 
             // The hello.ftl file is located in directory:
             // src/test/resources/spark/template/freemarker

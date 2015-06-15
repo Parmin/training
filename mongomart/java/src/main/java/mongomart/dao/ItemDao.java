@@ -3,6 +3,7 @@ package mongomart.dao;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import mongomart.config.Utils;
 import mongomart.model.Category;
 import mongomart.model.Item;
 import mongomart.model.Review;
@@ -18,6 +19,8 @@ import static com.mongodb.client.model.Filters.eq;
  * Created by jason on 6/9/15.
  */
 public class ItemDao {
+    private static final int ITEMS_PER_PAGE = 5;
+
     private final MongoCollection<Item> itemCollection;
 
     public ItemDao(final MongoDatabase mongoMartDatabase) {
@@ -45,10 +48,14 @@ public class ItemDao {
         return item;
     }
 
-    public ArrayList<Item> getItems() {
+    public ArrayList<Item> getItems(String page_str) {
         ArrayList<Item> items = new ArrayList<>();
+        int page = Utils.getIntFromString(page_str);
 
-        MongoCursor<Item> cursor = itemCollection.find().limit(10).iterator();
+        MongoCursor<Item> cursor = itemCollection.find()
+                                                 .skip(ITEMS_PER_PAGE * page)
+                                                 .limit(ITEMS_PER_PAGE)
+                                                 .iterator();
         while (cursor.hasNext()) {
             items.add(cursor.next());
         }
@@ -56,24 +63,36 @@ public class ItemDao {
         return items;
     }
 
-    public ArrayList<Item> getItemsByCategory(String category) {
-        ArrayList<Item> items = new ArrayList<>();
+    public long getItemsCount() {
+        return itemCollection.count();
+    }
 
-        MongoCursor<Item> cursor = itemCollection.find(eq("category", category)).limit(10).iterator();
+    public ArrayList<Item> getItemsByCategory(String category, String page_str) {
+        ArrayList<Item> items = new ArrayList<>();
+        int page = Utils.getIntFromString(page_str);
+
+        MongoCursor<Item> cursor = itemCollection.find(eq("category", category))
+                                                 .skip(ITEMS_PER_PAGE * page)
+                                                 .limit(ITEMS_PER_PAGE)
+                                                 .iterator();
         while (cursor.hasNext()) {
             items.add(cursor.next());
         }
 
         return items;
+    }
+
+    public long getItemsByCategoryCount(String category) {
+        return itemCollection.count(eq("category", category));
     }
 
     public ArrayList<Category> getCategoriesAndNumProducts() {
         ArrayList<Category> categories = new ArrayList<>();
 
-        // db.item.aggregate( { $group : { "_id" : "$category", "num" : { "$sum" : 1 } } }, { $sort : { "_id" : -1 } })
+        // db.item.aggregate( { $group : { "_id" : "$category", "num" : { "$sum" : 1 } } }, { $sort : { "_id" : 1 } })
         Document groupStage = new Document("$group",
                 (new Document( "_id", "$category")).append("num", new Document("$sum", 1)));
-        Document sortStage = new Document("$sort", new Document("_id", -1));
+        Document sortStage = new Document("$sort", new Document("_id", 1));
 
         List<Document> aggregateStages = new ArrayList<Document>();
         aggregateStages.add(groupStage);
@@ -99,21 +118,17 @@ public class ItemDao {
         Review review = new Review();
         review.setComment(review_text);
         review.setDate(new Date());
-        review.setStars(getIntFromString(stars));
+        review.setStars(Utils.getIntFromString(stars));
         review.setName(name);
 
-        int itemdid_int = getIntFromString(itemid);
+        int itemdid_int = Utils.getIntFromString(itemid);
 
         Document pushUpdate = new Document( "$push", new Document("reviews", review));
 
         itemCollection.updateOne(eq("_id", itemdid_int), pushUpdate);
     }
 
-    private int getIntFromString(String src) {
-        if (src == null) {
-            return 0;
-        }
-
-        return (new Integer(src));
+    public int getItemsPerPage() {
+        return ITEMS_PER_PAGE;
     }
 }

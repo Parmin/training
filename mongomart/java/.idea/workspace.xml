@@ -56,10 +56,10 @@
       <file leaf-file-name="StoreController.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/controller/StoreController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="48" max-vertical-offset="1190">
-              <caret line="42" column="43" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="106" max-vertical-offset="1246">
+              <caret line="34" column="70" selection-start-line="34" selection-start-column="45" selection-end-line="34" selection-end-column="45" />
               <folding>
-                <element signature="e#1656#1662#0" expanded="true" />
+                <element signature="e#1502#1508#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,20 +84,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="item.ftl" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="item.ftl" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/item.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.826087" vertical-offset="1610" max-vertical-offset="2912">
-              <caret line="141" column="66" selection-start-line="141" selection-start-column="66" selection-end-line="141" selection-end-column="66" />
-              <folding />
+            <state vertical-scroll-proportion="0.6980609" vertical-offset="336" max-vertical-offset="2926">
+              <caret line="42" column="60" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="60" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nav.ftl" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="nav.ftl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/includes/nav.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.11332008" vertical-offset="211" max-vertical-offset="714">
+            <state vertical-scroll-proportion="-6.695652" vertical-offset="0" max-vertical-offset="714">
               <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
               <folding />
             </state>
@@ -107,8 +109,20 @@
       <file leaf-file-name="home.ftl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/home.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.869565" vertical-offset="658" max-vertical-offset="2114">
-              <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+            <state vertical-scroll-proportion="20.086956" vertical-offset="1050" max-vertical-offset="1988">
+              <caret line="42" column="34" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
+              <folding>
+                <element signature="n#style#0;n#div#2;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/config/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="294">
+              <caret line="11" column="32" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -117,26 +131,16 @@
       <file leaf-file-name="ItemDao.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/ItemDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1582">
-              <caret line="91" column="26" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="414" max-vertical-offset="1778">
+              <caret line="50" column="52" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="52" />
               <folding>
-                <element signature="e#2344#2354#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Review.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/model/Review.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="294" max-vertical-offset="1554">
-              <caret line="35" column="39" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2206#2207#0" expanded="true" />
-                <element signature="e#2231#2232#0" expanded="true" />
-                <element signature="e#2269#2270#0" expanded="true" />
-                <element signature="e#2297#2298#0" expanded="true" />
+                <element signature="e#1860#1861#0" expanded="true" />
+                <element signature="e#1905#1906#0" expanded="true" />
+                <element signature="e#2558#2559#0" expanded="true" />
+                <element signature="e#2627#2628#0" expanded="true" />
+                <element signature="e#3150#3160#0" expanded="true" />
+                <element signature="e#4452#4453#0" expanded="true" />
+                <element signature="e#4489#4490#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -156,17 +160,18 @@
         <option value="$PROJECT_DIR$/src/main/java/mongomart/MongoMart.java" />
         <option value="$PROJECT_DIR$/src/main/java/mongomart/model/Review.java" />
         <option value="$PROJECT_DIR$/src/main/java/mongomart/model/Item.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/freemarker/home.ftl" />
+        <option value="$PROJECT_DIR$/src/main/resources/freemarker/includes/nav.ftl" />
+        <option value="$PROJECT_DIR$/src/main/java/mongomart/config/Utils.java" />
         <option value="$PROJECT_DIR$/src/main/java/mongomart/dao/ItemDao.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/freemarker/home.ftl" />
         <option value="$PROJECT_DIR$/src/main/java/mongomart/controller/StoreController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/freemarker/item.ftl" />
-        <option value="$PROJECT_DIR$/src/main/resources/freemarker/includes/nav.ftl" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1" />
-    <option name="y" value="47" />
+    <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="873" />
   </component>
@@ -409,6 +414,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MongoMart" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mongomart" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -691,12 +726,12 @@
       <workItem from="1433997148518" duration="119000" />
       <workItem from="1433997268352" duration="241000" />
       <workItem from="1434037497514" duration="1598000" />
-      <workItem from="1434080578063" duration="8932000" />
+      <workItem from="1434080578063" duration="13607000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10890000" />
+    <option name="totallyTimeSpent" value="15565000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -719,7 +754,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="47" width="1440" height="873" extended-state="6" />
+    <frame x="1" y="23" width="1440" height="873" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -729,7 +764,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49551857" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2612036" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.44302177" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -739,8 +774,8 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2612036" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.44302177" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -766,7 +801,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/mongomart/controller/StoreController.java</url>
+          <line>63</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="5" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -803,7 +846,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="546" max-vertical-offset="924">
           <caret line="39" column="45" selection-start-line="39" selection-start-column="45" selection-end-line="39" selection-end-column="45" />
           <folding>
-            <element signature="e#1656#1662#0" expanded="true" />
+            <element signature="e#1502#1508#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -812,7 +855,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1008" max-vertical-offset="2884">
           <caret line="103" column="46" selection-start-line="103" selection-start-column="16" selection-end-line="103" selection-end-column="46" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -820,7 +865,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="282" max-vertical-offset="2156">
           <caret line="75" column="75" selection-start-line="75" selection-start-column="75" selection-end-line="75" selection-end-column="75" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -829,7 +876,13 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="588" max-vertical-offset="756">
           <caret line="42" column="9" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
           <folding>
-            <element signature="e#2344#2354#0" expanded="true" />
+            <element signature="e#1860#1861#0" expanded="true" />
+            <element signature="e#1905#1906#0" expanded="true" />
+            <element signature="e#2558#2559#0" expanded="true" />
+            <element signature="e#2627#2628#0" expanded="true" />
+            <element signature="e#3150#3160#0" expanded="true" />
+            <element signature="e#4452#4453#0" expanded="true" />
+            <element signature="e#4489#4490#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -880,6 +933,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/MongoMart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="64" max-vertical-offset="756">
+          <caret line="43" column="49" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/controller/AdminController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="406">
+          <caret line="20" column="42" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/includes/nav.ftl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.695652" vertical-offset="0" max-vertical-offset="714">
+          <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/config/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="294">
+          <caret line="11" column="32" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/model/Category.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="560">
@@ -897,63 +982,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/MongoMart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="64" max-vertical-offset="756">
-          <caret line="43" column="49" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/home.ftl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.869565" vertical-offset="658" max-vertical-offset="2114">
-          <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/controller/AdminController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="406">
-          <caret line="20" column="42" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/ItemDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1582">
-          <caret line="91" column="26" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="414" max-vertical-offset="1778">
+          <caret line="50" column="52" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="52" />
           <folding>
-            <element signature="e#2344#2354#0" expanded="true" />
+            <element signature="e#1860#1861#0" expanded="true" />
+            <element signature="e#1905#1906#0" expanded="true" />
+            <element signature="e#2558#2559#0" expanded="true" />
+            <element signature="e#2627#2628#0" expanded="true" />
+            <element signature="e#3150#3160#0" expanded="true" />
+            <element signature="e#4452#4453#0" expanded="true" />
+            <element signature="e#4489#4490#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/controller/StoreController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="48" max-vertical-offset="1190">
-          <caret line="42" column="43" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="106" max-vertical-offset="1246">
+          <caret line="34" column="70" selection-start-line="34" selection-start-column="45" selection-end-line="34" selection-end-column="45" />
           <folding>
-            <element signature="e#1656#1662#0" expanded="true" />
+            <element signature="e#1502#1508#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/home.ftl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="20.086956" vertical-offset="1050" max-vertical-offset="1988">
+          <caret line="42" column="34" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/item.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.826087" vertical-offset="1610" max-vertical-offset="2912">
-          <caret line="141" column="66" selection-start-line="141" selection-start-column="66" selection-end-line="141" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/includes/nav.ftl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.11332008" vertical-offset="211" max-vertical-offset="714">
-          <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
-          <folding />
+        <state vertical-scroll-proportion="0.6980609" vertical-offset="336" max-vertical-offset="2926">
+          <caret line="42" column="60" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="60" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
