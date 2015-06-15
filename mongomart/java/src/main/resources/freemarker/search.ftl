@@ -40,7 +40,8 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li><a href="/">Home</a></li>
-                <li class="active">${category_param}</li>
+                <li>Search</li>
+                <li class="active">"${query_string}"</li>
             </ol>
         </div>
     </div>
@@ -48,49 +49,42 @@
 
     <div class="row">
 
-        <div class="col-md-2">
-            <div class="list-group">
-                <#list categories as category>
-                    <a href="/?category=${category.name}" class="list-group-item <#if category_param == category.name>active</#if>"><span class="badge">${category.num_items}</span>${category.name}</a>
-                </#list>
-            </div>
-        </div>
 
-        <div class="col-md-10">
+        <div class="col-md-12">
 
 
-            <#list items as item>
+        <#list items as item>
 
-                <!-- Project One -->
-                <div class="row">
-                    <div class="col-md-7">
-                        <a href="store/item.html">
-                            <img class="img-responsive" src="${item.img_url}" alt="">
-                        </a>
-                    </div>
-                    <div class="col-md-5">
-                        <h3>${item.title}</h3>
-                        <h4>${item.slogan}</h4>
-                        <p>${item.description}</p>
-                        <a class="btn btn-primary" href="/item?id=${item.id}">View Product <span class="glyphicon glyphicon-chevron-right"></span></a>
-                    </div>
+            <!-- Project One -->
+            <div class="row">
+                <div class="col-md-7">
+                    <a href="store/item.html">
+                        <img class="img-responsive" src="${item.img_url}" alt="">
+                    </a>
                 </div>
-                <!-- /.row -->
+                <div class="col-md-5">
+                    <h3>${item.title}</h3>
+                    <h4>${item.slogan}</h4>
+                    <p>${item.description}</p>
+                    <a class="btn btn-primary" href="/item?id=${item.id}">View Product <span class="glyphicon glyphicon-chevron-right"></span></a>
+                </div>
+            </div>
+            <!-- /.row -->
 
-                <hr>
+            <hr>
 
-            </#list>
+        </#list>
 
 
             <!-- Pagination -->
             <div class="row text-center">
                 <div class="col-lg-12">
                     <ul class="pagination">
-                        <#list 0..num_pages as i>
-                            <li <#if page == (i)>class="active"</#if>>
-                                <a href="/?page=${i}&category=${category_param}">${i+1}</a>
-                            </li>
-                        </#list>
+                    <#list 0..num_pages as i>
+                        <li <#if page == (i)>class="active"</#if>>
+                            <a href="/?page=${i}&query=${query_string}">${i+1}</a>
+                        </li>
+                    </#list>
                     </ul>
                 </div>
             </div>

@@ -86,6 +86,29 @@ public class ItemDao {
         return itemCollection.count(eq("category", category));
     }
 
+    // Index needed:
+    // db.item.createIndex( { "title" : "text", "slogan" : "text", "description" : "text" } )
+    public ArrayList<Item> textSearch(String query_str, String page_str) {
+        ArrayList<Item> items = new ArrayList<>();
+        int page = Utils.getIntFromString(page_str);
+
+        MongoCursor<Item> cursor = itemCollection.find(new Document("$text", new Document("$search", query_str)))
+                .skip(ITEMS_PER_PAGE * page)
+                .limit(ITEMS_PER_PAGE)
+                .iterator();
+        while (cursor.hasNext()) {
+            items.add(cursor.next());
+        }
+
+        return items;
+    }
+
+    // Index needed:
+    // db.item.createIndex( { "title" : "text", "slogan" : "text", "description" : "text" } )
+    public long textSearchCount(String query_str) {
+        return itemCollection.count(new Document("$text", new Document("$search", query_str)));
+    }
+
     public ArrayList<Category> getCategoriesAndNumProducts() {
         ArrayList<Category> categories = new ArrayList<>();
 
@@ -104,7 +127,6 @@ public class ItemDao {
         while (cursor.hasNext()) {
             Document resultDoc = cursor.next();
             Category category = new Category(resultDoc.getString("_id"), resultDoc.getInteger("num"));
-            System.out.println("Category: " + resultDoc.getString("_id") + ", num:" + resultDoc.getInteger("num"));
             categories.add(category);
             total_count += resultDoc.getInteger("num");
         }

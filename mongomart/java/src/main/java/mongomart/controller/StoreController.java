@@ -91,5 +91,30 @@ public class StoreController {
             return null;
         }, new FreeMarkerEngine(cfg));
 
+
+        get("/search", (request, response) -> {
+            String query = request.queryParams("query");
+            String page = request.queryParams("page");
+
+            ArrayList<Item> items = itemDao.textSearch(query, page);
+            long itemCount = itemDao.textSearchCount(query);
+
+            int num_pages = 0;
+            if (itemCount > itemDao.getItemsPerPage()) {
+                num_pages = (int)Math.ceil(itemCount / itemDao.getItemsPerPage());
+            }
+
+            HashMap<String, Object> attributes = new HashMap<String, Object>();
+            attributes.put("items", items);
+            attributes.put("item_count", itemCount);
+            attributes.put("query_string", query);
+            attributes.put("page", Utils.getIntFromString(page));
+            attributes.put("num_pages", num_pages);
+
+            // The hello.ftl file is located in directory:
+            // src/test/resources/spark/template/freemarker
+            return new ModelAndView(attributes, "search.ftl");
+        }, new FreeMarkerEngine(cfg));
+
     }
 }

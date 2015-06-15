@@ -21,13 +21,13 @@
                     <a href="#">Locations</a>
                 </li>
                 <li>
-                    <a href="/admin"><strong>Admin Panel</strong></a>
+                    <a href="#"><strong>Admin Panel</strong></a>
                 </li>
             </ul>
             <div class="collapse navbar-collapse">
-                <form class="navbar-form navbar-right" role="search">
+                <form class="navbar-form navbar-right" role="search" action="search">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                        <input type="text" class="form-control" name="query" placeholder="Search">
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
                     <button type="button" class="btn btn-success">
