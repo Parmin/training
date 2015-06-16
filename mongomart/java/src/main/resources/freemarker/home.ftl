@@ -64,12 +64,12 @@
                 <!-- Project One -->
                 <div class="row">
                     <div class="col-md-7">
-                        <a href="store/item.html">
+                        <a href="/item?id=${item.id}">
                             <img class="img-responsive" src="${item.img_url}" alt="">
                         </a>
                     </div>
                     <div class="col-md-5">
-                        <h3>${item.title}</h3>
+                        <h3><a href="/item?id=${item.id}">${item.title}</a></h3>
                         <h4>${item.slogan}</h4>
                         <p>${item.description}</p>
                         <a class="btn btn-primary" href="/item?id=${item.id}">View Product <span class="glyphicon glyphicon-chevron-right"></span></a>

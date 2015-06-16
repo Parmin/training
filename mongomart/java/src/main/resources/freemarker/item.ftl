@@ -87,7 +87,7 @@
                     ${item.description}
                 </p>
 
-                <a class="btn btn-primary" href="#">Add to cart <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="btn btn-primary" href="/cart/add?itemid=${item.id}">Add to cart <span class="glyphicon glyphicon-chevron-right"></span></a>
 
             </div>
 

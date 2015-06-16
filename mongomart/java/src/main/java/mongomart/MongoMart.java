@@ -5,7 +5,9 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
 import freemarker.template.Configuration;
 import mongomart.controller.AdminController;
+import mongomart.controller.CartController;
 import mongomart.controller.StoreController;
+import mongomart.model.Cart;
 import mongomart.model.Item;
 import mongomart.model.Review;
 import org.bson.Document;
@@ -37,11 +39,13 @@ public class MongoMart {
         Codec<Document> defaultDocumentCodec = MongoClient.getDefaultCodecRegistry().get(Document.class);
         Item item = new Item(defaultDocumentCodec);
         Review review = new Review(defaultDocumentCodec);
+        Cart cart = new Cart(defaultDocumentCodec);
 
         CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
                 MongoClient.getDefaultCodecRegistry(),
                 CodecRegistries.fromCodecs(item),
-                CodecRegistries.fromCodecs(review)
+                CodecRegistries.fromCodecs(review),
+                CodecRegistries.fromCodecs(cart)
         );
 
         final MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoURIString));
@@ -53,6 +57,7 @@ public class MongoMart {
         staticFileLocation("/assets");
         AdminController adminController = new AdminController(cfg, itemDatabase);
         StoreController storeController = new StoreController(cfg, itemDatabase);
+        CartController cartController = new CartController(cfg, itemDatabase);
 
     }
 

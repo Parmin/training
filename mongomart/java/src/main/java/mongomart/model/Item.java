@@ -19,6 +19,7 @@ public class Item implements CollectibleCodec<Item> {
     String img_url;
     String slogan;
     List<Review> reviews;
+    int quantity;
 
     private Codec<Document> itemCodec;
 
@@ -41,6 +42,7 @@ public class Item implements CollectibleCodec<Item> {
         document.append("stars", value.stars);
         document.append("img_url", value.img_url);
         document.append("slogan", value.slogan);
+        document.append("quantity", value.quantity);
         itemCodec.encode(writer, document, encoderContext);
     }
 
@@ -57,6 +59,9 @@ public class Item implements CollectibleCodec<Item> {
         item.setStars(document.getInteger("stars"));
         item.setImg_url(document.getString("img_url"));
         item.setSlogan(document.getString("slogan"));
+        if (document.containsKey("quantity")) {
+            item.setQuantity(document.getInteger("quantity"));
+        }
         if (document.containsKey("reviews") && document.get("reviews") instanceof List) {
             List<Review> reviews = new ArrayList<>();
             List<Document> reviewsList = (List<Document>)document.get("reviews");
@@ -109,6 +114,13 @@ public class Item implements CollectibleCodec<Item> {
         }
 
         return new BsonInt32(item.getId());
+    }
+
+    // trim extra fields for adding to a users cart
+    public void optimizeForCart() {
+        description = null;
+        slogan = null;
+        reviews = null;
     }
 
     public int getId() {
@@ -181,6 +193,14 @@ public class Item implements CollectibleCodec<Item> {
 
     public void setSlogan(String slogan) {
         this.slogan = slogan;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public void populateDummyValues() {

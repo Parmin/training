@@ -25,14 +25,16 @@
                 </li>
             </ul>
             <div class="collapse navbar-collapse">
-                <form class="navbar-form navbar-right" role="search" action="search">
+                <form class="navbar-form navbar-right" role="search" action="/search">
                     <div class="form-group">
                         <input type="text" class="form-control" name="query" placeholder="Search">
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
-                    <button type="button" class="btn btn-success">
-                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Cart (0)
-                    </button>
+                    <a href="/cart">
+                        <button type="button" class="btn btn-success">
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Cart
+                        </button>
+                    </a>
                 </form>
 
             </div>
