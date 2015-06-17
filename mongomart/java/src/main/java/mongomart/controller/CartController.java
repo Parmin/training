@@ -15,26 +15,41 @@ import java.util.HashMap;
 import static spark.Spark.get;
 
 /**
- * Created by jason on 6/15/15.
+ * MongoMart shopping cart controller
+ *
+ * Provide functionality to:
+ *      - Add items to a cart
+ *      - Remove items from a cart
+ *      - Update quantities in a cart
  */
 public class CartController {
-    public final String USERID = "558098a65133816958968d88"; // hardcoded userid
+    // Harcoded userid, only one user currently allwoed in the system
+    public final String USERID = "558098a65133816958968d88";
 
+    /**
+     * Create cart routes
+     *
+     * @param cfg
+     * @param mongoMartDatabase
+     */
     public CartController(Configuration cfg, MongoDatabase mongoMartDatabase) {
 
         CartDao cartDao = new CartDao(mongoMartDatabase);
         ItemDao itemDao = new ItemDao(mongoMartDatabase);
 
+        // View cart
         get("/cart", (request, response) -> {
             Cart cart = cartDao.getCart(USERID);
 
-            HashMap<String, Object> attributes = new HashMap<String, Object>();
+            HashMap<String, Object> attributes = new HashMap<>();
             attributes.put("cart", cart);
             attributes.put("total", calculateCartTotal(cart));
 
             return new ModelAndView(attributes, "cart.ftl");
         }, new FreeMarkerEngine(cfg));
 
+        // Update quantities in a cart
+        // Specifying a quantity of 0 means remove items from the cart
         get("/cart/update", (request, response) -> {
             String itemid = request.queryParams("itemid");
             String quantity = request.queryParams("quantity");
@@ -42,7 +57,6 @@ public class CartController {
             cartDao.updateQuantity(Utils.getIntFromString(itemid), Utils.getIntFromString(quantity), USERID);
             Cart cart = cartDao.getCart(USERID);
 
-            // update cart here
             HashMap<String, Object> attributes = new HashMap<String, Object>();
             attributes.put("cart", cart);
             attributes.put("updated", true);
@@ -50,8 +64,11 @@ public class CartController {
             return new ModelAndView(attributes, "cart.ftl");
         }, new FreeMarkerEngine(cfg));
 
+        // Add a new item to the user's cart
         get("/cart/add", (request, response) -> {
+            // itemid to add
             String itemid = request.queryParams("itemid");
+            // Lookup item information, to add title, img_url, etc. to cart
             Item item = itemDao.getItem(Utils.getIntFromString(itemid));
             item.setQuantity(1);
             cartDao.addToCart(item, USERID);
@@ -63,13 +80,17 @@ public class CartController {
             attributes.put("updated", true);
             attributes.put("total", calculateCartTotal(cart));
 
-            // The hello.ftl file is located in directory:
-            // src/test/resources/spark/template/freemarker
             return new ModelAndView(attributes, "cart.ftl");
         }, new FreeMarkerEngine(cfg));
 
     }
 
+    /**
+     * Helper method to calculate a cart's total
+     *
+     * @param cart
+     * @return
+     */
     private double calculateCartTotal(Cart cart) {
         double total = 0.0;
         for (Item item : cart.getItems()) {

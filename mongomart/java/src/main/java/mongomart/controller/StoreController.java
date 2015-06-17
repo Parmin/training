@@ -15,31 +15,26 @@ import java.util.HashMap;
 import static spark.Spark.get;
 
 /**
- * Created by jason on 6/9/15.
+ * MongoMart store/item controller
+ *
+ * Provide functionality to:
+ *      - View an item
+ *      - View items in a category
+ *      - Add a review
+ *      - Text search for items
  */
 public class StoreController {
 
+    /**
+     *
+     * @param cfg
+     * @param itemDatabase
+     */
     public StoreController(Configuration cfg, MongoDatabase itemDatabase) {
 
         ItemDao itemDao = new ItemDao(itemDatabase);
 
-        get("/item", (request, response) -> {
-            String itemid = request.queryParams("id");
-
-            Item item = itemDao.getItem(new Integer(itemid));
-
-            ArrayList<Item> related_items = itemDao.getItems("0");
-
-            HashMap<String, Object> attributes = new HashMap<String, Object>();
-            attributes.put("item", item);
-            attributes.put("itemid", itemid);
-            attributes.put("related_items", related_items.subList(0, 4));
-
-            // The hello.ftl file is located in directory:
-            // src/test/resources/spark/template/freemarker
-            return new ModelAndView(attributes, "item.ftl");
-        }, new FreeMarkerEngine(cfg));
-
+        // Homepage and category search
         get("/", (request, response) -> {
             String category = request.queryParams("category");
             String page = request.queryParams("page");
@@ -53,18 +48,20 @@ public class StoreController {
                 items = itemDao.getItemsByCategory(category, page);
                 itemCount = itemDao.getItemsByCategoryCount(category);
             }
+            // Else show all items
             else {
                 items = itemDao.getItems(page);
                 itemCount = itemDao.getItemsCount();
                 category = "All";
             }
 
+            // Determine the number of pages to display in the UI (pagination)
             int num_pages = 0;
             if (itemCount > itemDao.getItemsPerPage()) {
                 num_pages = (int)Math.ceil(itemCount / itemDao.getItemsPerPage());
             }
 
-            HashMap<String, Object> attributes = new HashMap<String, Object>();
+            HashMap<String, Object> attributes = new HashMap<>();
             attributes.put("items", items);
             attributes.put("item_count", itemCount);
             attributes.put("categories", categories);
@@ -72,11 +69,26 @@ public class StoreController {
             attributes.put("page", Utils.getIntFromString(page));
             attributes.put("num_pages", num_pages);
 
-            // The hello.ftl file is located in directory:
-            // src/test/resources/spark/template/freemarker
             return new ModelAndView(attributes, "home.ftl");
         }, new FreeMarkerEngine(cfg));
 
+        // View an item
+        get("/item", (request, response) -> {
+            String itemid = request.queryParams("id");
+
+            Item item = itemDao.getItem(new Integer(itemid));
+            // Related items are just the first 5 items starting on page 0
+            ArrayList<Item> related_items = itemDao.getItems("0");
+
+            HashMap<String, Object> attributes = new HashMap<String, Object>();
+            attributes.put("item", item);
+            attributes.put("itemid", itemid);
+            attributes.put("related_items", related_items.subList(0, 4));
+
+            return new ModelAndView(attributes, "item.ftl");
+        }, new FreeMarkerEngine(cfg));
+
+        // Add a review for an item
         get("/add-review", (request, response) -> {
             String itemid = request.queryParams("itemid");
             String review = request.queryParams("review");
@@ -91,7 +103,7 @@ public class StoreController {
             return null;
         }, new FreeMarkerEngine(cfg));
 
-
+        // Text search for an item, requires a text index
         get("/search", (request, response) -> {
             String query = request.queryParams("query");
             String page = request.queryParams("page");
@@ -99,20 +111,19 @@ public class StoreController {
             ArrayList<Item> items = itemDao.textSearch(query, page);
             long itemCount = itemDao.textSearchCount(query);
 
+            // Determine the number of pages to display in the UI (pagination)
             int num_pages = 0;
             if (itemCount > itemDao.getItemsPerPage()) {
                 num_pages = (int)Math.ceil(itemCount / itemDao.getItemsPerPage());
             }
 
-            HashMap<String, Object> attributes = new HashMap<String, Object>();
+            HashMap<String, Object> attributes = new HashMap<>();
             attributes.put("items", items);
             attributes.put("item_count", itemCount);
             attributes.put("query_string", query);
             attributes.put("page", Utils.getIntFromString(page));
             attributes.put("num_pages", num_pages);
 
-            // The hello.ftl file is located in directory:
-            // src/test/resources/spark/template/freemarker
             return new ModelAndView(attributes, "search.ftl");
         }, new FreeMarkerEngine(cfg));
 

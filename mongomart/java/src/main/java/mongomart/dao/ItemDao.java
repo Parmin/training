@@ -16,17 +16,28 @@ import java.util.List;
 import static com.mongodb.client.model.Filters.eq;
 
 /**
- * Created by jason on 6/9/15.
+ * All database access to the "item" collection
  */
 public class ItemDao {
+    // Used for pagination
     private static final int ITEMS_PER_PAGE = 5;
 
     private final MongoCollection<Item> itemCollection;
 
+    /**
+     *
+     * @param mongoMartDatabase
+     */
     public ItemDao(final MongoDatabase mongoMartDatabase) {
         itemCollection = mongoMartDatabase.getCollection("item", Item.class);
     }
 
+    /**
+     * Get an Item by id
+     *
+     * @param id
+     * @return
+     */
     public Item getItem(int id) {
         Item item = itemCollection.find(eq("_id", id)).first();
 
@@ -48,6 +59,12 @@ public class ItemDao {
         return item;
     }
 
+    /**
+     * Get items by page number
+     *
+     * @param page_str
+     * @return
+     */
     public ArrayList<Item> getItems(String page_str) {
         ArrayList<Item> items = new ArrayList<>();
         int page = Utils.getIntFromString(page_str);
@@ -63,10 +80,22 @@ public class ItemDao {
         return items;
     }
 
+    /**
+     * Get number of items, useful for pagination
+     *
+     * @return
+     */
     public long getItemsCount() {
         return itemCollection.count();
     }
 
+    /**
+     * Get items by category, and page (starting at 0)
+     *
+     * @param category
+     * @param page_str
+     * @return
+     */
     public ArrayList<Item> getItemsByCategory(String category, String page_str) {
         ArrayList<Item> items = new ArrayList<>();
         int page = Utils.getIntFromString(page_str);
@@ -82,12 +111,24 @@ public class ItemDao {
         return items;
     }
 
+    /**
+     * Get number of items in a category, useful for pagination
+     *
+     * @param category
+     * @return
+     */
     public long getItemsByCategoryCount(String category) {
         return itemCollection.count(eq("category", category));
     }
 
-    // Index needed:
-    // db.item.createIndex( { "title" : "text", "slogan" : "text", "description" : "text" } )
+    /**
+     * Text search, requires the index:
+     *      db.item.createIndex( { "title" : "text", "slogan" : "text", "description" : "text" } )
+     *
+     * @param query_str
+     * @param page_str
+     * @return
+     */
     public ArrayList<Item> textSearch(String query_str, String page_str) {
         ArrayList<Item> items = new ArrayList<>();
         int page = Utils.getIntFromString(page_str);
@@ -103,12 +144,21 @@ public class ItemDao {
         return items;
     }
 
-    // Index needed:
-    // db.item.createIndex( { "title" : "text", "slogan" : "text", "description" : "text" } )
+    /**
+     * Get count for text search results, useful for pagination
+     *
+     * @param query_str
+     * @return
+     */
     public long textSearchCount(String query_str) {
         return itemCollection.count(new Document("$text", new Document("$search", query_str)));
     }
 
+    /**
+     * Use aggregation to get a count of the number of products in each category
+     *
+     * @return
+     */
     public ArrayList<Category> getCategoriesAndNumProducts() {
         ArrayList<Category> categories = new ArrayList<>();
 
@@ -131,11 +181,20 @@ public class ItemDao {
             total_count += resultDoc.getInteger("num");
         }
 
+        // All category to display at the top of the category list
         categories.add(0, new Category("All", total_count));
 
         return categories;
     }
 
+    /**
+     * Add a review to an item
+     *
+     * @param itemid
+     * @param review_text
+     * @param name
+     * @param stars
+     */
     public void addReview(String itemid, String review_text, String name, String stars) {
         Review review = new Review();
         review.setComment(review_text);
@@ -150,6 +209,11 @@ public class ItemDao {
         itemCollection.updateOne(eq("_id", itemdid_int), pushUpdate);
     }
 
+    /**
+     * Return the constant ITEMS_PER_PAGE
+     *
+     * @return
+     */
     public int getItemsPerPage() {
         return ITEMS_PER_PAGE;
     }

@@ -1,7 +1,7 @@
 package mongomart.model;
 
 /**
- * Created by jason on 6/12/15.
+ * Category model object
  */
 public class Category {
     String name;

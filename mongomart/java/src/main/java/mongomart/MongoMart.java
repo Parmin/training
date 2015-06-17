@@ -21,10 +21,22 @@ import static spark.SparkBase.port;
 import static spark.SparkBase.staticFileLocation;
 
 /**
- * Created by jason on 6/9/15.
+ * Main MongoMart class
+ *
+ * To run:
+ *      Ensure the dataset from data/ has been imported to your MongoDB instance (instructions located in README.md)
+ *      Run the main method below
+ *      Open http://localhost:8080
  */
 public class MongoMart {
     public static final int HTTP_PORT = 8080;  // HTTP port to listen for requests on
+
+    /**
+     * Main method for MongoMart application
+     *
+     * @param args
+     * @throws IOException
+     */
 
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
@@ -35,12 +47,22 @@ public class MongoMart {
         }
     }
 
+    /**
+     * Create an instance of MongoMart
+     *
+     * @param mongoURIString
+     * @throws IOException
+     */
+
     public MongoMart(String mongoURIString) throws IOException {
+
+        // Create default codec registry and add additional codecs
         Codec<Document> defaultDocumentCodec = MongoClient.getDefaultCodecRegistry().get(Document.class);
         Item item = new Item(defaultDocumentCodec);
         Review review = new Review(defaultDocumentCodec);
         Cart cart = new Cart(defaultDocumentCodec);
 
+        // Register Item, Review, and Cart codecs, as well as the default codec for Documents
         CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
                 MongoClient.getDefaultCodecRegistry(),
                 CodecRegistries.fromCodecs(item),
@@ -48,19 +70,27 @@ public class MongoMart {
                 CodecRegistries.fromCodecs(cart)
         );
 
+        // Create MongoDB connection
         final MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoURIString));
         final MongoDatabase itemDatabase = mongoClient.getDatabase("mongomart").withCodecRegistry(codecRegistry);
 
+        // Freemarker configuration
         final Configuration cfg = createFreemarkerConfiguration();
 
         port(HTTP_PORT);
         staticFileLocation("/assets");
+
+        // Start controllers
         AdminController adminController = new AdminController(cfg, itemDatabase);
         StoreController storeController = new StoreController(cfg, itemDatabase);
         CartController cartController = new CartController(cfg, itemDatabase);
 
     }
 
+    /**
+     *
+     * @return
+     */
     private Configuration createFreemarkerConfiguration() {
         Configuration retVal = new Configuration();
         retVal.setClassForTemplateLoading(MongoMart.class, "/freemarker");

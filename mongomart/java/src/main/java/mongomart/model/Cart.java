@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by jason on 6/16/15.
+ * Cart Model object
  */
 public class Cart  implements CollectibleCodec<Cart> {
     ObjectId id;
@@ -81,7 +81,7 @@ public class Cart  implements CollectibleCodec<Cart> {
             cart.setItems(items);
         }
         else {
-            cart.setItems(new ArrayList<Item>());
+            cart.setItems(new ArrayList<>());
         }
 
         return cart;

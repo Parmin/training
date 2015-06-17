@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jason on 6/9/15.
+ * Item model object
  */
 public class Item implements CollectibleCodec<Item> {
     int id = 0;
@@ -78,7 +78,7 @@ public class Item implements CollectibleCodec<Item> {
             item.setReviews(reviews);
         }
         else {
-            item.setReviews(new ArrayList<Review>());
+            item.setReviews(new ArrayList<>());
         }
 
         return item;

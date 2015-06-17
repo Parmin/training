@@ -1,7 +1,7 @@
 package mongomart.config;
 
 /**
- * Created by jason on 6/15/15.
+ * Simple utility functions to be used through MongoMart application
  */
 public class Utils {
     public static int getIntFromString(String src) {

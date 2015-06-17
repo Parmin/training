@@ -7,7 +7,7 @@ import org.bson.types.ObjectId;
 import java.util.Date;
 
 /**
- * Created by jason on 6/9/15.
+ * Review model object
  */
 public class Review implements CollectibleCodec<Review> {
     ObjectId id;
