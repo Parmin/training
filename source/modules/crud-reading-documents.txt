@@ -481,19 +481,20 @@ Example: Using ``distinct()``
                               { "title" : "Jaws", "rating" : 8 } ] )
    db.movie_reviews.distinct( "title" )
 
-   .. only:: instructor
 
-      .. note::
+.. only:: instructor
 
-         Returns
+  .. note::
 
-	 .. code-block:: javascript
+    Returns
 
-            {
-                "values" : [ "Jaws", "Home Alone" ],
-                "stats" : { ... },
-                "ok" : 1
-            }
+    .. code-block:: javascript
+
+      {
+          "values" : [ "Jaws", "Home Alone" ],
+          "stats" : { ... },
+          "ok" : 1
+      }
 
 .. include:: /includes/student-notes.rst
 
