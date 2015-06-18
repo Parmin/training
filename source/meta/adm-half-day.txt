@@ -1,0 +1,11 @@
+:orphan:
+
+=======================================
+MongoDB Advanced Data Modeling Workshop
+=======================================
+
+.. toctree::
+
+   /modules/nav/schema-design
+
+

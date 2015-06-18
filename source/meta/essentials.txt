@@ -10,7 +10,7 @@ MongoDB Essentials Training
    /modules/nav/crud
    /modules/nav/indexes
    /modules/nav/aggregation
-   /modules/nav/schema-design
+   /modules/nav/schema-design-essentials
    /modules/nav/replica-sets
    /modules/nav/sharding
    /modules/nav/security-essentials

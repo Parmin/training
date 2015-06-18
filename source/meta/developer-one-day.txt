@@ -8,7 +8,9 @@ MongoDB Developer Fundamentals
 
    /modules/nav/introduction
    /modules/nav/crud-dev-one-day
-   /modules/nav/indexes-dev
-   /modules/nav/replica-sets
-   /modules/nav/sharding
+   /modules/nav/indexes-dev-one-day
+   /modules/nav/aggregation-dev-one-day
+   /modules/nav/schema-design-essentials
+   /modules/nav/replica-sets-dev-one-day
+   /modules/nav/sharding-dev
 
