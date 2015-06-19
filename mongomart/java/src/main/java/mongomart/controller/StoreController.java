@@ -11,6 +11,7 @@ import spark.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static spark.Spark.get;
 
@@ -39,7 +40,7 @@ public class StoreController {
             String category = request.queryParams("category");
             String page = request.queryParams("page");
 
-            ArrayList<Item> items = new ArrayList<Item>();
+            List<Item> items = new ArrayList<>();
             ArrayList<Category> categories = itemDao.getCategoriesAndNumProducts();
             long itemCount = 0;
 
@@ -75,16 +76,7 @@ public class StoreController {
         // View an item
         get("/item", (request, response) -> {
             String itemid = request.queryParams("id");
-
-            Item item = itemDao.getItem(new Integer(itemid));
-            // Related items are just the first 5 items starting on page 0
-            ArrayList<Item> related_items = itemDao.getItems("0");
-
-            HashMap<String, Object> attributes = new HashMap<String, Object>();
-            attributes.put("item", item);
-            attributes.put("itemid", itemid);
-            attributes.put("related_items", related_items.subList(0, 4));
-
+            HashMap<String, Object> attributes = buildItemResponse(itemid, itemDao);
             return new ModelAndView(attributes, "item.ftl");
         }, new FreeMarkerEngine(cfg));
 
@@ -97,10 +89,8 @@ public class StoreController {
 
             itemDao.addReview(itemid, review, name, stars);
 
-            response.redirect("/item?id=" + itemid);
-
-            // spark hack, can never get to this point
-            return null;
+            HashMap<String, Object> attributes = buildItemResponse(itemid, itemDao);
+            return new ModelAndView(attributes, "item.ftl");
         }, new FreeMarkerEngine(cfg));
 
         // Text search for an item, requires a text index
@@ -108,7 +98,7 @@ public class StoreController {
             String query = request.queryParams("query");
             String page = request.queryParams("page");
 
-            ArrayList<Item> items = itemDao.textSearch(query, page);
+            List<Item> items = itemDao.textSearch(query, page);
             long itemCount = itemDao.textSearchCount(query);
 
             // Determine the number of pages to display in the UI (pagination)
@@ -127,5 +117,23 @@ public class StoreController {
             return new ModelAndView(attributes, "search.ftl");
         }, new FreeMarkerEngine(cfg));
 
+    }
+
+    /**
+     * Construct the necessary UI attributes to render an Item page
+     *
+     * @param itemid
+     * @param itemDao
+     * @return
+     */
+    private HashMap<String, Object> buildItemResponse(String itemid, ItemDao itemDao) {
+        List<Item> related_items = itemDao.getItems("0");
+        Item item = itemDao.getItem(new Integer(itemid));
+
+        HashMap<String, Object> attributes = new HashMap<>();
+        attributes.put("item", item);
+        attributes.put("itemid", itemid);
+        attributes.put("related_items", related_items.subList(0, 4));
+        return attributes;
     }
 }

@@ -82,7 +82,7 @@
                     <ul class="pagination">
                     <#list 0..num_pages as i>
                         <li <#if page == (i)>class="active"</#if>>
-                            <a href="/?page=${i}&query=${query_string}">${i+1}</a>
+                            <a href="/search?page=${i}&query=${query_string}">${i+1}</a>
                         </li>
                     </#list>
                     </ul>

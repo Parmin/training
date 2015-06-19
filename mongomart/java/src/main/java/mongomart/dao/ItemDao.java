@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.text;
 
 /**
  * All database access to the "item" collection
@@ -22,14 +23,14 @@ public class ItemDao {
     // Used for pagination
     private static final int ITEMS_PER_PAGE = 5;
 
-    private final MongoCollection<Item> itemCollection;
+    private final MongoCollection<Document> itemCollection;
 
     /**
      *
      * @param mongoMartDatabase
      */
     public ItemDao(final MongoDatabase mongoMartDatabase) {
-        itemCollection = mongoMartDatabase.getCollection("item", Item.class);
+        itemCollection = mongoMartDatabase.getCollection("item");
     }
 
     /**
@@ -39,7 +40,10 @@ public class ItemDao {
      * @return
      */
     public Item getItem(int id) {
-        Item item = itemCollection.find(eq("_id", id)).first();
+        Document itemDoc = itemCollection.find(eq("_id", id)).first();
+
+        // Map document to Item class
+        Item item = docToItem(itemDoc);
 
         // get average number of stars
         if (item.getReviews() != null) {
@@ -65,19 +69,15 @@ public class ItemDao {
      * @param page_str
      * @return
      */
-    public ArrayList<Item> getItems(String page_str) {
-        ArrayList<Item> items = new ArrayList<>();
+    public List<Item> getItems(String page_str) {
         int page = Utils.getIntFromString(page_str);
 
-        MongoCursor<Item> cursor = itemCollection.find()
-                                                 .skip(ITEMS_PER_PAGE * page)
-                                                 .limit(ITEMS_PER_PAGE)
-                                                 .iterator();
-        while (cursor.hasNext()) {
-            items.add(cursor.next());
-        }
+        List<Document> documents = itemCollection.find()
+                                        .skip(ITEMS_PER_PAGE * page)
+                                        .limit(ITEMS_PER_PAGE)
+                                        .into(new ArrayList<>());
 
-        return items;
+        return docToItem(documents);
     }
 
     /**
@@ -96,19 +96,16 @@ public class ItemDao {
      * @param page_str
      * @return
      */
-    public ArrayList<Item> getItemsByCategory(String category, String page_str) {
+    public List<Item> getItemsByCategory(String category, String page_str) {
         ArrayList<Item> items = new ArrayList<>();
         int page = Utils.getIntFromString(page_str);
 
-        MongoCursor<Item> cursor = itemCollection.find(eq("category", category))
-                                                 .skip(ITEMS_PER_PAGE * page)
-                                                 .limit(ITEMS_PER_PAGE)
-                                                 .iterator();
-        while (cursor.hasNext()) {
-            items.add(cursor.next());
-        }
+        List<Document> documents = itemCollection.find(eq("category", category))
+                                     .skip(ITEMS_PER_PAGE * page)
+                                     .limit(ITEMS_PER_PAGE)
+                                     .into(new ArrayList<>());
 
-        return items;
+        return docToItem(documents);
     }
 
     /**
@@ -129,19 +126,16 @@ public class ItemDao {
      * @param page_str
      * @return
      */
-    public ArrayList<Item> textSearch(String query_str, String page_str) {
+    public List<Item> textSearch(String query_str, String page_str) {
         ArrayList<Item> items = new ArrayList<>();
         int page = Utils.getIntFromString(page_str);
 
-        MongoCursor<Item> cursor = itemCollection.find(new Document("$text", new Document("$search", query_str)))
+        List<Document> documents = itemCollection.find(text(query_str))
                 .skip(ITEMS_PER_PAGE * page)
                 .limit(ITEMS_PER_PAGE)
-                .iterator();
-        while (cursor.hasNext()) {
-            items.add(cursor.next());
-        }
+                .into(new ArrayList<>());
 
-        return items;
+        return docToItem(documents);
     }
 
     /**
@@ -151,7 +145,7 @@ public class ItemDao {
      * @return
      */
     public long textSearchCount(String query_str) {
-        return itemCollection.count(new Document("$text", new Document("$search", query_str)));
+        return itemCollection.count(text(query_str));
     }
 
     /**
@@ -204,7 +198,7 @@ public class ItemDao {
 
         int itemdid_int = Utils.getIntFromString(itemid);
 
-        Document pushUpdate = new Document( "$push", new Document("reviews", review));
+        Document pushUpdate = new Document( "$push", new Document("reviews", reviewToDoc(review)));
 
         itemCollection.updateOne(eq("_id", itemdid_int), pushUpdate);
     }
@@ -216,5 +210,78 @@ public class ItemDao {
      */
     public int getItemsPerPage() {
         return ITEMS_PER_PAGE;
+    }
+
+    /**
+     * Map a list of documents to a list of Items
+     *
+     * @param documents
+     * @return
+     */
+    private List<Item> docToItem(List<Document> documents) {
+        List<Item> returnValue = new ArrayList<Item>();
+
+        for (Document document : documents) {
+            returnValue.add(docToItem(document));
+        }
+
+        return returnValue;
+    }
+
+    /**
+     * Map a document to an Item
+     *
+     * @param document
+     * @return
+     */
+    private Item docToItem(Document document) {
+        Item item = new Item();
+        item.setId(document.getInteger("_id"));
+        item.setTitle(document.getString("title"));
+        item.setDescription(document.getString("description"));
+        item.setCategory(document.getString("category"));
+        item.setPrice(document.getDouble("price"));
+        item.setStars(document.getInteger("stars"));
+        item.setImg_url(document.getString("img_url"));
+        item.setSlogan(document.getString("slogan"));
+        if (document.containsKey("quantity")) {
+            item.setQuantity(document.getInteger("quantity"));
+        }
+        if (document.containsKey("reviews") && document.get("reviews") instanceof List) {
+            List<Review> reviews = new ArrayList<>();
+            List<Document> reviewsList = (List<Document>)document.get("reviews");
+
+            for (Document reviewDoc : reviewsList) {
+                Review review = new Review();
+                review.setComment(reviewDoc.getString("comment"));
+                review.setName(reviewDoc.getString("name"));
+                review.setStars(reviewDoc.getInteger("stars"));
+                review.setDate(reviewDoc.getDate("date"));
+                reviews.add(review);
+            }
+
+            item.setReviews(reviews);
+        }
+        else {
+            item.setReviews(new ArrayList<>());
+        }
+
+        return item;
+    }
+
+    /**
+     * Convert a Review object to a document
+     *
+     * @param review
+     * @return
+     */
+    private Document reviewToDoc(Review review) {
+        Document document = new Document();
+        document.append("_id", review.getId());
+        document.append("name", review.getName());
+        document.append("date", review.getDate());
+        document.append("comment", review.getComment());
+        document.append("stars", review.getStars());
+        return document;
     }
 }

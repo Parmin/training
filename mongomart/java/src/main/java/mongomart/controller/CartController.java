@@ -57,7 +57,7 @@ public class CartController {
             cartDao.updateQuantity(Utils.getIntFromString(itemid), Utils.getIntFromString(quantity), USERID);
             Cart cart = cartDao.getCart(USERID);
 
-            HashMap<String, Object> attributes = new HashMap<String, Object>();
+            HashMap<String, Object> attributes = new HashMap<>();
             attributes.put("cart", cart);
             attributes.put("updated", true);
             attributes.put("total", calculateCartTotal(cart));
@@ -75,7 +75,7 @@ public class CartController {
 
             Cart cart = cartDao.getCart(USERID);
 
-            HashMap<String, Object> attributes = new HashMap<String, Object>();
+            HashMap<String, Object> attributes = new HashMap<>();
             attributes.put("cart", cart);
             attributes.put("updated", true);
             attributes.put("total", calculateCartTotal(cart));
