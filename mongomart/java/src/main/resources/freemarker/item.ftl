@@ -128,13 +128,13 @@
                         </div>
                     </div>
 
+                    <hr />
+
                 </#list>
 
             </div>
 
         </div>
-
-        <hr>
 
         <!-- Comments Form -->
         <div class="well">
