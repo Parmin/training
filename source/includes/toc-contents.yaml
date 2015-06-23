@@ -1,3 +1,7 @@
+file: /modules/nav/agenda
+description: | 
+  MongoDB Training Agendas
+---
 file: /modules/nav/introduction
 description: | 
   An introduction to MongoDB concepts and background
@@ -45,4 +49,8 @@ description: |
 file: /modules/backup
 description: |
   MongoDB backup strategies.
+---
+file: /modules/mongomart
+description: |
+  MongoMart
 ...

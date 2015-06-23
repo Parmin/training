@@ -1,0 +1,92 @@
+====================================
+Advanced Developer Training (2 Days)
+====================================
+
+Day 1 (Morning)
+---------------
+
+- |intro_link| (.5 hours)
+- |indexes_link| (1.5 hours)
+- |cms_schema_link| (1 hour)
+- |cart_schema_link| (1 hour)
+
+.. |intro_link| raw:: html
+
+   <a href="introduction-warmup.html">Introduction</a>
+
+.. |indexes_link| raw:: html
+
+   <a href="indexes-fundamentals.html">Indexes and explain()</a>
+
+.. |cms_schema_link| raw:: html
+
+   <a href="schema-design-case-study-cms.html">Case Study: CMS</a>
+
+.. |cart_schema_link| raw:: html
+
+   <a href="schema-design-case-study-cms.html">Case Study: Shopping Cart</a>
+
+
+Day 1 (Afternoon)
+---------------
+
+- |intro_mm| (.5 hours)
+- |mm_lab_1| (1 hour)
+- |mm_lab_2| (2.5 hour)
+
+.. |intro_mm| raw:: html
+
+   <a href="schema-design-case-study-cms.html">Introduction to MongoMart</a>
+
+.. |mm_lab_1| raw:: html
+
+   <a href="mongomart-java.html">MongoMart Lab 1: Setup and Connect to the Database</a>
+
+.. |mm_lab_2| raw:: html
+
+   <a href="mongomart-java.html">MongoMart Lab 2: Populate All Necessary Database Queries</a>
+
+Day 2 (Morning)
+---------------
+
+- |time_series_schema_link| (1 hours)
+- |social_network_schema_link| (1 hour)
+- |mm_lab_3| (1 hour)
+
+
+.. |time_series_schema_link| raw:: html
+
+   <a href="schema-design-case-study-time-series.html">Case Study: Time Series Data</a>
+
+.. |social_network_schema_link| raw:: html
+
+   <a href="schema-design-case-study-social-network.html">Case Study: Social Network</a>
+
+.. |mm_lab_3| raw:: html
+
+   <a href="mongomart-java.html">MongoMart Lab 3: Use Range Based Pagination</a>
+
+
+Day 2 (Afternoon)
+---------------
+
+- |mm_lab_4| (2 hours)
+- |mm_lab_5| (1 hours)
+- |wrap_up| (1 hours)
+
+
+.. |mm_lab_4| raw:: html
+
+   <a href="mongomart-java.html">MongoMart Lab 4: Use a Local Replica Set with a Write Concern</a>
+
+.. |mm_lab_5| raw:: html
+
+   <a href="mongomart-java.html">MongoMart Lab 5: Improve How Reviews are Stored and Queried</a>
+
+.. |wrap_up| raw:: html
+
+   <a href="mongomart-java.html">Wrap up and discussion</a>
+
+
+
+

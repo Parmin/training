@@ -1,0 +1,159 @@
+============================
+Essentials Training (4 Days)
+============================
+
+Day 1 (Morning)
+---------------
+
+- |intro_link| (.5 hours)
+- |lab_install_link| (.5 hours)
+- |crud_link| (2 hours)
+- |find_lab_link| (.5 hours)
+- |update_lab_link| (.5 hours)
+
+
+.. |intro_link| raw:: html
+
+   <a href="introduction-warmup.html">Introduction</a>
+
+.. |lab_install_link| raw:: html
+
+   <a href="../exercises/mongodb-installation.html">Lab: Installing and configuring MongoDB</a>
+
+.. |crud_link| raw:: html
+
+   <a href="crud-creating-and-deleting-documents.html">CRUD operations</a>
+
+.. |find_lab_link| raw:: html
+
+   <a href="../exercises/crud-querying-documents.html">Lab: Finding documents</a>
+
+.. |update_lab_link| raw:: html
+
+   <a href="../exercises/crud-updating-documents.html">Lab: Updatig Documents</a>
+
+
+Day 1 (Afternoon)
+-----------------
+
+- |indexes_link| (2 hours)
+- |lab_indexes_link| (.5 hours)
+- |aggregation_link| (1 hour)
+- |aggregation_lab_link| (.5 hours)
+ 
+
+.. |indexes_link| raw:: html
+
+   <a href="indexes-fundamentals.html">Indexes</a>
+
+.. |lab_indexes_link| raw:: html
+
+   <a href="../exercises/mongodb-installation.html">Lab: Building and Examining Indexes</a>
+
+.. |aggregation_link| raw:: html
+
+   <a href="aggregation.html">Aggregation</a>
+
+.. |aggregation_lab_link| raw:: html
+
+   <a href="../exercises/aggregation-exercises.html">Lab: Aggregating Zip Code Data</a>
+
+
+Day 2 (Morning)
+---------------
+
+- |schema_link| (2.5 hours)
+- |schema_lab_link| (1 hour)
+  
+
+.. |schema_link| raw:: html
+
+   <a href="schema-design-core-concepts.html">Schema Design</a>
+
+.. |schema_lab_link| raw:: html
+
+   <a href="../exercises/schema-group-exercise.html">Lab: Data Model for an E-Commerce Site</a>
+
+  
+Day 2 (Afternoon)
+-----------------
+
+- |replication_link| (3 hours)
+- |replication_lab_link| (1 hour)
+
+
+.. |replication_link| raw:: html
+
+   <a href="replica-set-introduction.html">High Availability with Replication</a>
+
+.. |replication_lab_link| raw:: html
+
+   <a href="../exercises/replica-set-creation-and-configuration.html">Lab: Setting up a Replica Set</a>
+
+
+Day 3 (Morning)
+---------------
+
+- |sharding_link| (3 hours)
+- |sharding_lab_link| (1 hour)
+  
+
+.. |sharding_link| raw:: html
+
+   <a href="sharding-intro.html">Horizontal Scaling with Sharding</a>
+
+.. |sharding_lab_link| raw:: html
+
+   <a href="../exercises/sharding-set-up-a-cluster.html">Lab: Setting Up a Sharded Cluster</a>
+
+
+Day 3 (Afternoon)
+-----------------
+
+- |drivers_link| (1 hour)
+- |security_link| (1 hour)
+- |security_lab_link| (.5 hours)
+- |backups| (1 hour)
+
+
+.. |drivers_link| raw:: html
+
+   <a href="drivers-introduction.html">Drivers</a>
+
+.. |security_link| raw:: html
+
+   <a href="security.html">Security: Access Control and Roles</a>
+
+.. |security_lab_link| raw:: html
+
+   <a href="security.html#exercise-create-an-admin-user-part-1">Lab: Creating a User and Setting Permissions</a>
+
+.. |backups| raw:: html
+
+   <a href="backup.html">Backups</a>
+
+
+Day 4 (Morning)
+---------------
+
+- |mms_link| (1 hour)
+- |perf_link| (1 hour)
+  
+
+.. |mms_link| raw:: html
+
+   <a href="mms-introduction.html">MongoDB Cloud Manager</a>
+
+.. |perf_link| raw:: html
+
+   <a href="performance.html">Performance troubleshooting and tools</a>
+
+  
+Day 4 (Afternoon)
+-----------------
+
+- Additional Topics
+
+
+
+
