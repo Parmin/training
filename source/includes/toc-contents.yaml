@@ -50,7 +50,7 @@ file: /modules/backup
 description: |
   MongoDB backup strategies.
 ---
-file: /modules/mongomart
+file: /modules/nav/mongomart
 description: |
   MongoMart
 ...
