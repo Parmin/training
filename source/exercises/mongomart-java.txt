@@ -1,0 +1,92 @@
+==============
+Lab: MongoMart
+==============
+
+Setting up MongoMart
+--------------------
+
+- You will receive the MongoMart framework, written in Java
+- No interactions with the database will be in the code, you will write those with subsequent exercises
+- For this exercise, we will not use any ODMs or additional layers on top of the Java MongoDB driver
+
+.. include:: /includes/student-notes.rst
+
+Running MongoMart
+-----------------
+
+- It is advised to use an IDE, such as IntelliJ or Eclipse
+- Run /src/main/java/mongomart/MongoMart.java to start the webserver and view the project
+- The application will run on localhost:8080 (unless you decide to run on a different port)
+
+.. include:: /includes/student-notes.rst
+
+
+Lab 1: Setup and Connect to the Database
+----------------------------------------
+
+- Import the item collection to a standalone MongoDB server (without replication) as noted in the README.md file of the /data directory of mongomart
+- Become familiar with the structure of the Java application in /java/src/main/java/mongomart/
+- Modify the MongoMart.java class to properly connect to your local database instance
+- Modify dao/ItemDao.java and dao/CartDao.java to use the "item" and "cart" collections, respectively
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- This may take users an hour or so to get their IDE/environment running and a local MongoDB instance set up
+   		- Don't hand out solution to students, type it in for them on the screen and ask them to help you
+   		- Solution is in /instructor/java/lab_1
+
+
+Lab 2: Populate All Necessary Database Queries
+----------------------------------------------
+
+- After running the MongoMart.java class, you may navigate to "localhost:8080" to view the application
+- Initally, all data is static and does not use the database
+- Modify ItemDao.java and CartDao.java classes to ensure all information comes from the database (do not modify the method return types or parameters)
+- You may add additional helper methods
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- This is a long exercise
+   		- Don't hand out solution to students, type it in for them on the screen and ask them to help you
+   		- Solution is in /instructor/java/lab_2
+   		
+
+
+Lab 3: Use Range Based Pagination
+---------------------------------
+
+- Pagination throughout MongoMart uses the inefficient sort() and limit() method
+- Optimize MongoMart to use range based pagination
+- You may modify method names and return values for this lab
+
+.. include:: /includes/student-notes.rst
+
+
+Lab 4: Use a Local Replica Set with a Write Concern
+---------------------------------------------------
+
+- It is important to use replication for production MongoDB instances, however, Lab 1 advised us to use a standalone server.
+- Convert your local standalone mongod instance to a three node replica set
+- Modify your application's write concern to MAJORITY for all writes
+
+.. include:: /includes/student-notes.rst
+
+
+Lab 5: Improve How Reviews are Stored and Queried
+-------------------------------------------------
+
+- Currently, all reviews are stored in the "item" document, within a "reviews" array.  This is problematic for the cases when the number of reviews for a product become extremely large.
+- Create a new collection called "review" and modify the "reviews" array within the "item" collection to only contain the last 10 reviews.  
+- Modify the application to update the last 10 reviews for an item, the average number of stars (based on reviews) for an item, and insert the review into the new "review" collection
+
+.. include:: /includes/student-notes.rst
+
+
