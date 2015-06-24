@@ -5,13 +5,13 @@ import freemarker.template.Configuration;
 import mongomart.config.FreeMarkerEngine;
 import mongomart.config.Utils;
 import mongomart.dao.ItemDao;
+import mongomart.dao.StoreDao;
 import mongomart.model.Category;
 import mongomart.model.Item;
+import mongomart.model.Store;
 import spark.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static spark.Spark.get;
 
@@ -34,6 +34,7 @@ public class StoreController {
     public StoreController(Configuration cfg, MongoDatabase itemDatabase) {
 
         ItemDao itemDao = new ItemDao(itemDatabase);
+        StoreDao storeDao = new StoreDao(itemDatabase);
 
         // Homepage and category search
         get("/", (request, response) -> {
@@ -117,6 +118,28 @@ public class StoreController {
             return new ModelAndView(attributes, "search.ftl");
         }, new FreeMarkerEngine(cfg));
 
+
+        get("/stores", (request, response) -> {
+            String query = request.queryParams("query");
+            Integer page = Utils.getIntFromString(request.queryParams("page"));
+            String zipCode = request.queryParams("zipCode");
+
+            HashMap<String, Object> attributes = new HashMap<>();
+            List<Store> stores = storeDao.getStoresClosestToZip(zipCode, page);
+            long numStores = storeDao.countStoresClosestToZip(zipCode);
+            // TODO: Fix me
+            long numPages = 1;
+
+            SortedSet<String> states = storeDao.getAllStates();
+
+            attributes.put("stores", stores);
+            attributes.put("numStores", numStores);
+            attributes.put("numPages", numPages);
+            attributes.put("page", page);
+            attributes.put("query", query);
+            attributes.put("states", states);
+            return new ModelAndView(attributes, "stores.ftl");
+        }, new FreeMarkerEngine(cfg));
     }
 
     /**
