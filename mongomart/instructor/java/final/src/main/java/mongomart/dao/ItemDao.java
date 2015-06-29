@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.text;
+import static com.mongodb.client.model.Filters.*;
 
 /**
  * All database access to the "item" collection
@@ -76,6 +75,46 @@ public class ItemDao {
                                         .skip(ITEMS_PER_PAGE * page)
                                         .limit(ITEMS_PER_PAGE)
                                         .into(new ArrayList<>());
+
+        return docToItem(documents);
+    }
+
+    /**
+     * Get items using range based pagination, using the after value
+     *
+     * @param after
+     * @return
+     */
+    public List<Item> getItemsRangeBased(String before, String after) {
+        List<Document> documents = new ArrayList<>();
+
+        // Only one item is pased in, before or after, formulate query based on that item
+
+        // Use $lte before
+        if (before != null && !before.trim().equals("")) {
+            int before_int = Utils.getIntFromString(before);
+
+            List<Document> documents_reverse = itemCollection.find( lt("_id", before_int) )
+                    .sort( eq("_id", -1) )  // always sort by _id
+                    .limit( ITEMS_PER_PAGE + 1 ) // get one more result than we need, to determine if there is a previous page
+                    .into(new ArrayList<>());
+
+            // Now we just need to reverse sort the items
+            for (int i=(documents_reverse.size()-1); i>= 0; i--) {
+                documents.add(documents_reverse.get(i));
+            }
+        }
+
+        // Use $gte after
+        else {
+            int after_int = Utils.getIntFromString(after);
+
+            documents = itemCollection.find( gt("_id", after_int) )
+                    .sort( eq("_id", 1) )  // always sort by _id
+                    .limit( ITEMS_PER_PAGE + 1 ) // get one more result than we need, to determine if there is a next page
+                    .into(new ArrayList<>());
+        }
+
 
         return docToItem(documents);
     }

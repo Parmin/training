@@ -86,18 +86,40 @@
             <div class="row text-center">
                 <div class="col-lg-12">
                     <ul class="pagination">
+                        <#--
                         <#list 0..num_pages as i>
                             <li <#if page == (i)>class="active"</#if>>
                                 <a href="/?page=${i}&category=${category_param}">${i+1}</a>
                             </li>
                         </#list>
+                        -->
+
+                        <!-- TODO-lab3 Range based Pagination -->
+                        <!-- To implement range based pagination, delete the pagination section above -->
+
+                        <#if useRangeBasedPagination == true>
+
+                            <#if previousPageUrl??>
+                                <li><a href="${previousPageUrl}">Previous Page</a></li>
+                            </#if>
+                            <#if nextPageUrl??>
+                                <li><a href="${nextPageUrl}">Next Page</a></li>
+                            </#if>
+
+                        </#if>
+
                     </ul>
                 </div>
             </div>
 
+            <#if useRangeBasedPagination == false>
             <div style="text-align:center;">
                 <i>${item_count} Products</i>
             </div>
+            </#if>
+
+
+
 
             <!-- /.row -->
         </div>

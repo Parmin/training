@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static mongomart.config.Utils.isEmpty;
 import static spark.Spark.get;
 
 /**
@@ -40,19 +41,23 @@ public class StoreController {
             String category = request.queryParams("category");
             String page = request.queryParams("page");
 
+            // The "before" and "after" parameters can be used for range based pagination in lab3
+            String before = request.queryParams("before");
+            String after = request.queryParams("after");
+
             List<Item> items = new ArrayList<>();
             ArrayList<Category> categories = itemDao.getCategoriesAndNumProducts();
             long itemCount = 0;
 
             // Search by category
             if (category != null && (!category.equals("All") && !category.trim().equals(""))) {
-                items = itemDao.getItemsByCategory(category, page);
+                //items = itemDao.getItemsByCategory(category, before, after);
                 itemCount = itemDao.getItemsByCategoryCount(category);
             }
             // Else show all items
             else {
-                items = itemDao.getItems(page);
-                itemCount = itemDao.getItemsCount();
+                items = itemDao.getItemsRangeBased(before, after);
+                //itemCount = itemDao.getItemsCount();
                 category = "All";
             }
 
@@ -63,8 +68,36 @@ public class StoreController {
             }
 
             HashMap<String, Object> attributes = new HashMap<>();
+
+
+            attributes.put("useRangeBasedPagination", true);
+
+            int num_items = items.size();
+            if (items != null && items.size() > itemDao.getItemsPerPage()) {
+
+                // Since we got back one extra item than we needed, we need to trim it
+                if (items.size() > itemDao.getItemsPerPage()) {
+                    if (before != null) {
+                        items = items.subList(1, items.size());
+                    } else {
+                        items = items.subList(0, itemDao.getItemsPerPage());
+                    }
+                }
+
+
+            }
+
+            if (includeNextPage(num_items, before, after, itemDao.getItemsPerPage())) {
+                attributes.put("nextPageUrl", "/?after=" + items.get(items.size()-1).getId());
+            }
+            if (includePreviousPage(num_items, before, after, itemDao.getItemsPerPage())) {
+                attributes.put("previousPageUrl", "/?before=" + items.get(0).getId());
+            }
+
+
+
+            //attributes.put("item_count", itemCount);
             attributes.put("items", items);
-            attributes.put("item_count", itemCount);
             attributes.put("categories", categories);
             attributes.put("category_param", category);
             attributes.put("page", Utils.getIntFromString(page));
@@ -135,5 +168,38 @@ public class StoreController {
         attributes.put("itemid", itemid);
         attributes.put("related_items", related_items.subList(0, 4));
         return attributes;
+    }
+
+    private boolean includeNextPage(int num_items, String before, String after, int items_per_page) {
+
+        // If homepage, display a next link is number of items is large enough
+        if (isEmpty(before) && isEmpty(after) && num_items > items_per_page) {
+                return true;
+        }
+
+        // If only a "before" parameter is passed in
+        else if (!isEmpty(before)) {
+            return true;
+        }
+
+        // Only an "after" parameter was passed in
+        else if (num_items > items_per_page) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean includePreviousPage(int num_items, String before, String after, int items_per_page) {
+
+        if (!isEmpty(after)) {
+            return true;
+        }
+        // If only a "before" parameter is passed in
+        else if (!isEmpty(before) && num_items > items_per_page) {
+            return true;
+        }
+
+        return false;
     }
 }
