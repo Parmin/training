@@ -177,7 +177,7 @@ Example: Arrays and Dot Notation
               { "city" : "Los Angeles", "state" : "CA", "country" : "USA" },
               { "city" : "Cresecent City", "state" : "CA", "country" : "USA" }
             ] },
-       { type : "Star Wars", 
+       { "title": "Star Wars",
          "filming_locations" : 
             [ { "city" : "Ajim", "state" : "Jerba", "country" : "Tunisia" },
               { "city" : "Yuma", "state" : "AZ", "country" : "USA" }
