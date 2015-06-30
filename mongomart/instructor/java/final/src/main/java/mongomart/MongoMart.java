@@ -33,7 +33,7 @@ public class MongoMart {
 
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
-            new MongoMart("mongodb://localhost");
+            new MongoMart("mongodb://localhost:27017,localhost:27018,localhost:27019");
         }
         else {
             new MongoMart(args[0]);

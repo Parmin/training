@@ -1,5 +1,6 @@
 package mongomart.dao;
 
+import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
@@ -24,7 +25,7 @@ public class CartDao {
      * @param mongoMartDatabase
      */
     public CartDao(final MongoDatabase mongoMartDatabase) {
-        cartCollection = mongoMartDatabase.getCollection("cart");
+        cartCollection = mongoMartDatabase.getCollection("cart").withWriteConcern(WriteConcern.MAJORITY);
     }
 
     /**
