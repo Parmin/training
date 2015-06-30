@@ -37,6 +37,15 @@ public class StoreController {
 
         // Homepage and category search
         get("/", (request, response) -> {
+            /**
+             * TODO-lab3
+             *
+             * LAB #3: Set this variable to true, implement all other code changes
+
+             */
+            boolean useRangeBasedPagination = false;
+
+
             String category = request.queryParams("category");
             String page = request.queryParams("page");
 
@@ -51,7 +60,19 @@ public class StoreController {
             }
             // Else show all items
             else {
+                /**
+                 * TODO-lab3
+                 *
+                 * LAB #3: Create a new method in the ItemDao class for getting items based on a range, replace the
+                 * line below with this new method
+                 *
+                 * HINT: You may want to use before/after variables passed in from the page to help define the ranges.
+                 * (however, please use any method you feel most comfortable with)
+                 * E.g. String before = request.queryParams("before"); String after = request.queryParams("after");
+                 *
+                 */
                 items = itemDao.getItems(page);
+
                 itemCount = itemDao.getItemsCount();
                 category = "All";
             }
@@ -63,6 +84,22 @@ public class StoreController {
             }
 
             HashMap<String, Object> attributes = new HashMap<>();
+
+            /**
+             * TODO-lab3
+             *
+             * LAB #3: The nextPageUrl and previousPageUrl attributes are used by home.ftl for displaying previous and
+             * next page.  If either is null, previous/next page will not be displayed
+             *
+             * HINT: make sure to only set nextPageUrl or previousPageUrl when you want them to be displayed in the UI
+             *
+             */
+            if (useRangeBasedPagination) {
+                attributes.put("nextPageUrl", "/#");
+                attributes.put("previousPageUrl", "/#");
+            }
+
+            attributes.put("useRangeBasedPagination", useRangeBasedPagination);
             attributes.put("items", items);
             attributes.put("item_count", itemCount);
             attributes.put("categories", categories);

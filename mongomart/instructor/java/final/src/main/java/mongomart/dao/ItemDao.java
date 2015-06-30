@@ -88,7 +88,7 @@ public class ItemDao {
     public List<Item> getItemsRangeBased(String before, String after) {
         List<Document> documents = new ArrayList<>();
 
-        // Only one item is pased in, before or after, formulate query based on that item
+        // Only one item is passed in, before or after, formulate query based on that item
 
         // Use $lte before
         if (before != null && !before.trim().equals("")) {

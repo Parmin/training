@@ -41,9 +41,19 @@ public class StoreController {
             String category = request.queryParams("category");
             String page = request.queryParams("page");
 
-            // The "before" and "after" parameters can be used for range based pagination in lab3
+            /**
+             * lab3
+             *
+             * LAB #3: Add before/after parameters for range based pagination
+             *
+             */
+
+            // Set to true for lab 3
+            boolean useRangeBasedPagination = true;
+
             String before = request.queryParams("before");
             String after = request.queryParams("after");
+
 
             List<Item> items = new ArrayList<>();
             ArrayList<Category> categories = itemDao.getCategoriesAndNumProducts();
@@ -51,13 +61,19 @@ public class StoreController {
 
             // Search by category
             if (category != null && (!category.equals("All") && !category.trim().equals(""))) {
-                //items = itemDao.getItemsByCategory(category, before, after);
+                items = itemDao.getItemsByCategory(category, page);
                 itemCount = itemDao.getItemsByCategoryCount(category);
             }
             // Else show all items
             else {
+                /**
+                 * lab3
+                 *
+                 * LAB #3: Create new method in ItemDao to use before/after parameters
+                 *
+                 */
                 items = itemDao.getItemsRangeBased(before, after);
-                //itemCount = itemDao.getItemsCount();
+
                 category = "All";
             }
 
@@ -69,9 +85,13 @@ public class StoreController {
 
             HashMap<String, Object> attributes = new HashMap<>();
 
-
-            attributes.put("useRangeBasedPagination", true);
-
+            /**
+             * lab3
+             *
+             * LAB #3: Since we bring back one extra item than is needed (to determine if there is a
+             * next/previous page), we need to trim the result set back to itemDao.getItemsPerPage()
+             *
+             */
             int num_items = items.size();
             if (items != null && items.size() > itemDao.getItemsPerPage()) {
 
@@ -83,20 +103,27 @@ public class StoreController {
                         items = items.subList(0, itemDao.getItemsPerPage());
                     }
                 }
-
-
             }
 
-            if (includeNextPage(num_items, before, after, itemDao.getItemsPerPage())) {
-                attributes.put("nextPageUrl", "/?after=" + items.get(items.size()-1).getId());
+            /**
+             * TODO-lab3
+             *
+             * LAB #3: The nextPageUrl and previousPageUrl attributes are used by home.ftl for displaying previous and
+             * next page.  If either is null, previous/next page will not be displayed
+             *
+             * HINT: make sure to only set nextPageUrl or previousPageUrl when you want them to be displayed in the UI
+             *
+             */
+            if (useRangeBasedPagination) {
+                if (includeNextPage(num_items, before, after, itemDao.getItemsPerPage())) {
+                    attributes.put("nextPageUrl", "/?after=" + items.get(items.size()-1).getId());
+                }
+                if (includePreviousPage(num_items, before, after, itemDao.getItemsPerPage())) {
+                    attributes.put("previousPageUrl", "/?before=" + items.get(0).getId());
+                }
             }
-            if (includePreviousPage(num_items, before, after, itemDao.getItemsPerPage())) {
-                attributes.put("previousPageUrl", "/?before=" + items.get(0).getId());
-            }
 
-
-
-            //attributes.put("item_count", itemCount);
+            attributes.put("useRangeBasedPagination", useRangeBasedPagination);
             attributes.put("items", items);
             attributes.put("categories", categories);
             attributes.put("category_param", category);

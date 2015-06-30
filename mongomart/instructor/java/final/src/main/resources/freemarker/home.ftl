@@ -86,16 +86,19 @@
             <div class="row text-center">
                 <div class="col-lg-12">
                     <ul class="pagination">
-                        <#--
-                        <#list 0..num_pages as i>
-                            <li <#if page == (i)>class="active"</#if>>
-                                <a href="/?page=${i}&category=${category_param}">${i+1}</a>
-                            </li>
-                        </#list>
-                        -->
 
-                        <!-- TODO-lab3 Range based Pagination -->
-                        <!-- To implement range based pagination, delete the pagination section above -->
+                        <!-- Show page numbers for pagination -->
+                        <#if useRangeBasedPagination == false>
+
+                            <#list 0..num_pages as i>
+                                <li <#if page == (i)>class="active"</#if>>
+                                    <a href="/?page=${i}&category=${category_param}">${i+1}</a>
+                                </li>
+                            </#list>
+
+                        </#if>
+
+                        <!-- TODO-lab3 Range based Pagination, modify the useRangeBasedPagination attribute in the controller  -->
 
                         <#if useRangeBasedPagination == true>
 
@@ -113,19 +116,15 @@
             </div>
 
             <#if useRangeBasedPagination == false>
-            <div style="text-align:center;">
-                <i>${item_count} Products</i>
-            </div>
+
+                <div style="text-align:center;">
+                    <i>${item_count} Products</i>
+                </div>
+
             </#if>
-
-
-
 
             <!-- /.row -->
         </div>
-
-
-
     </div>
 
 </div>
