@@ -13,6 +13,7 @@ public class Review {
     Date date;
     String comment;
     int stars;
+    int itemid;
 
     public Review() {
 
@@ -56,6 +57,14 @@ public class Review {
 
     public void setStars(int stars) {
         this.stars = stars;
+    }
+
+    public int getItemid() {
+        return itemid;
+    }
+
+    public void setItemid(int itemid) {
+        this.itemid = itemid;
     }
 
     public void populateDummyValues() {

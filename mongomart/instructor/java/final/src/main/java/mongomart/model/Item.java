@@ -16,6 +16,7 @@ public class Item {
     String slogan;
     List<Review> reviews;
     int quantity;
+    int num_reviews = 0;
 
     public Item() {
 
@@ -100,4 +101,8 @@ public class Item {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public int getNum_reviews() { return num_reviews; }
+
+    public void setNum_reviews(int num_reviews) { this.num_reviews = num_reviews; }
 }

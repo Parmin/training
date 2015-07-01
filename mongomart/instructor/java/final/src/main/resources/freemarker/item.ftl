@@ -67,7 +67,7 @@
                 <h3>Product Description</h3>
 
                 <div class="ratings" style="padding-left: 0px;">
-                    <p class="pull-right">${item.reviews?size} reviews</p>
+                    <p class="pull-right">${item.num_reviews} reviews</p>
                     <p>
 
                         <#-- Display stars -->
@@ -98,7 +98,7 @@
         <div class="row">
 
             <div class="col-lg-12">
-                <h3 class="page-header">Reviews</h3>
+                <h3 class="page-header">Last 10 Reviews</h3>
             </div>
 
             <div class="col-lg-12">

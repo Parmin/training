@@ -26,6 +26,7 @@ MongoMart Demo of Fully Implemented Version
    .. note::
 
    		- Ensure you have a fully running version of the instructor MongoMart implementation: /instructor/java/final
+         - The instructor version requires a three node replica set (uses MAJORITY writes)
    		- Ensure you've loaded the dataset from /data and create a text index (as described in the /data/README.md file)
    		- DO NOT WALK THROUGH THIS VERSION OF THE SOURCE CODE WITH THE STUDENTS, ONLY THE STUDENT VERSION
 

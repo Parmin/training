@@ -67,7 +67,7 @@
                 <h3>Product Description</h3>
 
                 <div class="ratings" style="padding-left: 0px;">
-                    <p class="pull-right">${item.reviews?size} reviews</p>
+                    <p class="pull-right">${item.num_reviews} reviews</p>
                     <p>
 
                         <#-- Display stars -->
