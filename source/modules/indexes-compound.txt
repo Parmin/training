@@ -350,7 +350,7 @@ Exercise: Covered Queries
 
    // Covered query!
    db.testcol.find( { "title" : 3 }, 
-                    { "_id" : 0, "title" : 1, "name" : 1, "budget" : 1 } 
+                    { "_id" : 0, "title" : 1, "name" : 1, "rating" : 1 }
                     ).explain("executionStats")
 
 .. include:: /includes/student-notes.rst
