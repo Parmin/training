@@ -32,7 +32,7 @@ Day 1 (Afternoon)
 
 - |intro_mm| (.5 hours)
 - |mm_lab_1| (1 hour)
-- |mm_lab_2| (2.5 hour)
+- |mm_lab_2| (2.5 hours)
 
 .. |intro_mm| raw:: html
 
@@ -40,16 +40,16 @@ Day 1 (Afternoon)
 
 .. |mm_lab_1| raw:: html
 
-   <a href="mongomart-java.html">MongoMart Lab 1: Setup and Connect to the Database</a>
+   <a href="mongomart-java.html#lab-1-setup-and-connect-to-the-database">MongoMart Lab 1: Setup and Connect to the Database</a>
 
 .. |mm_lab_2| raw:: html
 
-   <a href="mongomart-java.html">MongoMart Lab 2: Populate All Necessary Database Queries</a>
+   <a href="mongomart-java.html#lab-2-populate-all-necessary-database-queries">MongoMart Lab 2: Populate All Necessary Database Queries</a>
 
 Day 2 (Morning)
 ---------------
 
-- |time_series_schema_link| (1 hours)
+- |time_series_schema_link| (1 hour)
 - |social_network_schema_link| (1 hour)
 - |mm_lab_3| (1 hour)
 
@@ -64,24 +64,24 @@ Day 2 (Morning)
 
 .. |mm_lab_3| raw:: html
 
-   <a href="mongomart-java.html">MongoMart Lab 3: Use Range Based Pagination</a>
+   <a href="mongomart-java.html#lab-3-use-a-local-replica-set-with-a-write-concern">MongoMart Lab 3: Use a Local Replica Set with a Write Concern</a>
 
 
 Day 2 (Afternoon)
 ---------------
 
 - |mm_lab_4| (2 hours)
-- |mm_lab_5| (1 hours)
-- |wrap_up| (1 hours)
+- |mm_lab_5| (1 hour)
+- |wrap_up| (1 hour)
 
 
 .. |mm_lab_4| raw:: html
 
-   <a href="mongomart-java.html">MongoMart Lab 4: Use a Local Replica Set with a Write Concern</a>
+   <a href="mongomart-java.html#lab-4-improve-how-reviews-are-stored-and-queried">MongoMart Lab 4: Improve How Reviews are Stored and Queried</a>
 
 .. |mm_lab_5| raw:: html
 
-   <a href="mongomart-java.html">MongoMart Lab 5: Improve How Reviews are Stored and Queried</a>
+   <a href="mongomart-java.html#lab-5-use-range-based-pagination">MongoMart Lab 5: Use Range Based Pagination</a>
 
 .. |wrap_up| raw:: html
 
