@@ -1,6 +1,8 @@
 Lab 4 Solution
 ==============
 
+Please type in solution with the class instead of distributing source code.
+
 Create a new ReviewDao class
 ----------------------------
 

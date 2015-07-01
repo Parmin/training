@@ -1,6 +1,8 @@
 Lab 5 Solution
 ==============
 
+Please type in solution with the class instead of distributing source code.
+
 This exercise is hard.  There are multiple ways to convert the existing application to use range based pagination.  One method is described below.
 
 Modify StoreController.java (only for get("/") )
