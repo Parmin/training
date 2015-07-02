@@ -311,20 +311,6 @@ The following creates a single-field index on ``user.followers_count``.
       - Operations teams are accustomed to thinking about indexes. 
       - With MongoDB, developers need to be more involved in the creation and use of indexes.
 
-Listing Indexes
----------------
-
-.. code-block:: javascript
-
-  db.tweets.getIndexes()
-
-List index keys:
-
-.. code-block:: javascript
-
-  db.tweets.getIndexKeys()
-
-
 
 Listing Indexes
 ---------------
@@ -396,6 +382,8 @@ Additional Index Options
 - Unique
 - Background
   
+.. include:: /includes/student-notes.rst
+
 Sparse Indexes in MongoDB
 -------------------------
 
@@ -406,6 +394,9 @@ Sparse indexes only contain entries for documents that have the indexed field.
   db.<COLLECTION>.createIndex( 
     { field_name : 1 },
     { sparse : true } )
+
+.. include:: /includes/student-notes.rst
+
 
 Defining Unique Indexes
 -----------------------
@@ -420,6 +411,9 @@ Defining Unique Indexes
     { field_name : 1 },
     { unique : true } )
 
+.. include:: /includes/student-notes.rst
+
+
 Building Indexes in the Background
 ----------------------------------
 
@@ -432,60 +426,6 @@ Building Indexes in the Background
   db.<COLLECTION>.createIndex( 
     { field_name : 1 },
     { background : true } )
-
-
-Additional Index Options
-------------------------
-
-- Sparse
-- Unique
-- Background
-
-.. include:: /includes/student-notes.rst
-
-
-Sparse Indexes in MongoDB
--------------------------
-
-Sparse indexes only contain entries for documents that have the indexed field.
-
-.. code-block:: javascript
-
-  db.<COLLECTION>.createIndex( 
-      { field_name : 1 },
-      { sparse : true } )
-
-.. include:: /includes/student-notes.rst
-
-
-Defining Unique Indexes
------------------------
-
-- Enforce a unique constraint on the index.
-- Prevent duplicate values from being inserted into the database.  
-- No duplicate values may exist prior to defining the index.
-
-  .. code-block:: javascript
-
-    db.<COLLECTION>.createIndex( 
-        { field_name : 1 },
-        { unique : true } )
-
-.. include:: /includes/student-notes.rst
-
-
-Building Indexes in the Background
-----------------------------------
-
-- Building indexes in foreground is a blocking operation.
-- Background index creation is non-blocking, however, takes longer to build.
-- Initially larger, or less compact, than an index built in the foreground.
-
-  .. code-block:: javascript
-
-    db.<COLLECTION>.createIndex( 
-        { field_name : 1 },
-        { background : true } )
 
 .. include:: /includes/student-notes.rst
 

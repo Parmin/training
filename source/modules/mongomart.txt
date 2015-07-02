@@ -1,0 +1,130 @@
+============
+Introduction
+============
+
+What is MongoMart
+-----------------
+
+MongoMart is an on-line store for buying MongoDB merchandise.  We'll use this application to learn more about interacting with MongoDB through the driver.
+
+.. include:: /includes/student-notes.rst
+
+
+MongoMart Demo of Fully Implemented Version
+-------------------------------------------
+
+- View Items
+- View Items by Category
+- Text Search
+- View Item Details
+- Shopping Cart
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Ensure you have a fully running version of the instructor MongoMart implementation: /instructor/java/final
+         - The instructor version requires a three node replica set (uses MAJORITY writes)
+   		- Ensure you've loaded the dataset from /data and create a text index (as described in the /data/README.md file)
+   		- DO NOT WALK THROUGH THIS VERSION OF THE SOURCE CODE WITH THE STUDENTS, ONLY THE STUDENT VERSION
+
+View Items
+----------
+
+- Link: |view_all|
+- Pagination and page numbers
+- Click on a category
+
+.. |view_all| raw:: html
+
+   <a href="http://localhost:8080" target="_blank">View all items</a>
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Click around the site to show them how it works, click through various pages and categories (into next slide)
+
+
+View Items by Category
+----------------------
+
+- Link: |view_by_category|
+- Pagination and page numbers
+- "All" is listed as a category, to return to all items listing
+
+.. |view_by_category| raw:: html
+
+   <a href="http://localhost:8080/?category=Apparel" target="_blank">View items in 'Apparel' category</a>
+
+.. include:: /includes/student-notes.rst
+
+
+Text Search
+-----------
+
+- Link: |text_search|
+- Search for any word or phrase in item title, description or slogan
+- Pagination
+
+.. |text_search| raw:: html
+
+   <a href="http://localhost:8080/search?query=shirt" target="_blank">Text search</a>
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Search for a few strings, such as "shirt", "mug", "mongodb", etc.
+
+
+View Item Details
+-----------------
+
+- Link: |view_item|
+- Star rating based on reviews
+- Add a review
+- Related items
+- Add item to cart
+
+.. |view_item| raw:: html
+
+   <a href="http://localhost:8080/item?id=1" target="_blank">View item details</a>
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Add reviews, show how stars change, etc.
+
+
+Shopping Cart
+-------------
+
+- Link: |cart|
+- Adding an item multiple times increments quantity by 1
+- Change quantity of any item
+- Changing quantity to 0 removes item
+
+.. |cart| raw:: html
+
+   <a href="http://localhost:8080/cart" target="_blank">View shopping cart</a>
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Add an item to your cart
+   		- Update the quantity in the cart
+   		- Checkout doesn't work, we are only interested in the cart functionality
+

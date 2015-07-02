@@ -1,0 +1,9 @@
+=========
+MongoMart
+=========
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-agenda.rst
+
+.. include:: /includes/toc/mongomart.rst             

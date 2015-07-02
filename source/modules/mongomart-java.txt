@@ -1,0 +1,114 @@
+===================
+Java Implementation
+===================
+
+Introduction
+------------
+
+- In this lab, we'll set up and optimize an application called MongoMart.  MongoMart is an on-line store for buying MongoDB merchandise.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Student skeleton code is located in /student/java
+   		- Ensure data is correctly loaded from /student/data
+
+
+Lab 1: Setup and Connect to the Database
+----------------------------------------
+
+- Import the "item" collection to a standalone MongoDB server (without replication) as noted in the README.md file of the /data directory of MongoMart
+- Become familiar with the structure of the Java application in /java/src/main/java/mongomart/
+- Modify the MongoMart.java class to properly connect to your local database instance
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Solution in /instructor/java/lab_1
+   		- Please type in solution with the class instead of distributing source code
+
+
+Lab 2: Populate All Necessary Database Queries
+----------------------------------------------
+
+- After running the MongoMart.java class, navigate to "localhost:8080" to view the application
+- Initially, all data is static and the application does not query the database
+- Modify the ItemDao.java and CartDao.java classes to ensure all information comes from the database (do not modify the method return types or parameters)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Solution in /instructor/java/lab_2
+   		- Please type in solution with the class instead of distributing source code
+
+
+Lab 3: Use a Local Replica Set with a Write Concern
+---------------------------------------------------
+
+- It is important to use replication for production MongoDB instances, however, Lab 1 advised us to use a standalone server.
+- Convert your local standalone mongod instance to a three node replica set named "shard1"
+- Modify MongoMart's MongoDB connection string to include at least two nodes from the replica set
+- Modify your application's write concern to MAJORITY for all writes to the "cart" collection, any writes to the "item" collection should continue using the default write concern of W:1
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Solution in /instructor/java/lab_4
+   		- Please type in solution with the class instead of distributing source code
+
+
+Lab 4: Improve How Reviews are Stored and Queried
+-------------------------------------------------
+
+- Currently, all reviews are stored in an "item" document, within a "reviews" array.  This is problematic for the cases when the number of reviews for a product becomes extremely large.
+- Create a new collection called "review" and modify the "reviews" array within the "item" collection to only contain the last 10 reviews.  
+- Modify the application to update the last 10 reviews for an item, the average number of stars (based on reviews) for an item, and insert the review into the new "review" collection
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Solution in /instructor/java/lab_5
+   		- Please type in solution with the class instead of distributing source code
+
+
+Lab 5: Use Range Based Pagination
+---------------------------------
+
+- Pagination throughout MongoMart uses the inefficient sort() and limit() method
+- Optimize MongoMart to use range based pagination
+- You may modify method names and return values for this lab
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+   		- Solution in /instructor/java/lab_3
+   		- Please type in solution with the class instead of distributing source code
+
+
+Extra Credit Items
+------------------
+
+- Modify each item document to include an array of "related_items" (maximum is 4).  Related items should include other items within the same category, then randomized items can be used if there are less than 4.
+- Write documents to the "review" and "item" collection in a way that is resilient to replica set failover
+
+
+
+

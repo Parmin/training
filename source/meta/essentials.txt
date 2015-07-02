@@ -6,6 +6,7 @@ MongoDB Essentials Training
 
 .. toctree::
 
+   /modules/nav/agenda
    /modules/nav/introduction
    /modules/nav/crud
    /modules/nav/indexes
@@ -18,4 +19,5 @@ MongoDB Essentials Training
    /modules/nav/drivers
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
+   /modules/nav/mongomart
 
