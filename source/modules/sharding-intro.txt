@@ -68,7 +68,6 @@ The Working Set
       - For the fastest processing, ensure that your indexes fit entirely in RAM so that the system can avoid reading the index from disk.
       - In some cases, only recently indexed values must be in RAM.
 
-   
 
 Limitations of Vertical Scaling
 -------------------------------
@@ -95,42 +94,18 @@ Sharding Overview
 .. include:: /includes/student-notes.rst
 
 
-A Model that Does Not Scale
-----------------------------
+When to Shard
+-------------
 
-.. include:: /images/load-latency-linear2.rst
- 
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - Load and latency are related. 
-      - On a single server, latency tends to increase linearly with load.
-      - Eventually latency is too great and the database has become a bottleneck.
-
-
-A Scalable Model
-----------------
-
-.. include:: /images/load-latency-scalable.rst
+- If you have more data than one machine can hold on its drives
+- If your application is write heavy and you are experiencing too much latency.
+- If your working set outgrows the memory you can allocate to a single machine.
 
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
 
-   .. note::
-
-      - Latency increases, but not linearly
-      - We're not saying there is no increase in latency.
-      - Just that it is much smaller than the increase in the server load.
-      - Relational databases can scale vertically (i.e., by buying a bigger box). 
-      - MongoDB scales vertically and horizontally (i.e., spreading out the load across several boxes)
-
-
-Sharding Basics
----------------
+Dividing Up Your Dataset
+------------------------
 
 .. include:: /images/sharded-collection.rst
 
@@ -139,11 +114,82 @@ Sharding Basics
    .. note::
 
       - When you shard a collection it is distributed across several servers.
+      - Each mongod manages a subset of the data.
       - When you perform a read or write operation it will go to a router that will then direct the query to the appropriate server.
       - Depending on the operation and how your cluster is configured you may need to touch only one server to complete the operation.
 
 .. include:: /includes/student-notes.rst
 
+
+Sharding Concepts
+-----------------
+To understanding how sharding works in MongoDB, we need to understand:
+- Shard Keys
+- Chunks
+
+
+Shard Key
+---------
+
+.. todo::
+
+   Needs a graphic
+
+.. only:: instructor
+
+   .. note::
+
+      - You must define a shard key for a sharded collection.
+      - Based on one or more fields (like an index)
+      - Shard key defines a space of values
+      - Think of the key space like points on a line
+      - A key range is a segment of that line
+
+
+Shard Key Ranges
+----------------
+
+- A collection is partitioned based on shard key ranges.
+- The shard key determines where documents are located in the cluster.
+- It is used to route operations to the appropriate shard.
+- For reads and writes
+- Once a collection is sharded, you cannot change a shard key.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - For reads and updates, the shard key determines which shard holds the document and will handle the operation.
+      - When you insert a document, the shard key determines which server you will write to.
+
+
+Targeted Query Using Shard Key
+------------------------------
+
+.. include:: /images/sharded-cluster-targeted-query.rst
+
+.. include:: /includes/student-notes.rst
+
+
+Chunks
+------
+
+.. todo::
+
+   Needs a graphic
+
+.. only:: instructor
+
+   .. note::
+
+      - MongoDB partitions data into ``chunks`` based on shard key ranges.
+      - This is bookkeeping metadata.
+      - MongoDB attempts to keep the amount of data balanced across shards.
+      - This is achieved by migrating chunks from one shard to another as needed.
+      - There is nothing in a document that indicates its chunk.
+      - The document does not need to be updated if its assigned chunk changes.
 
 
 
@@ -159,7 +205,7 @@ Sharded Cluster Architecture
    .. note::
 
       - This figure illustrates one possible architecture for a sharded cluster.
-      - Each shard is a self contained replica set.
+      - Each shard is a self-contained replica set.
       - Each replica set holds a partition of the data.
       - As many new shards could be added to this sharded cluster as scale requires.  
       - At this point our cluster can handle a load approaching twice that of a single replica set using the same hardware.
@@ -223,16 +269,6 @@ Config Server Hardware Requirements
 .. include:: /includes/student-notes.rst
 
 
-When to Shard
--------------
-
-- If you have more data than one machine can hold on its drives
-- If your application is write heavy and you experiencing too much latency.
-- If your working set outgrows the memory you can allocate to a single machine.
-
-.. include:: /includes/student-notes.rst
-
-
 Possible Imbalance?
 -------------------
 
@@ -254,43 +290,9 @@ Possible Imbalance?
 Balancing Shards
 ----------------
 
-- MongoDB divides data into ``chunks``.
-- This is bookkeeping metadata.
-  
-  - There is nothing in a document that indicates its chunk.
-  - The document does not need to be updated if its assigned chunk changes.
-
 - If a chunk grows too large MongoDB will split it into two chunks.
 - The MongoDB balancer keeps chunks distributed across shards in equal numbers.
 - However, a balanced sharded cluster depends on a good shard key.
-
-.. include:: /includes/student-notes.rst
-
-
-What is a Shard Key?
---------------------
-
-- You must define a shard key for a sharded collection.
-- Based on one or more fields that every document must contain.
-- Is immutable.
-- The shard key determines where documents are located in the cluster.
-- It is used to route operations to the appropriate shard.
-- For reads and writes
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - For reads and updates, the shard key determines which shard holds the document and will handle the operation.
-      - When you insert a document, the shard key determines which server you will write to.
-
-
-Targeted Query Using Shard Key
-------------------------------
-
-.. include:: /images/sharded-cluster-targeted-query.rst
 
 .. include:: /includes/student-notes.rst
 
