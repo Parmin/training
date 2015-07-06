@@ -71,7 +71,7 @@ Day 2 (Morning)
 
 
 Day 2 (Afternoon)
----------------
+-----------------
 
 - |sharding_link| (3 hours)
 - |sharding_lab_link| (1 hour)
@@ -87,7 +87,7 @@ Day 2 (Afternoon)
 
 
 Day 3 (Morning)
------------------
+---------------
 
 - |drivers_link| (1 hour)
 - |security_link| (1 hour)
@@ -113,7 +113,7 @@ Day 3 (Morning)
 
 
 Day 3 (Afternoon)
----------------
+-----------------
 
 - |mms_link| (1 hour)
 - |perf_link| (1 hour)
