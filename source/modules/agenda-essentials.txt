@@ -314,8 +314,8 @@ Drivers (2 hours)
 Security (2 hours)
 ------------------
 
-- |security_link| (1 hour)
-- |security_lab_link| (.5 hours)
+- |security_link|
+- |security_lab_link|
 
 .. |security_link| raw:: html
 
@@ -349,7 +349,7 @@ Backups (1 hour)
 Performance Troubleshooting (2 hours)
 -------------------------------------
 
-- |backups|
+- |tools|
 - |mtools|
 - |prod_notes|
 
