@@ -9,7 +9,7 @@ Learning Objectives
 Upon completing this module, students should understand:
 
 - Creating and working with a shopping cart data model in MongoDB
-- Tradeoffs in shopping cart data models
+- Trade offs in shopping cart data models
 
 .. include:: /includes/student-notes.rst
 
@@ -25,8 +25,8 @@ Shopping Cart Objectives
 Advantages of Using MongoDB for a Shopping Cart
 -----------------------------------------------
 
-- One simple document per cart (note: optimization for large carts below to split cart into separate documents)
-- Sharding
+- One simple document per cart (note: optimization for large carts below)
+- Sharding to partition workloads during high traffic periods
 - Dynamic schema for specific styles/values of an item in a cart (e.g. "Red Sweater", "17 Inch MacBook Pro 20GB RAM")
 
 .. include:: /includes/student-notes.rst
@@ -55,9 +55,7 @@ Modeling the Shopping Cart
         "price": 3.00,
         "quantity": 1,
         "img_url": "eggs.jpg"
-      },
-      ...
-    ]
+      } ]
   }
 
 .. include:: /includes/student-notes.rst
@@ -79,20 +77,18 @@ Add an Item to a User's Cart
 
   db.cart.update( { 
       "_id": ObjectId("55932ef370c32e23e6552ced")
-    }, { 
-      $push : { 
+    }, {
+      $push : {
         "items" : {
-          {
             "itemid": 1357,
             "title": "Bread",
             "price": 2.00,
             "quantity": 1,
             "img_url": "bread.jpg"
-          }
         }
       },
-      $set : { 
-        "last_activity" : ISODate()  
+      $set : {
+        "last_activity" : ISODate()
       } } )
 
 .. include:: /includes/student-notes.rst
@@ -139,19 +135,18 @@ Tracking Inventory for an Item
 
 - Use a "item" collection to store more detailed item information
 - "item" collection will also maintain a "quantity" field
-- "item" collection can also maintain a "quantity_in_carts" field
+- "item" collection may also maintain a "quantity_in_carts" field
 - When an item is added or removed from a user's cart, the "quantity_in_carts" field should be incremented or decremented
 
 .. code-block:: javascript
 
   {
     "_id": 8910,
-    "title": "Eggs",
-    "price": 3.00,
     "quantity": 1,
     "img_url": "eggs.jpg"
     "quantity" : 2000,
     "quantity_in_carts" : 3
+    ...
   }
 
 .. include:: /includes/student-notes.rst
@@ -188,9 +183,12 @@ Using aggregate() to Determine Number of Items Across User Carts
   db.cart.createIndex({"items.itemid" : 1})
 
   db.cart.aggregate(
-    { $match : { "items.itemid" : 1357 } },
-    { $unwind : { "items" : 1 } },
-    { $group : { "_id" : "$quantity", "amount" : { "$sum" : 1 } } }
+    { $match : { "items.itemid" : 8910 } },
+    { $unwind : "$items" },
+    { $group : { 
+        "_id" : "$items.itemid", 
+        "amount" : { "$sum" : "$items.quantity" }
+      } }
   )  
 
 .. include:: /includes/student-notes.rst
@@ -200,9 +198,9 @@ Expiring the Shopping Cart
 
 Three options: 
 
-- Create a TTL index on "last_activity" field in "cart" collection.  Requires background process to update "quantity_in_carts" field in item document.
-- Create a TTL index on "last_activity" field in "cart" collection.  Remove the "quantity_in_carts" field from the item document and query for number of items in user carts in real-time.
-- Create a background process to change the "status" field of old carts to "inactive"
+- Create a TTL index on "last_activity" field in "cart" collection.  Requires background process to update "quantity_in_carts" field in item document
+- Create a TTL index on "last_activity" field in "cart" collection.  Remove the "quantity_in_carts" field from the item document and create a query for determining the number of items currently allocated to user carts
+- Create a background process to change the "status" field of expired carts to "inactive"
 
 .. include:: /includes/student-notes.rst
 
@@ -210,7 +208,7 @@ Shopping Cart Variations
 ------------------------
 
 - Efficiently store very large shopping carts (1000+ items per cart)
-- Expire items individualy
+- Expire items individually
 
 .. include:: /includes/student-notes.rst
 
@@ -225,7 +223,7 @@ Efficiently Storing Large Shopping Carts
 Efficiently Storing Large Shopping Carts: "cart" Collection
 -----------------------------------------------------------
 
-- All information for the cart or order excluding items
+- All information for the cart or order (excluding items)
 
 .. code-block:: javascript
 
@@ -259,8 +257,8 @@ Efficiently Storing Large Shopping Carts: "cart_item" Collection
 
 .. include:: /includes/student-notes.rst
 
-Expire Items Individualy
-------------------------
+Expire Items Individually
+-------------------------
 
 - Add a TTL index to the "cart_item" document for the "date_added" field
 - Expiration would occur after a certain amount of time from when the item was added to the cart, similar to a ticketing site, or flash sale site 
@@ -272,9 +270,9 @@ Class Exercise
 
 Design a shopping cart schema for a concert ticket sales site:
 
-- Traffic is very spikey (many users may rush to the site at once)
-- There are seat and lawn sections, only one ticket can be sold per seat/concert
-- Consider what fields could be used for a shard key
+- Traffic will dramatically spike at times (many users may rush to the site at once)
+- There are seated and lawn sections, only one ticket can be sold per seat/concert, many tickets for the lawn section per concert
+- The system will be sharded, and appropriate shard keys will need to be selected
 
 
 .. include:: /includes/student-notes.rst
