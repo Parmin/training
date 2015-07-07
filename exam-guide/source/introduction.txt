@@ -1,0 +1,3 @@
+This exam guide is designed to be a comprehensive guide of everything you need to know in order to pass the MongoDB certification exam -- hopefully with a perfect score. The exam is offered on a regular basis, and is run by MongoDB University.
+
+The goal of the exam is to allow developers to demonstrate their knowledge of MongoDB at a level that employers will value. To that end, the exam is comprehensive, and covers a wide variety of topics.
