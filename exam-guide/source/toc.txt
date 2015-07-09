@@ -1,89 +1,89 @@
 Table of Contents
 -----------------
 
-* Introduction
-* General Exam Taking Advice
-* Exam Format
-  * Question types
-    * Multiple Choice
-    * Check all that apply
-  * Question types not used
-    * Web shell
-    * free text
-    * Why these aren't used
-* Topics Covered
-  * Philosophy & Features
-    * performance
-    * JSON
-    * BSON
-    * fault tolerance
-    * disaster recovery
-    * horizontal scaling
-    * the Mongo shell
-  * CRUD
-    * Create
-    * Read
-    * Update
-    * Delete operations
-  * Data Modeling
-    * embedding
-    * references
-    * document growth
-    * modeling one-to-one and one-to-many relationships
-    * modeling for atomic operations
-    * modeling tree structures
-  * Indexing and Performance
-    * single key
-    * compound
-    * multi-key
-    * mechanics
-    * storage engines
-    * performance
-  * Aggregation
-    * pipeline
-    * operators
-    * memory usage
-    * sort
-    * skip
-    * limit
-  * Replication
-    * configuration
-    * oplog concepts
-    * write concern
-    * elections
-    * failover
-    * deployment to multiple data centers
-  * Sharding
-    * components
-    * when to shard
-    * balancing
-    * shard keys
-    * hashed shard keys
-  * Required General IT Knowledge
-    * Fundamental database concepts
-      * Relational vs. Non-Relational Databases
-      * CAP Theorem
-        * What it says
-        * How it's often used
-    * Fundamentals of system programming
-      * Physical Memory
-      * Virtual Memory
-      * Hard Drive Types
-      * Address Space
-    * Basic JavaScript programming
-      * for loops
-      * while loops
-      * assigning a variable
-      * printing
-      * types
-    * Fundamentals of software development
-      * Programming Languages
-      * Patterns
-      * Frameworks
-      * Code Libraries
-      * Methodologies
-      * Testing, Staging, Production
-* Exam Questions
-    * Format of Question Types
-    * Examples
-      * ~5 per section
+- Introduction
+- Exam Advice
+- Exam Format
+  - Question types
+    - Multiple Choice
+    - Check all that apply
+  - Question types not used
+    - Web shell
+    - free text
+    - Why these aren't used
+- Topics Covered
+  - Philosophy & Features
+    - performance
+    - JSON
+    - BSON
+    - fault tolerance
+    - disaster recovery
+    - horizontal scaling
+    - the Mongo shell
+  - CRUD
+    - Create
+    - Read
+    - Update
+    - Delete operations
+  - Data Modeling
+    - embedding
+    - references
+    - document growth
+    - modeling one-to-one and one-to-many relationships
+    - modeling for atomic operations
+    - modeling tree structures
+  - Indexing and Performance
+    - single key
+    - compound
+    - multi-key
+    - mechanics
+    - storage engines
+    - performance
+  - Aggregation
+    - pipeline
+    - operators
+    - memory usage
+    - sort
+    - skip
+    - limit
+  - Replication
+    - configuration
+    - oplog concepts
+    - write concern
+    - elections
+    - failover
+    - deployment to multiple data centers
+  - Sharding
+    - components
+    - when to shard
+    - balancing
+    - shard keys
+    - hashed shard keys
+  - Required General IT Knowledge
+    - Fundamental database concepts
+      - Relational vs. Non-Relational Databases
+      - CAP Theorem
+        - What it says
+        - How it's often used
+    - Fundamentals of system programming
+      - Physical Memory
+      - Virtual Memory
+      - Hard Drive Types
+      - Address Space
+    - Basic JavaScript programming
+      - for loops
+      - while loops
+      - assigning a variable
+      - printing
+      - types
+    - Fundamentals of software development
+      - Programming Languages
+      - Patterns
+      - Frameworks
+      - Code Libraries
+      - Methodologies
+      - Testing, Staging, Production
+- Exam Questions
+    - Format of Question Types
+    - Examples
+      - ~5 per section
