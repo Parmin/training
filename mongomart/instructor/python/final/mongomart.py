@@ -40,7 +40,7 @@ def send_static(filename):
     return bottle.static_file(filename, root='./static/')
 
 @bottle.route('/')
-def blog_index():
+def index():
     page = request.query.page or 0
     category = request.query.category or 'All'
 
@@ -62,7 +62,7 @@ def blog_index():
                                         ))
 
 @bottle.route('/search')
-def blog_index():
+def search():
     page = request.query.page or 0
     query = request.query.query or ''
 
@@ -79,6 +79,39 @@ def blog_index():
                                         page=int(page),
                                         items = search_items
                                         ))
+
+@bottle.route('/item')
+def item():
+    itemid = request.query.id
+    
+    item = items.get_item(int(itemid))
+
+    num_reviews = len(item['reviews'])
+    stars = 0
+    for review in item['reviews']:
+        stars += review['stars']
+
+    if ( num_reviews > 0 ): 
+        stars = stars / num_reviews
+
+    related_items = items.get_related_items()
+
+    return bottle.template('item', dict(item = item,
+                                        stars = stars,
+                                        num_reviews = num_reviews,
+                                        related_items = related_items
+                                        ))
+
+@bottle.route('/add-review')
+def add_review():
+    itemid = request.query.itemid
+    review = request.query.review
+    name = request.query.name
+    stars = int(request.query.stars)
+
+    item = items.add_review(itemid, review, name, stars)
+
+    return bottle.redirect("/item?id=" + str(itemid))
 
 connection_string = "mongodb://localhost"
 connection = pymongo.MongoClient(connection_string)

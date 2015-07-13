@@ -63,7 +63,7 @@
                     </a>
                 </div>
                 <div class="col-md-5">
-                    <h3><a href="/item?id=${item.id}">{{item['title']}}</a></h3>
+                    <h3><a href="/item?id={{item['_id']}}">{{item['title']}}</a></h3>
                     <h4>{{item['slogan']}}</h4>
                     <p>{{item['description']}}</p>
                     <a class="btn btn-primary" href="/item?id=${item.id}">View Product <span class="glyphicon glyphicon-chevron-right"></span></a>

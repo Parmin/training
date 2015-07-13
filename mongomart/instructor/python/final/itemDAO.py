@@ -20,6 +20,7 @@ __author__ = 'jz'
 import sys
 import random
 import string
+import datetime
 
 
 # The session Data Access Object handles interactions with the sessions collection
@@ -47,8 +48,6 @@ class ItemDAO:
         
         return categories
 
-    # will start a new session id by adding a new document to the sessions collection
-    # returns the sessionID or None
     def get_items(self, category, page, items_per_page):
 
         if category == 'All':
@@ -86,3 +85,34 @@ class ItemDAO:
             num_items = self.item.find( { '$text' : { '$search': query } }).count()
 
         return num_items
+
+    def get_item(self, itemid):
+        item = self.item.find_one( { '_id' : itemid })
+
+        return item
+
+    def get_related_items(self):
+        items = list(self.item.find().limit(4))
+        
+        return items
+
+    def add_review(self, itemid, review, name, stars):
+        # Push review on to reviews array, make sure to limit at 10
+        #
+        #  db.item.update( { "_id" : 1 }, { $set: { "stars" : 4.3 }, $push : { "reviews" : {
+        #    $each : [{ "name" : "Name", "date" : ISODate("2016-06-30T23:27:22.163Z"), "comment" : "here", "stars" : 5 } ],
+        #    $sort : { "date" : -1 },
+        #    $slice : 10
+        #       } } })
+        #   }
+
+        self.item.update({ '_id' : int(itemid) }, 
+                         { '$push' : { 
+                            'reviews' : 
+                                { 'name' : name, 
+                                  'comment' : review, 
+                                  'stars' : stars, 
+                                  'date' : datetime.datetime.now() 
+                                }
+                            }
+                         })
