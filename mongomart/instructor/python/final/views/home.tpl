@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon" />
 
     <title>MongoMart - Shop MongoDB Gear</title>
 
@@ -51,7 +51,7 @@
         <div class="col-md-2">
             <div class="list-group">
                 % for category in categories:
-                    <a href="/?category={{category}}" class="list-group-item <#if category_param == category.name>active</#if>"><span class="badge">{{category['num']}}</span>{{category['_id']}}</a>
+                    <a href="/?category={{category['_id']}}" class="list-group-item {{'active' if category_param == category['_id'] else 'inactive'}}"><span class="badge">{{category['num']}}</span>{{category['_id']}}</a>
                 % end
             </div>
         </div>
@@ -88,19 +88,19 @@
                     <ul class="pagination">
 
                         <!-- Show page numbers for pagination -->
-                        <#if useRangeBasedPagination == false>
+                        %if useRangeBasedPagination == False:
 
-                            <#list 0..num_pages as i>
-                                <li <#if page == (i)>class="active"</#if>>
-                                    <a href="/?page=${i}&category=${category_param}">${i+1}</a>
+                            %for i in range(0,(pages+1)):
+                                <li class={{'active' if page == i else 'inactive'}}>
+                                    <a href="/?page={{i}}&category={{category_param}}">{{i + 1}}</a>
                                 </li>
-                            </#list>
+                            %end
 
-                        </#if>
+                        %end
 
                         <!-- TODO-lab3 Range based Pagination, modify the useRangeBasedPagination attribute in the controller  -->
 
-                        <#if useRangeBasedPagination == true>
+                        %if useRangeBasedPagination:
 
                             <#if previousPageUrl??>
                                 <li><a href="${previousPageUrl}">Previous Page</a></li>
@@ -109,19 +109,19 @@
                                 <li><a href="${nextPageUrl}">Next Page</a></li>
                             </#if>
 
-                        </#if>
+                        %end
 
                     </ul>
                 </div>
             </div>
 
-            <#if useRangeBasedPagination == false>
+            %if useRangeBasedPagination == False:
 
                 <div style="text-align:center;">
-                    <i>${item_count} Products</i>
+                    <i>{{item_count}} Products</i>
                 </div>
 
-            </#if>
+            %end
 
             <!-- /.row -->
         </div>
@@ -130,8 +130,8 @@
 </div>
 <!-- /.container -->
 
-<#-- Include footer -->
-<#include "includes/footer.ftl">
+% # Include footer
+%include('includes/footer.tpl')
 
 </body>
 

@@ -1,4 +1,4 @@
-__author__ = 'aje'
+__author__ = 'jz'
 
 
 #
@@ -34,20 +34,55 @@ class ItemDAO:
     # returns the sessionID or None
     def get_categories(self):
 
-        categories = []
-        categories.append( {'name': 'Jason', 'num_items': 1234 } )
-
         # db.item.aggregate( { $group : { "_id" : "$category", "num" : { "$sum" : 1 } } }, { $sort : { "_id" : 1 } })
         pipeline = [ { "$group" : { "_id" : "$category", "num" : { "$sum" : 1 } } },
                      { "$sort" : { "_id" : 1 } } ]
         categories = list(self.item.aggregate(pipeline))
+
+        total = 0
+        for category in categories:
+            total += category['num']
+
+        categories.insert(0,  {'_id': 'All', 'num': total } )
         
         return categories
 
     # will start a new session id by adding a new document to the sessions collection
     # returns the sessionID or None
-    def get_items(self):
+    def get_items(self, category, page, items_per_page):
 
-        items = list(self.item.find().limit(5))
+        if category == 'All':
+            items = list(self.item.find().skip(int(page*items_per_page)).limit(items_per_page))
+        else:
+            items = list(self.item.find( { 'category' : category }).skip(int(page*items_per_page)).limit(items_per_page))
         
         return items
+
+    def get_num_items(self, category):
+        num_items = 0;
+
+        if category == 'All':
+            num_items = self.item.find().count()
+        else:
+            num_items = self.item.find( { 'category' : category }).count()
+        
+        return num_items
+
+    def search_items(self, query, page, items_per_page):
+
+        if query == '':
+            items = list(self.item.find().skip(int(page*items_per_page)).limit(items_per_page))
+        else:
+            items = list(self.item.find( { '$text' : { '$search': query } }).skip(int(page*items_per_page)).limit(items_per_page))
+        
+        return items
+
+    def get_num_search_items(self, query):
+        num_items = 0;
+
+        if query == '':
+            num_items = self.item.find().count()
+        else:
+            num_items = self.item.find( { '$text' : { '$search': query } }).count()
+
+        return num_items

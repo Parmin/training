@@ -23,34 +23,61 @@ import itemDAO
 import bottle
 import cgi
 import re
+import math
+
+from bottle import route, request, response, template
 
 
 
-__author__ = 'aje'
+__author__ = 'jz'
 
 
-# General Discussion on structure. This program implements a blog. This file is the best place to start to get
-# to know the code. In this file, which is the controller, we define a bunch of HTTP routes that are handled
-# by functions. The basic way that this magic occurs is through the decorator design pattern. Decorators
-# allow you to modify a function, adding code to be executed before and after the function. As a side effect
-# the bottle.py decorators also put each callback into a route table.
+# CONSTANTS
+ITEMS_PER_PAGE = 5
 
-# These are the routes that the blog must handle. They are decorated using bottle.py
-
-# This route is the main page of the blog
 @bottle.route('/static/:filename#.*#')
 def send_static(filename):
     return bottle.static_file(filename, root='./static/')
 
 @bottle.route('/')
 def blog_index():
+    page = request.query.page or 0
+    category = request.query.category or 'All'
 
     categories = items.get_categories()
-    all_items = items.get_items()
+    all_items = items.get_items(category, int(page), ITEMS_PER_PAGE)
+    item_count = items.get_num_items(category)
 
-    return bottle.template('home', dict(category_param="All", 
+    num_pages = 0;
+    if item_count > ITEMS_PER_PAGE:
+        num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
+
+    return bottle.template('home', dict(category_param=category, 
                                         categories=categories, 
+                                        useRangeBasedPagination=False,
+                                        item_count=item_count,
+                                        pages=num_pages,
+                                        page=int(page),
                                         items = all_items
+                                        ))
+
+@bottle.route('/search')
+def blog_index():
+    page = request.query.page or 0
+    query = request.query.query or ''
+
+    search_items = items.search_items(query, int(page), ITEMS_PER_PAGE)
+    item_count = items.get_num_search_items(query)
+
+    num_pages = 0;
+    if item_count > ITEMS_PER_PAGE:
+        num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
+
+    return bottle.template('search', dict(query_string=query,
+                                        item_count=item_count,
+                                        pages=num_pages,
+                                        page=int(page),
+                                        items = search_items
                                         ))
 
 connection_string = "mongodb://localhost"
