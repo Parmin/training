@@ -20,10 +20,12 @@
 
 import pymongo
 import itemDAO
+import cartDAO
 import bottle
 import cgi
 import re
 import math
+import decimal
 
 from bottle import route, request, response, template
 
@@ -34,6 +36,7 @@ __author__ = 'jz'
 
 # CONSTANTS
 ITEMS_PER_PAGE = 5
+USERID = "558098a65133816958968d88"
 
 @bottle.route('/static/:filename#.*#')
 def send_static(filename):
@@ -85,14 +88,17 @@ def item():
     itemid = request.query.id
     
     item = items.get_item(int(itemid))
-
-    num_reviews = len(item['reviews'])
     stars = 0
-    for review in item['reviews']:
-        stars += review['stars']
+    num_reviews = 0
 
-    if ( num_reviews > 0 ): 
-        stars = stars / num_reviews
+    if 'reviews' in item:
+        num_reviews = len(item['reviews'])
+    
+        for review in item['reviews']:
+            stars += review['stars']
+
+        if ( num_reviews > 0 ): 
+            stars = stars / num_reviews
 
     related_items = items.get_related_items()
 
@@ -113,11 +119,45 @@ def add_review():
 
     return bottle.redirect("/item?id=" + str(itemid))
 
+@bottle.route('/cart')
+def cart():
+    return cart_helper(False)   
+    
+def cart_helper(updated):
+    user_cart = cart.get_cart(USERID)
+    total = 0
+    for item in user_cart['items']:
+        total += item['price'] * item['quantity']
+
+    return bottle.template('cart', dict(updated=updated,
+                                        cart=user_cart,
+                                        total=total
+                                        ))    
+
+@bottle.route('/cart/add')
+def cart():
+    itemid = request.query.itemid
+    item = items.get_item(int(itemid))
+
+    cart.add_item(USERID, item)
+    
+    return cart_helper(True)
+
+@bottle.route('/cart/update')
+def update_cart():
+    itemid = request.query.itemid
+    quantity = request.query.quantity
+
+    cart.update_quantity(USERID, int(itemid), int(quantity))
+
+    return cart_helper(True)
+
 connection_string = "mongodb://localhost"
 connection = pymongo.MongoClient(connection_string)
 database = connection.mongomart
 
 items = itemDAO.ItemDAO(database)
+cart = cartDAO.CartDAO(database)
 
 
 bottle.debug(True)

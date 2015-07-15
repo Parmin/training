@@ -40,7 +40,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/?category=${item.category}">{{item['category']}}</a></li>
+                    <li><a href="/?category={{item['category']}}">{{item['category']}}</a></li>
                     <li class="active">{{item['title']}}</li>
                 </ol>
             </div>
@@ -83,7 +83,7 @@
                     {{item['description']}}
                 </p>
 
-                <a class="btn btn-primary" href="/cart/add?itemid=${item.id}">Add to cart <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="btn btn-primary" href="/cart/add?itemid={{item['_id']}}">Add to cart <span class="glyphicon glyphicon-chevron-right"></span></a>
 
             </div>
 
@@ -99,30 +99,31 @@
 
             <div class="col-lg-12">
 
-                %for review in item['reviews']:
-                
-                    <!-- Comment -->
-                    <div>
+                % if 'reviews' in item:
+                    %for review in item['reviews']:
+                    
+                        <!-- Comment -->
                         <div>
-                            <h4 class="media-heading">{{review['name']}}
-                                <small>{{review['date'].strftime('%Y-%m-%d')}}</small>
-                            </h4>
-                            <div class="ratings" style="padding-left: 0px;">
+                            <div>
+                                <h4 class="media-heading">{{review['name']}}
+                                    <small>{{review['date'].strftime('%Y-%m-%d')}}</small>
+                                </h4>
+                                <div class="ratings" style="padding-left: 0px;">
 
-                                %for num in range(1,6):
-                                    <span class="glyphicon {{'glyphicon-star' if review['stars'] >= num else 'glyphicon-star-empty'}}"></span>
-                                %end
+                                    %for num in range(1,6):
+                                        <span class="glyphicon {{'glyphicon-star' if review['stars'] >= num else 'glyphicon-star-empty'}}"></span>
+                                    %end
 
+                                </div>
+
+                                {{review['comment']}}
                             </div>
-
-                            {{review['comment']}}
                         </div>
-                    </div>
 
-                    <hr />
+                        <hr />
 
-                %end 
-
+                    %end 
+                %end
             </div>
 
         </div>
