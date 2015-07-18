@@ -2,6 +2,7 @@ package mongomart.dao;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -9,7 +10,9 @@ import mongomart.model.Store;
 import org.bson.Document;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Sorts.orderBy;
 import static com.mongodb.client.model.Sorts.ascending;
@@ -21,6 +24,26 @@ public class StoreDao {
     private final MongoCollection<Document> collection;
     private final MongoCollection<Document> zipCollection;
     private final MongoDatabase database;
+
+    public static class ZipNotFound extends Exception {
+        public final String zip;
+
+        public ZipNotFound(final String zip) {
+            super();
+            this.zip = zip;
+        }
+    }
+
+    public static class CityAndStateNotFound extends Exception {
+        public final String city;
+        public final String state;
+
+        public CityAndStateNotFound(final String city, final String state) {
+            super();
+            this.city = city;
+            this.state = state;
+        }
+    }
 
     /**
      *
@@ -42,97 +65,82 @@ public class StoreDao {
         }
     }
 
-    public List<Store> getAllStores() {
-        try (MongoCursor<Document> cursor = collection.find()
-                .sort(orderBy(ascending("name")))
-                .iterator()) {
-            List<Store> stores = new ArrayList<>();
-            while (cursor.hasNext()) {
-                stores.add(buildStore(cursor.next()));
-            }
-            return stores;
-        }
-    }
-
-    public Store getStoreWithStoreId(final String storeId) {
-        Document doc = collection.find(eq("storeId", storeId)).first();
+    public List<Store> getStoresClosestToCityAndState(
+            final String city, final String state, final int skip, final int limit)
+            throws CityAndStateNotFound {
+        // Arbitrarily choose a matching location.
+        Document doc = zipCollection.find(
+                and(eq("city", city.toUpperCase()), eq("state", state))).first();
         if (doc == null) {
-            return null;
-        }
-        return buildStore(doc);
-    }
-
-    public List<Store> getStoresWithCity(final String city) {
-        try (MongoCursor<Document> cursor = collection.find(eq("city", city))
-                .sort(orderBy(ascending("name")))
-                .iterator()) {
-            List<Store> stores = new ArrayList<>();
-            while (cursor.hasNext()) {
-                stores.add(buildStore(cursor.next()));
-            }
-            return stores;
-        }
-    }
-
-    public List<Store> getStoresWithZip(final String zip) {
-        try (MongoCursor<Document> cursor = collection.find(eq("zip", zip))
-                .sort(orderBy(ascending("name")))
-                .iterator()) {
-            List<Store> stores = new ArrayList<>();
-            while (cursor.hasNext()) {
-                stores.add(buildStore(cursor.next()));
-            }
-            return stores;
-        }
-    }
-
-    public List<Store> getStoresClosestToZip(final String zipCode) {
-        Document doc = zipCollection.find(eq("_id", zipCode)).first();
-        if (doc == null) {
-            return new ArrayList<Store>();
+            throw new CityAndStateNotFound(city, state);
         }
         List<Double> location = (List<Double>) doc.get("loc");
-        return getStoresClosestToLocation(location.get(0), location.get(1));
+        return getStoresClosestToLocation(location.get(0), location.get(1), skip, limit);
     }
 
-    public List<Store> getStoresClosestToLocation(final double longitude, final double latitude) {
-        List<Document> pipeline = buildClosestToLocationPipeline(longitude, latitude);
-
-        try (MongoCursor<Document> cursor = collection.aggregate(pipeline).iterator()) {
-            List<Store> stores = new ArrayList<>();
-            while (cursor.hasNext()) {
-                stores.add(buildStore(cursor.next()));
-            }
-            return stores;
+    public List<Store> getStoresClosestToZip(
+            final String zipCode, final int skip, final int limit) throws ZipNotFound {
+        Document doc = zipCollection.find(eq("_id", zipCode)).first();
+        if (doc == null) {
+            throw new ZipNotFound(zipCode);
         }
+        List<Double> location = (List<Double>) doc.get("loc");
+        return getStoresClosestToLocation(location.get(0), location.get(1), skip, limit);
+    }
+
+    private List<Store> getStoresClosestToLocation(
+            final double longitude, final double latitude, final int skip, final int limit) {
+        List<Document> pipeline = buildClosestToLocationPipeline(longitude, latitude);
+        pipeline.add(new Document("$skip", skip));
+        pipeline.add(new Document("$limit", limit));
+        List<Document> docs = collection.aggregate(pipeline).into(new ArrayList<>());
+        return docsToStores(docs);
+    }
+
+    public long countStores() {
+        return collection.count();
     }
 
     private List<Document> buildClosestToLocationPipeline(final double longitude, final double latitude) {
         // Documents are already sorted
+        List<Double> coordinates = new ArrayList<>();
+        coordinates.add(longitude);
+        coordinates.add(latitude);
+        long numStores = countStores();
+
         Document geoNear = new Document(
                 "$geoNear",
                 new Document(
                         "near",
-                        new Document("type", "Point")
-                                .append("coordinates", new double[] { longitude, latitude })
+                        new Document("type", "Point").append("coordinates", coordinates)
                 )
-                        .append("distanceField", "dist.calculated")
-                        .append("spherical", "true")
+                        .append("distanceField", "distanceFromPoint")
+                        .append("spherical", true)
                         .append("distanceMultiplier", 0.001)
-        );
-
-        List<Document> pipeline = new ArrayList<Document>();
+                        .append("limit", numStores)
+            );
+        List<Document> pipeline = new ArrayList<>();
         pipeline.add(geoNear);
         return pipeline;
     }
 
-    private static Store buildStore(Document document) {
-        // TODO: should this use a builder pattern?
+    private static Store docToStore(Document document) {
+        List<Double> coords = (List<Double>) document.get("coords");
+        double longitude = coords.get(0);
+        double latitude = coords.get(1);
+
+        double distanceFromPoint = document.containsKey("distanceFromPoint") ?
+                document.getDouble("distanceFromPoint") : 0.0;
+
         return new Store(
                 document.getObjectId("_id"), document.getString("storeId"), document.getString("name"),
-                document.getDouble("longitude"), document.getDouble("latitude"), document.getString("address"),
+                longitude, latitude, document.getString("address"),
                 document.getString("address2"), document.getString("city"), document.getString("state"),
-                document.getString("zip"), document.getString("country")
+                document.getString("zip"), document.getString("country"), distanceFromPoint
         );
+    }
+
+    private static List<Store> docsToStores(List<Document> documents) {
+        return documents.stream().map(StoreDao::docToStore).collect(Collectors.toList());
     }
 }

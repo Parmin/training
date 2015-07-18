@@ -47,38 +47,96 @@
     <!-- /.row -->
 
     <div class="row">
-
-
         <div class="col-md-12">
-            <div class="row">
-                <h2>Store Locator</h2>
-                <p>Find the store closest to you.</p>
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label for="zipCode">Zip code</label>
-                    <input type="text" class="form-control" name="zipCode" id="zipCode"/>
-                  </div>
-                  <div class="form-group">
-                    <label> - or - </label>
-                  </div>
-                  <div class="form-group">
+            <h2>Store Locator</h2>
+            <p>Find the store closest to you.</p>
+            <#if zipError??>
+            <div class="alert alert-danger">
+                ${zipError}
+            </div>
+            </#if>
+            <form class="form">
+                <div class="form-group<#if zipError??> has-error</#if>">
+                    <label class="control-label" for="zip">Zip code</label>
+                    <input type="text" class="form-control" name="zip" id="zip" value="${zip!}"/>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="find" value="byZip"/>
+                    <button type="submit" class="btn btn-primary">Find stores by zip</button>
+                </div>
+            </form>
+            <#if cityAndStateError??>
+            <div class="alert alert-danger">
+                 ${cityAndStateError}
+            </div>
+            </#if>
+            <form class="form">
+                <div class="form-group<#if cityAndStateError??> has-error</#if>">
+                    <label class="control-label" for="city">City</label>
+                    <input type="text" class="form-control" name="city" id="city" value="${city!}"/>
+                </div>
+                <div class="form-group<#if cityAndStateError??> has-error</#if>">
                     <label for="state">State</label>
                     <select class="form-control" name="state" id="state">
-                      <#list states as state>
-                      <option value="${state}">${state}</option>
-                      </#list>
+                        <option>Choose one</option>
+                        <#list states as st>
+
+                        <#if st == state!>
+                        <option value="${st}" selected>${st}</option>
+                        <#else>
+                        <option value="${st}">${st}</option>
+                        </#if>
+
+                        </#list>
                     </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="city">City</label>
-                    <input type="text" class="form-control" name="city" id="city">
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Find stores</button>
-                  </div>
-                </form>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="find" value="byCityAndState"/>
+                    <button type="submit" class="btn btn-primary">Find stores by city &amp; state</button>
+                </div>
+            </form>
+
+
+            <!-- row -->
+            <#list stores as store>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>${store.name}</h3>
+                    <address>
+                        <strong>${store.name}</strong><br/>
+                        ${store.address}<br/>
+                        <#if store.address2??>${store.address2}<br/></#if>
+                        ${store.city}, ${store.state} ${store.zip}<br/>
+                        ${store.country}<br/>
+                    </address>
+                    <!-- only show distance for zip searches -->
+                    <#if find! == "byZip">
+                    <strong>Distance: ${store.distanceFromPoint} km</strong>
+                    </#if>
+                </div>
             </div>
             <!-- /.row -->
+
+            <hr/>
+
+            </#list>
+            <!-- /.row -->
+
+            <#if stores?size gt 0>
+            <!-- Pagination -->
+            <div class="row text-center">
+                <div class="col-lg-12">
+                    <ul class="pagination">
+                    <#list 0..numPages-1 as i>
+                        <li <#if page == (i)>class="active"</#if>>
+                            <a href="?page=${i}&city=${city!}&state=${state!}&zip=${zip!}&find=${find!}">${i+1}</a>
+                        </li>
+                    </#list>
+                    </ul>
+                </div>
+            </div>
+            </#if>
 
             <div style="text-align:center;">
                 <i>${numStores} Stores</i>
