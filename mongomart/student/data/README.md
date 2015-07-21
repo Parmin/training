@@ -7,6 +7,7 @@ db.item.createIndex( { "title" : "text", "slogan" : "text", "description" : "tex
 
 Import the store dataset for MongoMart
 =====================================
+N.B. The store locations dataset is based on Best Buy locations.
 
 mongoimport -d mongomart -c store stores.json
 
