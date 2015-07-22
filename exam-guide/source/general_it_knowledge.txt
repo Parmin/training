@@ -82,4 +82,117 @@ Solid state drives are typically more expensive than magnetic drives, and use fl
 
 RAID drives ("Redundant Array of Independent Disks") are defined nosometimes used in databases, as well. It combines multiple hard drives into a single logical unit in order to provide some combination of redundancy and improved performance. 
 
+Basics of Javascript Programming
+--------------------------------
 
+Javascript it a scripting language often used when writing web pages, and it is used in the MongoDB administrative shell. Everything on the exam will have to do with that administrative shell, so that's all we'll focus on.
+
+To assign a value to a variable, you use the '=' sign. Let's assign the value of 5 to the 'x' variable:
+
+.. code-block:: javascript
+  
+  > var x = 5;
+  > print(x)
+  5
+
+The variable assignment can also be done implicitly, and the semicolons are often optional, so this can also work:
+
+.. code-block:: javascript
+  
+  > x = 5
+  5
+  > print(x)
+  5
+
+There are some objects and functions provided that you can use for some common use cases:
+
+.. code-block:: javascript
+
+  > Math.floor(3.5)
+  3
+  > Math.PI
+  3.141592653589793
+  > ISODate()
+  ISODate("2015-07-22T19:04:34.219Z")
+  > print("hello")
+  hello
+  >
+
+You can also create loops using the shell:
+
+.. code-block:: javascript
+
+  > var x = 0
+  > while ( x < 5 ) { x++; print(x) }
+  1
+  2
+  3
+  4
+  5
+  > for (i=0; i<=3; i++) { print(i) }
+  0
+  1
+  2
+  3
+  > x = { a : 4, b : 3, c : 2 }
+  { "a" : 4, "b" : 3, "c" : 2 }
+  > for (key in x) { print(key + ': ' + x[key]) }
+  a: 4
+  b: 3
+  c: 2
+  >
+
+In MongoDB, you will often be working with database or collection objects:
+
+.. code-block:: javascript
+
+  > db
+  test
+  > db.currentOP()
+  { "inprog" : [ ] }
+  > db.people.find()
+  { "_id" : ObjectId("55afeb6a6daadd6baf25c63b"), "name" : "Dwight", "title" : "Chair of the Board" }
+  { "_id" : ObjectId("55afeb7b6daadd6baf25c63c"), "name" : "Andrew", "title" : "VP of Developer Experience" }
+       
+We'll be going through relevant functions during the review session, but definitely be aware of how they're invoked in the shell.
+
+Fundamentals of Software Development
+------------------------------------
+
+Whether you're taking the DBA or the developer exam, there are some basics that you'll want to know. We'll go over them one at a time.
+
+Programming Languages
+---------------------
+
+Programming languages are high-level methods of translating operations into low-level commands that a computer can understand. Because applications are written in various programming languages, MongoDB provides drivers, or libraries that facilitate the communication between the application and the server. MongoDB supports drivers in a number of languages (and more still are supported by the community), but common ones include Java, Python (via the PyMongo driver), Node.js, and .NET, among others.
+
+You can find out more about our drivers here.
+
+.. _here: http://docs.mongodb.org/ecosystem/drivers/
+
+Patterns
+--------
+
+When programming, there are some common problems that come up, and common solutions to these problems; the solutions are called "patterns." For example, when dealing with concurrency, you need to make sure that nothing is read while it is being written and the pattern often used to deal with this is to implement a "readers-writer" lock, where reads can happen in parallel, so you have a "read lock" that prevents writers but allowes readers, but only one write can occur at a time, and so you have a "write lock" that locks out all other writers and all readers.
+
+Patterns are good to implement; you can be reasonably confident that any surprises when you implement a "pattern" are from bugs in your code, rather than design flaws.
+
+Frameworks
+----------
+
+A software framework is a piece of software written in a language that takes inputs that determine its behavior in a narrow range. For example, "Ruby on Rails" is a framework, written in Ruby, that is used to create web pages.
+
+Code Libraries
+--------------
+
+Generally, software languages have some bare, core functionality. Code libraries extend this functionality in a re-usable way. They can be written and maintained by a community, and distributed with the language, or they might be written by an individual developer for personal use. Using code libraries is a pattern for re-use of code.
+
+Methodologies
+-------------
+
+A software development methodology is a way of breaking down software development into different stages. Common examples include Waterfall and Agile. All methodologies can be used to create software, but some methodologies are favored by different organizations.
+
+Development Environments
+------------------------
+
+A development environment is where a software program is deployed. If you want to write a program for yourself that solves linear algebra problems, the development environment might just be your laptop. For more complicated systems, it's common to have a "production" environment that users interact with, as well as "development" and/or "staging" in order to test code in a realistic fashion before it gets to production. A developer might begin by writing changes in their "local" environment, their own workstation which may not look much like production, and move it to more realistic environments as their confidence grows that the code should be deployed to production.
