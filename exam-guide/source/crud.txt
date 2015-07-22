@@ -1,0 +1,109 @@
+CRUD
+----
+
+- On the certification exam, you will be expected to:
+  - Understand everything in the CRUD outline below
+  - Be able to select the correct CRUD input to accomplish an operation described
+  - Be able to look at an CRUD operation and choose the correct plaintext description for what it does
+  - Differentiate between valid and invalid CRUD inputs
+  - Determine, for a given collection:
+    - What documents will be returned by a .find() query and what form they'll be in
+    - What documents will be written to, and what they will look like after an update or delete operation
+    - What might prevent an insert from working properly
+
+
+CRUD: Overview
+--------------
+
+CRUD operations are about Creating, Reading, Updating, and Deleting data (and sometimes metadata). Typically these operations will be invoked with a db.collection.<method>, such as:
+
+- db.collection.insert(<document>, <options>)
+- db.collection.find(<match>, <project>, <options>)
+- db.collection.update(<match>, <update>, <options>)
+- db.collection.save(<document>, <options>)
+- db.collection.findAndModify(<document>)
+- db.collection.remove(<match>)
+
+Here are the topics that this section covers:
+
+- Create
+- Read
+  - Matching
+  - Projecting
+  - Sorting
+  - matching & projection operators
+  - regex
+- Update
+  - Standard update
+  - Multi update
+  - upsert
+  - save
+- Delete
+  - db.collection.remove()
+  - db.collection.drop()
+- Cursors
+  - getMore
+
+
+Create
+------
+
+Document creation can occur through a few commands:
+
+- db.collection.insert
+  - Documentation here_
+  - Lesson video here_
+
+.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.insert/
+.. _Lesson video here: http://youtu.be/qqfVxGLIrLg
+
+- db.collection.save
+  - This can update or insert
+  - Documentation here_
+  - Lesson video here_
+
+.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.save/
+.. _Lesson video here: http://youtu.be/fWLiwAC-Q20
+
+- db.collection.update 
+  - can insert if it's an "upsert"
+  - Documentation here_ (only an insert if upsert: true is set)
+  - Lesson video here_
+
+.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.update/
+.. _Lesson video here: http://youtu.be/fWLiwAC-Q20
+
+- db.collection.findAndModify
+  - only if updating, and upsert : true is set
+  - Documentation here_
+
+.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.findAndModify/
+
+You can also have collection creation through the following command:
+
+- db.createCollection
+  - Documentation here_
+
+  .. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.createCollection/
+
+Most questions about document creation will involve insert, and it won't be a large part of the exam, because insertion is generally quite straightforward: you give a document that you want, and it gets inserted.
+
+Things can be a bit more complicated for an upsert, however. Here, the "find" document can contribute fields to the document that gets created.
+
+Here's an example:
+
+.. code-block:: javascript
+
+  > db.foo.update( { a : 5, b : { $lte : 7 } }, { $set : { c : 8 } }, { upsert : true } )
+  WriteResult({
+      "nMatched" : 0,
+      "nUpserted" : 1,
+      "nModified" : 0,
+      "_id" : ObjectId("55b0200e5ef34083de46367e")
+  })
+  > db.foo.find()
+  { "_id" : ObjectId("55b0200e5ef34083de46367e"), "a" : 5, "c" : 8 }
+
+The value, c : 8, was set because the upsert instructed that it be set. The a : 5 was also set, because it was part of the query. The value of b couldn't be determined from the query, so it was not set. Finally, an _id was assigned.
+
+
