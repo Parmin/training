@@ -1,89 +1,230 @@
 Table of Contents
 -----------------
 
-- Introduction
-- Exam Advice
-- Exam Format
-  - Question types
-    - Multiple Choice
-    - Check all that apply
-  - Question types not used
-    - Web shell
-    - free text
-    - Why these aren't used
-- Topics Covered
-  - Philosophy & Features
-    - performance
-    - JSON
-    - BSON
-    - fault tolerance
-    - disaster recovery
-    - horizontal scaling
-    - the Mongo shell
-  - CRUD
-    - Create
-    - Read
-    - Update
-    - Delete operations
-  - Data Modeling
-    - embedding
-    - references
-    - document growth
-    - modeling one-to-one and one-to-many relationships
-    - modeling for atomic operations
-    - modeling tree structures
-  - Indexing and Performance
-    - single key
-    - compound
-    - multi-key
-    - mechanics
-    - storage engines
-    - performance
-  - Aggregation
-    - pipeline
-    - operators
-    - memory usage
-    - sort
-    - skip
-    - limit
-  - Replication
-    - configuration
-    - oplog concepts
-    - write concern
-    - elections
-    - failover
-    - deployment to multiple data centers
-  - Sharding
-    - components
-    - when to shard
-    - balancing
-    - shard keys
-    - hashed shard keys
-  - Required General IT Knowledge
-    - Fundamental database concepts
-      - Relational vs. Non-Relational Databases
-      - CAP Theorem
-        - What it says
-        - How it's often used
-    - Fundamentals of system programming
-      - Physical Memory
-      - Virtual Memory
-      - Hard Drive Types
-      - Address Space
-    - Basic JavaScript programming
-      - for loops
-      - while loops
-      - assigning a variable
-      - printing
-      - types
-    - Fundamentals of software development
-      - Programming Languages
-      - Patterns
-      - Frameworks
-      - Code Libraries
-      - Methodologies
-      - Testing, Staging, Production
-- Exam Questions
-    - Format of Question Types
-    - Examples
-      - ~5 per section
+- General IT Knowledge
+  - Fundamental Database Concepts
+    - Relational DB's vs. Non-Relational Databases
+    - CAP theorem
+      - What it says
+      - What people often mean by it
+    - Joins
+    - Transactions
+  - Fundamentals of System Programming
+    - Physical Memory
+    - Virtual Memory
+    - Hard Drive Types
+  - Basics of Javascript Programming
+    - loops (for and while)
+  - Fundamentals of Software Development
+    - Programming Languages
+    - Patterns
+    - Frameworks
+    - Code Libraries
+    - Methodologies
+    - Development Environments
+
+- Philosophy and Features
+  - Performance
+  - JSON
+  - BSON
+  - Fault tolerance
+  - Disaster recovery
+  - Horizontal Scaling
+  - The Mongo Shell
+
+- CRUD
+  - Create
+  - Read
+    - Matching
+    - Projecting
+    - Sorting
+    - matching & projection operators
+    - regex
+  - Update
+    - Standard update
+    - Multi update
+    - upsert
+    - save
+  - Delete
+    - db.collection.remove()
+    - db.collection.drop()
+  - Cursors
+    - getMore
+
+- Indexes
+  - Primary vs. Secondary Indexes
+  - Primary Index in MongoDB
+  - Creating Indexes
+  - Simple Indexes
+  - Compound Indexes
+  - Multi-Key Indexes
+    - Using Index Prefixes
+  - Filtering with Indexes
+  - Sorting with Indexes
+  - Selectivity of Indexes
+  - Indexes on a subdocument (dot notation)
+  - The .explain() method
+    - For a cursor
+    - For a collection
+  - Covered Queries
+  - Regex on String Fields and Indexes
+  - Unique Indexes
+    - dropDups
+  - Sparse Indexes
+  - TTL (Time-to-live) Indexes
+  - Specialized Indexes
+    - Text Indexes
+    - 2d Indexes
+    - 2dSphere Indexes
+
+- Data Modeling (Dev only)
+  - Embedding
+  - Denormalizing
+  - References
+  - One-to-many relationships
+  - One-to-one relationships
+  - Many-to-many relationships
+  - Modeling for Atomic Operations
+  - Modeling Tree Structures
+  - MongoDB BLOB options
+    - GridFS
+    - Binary Data
+  - Storage engine considerations
+    - MMAPv1
+      - Data Files
+      - Document Growth
+      - Document Movement
+      - Powers of Two Sized Allocation Strategy
+      - Updating indexes on document movement
+    - WiredTiger
+      - Data Files
+      - Invoking the WiredTiger storage engine
+      - WT Cache
+      - Block Compression
+      - Index Prefix Compression
+
+- Aggregation (Emphasized in Dev)
+  - Pipeline behavior
+  - Stages & top-level operators
+    - $sort
+    - $skip
+    - $limit
+    - $match
+      - operators
+    - $geoNear
+    - $project
+      - operators
+    - $out
+    - $group
+      - _id in $group
+      - operators
+    - $unwind
+  - Pipeline size (in documents)
+    - How some stages affect this number
+  - Memory limits in the aggregation pipeline
+  - allowDiskUse flag
+  - Explaining aggregation queries
+
+- Replication
+  - rs.status()
+  - Nodes
+    - Primary
+    - Secondary
+    - Arbiter
+    - Delayed Secondaries
+  - Votes
+  - Elections
+  - Failover
+  - Rollback (DBA only)
+  - Replica set reconfiguration
+    - Adding a replica set member
+    - Removing a member
+  - Oplog
+    - Statement-based replication
+    - Idempotence (DBA Only)
+    - Capped Collection (DBA only)
+  - Read Preference
+    - Primary
+    - Secondary
+    - PrimaryPreferred
+    - SecondaryPreferred
+    - Nearest
+  - Write Concern
+    - The w parameter
+    - The j parameter
+  - Reasons for Deployment to Multiple Data Centers
+
+- Sharding
+  - sh.status()
+  - When to shard
+  - Choosing
+  - Choosing a Shard Key
+    - Properties of Bad Shard Keys
+      - Problems that bad shard keys cause
+    - Properties of Good Shard Keys
+      - Cardinality
+      - Selectivity
+    - Hashed Shard Keys
+      - What problem they solve
+      - What problem they cause
+  - Indexes in a Sharded Cluster
+    - Unique Indexes
+  - Sorting Queries in a Sharded Cluster
+  - Chunks
+    - Which chunk a document belongs to
+    - Chunk ranges
+  - Config Servers and Cluster Metadata (DBA only)
+    - Chunk Splits
+    - Chunk Migration
+    - Balancer
+  - Adding a shard
+  - Pre-splitting data (DBA only)
+  - Primary shard
+  - Queries in a Sharded Cluster
+    - Targeted
+    - Scatter-gather
+    - Index Usage
+  - Implications of sharding on:
+    - Inserts
+    - Updates
+
+- Application Administration (DBA only)
+  - Storage Engines
+    - MMAPv1
+      - Locking Granularity
+      - Data Files
+        - Document Growth
+        - Document Movement
+          - Response of indexes
+        - Document Padding (Powers of Two Sized Allocation)
+    - WiredTiger
+      - Block Compression
+        - Compression Algorithms
+      - Index Prefix Compression
+      - Concurrency Protocols
+  - Journal
+  - MongoDB Security
+    - MongoDB CR
+      - User roles
+    - Network Encryption
+
+- Server Administration (DBA only)
+  - Cluster Architecture
+  - Performance Analysis
+  - Storage Engines
+  - Diagnostics and Debugging
+  - Maintenance
+  - Backup
+  - Recovery
+
+- Server Tools
+  - Mongodump (DBA Only)
+  - Mongorestore (DBA Only)
+  - Mongoimport
+  - Mongoexport
+  - Mongostat
+  - Mongotop
+  - Mongosniff (DBA Only)
+  - Mongofiles (DBA Only)
+  - Bsondump (DBA Only)
+  - Mongoperf (DBA Only)
