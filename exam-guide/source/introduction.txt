@@ -3,6 +3,8 @@ Introduction
 
 You're about to take the MongoDB Certification Exam -- Congratulations!
 
+
+
 Topics Covered
 --------------
 
@@ -263,4 +265,7 @@ The exam currently has two types of problem: Multiple Choice, and Check All that
 
 There is no penalty for guessing, so you should have an answer for every problem. If you find that you are getting close to running out of time, be sure to run through & provide an answer for each question. Leaving them blank will guarantee that you don't get credit.
 
+Taking the Exam: Translation Software
+-------------------------------------
 
+This is worth mentioning, because it's the only reference material permitted during the exam: you can use a translation software in order to translate the questions from english to another language, using your web browser. We don't support any particular translation software, nor can we at MongoDB vouch for the accuracy of the translation of any particular software, but you are welcome to use it on your own, during the test, if you are willing to assume any risks associated with the software.
