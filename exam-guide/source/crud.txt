@@ -1,30 +1,14 @@
 CRUD
 ----
 
-- On the certification exam, you will be expected to:
-  - Understand everything in the CRUD outline below
-  - Be able to select the correct CRUD input to accomplish an operation described
-  - Be able to look at an CRUD operation and choose the correct plaintext description for what it does
-  - Differentiate between valid and invalid CRUD inputs
-  - Determine, for a given collection:
-    - What documents will be returned by a .find() query and what form they'll be in
-    - What documents will be written to, and what they will look like after an update or delete operation
-    - What might prevent an insert from working properly
+- On the certification exam, we will attempt to verify that you:
+  - Understand all CRUD operations for manipulating documents
+  - Know all CRUD operators and how to use them
+  - Understand the properties of the _id field and its implications for CRUD operations
+  - Can use regex to find string documents
 
-
-CRUD: Overview
+CRUD Subtopics
 --------------
-
-CRUD operations are about Creating, Reading, Updating, and Deleting data (and sometimes metadata). Typically these operations will be invoked with a db.collection.<method>, such as:
-
-- db.collection.insert(<document>, <options>)
-- db.collection.find(<match>, <project>, <options>)
-- db.collection.update(<match>, <update>, <options>)
-- db.collection.save(<document>, <options>)
-- db.collection.findAndModify(<document>)
-- db.collection.remove(<match>)
-
-Here are the topics that this section covers:
 
 - Create
 - Read
@@ -42,49 +26,50 @@ Here are the topics that this section covers:
   - db.collection.remove()
   - db.collection.drop()
 - Cursors
-  - getMore
-
+  - cursor methods
 
 Create
 ------
 
+Create covers the creation of documents.
+
+For the exam, you should be able to:
+  - Properly use the insert, save, update, and findAndModify queries to create new documents
+  - Match an insertion query with a description of what it does
+  - Understand the _id field and the implications this has for insertion operations
+
 Document creation can occur through a few commands:
 
-- db.collection.insert
-  - Documentation here_
-  - Lesson video here_
+- db.collection.insert()
+  - Documentation_
+  - Written tutorial_
+  - Lesson video_
 
-.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.insert/
-.. _Lesson video here: http://youtu.be/qqfVxGLIrLg
+.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.insert/
+.. _Written tutorial: http://docs.mongodb.org/manual/tutorial/insert-documents/
+.. _Lesson video: http://youtu.be/qqfVxGLIrLg
 
-- db.collection.save
-  - This can update or insert
-  - Documentation here_
-  - Lesson video here_
+- db.collection.save()
+  - This can insert if the _id is not included, or the _id doesn't match any documents.
+  - Documentation_.
+  - Lesson video_.
 
-.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.save/
-.. _Lesson video here: http://youtu.be/fWLiwAC-Q20
+.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.save/
+.. _Lesson video: http://youtu.be/fWLiwAC-Q20
 
-- db.collection.update 
-  - can insert if it's an "upsert"
-  - Documentation here_ (only an insert if upsert: true is set)
-  - Lesson video here_
+- db.collection.update()
+  - can insert if it's an "upsert" that doesn't match the query.
+  - Documentation_ (only an insert if upsert: true is set)
+  - Lesson video_
 
-.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.update/
-.. _Lesson video here: http://youtu.be/fWLiwAC-Q20
+.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.update/
+.. _Lesson video: http://youtu.be/fWLiwAC-Q20
 
 - db.collection.findAndModify
   - only if updating, and upsert : true is set
   - Documentation here_
 
 .. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.findAndModify/
-
-You can also have collection creation through the following command:
-
-- db.createCollection
-  - Documentation here_
-
-  .. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.createCollection/
 
 Most questions about document creation will involve insert, and it won't be a large part of the exam, because insertion is generally quite straightforward: you give a document that you want, and it gets inserted.
 
@@ -104,6 +89,128 @@ Here's an example:
   > db.foo.find()
   { "_id" : ObjectId("55b0200e5ef34083de46367e"), "a" : 5, "c" : 8 }
 
-The value, c : 8, was set because the upsert instructed that it be set. The a : 5 was also set, because it was part of the query. The value of b couldn't be determined from the query, so it was not set. Finally, an _id was assigned.
+The value, c : 8, was set because the upsert instructed that it be set. The a : 5 was also set, because it was part of the query. The value of b couldn't be determined from the query, so it was not set. Finally, an ObjectId was assigned to the _id field.
+
+You should also be familiar with the special properties of the _id field:
+- Documentation here_
+- Lesson video on using documents for _id here_
+
+.. _Documentation here: http://docs.mongodb.org/manual/core/document/#the-id-field
+.. _Lesson video on using documents for _id here: http://youtu.be/zoN4cj_XQzY
+
+Read
+----
+
+In mongodb, documents are read using either the db.collection.find() method, or the db.collection.findAndModify() method. You should be familiar with both, but the .find() method is emphasized (partly because findAndModify returns at most one document).
+
+For the exam, you should be able to:
+
+- Understand how to use the optional matching, projection, and options documents
+- Be able to sort
+- Demonstrate an understanding of all match and projection operators
+- Be able to read and interpret regex
+- Understand how find() queries work with arrays
+
+In MongoDB, reading data is carried out with the following methods:
+
+db.collection.find()
+
+- Documentation_
+- Lessons:
+  - introduction_
+  - query by matching_
+  - operators:
+    - $lt and $gt_
+    - string inequalities_
+    - regex, $exists, $type_
+    - $or_
+    - $and_
+  - arrays:
+    - querying inside arrays_
+    - $in and $all_
+    - dot notation_
+- Tutorial_
+
+.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.find/
+.. _introduction: http://youtu.be/8kKfFK6a0Ak
+.. _query by matching: http://youtu.be/UIg86QjSoyY
+.. _$lt and $gt: http://youtu.be/FHLrz4VGzkg
+.. _string inequalities: http://youtu.be/imCCKOevU3c
+.. _regex, $exists, $type: http://youtu.be/lI-jhqYf1JY
+.. _$or: http://youtu.be/BW5ElNCRZps
+.. _$and: http://youtu.be/hYk7pjgjjzc
+.. _querying inside arrays: http://youtu.be/jvEqwW75Bus
+.. _$in and $all: http://youtu.be/QU2NrkviORE
+.. _dot notation: http://youtu.be/NrjFECIfwqk
+.. _Tutorial: http://docs.mongodb.org/manual/tutorial/query-documents/
+
+Keep in mind, a find() query will return a cursor:
+
+- Cursor documentation_
+- Cursor tutorial_
+- Cursor lesson_
+
+.. _Cursor documentation: http://docs.mongodb.org/manual/core/cursors/
+.. _Cursor lesson: http://youtu.be/3jA6iFSEJOI
+.. _Cursor tutorial: http://docs.mongodb.org/manual/tutorial/iterate-a-cursor/
+
+- There are other collection read methods that will not return cursors, but which should be considered:
+
+- db.collection.count()
+  - count documentation_
+  - count lesson_
+- db.collection.distinct()
+  - distinct documentation_
+
+.. _count documentation: http://docs.mongodb.org/manual/reference/method/db.collection.count/
+.. _count lesson: http://youtu.be/eKD5bVmNQMI
+.. _distinct documentation: http://docs.mongodb.org/manual/reference/method/db.collection.distinct/
+
+There are other methods that can be applied to cursors themselves. These can return a number (like count), or they can modify the result set you're going to get back (such as sort, skip, and limit). You may also be expected to know how to manually iterate a cursor.
+
+- List of cursor methods_ 
+- cursor.count()
+  - Works like collection.count()
+  - Count documentation_
+  - Count lesson_
+- cursor.sort()
+  - Sort documentation_
+  - Lesson on sort, skip, and limit_
+  - Second lesson on sorting_
+- cursor.skip()
+  - Skip documentation_
+  - Lesson on sort, skip, and limit_
+- cursor.limit()
+  - Limit documentation_
+  - Lesson on sort, skip, and limit_
+- cursor.next()
+  - Next documentation_
+  - The lesson on cursors, above, reproduced here_, also shows how to do this
+
+.. _List of cursor methods: http://docs.mongodb.org/manual/reference/method/js-cursor/
+.. _Count lesson: http://youtu.be/eKD5bVmNQMI
+.. _Count documentation: http://docs.mongodb.org/manual/reference/method/cursor.count/
+.. _Sort documentation: http://docs.mongodb.org/manual/reference/method/cursor.sort/
+.. _Lesson on sort, skip, and limit: http://youtu.be/BsmQ4SNCikc
+.. _Second lesson on sorting: http://youtu.be/hwUg8r7a-d8
+.. _Skip documentation: http://docs.mongodb.org/manual/reference/method/cursor.skip/
+.. _Limit documentation: http://docs.mongodb.org/manual/reference/method/cursor.limit/
+.. _Next documentation: http://docs.mongodb.org/manual/tutorial/iterate-a-cursor/
+.. _reproduced here: http://youtu.be/3jA6iFSEJOI
+
+You can also project your results in order to limit the fields you get back, and there are some methods associated with this, as well:
+
+- projection
+  - Documentation_
+  - from .find() documentation_
+  - Lesson
+
+.. _Documentation: http://docs.mongodb.org/manual/tutorial/project-fields-from-query-results/
+.. _from .find() documentation: http://docs.mongodb.org/manual/reference/method/db.collection.find/
+.. _Lesson: http://youtu.be/8zlMXX70KEw
 
 
+Further Topics to Consider
+--------------------------
+
+.. _Documentation tutorial: http://docs.mongodb.org/manual/tutorial/query-documents/
