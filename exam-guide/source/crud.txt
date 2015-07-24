@@ -203,11 +203,13 @@ You can also project your results in order to limit the fields you get back, and
 - projection
   - Documentation_
   - from .find() documentation_
-  - Lesson
+  - Lesson_
 
 .. _Documentation: http://docs.mongodb.org/manual/tutorial/project-fields-from-query-results/
 .. _from .find() documentation: http://docs.mongodb.org/manual/reference/method/db.collection.find/
 .. _Lesson: http://youtu.be/8zlMXX70KEw
+
+
 
 
 Further Topics to Consider
