@@ -60,10 +60,10 @@ Document creation can occur through a few commands:
 - db.collection.update()
   - can insert if it's an "upsert" that doesn't match the query.
   - Documentation_ (only an insert if upsert: true is set)
-  - Lesson video_
+  - Upsert lesson video_ 
 
 .. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.update/
-.. _Lesson video: http://youtu.be/fWLiwAC-Q20
+.. _Upsert lesson video: http://youtu.be/Dy2p8k3EZs4
 
 - db.collection.findAndModify
   - only if updating, and upsert : true is set
@@ -198,7 +198,7 @@ There are other methods that can be applied to cursors themselves. These can ret
 .. _Next documentation: http://docs.mongodb.org/manual/tutorial/iterate-a-cursor/
 .. _reproduced here: http://youtu.be/3jA6iFSEJOI
 
-You can also project your results in order to limit the fields you get back, and there are some methods associated with this, as well:
+You can also project your results in order to limit the fields you get back.
 
 - projection
   - Documentation_
@@ -209,6 +209,78 @@ You can also project your results in order to limit the fields you get back, and
 .. _from .find() documentation: http://docs.mongodb.org/manual/reference/method/db.collection.find/
 .. _Lesson: http://youtu.be/8zlMXX70KEw
 
+Update
+------
+
+Updates modify existing documents.
+
+For the exam, you should be able to:
+  - Properly use the save, update, and findAndModify queries to mutate existing documents
+  - Understand which parameter finds the documents to change and which mutates them, and how
+  - Understand the behavior of all update operators
+
+Updates can occur with a few collection methods, some of which were in the insert section:
+
+- db.collection.save()
+  - This will update if the _id is specified and it matches an existing document.
+  - Documentation_.
+  - Lesson video_.
+
+.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.save/
+.. _Lesson video: http://youtu.be/fWLiwAC-Q20
+
+- db.collection.update()
+  - This will update unless upsert: true is specified and the query matches no documents.
+  - Documentation_
+  - Update tutorial_
+  - With no operators specified in the update parameter, there will be a wholesale update
+    - Wholesale update lesson video_
+  - Operators
+    - $set (modify a field)
+      - $set lesson video_
+      - $set documentation_
+    - $unset (remove a field)
+      - $unset lesson video_
+      - $unset documentation_
+    - Array operators
+      - Array operators lesson video_
+      - Positional $ documentation_
+      - $addToSet documentation_
+        - There are additional modifiers if you use $addToSet or $push
+        - $each documentation
+      - $pop documentation_
+      - $pull documentation_
+      - $pullAll documentation_
+      - $push documentation_
+  - Upserts
+    - Upsert lesson video_
+  - Multi updates
+    - Multi update lesson video_
+
+
+.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.update/
+.. _Update tutorial: http://docs.mongodb.org/manual/tutorial/modify-documents/
+.. _Wholesale update lesson video: http://youtu.be/g7Fi1xXsuvU
+.. _$set lesson video: http://youtu.be/XyhNjs2pNVc
+.. _$set documentation: http://docs.mongodb.org/manual/reference/operator/update/set/#up._S_set
+.. _$unset lesson video: http://youtu.be/LpErz8jLW0I
+.. _$unset documentation: http://docs.mongodb.org/manual/reference/operator/update/unset/#up._S_unset
+.. _Array operators lesson video: http://youtu.be/GOn0EWKDQoY
+.. _Positional $ documentation: http://docs.mongodb.org/manual/reference/operator/update/positional/#up._S_
+.. _$addToSet documentation: http://docs.mongodb.org/manual/reference/operator/update/addToSet/#up._S_addToSet
+.. _$pop documentation: http://docs.mongodb.org/manual/reference/operator/update/pop/#up._S_pop
+.. _$pull documentation: http://docs.mongodb.org/manual/reference/operator/update/pull/#up._S_pull
+.. _$pullAll documentation: http://docs.mongodb.org/manual/reference/operator/update/pullAll/#up._S_pullAll
+.. _$push documentation: http://docs.mongodb.org/manual/reference/operator/update/push/#up._S_push
+.. _$pushAll documentation: http://docs.mongodb.org/manual/reference/operator/update/pushAll/#up._S_pushAll
+.. _Upsert lesson video: http://youtu.be/Dy2p8k3EZs4
+.. _Multi update lesson video: http://youtu.be/2GNNdUmDL-4
+
+- db.collection.findAndModify
+  - unless updating, and upsert : true is set
+  - Documentation here_
+
+.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.findAndModify/
 
 
 
