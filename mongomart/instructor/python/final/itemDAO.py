@@ -21,6 +21,7 @@ import sys
 import random
 import string
 import datetime
+import pymongo
 
 
 # The session Data Access Object handles interactions with the sessions collection
@@ -55,6 +56,18 @@ class ItemDAO:
         else:
             items = list(self.item.find( { 'category' : category }).skip(int(page*items_per_page)).limit(items_per_page))
         
+        return items
+
+    def get_items_range_based(self, before, after, items_per_page):
+
+        if before > 0:
+            items = list(self.item.find( { '_id' : { '$lt' : before }}).sort( '_id' , pymongo.DESCENDING).limit(items_per_page + 1))
+
+            #reverse order of results
+            items.reverse()
+        else:
+            items = list(self.item.find( { '_id' : { '$gt' : after }}).sort( '_id' , pymongo.ASCENDING).limit(items_per_page + 1))
+
         return items
 
     def get_num_items(self, category):

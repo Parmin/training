@@ -48,9 +48,32 @@ def index():
     page = request.query.page or 0
     category = request.query.category or 'All'
 
+    # for range based pagination
+    before = request.query.before or 0
+    after = request.query.after or 0
+
+    next_page_url = ''
+    previous_page_url = ''
+
     categories = items.get_categories()
-    all_items = items.get_items(category, int(page), ITEMS_PER_PAGE)
+    all_items = items.get_items_range_based(int(before), int(after), ITEMS_PER_PAGE)
     item_count = items.get_num_items(category)
+
+    num_items = len(all_items)
+    
+    if num_items > ITEMS_PER_PAGE:
+        # Since we got back one extra item than we needed, we need to trim it
+        if before > 0:
+            all_items = all_items[1:len(all_items)];
+        else:
+            all_items = all_items[0:ITEMS_PER_PAGE];
+            
+
+    if include_next_page(num_items, before, after):
+        next_page_url = '/?after=' + str(all_items[len(all_items)-1]['_id'])
+
+    if include_previous_page(num_items, before, after):
+        previous_page_url = '/?before=' + str(all_items[0]['_id'])
 
     num_pages = 0;
     if item_count > ITEMS_PER_PAGE:
@@ -58,12 +81,39 @@ def index():
 
     return bottle.template('home', dict(category_param=category, 
                                         categories=categories, 
-                                        useRangeBasedPagination=False,
+                                        useRangeBasedPagination=True,
                                         item_count=item_count,
                                         pages=num_pages,
                                         page=int(page),
-                                        items = all_items
+                                        items = all_items,
+                                        previous_page_url = previous_page_url,
+                                        next_page_url = next_page_url
                                         ))
+
+def include_next_page(num_items, before, after):
+    # If homepage, display a next link is number of items is large enough
+    if (before == 0 and after == 0 and num_items > ITEMS_PER_PAGE):
+        return True
+    
+    # If only a "before" parameter is passed in
+    elif before > 0:
+        return True
+    
+    # Only an "after" parameter was passed in
+    elif num_items > ITEMS_PER_PAGE:
+        return True
+    
+    return False
+
+def include_previous_page(num_items, before, after):
+    if after > 0:
+        return True
+
+    # If only a "before" parameter is passed in
+    elif (before > 0 and num_items > ITEMS_PER_PAGE):
+        return True
+    
+    return False
 
 @bottle.route('/search')
 def search():

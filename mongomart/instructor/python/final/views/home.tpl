@@ -100,14 +100,15 @@
 
                         <!-- TODO-lab3 Range based Pagination, modify the useRangeBasedPagination attribute in the controller  -->
 
-                        %if useRangeBasedPagination:
+                        %if useRangeBasedPagination == True:
 
-                            <#if previousPageUrl??>
-                                <li><a href="${previousPageUrl}">Previous Page</a></li>
-                            </#if>
-                            <#if nextPageUrl??>
-                                <li><a href="${nextPageUrl}">Next Page</a></li>
-                            </#if>
+                            %if previous_page_url != '':
+                                <li><a href="{{previous_page_url}}">Previous Page</a></li>
+                            %end
+
+                            %if next_page_url != '':
+                                <li><a href="{{next_page_url}}">Next Page</a></li>
+                            %end
 
                         %end
 
