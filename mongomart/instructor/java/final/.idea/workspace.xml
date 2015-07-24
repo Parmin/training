@@ -26,7 +26,7 @@
       <file leaf-file-name="MongoMart.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/MongoMart.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="278" max-vertical-offset="1008">
+            <state vertical-scroll-proportion="0.0" vertical-offset="308" max-vertical-offset="1162">
               <caret line="22" column="16" selection-start-line="15" selection-start-column="0" selection-end-line="22" selection-end-column="3" />
               <folding />
             </state>
@@ -36,18 +36,18 @@
       <file leaf-file-name="CartDao.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/CartDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="560" max-vertical-offset="1960">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1218" max-vertical-offset="2156">
               <caret line="87" column="18" selection-start-line="77" selection-start-column="8" selection-end-line="87" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReviewDao.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ReviewDao.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/ReviewDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1428">
-              <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
+            <state vertical-scroll-proportion="0.6356164" vertical-offset="278" max-vertical-offset="1232">
+              <caret line="67" column="40" selection-start-line="59" selection-start-column="0" selection-end-line="67" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -56,7 +56,7 @@
       <file leaf-file-name="CartController.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/controller/CartController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="353" max-vertical-offset="1330">
+            <state vertical-scroll-proportion="0.0" vertical-offset="728" max-vertical-offset="1498">
               <caret line="52" column="26" selection-start-line="52" selection-start-column="12" selection-end-line="52" selection-end-column="26" />
               <folding />
             </state>
@@ -66,7 +66,7 @@
       <file leaf-file-name="home.ftl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/home.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-51.739132" vertical-offset="574" max-vertical-offset="2016">
+            <state vertical-scroll-proportion="0.0" vertical-offset="574" max-vertical-offset="2016">
               <caret line="126" column="14" selection-start-line="126" selection-start-column="14" selection-end-line="126" selection-end-column="14" />
               <folding />
             </state>
@@ -76,7 +76,7 @@
       <file leaf-file-name="item.ftl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/item.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="966" max-vertical-offset="2926">
+            <state vertical-scroll-proportion="0.0" vertical-offset="966" max-vertical-offset="2926">
               <caret line="69" column="61" selection-start-line="0" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
               <folding />
             </state>
@@ -86,7 +86,7 @@
       <file leaf-file-name="StoreController.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/controller/StoreController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.23077" vertical-offset="56" max-vertical-offset="3332">
+            <state vertical-scroll-proportion="0.0" vertical-offset="756" max-vertical-offset="3584">
               <caret line="54" column="18" selection-start-line="48" selection-start-column="12" selection-end-line="54" selection-end-column="0" />
               <folding />
             </state>
@@ -96,17 +96,17 @@
       <file leaf-file-name="search.ftl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/search.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1638">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1638">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ItemDao.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ItemDao.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/ItemDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.40273973" vertical-offset="2730" max-vertical-offset="4480">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4480">
               <caret line="194" column="80" selection-start-line="194" selection-start-column="7" selection-end-line="194" selection-end-column="80" />
               <folding />
             </state>
@@ -116,7 +116,7 @@
       <file leaf-file-name="cart.ftl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/cart.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1876">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1876">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
               <folding />
             </state>
@@ -147,8 +147,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1" />
-    <option name="y" value="96" />
+    <option name="x" value="190" />
+    <option name="y" value="38" />
     <option name="width" value="1440" />
     <option name="height" value="873" />
   </component>
@@ -180,6 +180,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -394,8 +396,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -673,11 +673,12 @@
       <workItem from="1435107411271" duration="10963000" />
       <workItem from="1435600920762" duration="20802000" />
       <workItem from="1436563253577" duration="3824000" />
+      <workItem from="1437708611283" duration="721000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35589000" />
+    <option name="totallyTimeSpent" value="36310000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -700,7 +701,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="96" width="1440" height="873" extended-state="0" />
+    <frame x="190" y="38" width="1440" height="873" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -725,8 +726,8 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -755,6 +756,86 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/MongoMart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="308" max-vertical-offset="1162">
+          <caret line="22" column="16" selection-start-line="15" selection-start-column="0" selection-end-line="22" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/CartDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1218" max-vertical-offset="2156">
+          <caret line="87" column="18" selection-start-line="77" selection-start-column="8" selection-end-line="87" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/ReviewDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1428">
+          <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/controller/CartController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="728" max-vertical-offset="1498">
+          <caret line="52" column="26" selection-start-line="52" selection-start-column="12" selection-end-line="52" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/home.ftl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="574" max-vertical-offset="2016">
+          <caret line="126" column="14" selection-start-line="126" selection-start-column="14" selection-end-line="126" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/item.ftl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="966" max-vertical-offset="2926">
+          <caret line="69" column="61" selection-start-line="0" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/controller/StoreController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="756" max-vertical-offset="3584">
+          <caret line="54" column="18" selection-start-line="48" selection-start-column="12" selection-end-line="54" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/search.ftl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1638">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/ItemDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2730" max-vertical-offset="4480">
+          <caret line="194" column="80" selection-start-line="194" selection-start-column="7" selection-end-line="194" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/cart.ftl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1876">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/MongoMart.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1162">
@@ -858,17 +939,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/ReviewDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="367" max-vertical-offset="1428">
-          <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/freemarker/home.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-51.739132" vertical-offset="574" max-vertical-offset="2016">
+        <state vertical-scroll-proportion="0.0" vertical-offset="574" max-vertical-offset="2016">
           <caret line="126" column="14" selection-start-line="126" selection-start-column="14" selection-end-line="126" selection-end-column="14" />
           <folding />
         </state>
@@ -924,7 +997,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/controller/StoreController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.23077" vertical-offset="56" max-vertical-offset="3332">
+        <state vertical-scroll-proportion="0.0" vertical-offset="756" max-vertical-offset="3584">
           <caret line="54" column="18" selection-start-line="48" selection-start-column="12" selection-end-line="54" selection-end-column="0" />
           <folding />
         </state>
@@ -932,8 +1005,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/ItemDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.40273973" vertical-offset="2730" max-vertical-offset="4480">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4480">
           <caret line="194" column="80" selection-start-line="194" selection-start-column="7" selection-end-line="194" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mongomart/dao/ReviewDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6356164" vertical-offset="278" max-vertical-offset="1232">
+          <caret line="67" column="40" selection-start-line="59" selection-start-column="0" selection-end-line="67" selection-end-column="40" />
           <folding />
         </state>
       </provider>

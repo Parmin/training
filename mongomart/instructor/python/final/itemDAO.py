@@ -108,11 +108,9 @@ class ItemDAO:
 
         self.item.update({ '_id' : int(itemid) }, 
                          { '$push' : { 
-                            'reviews' : 
-                                { 'name' : name, 
-                                  'comment' : review, 
-                                  'stars' : stars, 
-                                  'date' : datetime.datetime.now() 
-                                }
+                            'reviews' : { 
+                                '$each': [ { 'name' : name, 'comment' : review, 'stars' : stars, 'date' : datetime.datetime.now() } ],
+                                '$sort': { "date" : -1 },
+                                '$slice': 10
                             }
-                         })
+                        } })
