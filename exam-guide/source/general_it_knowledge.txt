@@ -1,0 +1,198 @@
+General IT Knowledge
+--------------------
+
+This section will cover concepts that you should understand before taking the exam, but which will not be explicitly covered by the exam (though you may find some questions that implicitly expect you to know this information).
+
+Fundamental Database Concepts
+-----------------------------
+
+It is expected that you will understand the basics of the database industry: what constitutes a relational (or a non-relational) database, and what the CAP theorem states (and how people talk about it). We'll also talk a bit about Joins and Transactions.
+
+Relational and Non-Relational Databases
+---------------------------------------
+
+A relational database follows the relational model of data. It is a rich history, but what you need to know for the exam is that data in a relational database is stored in tables, consisting of rows. Each row consists a certain number of elements, defined by the table's schema. Rows can be inserted or deleted. If there is more information than should be stored in a single table, there will be multiple tables, and you will find references from one table to another.
+
+Relational databases typically use some variant SQL (Structured Query Language), a language based on relational algebra, to query the data from multiple tables at once using joins. You will not need to know how to perform a join for the exam, but you should be aware that the language exists.
+
+Non-relational databases (sometimes called NoSQL databases for "Not Only SQL") are databases that do not rely on the relational model, and often do not use SQL to query the database. This is a broad category of databases that includes MongoDB. Non-relational databases were often created to solve a problem inherent in relational databases, such as an inability to scale horizontally, or an inflexibility of schema.
+
+The CAP Theorem
+---------------
+
+Sometimes called Brewer's Theorem (after its original author), this theorem states that it is impossible to create a database that conforms to strong versions of all 3 of following traits: (1) The data is consistent, (2) the database is available in the face of server failure, and (3) The database is tolerant to partitions without loss of functionality. At most, a database can meet two of the requirements. It is often summarized as "Consistency, availability, partition tolerance: pick 2."
+
+The theorem itself has very strict definitions of each of the CAP traits. Consistency means that all nodes in the database must see the same data at the same time; you cannot write to one node, read from another, and see data that doesn't reflect your write. Availability means that no failure of a single server can prevent the database from taking writes. Partitioning means that no 
+
+Because of the strong definitions for each of the 3 traits of the CAP theorem, it is often misunderstood to mean that a database can't have all 3 traits. In fact, most database systems are in a position to increase their performance on one or more of these 3 areas without impacting the others, even if the database can't meet the full requirement. For example, MongoDB has primary-secondary replication. If a primary goes down, it will take time for a new primary to be elected (sometimes in a matter of seconds). During that time, the database will not accept writes. Therefore, MongoDB fails the "availability" requirement, even though replication allows for very high availability for a MongoDB cluster, and even though it dramatically improved its availability with the implementation of primary-secondary replication, without affecting its consistency or partition tolerance.
+
+Joins
+-----
+
+Databases that use SQL (typically relational databases) have the concept of a join. This allows you to combine two tables into a new table with a single query. They are of interest to MongoDB because they make things difficult to scale. For instance, suppose that you have three tables: a "Students" table that lists all students' names and contact information; a Classes table that lists classes a student might attend, with a description, a room number, and a time; and a student_classes table that contains information on which classes a student is taking. Each of these also have an id field. If you wanted to know all students for each class, you would join the classes table with the student_classes table with the students table, combining this information to give you the answer you want.
+
+The reason why this can make a database difficult to scale is that if you shard a table, you will need to perform the query on each server that contains entries for that table, and communicate that over the wire with the server performing the join. This can be a lot of communication overhead, and the load on each server isn't 0 (even if it has no entries that satisfy the criteria of the join). MongoDB gets around this by providing a flexible data model that can reduce the need for joins, and on those occasions where the equivalent of a join is necessary, performing it at the application layer rather than handling it at the database level.
+
+Transactions
+------------
+
+Transactions (sometimes called ACID transactions) are cases where you would write to multiple documents simultaneously, performing either all writes or none of them. A classic example might be where you are running a bank, and would like to move money between accounts. One account is credited, while the other is debited. You don't want to perform one without performing the other. 
+
+The ACID part of ACID transactions stands for Atomic, Consistent, Isolated, and Durable. Atomic means that it is an all-or-nothing affair; either all documents involved in the transaction are updated, or else none of them are. Consistent means that the database will move from one state (before the transaction) to another state (after the transaction) without ever exposing half of a transaction to reads or writes. This is different from the consistency found in the CAP theorem; don't confuse them. Isolated means that transactions won't interweave; the system will act as though they were executed serailly. Durable means that the transaction will remain committed even in the event of the server process dying in the moment after a transaction gets committed.
+
+This functionality is common in relational databases, but is not supported in MongoDB in its strongest forms. Writes are atomic at the document level, but not when multiple documents are involved. Consistency is not possible unless enforced at the application layer. Isolation must also be enforced by the application. Durability is orthogonal to much of this functionality, and can be achieved with either replication or with the journal.
+
+MongoDB does not support transactions natively partly because, like joins, transactions do not scale for a cluster, so they severely impact performance in a distributed system. However, because writes in MongoDB are ACID at the document level, schema design can get around the need for some transactions, while two-phase commits can be performed at the application layer to approximate transactions (and roll them back if they fail).
+
+Fundamentals of System Programming
+----------------------------------
+
+System programming is programming to provide services to the hardware that you're running on. This is another area where there may be some expected level of understanding in the exam, even though no questions will be explicily about system programming. The basics of system programming are necessary because databases are often constrained in their performance by the hardware (if they weren't, no-one would worry about scaling!). Therefore, MongoDB attempts to maximize its performance on resource-constrained hardware, and some of the design choices associated with that will need to be considered when tuning performance.
+
+Physical Memory
+---------------
+
+Physical memory, or RAM, is much faster to read than data on spinning disk media. It holds the data that you can quickly access, and determines how much data you can work with. Because modern computers must often work with more data than they have RAM, they use Virtual Memory to compensate.
+
+When the system restarts, data in physical memory is lost. It is sometimes called "volatile memory" when one is considering this aspect of the memory. If data is located only in the volatile memory of a single machine, it can be lost if that machine fails and must be powered down. Therefore, in databases, additional steps are often taken to ensure the durability of data, such as writing it to a hard drive, or propagating copies of it to other machines.
+
+Virtual Memory
+--------------
+
+Virtual memory should not be confused with physical memory. It can point to physical memory, but it can also point to data on the hard drive. It is implemented in the operating system, and used by a process, allowing that process to compensate for insufficient physical memory. When data is mapped onto virtual memory, a program can treat that data as if it were already in memory, whether or not it is. When some data is required, there are a few possibilities:
+
+- It's already in RAM and in the program's dedicated address space (no page fault). - this is fast.
+- It's in RAM, but is not in the program's dedicated address space ("soft page fault"). It needs to be associated with the program's address space, but does not need to get read from disk. - this is almost as fast
+- It's not in RAM ("page fault" or "hard page fault"). - some memory must get freed, and the data is read from disk ("paged in"). This is a slow operation, relatively speaking. Lots of page faults are an indication that you would benefit from more RAM.
+
+Keep this in mind: physical memory represents the "working" data that you can use, while virtual memory is the data that you have access to. Most machines can increase their RAM for a cost, up to a point. It's related to the working data set (which we discuss in the data modeling section) in that, if your working set is larger than RAM, you will frequently have to read data from the disk (a slow operation) in order to get it into RAM and work with it, and when you do so, you must release some other data held in RAM in order to make room. Later, if you have to read that freed data again, you'll need to read it from the hard drive (and release still some other data in RAM). This called "paging" or, in extreme cases where it's happening frequently, "thrashing," and it can severely affect performance. Therefore, when your working set outgrows your physical memory, it's time to scale (vertically or horizontally), or change your data model to use less memory. Operating systems usually decide to free up memory when paging in new data based on the Least Recently Used (LRU) principle: it frees up that data which it last used as long ago as possible, so that frequently read data never leaves the cache. Data is read in one "page" at a time, typically 4K in size, though this can be changed.
+
+Putting data in virtual memory can also allow the operating system to handle changes to that data. When a program writes to a page in physcal memory, that page is said to be "dirty," or "dirtied." At some later point, the operating system will "sync" the memory, writing it back to disk with the changes (another expensive operation), at which point the page is no longer "dirty," as it matches the data on disk.
+
+Hard Drive Types
+----------------
+
+The hard drive (sometimes called the "disk") is where most of the data on a computer is stored. Data on the hard drive is more durable than data in physical memory, because it will persist even if the computer powers down. 
+
+Hard drives vary in the size of the data stored, and in their rate at which data can be read (or written). This rate is typically faster for sequential reads/writes than it is for random read/writes (say, if the data is very fragmented), and this difference depends on the type of hard drive being used. Speed is often described by a combination of latency, seek time, and data transfer time.
+
+Most hard drives today use magnetic spinning disk media, which stores bits in small magnetic regions on a magnetic plate, spinning it and reading or writing data using a read/write head that can move radially along the disk.
+
+Solid state drives are typically more expensive than magnetic drives, and use flash memory. Reading and writing is typically faster than for spinning disk media, especially for "random" (non-sequential) reads/writes. They are still not as fast as reading from RAM, however, and can still be affected by thrashing when your working set outgrows your RAM.
+
+RAID drives ("Redundant Array of Independent Disks") are defined nosometimes used in databases, as well. It combines multiple hard drives into a single logical unit in order to provide some combination of redundancy and improved performance. 
+
+Basics of Javascript Programming
+--------------------------------
+
+Javascript it a scripting language often used when writing web pages, and it is used in the MongoDB administrative shell. Everything on the exam will have to do with that administrative shell, so that's all we'll focus on.
+
+To assign a value to a variable, you use the '=' sign. Let's assign the value of 5 to the 'x' variable:
+
+.. code-block:: javascript
+  
+  > var x = 5;
+  > print(x)
+  5
+
+The variable assignment can also be done implicitly, and the semicolons are often optional, so this can also work:
+
+.. code-block:: javascript
+  
+  > x = 5
+  5
+  > print(x)
+  5
+
+There are some objects and functions provided that you can use for some common use cases:
+
+.. code-block:: javascript
+
+  > Math.floor(3.5)
+  3
+  > Math.PI
+  3.141592653589793
+  > ISODate()
+  ISODate("2015-07-22T19:04:34.219Z")
+  > print("hello")
+  hello
+  >
+
+You can also create loops using the shell:
+
+.. code-block:: javascript
+
+  > var x = 0
+  > while ( x < 5 ) { x++; print(x) }
+  1
+  2
+  3
+  4
+  5
+  > for (i=0; i<=3; i++) { print(i) }
+  0
+  1
+  2
+  3
+  > x = { a : 4, b : 3, c : 2 }
+  { "a" : 4, "b" : 3, "c" : 2 }
+  > for (key in x) { print(key + ': ' + x[key]) }
+  a: 4
+  b: 3
+  c: 2
+  >
+
+In MongoDB, you will often be working with database or collection objects:
+
+.. code-block:: javascript
+
+  > db
+  test
+  > db.currentOP()
+  { "inprog" : [ ] }
+  > db.people.find()
+  { "_id" : ObjectId("55afeb6a6daadd6baf25c63b"), "name" : "Dwight", "title" : "Chair of the Board" }
+  { "_id" : ObjectId("55afeb7b6daadd6baf25c63c"), "name" : "Andrew", "title" : "VP of Developer Experience" }
+       
+We'll be going through relevant functions during the review session, but definitely be aware of how they're invoked in the shell.
+
+Fundamentals of Software Development
+------------------------------------
+
+Whether you're taking the DBA or the developer exam, there are some basics that you'll want to know. We'll go over them one at a time.
+
+Programming Languages
+---------------------
+
+Programming languages are high-level methods of translating operations into low-level commands that a computer can understand. Because applications are written in various programming languages, MongoDB provides drivers, or libraries that facilitate the communication between the application and the server. MongoDB supports drivers in a number of languages (and more still are supported by the community), but common ones include Java, Python (via the PyMongo driver), Node.js, and .NET, among others.
+
+You can find out more about our drivers here.
+
+.. _here: http://docs.mongodb.org/ecosystem/drivers/
+
+Patterns
+--------
+
+When programming, there are some common problems that come up, and common solutions to these problems; the solutions are called "patterns." For example, when dealing with concurrency, you need to make sure that nothing is read while it is being written and the pattern often used to deal with this is to implement a "readers-writer" lock, where reads can happen in parallel, so you have a "read lock" that prevents writers but allowes readers, but only one write can occur at a time, and so you have a "write lock" that locks out all other writers and all readers.
+
+Patterns are good to implement; you can be reasonably confident that any surprises when you implement a "pattern" are from bugs in your code, rather than design flaws.
+
+Frameworks
+----------
+
+A software framework is a piece of software written in a language that takes inputs that determine its behavior in a narrow range. For example, "Ruby on Rails" is a framework, written in Ruby, that is used to create web pages.
+
+Code Libraries
+--------------
+
+Generally, software languages have some bare, core functionality. Code libraries extend this functionality in a re-usable way. They can be written and maintained by a community, and distributed with the language, or they might be written by an individual developer for personal use. Using code libraries is a pattern for re-use of code.
+
+Methodologies
+-------------
+
+A software development methodology is a way of breaking down software development into different stages. Common examples include Waterfall and Agile. All methodologies can be used to create software, but some methodologies are favored by different organizations.
+
+Development Environments
+------------------------
+
+A development environment is where a software program is deployed. If you want to write a program for yourself that solves linear algebra problems, the development environment might just be your laptop. For more complicated systems, it's common to have a "production" environment that users interact with, as well as "development" and/or "staging" in order to test code in a realistic fashion before it gets to production. A developer might begin by writing changes in their "local" environment, their own workstation which may not look much like production, and move it to more realistic environments as their confidence grows that the code should be deployed to production.
