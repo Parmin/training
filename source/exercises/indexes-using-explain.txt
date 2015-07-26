@@ -1,0 +1,31 @@
+========================
+Lab: Using ``explain()``
+========================
+
+
+Exercise: explain("executionStats")
+-----------------------------------
+
+Drop all indexes from previous exercises:
+
+.. code-block:: javascript
+
+   mongo performance
+   > db.sensor_readings.dropIndexes()
+      
+Create an index for the "active" field:
+
+.. code-block:: javascript
+   
+   db.sensor_readings.createIndex({ "active" : 1 } )
+
+How many index entries and documents are examined for the following query? How many results are returned?
+
+.. code-block:: javascript
+
+   db.sensor_readings.find(
+                            { "active": false, "_id": { $gte: 99, $lte: 1000 } }
+			  ).explain("executionStats")
+
+.. include:: /includes/student-notes.rst
+

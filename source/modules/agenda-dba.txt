@@ -2,102 +2,154 @@
 DBA Training (3 Days)
 =====================
 
+
 Day 1 (Morning)
 ---------------
+- Introduction (30 minutes)
+- Lab: Installing MongoDB (30 minutes)
+- CRUD (2 hours)
 
-- |intro_link| (.5 hours)
-- |lab_install_link| (.5 hours)
-- |crud_link| (2 hours)
-- |find_lab_link| (.5 hours)
-- |update_lab_link| (.5 hours)
+Introduction (30 minutes)
+-------------------------
+
+- :doc:`/modules/introduction-warmup`
+- :doc:`/modules/introduction-overview`
+- :doc:`/modules/introduction-mongodb-stores-documents`
+- :doc:`/modules/introduction-storage-engines`
+
+Lab: Installing MongoDB (30 minutes)
+------------------------------------
+- :doc:`/exercises/mongodb-installation`
+- Review setup
 
 
-.. |intro_link| raw:: html
+CRUD (2 hours)
+--------------
 
-   <a href="introduction-warmup.html">Introduction</a>
-
-.. |lab_install_link| raw:: html
-
-   <a href="../exercises/mongodb-installation.html">Lab: Installing and configuring MongoDB</a>
-
-.. |crud_link| raw:: html
-
-   <a href="crud-creating-and-deleting-documents.html">CRUD operations</a>
-
-.. |find_lab_link| raw:: html
-
-   <a href="../exercises/crud-querying-documents.html">Lab: Finding documents</a>
-
-.. |update_lab_link| raw:: html
-
-   <a href="../exercises/crud-updating-documents.html">Lab: Updatig Documents</a>
+- :doc:`/modules/crud-creating-and-deleting-documents`
+- :doc:`/modules/crud-reading-documents`
+- :doc:`/exercises/crud-querying-documents`
+- :doc:`/modules/crud-updating-documents`
+- :doc:`/exercises/crud-updating-documents`
 
 
 Day 1 (Afternoon)
 -----------------
 
-- |indexes_link| (2 hours)
-- |lab_indexes_link| (.5 hours)
-- |schema_link| (1.5 hours)
- 
+- Indexes (3 hours)
+- Lab: Building and Examining Indexes (30 minutes)
 
-.. |indexes_link| raw:: html
 
-   <a href="indexes-fundamentals.html">Indexes</a>
+Indexes (3 hours)
+-----------------
 
-.. |lab_indexes_link| raw:: html
+- :doc:`/modules/indexes-fundamentals`
+- :doc:`/modules/indexes-compound`
+- :doc:`/modules/indexes-multikey`
+- :doc:`/modules/indexes-hashed`
+- :doc:`/modules/indexes-geo`
+- :doc:`/modules/indexes-TTL`
+- :doc:`/modules/indexes-text`
 
-   <a href="../exercises/mongodb-installation.html">Lab: Building and Examining Indexes</a>
 
-.. |schema_link| raw:: html
+Lab: Building and Examining Indexes (30 minutes)
+------------------------------------------------
 
-   <a href="schema-design-core-concepts.html">Schema Design</a>
+- :doc:`/exercises/indexes-exercises`
+- Review answers
 
 
 Day 2 (Morning)
----------------
+-----------------
 
-- |replication_link| (3 hours)
-- |replication_lab_link| (1 hour)
+- Replica Sets, Part 1 (2.5 hours)
+- Lab: Setting Up a Replica Set (30 minutes)
 
 
-.. |replication_link| raw:: html
+Replica Sets, Part 1 (3 hours)
+------------------------------
 
-   <a href="replica-set-introduction.html">High Availability with Replication</a>
+- :doc:`/modules/replica-set-introduction`
+- :doc:`/modules/replica-set-elections`
+- :doc:`/modules/replica-set-roles-and-configuration`
 
-.. |replication_lab_link| raw:: html
 
-   <a href="../exercises/replica-set-creation-and-configuration.html">Lab: Setting up a Replica Set</a>
-
+Lab: Setting Up a Replica Set
+-----------------------------
+- :doc:`/exercises/replica-set-creation-and-configuration`
+- Review configuration
 
 Day 2 (Afternoon)
 ---------------
 
-- |sharding_link| (3 hours)
-- |sharding_lab_link| (1 hour)
-  
-
-.. |sharding_link| raw:: html
-
-   <a href="sharding-intro.html">Horizontal Scaling with Sharding</a>
-
-.. |sharding_lab_link| raw:: html
-
-   <a href="../exercises/sharding-set-up-a-cluster.html">Lab: Setting Up a Sharded Cluster</a>
+- Replica Sets, Part 2 (1 hour)
+- Sharding (2.5 hours)
 
 
-Day 3 (Morning)
+Replica Sets, Part 2 (1 hour)
+-----------------------------
+
+- :doc:`/modules/replica-set-oplog`
+- :doc:`/modules/replica-set-write-concern`
+- :doc:`/modules/replica-set-read-preference`
+
+
+Sharding (2.5 hours)
+------------------
+
+- :doc:`/modules/sharding-intro`
+- :doc:`/modules/sharding-balancing`
+- :doc:`/modules/sharding-tags`
+
+
+Day 3 (Morning) 
+---------------
+
+- Lab: Setting Up a Sharded Cluster (30 minutes)
+- Backups (1 hour)
+- Performance Troubleshooting (1 hour)
+
+
+Lab: Setting Up a Sharded Cluster
+---------------------------------
+- :doc:`/exercises/sharding-set-up-a-cluster`
+- Review configuration
+
+
+Backup and Recovery (1 hour)
+----------------------------
+
+- :doc:`/modules/backup`
+
+
+Performance Troubleshooting (1 hour)
+------------------------------------
+
+- :doc:`/modules/performance`
+- |mtools|
+- |prod_notes|
+
+.. |mtools| raw:: html
+
+   <a target="_blank" href="https://github.com/rueckstiess/mtools">Mtools</a>
+
+
+Day 3 (Afternoon) 
 -----------------
 
-- |drivers_link| (1 hour)
-- |security_link| (1 hour)
-- |security_lab_link| (.5 hours)
-- |backups| (1 hour)
+- Security (1 hour)
+- Cloud/Ops Manager (2 hours)
+- Additional Topics (time permitting)
+
+.. include:: /includes/student-notes.rst
 
 
-.. |drivers_link| raw:: html
+Security (1 hour)
+-----------------
 
-   <a href="drivers-introduction.html">Drivers</a>
+- :doc:`/modules/performance`
+- |security_link|
+- |security_lab_link|
 
 .. |security_link| raw:: html
 
@@ -107,25 +159,45 @@ Day 3 (Morning)
 
    <a href="security.html#exercise-create-an-admin-user-part-1">Lab: Creating a User and Setting Permissions</a>
 
-.. |backups| raw:: html
-
-   <a href="backup.html">Backups</a>
+.. include:: /includes/student-notes.rst
 
 
-Day 3 (Afternoon)
----------------
+Cloud/Ops Manager (2 hours)
+---------------------------
 
-- |mms_link| (1 hour)
-- |perf_link| (1 hour)
-  
+- |mms_link|
+- |mms_auto|
+- |mms_auto_lab|
+- |mms_alert_lab|
 
 .. |mms_link| raw:: html
 
    <a href="mms-introduction.html">MongoDB Cloud Manager</a>
 
-.. |perf_link| raw:: html
+.. |mms_auto| raw:: html
 
-   <a href="performance.html">Performance troubleshooting and tools</a>
+   <a href="mms-automation.html">Automation</a>
+
+.. |mms_auto_lab| raw:: html
+
+   <a href="../exercises/mms-automation.html">Lab: Cluster Automation</a>
+
+.. |mms_auto| raw:: html
+
+   <a href="mms-monitoring.html">Monitoring</a>
+
+.. |mms_alert_lab| raw:: html
+
+   <a href="../exercises/mms-alert.html">Lab: Create an Alert</a>
+
+.. include:: /includes/student-notes.rst
+
+Additional Topics (time permitting)
+-----------------------------------
+
+- Additional topics, application specific topics from class
+
+.. include:: /includes/student-notes.rst
 
 
 
