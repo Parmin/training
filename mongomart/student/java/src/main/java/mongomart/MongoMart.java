@@ -50,7 +50,7 @@ public class MongoMart {
          * TODO-lab1
          *
          * LAB #1: Create a connection to your MongoDB instance, assign the "mongomart"
-         *         database to the itemDatase variable
+         *         database to the itemDatabase variable
          *
          * HINT: You'll need to create a MongoClient object first, the "mongoURIString" may also be used
          *

@@ -65,7 +65,7 @@ Lab 3: Use a Local Replica Set with a Write Concern
 
    .. note::
 
-   		- Solution in /instructor/java/lab_4
+   		- Solution in /instructor/java/lab_3
    		- Please type in solution with the class instead of distributing source code
 
 
@@ -82,7 +82,7 @@ Lab 4: Improve How Reviews are Stored and Queried
 
    .. note::
 
-   		- Solution in /instructor/java/lab_5
+   		- Solution in /instructor/java/lab_4
    		- Please type in solution with the class instead of distributing source code
 
 
@@ -99,7 +99,7 @@ Lab 5: Use Range Based Pagination
 
    .. note::
 
-   		- Solution in /instructor/java/lab_3
+   		- Solution in /instructor/java/lab_5
    		- Please type in solution with the class instead of distributing source code
 
 
@@ -107,7 +107,6 @@ Extra Credit Items
 ------------------
 
 - Modify each item document to include an array of "related_items" (maximum is 4).  Related items should include other items within the same category, then randomized items can be used if there are less than 4.
-- Write documents to the "review" and "item" collection in a way that is resilient to replica set failover
 
 
 
