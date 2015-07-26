@@ -1,6 +1,6 @@
-============================
-Exercise: Installing MongoDB
-============================
+=======================================
+Lab: Installing and Configuring MongoDB
+=======================================
 
 Learning Objectives 
 -------------------
@@ -32,9 +32,8 @@ Production Releases
 Installing MongoDB
 ------------------
 
-- Visit http://docs.mongodb.org/manual/installation/. Click on the appropriate
-  link, such as "Install on Windows" or "Install on OS X" and follow the
-  instructions there.
+- Visit http://docs.mongodb.org/manual/installation/.
+- Click on the appropriate link, such as "Install on Windows" or "Install on OS X" and follow the instructions.
 
 - Versions:
 
@@ -148,8 +147,8 @@ Specify an alternate path for data files using the ``--dbpath`` option. (Make su
       - Please verify that all can successfully launch a mongod.
 
 
-The MongoDB Data Directory (MMAPv1)
------------------------------------
+The MMAPv1 Data Directory
+-------------------------
 
 .. code-block:: bash
 
@@ -181,9 +180,8 @@ The MongoDB Data Directory (MMAPv1)
       - All subsequent data files are also 2 GB.
 
 
-The MongoDB Data Directory (WiredTiger)
----------------------------------------
-
+The WiredTiger Data Directory
+-----------------------------
 
 .. code-block:: bash
 

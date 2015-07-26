@@ -1,3 +1,8 @@
+===========================
+Lab: Creating an Admin User
+===========================
+
+
 Exercise: Create an Admin User, Part 1
 --------------------------------------
 

@@ -1,6 +1,6 @@
-======================================
-Exercise: Setting Up a Sharded Cluster
-======================================
+=================================
+Lab: Setting Up a Sharded Cluster
+=================================
 
 
 Learning Objectives
