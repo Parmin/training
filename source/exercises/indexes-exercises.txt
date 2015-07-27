@@ -1,6 +1,6 @@
-===================================
-Lab: Building and Examining Indexes
-===================================
+============
+Lab: Indexes
+============
 
 
 Exercise: What Index Do We Need?

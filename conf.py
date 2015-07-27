@@ -33,6 +33,7 @@ extensions = [
     "intermanual"
 ]
 
+todo_include_todos = True
 locale_dirs = [ conf.paths.locale ]
 gettext_compact = False
 

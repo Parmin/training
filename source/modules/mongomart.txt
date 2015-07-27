@@ -25,10 +25,10 @@ MongoMart Demo of Fully Implemented Version
 
    .. note::
 
-   		- Ensure you have a fully running version of the instructor MongoMart implementation: /instructor/java/final
-         - The instructor version requires a three node replica set (uses MAJORITY writes)
-   		- Ensure you've loaded the dataset from /data and create a text index (as described in the /data/README.md file)
-   		- DO NOT WALK THROUGH THIS VERSION OF THE SOURCE CODE WITH THE STUDENTS, ONLY THE STUDENT VERSION
+      - Ensure you have a fully running version of the instructor MongoMart implementation: /instructor/java/final
+      - The instructor version requires a three node replica set (uses MAJORITY writes)
+      - Ensure you've loaded the dataset from /data and create a text index (as described in the /data/README.md file)
+      - DO NOT WALK THROUGH THIS VERSION OF THE SOURCE CODE WITH THE STUDENTS, ONLY THE STUDENT VERSION
 
 View Items
 ----------
@@ -47,7 +47,7 @@ View Items
 
    .. note::
 
-   		- Click around the site to show them how it works, click through various pages and categories (into next slide)
+      - Click around the site to show them how it works, click through various pages and categories (into next slide)
 
 
 View Items by Category
@@ -81,7 +81,7 @@ Text Search
 
    .. note::
 
-   		- Search for a few strings, such as "shirt", "mug", "mongodb", etc.
+      - Search for a few strings, such as "shirt", "mug", "mongodb", etc.
 
 
 View Item Details
@@ -103,7 +103,7 @@ View Item Details
 
    .. note::
 
-   		- Add reviews, show how stars change, etc.
+      - Add reviews, show how stars change, etc.
 
 
 Shopping Cart
@@ -124,7 +124,7 @@ Shopping Cart
 
    .. note::
 
-   		- Add an item to your cart
-   		- Update the quantity in the cart
-   		- Checkout doesn't work, we are only interested in the cart functionality
+      - Add an item to your cart
+      - Update the quantity in the cart
+      - Checkout doesn't work, we are only interested in the cart functionality
 

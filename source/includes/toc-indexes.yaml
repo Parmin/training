@@ -5,7 +5,11 @@ description: |
 file: /modules/indexes-compound
 description: | 
   Indexes on two or more fields.
---- 
+---
+file: /exercises/indexes-optimizing-an-index
+description: | 
+  Lab on optimizing a compound index.
+---
 file: /modules/indexes-multikey
 description: | 
   Indexes on array fields.
@@ -26,9 +30,13 @@ file: /modules/indexes-text
 description: | 
   Free text indexes on string fields.
 --- 
-file: /exercises/indexes-exercises
+file: /exercises/indexes-finding-slow-operations
 description: |
-  Exercises for indexes in MongoDB.
+  Lab on finding and addressing slow operations.
+--- 
+file: /exercises/indexes-using-explain
+description: |
+  Lab on using the explain operation to review execution stats.
 ...
 
 

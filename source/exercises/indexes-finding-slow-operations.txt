@@ -1,0 +1,23 @@
+===========================================
+Lab: Finding and Addressing Slow Operations
+===========================================
+
+
+Exercise: Determine Indexes Needed 
+----------------------------------
+
+- In a mongo shell run performance.b(). This will run in an infinite loop printing some output as it runs various statements against the server.
+- Now imagine we have detected a performance problem and suspect there is a slow operation running.
+- Find the slow operation and terminate it. Every slow operation is assumed to run for 100ms or more.
+- In order to do this, open a second window (or tab) and run a second instance of the mongo shell.
+- What indexes can we introduce to make the slow queries more efficient? Disregard the index created in the previous exercise.
+
+.. only:: instructor
+
+   .. note::
+   
+      - Look at the logs to find queries over 100ms
+      - { "active": 1 } 
+      - { "str": 1, "x": 1 }
+
+.. include:: /includes/student-notes.rst

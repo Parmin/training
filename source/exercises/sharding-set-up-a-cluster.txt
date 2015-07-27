@@ -1,6 +1,6 @@
-======================================
-Exercise: Setting Up a Sharded Cluster
-======================================
+=================================
+Lab: Setting Up a Sharded Cluster
+=================================
 
 
 Learning Objectives
@@ -73,8 +73,8 @@ On Windows, run the following commands instead:
 .. include:: /includes/student-notes.rst
 
 
-Initiate a Replica Set
-----------------------
+Initiate a Replica Set (Linux/MacOS)
+------------------------------------
 
 .. code-block:: bash
 
@@ -101,9 +101,37 @@ Initiate a Replica Set
 
 .. include:: /includes/student-notes.rst
 
+Initiate a Replica Set (Windows)
+--------------------------------
 
-Spin Up a Second Replica Set
-----------------------------
+.. code-block:: bash
+
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\shard0\m0 \
+          --logpath c:\data\cluster\shard0\m0\mongod.log \
+          --port 27107 --oplogSize 10
+
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\shard0\m1 \
+          --logpath c:\data\cluster\shard0\m1\mongod.log \
+          --port 27108 --oplogSize 10
+
+   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\shard0\arb \
+          --logpath c:\data\cluster\shard0\arb\mongod.log \
+          --port 27109 --oplogSize 10
+
+   mongo --port 27107 --eval "\
+       rs.initiate(); sleep(3000);\
+       rs.add   ('<HOSTNAME>:27108');\
+       rs.addArb('<HOSTNAME>:27109')"
+
+
+.. include:: /includes/student-notes.rst
+
+
+Spin Up a Second Replica Set (Linux/MacOS)
+------------------------------------------
     
 .. code-block:: bash
 
@@ -129,9 +157,37 @@ Spin Up a Second Replica Set
 
 .. include:: /includes/student-notes.rst
 
+Spin Up a Second Replica Set (Windows)
+------------------------------------------
+    
+.. code-block:: bash
 
-A Third Replica Set
--------------------
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\shard1\m0 \
+          --logpath c:\data\cluster\shard1\m0\mongod.log \
+          --port 27117 --oplogSize 10
+
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\shard1\m1 \
+          --logpath c:\data\cluster\shard1\m1\mongod.log \
+          --port 27118 --oplogSize 10
+
+   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\shard1\arb \
+          --logpath c:\data\cluster\shard1\arb\mongod.log \
+          --port 27119 --oplogSize 10
+
+   mongo --port 27117 --eval "\
+       rs.initiate(); sleep(3000);\
+       rs.add   ('<HOSTNAME>:27118');\
+       rs.addArb('<HOSTNAME>:27119')"
+
+.. include:: /includes/student-notes.rst
+
+
+
+A Third Replica Set (Linux/MacOS)
+---------------------------------
     
 .. code-block:: bash
 
@@ -149,6 +205,33 @@ A Third Replica Set
           --dbpath ~/data/cluster/shard2/arb \
           --logpath ~/data/cluster/shard2/arb/mongod.log \
           --fork --port 27129
+
+   mongo --port 27127 --eval "\
+       rs.initiate(); sleep(3000);\
+       rs.add   ('<HOSTNAME>:27128');\
+       rs.addArb('<HOSTNAME>:27129')"
+
+.. include:: /includes/student-notes.rst
+
+A Third Replica Set (Windows)
+-----------------------------
+    
+.. code-block:: bash
+
+   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\shard2\m0 \
+          --logpath c:\data\cluster\shard2\m0\mongod.log \
+          --port 27127 --oplogSize 10
+
+   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\shard2\m1 \
+          --logpath c:\data\cluster\shard2\m1\mongod.log \
+          --port 27128 --oplogSize 10
+
+   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\shard2\arb \
+          --logpath c:\data\cluster\shard2\arb\mongod.log \
+          --port 27129 --oplogSize 10
 
    mongo --port 27127 --eval "\
        rs.initiate(); sleep(3000);\
@@ -178,8 +261,8 @@ Status Check
 .. include:: /includes/student-notes.rst
 
 
-Launch Config Servers
----------------------
+Launch Config Servers (Linux/MacOS)
+-----------------------------------
 .. code-block:: bash
 
    mongod --smallfiles --nojournal --noprealloc \
@@ -199,9 +282,30 @@ Launch Config Servers
 
 .. include:: /includes/student-notes.rst
 
+Launch Config Servers (Windows)
+-------------------------------
+.. code-block:: bash
 
-Launch the Mongos Processes
----------------------------
+   mongod --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\config\c0 \
+          --logpath c:\data\cluster\config\c0\mongod.log \
+          --port 27217 --configsvr
+
+   mongod --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\config\c1 \
+          --logpath c:\data\cluster\config\c1\mongod.log \
+          --port 27218 --configsvr
+
+   mongod --smallfiles --nojournal --noprealloc \
+          --dbpath c:\data\cluster\config\c2 \
+          --logpath c:\data\cluster\config\c2\mongod.log \
+          --port 27219 --configsvr
+
+.. include:: /includes/student-notes.rst
+
+
+Launch the Mongos Processes (Linux/MacOS)
+-----------------------------------------
 
 Now our mongos's. We need to tell them about our config servers.
 
@@ -211,6 +315,21 @@ Now our mongos's. We need to tell them about our config servers.
           --configdb localhost:27217,localhost:27218,localhost:27219
 
    mongos --logpath ~/data/cluster/s1/mongos.log --fork --port 27018 \
+          --configdb localhost:27217,localhost:27218,localhost:27219
+
+.. include:: /includes/student-notes.rst
+
+Launch the Mongos Processes (Windows)
+-------------------------------------
+
+Now our mongos's. We need to tell them about our config servers.
+
+.. code-block:: bash
+
+   mongos --logpath c:\data\cluster\s0\mongos.log --port 27017 \
+          --configdb localhost:27217,localhost:27218,localhost:27219
+
+   mongos --logpath c:\data\cluster\s1\mongos.log --port 27018 \
           --configdb localhost:27217,localhost:27218,localhost:27219
 
 .. include:: /includes/student-notes.rst

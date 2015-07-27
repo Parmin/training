@@ -13,9 +13,4 @@ description: |
 file: /modules/agenda-developer-advanced
 description: | 
   Agenda for Advanced Developers Training
-
---- 
-file: /modules/agenda-dba-advanced
-description: | 
-  Agenda for Advanced DBA Training
 ...
