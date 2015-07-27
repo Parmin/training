@@ -1,6 +1,6 @@
-===================
-Java Implementation
-===================
+================
+Java Driver Labs
+================
 
 Introduction
 ------------
@@ -13,8 +13,8 @@ Introduction
 
    .. note::
 
-   		- Student skeleton code is located in /student/java
-   		- Ensure data is correctly loaded from /student/data
+      - Student skeleton code is located in /student/java
+      - Ensure data is correctly loaded from /student/data
 
 
 Lab 1: Setup and Connect to the Database
@@ -30,8 +30,8 @@ Lab 1: Setup and Connect to the Database
 
    .. note::
 
-   		- Solution in /instructor/java/lab_1
-   		- Please type in solution with the class instead of distributing source code
+      - Solution in /instructor/java/lab_1
+      - Please type in solution with the class instead of distributing source code
 
 
 Lab 2: Populate All Necessary Database Queries
@@ -47,8 +47,8 @@ Lab 2: Populate All Necessary Database Queries
 
    .. note::
 
-   		- Solution in /instructor/java/lab_2
-   		- Please type in solution with the class instead of distributing source code
+      - Solution in /instructor/java/lab_2
+      - Please type in solution with the class instead of distributing source code
 
 
 Lab 3: Use a Local Replica Set with a Write Concern
@@ -65,8 +65,8 @@ Lab 3: Use a Local Replica Set with a Write Concern
 
    .. note::
 
-   		- Solution in /instructor/java/lab_3
-   		- Please type in solution with the class instead of distributing source code
+      - Solution in /instructor/java/lab_3
+      - Please type in solution with the class instead of distributing source code
 
 
 Lab 4: Improve How Reviews are Stored and Queried
@@ -82,8 +82,8 @@ Lab 4: Improve How Reviews are Stored and Queried
 
    .. note::
 
-   		- Solution in /instructor/java/lab_4
-   		- Please type in solution with the class instead of distributing source code
+      - Solution in /instructor/java/lab_4
+      - Please type in solution with the class instead of distributing source code
 
 
 Lab 5: Use Range Based Pagination
@@ -99,8 +99,8 @@ Lab 5: Use Range Based Pagination
 
    .. note::
 
-   		- Solution in /instructor/java/lab_5
-   		- Please type in solution with the class instead of distributing source code
+      - Solution in /instructor/java/lab_5
+      - Please type in solution with the class instead of distributing source code
 
 
 Extra Credit Items

@@ -1,23 +1,23 @@
 :orphan:
 
-===========================
-MongoDB Essentials Training
-===========================
+=========================
+MongoDB Five-Day Training
+=========================
 
 .. toctree::
 
-   /modules/nav/agenda
    /modules/nav/introduction
    /modules/nav/crud
    /modules/nav/indexes
+   /modules/nav/drivers
    /modules/nav/aggregation
-   /modules/nav/schema-design-essentials
+   /modules/nav/schema-design-intro
    /modules/nav/replica-sets
    /modules/nav/sharding
-   /modules/nav/security-essentials
+   /modules/nav/schema-design-advanced
+   /modules/nav/mongomart
+   /modules/nav/security
    /modules/nav/mms
-   /modules/nav/drivers
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
-   /modules/nav/mongomart
 

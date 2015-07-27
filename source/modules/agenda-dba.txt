@@ -148,7 +148,8 @@ Security (1 hour)
 -----------------
 
 - :doc:`/modules/performance`
-- |security_link|
+- :doc:`/modules/security`
+- :doc:`/exercises/security-create-useradmin`
 - |security_lab_link|
 
 .. |security_link| raw:: html

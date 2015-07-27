@@ -1,0 +1,16 @@
+===========================
+Lab: Python Driver Tutorial
+===========================
+
+
+Tutorial
+--------
+
+Complete the `Python driver tutorial <http://api.mongodb.org/python/current/tutorial.html>`_ for a concise introduction to:
+
+- Creating MongoDB documents in Python
+- Connecting to a database
+- Writing and reading documents
+- Creating indexes
+
+.. include:: /includes/student-notes.rst

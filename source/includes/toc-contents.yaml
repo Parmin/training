@@ -14,11 +14,15 @@ file: /modules/nav/indexes
 description: | 
   Indexes in MongoDB
 ---
+file: /modules/nav/drivers
+description: |
+  An overview of the MongoDB drivers
+---
 file: /modules/nav/aggregation
 description: |
   The MongoDB aggregation framework
 ---
-file: /modules/nav/schema-design
+file: /modules/nav/schema-design-intro
 description: |
   Data modeling in MongoDB.
 ---
@@ -30,17 +34,21 @@ file: /modules/nav/sharding
 description: | 
   Sharding in MongoDB
 ---
-file: /modules/security
+file: /modules/nav/schema-design-advanced
+description: |
+  Data modeling case studies and hands-on lab.
+---
+file: /modules/nav/mongomart
+description: |
+  MongoMart
+---
+file: /modules/nav/security
 description: |
   An overview of security options for MongoDB.
 ---
 file: /modules/nav/mms
 description: |
   An overview of the MongoDB Management Service (MMS)
----
-file: /modules/nav/drivers
-description: |
-  An overview of the MongoDB drivers
 ---
 file: /modules/performance
 description: |
@@ -49,8 +57,4 @@ description: |
 file: /modules/backup
 description: |
   MongoDB backup strategies.
----
-file: /modules/nav/mongomart
-description: |
-  MongoMart
 ...

@@ -119,7 +119,7 @@ tag: 'guide'
 edition: 'instructor'
 ---
 source: 'meta/five-day-training'
-output: 'five-day-training-instructor.tex'
+output: 'five-day-training-student.tex'
 title: 'MongoDB Five-Day Training'
 author: 'MongoDB, Inc.'
 class: 'howto'

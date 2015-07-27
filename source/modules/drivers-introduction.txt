@@ -5,28 +5,26 @@ Introduction to MongoDB Drivers
 Learning Objectives
 -------------------
 
-- MongoDB drivers available
-- Driver specifications
-- Driver settings
-- Java, Python, and C++ driver examples
+Upon completing this module, students should understand:
+
+- What MongoDB drivers are available
+- Where to find MongoDB driver specifications
+- Key driver settings
 
 
 MongoDB Supported Drivers
 -------------------------
 
-Maintained and supported by MongoDB:
-
-- C
-- C++
-- C#
-- Java
-- Node.js
-- Perl
-- PHP
-- Python
-- Motor
-- Ruby
-- Scala
+- :ecosystem:`C</drivers/c>`
+- :ecosystem:`C++</drivers/cpp>`
+- :ecosystem:`C#</drivers/csharp>`
+- :ecosystem:`Java</drivers/java>`
+- :ecosystem:`Node.js</drivers/node-js>`
+- :ecosystem:`Perl</drivers/perl>`
+- :ecosystem:`PHP</drivers/php>`
+- :ecosystem:`Python</drivers/python>`
+- :ecosystem:`Ruby</drivers/ruby>`
+- :ecosystem:`Scala</drivers/scala>`
 
 
 MongoDB Community Supported Drivers
@@ -40,12 +38,13 @@ Go, Erlang, Clojure, D, Delphi, F#, Groovy, Lisp, Objective C, Prolog, Smalltalk
 Driver Specs
 ------------
 
-To ensure drivers have a consistent functionality, series of publicly available specification documents for:
+To ensure drivers have a consistent functionality, series of publicly available `specification documents <https://github.com/mongodb/specifications>`_ for:
 
-- Server selection
-- Index management
-- CRUD operations
-- Authentication
+- `Authentication <https://github.com/mongodb/specifications/tree/master/source/auth>`_
+- `CRUD operations <https://github.com/mongodb/specifications/tree/master/source/crud>`_
+- `Index management <https://github.com/mongodb/specifications/blob/master/source/index-management.rst>`_
+- `SDAM <https://github.com/mongodb/specifications/tree/master/source/server-discovery-and-monitoring>`_
+- `Server Selection <https://github.com/mongodb/specifications/tree/master/source/server-selection>`_
 - Etc.
 
 

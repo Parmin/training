@@ -1,0 +1,18 @@
+file: /modules/schema-design-case-study-time-series
+description: | 
+  Case Study: Time Series Data
+---
+file: /modules/schema-design-case-study-cms
+description: | 
+  Case Study: CMS
+---
+file: /modules/schema-design-case-study-social-network
+description: | 
+  Case Study: Social Network
+---
+file: /exercises/schema-group-exercise
+description: | 
+  Schema design group exercise
+...
+
+
