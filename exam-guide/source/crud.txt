@@ -28,6 +28,15 @@ CRUD Subtopics
 - Cursors
   - cursor methods
 
+Overview
+--------
+
+For the exam, we won't expect you to have operators memorized, but you should be able to recognize the correct operator for the job when you see it, either in the question portion, or the answer portion. 
+
+You should also be able to recognize correct query format, to know which parameters are necessary and which are optional, and how to use the optional parameters.
+
+Be aware of what will happen if you don't sort, and know the difference between sorting forwards and backwards.
+
 Create
 ------
 
@@ -323,3 +332,95 @@ For the exam, you should be able to:
 .. _Lesson on deletion: http://youtu.be/5K0t1dU8IJY
 .. _Documentation on dropping a collection: http://docs.mongodb.org/manual/reference/method/db.collection.drop/
 .. _Documentation on db.collection.remove()
+
+Sample Problems
+---------------
+
+1. Consider the following documents:
+
+{ "_id" : 1, "a" : 1, "b" : 1 }
+{ "_id" : 2, "a" : 2, "b" : 3 }
+{ "_id" : 3, "a" : 3, "b" : 6 }
+{ "_id" : 4, "a" : 4, "b" : 10 }
+{ "_id" : 5, "a" : 5, "b" : 15 }
+You perform the following query:
+
+db.stuff.update( { b : { $gte : 10 } }, { $set : { b : 15 } }, { multi : true, upsert : true } )
+How many documents will be updated by the query?
+
+a. 0
+b. 1
+c. 2
+d. 3
+e. 5
+
+2. Which of the following queries on the "c" collection will return only the first five elements of the array in the "b" field?
+
+Example document (as it exists in the collection):
+
+> db.c.find()
+{ "_id" : 12, b : [ 3, 5, 7, 2, 1, -4, 3, 12 ] }
+Document you want returned by your query:
+
+{ "_id" : 12, "b" : [ 3, 5, 7, 2, 1 ] }
+
+a. db.c.find( { } , { b : [ 0, 1, 2, 3, 4, 5 ] } )
+b. db.c.find( { } , { b : [ 0 , 5 ] } )
+c. db.c.find( { } , { b : { $slice : [ 0 , 5 ] } } ) 
+d. db.c.find( { } , { b : { $substr[ 0 , 5 ] } } )
+e. db.c.find( { b : [ 0 , 5 ] } )
+
+
+3. Consider the following example document from the sample collection. All documents in this collection have the same schema.
+{
+        "_id" : 3, 
+            "a" : 7,
+                "b" : 4
+}
+Which of the following queries will replace this with the document,
+{
+        "_id" : 7, 
+            "c" : 4
+
+a. db.sample.update( { "_id" : 3 } , { "_id" : 7 , "c" : 4 } )
+b. db.sample.update( { "_id" : 3 } , { "$set" : { "_id" : 7 , "c" : 4 } } )
+c. db.sample.update( { "_id" : 3 } , { "_id" : 7 , "c" : 4 , { "$unset" : [ "a" , "b" ] } } )
+d. db.sample.update( { "_id" : 3 } , { "_id" : 7 , "c" : 4 } , { "justOne" : true } )
+e. This operation cannot be done with a single query.
+
+4. Which of the documents below will be retrieved by the following query? Assume the documents are stored in a collection called "sample". Check all that apply.
+
+db.sample.find( { "$or" : [ { "a" : { "$in" : [ 3, 10] } }, { "b" : { "$lt" : 2 } } ] } )
+
+a. { "_id" : 1, "a" : 0, "c" : 0, "b" : 2 }
+b. { "_id" : 2, "a" : 2, "c" : 0, "b" : 1 }
+c. { "_id" : 3, "a" : 4, "c" : 0, "b" : 14 }
+d. { "_id" : 4, "a" : 5, "c" : 0, "b" : 17 }
+e. { "_id" : 5, "a" : 3, "c" : 0, "b" : 12 }
+f. { "_id" : 6, "a" : 1, "c" : 1, "b" : 5 }
+g. { "_id" : 7, "a" : 8, "c" : 1, "b" : 7 }
+h. { "_id" : 8, "a" : 11, "c" : 1, "b" : 0 }
+i. { "_id" : 9, "a" : 17, "c" : 1, "b" : 1 }
+j. { "_id" : 10, "a" : 3, "c" : 1, "b" : 1 }
+
+
+5. You perform the following operation in the shell:
+
+db.foo.insert( { } );
+What gets inserted?
+
+a. An empty document
+b. A document with an _id assigned to be an ObjectId
+c. A document that matches the collection's existing schema, but with null fields
+d. No document will be inserted; an error will be raised
+e. A document will be inserted with the same _id as the last document inserted
+
+
+Answers to Sample Problems
+--------------------------
+
+1. b
+2. c
+3. e
+4. b, e, h, i, j
+5. b
