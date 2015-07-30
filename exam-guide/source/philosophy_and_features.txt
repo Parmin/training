@@ -1,0 +1,85 @@
+Philosophy and Features
+-----------------------
+
+On the certification exam, we will attempt to verify that you:
+- Know and can define the biggest features of MongoDB 
+- Understand JSON and BSON at a basic level
+
+Philosophy and Features Subtopics
+---------------------------------
+
+- JSON
+- BSON
+- Fault tolerance
+- Horizontal Scaling
+- The Mongo Shell
+- Basics of the MongoDB system
+- Advantages of MongoDB over relational databases
+- MongoDB as a "schemaless" database
+
+Here is a white paper that touches on multiple topics_.
+
+.. _white paper that touches on multiple topics: https://www.mongodb.com/json-and-bson
+
+
+JSON
+----
+
+The JSON spec is pretty basic; you should know:
+- All JSON types
+- The structure of JSON objects and arrays
+- How to nest JSON objects, arrays, and other types
+
+Here are some good resources:
+- JSON video lessons
+  - Intro to JSON_
+  - JSON revisited_
+  - JSON subdocuments_
+  - JSON spec_
+- JSON web or pdf literature:
+  - json.org_
+  - Document databases_
+
+.. _json.org: http://json.org/
+.. _Document databases: https://www.mongodb.com/document-databases
+.. _Intro to JSON: http://docs.mongodb.org/manual/reference/mongodb-extended-json/
+.. _JSON revisited: http://youtu.be/CTffxoSSLqg
+.. _JSON subdocuments: http://youtu.be/vrYAEH3g13M
+.. _JSON spec: http://youtu.be/kOrsT94-A28
+
+BSON
+----
+
+The following should help elucidate BSON a bit:
+
+- Text/web resources:
+  - BSON spec_
+- Other resources;
+  - Bsondump_ (you can point it at MongoDB data files if you're using MMAPv1)
+
+.. _BSON spec: http://bsonspec.org/  
+.. _BSONdump: http://docs.mongodb.org/manual/reference/program/bsondump/
+
+The Mongo Shell
+---------------
+
+- Lesson video_
+
+.. _Lesson video: http://youtu.be/e18vCIdQKp4
+
+MongoDB and Relational DB's
+---------------------------
+
+Resources:
+- Video Lessons 
+  - MongoDB and Relational DB's_
+  - 
+
+.. _MongoDB and Relational DB's: http://youtu.be/-KIC1LXxcGM
+
+MongoDB as a "Schemaless" Database
+----------------------------------
+
+- Lesson video_
+
+.. _Lesson video: http://youtu.be/uKB-Hoqs6zI

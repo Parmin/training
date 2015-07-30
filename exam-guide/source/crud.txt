@@ -1,11 +1,11 @@
 CRUD
 ----
 
-- On the certification exam, we will attempt to verify that you:
-  - Understand all CRUD operations for manipulating documents
-  - Know all CRUD operators and how to use them
-  - Understand the properties of the _id field and its implications for CRUD operations
-  - Can use regex to find string documents
+On the certification exam, we will attempt to verify that you:
+- Understand all CRUD operations for manipulating documents
+- Know all CRUD operators and how to use them
+- Understand the properties of the _id field and its implications for CRUD operations
+- Can use regex to find string documents
 
 CRUD Subtopics
 --------------
