@@ -1,6 +1,6 @@
-==============================================
-MongoDB Management Service (MMS) & Ops Manager
-==============================================
+===========================
+MongoDB Cloud & Ops Manager
+===========================
 
 
 Learning Objectives 
@@ -8,15 +8,14 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- Features of the MongoDB Management Service (MMS) & Ops Manager 
+- Features of Cloud & Ops Manager 
 - Available deployment options
-- The components of MMS & Ops Manager
-- MMS demo
+- The components of Cloud & Ops Manager
 
 .. include:: /includes/student-notes.rst
 
-MMS and Ops Manager
--------------------
+Cloud and Ops Manager
+---------------------
 
 All services for managing a MongoDB cluster or group of clusters:
 
@@ -30,7 +29,7 @@ All services for managing a MongoDB cluster or group of clusters:
 Deployment Options
 ------------------
 
-- MMS: Hosted, http://mms.mongodb.com
+- Cloud Manager: Hosted, http://mms.mongodb.com
 - Ops Manager: On-premises 
 
 .. include:: /includes/student-notes.rst
@@ -42,16 +41,16 @@ Architecture
 
 .. include:: /includes/student-notes.rst
 
-MMS
----
+Cloud Manager
+-------------
 
-- Manage MongoDB instances anywhere with a connection to MMS
+- Manage MongoDB instances anywhere with a connection to Cloud Manager
 - Option to provision servers via AWS integration
   
 Ops Manager
 -----------
 
-On-premises MMS, with additional features for:
+On-premises, with additional features for:
 
 - Alerting (SNMP)
 - Deployment configuration (e.g. backup redundancy across internal data centers)
@@ -60,11 +59,11 @@ On-premises MMS, with additional features for:
 .. include:: /includes/student-notes.rst
 
 
-MMS and Ops Manager Use Cases
+Cloud & Ops Manager Use Cases
 -----------------------------
 
 - Manage a 1000 node cluster (monitoring, backups, automation)
-- Manage a personal project (3 node replica set on AWS, using MMS)
+- Manage a personal project (3 node replica set on AWS, using Cloud Manager)
 - Manage 40 deployments (with each deployment having different requirements)
 
 .. include:: /includes/student-notes.rst
@@ -73,11 +72,11 @@ MMS and Ops Manager Use Cases
 
    .. note::
 
-      - Use these use cases to get students interested in how MMS can save them a lot of time
+      - Use these use cases to get students interested in how Cloud Manager can save them a lot of time
 
 
-Creating an MMS Account
------------------------
+Creating a Cloud Manager Account
+--------------------------------
 
 Free account at mms.mongodb.com
 

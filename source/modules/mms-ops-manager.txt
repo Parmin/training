@@ -17,7 +17,7 @@ Upon completing this module students should understand:
 MongoDB Ops Manager
 -------------------
 
-- On-premises version of MMS
+- On-premises version of Cloud Manager
 - Everything stays within private network
 
 .. include:: /includes/student-notes.rst

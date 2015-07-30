@@ -7,7 +7,7 @@ Learning Objectives
 
 Upon completing this exercise students should understand:
 
-- How to create an alert in MMS
+- How to create an alert in Cloud Manager
 
 .. include:: /includes/student-notes.rst
 
@@ -15,7 +15,7 @@ Upon completing this exercise students should understand:
 Exercise #1
 -----------
 
-Create an alert through MMS for any node within your cluster that is down.
+Create an alert through Cloud Manager for any node within your cluster that is down.
 
 After the alert has been created, stop a node within your cluster to verify the alert.
 

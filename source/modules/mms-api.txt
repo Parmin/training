@@ -8,14 +8,14 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- Overview of the MMS / Ops Manager API
-- Sample use cases for the MMS / Ops Manager API
+- Overview of the Cloud / Ops Manager API
+- Sample use cases for the Cloud / Ops Manager API
 
 .. include:: /includes/student-notes.rst
 
 
-What is the MMS / Ops Manager API?
-----------------------------------
+What is the Cloud / Ops Manager API?
+------------------------------------
 
 Allows users to programmatically:
 
@@ -45,7 +45,7 @@ API Documentation
 Sample API Uses Cases
 ---------------------
 
-- Ingest MMS / Ops Manager monitoring data
+- Ingest Cloud / Ops Manager monitoring data
 - Programmatically restore environments
 - Configuration management
 
@@ -63,7 +63,7 @@ The monitoring API can be used to ingest monitoring data into another system, su
 
    .. note::
 
-      - Most large companies use other systems for monitoring, point out how the MMS API can help here
+      - Most large companies use other systems for monitoring, point out how the  API can help here
 
 
 Programatically Restore Environments

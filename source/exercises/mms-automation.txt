@@ -1,21 +1,22 @@
-============================
-Exercise: Cluster Automation
-============================
+=======================
+Lab: Cluster Automation
+=======================
+
 
 Learning Objectives 
 -------------------
 
 Upon completing this exercise students should understand:
 
-- How to deploy, dynamically resize, and upgrade a cluster with MMS Automation
+- How to deploy, dynamically resize, and upgrade a cluster with Automation
 
 .. include:: /includes/student-notes.rst
 
 
-MMS Automation Support
-----------------------
+Cloud Manager Automation Support
+--------------------------------
 
-Windows machines are not supported at this time.
+Windows machines are not supported at this time. You may use either your personal computer or Linux instances we have provided in order to complete this lab. Your instructor will provide you with instructions for access.
 
 .. include:: /includes/student-notes.rst
 
@@ -23,12 +24,12 @@ Windows machines are not supported at this time.
 Exercise #1
 -----------
 
-Using your personal computer, create a cluster using MMS automation with the following topology:
+Create a cluster using Cloud Manager automation with the following topology:
 
 - 3 shards
 - Each shard is a 3 node replica set (2 data bearing nodes, 1 arbiter)
 - Version 2.6.8 of MongoDB
-- **To conserve space on your local machine, set "smallfiles" = true and "oplogSize" = 10**
+- **To conserve space, set "smallfiles" = true and "oplogSize" = 10**
 
 .. only:: instructor
 
@@ -37,7 +38,8 @@ Using your personal computer, create a cluster using MMS automation with the fol
       - Windows is not supported, Windows users should work with another person in the class or work on a remote Linux machine
       - The entire cluster should be deployed on a single server (or the students laptop)
       - Registration is free, and won't require a credit card as long as the student stays below 8 servers
-  
+
+
 Exercise #2
 -----------
 

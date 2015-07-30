@@ -16,8 +16,10 @@ MongoDB Five-Day Training
    /modules/nav/sharding
    /modules/nav/schema-design-advanced
    /modules/nav/mongomart
-   /modules/nav/security
-   /modules/nav/mms
-   /modules/nav/performance-essentials
+   /modules/nav/performance-five-day-training
    /modules/nav/backup-essentials
+   /modules/nav/mms-five-day-training
+   /modules/nav/adv-ops-backup
+   /modules/nav/adv-ops-automation
+
 

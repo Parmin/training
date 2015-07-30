@@ -15,7 +15,7 @@
       <tspan x="-90" y="-1" font-family="Inconsolata" font-size="24" fill="#000000">MongoDB Cluster</tspan>
     </text>
     <text transform="matrix(0.93, 0, 0, 1, 488, 57)" id="svg_20">
-      <tspan x="-102" y="5" font-family="Inconsolata" font-size="24" fill="#000000">MMS / Ops Manager</tspan>
+      <tspan x="-114" y="5" font-family="Inconsolata" font-size="24" fill="#000000">Cloud / Ops Manager</tspan>
     </text>
     <text transform="matrix(1, 0, 0, 1, 148.48, 431)" id="svg_4">
       <tspan x="-72" y="5" font-family="Inconsolata" font-size="24" fill="#FFFFFF">Backup Agent</tspan>

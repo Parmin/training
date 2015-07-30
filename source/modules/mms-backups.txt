@@ -8,8 +8,8 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- How MMS / Ops Manager Backups work
-- Advantages to MMS / Ops Manager Backups
+- How Cloud / Ops Manager Backups work
+- Advantages to Cloud / Ops Manager Backups
 
 .. include:: /includes/student-notes.rst
 
@@ -18,7 +18,7 @@ Methods for Backing Up MongoDB
 
 - mongodump
 - File system backups
-- MMS / Ops Manager Backups
+- Cloud / Ops Manager Backups
 
 .. include:: /includes/student-notes.rst
   
@@ -26,7 +26,7 @@ Comparing MongoDB Backup Methods
 --------------------------------
 
 ==================  =========  ===========  ==================  =========================
-Considerations      Mongodump  File System  MMS Backup (Cloud)  Ops Manager (On-prem MMS)
+Considerations      Mongodump  File System  Cloud Backup        Ops Manager
 ==================  =========  ===========  ==================  =========================
 Initial Complexity  Medium     High         Low                 High
 Replica Set PIT     Yes**      Yes**        Yes                 Yes
@@ -45,8 +45,8 @@ Restore Time        Slow       Fast         Medium              Medium
       - Instructors should spend a lot of time on this chart, lots of considerations here
 
 
-MMS / Ops Manager Backups
--------------------------
+Cloud / Ops Manager Backups
+---------------------------
 
 - Based off oplogs (even for the config servers)
 - Point-in-time recovery for replica sets, snapshots for sharded clusters 
@@ -57,8 +57,8 @@ MMS / Ops Manager Backups
 .. include:: /includes/student-notes.rst
 
   
-Restoring from MMS / Ops Manager
---------------------------------
+Restoring from Cloud / Ops Manager
+----------------------------------
 
 - Specify which backup to restore
 - SCP push or HTTPS pull (one time use link) for data files
@@ -83,7 +83,7 @@ Architecture
 Snapshotting
 ------------
 
-- Local copy of every replica set stored by MMS / Ops Manager
+- Local copy of every replica set stored by Cloud / Ops Manager
 - Oplog entries applied on top of local copy
 - Local copy is used for snapshotting
 - Very little impact to the cluster (equivalent to adding another secondary)
@@ -95,6 +95,6 @@ Backup Agent
 ------------
 
 - Backup agent (can be managed by Automation agent)
-- Backup agent sends oplog entries to MMS / Ops Manager service to be apply on local copy
+- Backup agent sends oplog entries to Cloud / Ops Manager service to be apply on local copy
 
 .. include:: /includes/student-notes.rst

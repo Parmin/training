@@ -8,8 +8,8 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- Use cases for MMS / Ops Manager Automation
-- The MMS / Ops Manager Automation internal workflow
+- Use cases for Cloud / Ops Manager Automation
+- The Cloud / Ops Manager Automation internal workflow
 
 .. include:: /includes/student-notes.rst
 
@@ -29,8 +29,8 @@ How Does Automation Work?
 -------------------------
 
 - Automation agent installed on each server in cluster
-- Administrator creates design goal for system (through MMS / Ops Manager interface)
-- Automation agents periodically check with MMS / Ops Manager to get new design instructions
+- Administrator creates design goal for system (through Cloud / Ops Manager interface)
+- Automation agents periodically check with Cloud / Ops Manager to get new design instructions
 - Agents create and follow a plan for implementing cluster design
 - Minutes later, cluster design is complete, cluster is in goal state
   
@@ -46,10 +46,10 @@ Automation Agents
 Sample Use Case
 ---------------
 
-Administrator wants to create a 100 shard cluster, with each shard comprised of a 3 node replica set:
+Administrator wants to create a 100 shard cluster, with each shard comprised of moa 3 node replica set:
 
 - Administrator installs automation agent on 300 servers
-- Cluster design is created in MMS / Ops Manager, then deployed to agents
+- Cluster design is created in Cloud / Ops Manager, then deployed to agents
 - Agents execute instructions until 100 shard cluster is complete (usually several minutes)
   
 .. include:: /includes/student-notes.rst
@@ -59,7 +59,7 @@ Upgrades Using Automation
 
 - Upgrades without automation can be a manually intensive process (e.g. 300 servers)
 - A lot of edge cases when scripting (e.g. 1 shard has problems, or one replica set is a mixed version)
-- One click upgrade with MMS / Ops Manager Automation for the entire cluster
+- One click upgrade with Cloud / Ops Manager Automation for the entire cluster
   
 .. include:: /includes/student-notes.rst
 
@@ -67,8 +67,8 @@ Upgrades Using Automation
 Automation: Behind the Scenes
 -----------------------------
 
-- Agents ping MMS / Ops Manager for new instructions
-- Agents compare their local configuration file with the latest version from MMS / Ops Manager
+- Agents ping Cloud / Ops Manager for new instructions
+- Agents compare their local configuration file with the latest version from Cloud / Ops Manager
 - Configuration file in json
 - All communications over SSL
 
@@ -86,7 +86,7 @@ Automation: Behind the Scenes
 Configuration File
 ------------------
 
-When version number of configuration file on MMS / Ops Manager is greater than local version, agent begins making a plan to implement changes:
+When version number of configuration file on Cloud / Ops Manager is greater than local version, agent begins making a plan to implement changes:
 
 .. code-block:: javascript
 
@@ -119,11 +119,19 @@ Automation agent is considered to be in goal state after all cluster changes (re
 Demo
 ----
 
+- The instructor will demonstrate using Automation to set up a small cluster locally.
+- Reference documentation:
+
+- `The Automation Agent <https://docs.cloud.mongodb.com/tutorial/nav/automation-agent/>`_
+  - `The Automation API <https://docs.cloud.mongodb.com/api/>`_
+  - `Configuring the Automation Agent <https://docs.cloud.mongodb.com/reference/automation-agent/>`_
+
+
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
    .. note::
 
-      - Go to your Admin page (within MMS) -> My groups, create a new group, and walk through the process of setting up a small cluster on your laptop
+      - Go to your Admin page (within Cloud Manager) -> My groups, create a new group, and walk through the process of setting up a small cluster on your laptop
 

@@ -111,9 +111,6 @@ Replication Based on the Oplog
       - This feature has several benefits for independent operation of nodes in replica sets.
 
 
-.. include:: /exercises/replica-set-oplog.txt
-
-
 Operations in the Oplog are Idempotent
 --------------------------------------
 
