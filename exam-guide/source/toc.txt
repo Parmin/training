@@ -126,14 +126,17 @@ Table of Contents
   - Explaining aggregation queries
 
 - Replication
-  - rs.status()
   - Nodes
     - Primary
     - Secondary
     - Arbiter
     - Delayed Secondaries
-  - Votes
+    - Hidden Secondaries
+  - Initiating a Replica Set
+  - Initial Sync
   - Elections
+    - Votes
+    - Criteria for Winning an Election
   - Failover
   - Rollback (DBA only)
   - Replica set reconfiguration
@@ -152,7 +155,6 @@ Table of Contents
   - Write Concern
     - The w parameter
     - The j parameter
-  - Reasons for Deployment to Multiple Data Centers
 
 - Sharding
   - sh.status()

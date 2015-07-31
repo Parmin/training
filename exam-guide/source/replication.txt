@@ -1,0 +1,236 @@
+Replication
+-----------
+
+On the certification exam, we will attempt to verify that you:
+- Understand the benefits of replication
+- Understand tradeoffs between speed and durability
+- Know the basics of how the oplog works, including concepts like idempotence and statement-based replication
+- Know what happens when a node (primary or not) fails
+
+Replication Subtopics
+---------------------
+
+- Nodes
+  - Primary
+  - Secondary
+  - Arbiter
+  - Delayed Secondaries
+  - Hidden Secondaries
+- Initiating a Replica Set
+- Initial Sync
+- Elections
+  - Votes
+  - Criteria for Winning an Election
+- Failover
+- Rollback (DBA only)
+- Replica set reconfiguration
+  - Adding a replica set member
+  - Removing a member
+- Oplog
+  - Statement-based replication
+  - Idempotence (DBA Only)
+  - Capped Collection (DBA only)
+- Read Preference
+  - Primary
+  - Secondary
+  - PrimaryPreferred
+  - SecondaryPreferred
+  - Nearest
+- Write Concern
+  - The w parameter
+  - The j parameter
+
+Overview
+--------
+
+Video: 
+  - Replication Overview_
+  - Asynchronous Replication_
+Docs: Replication Introduction_
+
+.. _Replication Overview: http://youtu.be/eNFWxRFIbcI
+.. _Replication Introduction: http://docs.mongodb.org/manual/core/replication-introduction/
+.. _Asynchronous Replication: http://youtu.be/3p30vjb-Rx8
+
+Nodes
+-----
+
+Docs: 
+  - Replica Set Memebers_ (inlcudes Primary, Secondary, Arbiter)
+  - Delayed Members_
+  - Hidden Members_
+  - Non-Voting Members_
+Videos:
+  - Arbiters_
+  - Hidden and Slave Delay_
+
+.. _Replica Set Members: http://docs.mongodb.org/manual/core/replica-set-members/
+.. _Delayed Members: http://docs.mongodb.org/manual/core/replica-set-delayed-member/
+.. _Hidden Members: http://docs.mongodb.org/manual/core/replica-set-hidden-member/
+.. _Arbiters: http://youtu.be/4W0GO2CAu2w
+.. _Non-Voting Members: http://docs.mongodb.org/manual/tutorial/configure-a-non-voting-replica-set-member/
+.. _Hidden and Slave Delay: http://youtu.be/X1hCBT2UTuo
+
+Initiating a Replica Set
+------------------------
+
+Video:
+  - Initiating a Replica Set_
+
+Docs:
+  - rs.initiate()_
+
+.. _Initiating a Replica Set: http://youtu.be/EaGhuXPZZbk
+.. _rs.initiate(): http://docs.mongodb.org/manual/reference/method/rs.initiate/#rs.initiate
+
+Initial Sync
+------------
+
+From the docs_
+
+.. _the docs: http://docs.mongodb.org/manual/core/replica-set-sync/#initial-sync
+
+Elections
+---------
+
+Docs: 
+  - Elections_
+  - Non-voting members_
+
+.. _Elections: http://docs.mongodb.org/manual/core/replica-set-elections/
+.. _Non-voting members: http://docs.mongodb.org/manual/tutorial/configure-a-non-voting-replica-set-member/
+
+Failover
+--------
+
+Video:
+  - Automatic Failover_
+  - Failover Example_
+
+
+Docs:
+  - Replica Set High Availability_
+
+.. _Automatic Failover: http://youtu.be/VsnI8uCTG60
+.. _Replica Set High Availability: http://docs.mongodb.org/manual/core/replica-set-high-availability/
+.. _Failover example: http://youtu.be/MGoHhWbMDaU
+
+Rollback
+--------
+
+Video:
+  - Recovery_
+Docs: 
+  - Rollbacks_
+
+.. _Recovery: http://youtu.be/TGsnu9RBjzA
+.. _Rollbacks: http://docs.mongodb.org/manual/core/replica-set-rollbacks/
+
+rs.status()
+-----------
+
+Video:
+  - Replica Set Status_
+
+Docs:
+  - rs.status() Example_
+
+.. _Replica Set Status: http://youtu.be/QspOQbOShSY
+.. _rs.status() Example: http://docs.mongodb.org/manual/reference/command/replSetGetStatus/#example
+
+Replica Set Reconfiguration
+---------------------------
+
+Docs: 
+  - Reconfigure a Replica Set_
+
+.. _Reconfigure a Replica Set: http://docs.mongodb.org/manual/tutorial/reconfigure-replica-set-with-unavailable-members/
+
+Oplog
+-----
+
+Video:
+  - Statement Based vs Binary Replication_
+
+Docs
+  - Replica Set Oplog_
+  - Capped Collections_
+
+.. _Statement Based vs Binary Replication: http://youtu.be/yutpUgJMkk4
+.. _Replica Set Oplog: http://docs.mongodb.org/manual/core/replica-set-oplog/
+.. _Capped Collections: http://docs.mongodb.org/manual/core/capped-collections/
+
+Read Preference
+---------------
+
+Read preference is about deciding where you want to draw your data from. The default is Primary, so that you can capture writes as they happen; reading from a secondary will result in an "eventual consistency" model.
+
+Docs:
+  - Read Preference Reference_
+Videos:
+  - Read Preference_
+  - Read Preference Options_
+
+.. _Read Preference Reference: http://docs.mongodb.org/manual/reference/read-preference/
+.. _Read Preference: http://youtu.be/I62q4cyeSyc
+.. _Read Preference Options: http://youtu.be/jCEZvexlpj4
+
+Write Concern
+-------------
+
+Videos: 
+  - Write Concern Principles_
+  - Examining the 'w' parameter_
+  - Write Concern Use Cases and Patterns_
+Docs:
+  - Write Concern_
+  - Write Concern Reference_
+
+.. _Write Concern Principles: http://youtu.be/73Jl2woKhNo
+.. _Examining the 'w' parameter: http://youtu.be/K3N6psPZCD0
+.. _Write Concern Use Cases and Patterns: http://youtu.be/sSkFhx1jKSs
+.. _Write Concern: http://docs.mongodb.org/manual/core/write-concern/
+.. _Write Concern Reference: http://docs.mongodb.org/manual/reference/write-concern/
+
+
+Sample Problems
+---------------
+
+1. Given a replica set with five data-bearing members, suppose the primary goes down with operations in its oplog that have been copied from the primary to only one secondary. Assuming no other problems occur, which of the following describes what is most likely to happen?
+
+a. The primary may roll back the operations once it recovers.
+b. The secondary with the most current oplog will be elected primary.
+c. Missing operations will need to be manually re-performed.
+d. The most current secondary will roll back the operations following the election.
+e. Reads will be stale until the primary comes back up.
+
+2. Which of the following is true of the mechanics of replication in MongoDB? Check all that apply.
+
+a. Operations on the primary are recorded in a capped collection called the oplog.
+b. Members of a replica set may replicate data from any other data-bearing member of the set by default.
+c. Clients read from the nearest member of a replica set by default.
+
+3. What read preference should your application use if you want to read from the primary under normal circumstances but allow reads from secondaries when a primary is unavailable?
+
+Nearest
+primary
+primaryPreferred
+secondaryPreferred
+Secondary
+
+4. Using an arbiter allows one to easily ensure an odd number of voters in replica sets. Why is this important? 
+
+To add greater redundancy
+For more efficient backup operations
+To help in disaster recovery
+To protect against network partitions
+To enable certain read preference settings
+
+
+Answers to Sample Problems
+--------------------------
+
+1. b
+2. a, b
+3. c
+4. d
