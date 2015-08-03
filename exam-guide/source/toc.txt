@@ -52,26 +52,24 @@ Table of Contents
     - getMore
 
 - Indexes
-  - Primary vs. Secondary Indexes
-  - Primary Index in MongoDB
   - Creating Indexes
-  - Simple Indexes
+  - Single Field Indexes
+  - Collection Scans
   - Compound Indexes
-  - Multi-Key Indexes
     - Using Index Prefixes
-  - Filtering with Indexes
+  - Multikey Indexes
   - Sorting with Indexes
-  - Selectivity of Indexes
-  - Indexes on a subdocument (dot notation)
   - The .explain() method
     - For a cursor
     - For a collection
   - Covered Queries
-  - Regex on String Fields and Indexes
+  - Indexing Strategies
+  - Effect of Indexes on Read and Write Performance
   - Unique Indexes
-    - dropDups
   - Sparse Indexes
   - TTL (Time-to-live) Indexes
+  - Background Index Creation (DBA Only)
+  - Regex on String Fields and Indexes
   - Specialized Indexes
     - Text Indexes
     - 2d Indexes

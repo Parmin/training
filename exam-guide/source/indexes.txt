@@ -1,0 +1,425 @@
+Indexes
+-------
+
+On the certification exam, we will attempt to verify that you:
+- Understand the types of indexes available in MongoDB
+- Know how to determine the efficiency of a query
+- Can model queries and indexes for maximum efficiency
+- Recognize the implications of specialized index types
+  - sparse
+  - unique
+
+Indexes Subtopics
+-----------------
+
+- Creating Indexes
+- Single Field Indexes
+- Collection Scans
+- Compound Indexes
+  - Using Index Prefixes
+- Multikey Indexes
+- Sorting with Indexes
+- The .explain() method
+  - For a cursor
+  - For a collection
+- Selecting an Index
+- Covered Queries
+- Indexing Strategies
+- Effect of Indexes on Read and Write Performance
+- Unique Indexes
+- Sparse Indexes
+- TTL (Time-to-live) Indexes
+- Background Index Creation (DBA Only)
+- Regex on String Fields and Indexes
+- Specialized Indexes
+  - Text Indexes
+  - 2d Indexes
+  - 2dSphere Indexes
+
+Overview
+--------
+
+Good use of indexes is the single greatest determinant of performance on a database -- not just in MongoDB, but in any database. The vast majority of performance-related support tickets at MongoDB are solved with improved use of indexes. Both developers and DBA's need to be aware of what options are available, how to use them, and how to assess their effect on performance.
+
+
+Videos:
+  - Introduction to Indexes_
+Docs:
+  - Index Concepts_
+
+.. _Introduction to Indexes: http://youtu.be/U3iWPF5jP-g
+.. _Index Concepts: http://docs.mongodb.org/manual/core/indexes/
+
+
+Creating Indexes
+----------------
+
+Indexes are created either on collection creation (for the unique _id index), or using the db.collection.createIndex() command. The former preferred command was db.collection.ensureIndex, which has been deprecated.
+
+Videos:
+  - createIndex, getIndexes, dropIndex_
+  - Creating Indexes_
+
+Docs:
+  - db.collection.createIndex_
+  - Tutorial, Create an Index_
+
+.. _createIndex, getIndexes, dropIndex: http://youtu.be/JvXfCHPYKzw
+.. _db.collection.createIndex: http://docs.mongodb.org/manual/reference/method/db.collection.createIndex/
+.. _Create an Index: http://docs.mongodb.org/manual/tutorial/create-an-index/
+.. _Creating Indexes: http://youtu.be/xi2gtzZez6Q
+
+Single Field Indexes
+--------------------
+
+This can include top-level fields, embedded fields, or embedded documents.
+
+Docs: 
+  - Single Field Indexes_
+  - Embedded Fields_ (same link, different section)
+  - Embedded Documents_ (same link, different section)
+
+
+.. _Single Field Indexes: http://docs.mongodb.org/manual/core/index-single/
+.. _Embedded Fields: http://docs.mongodb.org/manual/core/index-single/#indexes-on-embedded-fields
+.. _Embedded Documents: http://docs.mongodb.org/manual/core/index-single/#indexes-on-embedded-documents
+.. _Dot Notation and Multikey: http://youtu.be/wT0_ktAZbBg
+
+Collection Scans
+----------------
+
+A collection scan occurs when you can't use an index for a query, so you end up scanning the entire collection, one document at a time. This is terribly inefficient for large collections.
+
+Videos:
+  - Collection scans_
+
+.. _Collection scans: http://youtu.be/qB6435EGS6w
+
+Compound Indexes
+----------------
+
+A compound index is an index on two or more ordered fields. Order (and direction) are important for whether or not an index can be used, whether or not it can be used to sort, and how efficiently it gets used for a particular query.
+
+From the docs: Compound Indexes_
+
+.. _Compound Indexes: http://docs.mongodb.org/manual/core/index-compound/
+
+Multikey Indexes
+----------------
+
+A multikey index is an index on an array. You will have one index entry per array element.
+
+Docs:
+  - Multikey Indexes_
+Videos:
+  - Multikey Indexes (video)_
+  - Dot Notation and Multikey_
+
+.. _Multikey Indexes: http://docs.mongodb.org/manual/core/index-multikey/
+.. _Multikey Indexes (video): http://youtu.be/_NGwn_X82Dw
+.. _Dot Notation and Multikey: http://youtu.be/wT0_ktAZbBg
+
+Sorting with Indexes
+--------------------
+
+You'll notice that the index creation document looks a lot like a sorting document. This isn't an accident. The index is ordered just like the sort result query, and if you've built your index correctly, you can use it to avoid sorting the result set of a query.
+
+Docs:
+  - Use Indexes to Sort Query Results_
+
+.. _Use Indexes to Sort Query Results: http://docs.mongodb.org/manual/tutorial/sort-results-with-indexes/
+
+The .explain() Methods
+----------------------
+
+The .explain() method can be run on a cursor, or on a collection, to show the user index usage and performance for that query. There are several verbosities to choose from, depending on use case.
+
+Video:
+  - Explain Plans_
+  - Using Explain_
+  - Explain Verbosity_
+
+Docs:
+  - cursor.explain()_ (Legacy method)
+  - db.collection.explain()_ (Preferred method)
+  - Explain Results_
+
+.. _Explain Plans: http://youtu.be/rRsYWCO3ndY
+.. _Using Explain: http://youtu.be/liXIn8CnJaI
+.. _Explain Verbosity: http://youtu.be/WxXVun6bZ20
+.. _cursor.explain(): http://docs.mongodb.org/manual/reference/method/cursor.explain/
+.. _db.collection.explain(): http://docs.mongodb.org/manual/reference/method/db.collection.explain/
+.. _Explain Results: http://docs.mongodb.org/manual/reference/explain-results/
+
+Selecting an Index
+------------------
+
+MongoDB chooses its indexes using its Query Optimizer, which infrequently runs the query against all candidate indexes to determine which is fastest.
+
+Video:
+  - Choosing an Index_
+  - Efficiency of Index Use_
+Docs:
+  - Query Plans_
+
+.. _Choosing an Index: http://youtu.be/JyQlxDc549c
+.. _Efficiency of Index Use: http://youtu.be/JJmIf0pn100
+.. _Query Plans: http://docs.mongodb.org/manual/core/query-plans/
+
+Covered Queries
+---------------
+
+Video: 
+  - Covered Queries_
+Docs:
+  - Covered Query_
+
+.. _Covered Queries: http://youtu.be/npFBnPAkDUk
+.. _Covered Query: http://docs.mongodb.org/manual/core/query-optimization/#covered-query
+
+
+Indexing Strategies
+-------------------
+
+There are right ways to use indexes, and wrong ways. Here, we talk about some best practices.
+
+Docs: 
+  - Indexing Strategies_
+  - Optimize Query Performance_
+  - Indexes FAQ_
+  - Query Optimization_
+Videos:
+  - Efficiency of Index Use 2_
+  - Index Notes_
+
+.. _Indexing Strategies: http://docs.mongodb.org/manual/applications/indexes/
+.. _Efficiency of Index Use 2:
+.. _Index Notes: http://youtu.be/OyXFYhLXTGk
+.. _Indexes FAQ: http://docs.mongodb.org/manual/faq/indexes/
+.. _Optimize Query Performance: http://docs.mongodb.org/manual/tutorial/optimize-query-performance-with-indexes-and-projections/
+.. _Query Optimization: http://docs.mongodb.org/manual/core/query-optimization/
+
+Effect of Indexes on Write Performance
+-----------------------------------------------
+
+Indexes generally speed up read performance, but can slow down write performance. Find queries are almost always faster, and inserts are almost always slower, but hybrid actions (with a find & a write) such as update and remove, may depend on the use case (though they usually are faster with indexes). Be aware of the advantages and drawbacks.
+
+Docs:
+  - Write Operation Performance_
+Video:
+  - Read & Write Impact of Indexes_
+
+.. _Write Operation Performance: http://docs.mongodb.org/manual/core/write-performance/#indexes
+.. _Read & Write Impact of Indexes: http://youtu.be/wcprB2adSe0
+
+Unique Indexes
+--------------
+
+Unique indexes cause the database to enforce uniqueness on a collection level.
+
+Video:
+  - Index Creation Options, Unique_
+Docs:
+  - Creating a Unique Index_
+  - Unique Indexes_
+
+.. _Index Creation Options, Unique: http://youtu.be/D-Ra5TEaaL4
+.. _Creating a Unique Index: http://docs.mongodb.org/manual/tutorial/create-a-unique-index/
+.. _Unique Indexes: http://docs.mongodb.org/manual/core/index-unique/
+
+Sparse Indexes
+--------------
+
+Sparse indexes lack entries when a document lacks the indexed fields. They're smaller, and have fewer entries, but they can sometimes be ignored by the system, as they may lead to incorrect results in some cases.
+
+Video:
+  - Sparse Indexes Video_
+Docs:
+  - Sparse Indexes_
+
+.. _Sparse Indexes Video: http://youtu.be/ZznHByqtTMA
+.. _Sparse Indexes: http://docs.mongodb.org/manual/core/index-sparse/
+
+TTL Indexes
+-----------
+
+TTL (Time-to-Live) indexes expire after a certain time has passed, and are auto-deleted by the server.
+
+Video:
+  - TTL Indexes_
+Docs:
+  - Indexes, TTL_
+
+.. _TTL Indexes: http://youtu.be/hu0gsu5O0Rs
+.. _Indexes, TTL: http://docs.mongodb.org/manual/core/index-ttl/
+
+Background Index Creation
+-------------------------
+
+Background index creation turns index creation into a non-blocking operation, but also slows down index creation.
+
+Video: 
+  - Background Index Creation_
+Docs:
+  - Build Indexes in the Background_
+
+.. _Background Index Creation: http://youtu.be/rI2Hnqp8BN4
+.. _Build Indexes in the Background: http://docs.mongodb.org/manual/tutorial/build-indexes-in-the-background/
+
+Regex on String Fields and Indexes
+----------------------------------
+
+Docs: Index Use in Regex_
+
+.. _Index Use in Regex: http://docs.mongodb.org/manual/reference/operator/query/regex/#index-use
+
+Specialized Indexes
+-------------------
+
+MongoDB has specialied indexes for geospatial and text queries.
+
+Text Indexes
+------------
+
+Video:
+  - Text Indexes in MongoDB_
+Docs: 
+  - Text Indexes_
+  - Create a Text Index_
+  - Text Search Tutorials_
+
+.. _Text Indexes: http://docs.mongodb.org/manual/core/index-text/
+.. _Create a Text Index: http://docs.mongodb.org/manual/tutorial/create-text-index-on-multiple-fields/
+.. _Text Search Tutorials: http://docs.mongodb.org/manual/administration/indexes-text/
+.. _Text Indexes in MongoDB: http://youtu.be/UlleLqZQYVo
+
+2d and 2dSphere Indexes
+-----------------------
+
+2D Indexes are for flat geometries, like you might create in a video game, or in a small area. For locations on the earth, use a 2dSphere index.
+
+Video:
+  - Geospatial Indexes_
+Docs:
+  - Geospatial Indexes and Queries_
+  - 2d Indexes_
+  - Create a 2d Index_
+  - Query a 2d Index_
+  - 2dsphere Indexes_
+  - Create a 2dsphere Index_
+  - Query a 2dsphere Index_
+  - Calculate Distance using Spherical Geometry_
+
+
+.. _Geospatial Indexes: http://youtu.be/zoGcMsjGMo4
+.. _Geospatial Indexes and Queries: http://docs.mongodb.org/manual/applications/geospatial-indexes/
+.. _2d Indexes: http://docs.mongodb.org/manual/core/2d/
+.. _Create a 2d Index: http://docs.mongodb.org/manual/tutorial/build-a-2d-index/
+.. _Query a 2d Index: http://docs.mongodb.org/manual/tutorial/query-a-2d-index/
+.. _2dsphere Indexes: http://docs.mongodb.org/manual/core/2dsphere/
+.. _Create a 2dsphere Index: http://docs.mongodb.org/manual/tutorial/build-a-2dsphere-index/
+.. _Query a 2dsphere Index: http://docs.mongodb.org/manual/tutorial/query-a-2dsphere-index/
+.. _Calculate Distance using Spherical Geometry: http://docs.mongodb.org/manual/tutorial/calculate-distances-using-spherical-geometry-with-2d-geospatial-indexes/
+
+Sample Problems
+---------------
+
+1. Given the following example document:
+
+{
+      "_id": ObjectId("5360c0a0a655a60674680bbe"),
+        "user": {
+                "login": "ir0n",
+                    "description": "Made of steel"
+                        "date": ISODate("2014-04-30T09:16:45.836Z"),
+                          }
+}
+with the following index creation command:
+
+db.users.createIndex( { "user.login": 1, "user.date": -1 }, "myIndex" )
+When performing the following query:
+
+db.users.find( { "user.login": /^ir.*/ }, { "user":1, "_id":0 } ).sort( { "user.date":1 } )
+Which of the following statements correctly describe how MongoDB will handle the query? Check all that apply.
+
+a. As a covered query using "myIndex" because we are filtering out "_id" and only returning "user.login"
+b. As an indexed query using "myIndex" because field "user.login" is indexed
+c. As an optimized sort query (scanAndOrder = false) using "myIndex" because we are sorting on an indexed field
+d. MongoDB will need to do a table/collection scan to find matching documents
+e. None of the above
+
+2. You perform the following query on the sayings collection, which has the index { quote : â€œtextâ€ }:
+
+db.sayings.find( { $text : { $search : "fact find" } } )
+Assuming the following documents are in the collection, which ones will the query return? Check all that apply.
+
+a. { _id : 1, quote : “That’s a fact, Jack.” } 
+b. { _id : 2, quote : “Find out if that fact is correct.” }
+c. { _id : 3, quote : “Nobody will ever catch me.” }
+
+3. You have the following index on the toys collection:
+
+{ 
+   "manufacturer" : 1,
+   "name" : 1,
+   "date" : -1
+}
+
+Which of the following is able to use the index for the query? Check all that apply.
+
+a. db.toys.find( { manufacturer : "Matteo", name : "Barbara", date : "2014-07-02" } )
+b. db.toys.find( { name : "Big Rig Truck", date : "2013-02-01", manufacturer : "Tanko" } )
+c. db.toys.find( { date : "2015-03-01", manufacturer : "Loggo", name : "Brick Set" } )
+
+4. Adding an index on { a : 1 } can potentially decrease the speed of which of the following operations? Check all that apply.
+
+a. db.collection.find( { a : 232 } )
+b. db.collection.update( { b : 456 }, { $inc : { a : 1 } } )
+c. db.collection.insert( { a : 341 } )
+
+5. 
+You have the following indexes on the things collection:
+
+[
+  {
+    "v" : 1,
+    "key" : {
+      "_id" : 1
+    },
+    "name" : "_id_",
+    "ns" : "test.things"
+  },
+  {
+    "v" : 1,
+    "key" : {
+      "a" : 1
+    },
+    "name" : "a_1",
+    "ns" : "test.things"
+  },
+  {
+    "v" : 1,
+    "key" : {
+      "c" : 1,
+      "b" : 1,
+      "a" : 1
+    },
+    "name" : "c_1_b_1_a_1",
+    "ns" : "test.things"
+  }
+]
+
+Which of the following queries will require that you load every document into RAM in order to fulfill the query? Assume that no data is being written during the query. Check all that apply.
+
+a. db.things.find( { b : 1 } ).sort( { c : 1, a : 1 } )
+b. db.things.find( { c : 1 } ).sort( { a : 1, b : 1 } )
+c. db.things.find( { a : 1 } ).sort( { b : 1, c : 1 } )
+
+
+Answers to Sample Problems
+--------------------------
+1. b
+2. a, b
+3. a, b, c
+4. b, c
+5. a
