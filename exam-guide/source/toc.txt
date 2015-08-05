@@ -24,13 +24,14 @@ Table of Contents
     - Development Environments
 
 - Philosophy and Features
-  - Performance
   - JSON
   - BSON
   - Fault tolerance
-  - Disaster recovery
   - Horizontal Scaling
   - The Mongo Shell
+  - Basics of the MongoDB system
+  - Advantages of MongoDB over relational databases
+  - MongoDB as a "schemaless" database
 
 - CRUD
   - Create

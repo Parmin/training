@@ -83,3 +83,33 @@ MongoDB as a "Schemaless" Database
 - Lesson video_
 
 .. _Lesson video: http://youtu.be/uKB-Hoqs6zI
+
+Sample Problems
+---------------
+
+1. Which features of relational database management systems were deliberately omitted in MongoDB and help us to obtain horizontal scalability? Check all that apply.
+
+a. Multi-statement transactions
+b. Authentication
+c. Joins
+
+2. In order to ensure that you can maintain high availability in the face of server failure, you should implement which of the following?
+
+a. Replication
+b. Sharding
+c. The proper storage engine
+d. Properly defined user roles
+e. Put indexes on all of your documents
+
+3. What are the uses of the mongo shell? Check all that apply.
+
+a. Introduce people to MongoDB with a simple interface.
+b. Perform administrative tasks.
+c. Use as a javascript framework for your production system.
+
+Answers to Sample Problems
+--------------------------
+
+1. a, c
+2. a
+3. a, b
