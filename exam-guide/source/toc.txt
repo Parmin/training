@@ -56,13 +56,11 @@ Table of Contents
   - Creating Indexes
   - Single Field Indexes
   - Collection Scans
-  - Compound Indexes
-    - Using Index Prefixes
+  - Compound Indexes (including using index prefixes)
   - Multikey Indexes
   - Sorting with Indexes
-  - The .explain() method
-    - For a cursor
-    - For a collection
+  - The .explain() method (for a cursor & for a collection)
+  - Selecting an Index
   - Covered Queries
   - Indexing Strategies
   - Effect of Indexes on Read and Write Performance
@@ -71,10 +69,8 @@ Table of Contents
   - TTL (Time-to-live) Indexes
   - Background Index Creation (DBA Only)
   - Regex on String Fields and Indexes
-  - Specialized Indexes
-    - Text Indexes
-    - 2d Indexes
-    - 2dSphere Indexes
+  - Text Indexes
+  - 2d  and 2dSphere Indexes
 
 - Data Modeling (Dev only)
   - Embedding

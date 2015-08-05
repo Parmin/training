@@ -15,13 +15,10 @@ Indexes Subtopics
 - Creating Indexes
 - Single Field Indexes
 - Collection Scans
-- Compound Indexes
-  - Using Index Prefixes
+- Compound Indexes (including using index prefixes)
 - Multikey Indexes
 - Sorting with Indexes
-- The .explain() method
-  - For a cursor
-  - For a collection
+- The .explain() method (for a cursor & for a collection)
 - Selecting an Index
 - Covered Queries
 - Indexing Strategies
@@ -31,10 +28,8 @@ Indexes Subtopics
 - TTL (Time-to-live) Indexes
 - Background Index Creation (DBA Only)
 - Regex on String Fields and Indexes
-- Specialized Indexes
-  - Text Indexes
-  - 2d Indexes
-  - 2dSphere Indexes
+- Text Indexes
+- 2d  and 2dSphere Indexes
 
 Overview
 --------
@@ -177,7 +172,6 @@ Docs:
 .. _Covered Queries: http://youtu.be/npFBnPAkDUk
 .. _Covered Query: http://docs.mongodb.org/manual/core/query-optimization/#covered-query
 
-
 Indexing Strategies
 -------------------
 
@@ -200,7 +194,7 @@ Videos:
 .. _Query Optimization: http://docs.mongodb.org/manual/core/query-optimization/
 
 Effect of Indexes on Write Performance
------------------------------------------------
+--------------------------------------
 
 Indexes generally speed up read performance, but can slow down write performance. Find queries are almost always faster, and inserts are almost always slower, but hybrid actions (with a find & a write) such as update and remove, may depend on the use case (though they usually are faster with indexes). Be aware of the advantages and drawbacks.
 
@@ -272,11 +266,6 @@ Regex on String Fields and Indexes
 Docs: Index Use in Regex_
 
 .. _Index Use in Regex: http://docs.mongodb.org/manual/reference/operator/query/regex/#index-use
-
-Specialized Indexes
--------------------
-
-MongoDB has specialied indexes for geospatial and text queries.
 
 Text Indexes
 ------------
