@@ -124,40 +124,21 @@ Table of Contents
   - Explaining aggregation queries
 
 - Replication
-  - Nodes
-    - Primary
-    - Secondary
-    - Arbiter
-    - Delayed Secondaries
-    - Hidden Secondaries
+  - Nodes: Primary, Secondary, Arbiter, Delayed Secondaries, Hidden Secondaries
   - Initiating a Replica Set
-  - Initial Sync
-  - Elections
-    - Votes
-    - Criteria for Winning an Election
+    - Initial Sync
+  - Elections: Votes, Criteria for Winning an Election
   - Failover
-  - Rollback (DBA only)
+    - Rollback (DBA only)
+  - rs.status()
   - Replica set reconfiguration
-    - Adding a replica set member
-    - Removing a member
-  - Oplog
-    - Statement-based replication
-    - Idempotence (DBA Only)
-    - Capped Collection (DBA only)
-  - Read Preference
-    - Primary
-    - Secondary
-    - PrimaryPreferred
-    - SecondaryPreferred
-    - Nearest
-  - Write Concern
-    - The w parameter
-    - The j parameter
+  - Oplog: Statement-based replication, Idempotence (DBA Only), Capped Collection (DBA only)
+  - Read Preference: Primary, Secondary, PrimaryPreferred, SecondaryPreferred, Nearest
+  - Write Concern: The w parameter, The j parameter
 
 - Sharding
-  - sh.status()
-  - When to shard
-  - Choosing
+  - Basics of Sharding
+  - The Shard Key
   - Choosing a Shard Key
     - Properties of Bad Shard Keys
       - Problems that bad shard keys cause

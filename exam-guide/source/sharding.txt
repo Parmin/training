@@ -1,0 +1,98 @@
+Sharding
+--------
+
+On the certification exam, we will attempt to verify that you:
+- Know the benefits of sharding
+- Know how to construct a good shard key, and what can go wrong with selecting a shard key
+- Understand the balancer
+- Know the role of the config servers and how they work.
+
+Sharding Subtopics
+------------------
+
+- Basics of Sharding
+- The Shard Key
+- Choosing a Shard Key
+  - Properties of Bad Shard Keys
+    - Problems that bad shard keys cause
+  - Properties of Good Shard Keys
+    - Cardinality
+    - Selectivity
+  - Hashed Shard Keys
+    - What problem they solve
+    - What problem they cause
+- Indexes in a Sharded Cluster
+  - Unique Indexes
+- Sorting Queries in a Sharded Cluster
+- Chunks
+  - Which chunk a document belongs to
+  - Chunk ranges
+- Config Servers and Cluster Metadata (DBA only)
+  - Chunk Splits
+  - Chunk Migration
+  - Balancer
+- Adding a shard
+- Pre-splitting data (DBA only)
+- Primary shard
+- Queries in a Sharded Cluster
+  - Targeted
+  - Scatter-gather
+  - Index Usage
+- Implications of sharding on:
+  - Inserts
+  - Updates
+
+
+Sharding Overview
+-----------------
+
+Sharding is about distributing your data across several replica sets, each of which is a logical "node" in the sharded cluster.
+
+Docs:
+  - Sharding Introduction_
+  - Sharded Cluster Components_
+  - Shards_
+Video:
+  - Sharding and Data Distribution_
+
+.. _Sharding Introduction: http://docs.mongodb.org/manual/core/sharding-introduction/
+.. _Sharding and Data Distribution: http://youtu.be/xvWzS9j7IIY
+.. _Sharded Cluster Components: http://docs.mongodb.org/manual/core/sharded-cluster-components/
+.. _Shards: http://docs.mongodb.org/manual/core/sharded-cluster-shards/
+
+The Shard Key
+-------------
+
+The Shard Key determines which data ends up on which shard. Each document must contain the shard key, and it is immutable.
+
+Docs:
+  - Shard Keys_
+
+.. _Shard Keys: http://docs.mongodb.org/manual/core/sharding-shard-key/
+
+
+Choosing a Shard Key
+--------------------
+
+Video:
+  - Choosing a Shard Key_
+Docs:
+  - Choose a Shard Key_
+
+.. _Choosing a Shard Key: http://youtu.be/8q2GB3QSBSI
+.. _Choose a Shard Key: http://docs.mongodb.org/manual/tutorial/choose-a-shard-key/
+
+
+Config Servers and Cluster Metadata
+-----------------------------------
+
+.. only:: DBA
+
+The config servers hold all metadata for the cluster, though the routers (mongos's) will create cached versions, as well.
+
+Video:
+
+Docs:
+  - Config Servers_
+
+.. _Config Servers: http://docs.mongodb.org/manual/core/sharded-cluster-config-servers/
