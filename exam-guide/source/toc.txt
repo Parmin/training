@@ -35,22 +35,9 @@ Table of Contents
 
 - CRUD
   - Create
-  - Read
-    - Matching
-    - Projecting
-    - Sorting
-    - matching & projection operators
-    - regex
-  - Update
-    - Standard update
-    - Multi update
-    - upsert
-    - save
+  - Read: matching, regex, projecting, sorting, operators, cursors
+  - Update: Standard update, Multi update, upsert, save
   - Delete
-    - db.collection.remove()
-    - db.collection.drop()
-  - Cursors
-    - getMore
 
 - Indexes
   - Creating Indexes

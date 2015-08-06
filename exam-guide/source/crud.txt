@@ -11,22 +11,9 @@ CRUD Subtopics
 --------------
 
 - Create
-- Read
-  - Matching
-  - Projecting
-  - Sorting
-  - matching & projection operators
-  - regex
-- Update
-  - Standard update
-  - Multi update
-  - upsert
-  - save
+- Read: matching, regex, projecting, sorting, operators, cursors
+- Update: Standard update, Multi update, upsert, save
 - Delete
-  - db.collection.remove()
-  - db.collection.drop()
-- Cursors
-  - cursor methods
 
 Overview
 --------
@@ -332,6 +319,8 @@ For the exam, you should be able to:
 .. _Lesson on deletion: http://youtu.be/5K0t1dU8IJY
 .. _Documentation on dropping a collection: http://docs.mongodb.org/manual/reference/method/db.collection.drop/
 .. _Documentation on db.collection.remove()
+
+
 
 Sample Problems
 ---------------
