@@ -18,7 +18,7 @@
                     <a href="#">Log In</a>
                 </li>
                 <li>
-                    <a href="#">Locations</a>
+                    <a href="/locations">Locations</a>
                 </li>
                 <li>
                     <a href="#"><strong>Admin Panel</strong></a>
