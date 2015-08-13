@@ -209,7 +209,7 @@ Considerations
 Class Exercise
 --------------
 
-Look through some charts in MongoDB's MMS, how would you represent the schema for those charts, considering:
+Look through some charts in MongoDB's Cloud Manager, how would you represent the schema for those charts, considering:
 
 - 1 minute granularity for 48 hours
 - 5 minute granularity for 48 hours
@@ -219,5 +219,43 @@ Look through some charts in MongoDB's MMS, how would you represent the schema fo
 - Queries for charts
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - You can use one of the two designs belows for storing metrics (or arrays could be used instead of maps)
+    - Background processes could roll-up data into different granularities
+
+    .. code-block:: javascript
+
+      // document to represent one minute
+      {
+        timestamp_minute: ISODate("2013-10-10T23:06:00.000Z"),
+        type: “memory_used”,
+        values: {
+          0: 999999,
+          …  
+          37: 1000000,
+          38: 1500000,
+          … 
+          59: 2000000
+        }
+      }
+
+    .. code-block:: javascript
+
+      // document to represent one hour, values.MINUTE.SECOND
+      {
+        timestamp_hour: ISODate("2013-10-10T23:00:00.000Z"),
+        type: “memory_used”,
+        values: {
+          0: { 0: 999999, 1: 999999, …, 59: 1000000 },
+          1: { 0: 2000000, 1: 2000000, …, 59: 1000000 },
+          …,
+          58: { 0: 1600000, 1: 1200000, …, 59: 1100000 },
+          59: { 0: 1300000, 1: 1400000, …, 59: 1500000 }
+        }
+      }
 
 
