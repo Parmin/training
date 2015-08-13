@@ -287,4 +287,12 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+     
+     - First consideration is what to optimize for: reads of the user's profile vs writes
+     - Storing a count of the user's followers removes the need to count followers for each pageload
+     - Working through the various pages in the MongoDB Twitter profile should follow a similar theme, design the schema for reads and perform more work in the background every time a new tweet occurs
+
 
