@@ -294,5 +294,54 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
      - First consideration is what to optimize for: reads of the user's profile vs writes
      - Storing a count of the user's followers removes the need to count followers for each pageload
      - Working through the various pages in the MongoDB Twitter profile should follow a similar theme, design the schema for reads and perform more work in the background every time a new tweet occurs
+     - The @MongoDB profile may have the following form
+     
+
+      .. code-block:: javascript
+
+        {
+          "username" : "mongodb",
+          "username_display" : "MongoDB",
+          "description" : "The world's fastest-growing database.",
+          "url" : "http://mongodb.com"
+          "tweets" : 7901,
+          "following" : 1975,
+          "followers" : 186000,
+          "favorites" : 1046,
+          "lists" : 2,
+          ...
+        }
+
+    - Tweets from @MongoDB may have the following form (used to construct the @MongoDB profile page)
+      
+      .. code-block:: javascript
+
+        {
+          _id : 1234
+          "username" : "mongodb",
+          "tweet" : "The Call for Speakers for #MDBDays closes tomorrow! Submit a talk proposal for a chance to speak at our events http://spr.ly/6012B1Q8r",
+          "date" : ISODate()
+          ...
+        }
+
+    - Each user's feed may have the following form (tweets they see when they log in)
+    
+      .. code-block:: javascript
+
+        {
+          _id : ObjectId()
+          "for_user" : "jason", // feed for the user "jason" following "mongodb"
+          "user" : "mongodb",
+          "tweet" : "The Call for Speakers for #MDBDays closes tomorrow! Submit a talk proposal for a chance to speak at our events http://spr.ly/6012B1Q8r",
+          "date" : ISODate(),
+          "tweet_id" : 1234, // can duplicate info or refer to the original tweet directly, which would require another query
+          "retweet" : false,
+          "retweet_tweetid" : null // used for displaying retweet status
+          ...
+        }
+
+
+
+
 
 

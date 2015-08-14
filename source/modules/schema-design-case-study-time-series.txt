@@ -258,4 +258,7 @@ Look through some charts in MongoDB's Cloud Manager, how would you represent the
         }
       }
 
+    - Displaying realtime charts now becomes incredibly simple, only one document is needed to show activity over an hour (if one hour granularity is used), over 24 hours is 24 documents.
+    - Comparing different metrics over 24 hours is now very simple, and easier to find correlations
+
 
