@@ -285,3 +285,29 @@ Design a CMS (similar to above) with the following additional requirements:
 .. include:: /includes/student-notes.rst
 
 
+.. only:: instructor
+
+   .. note::
+     
+     - There are a lot of solutions to this problem, one approach is to only insert new documents and remove update functionality:
+     
+     .. code-block:: javascript
+
+      {
+        "_id" : ...,
+        "headline" : ...,
+        ...
+
+        // important fields
+        "state" : "draft",
+        "version" : 34,
+        "modified_date" : ISODate(),
+        "modified_author" : "Jason",
+        "modified_comments" : "Moving story to draft form, needs rewrite"
+      }
+
+    - Now the application must do more work to only load the latest version: db.story.find( { "_id" : 1234 }).sort( { "version" : -1 }).limit(2) // see next comment for the limit(2) explanation
+    - If two stories are inserted with the same version number (say two people worked on it at the same time), the application should issue a subsequent query without a limit to gather all stories with the same version (maybe there are 10 conflicts).  The application should then allow the user to merge those conflicts and commit the next version number.  More application logic can be used if conflicts become a larger problem (such as locking the article edits until the conflict is resolved)
+
+
+
