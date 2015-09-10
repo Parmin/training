@@ -1,0 +1,109 @@
+Data Modeling
+-------------
+
+On the certification exam, we will attempt to verify that you :
+
+- Understand the overriding principles of data modeling
+- Given two alternative data models, can determine which will be more efficient
+- Know common patterns for schema design
+- Know the benefits of special data formats in MongoDB
+- Understand the implications of the storage engine for data modeling
+
+Data Modeling Subtopoics
+------------------------
+
+- Document Structure
+  - Embedding
+  - References
+  - Denormalizing
+- Relational Features vs. MongoDB Patterns
+  - Transactions
+  - Atomic Writes
+- Atomic Writes
+- One-to-many relationships
+- One-to-one relationships
+- Many-to-many relationships
+- Modeling for Atomic Operations
+- Modeling Tree Structures
+- MongoDB BLOB options
+  - GridFS
+  - Binary Data
+- Schema Design Patterns
+- Storage engine considerations
+  - MMAPv1
+    - Data Files
+    - Document Growth
+    - Document Movement
+    - Powers of Two Sized Allocation Strategy
+    - Updating indexes on document movement
+  - WiredTiger
+    - Data Files
+    - Invoking the WiredTiger storage engine
+    - WT Cache
+    - Block Compression
+    - Index Prefix Compression
+
+Data Modeling Introduction
+--------------------------
+
+Docs:
+  - Data Modeling Introduction_
+Video:
+  - Schema Design Introduction_
+
+.. _Data Modeling Introduction: http://docs.mongodb.org/master/core/data-modeling-introduction/
+.. _Schema Design Introduction: https://youtu.be/AABYJM12qF4
+
+
+Document Structure
+------------------
+
+Docs:
+  - Document Structure_
+Video:
+  - One to Many Relationships_
+  - Many to Many Relationships_
+  - Benefits of Embedding_
+  - When to Denormalize_
+
+.. _One to Many Relationships: http://youtu.be/EIaP1KbVkUc
+.. _Many to Many Relationships: http://youtu.be/fEYYjZ7zEHc
+.. Document Structure: http://docs.mongodb.org/master/core/data-modeling-introduction/#document-structure
+.. _Benefits of Embedding: http://youtu.be/XIN0Dqht08Q
+.. _When to Denormalize: http://youtu.be/jDZ-HFoJ0vg
+
+
+Relational Features vs. MongoDB Features
+----------------------------------------
+
+
+
+Many developers and DBA's 
+
+One feature of many databases is atomic updates. This means that either the entire update is completed, or else none of it is.
+
+In MongoDB, multi-document writes are not atomic. It is possible for an update to be interrupted after some documents have been updated, inserted, or deleted, but not others. However, each document will be written atomically. Note that corruption of the data on disk may still occur if you are using MMAPv1 without journaling. 
+
+Docs:
+  - Atomicity and Transactions_
+  - Atomicity of Write Operations_
+
+.. _Atomicity and Transactions: http://docs.mongodb.org/manual/core/write-operations-atomicity/
+.. _Atomicity of Write Operations: http://docs.mongodb.org/master/core/data-modeling-introduction/#atomicity-of-write-operations
+
+
+One-to-One Relationships
+------------------------
+
+Video:
+  - One to One Relationships_
+
+.. _One to One Relationships: http://youtu.be/cCsfon0vUlQ
+
+Video:
+  - Trees_
+  - BLOBs_
+
+.. _Trees: http://youtu.be/lIjXyQklGWY
+.. _BLOBs: http://youtu.be/AsL5p1Z0Ss8
+
