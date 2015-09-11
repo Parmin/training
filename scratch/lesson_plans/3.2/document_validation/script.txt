@@ -1,0 +1,247 @@
+My name is Jason Zucchetto, I’m a curriculum engineer here at MongoDB.  In this lesson we’ll discuss document validation in MongoDB.  Document validation is a new feature only available in MongoDB 3.2 or later.
+
+<Next Drawing>
+
+Prior to version 3.2, it was up to the application server to perform any validation, such as validating a document structure, field type, or field value.
+
+In this example, if the application server fails to perform proper validation of a “username” field (which doesn’t exist in our example), the document would still be inserted.
+
+<draw in validator query>
+
+With MongoDB 3.2, documents can now be validated by the database server.  We can now create a MongoDB validator query for any updates or inserts to a collection, this query must return true for the document to be inserted or updated.  In my example, this document would be rejected since the query is not satisfied.
+
+<draw in validator string, red box around optional>
+
+Next we’ll show a basic example of using document validation in MongoDB along with a complex example.
+
+<Shell>
+
+Basic Example
+
+Let’s jump into a basic example to store user profiles for our application.  Each profile has several fields: username, location, _id, and so on.  Let’s create a sample document (but let’s leave out the username):
+
+> sample_document = {
+  "_id" : ObjectId(),
+  "location" : {
+    "city" : "Palo Alto",
+    "state" : "CA"
+  }
+}
+
+> sample_document
+
+Lets insert this document to our "profile" collection with an invalid username (such as no username at all from above, no issues).  All validation was historically done by the application server.
+
+> db.profile.insert(sample_document)
+
+The "username" field is very important field for our application, we want to ensure every document within our "profile" collection contains a username, furthermore we want to make sure every username is a string (not a number or subdocument, etc.).
+
+> db.profile.runCommand("collMod", { "validator": {"username": {"$type" : "string"}}})
+
+Let’s add a validation rule to ensure every profile document contains a username in the correct format.
+
+We can add a validation rule by issuing a collMod command on the profile collection.  The collMod command can take a "validator" field with a MongoDB query, which specifies the query to run against each document inserted (or updated) into the database where a "true" result must occur).
+
+E.g. let’s ensure every username is present in the "profile" collection, and is a string value
+
+Or you may create a validator document when creating a collection:
+
+> db.createCollection("profile", {validator: {"username": {"$type" : "string"}}})
+
+The "validator" option for a collection can be seen in the output of db.getCollectionInfos()
+
+> db.getCollectionInfos()
+
+Or to zero in on an exact collection (db.getCollectionInfos() returns information on all collections) 
+
+> db.getCollectionInfos({ "name" : "profile" })
+
+Let’s insert a few documents to see what happens: errors without a username field or a username that is a string!
+
+> db.profile.insert(sample_document)
+
+You’ll notice this command will now only check new documents being inserted or updated, and won’t retroactively check existing documents
+
+<drawing cantuse.tiff>
+
+You can specify the validator expressions using the same operators as you would with MongoDBs find() command with the exception of the following operators: $text, $where, $near, $nearSphere, and $geoNear
+
+A few things to keep in mind -- you cannot specify a validator for collections in the admin, local, and config databases and you cannot specify a validator for system.* collections.
+
+
+Now let’s create a more complex validation rule for our user profile collection.  Remember, any MongoDB query will work for document validation as long as it does not contain $geoNear, $near, $nearSphere, $text, $where.
+
+Here is our complex validator
+
+validator_var =  {"$and" : [
+		{
+"username" : {
+"$regex" : /^[a-zA-Z]{7}$/ 
+}
+},
+		{	"age" : {
+				"$gte" : 0,
+				"$lte" : 120
+			}
+		},
+		{
+			"location.city" : { 
+"$type" : "string" 
+}
+		},
+{
+			"location.state" : { "$type" : "string" }
+		},
+		{
+"email" : {
+				"$regex" :/^[A-Za-z0-9\-\.\_]*@[A-Za-z0-9\-]*\.com$/
+			}
+		},
+		{"$or" : [
+			{ "phone" : {"$exists" : false}},
+			{ "country" : {"$ne" : "US"},
+			  "phone" : {"$regex" : /^[0-9]*$/}
+			},
+			{"country" : "US",
+			 "$or" : [
+			    {"phone" : {
+			      "$regex" : /^\([2-9][0-9][0-9]\)[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$/
+			    }},
+			    {"phone" : {
+				"$regex" : /^[2-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$/
+			    }},
+			    {"phone" : {
+			     "$regex" : /^[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/
+			    }}
+			]}
+]}
+]}
+
+> db.profile.runCommand("collMod", {validator: validator_var})
+
+> db.getCollectionInfos({ "name" : "profile" })
+
+Now we have implemented a complex validation logic for our collection, and learned about the various options for document validation in MongoDB.
+
+
+
+
+
+
+
+
+
+
+<drawing options>
+
+Options
+
+-------
+Drawing:
+
+Document Validation Options
+
+validationLevel:
+off
+strict
+moderate
+
+validationAction:
+error
+warn
+-------
+
+Now that we’ve seen a very basic example for document validation, let’s get into a more detailed example.
+
+It is important to know about two options for document validation: validationLevel and validationAction.
+
+For validationLevel, the options are "off", “moderate”, and “strict”.  
+
+"off" is straightforward, this may be helpful when you would like to temporarily stop performing document validations for a collection
+
+"moderate" Apply validation rules to inserts and to updates on existing valid documents. Do not apply rules to updates on existing invalid documents.
+
+"moderate" may be helpful for a subset of your data that will always be invalid, example to follow
+
+"strict" is equivalent to "on", and will reject inserts or updates that are invalid
+
+For validationAction, the options are "error" or "warn".
+
+"error" is normal and the default for document validation
+
+"warn" simply writes to the log that a document with a specific "_id" was found to be invalid
+
+<shell>
+
+Example Continued
+
+
+Let’s use our original sample document to store user profiles.
+
+{
+  "_id" : ObjectId(),
+  "username" : "jason",
+  "location" : {
+    "city" : "Palo Alto",
+    "state" : "CA"
+  }
+}
+
+validationLevel option
+
+Let’s first work through a use case for using validationLevel= moderate.  "strict" and "off" for validationLevel are straightforward (remember that "strict" is essentially "on", and "off" just means no validation).
+
+For validationLevel=moderate, mongodb will apply validation rules to inserts and to updates on existing valid documents. rules will not be applied to to updates on existing invalid documents.
+
+Let’s pretend we found some usernames that are longer than 16 characters, which looks bad in some of our webpages pages, but it luckily it doesn’t break anything in our application.
+
+Going forward, we want to ensure every username is less than 16 characters, but we don’t want to stop existing users with long usernames from updating their profile (and getting an invalid error that their username is too long)
+Let’s use the "moderate" value for the "validationLevel" option. 
+
+Inserting a document with a long username works fine
+
+> db.profile.insert( { "username" : "myverylongusername" } )
+
+Now let’s use the "moderate" value for the "validationLevel" option, lets use 16 as our maximum length via a regular expression (this regular expression will also ensure it is a string)
+
+> db.profile.runCommand("collMod", {validator: {"username": /^[a-zA-Z]{16}$/ }, "validationLevel" : "moderate" })
+
+We can also just change the validationLevel with the following command
+
+> db.profile.runCommand("collMod", {"validationLevel" : "moderate" })
+
+Now, inserts will fail with long usernames
+
+> db.profile.insert( { "username" : "aksjaksjhaksjhaksjhaksjhaskjahs" } )
+
+But updates to existing documents still work
+
+> db.profile.update( { "username" : "myverylongusername" }, { $set : { "country" : "USA" } } )
+
+This is the "validationLevel" option, remember it can be "off", "moderate", or "strict"
+
+validationAction option
+
+This option is straight-forward, either reject the update or insert based on a validation rule or place a warning in the logs.
+
+Let’s go back to our previous insert that failed
+
+> db.profile.insert( { "username" : "aksjaksjhaksjhaksjhaksjhaskjahs" } )
+
+Now, let’s use the "validationAction" option to only warn in the logs when our document validation has failed.
+
+> db.profile.runCommand("collMod", {"validationAction" : "warn" })
+
+> db.profile.insert( { "username" : "aksjaksjhaksjhaksjhaksjhaskjahs" } )
+
+See logs:
+2015-09-04T10:36:43.339-0700 W STORAGE  [conn1] Document would fail validation collection: test.profile doc: { _id: ObjectId('55e9d6abc2f16ede7da27b31'), username: "aksjaksjhaksjhaksjhaksjhaskjahs" }
+
+Recap Validation Options
+
+To recap, there are two options available with document validation: validationLevel and validationAction.
+
+validationLevel can be "off", "strict", or "moderate"
+validationAction can be "error" or "warn"
+
+These are the available options for document validation in MongoDB
