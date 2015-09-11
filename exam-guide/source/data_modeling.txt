@@ -16,19 +16,18 @@ Data Modeling Subtopoics
   - Embedding
   - References
   - Denormalizing
-- Relational Features vs. MongoDB Patterns
+- Relational Features and MongoDB Patterns
   - Transactions
   - Atomic Writes
-- Atomic Writes
 - One-to-many relationships
 - One-to-one relationships
 - Many-to-many relationships
-- Modeling for Atomic Operations
 - Modeling Tree Structures
+- Schema Design Patterns
+- Bulk Operations
 - MongoDB BLOB options
   - GridFS
   - Binary Data
-- Schema Design Patterns
 - Storage engine considerations
   - MMAPv1
     - Data Files
@@ -37,22 +36,34 @@ Data Modeling Subtopoics
     - Powers of Two Sized Allocation Strategy
     - Updating indexes on document movement
   - WiredTiger
-    - Data Files
-    - Invoking the WiredTiger storage engine
-    - WT Cache
-    - Block Compression
-    - Index Prefix Compression
+    - Document level concurrency
+    - Data Compression
+
 
 Data Modeling Introduction
 --------------------------
 
+For data modeling, keep in mind at all times that the structure of documents affects performance. Your goals are to try to ensure that any data you need is in memory, especially if you're going to read it frequently. There are costs associated with going to disk for data that isn't in memory. You not only need to spend time seeking and reading data from disk, but when you pull that data into memory, you push other data out.
+
+Your schema is what data you're storing in documents, and how that data is stored. Data modeling is about choosing the right schema for your tasks.
+
+One of the key concepts of data modeling is the idea of the "working set" of data. This is the data you read frequently. If it fits in RAM, your performance should be good; if it doesn't, you'll frequently have to touch the disk. This will often have higher costs for spinning disk media than for SSD's, but there will be a cost, regardless.
+
+Much of data modeling is centered around designing schemas that ensure that you're reading everything you need with as few queries as possible, while also removing from your frequently-read documents anything you don't frequently use.
+
 Docs:
   - Data Modeling Introduction_
+  - Working Set_
 Video:
   - Schema Design Introduction_
+White Paper:
+  - Data Model Design for MongoDB_
+    - This is more of a full guide than an introduction, and looks into many of the sections of the exam.
 
 .. _Data Modeling Introduction: http://docs.mongodb.org/master/core/data-modeling-introduction/
 .. _Schema Design Introduction: https://youtu.be/AABYJM12qF4
+.. _Data Model Design for MongoDB: http://docs.mongodb.org/master/MongoDB-data-models-guide.pdf
+.. _Working Set: http://docs.mongodb.org/master/faq/diagnostics/#what-is-a-working-set
 
 
 Document Structure
@@ -60,50 +71,165 @@ Document Structure
 
 Docs:
   - Document Structure_
+  - Data Model Design_
 Video:
-  - One to Many Relationships_
-  - Many to Many Relationships_
   - Benefits of Embedding_
   - When to Denormalize_
 
-.. _One to Many Relationships: http://youtu.be/EIaP1KbVkUc
-.. _Many to Many Relationships: http://youtu.be/fEYYjZ7zEHc
-.. Document Structure: http://docs.mongodb.org/master/core/data-modeling-introduction/#document-structure
+.. _Document Structure: http://docs.mongodb.org/master/core/data-modeling-introduction/#document-structure
+.. _Data Model Design: http://docs.mongodb.org/v3.0/core/data-model-design/
 .. _Benefits of Embedding: http://youtu.be/XIN0Dqht08Q
 .. _When to Denormalize: http://youtu.be/jDZ-HFoJ0vg
 
 
-Relational Features vs. MongoDB Features
+Relational Features and MongoDB Patterns
 ----------------------------------------
 
+Many developers and DBA's come from the relational world, so you should be familiar with some of the features of relational DB's, particularly joins (which involve simultaneously reading from several tables) and transactions (which involve simultaneously writing to several tables). 
 
-
-Many developers and DBA's 
-
-One feature of many databases is atomic updates. This means that either the entire update is completed, or else none of it is.
-
-In MongoDB, multi-document writes are not atomic. It is possible for an update to be interrupted after some documents have been updated, inserted, or deleted, but not others. However, each document will be written atomically. Note that corruption of the data on disk may still occur if you are using MMAPv1 without journaling. 
+Videos:
+  - Living without Constraints_
+  - Living without Transactions_
 
 Docs:
+  - Database References_
   - Atomicity and Transactions_
   - Atomicity of Write Operations_
 
 .. _Atomicity and Transactions: http://docs.mongodb.org/manual/core/write-operations-atomicity/
 .. _Atomicity of Write Operations: http://docs.mongodb.org/master/core/data-modeling-introduction/#atomicity-of-write-operations
+.. _Database References: http://docs.mongodb.org/master/reference/database-references/
+.. _Living without Constraints: http://youtu.be/YFRMkDPaams
+.. _Living without Transactions: http://youtu.be/FfRr3qjRfww
 
 
 One-to-One Relationships
 ------------------------
 
+Docs:
+  - Model One-to-One Relationships with Embedded Documents_
 Video:
   - One to One Relationships_
 
 .. _One to One Relationships: http://youtu.be/cCsfon0vUlQ
+.. _Model One-to-One Relationships with Embedded Documents: http://docs.mongodb.org/master/tutorial/model-embedded-one-to-one-relationships-between-documents/
+
+
+One-to-Many Relationships
+-------------------------
+
+Video:
+  - One to Many Relationships_
+Docs:
+  - One-to-Many Relationships with Embedded Documents_
+  - One-to-Many Relationships with Document References_
+Blog Posts: 
+  - Rules of Thumb_
+  - Rules of Thumb Part 2_
+  - Rules of Thumb Part 3_
+
+.. _Rules of Thumb: http://blog.mongodb.org/post/87200945828/6-rules-of-thumb-for-mongodb-schema-design-part-1  
+.. _Rules of Thumb Part 2: http://blog.mongodb.org/post/87892923503/6-rules-of-thumb-for-mongodb-schema-design-part-2
+.. _Rules of Thumb Part 3: http://blog.mongodb.org/post/88473035333/6-rules-of-thumb-for-mongodb-schema-design-part-3
+.. _One to Many Relationships: http://youtu.be/EIaP1KbVkUc
+.. _One-to-Many Relationships with Embedded Documents: http://docs.mongodb.org/master/tutorial/model-embedded-one-to-many-relationships-between-documents/
+.. _One-to-Many Relationships with Document References: http://docs.mongodb.org/master/tutorial/model-referenced-one-to-many-relationships-between-documents/
+
+
+Many-to-Many Relationships
+--------------------------
+
+Video:
+  - Many to Many Relationships_
+
+
+.. _Many to Many Relationships: http://youtu.be/fEYYjZ7zEHc
+
+
+
+
+Modeling Tree Structures
+------------------------
 
 Video:
   - Trees_
-  - BLOBs_
+Docs:
+  - Model Tree Structures_
+  - Model Tree Structures with Parent References_
+  - Model Tree Structures with Child References_
+  - Model Tree Structures with an Array of Ancestors_
+  - Model Tree Structures with Materialized Paths_
+  - Model Tree Structures with Nested Sets_
 
 .. _Trees: http://youtu.be/lIjXyQklGWY
-.. _BLOBs: http://youtu.be/AsL5p1Z0Ss8
+.. _Model Tree Structures: http://docs.mongodb.org/master/applications/data-models-tree-structures/
+.. _Model Tree Structures with Parent References: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-parent-references/
+.. _Model Tree Structures with Child References: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-child-references/
+.. _Model Tree Structures with an Array of Ancestors: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-ancestors-array/
+.. _Model Tree Structures with Materialized Paths: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-materialized-paths/
+.. _Model Tree Structures with Nested Sets: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-nested-sets/
 
+
+Schema Design Patterns
+---------------------- 
+
+Docs:
+ - Model Data to Support Keyword Search_
+ - Model Monetary Data_
+
+.. _Model Data to Support Keyword Search: http://docs.mongodb.org/master/tutorial/model-data-for-keyword-search/
+.. _Model Monetary Data: http://docs.mongodb.org/master/tutorial/model-monetary-data/
+
+
+Bulk Operations
+---------------
+
+Bulk Operations allow you to use bulk write operations to amortize a write concern response over many documents.
+
+Docs:
+  - db.collection.insert()_
+  - Bulk Write Operations_
+
+.. _db.collection.insert(): http://docs.mongodb.org/master/reference/method/db.collection.insert/#db.collection.insert
+.. _Bulk Write Operations: http://docs.mongodb.org/master/core/bulk-write-operations/
+
+
+
+MongoDB BLOB Options
+--------------------
+
+MongoDB has a binary type (which you should be aware of), and can also break up large BLOBS using GridFS.
+
+Video:
+  - GridFS
+Docs:
+  - GridFS Storage_
+  - GridFS Reference_
+
+.. _GridFS: http://youtu.be/AsL5p1Z0Ss8
+.. _GridFS Reference: http://docs.mongodb.org/manual/reference/gridfs/
+
+
+.. _GridFS Storage: http://docs.mongodb.org/manual/core/gridfs/
+
+
+Storage Engine Considerations
+-----------------------------
+
+Your data model can be affected by your choice of storage engine. For example, if you are using MMAPv1, you will need to worry about document movement in a way that doesn't affect WiredTiger. WiredTiger also has document-level concurrency (vs. Collection-level locking for MMAPv1) that can allow you to perform more operations in parallel.
+
+WiredTiger also offers data compression, which can dramatically reduce disk I/O for compressible data.
+
+Videos:
+  - Storage Engines Introduction_
+  - MMAPv1_
+  - MMAPv1 Documents and Data Files_
+  - WiredTiger_  
+Docs:
+  - Storage_ (Includes MMAPv1 and WiredTiger considerations)
+
+.. _Storage Engines Introduction: http://youtu.be/yV8qgeXvAyI
+.. _MMAPv1: http://youtu.be/PZCdLVB4lw4
+.. _MMAPv1 Documents and Data Files: http://youtu.be/9nYFnlM4vYw
+.. _WiredTiger: http://youtu.be/O9TGqK3FBX8
+.. _Storage: https://docs.mongodb.org/v3.0/core/storage/
