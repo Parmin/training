@@ -154,19 +154,6 @@ Table of Contents
     - Updates
 
 - Application Administration (DBA only)
-  - Storage Engines
-    - MMAPv1
-      - Locking Granularity
-      - Data Files
-        - Document Growth
-        - Document Movement
-          - Response of indexes
-        - Document Padding (Powers of Two Sized Allocation)
-    - WiredTiger
-      - Block Compression
-        - Compression Algorithms
-      - Index Prefix Compression
-      - Concurrency Protocols
   - Journal
   - MongoDB Security
     - MongoDB CR
@@ -193,3 +180,17 @@ Table of Contents
   - Mongofiles (DBA Only)
   - Bsondump (DBA Only)
   - Mongoperf (DBA Only)
+
+- Storage Engines
+  - MMAPv1
+    - Locking Granularity
+    - Data Files
+      - Document Growth
+      - Document Movement
+        - Response of indexes
+      - Document Padding (Powers of Two Sized Allocation)
+  - WiredTiger
+    - Concurrency Protocols
+    - Block Compression (DBA only)
+      - Compression Algorithms (DBA only)
+    - Index Prefix Compression (DBA only)

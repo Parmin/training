@@ -1,0 +1,57 @@
+Storage Engines
+---------------
+
+By the end of this module, students will know:
+
+- The locking level or concurrency protocols for each storage engine
+- The compression algorithms available for each storage engine
+- For MMAPv1, the causes & effects of document movement
+- The effects of these features on the performance of MongoDB
+
+Storage Engine Subtopics
+------------------------
+
+- Storage engine considerations
+  - MMAPv1
+    - Data Files
+    - Document Growth
+    - Document Movement
+    - Powers of Two Sized Allocation Strategy
+    - Updating indexes on document movement
+  - WiredTiger
+    - Document level concurrency
+    - Data Compression
+  - MMAPv1
+    - Locking Granularity
+    - Data Files
+      - Document Growth
+      - Document Movement
+        - Response of indexes
+      - Document Padding (Powers of Two Sized Allocation)
+  - WiredTiger
+    - Block Compression
+      - Compression Algorithms
+    - Index Prefix Compression
+    - Concurrency Protocols
+
+
+Storage Engine Considerations for Data Modeling
+-----------------------------------------------
+
+Your data model can be affected by your choice of storage engine. For example, if you are using MMAPv1, you will need to worry about document movement in a way that doesn't affect WiredTiger. WiredTiger also has document-level concurrency (vs. Collection-level locking for MMAPv1) that can allow you to perform more operations in parallel.
+
+WiredTiger also offers data compression, which can dramatically reduce disk I/O for compressible data.
+
+Videos:
+  - Storage Engines Introduction_
+  - MMAPv1_
+  - MMAPv1 Documents and Data Files_
+  - WiredTiger_  
+Docs:
+  - Storage_ (Includes MMAPv1 and WiredTiger considerations)
+
+.. _Storage Engines Introduction: http://youtu.be/yV8qgeXvAyI
+.. _MMAPv1: http://youtu.be/PZCdLVB4lw4
+.. _MMAPv1 Documents and Data Files: http://youtu.be/9nYFnlM4vYw
+.. _WiredTiger: http://youtu.be/O9TGqK3FBX8
+.. _Storage: https://docs.mongodb.org/v3.0/core/storage/
