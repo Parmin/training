@@ -1,0 +1,177 @@
+Aggregation
+-----------
+
+On the exam, students should be able to:
+- Make an analogy between the aggregation pipeline and UNIX pipes
+- Specify appropriate Aggregation stages for an aggregation query
+- Know the usage of all aggregation operators
+
+Topics
+------
+
+- Pipeline behavior
+- Stages
+  - Top-level operators
+  - Query and accumulation operators
+- Aggregation Mechanics
+  - Pipeline size (in documents)
+    - How some stages affect this number
+  - Memory limits in the aggregation pipeline
+  - allowDiskUse flag
+- Explaining aggregation queries
+
+
+Introduction
+------------
+
+The Aggregation Pipeline is MongoDB's answer to SQL's GROUP BY statements. It allows you to combine data from multiple documents in a collection, and perform some basic arithmetic and statistical operations on them.
+
+The Pipeline is in analogy with UNIX pipes. Each stage takes inputs and outputs, but for the Aggregation pipeline, these are documents. You begin with a collection, and filter, transform, and combine documents as you go along. When you are done, you can either view your results, or output them to another collection.
+
+Videos:
+  - The Aggregation Pipeline_
+
+Docs:
+  - Aggregation Introduction_
+  - Aggregation Pipeline_
+
+.. _Aggregation Introduction: https://docs.mongodb.org/manual/core/aggregation-introduction/
+.. _Aggregation Pipeline: https://docs.mongodb.org/manual/core/aggregation-pipeline/
+.. _The Aggregation Pipeline: http://youtu.be/AuO8CEkTG6Y
+
+
+Aggregation Stages
+------------------
+
+Each aggregation stage performs an operation. You should know each of them.
+
+Video:
+  - Using a document for _id_
+  - Aggregation Expressions_
+  - Using $project_
+  - Using $match_
+  - Using $text_
+  - Using $sort_
+  - Using $limit and $skip_
+  - Using $unwind_
+Docs:
+  - Aggregation Pipeline Quick Reference_ 
+
+.. _Using a Document for _id: http://youtu.be/zoN4cj_XQzY
+.. _Aggregation Pipeline Quick Reference: https://docs.mongodb.org/manual/meta/aggregation-quick-reference/
+.. _Aggregation Expressions: http://youtu.be/L4G14MTfTgQ
+.. _Using $project: http://youtu.be/TbQ2PI5Fib0
+.. _Using $match: http://youtu.be/7RtHG90Hrbw
+.. _Using $text: http://youtu.be/LpDSge_GbpI
+.. _Using $sort: http://youtu.be/HUEtV7omSb8
+.. _Using $limit and $skip: http://youtu.be/o5hzYKXUyrU
+.. _Using $unwind: http://youtu.be/E4aYOQPeQvI
+.. _Double $unwind: http://youtu.be/YXGL27217B8
+.. _Using $out: http://youtu.be/b1dfUSrTPto
+
+Aggregation Operators
+---------------------
+
+Some stages come with their own operators; you should be familiar with these. For example, $match uses all of the standard MongoDB CRUD query operators, such as $in, $or, and $gte. Refer to the CRUD db.collection.find() section for more information. $group, on the other hand, has unique accumulator operators to combine documents passed to this pipeline; even when they look familiar from CRUD (like $push), you should learn the $group versions, and how they work.
+
+Videos:
+  - Using $sum_
+  - Using $avg_
+  - Using $addToSet_
+  - Using $push_
+  - Using $max and $min
+  - Double $group Stages
+  - Revisiting $first and $last_
+Docs:
+  - $match_
+  - $group_
+  - Aggregation Pipeline Operators_
+
+.. _$match: https://docs.mongodb.org/manual/reference/operator/aggregation/match/#pipe._S_match
+.. _$group: https://docs.mongodb.org/manual/reference/operator/aggregation/group/#pipe._S_group
+.. _Aggregation Pipeline Operators: https://docs.mongodb.org/manual/reference/operator/aggregation/
+.. _Using $sum: http://youtu.be/93MSz3uDC1A
+.. _Using $avg: http://youtu.be/baIDZ-M5j7w
+.. _USing $addToSet: http://youtu.be/YzURaZnKI9s
+.. _Using $push: http://youtu.be/LQcBM-g0ACY
+.. _Using $max and $min: http://youtu.be/BYoNX4trjOQ
+.. _Double $group Stages: http://youtu.be/EIWF9Oxeb8M
+.. _Revisiting $first and $last: http://youtu.be/JOdAnxVAMwc
+
+
+Aggregation Mechanics
+---------------------
+
+Aggregation Limits
+  - From pipeline size to sorting, you should be aware of the limits that apply to the Aggregation_ 
+
+Video:
+  - Aggregation Limits_
+
+
+Aggregation Optimization
+------------------------
+  - MongoDB will optimize Aggregation_ in some cases. Be aware of those cases & how it works.
+
+  .. _limits that apply to Aggregation: https://docs.mongodb.org/manual/core/aggregation-pipeline-limits/
+  .. _optimize Aggregation: https://docs.mongodb.org/manual/core/aggregation-pipeline-optimization/
+  .. _Aggregation Limits: http://youtu.be/U_gRSxEq3c0
+
+Aggregation Techniques
+----------------------
+
+Be aware of how to build an aggregation pipeline for a desired output.
+
+Video:
+  - Compound Grouping_
+  - Double Unwind_
+
+.. Double $unwind: http://youtu.be/U_gRSxEq3c0
+.. _Compound Grouping: http://youtu.be/qTbtax_cKcc
+  
+
+Aggregation Options
+-------------------
+
+Docs:
+  - db.collection.aggregate()_
+
+Video:
+  - Aggregation Options_
+
+.. _Aggregation Options: http://youtu.be/0CGNVacCrY8  
+.. _db.collection.aggregate: http://docs.mongodb.org/manual/reference/method/db.collection.aggregate/
+
+Aggregation Examples
+--------------------
+
+More than any other section, Aggregation is about practice. Here are some examples to give you some ideas and help you to get started.
+
+Videos:
+  - Simple Aggregation Example_
+  - Simple Aggregation Expanded_
+  - $unwind Example_
+
+Docs: 
+  - Single Purpose Aggregation Operations_
+  - Aggregation with Zip Code Data_
+  - Aggregation with User Preference Data_
+
+.. _Simple Aggregation Example: http://youtu.be/DQBXCsjeO5c
+.. _Single Purpose Aggregation Operations: https://docs.mongodb.org/manual/core/single-purpose-aggregation/
+.. _Aggregation with Zip Code Data: https://docs.mongodb.org/manual/tutorial/aggregation-zip-code-data-set/
+.. _Aggregation with User Preference Data: https://docs.mongodb.org/manual/tutorial/aggregation-with-user-preference-data/
+.. _Simple Example Expanded: http://youtu.be/3lEpnMcfpCs
+.. _Compound Grouping: http://youtu.be/qTbtax_cKcc
+.. _$unwind Example: http://youtu.be/U_4Enh2TTp4
+
+Exercises
+---------
+
+- Find or build a data set. Perform an aggregation to see how many documents contain a field within a given range.
+- Count all of the elements in an array field, summed accross all documents in the collection.
+- Count only the elements in an array field above a certain value.
+- Count only the elements in an array field where another field has a certain value.
+
+
+
