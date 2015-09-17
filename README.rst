@@ -44,13 +44,15 @@ See below for examples of each.
 The Instructor Guide
 --------------------
 
-Unzip the instructor package and open index.html to see the instructor guide.
+Unzip the instructor package and open instructor-package/index.html to see the instructor guide.
 
 .. figure:: presentation/img/slides-link.png
    :alt: Instructor Guide
 
 Slides
 ------
+
+To view slides for a particular module, for example, Sharding > Introduction to Sharding, navigate to that module in the instructor guide and click the slides link in the upper right corner.
 
 .. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/slides.png
    :alt: Slides
