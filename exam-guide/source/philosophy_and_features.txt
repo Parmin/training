@@ -2,15 +2,16 @@ Philosophy and Features
 -----------------------
 
 On the certification exam, we will attempt to verify that you:
-- Know and can define the biggest features of MongoDB 
+- Know and can define the basic features of MongoDB 
 - Understand JSON and BSON at a basic level
+
 
 Philosophy and Features Subtopics
 ---------------------------------
 
 - JSON
 - BSON
-- Fault tolerance
+- MongoDB Approaches to Fault Tolerance
 - Horizontal Scaling
 - The Mongo Shell
 - Basics of the MongoDB system
@@ -31,12 +32,15 @@ The JSON spec is pretty basic; you should know:
 - How to nest JSON objects, arrays, and other types
 
 Here are some good resources:
+
+Videos:
 - JSON video lessons
-  - Intro to JSON_
+  - Introduction to JSON_
   - JSON revisited_
   - JSON subdocuments_
   - JSON spec_
 - JSON web or pdf literature:
+  - Intro to JSON_
   - json.org_
   - Document databases_
 
@@ -46,43 +50,73 @@ Here are some good resources:
 .. _JSON revisited: http://youtu.be/CTffxoSSLqg
 .. _JSON subdocuments: http://youtu.be/vrYAEH3g13M
 .. _JSON spec: http://youtu.be/kOrsT94-A28
+.. _Introduction to JSON: _http://youtu.be/PTATjNSjbJ0
+
 
 BSON
 ----
 
 The following should help elucidate BSON a bit:
 
-- Text/web resources:
+- Web docs:
   - BSON spec_
-- Other resources;
+- MongoDB Docs:
   - Bsondump_ (you can point it at MongoDB data files if you're using MMAPv1)
 
 .. _BSON spec: http://bsonspec.org/  
 .. _BSONdump: http://docs.mongodb.org/manual/reference/program/bsondump/
 
+
 The Mongo Shell
 ---------------
 
-- Lesson video_
+The javascript shell is used both for administration of MongoDB, and to teach people how to use the database. It's essentially a lightweight javascript client. Here are some resources to help familiar with it:
+
+Video:
+  - Lesson video_
+Docs:
+  - Getting Started with the mongo Shell_
+  - mongo Shell Quick Reference_
+
+You should also know the types in the shell_.
+
+
+.. _Getting Started with the mongo Shell: http://docs.mongodb.org/manual/tutorial/getting-started-with-the-mongo-shell/
 
 .. _Lesson video: http://youtu.be/e18vCIdQKp4
+.. _mongo Shell Quick Reference: http://docs.mongodb.org/manual/reference/mongo-shell/
+.. _types in the shell: http://docs.mongodb.org/manual/core/shell-types/
+
 
 MongoDB and Relational DB's
 ---------------------------
 
-Resources:
-- Video Lessons 
+Relational databases are the biggest players in the database world right now. MongoDB stands in contrast to them, and you should be familiar with some of the basic features of Relational Databases that aren't present in MongoDB, and conversely, the features of MongoDB that aren't present in relational databases.
+
+
+Video:
   - MongoDB and Relational DB's_
-  - 
+Docs:
+  - SQL to MongoDB Mapping Chart_
+MongoDB.com:
+  - Compare MongoDB and MySQL_
 
 .. _MongoDB and Relational DB's: http://youtu.be/-KIC1LXxcGM
+.. _Compare MongoDB and MySQL: https://www.mongodb.com/compare/mongodb-mysql
+.. _SQL to MongoDB Mapping Chart: http://docs.mongodb.org/manual/reference/sql-comparison/
+
 
 MongoDB as a "Schemaless" Database
 ----------------------------------
 
+Some people refer to MongoDB as "schemaless," though it's more accurate to say that MongoDB can use a flexible schema. While in a relational DB, every row of a table must contain the same fields, with MongoDB, you can have fields that are present in one document but not in another document, even if they're in the same collection. This gives developers a flexibility that relational databases lack.
+
 - Lesson video_
+- Data Modeling Introduction_
 
 .. _Lesson video: http://youtu.be/uKB-Hoqs6zI
+.. _Data Modeling Introduction: http://docs.mongodb.org/master/core/data-modeling-introduction/
+
 
 Sample Problems
 ---------------
