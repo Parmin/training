@@ -11,11 +11,10 @@ Philosophy and Features Subtopics
 
 - JSON
 - BSON
-- MongoDB Approaches to Fault Tolerance
+- The Mongo Shell
 - Horizontal Scaling
 - The Mongo Shell
-- Basics of the MongoDB system
-- Advantages of MongoDB over relational databases
+- MongoDB and Relational DB's
 - MongoDB as a "schemaless" database
 
 Here is a white paper that touches on multiple topics_.
@@ -86,6 +85,22 @@ You should also know the types in the shell_.
 .. _Lesson video: http://youtu.be/e18vCIdQKp4
 .. _mongo Shell Quick Reference: http://docs.mongodb.org/manual/reference/mongo-shell/
 .. _types in the shell: http://docs.mongodb.org/manual/core/shell-types/
+
+
+Vertical and Horizontal Scaling
+-------------------------------
+
+Vertical scaling can be done by any database -- it involves buying a bigger box on which to put your database. Faster CPU, more RAM, or more/bigger/faster hard drives. 
+
+Horizontal scaling, though, involves distributing your data across multiple servers, and at this task, not every database is equally scalable. MongoDB is designed to horizontally scale well.
+
+Webinar:
+  - Scaling MongoDB Webinar Series_
+Docs:
+  - Sharding Introduction_
+
+.. _Scaling MongoDB Webinar Series: https://www.mongodb.com/lp/webinar/scaling-series-sept-2014
+.. _Sharding Introduction: http://docs.mongodb.org/manual/core/sharding-introduction/
 
 
 MongoDB and Relational DB's
