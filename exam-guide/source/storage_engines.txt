@@ -28,7 +28,6 @@ Storage Engine Subtopics
   - Concurrency Protocols
 - Concurrency in MongoDB 3.0
 - Data Files
-  - Data file sizes in MMAPv1
 
 Introduction to Storage Engines
 -------------------------------
@@ -103,7 +102,6 @@ Videos:
 .. _Snappy: https://docs.mongodb.org/manual/reference/glossary/#term-snappy
 .. _Zlib: https://docs.mongodb.org/manual/reference/glossary/#term-zlib
 
-
 Concurrency
 -----------
 
@@ -122,30 +120,20 @@ Here is an MMAPv1 directory:
 .. code:: bash
 
 $ ls -la
-total 13332496
--rw-r--r--   1 will  staff    69B Sep 16 15:50 storage.bson
--rw-------   1 will  staff    16M Sep 16 16:02 partners.ns
--rw-------   1 will  staff    64M Sep 16 16:02 partners.0
--rwxr-xr-x   1 will  staff     6B Sep 16 15:50 mongod.lock*
--rw-------   1 will  staff    16M Sep 16 16:02 local.ns
--rw-------   1 will  staff   256M Sep 16 16:02 local.1
--rw-------   1 will  staff    64M Sep 16 15:51 local.0
-drwxr-xr-x   5 will  staff   170B Sep 16 16:00 journal/
--rw-------   1 will  staff    16M Sep 16 16:01 customers.ns
--rw-------   1 will  staff   2.0G Sep 16 16:01 customers.6
--rw-------   1 will  staff   2.0G Sep 16 16:01 customers.5
--rw-------   1 will  staff   1.0G Sep 16 15:58 customers.4
--rw-------   1 will  staff   512M Sep 16 15:56 customers.3
--rw-------   1 will  staff   256M Sep 16 15:54 customers.2
--rw-------   1 will  staff   128M Sep 16 15:54 customers.1
--rw-------   1 will  staff    64M Sep 16 16:01 customers.0
-drwxr-xr-x   2 will  staff    68B Sep 16 16:01 _tmp/
-drwxr-xr-x   4 will  staff   136B Sep 16 15:50 ../
-drwxr-xr-x  19 will  staff   646B Sep 16 16:01 ./
-
-Notice that the directory has namespace files for each database, plus data files named after the db as well.
-
-Notice also that the smallest data file size is 64 MB, then 128, then 256, and so on until it maxes out at 2 GB. They are created sequentially.
+total 1179664
+-rw-------   1 will  staff    16M Sep 14 08:56 test.ns
+-rw-------   1 will  staff    64M Sep 14 08:56 test.0
+-rw-r--r--   1 will  staff    69B Sep 10 15:52 storage.bson
+-rwxr-xr-x   1 will  staff     5B Sep 10 15:52 mongod.lock*
+-rw-------   1 will  staff    16M Sep 16 00:38 local.ns
+-rw-------   1 will  staff   256M Sep 16 00:38 local.1
+-rw-------   1 will  staff    64M Sep 10 15:54 local.0
+drwxr-xr-x   4 will  staff   136B Sep 14 08:55 journal/
+-rw-------   1 will  staff    16M Sep 16 00:38 foo.ns
+-rw-------   1 will  staff    64M Sep 16 00:38 foo.0
+drwxr-xr-x   2 will  staff    68B Sep 16 00:34 _tmp/
+drwxr-xr-x   4 will  staff   136B Sep 10 15:52 ../
+drwxr-xr-x  15 will  staff   510B Sep 16 00:34 ./
 
 And here is a WiredTiger directory:
 
@@ -173,5 +161,3 @@ drwxr-xr-x   4 will  staff   136B Sep 16 15:43 diagnostic.data/
 -rw-r--r--   1 will  staff    45B Sep 16 15:43 WiredTiger
 drwxr-xr-x   4 will  staff   136B Sep 16 15:43 ../
 drwxr-xr-x  20 will  staff   680B Sep 16 15:43 ./
-
-Notice that the data files are associated with a collection, and that the indexes are stored in separate directories. There is no obvious indication in the data file which collection (or index) a file is associated with. 
