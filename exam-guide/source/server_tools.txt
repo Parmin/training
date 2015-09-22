@@ -1,0 +1,80 @@
+Server Tools
+------------
+
+For the Certification Exam, Students will be expected to understand:
+- How to export and import data using server tools
+- How to monitor basic operations on the server using server tools
+- How to backup and restore data, and examine backed-up data, using the server tools (DBA only)
+- Which tools to use to sniff network data, manipulate GridFS files, and analyze disk I/O (DBA only)
+
+
+
+Server Tools Topics
+-------------------
+
+Server Tools
+- Importing/exporting data
+  - Mongoimport
+  - Mongoexport
+- Basic Server Monitoring
+  - Mongostat
+  - Mongotop
+- Mongodump (DBA Only)
+- Mongorestore (DBA Only)
+- Mongosniff (DBA Only)
+- Mongofiles (DBA Only)
+- Bsondump (DBA Only)
+- Mongoperf (DBA Only)
+
+Introduction
+------------
+
+Most of the information tested can be found by running the tools with --help.
+
+For the Dev exam, you will need to know tools to import/export data, and to perform basic tests of your appliation. You will need to know about:
+- mongoimport
+- mongoexport
+- mongostat
+- mongotop
+
+For the DBA exam, you will need to know all of the tools that ship with MongoDB. This includes the tools listed above, as well as:
+- mongodump
+- mongorestore
+- mongosniff
+- mongofiles
+- bsondump
+- mongoperf
+
+Importing and Exporting Data
+----------------------------
+
+You should be able to import and export common data types to/from MongoDB, such as JSON, CSV, and TSV files.
+
+Docs:
+  - mongoimport docs_
+  - mongoexport docs_
+  - mongostat docs_
+  - mongotop docs_
+
+.. _mongoimport docs: https://docs.mongodb.org/v3.0/reference/program/mongoimport/
+.. _mongoexport docs: https://docs.mongodb.org/v3.0/reference/program/mongoexport/
+.. _mongostat docs: https://docs.mongodb.org/v3.0/reference/program/mongostat/
+.. _mongotop docs: https://docs.mongodb.org/v3.0/reference/program/mongotop/
+
+
+
+Exercises
+---------
+
+- For each of the server tools listed in the topics section, run the tool with --help.
+- Run mongostat. Then, write a loop in the the language of your choice (or the shell) that bulk inserts 1,000 small documents per batch as fast as possible for at least a minute. Run it and look at the output of mongostat, and compare it with your expectations. Pay attention to each field.
+- Run mongostat. Then, write a loop in the language of your choice (or the shell) that individually inserts 1 large document (100+ kb per insert) at a time as fast as possible for at least a minute. Run it and look at the output of mongostat, comparing the output with your expectations. Pay attention to each field. This time, try to use a different storage engine than you did last time.
+- Run mongotop. Using a script from above, begin inserting data, and also run some queries in another database. Look at the output of mongotop.
+- Import a JSON file. You might find one at Reddit's technology subreddit_, the Enron email data set_, or find something else on the web.
+  - You may find that the format isn't quite what you want. Transform it with the aggregation pipeline in a new collection, using $out, into a more usable schema.
+- Find a CSV data set from US public data_, and import it. If you don't like its initial format, you can transform it and upt it in a new collection using the aggregation pipeline's $out function.
+
+
+.. _US public data: https://catalog.data.gov/dataset?res_format=CSV
+.. _Enron email data set: http://www.cs.cmu.edu/~enron/
+.. _technology subreddit: https://www.reddit.com/r/technology/.json
