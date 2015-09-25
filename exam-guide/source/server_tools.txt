@@ -19,12 +19,16 @@ Server Tools
 - Basic Server Monitoring
   - Mongostat
   - Mongotop
-- Mongodump (DBA Only)
-- Mongorestore (DBA Only)
-- Mongosniff (DBA Only)
-- Mongofiles (DBA Only)
-- Bsondump (DBA Only)
-- Mongoperf (DBA Only)
+Backing up and restoring data (DBA Only)
+  - Mongodump
+  - Mongorestore
+Advanced MongoDB Diagnostics (DBA Only)
+  - Mongosniff
+  - Bsondump
+  - Mongoperf
+Manipulating BLOBs (DBA Only)
+  - Mongofiles
+
 
 Introduction
 ------------
@@ -45,6 +49,7 @@ For the DBA exam, you will need to know all of the tools that ship with MongoDB.
 - bsondump
 - mongoperf
 
+
 Importing and Exporting Data
 ----------------------------
 
@@ -55,12 +60,73 @@ Docs:
   - mongoexport docs_
   - mongostat docs_
   - mongotop docs_
+Video:
+  - Importing from Reddit_
 
 .. _mongoimport docs: https://docs.mongodb.org/v3.0/reference/program/mongoimport/
 .. _mongoexport docs: https://docs.mongodb.org/v3.0/reference/program/mongoexport/
 .. _mongostat docs: https://docs.mongodb.org/v3.0/reference/program/mongostat/
 .. _mongotop docs: https://docs.mongodb.org/v3.0/reference/program/mongotop/
+.. _Importing from Reddit: http://youtu.be/oVmoi6fS4X8
 
+
+Basic Server Monitoring
+-----------------------
+
+You should know how to use mongostat and mongotop to ensure that the database is behaving as you expect. Make sure you look at what they display for each storage engine, and understand what information each field can tell you. For DBA's, we may ask you to diagnose an issue based on the output of mongostat.
+
+Docs:
+  - mongostat_
+  - mongotop_
+Videos:
+  - mongostat video_
+  - mongotop video_
+
+.. _mongostat: http://docs.mongodb.org/manual/reference/program/mongostat/
+.. _mongotop: http://docs.mongodb.org/manual/reference/program/mongotop/
+.. _mongostat video: http://youtu.be/E2aDTSes3Wc
+.. _mongotop video: http://youtu.be/D9YLXgy7NYo
+
+
+Backing up and Restoring Data (DBA Only)
+----------------------------------------
+
+You should be familiar with how to use mongodump to backup a database (including using --oplog to capture write operations that occur during the mongodump), and mongorestore to bring it back.
+
+Docs:
+  - mongodump_
+  - mongorestore_
+Video:
+  - mongoDB tools for backup_
+
+.. _mongoDB tools for backup: http://youtu.be/Ln6gyZ_0yDk
+.. _mongodump: http://docs.mongodb.org/manual/reference/program/mongodump/
+.. _mongorestore: http://docs.mongodb.org/manual/reference/program/mongorestore/
+
+
+Advanced MongoDB Diagnostics (DBA Only)
+---------------------------------------
+
+For these tools, you should be aware that they exist, and what they're there for, but we will not ask for detailed information about their behavior.
+
+Docs:
+  - mongosniff_
+  - bsondump_
+  - mongoperf_
+
+.. _mongosniff: http://docs.mongodb.org/manual/reference/program/mongosniff/
+.. _bsondump: http://docs.mongodb.org/manual/reference/program/bsondump/
+.. _mongoperf: http://docs.mongodb.org/manual/reference/program/mongoperf/
+
+
+Manipulating BLOBs (DBA only)
+-----------------------------
+
+The mongofiles utility is used to store binary data in MongoDB's GriFS storage. You should be aware of what it does, but will not need more than that.
+
+- mongofiles_
+
+.. _mongofiles: http://docs.mongodb.org/manual/reference/program/mongofiles/
 
 
 Exercises
@@ -70,9 +136,12 @@ Exercises
 - Run mongostat. Then, write a loop in the the language of your choice (or the shell) that bulk inserts 1,000 small documents per batch as fast as possible for at least a minute. Run it and look at the output of mongostat, and compare it with your expectations. Pay attention to each field.
 - Run mongostat. Then, write a loop in the language of your choice (or the shell) that individually inserts 1 large document (100+ kb per insert) at a time as fast as possible for at least a minute. Run it and look at the output of mongostat, comparing the output with your expectations. Pay attention to each field. This time, try to use a different storage engine than you did last time.
 - Run mongotop. Using a script from above, begin inserting data, and also run some queries in another database. Look at the output of mongotop.
+- Do the same with mongoperf.
 - Import a JSON file. You might find one at Reddit's technology subreddit_, the Enron email data set_, or find something else on the web.
-  - You may find that the format isn't quite what you want. Transform it with the aggregation pipeline in a new collection, using $out, into a more usable schema.
-- Find a CSV data set from US public data_, and import it. If you don't like its initial format, you can transform it and upt it in a new collection using the aggregation pipeline's $out function.
+  - You may find that the format isn't quite what you want. Transform it, either with a script or with the aggregation pipeline, using $out, into a more usable form.
+- Find a CSV data set from US public data_, and import it. If you don't like its initial format, you can transform it and put it in a new collection using the aggregation pipeline's $out function.
+- Perform a mongodump. Look at the output using bsondump. Drop the database and then use mongorestore to get it back from your backup. Run mongodump with --oplog and compare the mongorestore with --oplog replay, and without.
+- If you are running a linux machine, run mongosniff and run some queries; find them using mongosniff.
 
 
 .. _US public data: https://catalog.data.gov/dataset?res_format=CSV
