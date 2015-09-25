@@ -28,16 +28,6 @@ Data Modeling Subtopoics
 - MongoDB BLOB options
   - GridFS
   - Binary Data
-- Storage engine considerations
-  - MMAPv1
-    - Data Files
-    - Document Growth
-    - Document Movement
-    - Powers of Two Sized Allocation Strategy
-    - Updating indexes on document movement
-  - WiredTiger
-    - Document level concurrency
-    - Data Compression
 
 
 Data Modeling Introduction
@@ -192,7 +182,6 @@ Docs:
 
 .. _db.collection.insert(): http://docs.mongodb.org/master/reference/method/db.collection.insert/#db.collection.insert
 .. _Bulk Write Operations: http://docs.mongodb.org/master/core/bulk-write-operations/
-
 
 
 MongoDB BLOB Options
