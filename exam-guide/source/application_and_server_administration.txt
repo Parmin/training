@@ -1,0 +1,56 @@
+Application and Server Administration (DBA Only)
+------------------------------------------------
+
+For the Certification Exam, students will be expected to:
+
+- Understand the purpose of the journal, the log, and security.
+- Know the advantages/disadvantages of different cluster architecture options.
+- Be able to evaluate options about basic server diagnostics, maintenance, backup, and disaster recovery.
+
+
+Application and Server Administration Topics
+--------------------------------------------
+
+- Journal
+- Server Logs
+- MongoDB Security
+  - MongoDB CR
+    - User roles
+  - Network Encryption
+- Cluster Architecture
+- Diagnostics and Debugging
+- Maintenance
+- Backup
+- Recovery
+
+
+Application and Server Administration Introduction
+--------------------------------------------------
+
+While the definitions are somewhat fluid, Application Administration deals with MongoDB's relationship to applications. Since MongoDB is a flexible data store, it's basically never used alone, except for training purposes. It's always hooked into an application, and this requires a certain set of features to assist with the interface, such as the wire protocol, over-the-wire encryption, and security. 
+
+Server administration deals with all other aspects of architecting, maintaining, or repairing the server system. While Sharding and Replication are big enough to merit their own sections in the exam, this should cover almost everything else.
+
+
+Journal
+-------
+
+MongoDB's journal is a "write ahead" log used to ensure consistency of data on disk for MMAPv1 (though it's not necessary for WiredTiger), and also is used to frequently commit writes to disk.
+
+Videos:
+  - Journal's impact on resident memory_
+Docs:
+  - Journaling Mechanics_
+  - Manage Journaling_
+Blog:
+  - How MongoDB's Journaling Works_
+
+.. _Journal's impact on resident memory: http://youtu.be/8TmmEzm50cw
+.. _Journaling Mechanics: http://docs.mongodb.org/manual/core/journaling/
+.. _Manage Journaling: http://docs.mongodb.org/manual/tutorial/manage-journaling/
+.. _How MongoDB's Journaling Works: http://blog.mongodb.org/post/33700094220/how-mongodbs-journaling-works
+
+Server Logs
+-----------
+
+

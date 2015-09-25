@@ -153,14 +153,12 @@ Table of Contents
     - Inserts
     - Updates
 
-- Application Administration (DBA only)
+- Application and Server Administration (DBA only)
   - Journal
   - MongoDB Security
     - MongoDB CR
       - User roles
     - Network Encryption
-
-- Server Administration (DBA only)
   - Cluster Architecture
   - Performance Analysis
   - Storage Engines
