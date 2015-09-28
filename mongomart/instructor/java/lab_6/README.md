@@ -14,7 +14,7 @@ Modify StoreDAO.java
 
 - Update getStoresClosestToLocation
 
-```
+```java
     private List<Store> getStoresClosestToLocation(
             final double longitude, final double latitude, final int skip, final int limit) {
         List<Document> pipeline = buildClosestToLocationPipeline(longitude, latitude);
@@ -27,7 +27,7 @@ Modify StoreDAO.java
 
 - Add buildClosestToLocationPipeline method
 
-```
+```java
     private List<Document> buildClosestToLocationPipeline(final double longitude, final double latitude) {
         // Documents are already sorted
         List<Double> coordinates = new ArrayList<>();
