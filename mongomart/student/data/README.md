@@ -11,6 +11,7 @@ N.B. The store locations dataset is based on Best Buy locations.
 
 mongoimport -d mongomart -c store stores.json
 
+use mongomart
 db.store.createIndex( { "storeId" : 1 }, { "unique": true } );
 db.store.createIndex( { "zip": 1 } );
 db.store.createIndex( { "city": 1 } );
