@@ -53,4 +53,32 @@ Blog:
 Server Logs
 -----------
 
+The server logs capture several things by default: connections, the creation/dropping of collections/databases, and long-running events (more than 100 ms), for example.
 
+Docs:
+  - MongoDB Diagnostics_
+  - Log Messages_
+  - Rotate Log Files_
+
+.. _MongoDB Diagnostics: http://docs.mongodb.org/manual/faq/diagnostics/
+.. _Log Messages: http://docs.mongodb.org/manual/reference/log-messages/
+.. _Rotate Log Files: http://docs.mongodb.org/manual/tutorial/rotate-log-files/
+
+
+Diagnostics and Debugging
+-------------------------
+
+Docs:
+  - Monitoring for MongoDB_
+Videos:
+  - The Database Profiler_
+  - Profiler Demo_
+
+.. _Monitoring for MongoDB: http://docs.mongodb.org/manual/administration/monitoring/
+.. _The Database Profiler: http://youtu.be/ww5pYJqukAg
+.. _Profiler Demo: http://youtu.be/_ApSNwSRYVo
+
+Further Exercises
+-----------------
+
+- Create a replica set or sharded cluster. Create a database, and then drop it. Put the server under a simulated load, and then insert an array of large documents (~15 MB), preferably as a bulk insert. Check the server logs and try to find the long-running events.
