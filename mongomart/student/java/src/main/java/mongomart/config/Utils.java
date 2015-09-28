@@ -12,4 +12,12 @@ public class Utils {
 
         return returnValue;
     }
+
+    public static boolean isEmpty(String src) {
+        if (src == null || src.trim().equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
