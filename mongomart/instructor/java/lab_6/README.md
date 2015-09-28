@@ -5,14 +5,14 @@ Please type in solution with the class instead of distributing source code.
 
 This exercise gives basic practice using the $geoNear geospatial
 operator. In the solution, the pipeline contruction has been factored
-to a private helper method, but it could also inlined directly into
-getStoresClosestToLocation.
+to a private helper method (`buildClosestToLocationPipeline`), but it
+could also inlined directly into `getStoresClosestToLocation`.
 
 
 Modify StoreDAO.java
 --------------------
 
-- Update getStoresClosestToLocation
+- Update the `getStoresClosestToLocation` method:
 
 ```java
     private List<Store> getStoresClosestToLocation(
@@ -25,7 +25,7 @@ Modify StoreDAO.java
     }
 ```
 
-- Add buildClosestToLocationPipeline method
+- Add a `buildClosestToLocationPipeline` method:
 
 ```java
     private List<Document> buildClosestToLocationPipeline(final double longitude, final double latitude) {
