@@ -331,7 +331,7 @@ Generally, you want a shard key:
 - That has high cardinality
 - That is used in the majority of read queries
 - For which the values read and write operations use are randomly distributed
-- For which the majority or reads are routed to a particular server
+- For which the majority of reads are routed to a particular server
 
 .. include:: /includes/student-notes.rst
 
