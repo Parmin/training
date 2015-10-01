@@ -24,12 +24,9 @@ import cartDAO
 import reviewDAO
 import storeDAO
 import bottle
-import cgi
-import re
 import math
-import decimal
 
-from bottle import route, request, response, template
+from bottle import request
 
 
 
@@ -169,13 +166,13 @@ def add_review():
     name = request.query.name
     stars = int(request.query.stars)
 
-    item = items.add_review(itemid, review, name, stars)
+    items.add_review(itemid, review, name, stars)
     reviews.add_review(itemid, review, name, stars)
 
     return bottle.redirect("/item?id=" + str(itemid))
 
 @bottle.route('/cart')
-def cart():
+def shopping_cart():
     return cart_helper(False)
 
 def cart_helper(updated):
@@ -190,7 +187,7 @@ def cart_helper(updated):
                                         ))
 
 @bottle.route('/cart/add')
-def cart():
+def add_to_cart():
     itemid = request.query.itemid
     item = items.get_item(int(itemid))
 
@@ -235,7 +232,7 @@ def locations():
             zip_error = "Please supply a zip."
         try:
             locations = stores.get_stores_closest_to_zip(zip_code, skip, stores_per_page)
-        except storeDAO.ZipNotFound as e:
+        except storeDAO.ZipNotFound:
             zip_error = "Can't find " + zip + " in our database."
             city = ""
             state = ""
@@ -247,8 +244,8 @@ def locations():
         else:
             try:
                 locations = stores.get_stores_closest_to_city_and_state(
-                    city, state, skip, storesPerPage)
-            except storeDAO.CityAndStateNotFound as e:
+                    city, state, skip, stores_per_page)
+            except storeDAO.CityAndStateNotFound:
                 city_and_state_error = (
                     "Can't find " + city + ", " + state + " in our database."
                 )
