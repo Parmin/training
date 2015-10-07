@@ -31,10 +31,10 @@ Video:
   - Asynchronous Replication_
 Docs: Replication Introduction_
 
-.. _Replication Overview: http://youtu.be/eNFWxRFIbcI
+.. _Replication Overview: https://university.mongodb.com/videos/y/eNFWxRFIbcI
 .. _Replication Introduction: http://docs.mongodb.org/manual/core/replication-introduction/
-.. _Asynchronous Replication: http://youtu.be/3p30vjb-Rx8
-.. _Replication Concepts: http://youtu.be/AYBOd-tpdKo
+.. _Asynchronous Replication: https://university.mongodb.com/videos/y/3p30vjb-Rx8
+.. _Replication Concepts: https://university.mongodb.com/videos/y/AYBOd-tpdKo
 
 Nodes
 -----
@@ -51,9 +51,9 @@ Videos:
 .. _Replica Set Members: http://docs.mongodb.org/manual/core/replica-set-members/
 .. _Delayed Members: http://docs.mongodb.org/manual/core/replica-set-delayed-member/
 .. _Hidden Members: http://docs.mongodb.org/manual/core/replica-set-hidden-member/
-.. _Arbiters: http://youtu.be/4W0GO2CAu2w
+.. _Arbiters: https://university.mongodb.com/videos/y/4W0GO2CAu2w
 .. _Non-Voting Members: http://docs.mongodb.org/manual/tutorial/configure-a-non-voting-replica-set-member/
-.. _Hidden and Slave Delay: http://youtu.be/X1hCBT2UTuo
+.. _Hidden and Slave Delay: https://university.mongodb.com/videos/y/X1hCBT2UTuo
 
 Initiating a Replica Set
 ------------------------
@@ -66,7 +66,7 @@ Video:
 Docs:
   - rs.initiate()_
 
-.. _Initiating a Replica Set: http://youtu.be/EaGhuXPZZbk
+.. _Initiating a Replica Set: https://university.mongodb.com/videos/y/EaGhuXPZZbk
 .. _rs.initiate(): http://docs.mongodb.org/manual/reference/method/rs.initiate/#rs.initiate
 
 Initial Sync
@@ -103,9 +103,9 @@ Video:
 Docs:
   - Replica Set High Availability_
 
-.. _Automatic Failover: http://youtu.be/VsnI8uCTG60
+.. _Automatic Failover: https://university.mongodb.com/videos/y/VsnI8uCTG60
 .. _Replica Set High Availability: http://docs.mongodb.org/manual/core/replica-set-high-availability/
-.. _Failover example: http://youtu.be/MGoHhWbMDaU
+.. _Failover example: https://university.mongodb.com/videos/y/MGoHhWbMDaU
 
 Rollback
 --------
@@ -117,7 +117,7 @@ Video:
 Docs: 
   - Rollbacks_
 
-.. _Recovery: http://youtu.be/TGsnu9RBjzA
+.. _Recovery: https://university.mongodb.com/videos/y/TGsnu9RBjzA
 .. _Rollbacks: http://docs.mongodb.org/manual/core/replica-set-rollbacks/
 
 rs.status()
@@ -131,7 +131,7 @@ Video:
 Docs:
   - rs.status() Example_
 
-.. _Replica Set Status: http://youtu.be/QspOQbOShSY
+.. _Replica Set Status: https://university.mongodb.com/videos/y/QspOQbOShSY
 .. _rs.status() Example: http://docs.mongodb.org/manual/reference/command/replSetGetStatus/#example
 
 Replica Set Reconfiguration
@@ -157,7 +157,7 @@ Docs
   - Capped Collections_
   - Idempotent (glossary)_
 
-.. _Statement Based vs Binary Replication: http://youtu.be/yutpUgJMkk4
+.. _Statement Based vs Binary Replication: https://university.mongodb.com/videos/y/yutpUgJMkk4
 .. _Replica Set Oplog: http://docs.mongodb.org/manual/core/replica-set-oplog/
 .. _Capped Collections: http://docs.mongodb.org/manual/core/capped-collections/
 .. _Idempotent (glossary): http://docs.mongodb.org/manual/reference/glossary/#term-idempotent
@@ -175,8 +175,8 @@ Videos:
   - Read Preference Options_
 
 .. _Read Preference Reference: http://docs.mongodb.org/manual/reference/read-preference/
-.. _Read Preference: http://youtu.be/I62q4cyeSyc
-.. _Read Preference Options: http://youtu.be/jCEZvexlpj4
+.. _Read Preference: https://university.mongodb.com/videos/y/I62q4cyeSyc
+.. _Read Preference Options: https://university.mongodb.com/videos/y/jCEZvexlpj4
 
 Write Concern
 -------------
@@ -189,9 +189,9 @@ Docs:
   - Write Concern_
   - Write Concern Reference_
 
-.. _Write Concern Principles: http://youtu.be/73Jl2woKhNo
-.. _Examining the 'w' parameter: http://youtu.be/K3N6psPZCD0
-.. _Write Concern Use Cases and Patterns: http://youtu.be/sSkFhx1jKSs
+.. _Write Concern Principles: https://university.mongodb.com/videos/y/73Jl2woKhNo
+.. _Examining the 'w' parameter: https://university.mongodb.com/videos/y/K3N6psPZCD0
+.. _Write Concern Use Cases and Patterns: https://university.mongodb.com/videos/y/sSkFhx1jKSs
 .. _Write Concern: http://docs.mongodb.org/manual/core/write-concern/
 .. _Write Concern Reference: http://docs.mongodb.org/manual/reference/write-concern/
 

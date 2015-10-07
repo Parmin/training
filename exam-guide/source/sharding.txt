@@ -61,7 +61,7 @@ Video:
 .. _Sharded Cluster Components: http://docs.mongodb.org/manual/core/sharded-cluster-components/
 .. _Shards: http://docs.mongodb.org/manual/core/sharded-cluster-shards/
 .. _Introduction to Sharding: https://youtu.be/_GfDqa1qRl0?t=35s
-.. _Sharding and Data Distribution: http://youtu.be/xvWzS9j7IIY
+.. _Sharding and Data Distribution: https://university.mongodb.com/videos/y/xvWzS9j7IIY
 
 The Shard Key
 -------------
@@ -94,7 +94,7 @@ Video:
 
 .. _Chunk Splits in a Sharded Cluster: http://docs.mongodb.org/manual/core/sharding-chunk-splitting/ 
 .. _chunk: http://docs.mongodb.org/manual/reference/glossary/#term-chunk
-.. _Chunks and Operations: http://youtu.be/v7Gibss9JAk
+.. _Chunks and Operations: https://university.mongodb.com/videos/y/v7Gibss9JAk
 
 
 Config Servers and Cluster Metadata
@@ -113,9 +113,9 @@ Videos:
   - Sharding Processes_
 
 .. _Config Servers: http://docs.mongodb.org/manual/core/sharded-cluster-config-servers/
-.. _Config DB: http://youtu.be/WVXmIVUGBm4
-.. _Cluster Setup Topology: http://youtu.be/ZyDNnN8-4Ak
-.. _Sharding Processes: http://youtu.be/XMnxjcdiMJs
+.. _Config DB: https://university.mongodb.com/videos/y/WVXmIVUGBm4
+.. _Cluster Setup Topology: https://university.mongodb.com/videos/y/ZyDNnN8-4Ak
+.. _Sharding Processes: https://university.mongodb.com/videos/y/XMnxjcdiMJs
 .. _Sharded Cluster Metadata: http://docs.mongodb.org/master/core/sharded-cluster-metadata/
 
 
@@ -156,7 +156,7 @@ Video:
 .. _Sharded Cluster Query Routing: http://docs.mongodb.org/master/core/sharded-cluster-query-router/
 .. _Broadcast Operations: http://docs.mongodb.org/master/core/sharded-cluster-query-router/#broadcast-operations
 .. _Targeted Operations: http://docs.mongodb.org/master/core/sharded-cluster-query-router/#targeted-operations
-.. _Implications of Sharding: http://youtu.be/ig278F60gRA
+.. _Implications of Sharding: https://university.mongodb.com/videos/y/ig278F60gRA
 
 
 Choosing a Shard Key
@@ -169,9 +169,9 @@ Docs:
   - Choose a Shard Key_
   - Shard a Collection using a Hashed Shard Key_
 
-.. _Choosing a Shard Key: http://youtu.be/8q2GB3QSBSI
+.. _Choosing a Shard Key: https://university.mongodb.com/videos/y/8q2GB3QSBSI
 .. _Choose a Shard Key: http://docs.mongodb.org/manual/tutorial/choose-a-shard-key/
-.. _Shard Key Selection Example: http://youtu.be/ujlNVJK5dMc
+.. _Shard Key Selection Example: https://university.mongodb.com/videos/y/ujlNVJK5dMc
 .. _Shard a Collection using a Hashed Shard Key: http://docs.mongodb.org/master/tutorial/shard-collection-with-a-hashed-shard-key/
 
 

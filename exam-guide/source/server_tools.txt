@@ -67,7 +67,7 @@ Video:
 .. _mongoexport docs: https://docs.mongodb.org/v3.0/reference/program/mongoexport/
 .. _mongostat docs: https://docs.mongodb.org/v3.0/reference/program/mongostat/
 .. _mongotop docs: https://docs.mongodb.org/v3.0/reference/program/mongotop/
-.. _Importing from Reddit: http://youtu.be/oVmoi6fS4X8
+.. _Importing from Reddit: https://university.mongodb.com/videos/y/oVmoi6fS4X8
 
 
 Basic Server Monitoring
@@ -84,8 +84,8 @@ Videos:
 
 .. _mongostat: http://docs.mongodb.org/manual/reference/program/mongostat/
 .. _mongotop: http://docs.mongodb.org/manual/reference/program/mongotop/
-.. _mongostat video: http://youtu.be/E2aDTSes3Wc
-.. _mongotop video: http://youtu.be/D9YLXgy7NYo
+.. _mongostat video: https://university.mongodb.com/videos/y/E2aDTSes3Wc
+.. _mongotop video: https://university.mongodb.com/videos/y/D9YLXgy7NYo
 
 
 Backing up and Restoring Data (DBA Only)
@@ -99,7 +99,7 @@ Docs:
 Video:
   - mongoDB tools for backup_
 
-.. _mongoDB tools for backup: http://youtu.be/Ln6gyZ_0yDk
+.. _mongoDB tools for backup: https://university.mongodb.com/videos/y/Ln6gyZ_0yDk
 .. _mongodump: http://docs.mongodb.org/manual/reference/program/mongodump/
 .. _mongorestore: http://docs.mongodb.org/manual/reference/program/mongorestore/
 

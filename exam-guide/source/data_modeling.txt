@@ -68,8 +68,8 @@ Video:
 
 .. _Document Structure: http://docs.mongodb.org/master/core/data-modeling-introduction/#document-structure
 .. _Data Model Design: http://docs.mongodb.org/v3.0/core/data-model-design/
-.. _Benefits of Embedding: http://youtu.be/XIN0Dqht08Q
-.. _When to Denormalize: http://youtu.be/jDZ-HFoJ0vg
+.. _Benefits of Embedding: https://university.mongodb.com/videos/y/XIN0Dqht08Q
+.. _When to Denormalize: https://university.mongodb.com/videos/y/jDZ-HFoJ0vg
 
 
 Relational Features and MongoDB Patterns
@@ -89,8 +89,8 @@ Docs:
 .. _Atomicity and Transactions: http://docs.mongodb.org/manual/core/write-operations-atomicity/
 .. _Atomicity of Write Operations: http://docs.mongodb.org/master/core/data-modeling-introduction/#atomicity-of-write-operations
 .. _Database References: http://docs.mongodb.org/master/reference/database-references/
-.. _Living without Constraints: http://youtu.be/YFRMkDPaams
-.. _Living without Transactions: http://youtu.be/FfRr3qjRfww
+.. _Living without Constraints: https://university.mongodb.com/videos/y/YFRMkDPaams
+.. _Living without Transactions: https://university.mongodb.com/videos/y/FfRr3qjRfww
 
 
 One-to-One Relationships
@@ -101,7 +101,7 @@ Docs:
 Video:
   - One to One Relationships_
 
-.. _One to One Relationships: http://youtu.be/cCsfon0vUlQ
+.. _One to One Relationships: https://university.mongodb.com/videos/y/cCsfon0vUlQ
 .. _Model One-to-One Relationships with Embedded Documents: http://docs.mongodb.org/master/tutorial/model-embedded-one-to-one-relationships-between-documents/
 
 
@@ -121,7 +121,7 @@ Blog Posts:
 .. _Rules of Thumb: http://blog.mongodb.org/post/87200945828/6-rules-of-thumb-for-mongodb-schema-design-part-1  
 .. _Rules of Thumb Part 2: http://blog.mongodb.org/post/87892923503/6-rules-of-thumb-for-mongodb-schema-design-part-2
 .. _Rules of Thumb Part 3: http://blog.mongodb.org/post/88473035333/6-rules-of-thumb-for-mongodb-schema-design-part-3
-.. _One to Many Relationships: http://youtu.be/EIaP1KbVkUc
+.. _One to Many Relationships: https://university.mongodb.com/videos/y/EIaP1KbVkUc
 .. _One-to-Many Relationships with Embedded Documents: http://docs.mongodb.org/master/tutorial/model-embedded-one-to-many-relationships-between-documents/
 .. _One-to-Many Relationships with Document References: http://docs.mongodb.org/master/tutorial/model-referenced-one-to-many-relationships-between-documents/
 
@@ -133,7 +133,7 @@ Video:
   - Many to Many Relationships_
 
 
-.. _Many to Many Relationships: http://youtu.be/fEYYjZ7zEHc
+.. _Many to Many Relationships: https://university.mongodb.com/videos/y/fEYYjZ7zEHc
 
 
 
@@ -151,7 +151,7 @@ Docs:
   - Model Tree Structures with Materialized Paths_
   - Model Tree Structures with Nested Sets_
 
-.. _Trees: http://youtu.be/lIjXyQklGWY
+.. _Trees: https://university.mongodb.com/videos/y/lIjXyQklGWY
 .. _Model Tree Structures: http://docs.mongodb.org/master/applications/data-models-tree-structures/
 .. _Model Tree Structures with Parent References: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-parent-references/
 .. _Model Tree Structures with Child References: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-child-references/
@@ -195,6 +195,6 @@ Docs:
   - GridFS Storage_
   - GridFS Reference_
 
-.. _GridFS: http://youtu.be/AsL5p1Z0Ss8
+.. _GridFS: https://university.mongodb.com/videos/y/AsL5p1Z0Ss8
 .. _GridFS Reference: http://docs.mongodb.org/manual/reference/gridfs/
 .. _GridFS Storage: http://docs.mongodb.org/manual/core/gridfs/

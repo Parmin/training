@@ -37,7 +37,7 @@ Docs:
 
 .. _Aggregation Introduction: https://docs.mongodb.org/manual/core/aggregation-introduction/
 .. _Aggregation Pipeline: https://docs.mongodb.org/manual/core/aggregation-pipeline/
-.. _The Aggregation Pipeline: http://youtu.be/AuO8CEkTG6Y
+.. _The Aggregation Pipeline: https://university.mongodb.com/videos/y/AuO8CEkTG6Y
 
 
 Aggregation Stages
@@ -57,17 +57,17 @@ Video:
 Docs:
   - Aggregation Pipeline Quick Reference_ 
 
-.. _Using a Document for _id: http://youtu.be/zoN4cj_XQzY
+.. _Using a Document for _id: https://university.mongodb.com/videos/y/zoN4cj_XQzY
 .. _Aggregation Pipeline Quick Reference: https://docs.mongodb.org/manual/meta/aggregation-quick-reference/
-.. _Aggregation Expressions: http://youtu.be/L4G14MTfTgQ
-.. _Using $project: http://youtu.be/TbQ2PI5Fib0
-.. _Using $match: http://youtu.be/7RtHG90Hrbw
-.. _Using $text: http://youtu.be/LpDSge_GbpI
-.. _Using $sort: http://youtu.be/HUEtV7omSb8
-.. _Using $limit and $skip: http://youtu.be/o5hzYKXUyrU
-.. _Using $unwind: http://youtu.be/E4aYOQPeQvI
-.. _Double $unwind: http://youtu.be/YXGL27217B8
-.. _Using $out: http://youtu.be/b1dfUSrTPto
+.. _Aggregation Expressions: https://university.mongodb.com/videos/y/L4G14MTfTgQ
+.. _Using $project: https://university.mongodb.com/videos/y/TbQ2PI5Fib0
+.. _Using $match: https://university.mongodb.com/videos/y/7RtHG90Hrbw
+.. _Using $text: https://university.mongodb.com/videos/y/LpDSge_GbpI
+.. _Using $sort: https://university.mongodb.com/videos/y/HUEtV7omSb8
+.. _Using $limit and $skip: https://university.mongodb.com/videos/y/o5hzYKXUyrU
+.. _Using $unwind: https://university.mongodb.com/videos/y/E4aYOQPeQvI
+.. _Double $unwind: https://university.mongodb.com/videos/y/YXGL27217B8
+.. _Using $out: https://university.mongodb.com/videos/y/b1dfUSrTPto
 
 Aggregation Operators
 ---------------------
@@ -90,13 +90,13 @@ Docs:
 .. _$match: https://docs.mongodb.org/manual/reference/operator/aggregation/match/#pipe._S_match
 .. _$group: https://docs.mongodb.org/manual/reference/operator/aggregation/group/#pipe._S_group
 .. _Aggregation Pipeline Operators: https://docs.mongodb.org/manual/reference/operator/aggregation/
-.. _Using $sum: http://youtu.be/93MSz3uDC1A
-.. _Using $avg: http://youtu.be/baIDZ-M5j7w
-.. _USing $addToSet: http://youtu.be/YzURaZnKI9s
-.. _Using $push: http://youtu.be/LQcBM-g0ACY
-.. _Using $max and $min: http://youtu.be/BYoNX4trjOQ
-.. _Double $group Stages: http://youtu.be/EIWF9Oxeb8M
-.. _Revisiting $first and $last: http://youtu.be/JOdAnxVAMwc
+.. _Using $sum: https://university.mongodb.com/videos/y/93MSz3uDC1A
+.. _Using $avg: https://university.mongodb.com/videos/y/baIDZ-M5j7w
+.. _USing $addToSet: https://university.mongodb.com/videos/y/YzURaZnKI9s
+.. _Using $push: https://university.mongodb.com/videos/y/LQcBM-g0ACY
+.. _Using $max and $min: https://university.mongodb.com/videos/y/BYoNX4trjOQ
+.. _Double $group Stages: https://university.mongodb.com/videos/y/EIWF9Oxeb8M
+.. _Revisiting $first and $last: https://university.mongodb.com/videos/y/JOdAnxVAMwc
 
 
 Aggregation Mechanics
@@ -115,7 +115,7 @@ Aggregation Optimization
 
   .. _limits that apply to Aggregation: https://docs.mongodb.org/manual/core/aggregation-pipeline-limits/
   .. _optimize Aggregation: https://docs.mongodb.org/manual/core/aggregation-pipeline-optimization/
-  .. _Aggregation Limits: http://youtu.be/U_gRSxEq3c0
+  .. _Aggregation Limits: https://university.mongodb.com/videos/y/U_gRSxEq3c0
 
 Aggregation Techniques
 ----------------------
@@ -126,8 +126,8 @@ Video:
   - Compound Grouping_
   - Double Unwind_
 
-.. Double $unwind: http://youtu.be/U_gRSxEq3c0
-.. _Compound Grouping: http://youtu.be/qTbtax_cKcc
+.. Double $unwind: https://university.mongodb.com/videos/y/U_gRSxEq3c0
+.. _Compound Grouping: https://university.mongodb.com/videos/y/qTbtax_cKcc
   
 
 Aggregation Options
@@ -139,7 +139,7 @@ Docs:
 Video:
   - Aggregation Options_
 
-.. _Aggregation Options: http://youtu.be/0CGNVacCrY8  
+.. _Aggregation Options: https://university.mongodb.com/videos/y/0CGNVacCrY8  
 .. _db.collection.aggregate: http://docs.mongodb.org/manual/reference/method/db.collection.aggregate/
 
 Aggregation Examples
@@ -157,13 +157,13 @@ Docs:
   - Aggregation with Zip Code Data_
   - Aggregation with User Preference Data_
 
-.. _Simple Aggregation Example: http://youtu.be/DQBXCsjeO5c
+.. _Simple Aggregation Example: https://university.mongodb.com/videos/y/DQBXCsjeO5c
 .. _Single Purpose Aggregation Operations: https://docs.mongodb.org/manual/core/single-purpose-aggregation/
 .. _Aggregation with Zip Code Data: https://docs.mongodb.org/manual/tutorial/aggregation-zip-code-data-set/
 .. _Aggregation with User Preference Data: https://docs.mongodb.org/manual/tutorial/aggregation-with-user-preference-data/
-.. _Simple Example Expanded: http://youtu.be/3lEpnMcfpCs
-.. _Compound Grouping: http://youtu.be/qTbtax_cKcc
-.. _$unwind Example: http://youtu.be/U_4Enh2TTp4
+.. _Simple Example Expanded: https://university.mongodb.com/videos/y/3lEpnMcfpCs
+.. _Compound Grouping: https://university.mongodb.com/videos/y/qTbtax_cKcc
+.. _$unwind Example: https://university.mongodb.com/videos/y/U_4Enh2TTp4
 
 Exercises
 ---------

@@ -46,10 +46,10 @@ Videos:
 .. _json.org: http://json.org/
 .. _Document databases: https://www.mongodb.com/document-databases
 .. _Intro to JSON: http://docs.mongodb.org/manual/reference/mongodb-extended-json/
-.. _JSON revisited: http://youtu.be/CTffxoSSLqg
-.. _JSON subdocuments: http://youtu.be/vrYAEH3g13M
-.. _JSON spec: http://youtu.be/kOrsT94-A28
-.. _Introduction to JSON: _http://youtu.be/PTATjNSjbJ0
+.. _JSON revisited: https://university.mongodb.com/videos/y/CTffxoSSLqg
+.. _JSON subdocuments: https://university.mongodb.com/videos/y/vrYAEH3g13M
+.. _JSON spec: https://university.mongodb.com/videos/y/kOrsT94-A28
+.. _Introduction to JSON: _https://university.mongodb.com/videos/y/PTATjNSjbJ0
 
 
 BSON
@@ -82,7 +82,7 @@ You should also know the types in the shell_.
 
 .. _Getting Started with the mongo Shell: http://docs.mongodb.org/manual/tutorial/getting-started-with-the-mongo-shell/
 
-.. _Lesson video: http://youtu.be/e18vCIdQKp4
+.. _Lesson video: https://university.mongodb.com/videos/y/e18vCIdQKp4
 .. _mongo Shell Quick Reference: http://docs.mongodb.org/manual/reference/mongo-shell/
 .. _types in the shell: http://docs.mongodb.org/manual/core/shell-types/
 
@@ -116,7 +116,7 @@ Docs:
 MongoDB.com:
   - Compare MongoDB and MySQL_
 
-.. _MongoDB and Relational DB's: http://youtu.be/-KIC1LXxcGM
+.. _MongoDB and Relational DB's: https://university.mongodb.com/videos/y/-KIC1LXxcGM
 .. _Compare MongoDB and MySQL: https://www.mongodb.com/compare/mongodb-mysql
 .. _SQL to MongoDB Mapping Chart: http://docs.mongodb.org/manual/reference/sql-comparison/
 
@@ -129,7 +129,7 @@ Some people refer to MongoDB as "schemaless," though it's more accurate to say t
 - Lesson video_
 - Data Modeling Introduction_
 
-.. _Lesson video: http://youtu.be/uKB-Hoqs6zI
+.. _Lesson video: https://university.mongodb.com/videos/y/uKB-Hoqs6zI
 .. _Data Modeling Introduction: http://docs.mongodb.org/master/core/data-modeling-introduction/
 
 

@@ -41,7 +41,7 @@ Videos:
   - Storage Engines Introduction_
 
 .. _Storage FAQ: https://docs.mongodb.org/v3.0/core/storage/
-.. _Storage Engines Introduction: http://youtu.be/yV8qgeXvAyI
+.. _Storage Engines Introduction: https://university.mongodb.com/videos/y/yV8qgeXvAyI
 .. _Storage for Write Operations: https://docs.mongodb.org/manual/core/storage/
 
 
@@ -78,8 +78,8 @@ Videos:
   - MMAPv1 Documents and Data Files_
 
 .. _Storage FAQ MMAPv1 Section: http://docs.mongodb.org/master/faq/storage/#mmapv1-storage-engine
-.. _MMAPv1: http://youtu.be/PZCdLVB4lw4
-.. _MMAPv1 Documents and Data Files: http://youtu.be/9nYFnlM4vYw
+.. _MMAPv1: https://university.mongodb.com/videos/y/PZCdLVB4lw4
+.. _MMAPv1 Documents and Data Files: https://university.mongodb.com/videos/y/9nYFnlM4vYw
 .. _Power of 2 Sided Allocations: https://docs.mongodb.org/manual/core/storage/#power-of-2-allocation
 .. _No Padding: https://docs.mongodb.org/manual/core/storage/#no-padding-allocation-strategy
 
@@ -96,7 +96,7 @@ Docs:
 Videos:
   - WiredTiger_  
 
-.. _WiredTiger: http://youtu.be/O9TGqK3FBX8
+.. _WiredTiger: https://university.mongodb.com/videos/y/O9TGqK3FBX8
 .. _Storage FAQ WiredTiger Section: http://docs.mongodb.org/master/faq/storage/#wiredtiger-storage-engine
 .. _Index Prefix Compression: https://docs.mongodb.org/manual/reference/glossary/#term-prefix-compression
 .. _Snappy: https://docs.mongodb.org/manual/reference/glossary/#term-snappy

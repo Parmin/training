@@ -42,7 +42,7 @@ Videos:
 Docs:
   - Index Concepts_
 
-.. _Introduction to Indexes: http://youtu.be/U3iWPF5jP-g
+.. _Introduction to Indexes: https://university.mongodb.com/videos/y/U3iWPF5jP-g
 .. _Index Concepts: http://docs.mongodb.org/manual/core/indexes/
 
 
@@ -59,10 +59,10 @@ Docs:
   - db.collection.createIndex_
   - Tutorial, Create an Index_
 
-.. _createIndex, getIndexes, dropIndex: http://youtu.be/JvXfCHPYKzw
+.. _createIndex, getIndexes, dropIndex: https://university.mongodb.com/videos/y/JvXfCHPYKzw
 .. _db.collection.createIndex: http://docs.mongodb.org/manual/reference/method/db.collection.createIndex/
 .. _Create an Index: http://docs.mongodb.org/manual/tutorial/create-an-index/
-.. _Creating Indexes: http://youtu.be/xi2gtzZez6Q
+.. _Creating Indexes: https://university.mongodb.com/videos/y/xi2gtzZez6Q
 
 Single Field Indexes
 --------------------
@@ -78,7 +78,7 @@ Docs:
 .. _Single Field Indexes: http://docs.mongodb.org/manual/core/index-single/
 .. _Embedded Fields: http://docs.mongodb.org/manual/core/index-single/#indexes-on-embedded-fields
 .. _Embedded Documents: http://docs.mongodb.org/manual/core/index-single/#indexes-on-embedded-documents
-.. _Dot Notation and Multikey: http://youtu.be/wT0_ktAZbBg
+.. _Dot Notation and Multikey: https://university.mongodb.com/videos/y/wT0_ktAZbBg
 
 Collection Scans
 ----------------
@@ -88,7 +88,7 @@ A collection scan occurs when you can't use an index for a query, so you end up 
 Videos:
   - Collection scans_
 
-.. _Collection scans: http://youtu.be/qB6435EGS6w
+.. _Collection scans: https://university.mongodb.com/videos/y/qB6435EGS6w
 
 Compound Indexes
 ----------------
@@ -111,8 +111,8 @@ Videos:
   - Dot Notation and Multikey_
 
 .. _Multikey Indexes: http://docs.mongodb.org/manual/core/index-multikey/
-.. _Multikey Indexes (video): http://youtu.be/_NGwn_X82Dw
-.. _Dot Notation and Multikey: http://youtu.be/wT0_ktAZbBg
+.. _Multikey Indexes (video): https://university.mongodb.com/videos/y/_NGwn_X82Dw
+.. _Dot Notation and Multikey: https://university.mongodb.com/videos/y/wT0_ktAZbBg
 
 Sorting with Indexes
 --------------------
@@ -139,9 +139,9 @@ Docs:
   - db.collection.explain()_ (Preferred method)
   - Explain Results_
 
-.. _Explain Plans: http://youtu.be/rRsYWCO3ndY
-.. _Using Explain: http://youtu.be/liXIn8CnJaI
-.. _Explain Verbosity: http://youtu.be/WxXVun6bZ20
+.. _Explain Plans: https://university.mongodb.com/videos/y/rRsYWCO3ndY
+.. _Using Explain: https://university.mongodb.com/videos/y/liXIn8CnJaI
+.. _Explain Verbosity: https://university.mongodb.com/videos/y/WxXVun6bZ20
 .. _cursor.explain(): http://docs.mongodb.org/manual/reference/method/cursor.explain/
 .. _db.collection.explain(): http://docs.mongodb.org/manual/reference/method/db.collection.explain/
 .. _Explain Results: http://docs.mongodb.org/manual/reference/explain-results/
@@ -157,8 +157,8 @@ Video:
 Docs:
   - Query Plans_
 
-.. _Choosing an Index: http://youtu.be/JyQlxDc549c
-.. _Efficiency of Index Use: http://youtu.be/JJmIf0pn100
+.. _Choosing an Index: https://university.mongodb.com/videos/y/JyQlxDc549c
+.. _Efficiency of Index Use: https://university.mongodb.com/videos/y/JJmIf0pn100
 .. _Query Plans: http://docs.mongodb.org/manual/core/query-plans/
 
 Covered Queries
@@ -169,7 +169,7 @@ Video:
 Docs:
   - Covered Query_
 
-.. _Covered Queries: http://youtu.be/npFBnPAkDUk
+.. _Covered Queries: https://university.mongodb.com/videos/y/npFBnPAkDUk
 .. _Covered Query: http://docs.mongodb.org/manual/core/query-optimization/#covered-query
 
 Indexing Strategies
@@ -188,7 +188,7 @@ Videos:
 
 .. _Indexing Strategies: http://docs.mongodb.org/manual/applications/indexes/
 .. _Efficiency of Index Use 2:
-.. _Index Notes: http://youtu.be/OyXFYhLXTGk
+.. _Index Notes: https://university.mongodb.com/videos/y/OyXFYhLXTGk
 .. _Indexes FAQ: http://docs.mongodb.org/manual/faq/indexes/
 .. _Optimize Query Performance: http://docs.mongodb.org/manual/tutorial/optimize-query-performance-with-indexes-and-projections/
 .. _Query Optimization: http://docs.mongodb.org/manual/core/query-optimization/
@@ -204,7 +204,7 @@ Video:
   - Read & Write Impact of Indexes_
 
 .. _Write Operation Performance: http://docs.mongodb.org/manual/core/write-performance/#indexes
-.. _Read & Write Impact of Indexes: http://youtu.be/wcprB2adSe0
+.. _Read & Write Impact of Indexes: https://university.mongodb.com/videos/y/wcprB2adSe0
 
 Unique Indexes
 --------------
@@ -217,7 +217,7 @@ Docs:
   - Creating a Unique Index_
   - Unique Indexes_
 
-.. _Index Creation Options, Unique: http://youtu.be/D-Ra5TEaaL4
+.. _Index Creation Options, Unique: https://university.mongodb.com/videos/y/D-Ra5TEaaL4
 .. _Creating a Unique Index: http://docs.mongodb.org/manual/tutorial/create-a-unique-index/
 .. _Unique Indexes: http://docs.mongodb.org/manual/core/index-unique/
 
@@ -231,7 +231,7 @@ Video:
 Docs:
   - Sparse Indexes_
 
-.. _Sparse Indexes Video: http://youtu.be/ZznHByqtTMA
+.. _Sparse Indexes Video: https://university.mongodb.com/videos/y/ZznHByqtTMA
 .. _Sparse Indexes: http://docs.mongodb.org/manual/core/index-sparse/
 
 TTL Indexes
@@ -244,7 +244,7 @@ Video:
 Docs:
   - Indexes, TTL_
 
-.. _TTL Indexes: http://youtu.be/hu0gsu5O0Rs
+.. _TTL Indexes: https://university.mongodb.com/videos/y/hu0gsu5O0Rs
 .. _Indexes, TTL: http://docs.mongodb.org/manual/core/index-ttl/
 
 Background Index Creation
@@ -257,7 +257,7 @@ Video:
 Docs:
   - Build Indexes in the Background_
 
-.. _Background Index Creation: http://youtu.be/rI2Hnqp8BN4
+.. _Background Index Creation: https://university.mongodb.com/videos/y/rI2Hnqp8BN4
 .. _Build Indexes in the Background: http://docs.mongodb.org/manual/tutorial/build-indexes-in-the-background/
 
 Regex on String Fields and Indexes
@@ -280,7 +280,7 @@ Docs:
 .. _Text Indexes: http://docs.mongodb.org/manual/core/index-text/
 .. _Create a Text Index: http://docs.mongodb.org/manual/tutorial/create-text-index-on-multiple-fields/
 .. _Text Search Tutorials: http://docs.mongodb.org/manual/administration/indexes-text/
-.. _Text Indexes in MongoDB: http://youtu.be/UlleLqZQYVo
+.. _Text Indexes in MongoDB: https://university.mongodb.com/videos/y/UlleLqZQYVo
 
 2d and 2dSphere Indexes
 -----------------------
@@ -300,7 +300,7 @@ Docs:
   - Calculate Distance using Spherical Geometry_
 
 
-.. _Geospatial Indexes: http://youtu.be/zoGcMsjGMo4
+.. _Geospatial Indexes: https://university.mongodb.com/videos/y/zoGcMsjGMo4
 .. _Geospatial Indexes and Queries: http://docs.mongodb.org/manual/applications/geospatial-indexes/
 .. _2d Indexes: http://docs.mongodb.org/manual/core/2d/
 .. _Create a 2d Index: http://docs.mongodb.org/manual/tutorial/build-a-2d-index/

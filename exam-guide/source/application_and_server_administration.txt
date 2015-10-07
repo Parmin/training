@@ -13,10 +13,11 @@ Application and Server Administration Topics
 
 - Journal
 - Server Logs
+- The Profiler
 - MongoDB Security
   - MongoDB CR
     - User roles
-  - Network Encryption
+  - Security Features Available
 - Cluster Architecture
 - Diagnostics and Debugging
 - Maintenance
@@ -45,7 +46,7 @@ Docs:
 Blog:
   - How MongoDB's Journaling Works_
 
-.. _Journal's impact on resident memory: http://youtu.be/8TmmEzm50cw
+.. _Journal's impact on resident memory: https://university.mongodb.com/videos/y/8TmmEzm50cw
 .. _Journaling Mechanics: http://docs.mongodb.org/manual/core/journaling/
 .. _Manage Journaling: http://docs.mongodb.org/manual/tutorial/manage-journaling/
 .. _How MongoDB's Journaling Works: http://blog.mongodb.org/post/33700094220/how-mongodbs-journaling-works
@@ -53,32 +54,123 @@ Blog:
 Server Logs
 -----------
 
-The server logs capture several things by default: connections, the creation/dropping of collections/databases, and long-running events (more than 100 ms), for example.
+The server logs capture several things by default: connections, the creation/dropping of collections/databases, and long-running events (more than 100 ms), among other things. You'll need to know the things at about this level, but you won't need to know things much deeper than that.
 
 Docs:
-  - MongoDB Diagnostics_
   - Log Messages_
   - Rotate Log Files_
+  - Process Logging_
+Videos:
+  - Examining Log Files_
 
-.. _MongoDB Diagnostics: http://docs.mongodb.org/manual/faq/diagnostics/
 .. _Log Messages: http://docs.mongodb.org/manual/reference/log-messages/
 .. _Rotate Log Files: http://docs.mongodb.org/manual/tutorial/rotate-log-files/
+.. _Process Logging: http://docs.mongodb.org/manual/administration/monitoring/#process-logging
+.. _Examining Log Files: https://university.mongodb.com/videos/y/qc1hOvhCohY
 
+The Profiler
+------------
+
+Docs:
+  - Database Profiling_
+
+.. _Database Profiling: http://docs.mongodb.org/manual/administration/analyzing-mongodb-performance/#database-profiling
+
+Videos:
+  - Profiler Demo_
+  - Profiling Overview_
+  - Profiler Helper Function_
+  - Examining Profiler Operations_
+  - Filtering the Profiler by Timestamp_
+
+
+.. _Profiler Demo: https://university.mongodb.com/videos/y/_ApSNwSRYVo
+.. _Profiling Overview: https://university.mongodb.com/videos/y/ww5pYJqukAg
+.. _Profiler Helper Function: https://university.mongodb.com/videos/y/_ApSNwSRYVo
+.. _Examining Profiler Operations: https://university.mongodb.com/videos/y/FSrJz_hkisM
+.. _Filtering the Profiler by Timestamp: https://university.mongodb.com/videos/y/P6igqf5Vc9w
+
+Monitoring and Performance Tuning
+---------------------------------
+
+Docs:
+  - Monitoring for MongoDB_ (a great page listing resources for all types of system monitoring)
+  - Analyzing MongoDB Performance_
+
+.. _Monitoring for MongoDB: http://docs.mongodb.org/manual/administration/monitoring/
+.. _Analyzing MongoDB Performance: http://docs.mongodb.org/manual/administration/analyzing-mongodb-performance/
+
+MongoDB Security
+----------------
+
+For security, you should be familiar with MongoDB-CR (defining user roles and permissions) to the extent of knowing the roles and how to set permissions. You should also know about the other options and best practices for MongoDB's security features, but will not need to know details about them for the certification exam.
+
+Docs:
+  - Security Introduction_
+  - Authentication_
+  - Authorization_
+  - Network Exposure and Security_
+  - Collection-Level Access Control_
+  - Auditing_
+  - Security and MongoDB API Interfaces_
+  - Kerberos Authentication_
+  - MongoDB Security Guide_ (A good resource when implementing security for MongoDB)
+  - Security Tutorials_ (A good set of tutorials for security)
+Tutorials:
+  - Deploy Replica Set and Configure Authentication and Authorization_
+  - Authentication Tutorials_
+  - Network Security Tutorials_
+
+.. _Security Introduction: http://docs.mongodb.org/manual/core/security-introduction/
+.. _Authentication: http://docs.mongodb.org/manual/core/authentication/
+.. _Authorization: http://docs.mongodb.org/manual/core/authorization/
+.. _Network Exposure and Security: http://docs.mongodb.org/manual/core/security-network/
+.. _Collection Level Access Control: http://docs.mongodb.org/manual/core/collection-level-access-control/
+.. _Auditing: http://docs.mongodb.org/manual/core/auditing/
+.. _Kerberos Authentication: http://docs.mongodb.org/manual/core/kerberos/
+.. _MongoDB Security Guide: http://docs.mongodb.org/master/MongoDB-security-guide.pdf
+.. _Security Tutorials: http://docs.mongodb.org/manual/administration/security/
+
+Cluster Architecture
+--------------------
+
+Know about patterns. For example, in a replica set, know that you should have an odd number of members in, distributit across data centers, and use cases for tags. For a sharded cluster, understand tag based sharding, tag use cases, and  Some of this is covered in Replication and Sharding, but where those sections largerly are concerned with what can be done, this section emphasizes what should be done.
+
+- Replica Set Deployment Architectures_
+- Sharded Cluster Requirements_
+- Production Cluster Architecture_
+- Config Server Availability_
+
+.. _Sharded Cluster Requirements: http://docs.mongodb.org/manual/core/sharded-cluster-requirements/
+.. _Production Cluster Architecture: http://docs.mongodb.org/manual/core/sharded-cluster-architectures-production/
+.. _Replica Set Deployment Architectures: http://docs.mongodb.org/manual/core/replica-set-architectures/
+.. _Config Server Availability: http://docs.mongodb.org/manual/core/sharded-cluster-config-servers/#config-server-availability
 
 Diagnostics and Debugging
 -------------------------
 
-Docs:
-  - Monitoring for MongoDB_
-Videos:
-  - The Database Profiler_
-  - Profiler Demo_
+This section captures anything that isn't captured elsewhere (such as the server tools sections, the logs, or the profiler), and questions will either ask how to use those tools, or what tools are the right tool for a particular problem or piece of information you're trying to gather. For any commands listed here, be familiar with how to use the command, and how to interpret what it returns.
 
-.. _Monitoring for MongoDB: http://docs.mongodb.org/manual/administration/monitoring/
-.. _The Database Profiler: http://youtu.be/ww5pYJqukAg
-.. _Profiler Demo: http://youtu.be/_ApSNwSRYVo
+Docs:
+  - db.currentOp()_
+  - db.serverStatus()_
+  - Diagnostics_
+  - rs.status()_
+  - sh.status()_
+Webinar:
+  - Diagnostics and Debugging_, a great talk that touches on many topics in this section, presented by MongoDB's very engaging Asya Kamsky
+
+.. _db.currentOp(): http://docs.mongodb.org/manual/reference/method/db.currentOp/
+.. _Diagnostics: http://docs.mongodb.org/manual/faq/diagnostics/
+.. _Diagnostics and Debugging: https://www.mongodb.com/presentations/webinar-diagnostics-and-debugging-mongodb
+.. _db.serverStatus(): http://docs.mongodb.org/manual/reference/method/db.serverStatus/
+.. _rs.status(): http://docs.mongodb.org/manual/reference/method/rs.status/
+.. _sh.status(): http://docs.mongodb.org/manual/reference/method/sh.status/
+
+
 
 Further Exercises
 -----------------
 
 - Create a replica set or sharded cluster. Create a database, and then drop it. Put the server under a simulated load, and then insert an array of large documents (~15 MB), preferably as a bulk insert. Check the server logs and try to find the long-running events.
+- Run a mongod with --auth. Log in, and create a User Admin, and use that login to create a user with Read permissions in one database and ReadWrite permissions in another. Verify that you are able to login and read/write as appropriate, and are locked out of other databases.
