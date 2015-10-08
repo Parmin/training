@@ -11,17 +11,25 @@ Upon completing this module, students should understand:
 - Various methods for effectively storing time series data in MongoDB
 - Trade-offs in methods to store time series data
 
+.. only:: instructor
+
+   .. note::
+
+      - Introduce the idea of pre-aggregation
+      - Discuss doing background processing
+      - TTL indexes
+
+
 .. include:: /includes/student-notes.rst
 
 
 Time Series Use Cases
 ---------------------
 
-- Silver Spring Networks, the leading provider of smart grid infrastructure, analyzes utility meter data in MongoDB
-- EnerNOC analyzes billions of energy data points per month to help utilities and private companies optimize their systems, ensure availability and reduce costs
-- Square maintains a MongoDB-based open source tool called Cube for collecting timestamped events and deriving metrics
-- Server Density uses MongoDB to collect server monitoring statistics
-- Appboy, the leading platform for mobile relationship management, uses MongoDB to track and analyze billions of data points on user behavior
+- Silver Spring Networks, the leading provider of smart grid infrastructure, analyzes utility meter data in MongoDB.
+- EnerNOC analyzes billions of energy data points per month to help utilities and private companies optimize their systems, ensure availability and reduce costs.
+- Server Density uses MongoDB to collect server monitoring statistics.
+- Appboy, the leading platform for mobile relationship management, uses MongoDB to track and analyze billions of data points on user behavior.
 
 .. include:: /includes/student-notes.rst
 
@@ -46,7 +54,7 @@ Building a Database Monitoring Tool
 
    .. note::
       
-      - Similar to MMS
+      - Similar to MongoDB Cloud Manager
 
 
 Potential Relational Design
@@ -153,7 +161,7 @@ Increment the counter for the exact minute in the hour where the op_counter metr
   > db.metrics_by_minute.update( { 
     "clientid" : 1234,
     "timestamp": ISODate("2015-05-29T23:06:00.000Z"),
-    "metric": "op_counter"}, 
+    "metric": "insert"}, 
     { $inc : { "values.37" : 50000 } })
 
 
@@ -169,7 +177,7 @@ Metrics with 1 minute granularity for the past 24 hours (24 documents):
 
   > db.metrics_by_minute.find( { 
     "clientid" : 1234,
-    "metric": "op_counter"})
+    "metric": "insert"})
     .sort ({ "timestamp" : -1 })
     .limit(24)
 
@@ -183,10 +191,10 @@ With one minute granularity, we can record a day's worth of data and update it e
 
 .. code-block:: javascript
 
-   {
+   {		
       "clientid" : 1234,
       "timestamp": ISODate("2015-05-29T00:00:00.000Z"),
-      "metric": "op_counter",
+      "metric": "insert",
       "values": {
         "0": { 0: 123, 1: 345, ..., 59: 123},
         …  
@@ -215,7 +223,8 @@ Look through some charts in MongoDB's Cloud Manager, how would you represent the
 - 5 minute granularity for 48 hours
 - 1 hour granularity for 2 months
 - 1 day granularity forever
-- Expire and roll-up data
+- Expiring data
+- Rolling up data 
 - Queries for charts
 
 .. include:: /includes/student-notes.rst
@@ -224,41 +233,73 @@ Look through some charts in MongoDB's Cloud Manager, how would you represent the
 
   .. note::
 
-    - You can use one of the two designs belows for storing metrics (or arrays could be used instead of maps)
-    - Background processes could roll-up data into different granularities
+     - Use the schema below to capture data at one second granularity
 
-    .. code-block:: javascript
+        .. code-block:: javascript
 
-      // document to represent one minute
-      {
-        timestamp_minute: ISODate("2013-10-10T23:06:00.000Z"),
-        type: “memory_used”,
-        values: {
-          0: 999999,
-          …  
-          37: 1000000,
-          38: 1500000,
-          … 
-          59: 2000000
-        }
-      }
+           // document to represent one minute
+	   {
+             minute: ISODate("2013-10-10T23:00:00.000Z"),
+             type: "memory_used",
+             values: {
+               0: 999999,
+               ...
+               37: 1000000,
+               38: 1500000,
+               ...
+               59: 2000000
+             }
+	   }
 
-    .. code-block:: javascript
+     - Use background processes to roll up data into minute granularity for each hour.
 
-      // document to represent one hour, values.MINUTE.SECOND
-      {
-        timestamp_hour: ISODate("2013-10-10T23:00:00.000Z"),
-        type: “memory_used”,
-        values: {
-          0: { 0: 999999, 1: 999999, …, 59: 1000000 },
-          1: { 0: 2000000, 1: 2000000, …, 59: 1000000 },
-          …,
-          58: { 0: 1600000, 1: 1200000, …, 59: 1100000 },
-          59: { 0: 1300000, 1: 1400000, …, 59: 1500000 }
-        }
-      }
+       .. code-block:: javascript
 
-    - Displaying realtime charts now becomes incredibly simple, only one document is needed to show activity over an hour (if one hour granularity is used), over 24 hours is 24 documents.
+          // document to represent one hour, values.MINUTE.SECOND
+          {
+            hour: ISODate("2013-10-10T23:00:00.000Z"),
+            type: "memory_used",
+            values: {
+              0: { 0: 999999, 1: 999999, ..., 59: 1000000 },
+              1: { 0: 2000000, 1: 2000000, ..., 59: 1000000 },
+              ...,
+              58: { 0: 1600000, 1: 1200000, ..., 59: 1100000 },
+              59: { 0: 1300000, 1: 1400000, ..., 59: 1500000 }
+            }
+          }
+
+
+    - Use background process to roll up data into 1 day granularity forever.
+
+      .. code-block:: javascript
+    
+          // document to represent one hour, values.MINUTE.SECOND
+          {
+            day: ISODate("2013-10-10T00:00:00.000Z"),
+            type: "memory_used",
+            values: {
+              0: { 0: 999999, 1: 999999, ..., 59: 1000000 },
+              1: { 0: 2000000, 1: 2000000, ..., 59: 1000000 },
+              ...,
+              23: { 0: 1600000, 1: 1200000, ..., 59: 1100000 },
+              24: { 0: 1300000, 1: 1400000, ..., 59: 1500000 }
+            }
+          }
+
+    - Use TTL indexes to expire minutes, and hours.
+
+      - Use a 96 hour window for minutes
+      - Use a 4 month window for hours
+
+    - Displaying realtime charts now becomes incredibly simple
+    - Only one document is needed to show activity over an hour (if one hour granularity is used), over 24 hours is 24 documents.
     - Comparing different metrics over 24 hours is now very simple, and easier to find correlations
+    - Queries
+
+      .. code-block:: javascript
+
+         // 1 minute granularity for 48 hours
+         db.metrics.aggregate({ match: {})
+      
 
 

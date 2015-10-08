@@ -1,0 +1,92 @@
+============================
+Lab: Analyzing Profiler Data
+============================
+
+Premise
+-------
+
+"*Your cluster is experiencing some performance issues and you would
+like to determine where the bottlenecks are. You will need to create
+statistics on slow queries, locking, and operations: use the database
+profiler and write some aggregation queries to analyze the profiling data.*"
+
+.. only:: instructor
+
+   .. note::
+
+      Prerequisites:
+
+      - Run the Advanced Ops ``~/scripts/Aggregation/premise-1-2.sh`` script. This will set up an empty 3 node replica set.
+
+
+Setup
+-----
+
+1. First enable the profiler for a new agg database (to record all queries):
+
+.. code-block:: javascript
+
+   use agg;
+   db.setProfilingLevel(2);
+
+2. Add some sample data.
+
+.. code-block:: javascript
+
+   for (i=0; i<100000; i++) { db.aggcol.insert( { count : i } ); }
+
+3. Add some queries.
+
+.. code-block:: javascript
+
+   for (i=0; i<100; i++) { db.aggcol.find( { count : i } ).toArray(); }
+   for (i=0; i<100; i++) { db.aggcol.update( { count : i },
+                                { $set : { "another_field" : i } } ); }
+
+
+Exercise
+--------
+
+Find the maximum response time and average response time for each type of operation in the ``system.profile`` collection.
+
+Hint: group on the ``op`` field.
+
+
+Results
+-------
+
+Your aggregation query should return documents of the following form:
+
+.. code-block:: javascript
+
+   {
+     "_id" : "update",
+     "count" : <NUMBER>,
+     "max response time" : <NUMBER>,
+     "avg response time" : <NUMBER>
+   }
+   {
+     "_id" : "insert",
+     "count" : <NUMBER>,
+     "max response time" : <NUMBER>,
+     "avg response time" : <NUMBER>
+   }
+   ... for every operation in the system.profile.op field
+
+
+.. only:: instructor
+
+   .. note::
+
+      Solution:
+
+      .. code-block:: javascript
+
+         // response time by operation type
+         db.system.profile.aggregate( { $group : {
+           _id :"$op",
+           count:{$sum:1},
+           "max response time":{$max:"$millis"},
+	   "avg response time":{$avg:"$millis"}
+         }});
+

@@ -29,11 +29,7 @@ Allows users to programmatically:
 API Documentation
 -----------------
 
-|docs_link|
-
-.. |docs_link| raw:: html
-
-   <a href="https://docs.mms.mongodb.com/core/api/" target="_blank">https://docs.mms.mongodb.com/core/api/</a>
+`https://docs.mms.mongodb.com/core/api/ <https://docs.mms.mongodb.com/core/api/>`
 
 .. only:: instructor
 
@@ -55,7 +51,7 @@ Sample API Uses Cases
 Ingest Monitoring Data
 ----------------------
 
-The monitoring API can be used to ingest monitoring data into another system, such as Nagios, HP OpenView, or your own internal dashboard
+The monitoring API can be used to ingest monitoring data into another system, such as Nagios, HP OpenView, or your own internal dashboard.
 
 .. include:: /includes/student-notes.rst
 

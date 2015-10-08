@@ -152,8 +152,8 @@ Update Operators
 - ``$inc``: Increment a field's value by the specified amount.
 - ``$mul``: Multiply a field's value by the specified amount.
 - ``$rename``: Rename a field.
-- ``$set`` (already discussed)
-- ``$unset`` (already discussed)
+- ``$set``: Update one or more fields.
+- ``$unset`` Delete a field.
 - ``$min``: Update only if value is smaller than specified quantity
 - ``$max``: Update only if value is larger than specified quantity
 - ``$currentDate``: Set the value of a field to the current date or timestamp.
@@ -398,9 +398,9 @@ Example: Upserts
 Example: ``save()``
 -------------------
 
-- If the document does not contain an _id field, then the save() method calls the insert() method. During the operation, the mongo shell will create an ObjectId and assign it to the _id field.
+- If the document does not contain an ``_id`` field, then the ``save()`` method calls the ``insert()`` method. During the operation, the mongo shell will create an ObjectId and assign it to the ``_id`` field.
   
-- If the document contains an _id field, then the save() method is equivalent to an update with the upsert option set to true and the query predicate on the _id field.
+- If the document contains an ``_id`` field, then the ``save()`` method is equivalent to an update with the upsert option set to true and the query predicate on the ``_id`` field.
 
 .. code-block:: javascript
 

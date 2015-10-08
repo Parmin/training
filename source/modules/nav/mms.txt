@@ -1,6 +1,6 @@
-===========================
-MongoDB Cloud & Ops Manager
-===========================
+========================================
+MongoDB Cloud & Ops Manager Fundamentals
+========================================
 
 .. default-domain:: mongodb
 

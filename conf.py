@@ -177,8 +177,12 @@ latex_preamble_elements = [ r'\DeclareUnicodeCharacter{FF04}{\$}',
 #                            r'\definecolor{InnerLinkColor}{rgb}{0.421,0.640,0.222}',
                             r'\definecolor{InnerLinkColor}{rgb}{0.421,0.421,0.421}',
                             r'\usepackage{tocloft}',
-                            r'\setlength{\cftbeforesubsecskip}{\baselineskip}',
-                            r'\setlength{\cftsubsubsecindent}{1in}',
+                            # r'\makeatletter',
+                            # r'\renewcommand{\l@section}{\@dottedtocline{1}{1.0em}{1.5em}}',
+                            # r'\renewcommand{\l@subsection}{\@dottedtocline{1.5}{4.0em}{3.0em}}',
+                            # r'\renewcommand{\l@subsubsection}{\@dottedtocline{3}{7.4em}{4.5em}}',
+                            # r'\makeatother',
+                            r'\setcounter{tocdepth}{2}',
                             r'\renewcommand{\cfttoctitlefont}{\Large\sffamily\bfseries}',
                             r'\renewcommand{\cftsecfont}{\normalfont\sffamily\bfseries}',
                             r'\renewcommand{\cftsubsecfont}{\normalfont\sffamily}',
@@ -216,7 +220,7 @@ if 'manpages' in conf.system.files.data:
 
 # Bibliographic Dublin Core info.
 epub_title = conf.project.title
-epub_author = u'MongoDB Documentation Project'
+epub_author = u'MongoDB University'
 epub_publisher = u'MongoDB, Inc.'
 epub_copyright = copyright
 epub_theme = 'epub_mongodb'

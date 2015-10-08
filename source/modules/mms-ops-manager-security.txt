@@ -53,7 +53,7 @@ Authenticating Between an Ops Manager Agent and Cluster
 Encrypting Communications
 -------------------------
 
-- All communications can be encrypted over SSL
+- All communications can be encrypted over SSL.
 - However, currently, if you are using Automation to manage a cluster, that cluster cannot use SSL or advanced auth.
   
 

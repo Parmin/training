@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLL TYPE="named" SHOWTIMER="yes" ALARM="5:0" NOANSWER="yes" SHOWRESPONSE="yes">
+
+<QUESTION TYPE="mcone" TITLE="To what data type would you imagine a BSON document is mapped in the Python programming language?">
+<ANSWER ISCORRECT="false">Number</ANSWER>
+<ANSWER ISCORRECT="false">String</ANSWER>
+<ANSWER ISCORRECT="false">List</ANSWER>
+<ANSWER ISCORRECT="false">Tuple</ANSWER>
+<ANSWER ISCORRECT="true">Dictionary</ANSWER>
+</QUESTION>
+
+</POLL>

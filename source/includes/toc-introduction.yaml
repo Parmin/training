@@ -4,17 +4,17 @@ description: |
 ---
 file: /modules/introduction-overview
 description: |
-  MongoDB philosophy and features.
+  MongoDB philosophy and features
 ---
 file: /modules/introduction-mongodb-stores-documents
 description: |
-  The structure of data in MongoDB.
+  The structure of data in MongoDB
 ---
 file: /modules/introduction-storage-engines
 description: |
-  MongoDB storage engines.
+  MongoDB storage engines
 ---
 file: /exercises/mongodb-installation
 description: |
-  Install mongodb experiment with a few operations.
+  Install MongoDB and experiment with a few operations.
 ...

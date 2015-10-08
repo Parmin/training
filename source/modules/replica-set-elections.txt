@@ -129,9 +129,9 @@ When will a primary step down?
 replSetStepDown Behavior
 ------------------------
 
-- Primary will attempt to terminate long running operations before stepping down
-- Primary will wait for electable secondary to catch up before stepping down
-- "secondaryCatchUpPeriodSecs" can be specified to limit the amount of time the primary will wait for a secondary to catch up before the primary steps down
+- Primary will attempt to terminate long running operations before stepping down.
+- Primary will wait for electable secondary to catch up before stepping down.
+- "secondaryCatchUpPeriodSecs" can be specified to limit the amount of time the primary will wait for a secondary to catch up before the primary steps down.
 
 .. include:: /includes/student-notes.rst
 

@@ -129,6 +129,10 @@ Database Landscape
 
 .. include:: /includes/student-notes.rst
 
+.. raw:: latex
+
+   \newpage
+
 
 MongoDB Deployment Models
 -------------------------

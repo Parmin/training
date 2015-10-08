@@ -1,6 +1,6 @@
-file: /modules/nav/agenda
+file: /modules/nav/agendas
 description: | 
-  MongoDB Training Agendas
+  Agendas for all trainings with links to included modules
 ---
 file: /modules/nav/introduction
 description: | 
@@ -36,7 +36,7 @@ description: |
 ---
 file: /modules/nav/schema-design-advanced
 description: |
-  Data modeling case studies and hands-on lab.
+  Data modeling case studies and hands-on labs.
 ---
 file: /modules/nav/mongomart
 description: |
@@ -44,17 +44,17 @@ description: |
 ---
 file: /modules/nav/security
 description: |
-  An overview of security options for MongoDB.
+  An overview of security options for MongoDB
 ---
 file: /modules/nav/mms
 description: |
-  An overview of the MongoDB Management Service (MMS)
+  An overview of MongoDB Cloud & Ops Manager
 ---
 file: /modules/performance
 description: |
-  An introduction to MongoDB tools for performance troubleshooting.
+  An introduction to MongoDB tools for performance troubleshooting
 ---
 file: /modules/backup
 description: |
-  MongoDB backup strategies.
+  MongoDB backup strategies
 ...

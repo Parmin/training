@@ -10,7 +10,15 @@ Upon completing this module, students should understand:
 
 - Design considerations for building a social network with MongoDB
 - Maintaining relationships between users
-- Creating a feed service (similar to FaceBook's newsfeed)
+- Creating a feed service (similar to Facebook's newsfeed)
+
+.. only:: instructor
+
+   .. note::
+
+      - Contrast this with time series and with CMS. In both of those we are aggregating many items into a single document.
+      - In this case, we are replicating a single event across many documents. We are pre-joining a many-to-many relationship.
+      - Possibly discuss the Socialite implementation?
 
 .. include:: /includes/student-notes.rst
 
@@ -297,20 +305,20 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
      - The @MongoDB profile may have the following form
      
 
-      .. code-block:: javascript
+       .. code-block:: javascript
 
-        {
-          "username" : "mongodb",
-          "username_display" : "MongoDB",
-          "description" : "The world's fastest-growing database.",
-          "url" : "http://mongodb.com"
-          "tweets" : 7901,
-          "following" : 1975,
-          "followers" : 186000,
-          "favorites" : 1046,
-          "lists" : 2,
-          ...
-        }
+          {
+            "username" : "mongodb",
+            "username_display" : "MongoDB",
+            "description" : "The world's fastest-growing database.",
+            "url" : "http://mongodb.com"
+            "tweets" : 7901,
+            "following" : 1975,
+            "followers" : 186000,
+            "favorites" : 1046,
+            "lists" : 2,
+            ...
+          }
 
     - Tweets from @MongoDB may have the following form (used to construct the @MongoDB profile page)
       
@@ -332,13 +340,17 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
           _id : ObjectId()
           "for_user" : "jason", // feed for the user "jason" following "mongodb"
           "user" : "mongodb",
-          "tweet" : "The Call for Speakers for #MDBDays closes tomorrow! Submit a talk proposal for a chance to speak at our events http://spr.ly/6012B1Q8r",
+          "tweet" : "The call for #MDBDays speakers closes tomorrow! Submit a proposal here http://spr.ly/6012B1Q8r",
           "date" : ISODate(),
-          "tweet_id" : 1234, // can duplicate info or refer to the original tweet directly, which would require another query
+	  // can duplicate info or refer to the original tweet directly,
+	  // which would require another query
+          "tweet_id" : 1234, 
           "retweet" : false,
           "retweet_tweetid" : null // used for displaying retweet status
           ...
         }
+
+
 
 
 

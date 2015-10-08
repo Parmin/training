@@ -1,0 +1,16 @@
+file: /modules/agenda-essentials-4-days
+description: | 
+  Agenda for Essentials 4-Day Training
+--- 
+file: /modules/agenda-developer-3-days
+description: | 
+  Agenda for Developers 3-Day Training
+--- 
+file: /modules/agenda-dba-3-days
+description: | 
+  Agenda for Administrators 3-Day Training
+--- 
+file: /modules/agenda-developer-advanced
+description: | 
+  Agenda for Advanced Developers Training
+...

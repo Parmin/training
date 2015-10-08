@@ -2,6 +2,7 @@
 Essentials Training (4 Days)
 ============================
 
+
 Day 1 (Morning)
 ---------------
 
@@ -87,6 +88,7 @@ CRUD (2 hours)
 
 .. include:: /includes/student-notes.rst
 
+
 Day 1 (Afternoon)
 -----------------
 
@@ -96,8 +98,8 @@ Day 1 (Afternoon)
 
 .. include:: /includes/student-notes.rst
 
-Indexes (2 hours)
------------------
+Indexes (2.5 hours)
+-------------------
 
 - |indexes_fund|
 - |indexes_compound|
@@ -149,7 +151,7 @@ Lab: Building and Examining Indexes (30 minutes)
 
 .. include:: /includes/student-notes.rst
 
-Aggregation (1.5 hours)
+Aggregation (1 hour)
 -----------------------
 
 - |aggregation_tut|
@@ -170,6 +172,7 @@ Aggregation (1.5 hours)
    <a href="../exercises/aggregation-exercises.html">Lab: Aggregating Zip Code Data</a>
 
 .. include:: /includes/student-notes.rst
+
 
 Day 2 (Morning)
 ---------------
@@ -204,7 +207,8 @@ Schema Design (3 hours)
    <a href="../exercises/schema-group-exercise.html">Group Lab: Data Model for an E-Commerce Site</a>
 
 .. include:: /includes/student-notes.rst
-  
+
+
 Day 2 (Afternoon)
 -----------------
 
@@ -254,6 +258,7 @@ Replication (4 hours)
 
 .. include:: /includes/student-notes.rst
 
+
 Day 3 (Morning)
 ---------------
 
@@ -286,6 +291,7 @@ Sharding (3 hours)
    <a href="../exercises/sharding-set-up-a-cluster.html">Lab: Setting Up a Sharded Cluster</a>
 
 .. include:: /includes/student-notes.rst
+
 
 Day 3 (Afternoon) 
 -----------------
@@ -327,6 +333,8 @@ Security (2 hours)
 
 .. include:: /includes/student-notes.rst
 
+
+
 Day 4 (Morning) 
 ---------------
 
@@ -367,6 +375,8 @@ Performance Troubleshooting (2 hours)
 
 .. include:: /includes/student-notes.rst
 
+
+
 Day 4 (Afternoon) 
 -----------------
 
@@ -395,7 +405,7 @@ Cloud/Ops Manager (2 hours)
 
    <a href="../exercises/mms-automation.html">Lab: Cluster Automation</a>
 
-.. |mms_auto| raw:: html
+.. |mms_monitoring| raw:: html
 
    <a href="mms-monitoring.html">Monitoring</a>
 

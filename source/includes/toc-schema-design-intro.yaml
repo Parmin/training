@@ -1,14 +1,14 @@
 file: /modules/schema-design-core-concepts
 description: | 
-  An introduction to schema design in MongoDB.
+  An introduction to schema design in MongoDB
 ---
 file: /modules/schema-design-application-lifetime
 description: | 
-  Considerations for evolving a MongoDB schema design over an application's lifetime.
+  Considerations for evolving a MongoDB schema design over an application's lifetime
 ---
 file: /modules/schema-design-common-design-patterns
 description: | 
-  Common design patterns for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB.
+  Common design patterns for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB
 ...
 
 

@@ -11,15 +11,28 @@ Upon completing this module, students should understand:
 - Various methods for effectively designing a CMS schema in MongoDB
 - Optimizations to the schema, and their tradeoffs
 
+.. only:: instructor
+
+   .. note::
+
+      - RDBMS vs. MongoDB
+      - Pre-joining
+      - The way comments are handled (another example of pre-aggregation)
+      - How do we handle the potential for inconsistency between the comments collection and an individual article.
+
+        - Don't pre-aggregate; just do two queries.
+	- Do this on read -- two queries and, possibly and update or message queues.
+	- Handle pre-joining all in one place. Background process identifies top comments.
+
 .. include:: /includes/student-notes.rst
 
 
 Building a CMS with MongoDB
 ---------------------------
 
-- CMS stands for content management system
-- Cnn.com, wsj.com, and huffingtonpost.com are good examples to explore
-- For the purposes of this case study, let's use any article page from cnn.com
+- CMS stands for content management system.
+- nytimes.com, cnn.com, and huffingtonpost.com are good examples to explore.
+- For the purposes of this case study, let's use any article page from huffingtonpost.com.
 
 .. include:: /includes/student-notes.rst
 
@@ -27,16 +40,16 @@ Building a CMS with MongoDB
 Building a CMS in a Relational Database
 ---------------------------------------
 
-10-15 tables for this example, multiple queries for every page load:
+There are many tables for this example with multiple queries required for every page load.
 
 Potential tables
 
-- story
+- article
 - author
 - comment
 - tag
-- link_story_tag
-- link_story_story (related stories)
+- link_article_tag
+- link_article_article (related articles)
 - etc.
 
 .. include:: /includes/student-notes.rst
@@ -45,7 +58,71 @@ Potential tables
 
    .. note::
       
-      - Great time to whiteboard how a CMS would look in an RDBMS, then Mongo
+      Great time to whiteboard how a CMS would look in an RDBMS, then MongoDB. E.g.:
+      - Article:
+
+        - id
+        - headline
+	- author_id
+	- body
+	- summary
+	- region
+	- published (timestamp)
+	- edited (timestamp)
+
+      - Author:
+
+        - id
+        - name
+	- title
+
+      - Comment
+
+        - id
+	- article_id
+	- user_id
+	- sentiments
+	- responded
+	- updated
+
+      - User
+
+        - id
+	- username
+	- user_email
+	- user_password
+	
+      - Tag
+
+        - id
+	- label
+	- type
+
+      - Article_Tag
+
+        - id
+	- article_id
+	- tag_id
+	- tagged (timestamp)
+
+      - Article_Article
+
+        - article_newer_id
+	- article_older_id
+
+      - Front_Page
+
+        - article_id
+	- added_timestamp
+
+      - Article_Stats
+
+        - views
+	- favorited
+	- emailed
+	- shared
+	- commented
+
 
 
 Building a CMS in MongoDB
@@ -54,7 +131,8 @@ Building a CMS in MongoDB
 .. code-block:: javascript
 
   {
-    "_id" : "/apple-reports-second-quarter-revenue",
+    "_id" : 334456,
+    "slug" : "/apple-reports-second-quarter-revenue",
     "headline" : "Apple Reported Second Quarter Revenue Today",
     "date" : ISODate("2015-03-24T22:35:21.908Z"),
     "author" : {
@@ -123,7 +201,6 @@ Optimizations
 - Include stock price information with each article
 - Fields specific to an article type
 
-
 .. include:: /includes/student-notes.rst
 
 
@@ -136,7 +213,8 @@ Optimizing Comments Option 1
 .. code-block:: javascript
 
   {
-    "_id" : "/apple-reports-second-quarter-revenue",
+    "_id" : 334456,
+    "slug" : "/apple-reports-second-quarter-revenue",
     "headline" : "Apple Reported Second Quarter Revenue Today",
     ...
     "last_10_comments" : [
@@ -159,7 +237,7 @@ Optimizing Comments Option 1
 .. code-block:: javascript
 
   > db.blog.update(
-   { "_id" : "/apple-reports-second-quarter-revenue" },
+   { "_id" : 334456 },
      { $push: {
          "comments": {
             $each: [ { 
@@ -172,10 +250,11 @@ Optimizing Comments Option 1
 
 .. code-block:: javascript
 
-  > db.comments.insert( { "story_id" : 123, name" : "Frank", 
+  > db.comments.insert( { "article_id" : 334456, name" : "Frank", 
     "comment" : "Great Story", "date" : ISODate() })
 
 .. include:: /includes/student-notes.rst
+
 
 Optimizing Comments Option 2
 ----------------------------
@@ -186,11 +265,12 @@ Optimizing Comments Option 2
 
 .. code-block:: javascript
 
-  > db.comments.insert( { "story_id" : 123, name" : "Frank", 
+  > db.comments.insert( { "article_id" : 334456, name" : "Frank", 
     "comment" : "Great Story", "date" : ISODate() })
    
 
 .. include:: /includes/student-notes.rst
+
 
 Include More Information With Each Tag
 --------------------------------------
@@ -201,9 +281,9 @@ Include More Information With Each Tag
     "_id" : "/apple-reports-second-quarter-revenue",
     ...
     "tags" : [ 
-      { "type" : "ticker", "value" : "AAPL" },
-      { "type" : "section", "value" : "Earnings" },
-      { "type" : "location", "value" : "Cupertino" }
+      { "type" : "ticker", "label" : "AAPL" },
+      { "type" : "section", "label" : "Earnings" },
+      { "type" : "location", "label" : "Cupertino" }
     ]
   }
 
@@ -216,11 +296,11 @@ Include More Information With Each Tag
 
 .. code-block:: javascript
 
-  > db.story.find( { 
+  > db.article.find( { 
     "tags" : { 
       "$elemMatch" : { 
-        "type" : "section", 
-        "value" : "Earnings" 
+        "type" : "financials", 
+        "label" : "Earnings" 
       } 
     } 
   } )
@@ -246,7 +326,7 @@ Fields specific to an article may be added to the document.
 .. code-block:: javascript
 
   {
-    "_id" : "/apple-reports-second-quarter-revenue",
+    "_id" : 334456,
     ...
     "executive_profile" : { 
       "name" : "Tim Cook",
@@ -260,7 +340,6 @@ Fields specific to an article may be added to the document.
   }
 
 
-
 .. include:: /includes/student-notes.rst
 
 
@@ -268,12 +347,17 @@ Fields specific to an article may be added to the document.
 
    .. note::
      
-     - As long as the fields aren't part of the query.
-     - Ideally, every field in the query should be indexed.
+      - As long as the fields aren't part of the query.
+      - Ideally, every field in the query should be indexed.
+      - Wikipedia also provides many examples of article-specific fields.
+      - Examples of more fields specific to a particular type of article:
+
+        - http://www.nytimes.com/interactive/2015/07/13/science/space/13after-pluto.html?ref=space
+	- http://www.nytimes.com/interactive/2015/06/18/world/europe/encyclical-laudato-si.html?ref=earth
 
 
-Class Exercise
---------------
+Class Exercise 1
+----------------
 
 Design a CMS (similar to above) with the following additional requirements:
 
@@ -303,11 +387,40 @@ Design a CMS (similar to above) with the following additional requirements:
         "version" : 34,
         "modified_date" : ISODate(),
         "modified_author" : "Jason",
-        "modified_comments" : "Moving story to draft form, needs rewrite"
+        "modified_comments" : "Moving article to draft form, needs rewrite"
       }
 
-    - Now the application must do more work to only load the latest version: db.story.find( { "_id" : 1234 }).sort( { "version" : -1 }).limit(2) // see next comment for the limit(2) explanation
-    - If two stories are inserted with the same version number (say two people worked on it at the same time), the application should issue a subsequent query without a limit to gather all stories with the same version (maybe there are 10 conflicts).  The application should then allow the user to merge those conflicts and commit the next version number.  More application logic can be used if conflicts become a larger problem (such as locking the article edits until the conflict is resolved)
+    - Now the application must do more work to only load the latest version: db.article.find( { "_id" : 1234 }).sort( { "version" : -1 }).limit(2) // see next comment for the limit(2) explanation
+    - If two articles are inserted with the same version number (say two people worked on it at the same time), the application should issue a subsequent query without a limit to gather all articles with the same version (maybe there are 10 conflicts).  The application should then allow the user to merge those conflicts and commit the next version number.  More application logic can be used if conflicts become a larger problem (such as locking the article edits until the conflict is resolved)
 
 
+Class Exercise 2
+----------------
 
+- Consult NYTimes, CNN, and huff post for some ideas about other types of views we might want to support. 
+- How would we support these views?
+- Would we require other document types?
+
+.. only:: instructor
+
+   .. note::
+
+      - What indexes are required?
+      - Do we want to index all versions of our articles?
+
+        - How could we avoid doing so in MongoDB 3.0?
+        - How about in MongoDB 3.2?
+
+
+Class Exercise 3
+----------------
+
+- Consider a production deployment of our CMS.
+- Assuming replication across multiple datacenters, how might we shard our articles collection to reduce latency?
+
+
+.. only:: instructor
+
+   .. note::
+
+      - Can pin documents to shard by region

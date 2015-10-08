@@ -4,9 +4,9 @@ description: |
 ---
 file: /modules/mongomart-java
 description: | 
-  MongoMart Java Implementation
+  Build an e-commerce site backed by MongoDB (Java)
 ---
 file: /modules/mongomart-python
 description: | 
-  MongoMart Python Implementation
+  Build an e-commerce site backed by MongoDB (Python)
 ...

@@ -1,6 +1,6 @@
-=============================
-Exercise: Install Ops Manager
-=============================
+========================
+Lab: Install Ops Manager
+========================
 
 Learning Objectives 
 -------------------
@@ -75,7 +75,7 @@ Install the Ops Manager Backup Daemon
 
 - The Ops Manager backup daemon is required for using Ops Manager for backups
 - Download and install the backup daemon (using the link from the past exercise)
-- Verify the installation was successful by looking at the logs in: <install_dir>/logs
+- Verify the installation was successful by looking at the logs in: ``<install_dir>/logs``
 
 .. include:: /includes/student-notes.rst
 

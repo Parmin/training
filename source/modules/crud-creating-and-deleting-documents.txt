@@ -183,7 +183,6 @@ Experiment with the following bulk insert.
                        { "_id" : "Home Alone", "year" : 1990 }, 
                        { "_id" : "Ghostbusters", "year" : 1984 },
                        { "_id" : "Ghostbusters", "year" : 1984 } ] )
-
    db.movies.find()
 
 .. include:: /includes/student-notes.rst

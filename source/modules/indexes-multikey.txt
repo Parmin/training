@@ -213,7 +213,7 @@ Limitations on Multikey Indexes
 - You cannot have a hashed multikey index.
 - You cannot have a shard key use a multikey index. 
 - We discuss shard keys in another module.
-- The index on the _id field cannot become a multikey index.
+- The index on the ``_id`` field cannot become a multikey index.
 
 .. include:: /includes/student-notes.rst
 

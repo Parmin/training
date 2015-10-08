@@ -1,0 +1,18 @@
+:orphan:
+
+============================
+MongoDB Rapid Start Training
+============================
+
+.. toctree::
+
+   /modules/nav/introduction
+   /modules/nav/crud
+   /modules/nav/indexes
+   /modules/nav/drivers
+   /modules/nav/aggregation
+   /modules/nav/schema-design-intro
+   /modules/nav/replica-sets-rapid-start
+   /modules/nav/sharding-dev
+   /modules/nav/mms-developer
+

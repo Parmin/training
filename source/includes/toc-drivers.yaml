@@ -1,10 +1,10 @@
 file: /modules/drivers-introduction
 description: | 
-  An introduction to the MongoDB drivers.
+  An introduction to the MongoDB drivers
 --- 
 file: /exercises/drivers-python-tutorial
 description: |
-  A quick tour through the python driver.
+  A quick tour through the Python driver
 ...
 
 

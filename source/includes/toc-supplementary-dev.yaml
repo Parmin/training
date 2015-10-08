@@ -1,13 +1,13 @@
 --- 
 file: /modules/indexes-geo
 description: | 
-  Geospatial indexes: both those on legacy coordinate pairs and those supporting queries that calculate geometries on an earth-like sphere. 
+  Geospatial indexes: both those on legacy coordinate pairs and those supporting queries that calculate geometries on an earth-like sphere
 --- 
 file: /modules/indexes-TTL
 description: | 
-  Time-To-Live Indexes.
+  Time-To-Live Indexes
 --- 
 file: /modules/indexes-text
 description: | 
-  Free text indexes on string fields.
+  Free text indexes on string fields
 ...

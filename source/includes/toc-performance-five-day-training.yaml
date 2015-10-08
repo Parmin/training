@@ -1,0 +1,8 @@
+file: /modules/performance
+description: |
+  An introduction to reporting and diagnostic tools for MongoDB
+---
+file: /exercises/adv-ops-agg
+description: |
+  Aggregation queries on profile data
+...

@@ -36,15 +36,30 @@ CRUD (2 hours)
 Day 1 (Afternoon)
 -----------------
 
-- Indexes (3 hours)
+- Indexes, Part 1 (1 hour)
 - Lab: Building and Examining Indexes (30 minutes)
+- Indexes, Part 2 (1 hour)
+- Lab: Finding and Addressing Slow Operations (15 minutes)
+- Lab: Using Explain (15 minutes)
 
 
-Indexes (3 hours)
------------------
+Indexes, Part 1 (1 hour)
+------------------------
 
 - :doc:`/modules/indexes-fundamentals`
 - :doc:`/modules/indexes-compound`
+
+
+Lab: Optimizing an Index (30 minutes)
+-------------------------------------
+
+- :doc:`/exercises/indexes-optimizing-an-index`
+- Review answers
+
+
+Indexes, Part 2 (1 hour)
+------------------------
+
 - :doc:`/modules/indexes-multikey`
 - :doc:`/modules/indexes-hashed`
 - :doc:`/modules/indexes-geo`
@@ -52,10 +67,17 @@ Indexes (3 hours)
 - :doc:`/modules/indexes-text`
 
 
-Lab: Building and Examining Indexes (30 minutes)
-------------------------------------------------
+Lab: Finding Slow Operations (15 minutes)
+-----------------------------------------
 
-- :doc:`/exercises/indexes-exercises`
+- :doc:`/exercises/indexes-finding-slow-operations`
+- Review answers
+
+
+Lab: Using ``explain()`` (15 minutes)
+-------------------------------------
+
+- :doc:`/exercises/indexes-using-explain`
 - Review answers
 
 
@@ -66,32 +88,40 @@ Day 2 (Morning)
 - Lab: Setting Up a Replica Set (30 minutes)
 
 
-Replica Sets, Part 1 (3 hours)
-------------------------------
+Replica Sets, Part 1 (2.5 hours)
+--------------------------------
 
 - :doc:`/modules/replica-set-introduction`
 - :doc:`/modules/replica-set-elections`
 - :doc:`/modules/replica-set-roles-and-configuration`
+- :doc:`/modules/replica-set-oplog`
 
 
-Lab: Setting Up a Replica Set
------------------------------
-- :doc:`/exercises/replica-set-creation-and-configuration`
+Lab: Working with the Oplog (30 minutes)
+----------------------------------------
+- :doc:`/exercises/replica-set-oplog`
 - Review configuration
+
 
 Day 2 (Afternoon)
 ---------------
 
 - Replica Sets, Part 2 (1 hour)
+- Lab Setting up a Replica Set (30 minutes)
 - Sharding (2.5 hours)
 
 
 Replica Sets, Part 2 (1 hour)
 -----------------------------
 
-- :doc:`/modules/replica-set-oplog`
 - :doc:`/modules/replica-set-write-concern`
 - :doc:`/modules/replica-set-read-preference`
+
+
+Lab: Setting Up a Replica Set (30 minutes)
+------------------------------------------
+- :doc:`/exercises/replica-set-creation-and-configuration`
+- Review configuration
 
 
 Sharding (2.5 hours)
@@ -106,8 +136,8 @@ Day 3 (Morning)
 ---------------
 
 - Lab: Setting Up a Sharded Cluster (30 minutes)
-- Backups (1 hour)
-- Performance Troubleshooting (1 hour)
+- Reporting Tools and Diagnostics (1 hour)
+- Backup and Recovery (1 hour)
 
 
 Lab: Setting Up a Sharded Cluster
@@ -116,22 +146,20 @@ Lab: Setting Up a Sharded Cluster
 - Review configuration
 
 
+Reporting Tools and Diagnostics (1 hour)
+----------------------------------------
+
+- :doc:`/modules/performance`
+- `mtools <https://github.com/rueckstiess/mtools>`
+- |prod_notes|
+
+
 Backup and Recovery (1 hour)
 ----------------------------
 
 - :doc:`/modules/backup`
 
 
-Performance Troubleshooting (1 hour)
-------------------------------------
-
-- :doc:`/modules/performance`
-- |mtools|
-- |prod_notes|
-
-.. |mtools| raw:: html
-
-   <a target="_blank" href="https://github.com/rueckstiess/mtools">Mtools</a>
 
 
 Day 3 (Afternoon) 
@@ -149,16 +177,8 @@ Security (1 hour)
 
 - :doc:`/modules/performance`
 - :doc:`/modules/security`
+- :doc:`/exercises/security-create-readwrite`
 - :doc:`/exercises/security-create-useradmin`
-- |security_lab_link|
-
-.. |security_link| raw:: html
-
-   <a href="security.html">Security: Access Control and Roles</a>
-
-.. |security_lab_link| raw:: html
-
-   <a href="security.html#exercise-create-an-admin-user-part-1">Lab: Creating a User and Setting Permissions</a>
 
 .. include:: /includes/student-notes.rst
 

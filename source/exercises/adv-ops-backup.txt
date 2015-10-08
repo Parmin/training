@@ -1,0 +1,18 @@
+=======================================
+Lab: Cloud Manager Point-in-Time Backup
+=======================================
+
+
+
+Exercise: Point-in-Time Backup
+------------------------------
+
+Premise: "*I thought I was on my development machine and I've accidentally dropped a collection in production.*"
+
+Your data is backed up in Cloud Manager, so you can recover all the data that existed immediately before the drop. You'll need to request a point-in-time backup and then restore it.
+
+The collection is ``test.users`` and the total number of documents
+prior to the drop was 20,000.
+
+*Note: The instructor will provide instructions for ssh into Amazon EC2 for this exercise.*
+

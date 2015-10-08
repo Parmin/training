@@ -1,17 +1,17 @@
 file: /modules/indexes-fundamentals
 description: | 
-  An introduction to MongoDB indexes.
+  An introduction to MongoDB indexes
 --- 
 file: /modules/indexes-compound
 description: | 
-  Indexes on two or more fields.
+  Indexes on two or more fields
 --- 
 file: /modules/indexes-multikey
 description: | 
-  Indexes on array fields.
+  Indexes on array fields
 --- 
 file: /modules/indexes-hashed
 description: | 
-  Hashed Indexes.
+  Hashed indexes
 ...
 

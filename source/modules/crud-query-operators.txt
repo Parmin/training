@@ -226,6 +226,9 @@ Example: $elemMatch
 
       - Comparing the last two queries demonstrates ``$elemMatch``.
       
+.. raw:: latex
+
+   \newpage
 
 
 

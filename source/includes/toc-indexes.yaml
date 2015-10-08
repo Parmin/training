@@ -1,22 +1,22 @@
 file: /modules/indexes-fundamentals
 description: | 
-  An introduction to MongoDB indexes.
+  An introduction to MongoDB indexes
 --- 
 file: /modules/indexes-compound
 description: | 
-  Indexes on two or more fields.
+  Indexes on two or more fields
 ---
 file: /exercises/indexes-optimizing-an-index
 description: | 
-  Lab on optimizing a compound index.
+  Lab on optimizing a compound index
 ---
 file: /modules/indexes-multikey
 description: | 
-  Indexes on array fields.
+  Indexes on array fields
 --- 
 file: /modules/indexes-hashed
 description: | 
-  Hashed Indexes.
+  Hashed indexes
 --- 
 file: /modules/indexes-geo
 description: | 
@@ -24,19 +24,19 @@ description: |
 --- 
 file: /modules/indexes-TTL
 description: | 
-  Time-To-Live Indexes.
+  Time-To-Live indexes
 --- 
 file: /modules/indexes-text
 description: | 
-  Free text indexes on string fields.
+  Free text indexes on string fields
 --- 
 file: /exercises/indexes-finding-slow-operations
 description: |
-  Lab on finding and addressing slow operations.
+  Lab on finding and addressing slow queries
 --- 
 file: /exercises/indexes-using-explain
 description: |
-  Lab on using the explain operation to review execution stats.
+  Lab on using the explain operation to review execution stats
 ...
 
 

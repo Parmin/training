@@ -12,7 +12,7 @@ Upon completing this module students should understand:
 - The status of chunks in a newly sharded collection
 - How chunk splits automatically occur
 - Advantages of pre-splitting chunks
-- How the balancer Works
+- How the balancer works
 
 .. include:: /includes/student-notes.rst
 
@@ -40,7 +40,7 @@ Chunks in a Newly Sharded Collection
 
      { $minKey : 1 } to { $maxKey : 1 }
 
-- All shard key values from the smallest possible to the largest fall in this chunk's range
+- All shard key values from the smallest possible to the largest fall in this chunk's range.
 
 .. include:: /includes/student-notes.rst
 
@@ -72,7 +72,7 @@ Pre-Splitting Chunks
 - Pre-splitting is useful if:
 
   - You plan to do a large data import early on
-  - You expect a heavy initial server load and want to ensure writes are distributed.
+  - You expect a heavy initial server load and want to ensure writes are distributed
 
 .. only:: instructor
 
@@ -112,7 +112,7 @@ Balancing is Resource Intensive
 Chunk Migration Steps
 ---------------------
 
-#. The balancer process sends the moveChunk command to the source shard.
+#. The balancer process sends the ``moveChunk`` command to the source shard.
 #. The source shard continues to process reads/writes for that chunk during the migration.
 #. The destination shard requests documents in the chunk and begins receiving copies.
 #. After receiving all documents, the destination shard receives any changes to the chunk.

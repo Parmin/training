@@ -1,0 +1,24 @@
+file: /modules/mms-introduction
+description: |
+  Learn about what Cloud & Ops Manager offers
+---
+file: /modules/mms-automation
+description: |
+  Cloud & Ops Manager Automation
+---
+file: /modules/mms-monitoring
+description: |
+  Monitor a cluster with Cloud Manager
+---
+file: /modules/mms-backups
+description: |
+  Use Cloud Manager to create and administer backups
+---
+file: /exercises/mms-automation
+description: |
+  Use Automation to upgrade a cluster
+---
+file: /exercises/adv-ops-backup
+description: |
+  Use Cloud Manager to recover a point-in-time backup
+...

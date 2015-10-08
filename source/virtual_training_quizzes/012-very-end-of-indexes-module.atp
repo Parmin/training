@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLL TYPE="named" SHOWTIMER="yes" ALARM="5:0" NOANSWER="yes" SHOWRESPONSE="yes">
+
+<QUESTION TYPE="mcone" TITLE='True or false? A compound index is an index on multiple fields while a multi-key index is an index on an array field.'>
+<ANSWER ISCORRECT="true">True</ANSWER>
+<ANSWER ISCORRECT="false">False</ANSWER>
+</QUESTION>
+
+</POLL>
+
+
+
+
+
+

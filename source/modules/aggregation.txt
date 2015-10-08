@@ -59,7 +59,7 @@ Aggregation Stages
 - ``$unwind``: Used for working with arrays
 - ``$group``: Used to aggregate field values from multiple documents
 - ``$out``: Creates a new collection from the output of an aggregation
-  pipeline)
+  pipeline
 
 .. include:: /includes/student-notes.rst
 
@@ -75,94 +75,18 @@ The Match Stage
 .. include:: /includes/student-notes.rst
 
 
-Exercise: The Match Stage
--------------------------
-
-Select only the first two documents using a match stage in an aggregation pipeline.
-
-.. code-block:: javascript
-
-    a = [ { _id : 1, a : 1 }, { _id : 2, a : 2 }, { _id : 3, a : 3 },
-          { _id : 4, a : 4 }, { _id : 5, a : 5 } ]
-    db.testcol.insert( a )
-
-    // 2 docs are output from the aggregation pipeline
-    db.testcol.aggregate( [ { $match : { a : { $lte : 2 } } } ] )  
-
-.. include:: /includes/student-notes.rst
-
-
 The Project Stage
 -----------------
 
 - $project allows you to shape the documents into what you need for the next stage. 
-- The simplest form of shaping is using $project to select only the fields you are interested in.
-- $project can also create new fields from other fields in the input document.
 
-  - *E.g.*, you can pull a value out of an embedded document and put it at the top level.  
-  - *E.g.*, you can create a ratio from the values of two fields as pass along as a single field.
+  - The simplest form of shaping is using $project to select only the fields you are interested in.
+  - $project can also create new fields from other fields in the input document.
+
+    - *E.g.*, you can pull a value out of an embedded document and put it at the top level.  
+    - *E.g.*, you can create a ratio from the values of two fields as pass along as a single field.
 
 - $project produces 1 output document for every input document it sees.
-
-.. include:: /includes/student-notes.rst
-
-
-Exercise: Selecting fields with $project
-----------------------------------------
-
-Use the $project operator to pass specific fields in output documents.
-
-.. code-block:: javascript
-
-   db.testcol.drop()
-   for ( var i=1; i<=10; i++ ) { 
-       db.testcol.insert( { a : i, b : i*2, c : { d : i*4, e : i*8 } } ) }
-   db.testcol.find()
-
-   db.testcol.aggregate( [ { $project : { a : 1 } } ] )
-
-   db.testcol.aggregate( [ { $project : { _id : 0, a : 1 } } ] )
-
-   db.testcol.aggregate( [ { $project : { a : 1, "c.d": 1 } } ] )
-
-.. only:: instructor
-
-   .. note::
-
-      - ``{ $project : { a : 1 } }``: _id is projected implicitly
-      - ``{ $project : { _id : 0, a : 1 } }``: supress projection of _id
-      - ``{ $project : { a : 1, "c.d": 1 } }``: use dot notation to specify fields in embedded documents.
-
-.. include:: /includes/student-notes.rst
-
-
-Exercise: Renaming fields with $project
----------------------------------------
-
-Use the $project operator to rename a field
-
-.. code-block:: javascript
-
-   db.testcol.aggregate( [ { $project : { _id : 0, 
-                                          sequenceNumber : "$a", 
-                                          b : 1 } } ] )
-
-.. include:: /includes/student-notes.rst
-
-
-Exercise: Shaping documents with $project
------------------------------------------
-
-Experiment with the following projections.
-
-.. code-block:: javascript
-
-   db.testcol.aggregate( [ { $project : { a : 1, b : 1, d : "$c.d" } } ] )
-
-   db.testcol.aggregate( [ { $project : { sequenceNumber : "$a",
-                                          ratio : { $divide : [ "$c.d", "$c.e" ] } } } ] )
-
-More about :manual:`$divide</reference/operator/aggregation/divide/>` in another lesson.
 
 .. include:: /includes/student-notes.rst
 
@@ -170,8 +94,7 @@ More about :manual:`$divide</reference/operator/aggregation/divide/>` in another
 A Twitter Dataset
 -----------------
 
-- We now have a basic understanding of the aggregation framework.
-- Let's look at some richer examples that illustrate the power of MongoDB aggregation.
+- Let's look at some examples that illustrate the MongoDB aggregation framework.
 - These examples operate on a collection of tweets.
 
   - As with any dataset of this type, it's a snapshot in time.
@@ -280,7 +203,7 @@ Exercise: $match and $project
 - Of the users in the "Brasilia" timezone who have tweeted 100 times or more, who has the largest number of followers?
 - Time zone is found in the “time_zone” field of the user object in each tweet.
 - The number of tweets for each user is found in the “statuses_count” field.
-- Your result document should look something like the following:
+- A result document should look something like the following:
 
   .. code-block:: javascript
 
@@ -314,54 +237,48 @@ The Group Stage
 - For those coming from the relational world, ``$group`` is similar to the SQL ``GROUP BY`` statement.
 - $group operations require that we specify which field to group on.
 - Documents with the same identifier will be aggregated together.
-- With $group, we aggregate values using arithmetic or array operators.
+- With $group, we aggregate values using :manual:`accumulators</meta/aggregation-quick-reference/#accumulators>`.
 
 .. include:: /includes/student-notes.rst
 
 
-Group using $avg
-----------------
+Tweet Source
+------------
 
-.. code-block:: javascript
-
-   db.testcol.aggregate( [ { $group : { _id : { a : "$a" },
-                                        b_avg : { $avg : "$b" } } } ] )
+- The tweets in our twitter collection have a field called ``source``. 
+- This field describes the application that was used to create the tweet. 
+- Let's write an aggregation pipeline that identifies the applications most frequently used to publish tweets.
 
 .. include:: /includes/student-notes.rst
 
 
-Group using $push
------------------
-
-For each user, aggregate all their tweets into a single array.
+Exercise: Tweet Source
+----------------------
 
 .. code-block:: javascript
 
    db.tweets.aggregate( [
-      { "$group" : { "_id" : "$user.screen_name",
-                     "tweet_texts" : { "$push" : "$text" },
-                     "count" : { "$sum" : 1 } } },
-      { "$sort" : { "count" : -1 } },
-      { "$limit" : 5 } 
+       { "$group" : { "_id" : "$source",
+		      "count" : { "$sum" : 1 } } },
+       { "$sort" : { "count" : -1 } } 
    ] )
 
 .. include:: /includes/student-notes.rst
 
 
+Group Aggregation Accumulators
+------------------------------
 
-Group Aggregation Operators
----------------------------
+Accumulators available in the group stage:
 
-The complete list of operators available in the group stage:
-
-- $addToSet
+- $sum
+- $avg
 - $first
 - $last
 - $max
 - $min
-- $avg
 - $push
-- $sum
+- $addToSet
 
 .. include:: /includes/student-notes.rst
 
@@ -372,33 +289,35 @@ Rank Users by Number of Tweets
 
 - One common task is to rank users based on some metric.
 - Let's look at who tweets the most.
-- We will use the aggregation framework to do this.
+- Earlier we did the same thing for tweet source.
+
+  - Group together all tweets by a user for every user in our collection
+  - Count the tweets for each user
+  - Sort in decreasing order
+
+- Let's add the list of tweets to the output documents.
+- Need to use an accumulator that works with arrays.
+- Can use either $addToSet or $push.
 
 .. include:: /includes/student-notes.rst
 
 
-Process
--------
+Exercise: Adding List of Tweets
+-------------------------------
 
-- Group together all tweets by a user for every user in our collection
-- Count the tweets for each user
-- Sort in decreasing order
-
-.. include:: /includes/student-notes.rst
-
-
-Exercise: Ranking Users by Number of Tweets
--------------------------------------------
-
-Try this aggregation pipeline for yourself.
+For each user, aggregate all their tweets into a single array.
 
 .. code-block:: javascript
 
    db.tweets.aggregate( [
-       { $group: { _id: "$user.screen_name",
-                   count: { $sum: 1 } } },
-       { $sort: { count: -1 } } 
+      { "$group" : { "_id" : "$user.screen_name",
+                     "tweet_texts" : { "$push" : "$text" },
+                     "count" : { "$sum" : 1 } } },
+      { "$sort" : { "count" : -1 } },
+      { "$limit" : 3 } 
    ] )
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -413,31 +332,6 @@ Try this aggregation pipeline for yourself.
       - Note that there will be one document produced by $group for each screen name.
       - The $sort stage receives these documents as input and sorts them by the value of the count field
 
-.. include:: /includes/student-notes.rst
-
-
-Exercise: Tweet Source
-----------------------
-
-- The tweets in our twitter collection have a field called ``source``. 
-- This field describes the application that was used to create the tweet. 
-- Write an aggregation pipeline that identifies the applications most frequently used to publish tweets.
-
-.. only:: instructor
-
-   .. note::
-
-      .. code-block:: javascript
-
-	 db.tweets.aggregation( [
-	     { "$group" : { "_id" : "$source",
-			    "count" : { "$sum" : 1 } } },
-	     { "$sort" : { "count" : -1 } } 
-	 ] )
-
-
-.. include:: /includes/student-notes.rst
-
 
 
 The Unwind Stage
@@ -448,7 +342,7 @@ The Unwind Stage
 
   - "Who includes the most user mentions in their tweets?"
 
-- User mentions are stored as within an embedded document for entities.
+- User mentions are stored within an embedded document for entities.
 - This embedded document also lists any urls and hashtags used in the tweet.
 
 .. include:: /includes/student-notes.rst

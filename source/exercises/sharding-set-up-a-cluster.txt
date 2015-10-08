@@ -366,8 +366,6 @@ Enable sharding for the test database, shard a collection, and insert some docum
         000000000000000000000000000000000000000000000000000000000000000000000 \
         000000000000000" } )  }; db.testcol.insert(docArr) }' | mongo
 
-.. include:: /includes/student-notes.rst
-
 
 Observe What Happens
 --------------------

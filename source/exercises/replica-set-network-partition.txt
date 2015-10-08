@@ -1,7 +1,7 @@
 Exercise: Elections in Failover Scenarios
 -----------------------------------------
 
-- We have learned about electing a primary in replica sets
+- We have learned about electing a primary in replica sets.
 - Let's look at some scenarios in which failover might be necessary.
 
 .. include:: /includes/student-notes.rst

@@ -69,7 +69,7 @@ Automation: Behind the Scenes
 
 - Agents ping Cloud / Ops Manager for new instructions
 - Agents compare their local configuration file with the latest version from Cloud / Ops Manager
-- Configuration file in json
+- Configuration file in JSON
 - All communications over SSL
 
 .. code-block:: javascript

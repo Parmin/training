@@ -1,0 +1,71 @@
+============================
+Java Driver Labs (MongoMart)
+============================
+
+
+Introduction
+------------
+
+- In this lab, we'll set up and optimize an application called MongoMart.  MongoMart is an on-line store for buying MongoDB merchandise.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Student skeleton code is located in /student/java
+      - Ensure data is correctly loaded from /student/data
+
+
+Lab: Setup and Connect to the Database
+--------------------------------------
+
+- Import the "item" collection to a standalone MongoDB server (without replication) as noted in the README.md file of the /data directory of MongoMart
+- Become familiar with the structure of the Java application in /java/src/main/java/mongomart/
+- Modify the MongoMart.java class to properly connect to your local database instance
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Solution in /instructor/java/lab_1
+      - Please type in solution with the class instead of distributing source code
+
+
+Lab: Populate All Necessary Database Queries
+--------------------------------------------
+
+- After running the MongoMart.java class, navigate to "localhost:8080" to view the application
+- Initially, all data is static and the application does not query the database
+- Modify the ItemDao.java and CartDao.java classes to ensure all information comes from the database (do not modify the method return types or parameters)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Solution in /instructor/java/lab_2
+      - Please type in solution with the class instead of distributing source code
+
+
+Lab: Use a Local Replica Set with a Write Concern
+-------------------------------------------------
+
+- It is important to use replication for production MongoDB instances, however, Lab 1 advised us to use a standalone server.
+- Convert your local standalone mongod instance to a three node replica set named "shard1"
+- Modify MongoMart's MongoDB connection string to include at least two nodes from the replica set
+- Modify your application's write concern to MAJORITY for all writes to the "cart" collection, any writes to the "item" collection should continue using the default write concern of W:1
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Solution in /instructor/java/lab_3
+      - Please type in solution with the class instead of distributing source code
+

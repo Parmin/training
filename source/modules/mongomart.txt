@@ -33,13 +33,9 @@ MongoMart Demo of Fully Implemented Version
 View Items
 ----------
 
-- Link: |view_all|
+- http://localhost:8080
 - Pagination and page numbers
 - Click on a category
-
-.. |view_all| raw:: html
-
-   <a href="http://localhost:8080" target="_blank">View all items</a>
 
 .. include:: /includes/student-notes.rst
 
@@ -53,13 +49,9 @@ View Items
 View Items by Category
 ----------------------
 
-- Link: |view_by_category|
+- http://localhost:8080/?category=Apparel
 - Pagination and page numbers
 - "All" is listed as a category, to return to all items listing
-
-.. |view_by_category| raw:: html
-
-   <a href="http://localhost:8080/?category=Apparel" target="_blank">View items in 'Apparel' category</a>
 
 .. include:: /includes/student-notes.rst
 
@@ -67,13 +59,9 @@ View Items by Category
 Text Search
 -----------
 
-- Link: |text_search|
+- http://localhost:8080/search?query=shirt
 - Search for any word or phrase in item title, description or slogan
 - Pagination
-
-.. |text_search| raw:: html
-
-   <a href="http://localhost:8080/search?query=shirt" target="_blank">Text search</a>
 
 .. include:: /includes/student-notes.rst
 
@@ -87,15 +75,11 @@ Text Search
 View Item Details
 -----------------
 
-- Link: |view_item|
+- http://localhost:8080/item?id=1
 - Star rating based on reviews
 - Add a review
 - Related items
 - Add item to cart
-
-.. |view_item| raw:: html
-
-   <a href="http://localhost:8080/item?id=1" target="_blank">View item details</a>
 
 .. include:: /includes/student-notes.rst
 
@@ -109,16 +93,10 @@ View Item Details
 Shopping Cart
 -------------
 
-- Link: |cart|
+- http://localhost:8080/cart
 - Adding an item multiple times increments quantity by 1
 - Change quantity of any item
 - Changing quantity to 0 removes item
-
-.. |cart| raw:: html
-
-   <a href="http://localhost:8080/cart" target="_blank">View shopping cart</a>
-
-.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 

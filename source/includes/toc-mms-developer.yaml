@@ -1,12 +1,12 @@
 file: /modules/mms-introduction
 description: |
-  Learn about what MMS offers
+  Learn about what Cloud & Ops Manager offers
 ---
 file: /modules/mms-automation
 description: |
-  MMS Automation
+  Cloud & Ops Manager  Automation
 ---
 file: /exercises/mms-automation
 description: |
-  Set up a cluster with MMS Automation
+  Set up a cluster with Cloud & Ops Manager Automation
 ...

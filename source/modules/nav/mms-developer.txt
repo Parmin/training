@@ -1,6 +1,6 @@
-=================
-MMS & Ops Manager
-=================
+===========================
+MongoDB Cloud & Ops Manager
+===========================
 
 .. default-domain:: mongodb
 

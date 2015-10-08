@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLL TYPE="named" SHOWTIMER="yes" ALARM="5:0" NOANSWER="yes" SHOWRESPONSE="yes">
+
+<QUESTION TYPE="mcone" TITLE='Which of the following is NOT true for the query db.movies.find( { "filming_locations.country" : "USA" } )?'>
+<ANSWER ISCORRECT="false">There is a filming_locations field.</ANSWER>
+<ANSWER ISCORRECT="false">The filming_locations field contains one or more embedded documents.</ANSWER>
+<ANSWER ISCORRECT="true">All embedded documents have a field country.</ANSWER>
+<ANSWER ISCORRECT="false">The field country has the value "USA".</ANSWER>
+</QUESTION>
+
+</POLL>
+
+
+
+
+
+

@@ -213,13 +213,13 @@ Now we have query statistics:
 Other Operations
 ----------------
 
-In addition to find(), we often want to use ``explain()`` to understand how other operations will be handled.
+In addition to ``find()``, we often want to use ``explain()`` to understand how other operations will be handled.
 
-- aggregate
-- count
-- group
-- remove
-- update
+- ``aggregate``
+- ``count``
+- ``group``
+- ``remove``
+- ``update``
 
 .. include:: /includes/student-notes.rst
 

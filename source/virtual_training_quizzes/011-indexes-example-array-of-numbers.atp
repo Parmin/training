@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLL TYPE="named" SHOWTIMER="yes" ALARM="5:0" NOANSWER="yes" SHOWRESPONSE="yes">
+
+<QUESTION TYPE="mcone" TITLE='For db.race_results.find( { "lap_times.2" : 3 } ), the index we created will not be used. Why?'>
+<ANSWER ISCORRECT="false">The index does not store positional information about elements in an array.</ANSWER>
+<ANSWER ISCORRECT="false">Indexes on arrays are implemented, by creating one key per element.</ANSWER>
+<ANSWER ISCORRECT="false">Adding positional information would explode the key space further.</ANSWER>
+<ANSWER ISCORRECT="true">All of the above.</ANSWER>
+</QUESTION>
+
+</POLL>
+
+
+
+
+
+

@@ -25,7 +25,7 @@ class ItemDAO:
         #         Category object contains "name" and "num_items".  Remember to include an "All" category
         #         for counting all items in the database.
         #
-        # HINT: Test your mongodb query in the shell first before implementing it in Java
+        # HINT: Test your mongodb query in the shell first before implementing it in Python
         #
 
         categories = []

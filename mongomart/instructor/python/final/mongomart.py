@@ -56,7 +56,7 @@ def index():
     previous_page_url = ''
 
     categories = items.get_categories()
-    all_items = items.get_items_range_based(int(before), int(after), ITEMS_PER_PAGE)
+    all_items = items.get_items_range_based(category, int(before), int(after), ITEMS_PER_PAGE)
     item_count = items.get_num_items(category)
 
     num_items = len(all_items)
@@ -70,10 +70,10 @@ def index():
             
 
     if include_next_page(num_items, before, after):
-        next_page_url = '/?after=' + str(all_items[len(all_items)-1]['_id'])
+        next_page_url = '/?category=' + category + '&after=' + str(all_items[len(all_items)-1]['_id'])
 
     if include_previous_page(num_items, before, after):
-        previous_page_url = '/?before=' + str(all_items[0]['_id'])
+        previous_page_url = '/?category=' + category + '&before=' + str(all_items[0]['_id'])
 
     num_pages = 0;
     if item_count > ITEMS_PER_PAGE:

@@ -1,0 +1,9 @@
+===========================
+MongoDB Cloud & Ops Manager
+===========================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-mms-five-day-training.rst
+
+.. include:: /includes/toc/mms-five-day-training.rst             

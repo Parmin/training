@@ -124,8 +124,8 @@ Perform the following then, in another window, run ``mongotop``.
 
 
 
-db.currentOp()
---------------
+``db.currentOp()``
+------------------
 
 - currentOp is a tool that asks what the db is doing at the moment.
 - currentOp is useful for finding long-running processes.
@@ -140,10 +140,10 @@ db.currentOp()
 .. include:: /includes/student-notes.rst
 
 
-Exercise: db.currentOp()
-------------------------
+Exercise: ``db.currentOp()``
+----------------------------
 
-Do the following then, connect with a separate shell, and repeatedly run db.currentOp().
+Do the following then, connect with a separate shell, and repeatedly run ``db.currentOp()``.
 
 .. code-block:: javascript
 
@@ -172,12 +172,12 @@ Do the following then, connect with a separate shell, and repeatedly run db.curr
 .. include:: /includes/student-notes.rst
 
 
-db.<COLLECTION>.stats()
----------------------
+``db.<COLLECTION>.stats()``
+---------------------------
 
 - Used to view the current stats for a collection.
 - Everything is in bytes; use the multiplier parameter to view in KB, MB, etc
-- You can also use db.stats() to do this at scope of the entire database
+- You can also use ``db.stats()`` to do this at scope of the entire database
 
 .. include:: /includes/student-notes.rst
 

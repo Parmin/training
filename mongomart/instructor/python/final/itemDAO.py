@@ -58,15 +58,20 @@ class ItemDAO:
         
         return items
 
-    def get_items_range_based(self, before, after, items_per_page):
+    def get_items_range_based(self, category, before, after, items_per_page):
 
         if before > 0:
-            items = list(self.item.find( { '_id' : { '$lt' : before }}).sort( '_id' , pymongo.DESCENDING).limit(items_per_page + 1))
-
+            if category == 'All':
+                items = list(self.item.find( { '_id' : { '$lt' : before } } ).sort( '_id' , pymongo.DESCENDING).limit(items_per_page + 1))
+            else:
+                items = list(self.item.find( { 'category' : category, '_id' : { '$lt' : before } } ).sort( '_id' , pymongo.DESCENDING).limit(items_per_page + 1))                
             #reverse order of results
             items.reverse()
         else:
-            items = list(self.item.find( { '_id' : { '$gt' : after }}).sort( '_id' , pymongo.ASCENDING).limit(items_per_page + 1))
+            if category == 'All':
+                items = list(self.item.find( { '_id' : { '$gt' : after }}).sort( '_id' , pymongo.ASCENDING).limit(items_per_page + 1))
+            else:
+                items = list(self.item.find( { 'category' : category, '_id' : { '$gt' : after }}).sort( '_id' , pymongo.ASCENDING).limit(items_per_page + 1))
 
         return items
 

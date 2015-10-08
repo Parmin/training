@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLL TYPE="named" SHOWTIMER="yes" ALARM="5:0" NOANSWER="yes" SHOWRESPONSE="yes">
+
+<QUESTION TYPE="mcone" TITLE="Which of the following are true for the find() command?">
+<ANSWER ISCORRECT="false">Values for returned documents must match the conditions specified in the query document.</ANSWER>
+<ANSWER ISCORRECT="false">If multiple fields are specified, all must be present in each document returned.</ANSWER>
+<ANSWER ISCORRECT="false">It is like a logical AND for all fields.</ANSWER>
+<ANSWER ISCORRECT="true">All of the above.</ANSWER>
+
+</QUESTION>
+
+</POLL>

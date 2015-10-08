@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLL TYPE="named" SHOWTIMER="yes" ALARM="5:0" NOANSWER="yes" SHOWRESPONSE="yes">
+
+<QUESTION TYPE="mcone" TITLE='Which fields will be present in the document(s) produced by this projection: { $project : { a : 1 } }?'>
+<ANSWER ISCORRECT="false">_id, a, b, c</ANSWER>
+<ANSWER ISCORRECT="true">_id, a</ANSWER>
+<ANSWER ISCORRECT="false">a</ANSWER>
+<ANSWER ISCORRECT="false">_id, b, c</ANSWER>
+<ANSWER ISCORRECT="false">b, c</ANSWER>
+</QUESTION>
+
+</POLL>
+
+
+
+
+
+

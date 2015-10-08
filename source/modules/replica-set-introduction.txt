@@ -66,7 +66,7 @@ Disaster Recovery (DR)
 Functional Segregation
 ----------------------
 
-There are opportunities to exploit the topology of a replica set.
+There are opportunities to exploit the topology of a replica set:
 
 - Based on physical location (e.g. rack or datacenter location)
 - For analytics, reporting, data discovery, system tasks, etc.

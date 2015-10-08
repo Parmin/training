@@ -14,7 +14,7 @@ Product Catalog
 ---------------
 
 - **Products.** Products vary quite a bit. In addition to the standard production attributes, we will allow for variations of product type and custom attributes. E.g., users may search for blue jackets, 11-inch macbooks, or size 12 shoes. The product catalog will contain millions of products.
-- **Product pricing.** Current prices as well a price histories.
+- **Product pricing.** Current prices as well as price histories.
 - **Product categories.** Every e-commerce site includes a category hierarchy. We need to allow for both that hierarchy and the many-to-many relationship between products and categories.
 - **Product reviews.** Every product has zero or more reviews and each review can receive votes and comments.
 
@@ -56,4 +56,25 @@ Break into groups of two or three and work together to create these deliverables
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
 
+   Products
+   --------
+
+   .. code-block:: javascript
+
+      {
+	_id: ObjectId(),
+	name: "MongoDB Logo T-Shirt",
+	current_price: 14.99,
+	price_history: [ 10.99, 11.99, 12.99, 13.99 ],
+	parent_category: "Shirts",
+	ancestor_categories: [ "Apparel", "Mens", "Shirts" ],
+	tags: [ { key: "color", value: "gray" }, { key: "size", value: "Large" } ],
+	top_reviews: [
+	  { review: "I love this shirt.", upvotes: 30, downvotes: 3, comments: [
+	    "totally agree",
+	    "my favorite shirt" ] },
+	  ...
+	]
+      }

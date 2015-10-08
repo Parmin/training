@@ -1,12 +1,12 @@
 file: /modules/backup-file-system
 description: |
-  An overview of file system backup procedures.
+  An overview of file system backup procedures
 ---  
 file: /modules/mms-introduction
 description: |
-  Learn about what MMS offers
+  Learn about what Cloud Manager offers
 ---
 file: /modules/mms-backups
 description: |
-  Use MMS to create and administer backups
+  Use Cloud Manager to create and administer backups
 ...

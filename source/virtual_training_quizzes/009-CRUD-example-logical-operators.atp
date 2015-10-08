@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLL TYPE="named" SHOWTIMER="yes" ALARM="5:0" NOANSWER="yes" SHOWRESPONSE="yes">
+
+<QUESTION TYPE="mcone" TITLE='True or false, db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } ) also returns everything that does not have an "imdb_rating"'>
+<ANSWER ISCORRECT="true">True</ANSWER>
+<ANSWER ISCORRECT="false">False</ANSWER>
+</QUESTION>
+
+</POLL>
+
+
+
+
+
+

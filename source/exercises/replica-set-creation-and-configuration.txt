@@ -10,7 +10,7 @@ Overview
 - In production, each node should be run on a dedicated host:
 
   - To avoid any potential resource contention 
-  - To provide isolation against server failure.
+  - To provide isolation against server failure
 
 .. include:: /includes/student-notes.rst
 
@@ -26,14 +26,12 @@ On Linux or Mac OS, run the following in the terminal to create the 3 directorie
 
    mkdir -p ~/data/rs{1,2,3}
 
-
 On Windows, run the following command instead in Command Prompt or PowerShell:
 
 .. code-block:: powershell
 
    md c:\data\rs1 c:\data\rs2 c:\data\rs3
 
-.. include:: /includes/student-notes.rst
 
 
 Launch Each Member

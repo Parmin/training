@@ -41,7 +41,7 @@ Overview
 Authentication Options
 ----------------------
 
-- Chanllenge/response authentication using SCRAM-SHA-1 (username & password)
+- Challenge/response authentication using SCRAM-SHA-1 (username & password)
 - x.509 Authentication (using x.509 Certificates)
 - Kerberos (through an Enterprise subscription)
 - LDAP
@@ -64,8 +64,8 @@ Authorization via MongoDB
 
 - Each role applies to *one* database
 
-  - A single user can have roles on each database
-  - Some roles apply to all databases
+  - A single user can have roles on each database.
+  - Some roles apply to all databases.
   - You can also create custom roles.
 
 .. include:: /includes/student-notes.rst

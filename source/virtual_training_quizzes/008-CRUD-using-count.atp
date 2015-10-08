@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLL TYPE="named" SHOWTIMER="yes" ALARM="5:0" NOANSWER="yes" SHOWRESPONSE="yes">
+
+<QUESTION TYPE="mcone" TITLE='Which of the following is ordinarily more efficient?'>
+<ANSWER ISCORRECT="false">db.testcol.count( { a : { $lt : 42 } } )</ANSWER>
+<ANSWER ISCORRECT="false">db.testcol.find( { a : { $lt : 42 } } ).count( )</ANSWER>
+<ANSWER ISCORRECT="true">Neither, they are equivalent.</ANSWER>
+</QUESTION>
+
+</POLL>
+
+
+
+
+
+

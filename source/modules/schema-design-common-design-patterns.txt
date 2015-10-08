@@ -188,7 +188,7 @@ Query for all books by a given author.
 
    db.books.find({ authors: 1 });
 
-Query for all authors of a given book
+Query for all authors of a given book.
 
 .. code-block:: javascript
 
@@ -228,13 +228,13 @@ Many-to-Many: Array of IDs on One Side
 Many-to-Many: Array of IDs on One Side
 --------------------------------------
 
-Query for all books by a given author
+Query for all books by a given author.
 
 .. code-block:: javascript
 
    db.books.find({ authors: 1 });
 
-Query for all authors of a given book
+Query for all authors of a given book.
 
 .. code-block:: javascript
 

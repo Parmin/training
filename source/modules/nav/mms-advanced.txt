@@ -1,0 +1,9 @@
+==========================================
+MongoDB Cloud & Ops Manager Under the Hood
+==========================================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-mms-advanced.rst
+
+.. include:: /includes/toc/mms-advanced.rst             

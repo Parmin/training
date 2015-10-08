@@ -123,7 +123,9 @@ Dividing Up Your Dataset
 
 Sharding Concepts
 -----------------
+
 To understanding how sharding works in MongoDB, we need to understand:
+
 - Shard Keys
 - Chunks
 
@@ -131,19 +133,11 @@ To understanding how sharding works in MongoDB, we need to understand:
 Shard Key
 ---------
 
-.. todo::
-
-   Needs a graphic
-
-.. only:: instructor
-
-   .. note::
-
-      - You must define a shard key for a sharded collection.
-      - Based on one or more fields (like an index)
-      - Shard key defines a space of values
-      - Think of the key space like points on a line
-      - A key range is a segment of that line
+- You must define a shard key for a sharded collection.
+- Based on one or more fields (like an index)
+- Shard key defines a space of values
+- Think of the key space like points on a line
+- A key range is a segment of that line
 
 
 Shard Key Ranges
@@ -176,20 +170,12 @@ Targeted Query Using Shard Key
 Chunks
 ------
 
-.. todo::
-
-   Needs a graphic
-
-.. only:: instructor
-
-   .. note::
-
-      - MongoDB partitions data into ``chunks`` based on shard key ranges.
-      - This is bookkeeping metadata.
-      - MongoDB attempts to keep the amount of data balanced across shards.
-      - This is achieved by migrating chunks from one shard to another as needed.
-      - There is nothing in a document that indicates its chunk.
-      - The document does not need to be updated if its assigned chunk changes.
+- MongoDB partitions data into ``chunks`` based on shard key ranges.
+- This is bookkeeping metadata.
+- MongoDB attempts to keep the amount of data balanced across shards.
+- This is achieved by migrating chunks from one shard to another as needed.
+- There is nothing in a document that indicates its chunk.
+- The document does not need to be updated if its assigned chunk changes.
 
 
 
@@ -344,7 +330,7 @@ More Specifically
 - If reads retrieve many documents:
 
   - Your shard key supports locality
-  - Matching documents will reside on the same shard.
+  - Matching documents will reside on the same shard
 
 .. include:: /includes/student-notes.rst
 

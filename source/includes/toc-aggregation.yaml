@@ -1,12 +1,12 @@
 file: /modules/aggregation
 description: | 
-  An introduction to the the aggregation framework, pipeline concept, and stages.
+  An introduction to the the aggregation framework, pipeline concept, and stages
 --- 
 file: /modules/aggregation-optimization
 description: | 
-  Resource management in the aggregation pipeline.
+  Resource management in the aggregation pipeline
 --- 
 file: /exercises/aggregation-exercises
 description: | 
-  Aggregate zip code data.
+  Aggregation labs
 ...

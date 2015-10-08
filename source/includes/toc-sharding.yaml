@@ -1,16 +1,16 @@
 file: /modules/sharding-intro
 description: |
-  An introduction to sharding.
+  An introduction to sharding
 ---
 file: /modules/sharding-balancing
 description: |
-  Chunks, the balancer, and their role in a sharded cluster.
+  Chunks, the balancer, and their role in a sharded cluster
 ---
 file: /modules/sharding-tags
 description: |
-  How tag-based sharding works.
+  How tag-based sharding works
 ---
 file: /exercises/sharding-set-up-a-cluster
 description: |
-  Deploying a sharded cluster.
+  Deploying a sharded cluster
 ...

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLL TYPE="named" SHOWTIMER="yes" ALARM="5:0" NOANSWER="yes" SHOWRESPONSE="yes">
+
+<QUESTION TYPE="mcone" TITLE="Which deployment model is not recommended for production?">
+<ANSWER ISCORRECT="true">Single Node</ANSWER>
+<ANSWER ISCORRECT="false">Standalone Replica Set</ANSWER>
+<ANSWER ISCORRECT="false">Sharded Cluster</ANSWER>
+</QUESTION>
+
+</POLL>

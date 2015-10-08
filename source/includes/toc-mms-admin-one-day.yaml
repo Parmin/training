@@ -1,20 +1,20 @@
 file: /modules/mms-introduction
 description: |
-  Learn about what MMS offers
+  Learn about what MongoDB Cloud & Ops Manager offers
 ---
 file: /modules/mms-automation
 description: |
-  MMS Automation
+  MongoDB Cloud Automation
 ---
 file: /exercises/mms-automation
 description: |
-  Set up a cluster with MMS Automation
+  Gain some experience with MongoDB automation
 ---
 file: /modules/mms-monitoring
 description: |
-  Monitor a cluster with MMS
+  Monitor a cluster with Cloud Manager
 ---
 file: /modules/mms-backups
 description: |
-  Use MMS to create and administer backups
+  Use Cloud Manager to create and administer backups
 ...

@@ -19,8 +19,6 @@ Upon completing this module, students should be familiar with:
 What is a Database Storage Engine?
 ----------------------------------
 
-A database storage engine is the underlying software component that a database management system uses to create, read, update, and delete data from a database. 
-
 .. include:: /images/storage-engine-architecture.rst
 
 .. include:: /includes/student-notes.rst
@@ -29,6 +27,7 @@ A database storage engine is the underlying software component that a database m
 
    .. note::
 
+      - A database storage engine is the underlying software component that a database management system uses to create, read, update, and delete data from a database. 
       - Talk through the diagram and how storage engines are used to abstract access to the data
 
 

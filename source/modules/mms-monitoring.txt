@@ -71,7 +71,7 @@ Agent Security
 Monitoring Demo
 ---------------
 
-Visit mms.mongodb.com
+Visit https://www.mongodb.com/cloud
 
 .. include:: /includes/student-notes.rst
 

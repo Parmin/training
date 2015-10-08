@@ -8,11 +8,12 @@ MongoDB Developer Training
 
    /modules/nav/introduction
    /modules/nav/crud
-   /modules/nav/indexes-dev
+   /modules/nav/indexes
+   /modules/nav/drivers
    /modules/nav/aggregation
-   /modules/nav/schema-design-essentials
+   /modules/nav/schema-design-intro
    /modules/nav/replica-sets-dev
    /modules/nav/sharding-dev
+   /modules/nav/mongomart-fundamentals
    /modules/nav/mms-developer
-   /modules/nav/supplementary-dev
 

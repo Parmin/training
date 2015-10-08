@@ -1,20 +1,20 @@
 file: /modules/replica-set-introduction
 description: |
-  An introduction to replication and replica sets.
+  An introduction to replication and replica sets
 ---
 file: /modules/replica-set-roles-and-configuration
 description: |
-  Configuring replica set members for common use cases.
+  Configuring replica set members for common use cases
 ---
 file: /modules/replica-set-write-concern
 description: |
-  Balancing performance and durability of writes.
+  Balancing performance and durability of writes
 ---
 file: /modules/replica-set-read-preference
 description: |
-  Configuring clients to read from specific members of a replica set.
+  Configuring clients to read from specific members of a replica set
 ---
 file: /exercises/replica-set-creation-and-configuration
 description: |
-  Launching members, configuring, and initiating a replica set.
+  Launching members, configuring, and initiating a replica set
 ...

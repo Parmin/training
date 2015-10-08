@@ -1,44 +1,24 @@
 file: /modules/mms-introduction
 description: |
-  Learn about what MMS offers
+  Learn about what Cloud & Ops Manager offers
 ---
 file: /modules/mms-automation
 description: |
-  MMS Automation
+  Cloud & Ops Manager Automation
 ---
 file: /exercises/mms-automation
 description: |
-  Set up a cluster with MMS Automation
+  Set up a cluster with Cloud Manager Automation
 ---
 file: /modules/mms-monitoring
 description: |
-  Monitor a cluster with MMS
+  Monitor a cluster with Cloud Manager
 ---
 file: /exercises/mms-alert
 description: |
-  Create an alert on MMS
+  Create an alert on Cloud Manager
 ---
 file: /modules/mms-backups
 description: |
-  Use MMS to create and administer backups
----
-file: /modules/mms-api
-description: |
-  Using the MMS API
----
-file: /exercises/mms-api
-description: |
-  MMS API exercise
----
-file: /modules/mms-ops-manager
-description: |
-  Ops Manager
----
-file: /modules/mms-ops-manager-security
-description: |
-  Ops Manager Security
----
-file: /exercises/mms-ops-manager
-description: |
-  Install Ops Manager
+  Use Cloud Manager to create and administer backups
 ...
