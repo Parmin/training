@@ -74,18 +74,16 @@ These materials are updated for MongoDB 3.0 and used for MongoDB instructor-led 
 -  CRUD
 -  Indexes
 -  Aggregation
+-  Drivers   
 -  Schema Design
+-  Advanced Schema Design
+-  Application Engineering
 -  Replica Sets
 -  Sharding
 -  Security
--  MMS & Ops Manager
+-  Cloud & Ops Manager
 -  Performance Troubleshooting
 -  Backup and Recovery
-
-Currently working on:
-
--  Extensions to the Security section. See: https://jira.mongodb.org/browse/EDU-1827
--  Updates based on feedback from instructors. See: https://jira.mongodb.org/browse/EDU-1674
 
 .. _presentation : presentation
 
