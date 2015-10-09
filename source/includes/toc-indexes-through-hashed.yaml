@@ -1,0 +1,30 @@
+file: /modules/indexes-fundamentals
+description: | 
+  An introduction to MongoDB indexes
+--- 
+file: /modules/indexes-compound
+description: | 
+  Indexes on two or more fields
+---
+file: /exercises/indexes-optimizing-an-index
+description: | 
+  Lab on optimizing a compound index
+---
+file: /modules/indexes-multikey
+description: | 
+  Indexes on array fields
+--- 
+file: /modules/indexes-hashed
+description: | 
+  Hashed indexes
+---  
+file: /exercises/indexes-finding-slow-operations
+description: |
+  Lab on finding and addressing slow queries
+--- 
+file: /exercises/indexes-using-explain
+description: |
+  Lab on using the explain operation to review execution stats
+...
+
+

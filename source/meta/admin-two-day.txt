@@ -1,0 +1,20 @@
+:orphan:
+
+==============================
+MongoDB Administrator Training
+==============================
+
+.. toctree::
+
+   /modules/nav/introduction
+   /modules/nav/crud
+   /modules/nav/indexes-through-hashed
+   /modules/nav/replica-sets
+   /modules/nav/sharding
+   /modules/nav/performance-essentials
+   /modules/nav/backup-essentials
+   /modules/nav/security-essentials
+   /modules/nav/mms-developer
+
+
+

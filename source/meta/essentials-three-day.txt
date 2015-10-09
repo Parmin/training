@@ -1,0 +1,19 @@
+:orphan:
+
+===========================
+MongoDB Essentials Training
+===========================
+
+.. toctree::
+
+   /modules/nav/introduction
+   /modules/nav/crud
+   /modules/nav/indexes-through-hashed
+   /modules/nav/drivers
+   /modules/nav/aggregation
+   /modules/nav/schema-design-intro
+   /modules/nav/replica-sets
+   /modules/nav/sharding
+   /modules/nav/performance-essentials
+   /modules/nav/backup-essentials
+   /modules/nav/security-essentials
