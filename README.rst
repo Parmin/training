@@ -54,6 +54,8 @@ Slides
 
 To view slides for a particular module, for example, Sharding > Introduction to Sharding, navigate to that module in the instructor guide and click the slides link in the upper right corner.
 
+.. figure:: open_presenter_console.png
+
 .. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/slides.png
    :alt: Slides
 
