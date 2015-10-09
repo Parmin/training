@@ -54,7 +54,7 @@ Slides
 
 To view slides for a particular module, for example, Sharding > Introduction to Sharding, navigate to that module in the instructor guide and click the slides link in the upper right corner.
 
-.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/slides.png
+.. figure:: source/images/security-auth-categories.jpg
    :alt: Slides
 
 The Presenter Console
