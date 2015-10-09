@@ -60,7 +60,7 @@ To view slides for a particular module, for example, Sharding > Introduction to 
 The Presenter Console
 ---------------------
 
-.. figure:: https://s3.amazonaws.com/edu-static.mongodb.com/training/images/presenter_console_annotated.png
+.. figure:: https://www.dropbox.com/s/vkgbnxhwav1i5fw/presenter_console_annotated.png
    :alt: Presenter Console
 
 
