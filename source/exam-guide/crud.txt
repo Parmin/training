@@ -40,9 +40,10 @@ For the exam, you should be able to:
 Document creation can occur through a few commands:
 
 - db.collection.insert()
-  - Documentation_
+
+  - :manual:`Documentation</reference/method/db.collection.insert/>`
   - Written tutorial_
-  - Lesson video_
+  - `Lesson video <https://university.mongodb.com/videos/y/qqfVxGLIrLg>`_
 
 .. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.insert/
 .. _Written tutorial: http://docs.mongodb.org/manual/tutorial/insert-documents/
