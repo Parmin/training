@@ -1,7 +1,9 @@
+====
 CRUD
-----
+====
 
 On the certification exam, we will attempt to verify that you:
+
 - Understand all CRUD operations for manipulating documents
 - Know all CRUD operators and how to use them
 - Understand the properties of the _id field and its implications for CRUD operations
@@ -30,6 +32,7 @@ Create
 Create covers the creation of documents.
 
 For the exam, you should be able to:
+
   - Properly use the insert, save, update, and findAndModify queries to create new documents
   - Match an insertion query with a description of what it does
   - Understand the _id field and the implications this has for insertion operations
@@ -88,6 +91,7 @@ Here's an example:
 The value, c : 8, was set because the upsert instructed that it be set. The a : 5 was also set, because it was part of the query. The value of b couldn't be determined from the query, so it was not set. Finally, an ObjectId was assigned to the _id field.
 
 You should also be familiar with the special properties of the _id field:
+
 - Documentation here_
 - Lesson video on using documents for _id here_
 
@@ -125,6 +129,7 @@ db.collection.find()
     - querying inside arrays_
     - $in and $all_
     - dot notation_
+
 - Tutorial_
 
 .. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.find/
@@ -151,7 +156,6 @@ Keep in mind, a find() query will return a cursor:
 .. _Cursor tutorial: http://docs.mongodb.org/manual/tutorial/iterate-a-cursor/
 
 - There are other collection read methods that will not return cursors, but which should be considered:
-
 - db.collection.count()
   - count documentation_
   - count lesson_
@@ -211,6 +215,7 @@ Update
 Updates modify existing documents.
 
 For the exam, you should be able to:
+
   - Properly use the save, update, and findAndModify queries to mutate existing documents
   - Understand which parameter finds the documents to change and which mutates them, and how
   - Understand the behavior of all update operators
