@@ -14,6 +14,7 @@ Storage Engine Subtopics
 - Introduction to Storage Engines
 - Summary of Major Differences between MMAPv1 and WiredTiger
 - MMAPv1
+
   - Collection Level Locking
   - Data Files
   - Document Growth
@@ -21,6 +22,7 @@ Storage Engine Subtopics
   - Power of Two Sizes Allocation Strategy
     - No Padding Option
   - Updating indexes on document movement
+
 - WiredTiger
   - Block Compression
     - Compression Algorithms

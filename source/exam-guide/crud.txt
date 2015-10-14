@@ -33,43 +33,52 @@ Create covers the creation of documents.
 
 For the exam, you should be able to:
 
-  - Properly use the insert, save, update, and findAndModify queries to create new documents
-  - Match an insertion query with a description of what it does
-  - Understand the _id field and the implications this has for insertion operations
+- Properly use the insert, save, update, and findAndModify queries to create new documents
+- Match an insertion query with a description of what it does
+- Understand the _id field and the implications this has for insertion operations
 
 Document creation can occur through a few commands:
 
 - db.collection.insert()
 
-  - :manual:`Documentation</reference/method/db.collection.insert/>`
-  - Written tutorial_
-  - `Lesson video <https://university.mongodb.com/videos/y/qqfVxGLIrLg>`_
+  - Docs:
 
-.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.insert/
-.. _Written tutorial: http://docs.mongodb.org/manual/tutorial/insert-documents/
-.. _Lesson video: https://university.mongodb.com/videos/y/qqfVxGLIrLg
+    - :manual:`db.collection.insert()</reference/method/db.collection.insert/>`
+    - :manual:`Insert Documents Tutorial</tutorial/insert-documents/>`
+
+  - Video:
+
+    - `Inserting Docs <https://university.mongodb.com/videos/y/qqfVxGLIrLg>`_
 
 - db.collection.save()
-  - This can insert if the _id is not included, or the _id doesn't match any documents.
-  - Documentation_.
-  - Lesson video_.
 
-.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.save/
-.. _Lesson video: https://university.mongodb.com/videos/y/fWLiwAC-Q20
+  - This can insert if the _id is not included, or the _id doesn't match any documents.
+  - Docs:
+
+    - :manual:`db.collection.save()</reference/method/db.collection.save/>`
+
+  - Video:
+
+    - `The Save Command <https://university.mongodb.com/videos/y/fWLiwAC-Q20>`_
+
 
 - db.collection.update()
-  - can insert if it's an "upsert" that doesn't match the query.
-  - Documentation_ (only an insert if upsert: true is set)
-  - Upsert lesson video_ 
 
-.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.update/
-.. _Upsert lesson video: https://university.mongodb.com/videos/y/Dy2p8k3EZs4
+  - can insert if it's an "upsert" that doesn't match the query.
+  - Docs:
+
+    - :manual:`Upsert</reference/method/db.collection.update/>` (only an insert if upsert: true is set)
+
+  - Video:
+
+    - `Upsert lesson video <https://university.mongodb.com/videos/y/Dy2p8k3EZs4>`_ 
 
 - db.collection.findAndModify
-  - only if updating, and upsert : true is set
-  - Documentation here_
 
-.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.findAndModify/
+  - only if updating, and upsert : true is set
+  - Docs: 
+  
+    - :manual:`db.collection.findAndModify()</manual/reference/method/db.collection.findAndModify/>`
 
 Most questions about document creation will involve insert, and it won't be a large part of the exam, because insertion is generally quite straightforward: you give a document that you want, and it gets inserted.
 
@@ -93,11 +102,13 @@ The value, c : 8, was set because the upsert instructed that it be set. The a : 
 
 You should also be familiar with the special properties of the _id field:
 
-- Documentation here_
-- Lesson video on using documents for _id here_
+- Docs:
+  
+  - :manual:`The _id Field</core/document/#the-id-field>`
 
-.. _Documentation here: http://docs.mongodb.org/manual/core/document/#the-id-field
-.. _Lesson video on using documents for _id here: https://university.mongodb.com/videos/y/zoN4cj_XQzY
+- Video: 
+
+  - `Compound _id's <https://university.mongodb.com/videos/y/zoN4cj_XQzY>`_
 
 Read
 ----
@@ -116,81 +127,101 @@ In MongoDB, reading data is carried out with the following methods:
 
 db.collection.find()
 
-- Documentation_
-- Lessons:
-  - introduction_
-  - query by matching_
-  - operators:
-    - $lt and $gt_
-    - string inequalities_
-    - regex, $exists, $type_
-    - $or_
-    - $and_
-  - arrays:
-    - querying inside arrays_
-    - $in and $all_
-    - dot notation_
+- Docs:
+ 
+  - :manual:`db.collection.find()</reference/method/db.collection.find/>`
+  - :manual:`Tutorial</tutorial/query-documents/>`
 
-- Tutorial_
+.. _Tutorial: http://docs.mongodb.org/manual
 
-.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.find/
-.. _introduction: https://university.mongodb.com/videos/y/8kKfFK6a0Ak
-.. _query by matching: https://university.mongodb.com/videos/y/UIg86QjSoyY
-.. _$lt and $gt: https://university.mongodb.com/videos/y/FHLrz4VGzkg
-.. _string inequalities: https://university.mongodb.com/videos/y/imCCKOevU3c
-.. _regex, $exists, $type: https://university.mongodb.com/videos/y/lI-jhqYf1JY
-.. _$or: https://university.mongodb.com/videos/y/BW5ElNCRZps
-.. _$and: https://university.mongodb.com/videos/y/hYk7pjgjjzc
-.. _querying inside arrays: https://university.mongodb.com/videos/y/jvEqwW75Bus
-.. _$in and $all: https://university.mongodb.com/videos/y/QU2NrkviORE
-.. _dot notation: https://university.mongodb.com/videos/y/NrjFECIfwqk
-.. _Tutorial: http://docs.mongodb.org/manual/tutorial/query-documents/
+- Videos:
+
+  - `Introduction to find() <https://university.mongodb.com/videos/y/8kKfFK6a0Ak>`_
+  - `Query by Matching <https://university.mongodb.com/videos/y/UIg86QjSoyY>`_
+  - Operators for db.collection.find():
+
+    - `$lt and $gt <https://university.mongodb.com/videos/y/FHLrz4VGzkg>`_
+    - `string inequalities <https://university.mongodb.com/videos/y/imCCKOevU3c>`_
+    - `regex, $exists, $type <https://university.mongodb.com/videos/y/lI-jhqYf1JY>`_
+    - `$or <https://university.mongodb.com/videos/y/BW5ElNCRZps>`_
+    - `$and <https://university.mongodb.com/videos/y/hYk7pjgjjzc>`_
+
+  - Array Operators:
+
+    - `Querying Inside Arrays <https://university.mongodb.com/videos/y/jvEqwW75Bus>`_
+    - `$in and $all <https://university.mongodb.com/videos/y/QU2NrkviORE>`_
+    - `Dot Notation <https://university.mongodb.com/videos/y/NrjFECIfwqk>`_
+
 
 Keep in mind, a find() query will return a cursor:
 
-- Cursor documentation_
-- Cursor tutorial_
-- Cursor lesson_
+- Docs: 
 
-.. _Cursor documentation: http://docs.mongodb.org/manual/core/cursors/
-.. _Cursor lesson: https://university.mongodb.com/videos/y/3jA6iFSEJOI
-.. _Cursor tutorial: http://docs.mongodb.org/manual/tutorial/iterate-a-cursor/
+  - :manual:`Cursors</core/cursors/>`
+  - :manual:`Cursor tutorial</tutorial/iterate-a-cursor/>`
 
-- There are other collection read methods that will not return cursors, but which should be considered:
-- db.collection.count()
-  - count documentation_
-  - count lesson_
-- db.collection.distinct()
-  - distinct documentation_
+- Videos:
 
-.. _count documentation: http://docs.mongodb.org/manual/reference/method/db.collection.count/
-.. _count lesson: https://university.mongodb.com/videos/y/eKD5bVmNQMI
-.. _distinct documentation: http://docs.mongodb.org/manual/reference/method/db.collection.distinct/
+  - :manual:`Cursor lesson <https://university.mongodb.com/videos/y/3jA6iFSEJOI>`_
+
+
+There are other collection read methods that will not return cursors, but which should be considered:
+
+  - db.collection.count()
+
+    - Docs:
+
+      - :manual:`Count</reference/method/db.collection.count/>`
+
+    - Videos:
+
+      - `Count <https://university.mongodb.com/videos/y/eKD5bVmNQMI>`_
+
+  - db.collection.distinct()
+
+    - Docs:
+
+      - :manual:`Distinct</method/db.collection.distinct/>`
+
 
 There are other methods that can be applied to cursors themselves. These can return a number (like count), or they can modify the result set you're going to get back (such as sort, skip, and limit). You may also be expected to know how to manually iterate a cursor.
 
-- List of cursor methods_ 
+- Docs:
+
+  - :manual:`List of cursor methods</reference/method/js-cursor/>`
+
 - cursor.count()
+
   - Works like collection.count()
-  - Count documentation_
-  - Count lesson_
+  - Docs:
+
+    - :manual:`Count<http://docs.mongodb.org/manual/reference/method/cursor.count/>`
+
+  - Videos:
+
+    - `Count <https://university.mongodb.com/videos/y/eKD5bVmNQMI>`_
+
 - cursor.sort()
+
   - Sort documentation_
   - Lesson on sort, skip, and limit_
   - Second lesson on sorting_
+
 - cursor.skip()
+
   - Skip documentation_
   - Lesson on sort, skip, and limit_
+
 - cursor.limit()
+
   - Limit documentation_
   - Lesson on sort, skip, and limit_
+
 - cursor.next()
+
   - Next documentation_
   - The lesson on cursors, above, reproduced here_, also shows how to do this
 
-.. _List of cursor methods: http://docs.mongodb.org/manual/reference/method/js-cursor/
-.. _Count lesson: https://university.mongodb.com/videos/y/eKD5bVmNQMI
-.. _Count documentation: http://docs.mongodb.org/manual/reference/method/cursor.count/
 .. _Sort documentation: http://docs.mongodb.org/manual/reference/method/cursor.sort/
 .. _Lesson on sort, skip, and limit: https://university.mongodb.com/videos/y/BsmQ4SNCikc
 .. _Second lesson on sorting: https://university.mongodb.com/videos/y/hwUg8r7a-d8
