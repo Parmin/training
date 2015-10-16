@@ -2,16 +2,19 @@ Indexes
 -------
 
 On the certification exam, we will attempt to verify that you:
+
 - Understand the types of indexes available in MongoDB
 - Know how to determine the efficiency of a query
 - Can model queries and indexes for maximum efficiency
 - Recognize the implications of specialized index types
+
   - sparse
   - unique
 
 Indexes Subtopics
 -----------------
 
+- Introduction
 - Creating Indexes
 - Single Field Indexes
 - Collection Scans
@@ -29,21 +32,22 @@ Indexes Subtopics
 - Background Index Creation (DBA Only)
 - Regex on String Fields and Indexes
 - Text Indexes
-- 2d  and 2dSphere Indexes
+- 2d and 2dSphere Indexes
 
-Overview
---------
+Introduction
+------------
 
 Good use of indexes is the single greatest determinant of performance on a database -- not just in MongoDB, but in any database. The vast majority of performance-related support tickets at MongoDB are solved with improved use of indexes. Both developers and DBA's need to be aware of what options are available, how to use them, and how to assess their effect on performance.
 
 
 Videos:
-  - Introduction to Indexes_
-Docs:
-  - Index Concepts_
 
-.. _Introduction to Indexes: https://university.mongodb.com/videos/y/U3iWPF5jP-g
-.. _Index Concepts: http://docs.mongodb.org/manual/core/indexes/
+  - `Introduction to Indexes <https://university.mongodb.com/videos/y/U3iWPF5jP-g>`_
+
+Docs:
+
+  - :manual:`Index Concepts</core/indexes/>`
+
 
 
 Creating Indexes
@@ -52,17 +56,15 @@ Creating Indexes
 Indexes are created either on collection creation (for the unique _id index), or using the db.collection.createIndex() command. The former preferred command was db.collection.ensureIndex, which has been deprecated.
 
 Videos:
-  - createIndex, getIndexes, dropIndex_
-  - Creating Indexes_
+
+  - `createIndex, getIndexes, dropIndex <https://university.mongodb.com/videos/y/JvXfCHPYKzw>`_
+  - `Creating Indexes <https://university.mongodb.com/videos/y/xi2gtzZez6Q>`_
 
 Docs:
-  - db.collection.createIndex_
-  - Tutorial, Create an Index_
 
-.. _createIndex, getIndexes, dropIndex: https://university.mongodb.com/videos/y/JvXfCHPYKzw
-.. _db.collection.createIndex: http://docs.mongodb.org/manual/reference/method/db.collection.createIndex/
-.. _Create an Index: http://docs.mongodb.org/manual/tutorial/create-an-index/
-.. _Creating Indexes: https://university.mongodb.com/videos/y/xi2gtzZez6Q
+  - :manual:`db.collection.createIndex</reference/method/db.collection.createIndex/>`
+  - :manual:`Create an Index</tutorial/create-an-index/>`
+
 
 Single Field Indexes
 --------------------
@@ -70,15 +72,11 @@ Single Field Indexes
 This can include top-level fields, embedded fields, or embedded documents.
 
 Docs: 
-  - Single Field Indexes_
-  - Embedded Fields_ (same link, different section)
-  - Embedded Documents_ (same link, different section)
 
+  - :manual:`Single Field Indexes</core/index-single/>`
+  - :manual:`Embedded Fields</core/index-single/#indexes-on-embedded-fields>`
+  - :manual:`Embedded Documents</core/index-single/#indexes-on-embedded-documents>`
 
-.. _Single Field Indexes: http://docs.mongodb.org/manual/core/index-single/
-.. _Embedded Fields: http://docs.mongodb.org/manual/core/index-single/#indexes-on-embedded-fields
-.. _Embedded Documents: http://docs.mongodb.org/manual/core/index-single/#indexes-on-embedded-documents
-.. _Dot Notation and Multikey: https://university.mongodb.com/videos/y/wT0_ktAZbBg
 
 Collection Scans
 ----------------
@@ -86,9 +84,9 @@ Collection Scans
 A collection scan occurs when you can't use an index for a query, so you end up scanning the entire collection, one document at a time. This is terribly inefficient for large collections.
 
 Videos:
-  - Collection scans_
 
-.. _Collection scans: https://university.mongodb.com/videos/y/qB6435EGS6w
+  - `Collection scans <https://university.mongodb.com/videos/y/qB6435EGS6w>`_
+
 
 Compound Indexes
 ----------------
@@ -105,14 +103,14 @@ Multikey Indexes
 A multikey index is an index on an array. You will have one index entry per array element.
 
 Docs:
-  - Multikey Indexes_
-Videos:
-  - Multikey Indexes (video)_
-  - Dot Notation and Multikey_
 
-.. _Multikey Indexes: http://docs.mongodb.org/manual/core/index-multikey/
-.. _Multikey Indexes (video): https://university.mongodb.com/videos/y/_NGwn_X82Dw
-.. _Dot Notation and Multikey: https://university.mongodb.com/videos/y/wT0_ktAZbBg
+  - :manual:`Multikey Indexes</core/index-multikey/>`
+
+Videos:
+
+  - `Multikey Indexes (video) <https://university.mongodb.com/videos/y/_NGwn_X82Dw>`_
+  - `Dot Notation and Multikey <https://university.mongodb.com/videos/y/wT0_ktAZbBg>`_
+
 
 Sorting with Indexes
 --------------------
@@ -120,9 +118,9 @@ Sorting with Indexes
 You'll notice that the index creation document looks a lot like a sorting document. This isn't an accident. The index is ordered just like the sort result query, and if you've built your index correctly, you can use it to avoid sorting the result set of a query.
 
 Docs:
-  - Use Indexes to Sort Query Results_
 
-.. _Use Indexes to Sort Query Results: http://docs.mongodb.org/manual/tutorial/sort-results-with-indexes/
+  - :manual:`Use Indexes to Sort Query Results</tutorial/sort-results-with-indexes/>`
+
 
 The .explain() Methods
 ----------------------
@@ -130,21 +128,17 @@ The .explain() Methods
 The .explain() method can be run on a cursor, or on a collection, to show the user index usage and performance for that query. There are several verbosities to choose from, depending on use case.
 
 Video:
-  - Explain Plans_
-  - Using Explain_
-  - Explain Verbosity_
+
+  - `Explain Plans <https://university.mongodb.com/videos/y/rRsYWCO3ndY>`_
+  - `Using Explain <https://university.mongodb.com/videos/y/liXIn8CnJaI>`_
+  - `Explain Verbosity <https://university.mongodb.com/videos/y/WxXVun6bZ20>`_
 
 Docs:
-  - cursor.explain()_ (Legacy method)
-  - db.collection.explain()_ (Preferred method)
-  - Explain Results_
 
-.. _Explain Plans: https://university.mongodb.com/videos/y/rRsYWCO3ndY
-.. _Using Explain: https://university.mongodb.com/videos/y/liXIn8CnJaI
-.. _Explain Verbosity: https://university.mongodb.com/videos/y/WxXVun6bZ20
-.. _cursor.explain(): http://docs.mongodb.org/manual/reference/method/cursor.explain/
-.. _db.collection.explain(): http://docs.mongodb.org/manual/reference/method/db.collection.explain/
-.. _Explain Results: http://docs.mongodb.org/manual/reference/explain-results/
+  - :manual:`cursor.explain()</reference/method/cursor.explain/>`
+  - :manual:`db.collection.explain()</reference/method/db.collection.explain/>`
+  - :manual:`Explain Results</reference/explain-results/>`
+
 
 Selecting an Index
 ------------------
@@ -152,25 +146,26 @@ Selecting an Index
 MongoDB chooses its indexes using its Query Optimizer, which infrequently runs the query against all candidate indexes to determine which is fastest.
 
 Video:
-  - Choosing an Index_
-  - Efficiency of Index Use_
-Docs:
-  - Query Plans_
 
-.. _Choosing an Index: https://university.mongodb.com/videos/y/JyQlxDc549c
-.. _Efficiency of Index Use: https://university.mongodb.com/videos/y/JJmIf0pn100
-.. _Query Plans: http://docs.mongodb.org/manual/core/query-plans/
+  - `Choosing an Index <https://university.mongodb.com/videos/y/JyQlxDc549c>`_
+  - `Efficiency of Index Use <https://university.mongodb.com/videos/y/JJmIf0pn100>`_
+
+Docs:
+
+  - :manual:`Query Plans</core/query-plans/>`
+
 
 Covered Queries
 ---------------
 
 Video: 
-  - Covered Queries_
-Docs:
-  - Covered Query_
 
-.. _Covered Queries: https://university.mongodb.com/videos/y/npFBnPAkDUk
-.. _Covered Query: http://docs.mongodb.org/manual/core/query-optimization/#covered-query
+  - `Covered Queries <https://university.mongodb.com/videos/y/npFBnPAkDUk>`_
+
+Docs:
+
+  - :manual:`Covered Query</core/query-optimization/#covered-query>`
+
 
 Indexing Strategies
 -------------------
@@ -178,20 +173,17 @@ Indexing Strategies
 There are right ways to use indexes, and wrong ways. Here, we talk about some best practices.
 
 Docs: 
-  - Indexing Strategies_
-  - Optimize Query Performance_
-  - Indexes FAQ_
-  - Query Optimization_
-Videos:
-  - Efficiency of Index Use 2_
-  - Index Notes_
 
-.. _Indexing Strategies: http://docs.mongodb.org/manual/applications/indexes/
-.. _Efficiency of Index Use 2:
-.. _Index Notes: https://university.mongodb.com/videos/y/OyXFYhLXTGk
-.. _Indexes FAQ: http://docs.mongodb.org/manual/faq/indexes/
-.. _Optimize Query Performance: http://docs.mongodb.org/manual/tutorial/optimize-query-performance-with-indexes-and-projections/
-.. _Query Optimization: http://docs.mongodb.org/manual/core/query-optimization/
+  - :manual:`Indexing Strategies</applications/indexes/>`
+  - :manual:`Optimize Query Performance</tutorial/optimize-query-performance-with-indexes-and-projections/>`
+  - :manual:`Indexes FAQ</faq/indexes/>`
+  - :manual:`Query Optimization</core/query-optimization/>`
+
+Videos:
+
+  - `Efficiency of Index Use 2 <https://university.mongodb.com/videos/y/g032EW67SRA >`_
+  - `Index Notes <https://university.mongodb.com/videos/y/OyXFYhLXTGk>`_
+
 
 Effect of Indexes on Write Performance
 --------------------------------------
@@ -199,12 +191,13 @@ Effect of Indexes on Write Performance
 Indexes generally speed up read performance, but can slow down write performance. Find queries are almost always faster, and inserts are almost always slower, but hybrid actions (with a find & a write) such as update and remove, may depend on the use case (though they usually are faster with indexes). Be aware of the advantages and drawbacks.
 
 Docs:
-  - Write Operation Performance_
-Video:
-  - Read & Write Impact of Indexes_
 
-.. _Write Operation Performance: http://docs.mongodb.org/manual/core/write-performance/#indexes
-.. _Read & Write Impact of Indexes: https://university.mongodb.com/videos/y/wcprB2adSe0
+  - :manual:`Write Operation Performance</core/write-performance/#indexes>`
+
+Video:
+
+  - `Read & Write Impact of Indexes <https://university.mongodb.com/videos/y/wcprB2adSe0>`_
+
 
 Unique Indexes
 --------------
@@ -212,14 +205,14 @@ Unique Indexes
 Unique indexes cause the database to enforce uniqueness on a collection level.
 
 Video:
-  - Index Creation Options, Unique_
-Docs:
-  - Creating a Unique Index_
-  - Unique Indexes_
 
-.. _Index Creation Options, Unique: https://university.mongodb.com/videos/y/D-Ra5TEaaL4
-.. _Creating a Unique Index: http://docs.mongodb.org/manual/tutorial/create-a-unique-index/
-.. _Unique Indexes: http://docs.mongodb.org/manual/core/index-unique/
+  - `Index Creation Options, Unique <https://university.mongodb.com/videos/y/D-Ra5TEaaL4>`_
+
+Docs:
+
+  - :manual:`Creating a Unique Index</tutorial/create-a-unique-index/>`
+  - :manual:`Unique Indexes</core/index-unique/>`
+
 
 Sparse Indexes
 --------------
@@ -227,12 +220,12 @@ Sparse Indexes
 Sparse indexes lack entries when a document lacks the indexed fields. They're smaller, and have fewer entries, but they can sometimes be ignored by the system, as they may lead to incorrect results in some cases.
 
 Video:
-  - Sparse Indexes Video_
-Docs:
-  - Sparse Indexes_
 
-.. _Sparse Indexes Video: https://university.mongodb.com/videos/y/ZznHByqtTMA
-.. _Sparse Indexes: http://docs.mongodb.org/manual/core/index-sparse/
+  - `Sparse Indexes Video <https://university.mongodb.com/videos/y/ZznHByqtTMA>`_
+
+Docs:
+
+  - :manual:`Sparse Indexes</core/index-sparse/>`
 
 TTL Indexes
 -----------
@@ -240,12 +233,13 @@ TTL Indexes
 TTL (Time-to-Live) indexes expire after a certain time has passed, and are auto-deleted by the server.
 
 Video:
-  - TTL Indexes_
-Docs:
-  - Indexes, TTL_
 
-.. _TTL Indexes: https://university.mongodb.com/videos/y/hu0gsu5O0Rs
-.. _Indexes, TTL: http://docs.mongodb.org/manual/core/index-ttl/
+  - `TTL Indexes <https://university.mongodb.com/videos/y/hu0gsu5O0Rs>`_
+
+Docs:
+
+  - :manual:`Indexes, TTL</core/index-ttl/>`
+
 
 Background Index Creation
 -------------------------
@@ -253,12 +247,13 @@ Background Index Creation
 Background index creation turns index creation into a non-blocking operation, but also slows down index creation.
 
 Video: 
-  - Background Index Creation_
-Docs:
-  - Build Indexes in the Background_
 
-.. _Background Index Creation: https://university.mongodb.com/videos/y/rI2Hnqp8BN4
-.. _Build Indexes in the Background: http://docs.mongodb.org/manual/tutorial/build-indexes-in-the-background/
+  - `Background Index Creation <https://university.mongodb.com/videos/y/rI2Hnqp8BN4>`_
+
+Docs:
+
+  - :manual:`Build Indexes in the Background</tutorial/build-indexes-in-the-background/>`
+
 
 Regex on String Fields and Indexes
 ----------------------------------
@@ -271,16 +266,15 @@ Text Indexes
 ------------
 
 Video:
-  - Text Indexes in MongoDB_
-Docs: 
-  - Text Indexes_
-  - Create a Text Index_
-  - Text Search Tutorials_
 
-.. _Text Indexes: http://docs.mongodb.org/manual/core/index-text/
-.. _Create a Text Index: http://docs.mongodb.org/manual/tutorial/create-text-index-on-multiple-fields/
-.. _Text Search Tutorials: http://docs.mongodb.org/manual/administration/indexes-text/
-.. _Text Indexes in MongoDB: https://university.mongodb.com/videos/y/UlleLqZQYVo
+  - `Text Indexes in MongoDB <https://university.mongodb.com/videos/y/UlleLqZQYVo>`_
+
+Docs: 
+
+  - :manual:`Text Indexes</core/index-text/>`
+  - :manual:`Create a Text Index</tutorial/create-text-index-on-multiple-fields/>`
+  - :manual:`Text Search Tutorials</administration/indexes-text/>`
+
 
 2d and 2dSphere Indexes
 -----------------------
@@ -288,27 +282,20 @@ Docs:
 2D Indexes are for flat geometries, like you might create in a video game, or in a small area. For locations on the earth, use a 2dSphere index.
 
 Video:
-  - Geospatial Indexes_
+
+  - `Geospatial Indexes <https://university.mongodb.com/videos/y/zoGcMsjGMo4>`_
+
 Docs:
-  - Geospatial Indexes and Queries_
-  - 2d Indexes_
-  - Create a 2d Index_
-  - Query a 2d Index_
-  - 2dsphere Indexes_
-  - Create a 2dsphere Index_
-  - Query a 2dsphere Index_
-  - Calculate Distance using Spherical Geometry_
 
+  - :manual:`Geospatial Indexes and Queries</applications/geospatial-indexes/>`
+  - :manual:`2d Indexes</core/2d/>`
+  - :manual:`Create a 2d Index</tutorial/build-a-2d-index/>`
+  - :manual:`Query a 2d Index</tutorial/query-a-2d-index/>`
+  - :manual:`2dsphere Indexes</core/2dsphere/>`
+  - :manual:`Create a 2dsphere Index</tutorial/build-a-2dsphere-index/>`
+  - :manual:`Query a 2dsphere Index</tutorial/query-a-2dsphere-index/>`
+  - :manual:`Calculate Distance using Spherical Geometry</tutorial/calculate-distances-using-spherical-geometry-with-2d-geospatial-indexes/>`
 
-.. _Geospatial Indexes: https://university.mongodb.com/videos/y/zoGcMsjGMo4
-.. _Geospatial Indexes and Queries: http://docs.mongodb.org/manual/applications/geospatial-indexes/
-.. _2d Indexes: http://docs.mongodb.org/manual/core/2d/
-.. _Create a 2d Index: http://docs.mongodb.org/manual/tutorial/build-a-2d-index/
-.. _Query a 2d Index: http://docs.mongodb.org/manual/tutorial/query-a-2d-index/
-.. _2dsphere Indexes: http://docs.mongodb.org/manual/core/2dsphere/
-.. _Create a 2dsphere Index: http://docs.mongodb.org/manual/tutorial/build-a-2dsphere-index/
-.. _Query a 2dsphere Index: http://docs.mongodb.org/manual/tutorial/query-a-2dsphere-index/
-.. _Calculate Distance using Spherical Geometry: http://docs.mongodb.org/manual/tutorial/calculate-distances-using-spherical-geometry-with-2d-geospatial-indexes/
 
 Sample Problems
 ---------------

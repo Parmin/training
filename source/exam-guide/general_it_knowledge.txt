@@ -1,11 +1,21 @@
+====================
 General IT Knowledge
---------------------
+====================
 
 After reading this and exploring the links, students should be able to:
 
 - Define Fundamental Database Concepts
 - Write Simple Javascript routines
 - Know the basic topics of System Programming.
+
+Subtopics
+---------
+
+- Introduction
+- Fundamental Database Concepts
+- Fundamentals of System Programming
+- Basics of Javascript Programming
+
 
 Introduction
 ------------
@@ -21,9 +31,9 @@ Fundamental Database Concepts
 It is expected that you will understand the basics of the database industry: what constitutes a relational (or a non-relational) database. You should also understand how joins and transactions work in a general way, though we won't ask you to perform them.
 
 From mongoDB.com:
-  - NoSQL Database Explained_
 
-.. _NoSQL Database Explained: https://www.mongodb.com/nosql-explained
+  - `NoSQL Database Explained <https://www.mongodb.com/nosql-explained>`_
+
 
 
 Fundamentals of System Programming
@@ -121,4 +131,5 @@ Exercises to Complete
 
 - Write a for loop that inserts one million documents in the mongo shell.
 - Create a collection with a field that contains the _id of documents in another collection.
+
   - Use the _id reference to manually "join" the two collections.

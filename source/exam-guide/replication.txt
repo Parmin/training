@@ -1,7 +1,9 @@
+===========
 Replication
------------
+===========
 
 On the certification exam, we will attempt to verify that you:
+
 - Understand the benefits of replication
 - Understand tradeoffs between speed and durability
 - Know the basics of how the oplog works, including concepts like idempotence and statement-based replication
@@ -10,157 +12,164 @@ On the certification exam, we will attempt to verify that you:
 Replication Subtopics
 ---------------------
 
+- Introduction
 - Nodes: Primary, Secondary, Arbiter, Delayed Secondaries, Hidden Secondaries
 - Initiating a Replica Set
+
   - Initial Sync
+
 - Elections: Votes, Criteria for Winning an Election
 - Failover
+
   - Rollback (DBA only)
+
 - rs.status()
 - Replica set reconfiguration
 - Oplog: Statement-based replication, Idempotence (DBA Only), Capped Collection (DBA only)
 - Read Preference: Primary, Secondary, PrimaryPreferred, SecondaryPreferred, Nearest
 - Write Concern: The w parameter, The j parameter
 
-Overview
---------
 
-Video: 
-  - Replication Concepts_
-  - Replication Overview_
-  - Asynchronous Replication_
-Docs: Replication Introduction_
+Introduction
+------------
 
-.. _Replication Overview: https://university.mongodb.com/videos/y/eNFWxRFIbcI
-.. _Replication Introduction: http://docs.mongodb.org/manual/core/replication-introduction/
-.. _Asynchronous Replication: https://university.mongodb.com/videos/y/3p30vjb-Rx8
-.. _Replication Concepts: https://university.mongodb.com/videos/y/AYBOd-tpdKo
+Replication is about availability and durability. It is, generally speaking, not for scaling. That would be the purpose of Sharding.
+
+- Videos: 
+
+  - `Replication Concepts <https://university.mongodb.com/videos/y/AYBOd-tpdKo>`_
+  - `Replication Overview <https://university.mongodb.com/videos/y/eNFWxRFIbcI>`_
+  - `Asynchronous Replication <https://university.mongodb.com/videos/y/3p30vjb-Rx8>`_
+
+- Docs:
+
+  - :manual:`Replication Introduction</core/replication-introduction/>`
+
 
 Nodes
 -----
 
-Docs: 
-  - Replica Set Memebers_ (inlcudes Primary, Secondary, Arbiter)
-  - Delayed Members_
-  - Hidden Members_
-  - Non-Voting Members_
-Videos:
-  - Arbiters_
-  - Hidden and Slave Delay_
+- Docs: 
 
-.. _Replica Set Members: http://docs.mongodb.org/manual/core/replica-set-members/
-.. _Delayed Members: http://docs.mongodb.org/manual/core/replica-set-delayed-member/
-.. _Hidden Members: http://docs.mongodb.org/manual/core/replica-set-hidden-member/
-.. _Arbiters: https://university.mongodb.com/videos/y/4W0GO2CAu2w
-.. _Non-Voting Members: http://docs.mongodb.org/manual/tutorial/configure-a-non-voting-replica-set-member/
-.. _Hidden and Slave Delay: https://university.mongodb.com/videos/y/X1hCBT2UTuo
+  - :manual:`Replica Set Members</core/replica-set-members/>`
+  - :manual:`Delayed Members</core/replica-set-delayed-member/>`
+  - :manual:`Hidden Members</core/replica-set-hidden-member/>`
+  - :manual:`Non-Voting Members</tutorial/configure-a-non-voting-replica-set-member/>`
+
+- Videos:
+
+  - `Arbiters <https://university.mongodb.com/videos/y/4W0GO2CAu2w>`_
+  - `Hidden and Slave Delay <https://university.mongodb.com/videos/y/X1hCBT2UTuo>`_
+
 
 Initiating a Replica Set
 ------------------------
 
 You should be familiar with the rs.initiate() function.
 
-Video:
-  - Initiating a Replica Set_
+- Video:
 
-Docs:
-  - rs.initiate()_
+  - `Initiating a Replica Set <https://university.mongodb.com/videos/y/EaGhuXPZZbk>`_
 
-.. _Initiating a Replica Set: https://university.mongodb.com/videos/y/EaGhuXPZZbk
-.. _rs.initiate(): http://docs.mongodb.org/manual/reference/method/rs.initiate/#rs.initiate
+- Docs:
+
+  - :manual:`rs.initiate()</reference/method/rs.initiate/#rs.initiate>`
+
 
 Initial Sync
 ------------
 
 An initial sync occurs when a data-bearing member connects to a replica set and begins pulling data. There is an initial sync, followed by walking the oplog.
 
-Docs: Initial Sync_
+- Docs:
 
-.. _Initial Sync: http://docs.mongodb.org/manual/core/replica-set-sync/#initial-sync
+  - :manual:`Initial Sync</core/replica-set-sync/#initial-sync>`
+
 
 Elections
 ---------
 
 Elections determine which of the data bearing members will become primary. You should be aware of the mechanics of elections, and which member should win the election (or members, if there are multiple members that are equally eligible).
 
-Docs: 
-  - Elections_
-  - Non-voting members_
+- Docs: 
 
-.. _Elections: http://docs.mongodb.org/manual/core/replica-set-elections/
-.. _Non-voting members: http://docs.mongodb.org/manual/tutorial/configure-a-non-voting-replica-set-member/
+  - :manual:`Elections</core/replica-set-elections/>`
+  - :manual:`Non-voting members</tutorial/configure-a-non-voting-replica-set-member/>`
+
 
 Failover
 --------
 
 Failover is the process of replica set recovery when the primary goes down. A secondary steps up and takes over.
 
-Video:
-  - Automatic Failover_
-  - Failover Example_
+- Video:
 
+  - `Automatic Failover <https://university.mongodb.com/videos/y/VsnI8uCTG60>`_
+  - `Failover Example <https://university.mongodb.com/videos/y/MGoHhWbMDaU>`_
 
-Docs:
-  - Replica Set High Availability_
+- Docs:
 
-.. _Automatic Failover: https://university.mongodb.com/videos/y/VsnI8uCTG60
-.. _Replica Set High Availability: http://docs.mongodb.org/manual/core/replica-set-high-availability/
-.. _Failover example: https://university.mongodb.com/videos/y/MGoHhWbMDaU
+  - :manual:`Replica Set High Availability</core/replica-set-high-availability/>`
+
 
 Rollback
 --------
 
-.. only:: DBA
+This is only a concern for DBA's. You should know what happens if:
+
+- First, you take a write on your Primary that does not make it to other replica set members
+- Second, your primary loses its status as primary (perhaps due to a server failure or a network partition) while keeping the write
+- Third, a new primary is elected
+- Fourth, your old primary reconnects to the rest of the replica set
 
 Video:
-  - Recovery_
-Docs: 
-  - Rollbacks_
 
-.. _Recovery: https://university.mongodb.com/videos/y/TGsnu9RBjzA
-.. _Rollbacks: http://docs.mongodb.org/manual/core/replica-set-rollbacks/
+  - `Recovery <https://university.mongodb.com/videos/y/TGsnu9RBjzA>`_
+
+Docs: 
+
+  - :manual:`Rollbacks</core/replica-set-rollbacks/>`
+
 
 rs.status()
 -----------
 
 rs.status() is a good way to determine the state of a replica set. You should be familiar with the output of this call, and be able to interpret it.
 
-Video:
-  - Replica Set Status_
+- Video:
 
-Docs:
-  - rs.status() Example_
+  - `Replica Set Status <https://university.mongodb.com/videos/y/QspOQbOShSY>`_
 
-.. _Replica Set Status: https://university.mongodb.com/videos/y/QspOQbOShSY
-.. _rs.status() Example: http://docs.mongodb.org/manual/reference/command/replSetGetStatus/#example
+- Docs:
+
+  - :manual:`rs.status() Example</reference/command/replSetGetStatus/#example>`
+
 
 Replica Set Reconfiguration
 ---------------------------
 
 You may need to add a member or remove a member, so you should be familiar with how to do this. You should also know what constraints might interfere with this process (not having a majority of members available, for example).
 
-Docs: 
-  - Reconfigure a Replica Set_
+- Docs: 
 
-.. _Reconfigure a Replica Set: http://docs.mongodb.org/manual/tutorial/reconfigure-replica-set-with-unavailable-members/
+  - :manual:`Reconfigure a Replica Set</tutorial/reconfigure-replica-set-with-unavailable-members/>`
+
 
 Oplog
 -----
 
 The oplog is the implementation of MongoDB's statement based replication. You'll need to be familiar with it.
 
-Video:
-  - Statement Based vs Binary Replication_
+- Video:
 
-Docs
-  - Replica Set Oplog_
-  - Capped Collections_
-  - Idempotent (glossary)_
+  - `Statement Based vs Binary Replication <https://university.mongodb.com/videos/y/yutpUgJMkk4>`_
 
-.. _Statement Based vs Binary Replication: https://university.mongodb.com/videos/y/yutpUgJMkk4
-.. _Replica Set Oplog: http://docs.mongodb.org/manual/core/replica-set-oplog/
-.. _Capped Collections: http://docs.mongodb.org/manual/core/capped-collections/
-.. _Idempotent (glossary): http://docs.mongodb.org/manual/reference/glossary/#term-idempotent
+- Docs
+
+  - :manual:`Replica Set Oplog</core/replica-set-oplog/>`
+  - :manual:`Capped Collections</core/capped-collections/>`
+  - :manual:`Idempotent (glossary)</reference/glossary/#term-idempotent>`
+
 
 
 Read Preference
@@ -168,32 +177,29 @@ Read Preference
 
 Read preference is about deciding where you want to draw your data from. The default is Primary, so that you can capture writes as they happen; reading from a secondary will result in an "eventual consistency" model.
 
-Docs:
-  - Read Preference Reference_
-Videos:
-  - Read Preference_
-  - Read Preference Options_
+- Docs:
 
-.. _Read Preference Reference: http://docs.mongodb.org/manual/reference/read-preference/
-.. _Read Preference: https://university.mongodb.com/videos/y/I62q4cyeSyc
-.. _Read Preference Options: https://university.mongodb.com/videos/y/jCEZvexlpj4
+  - :manual:`Read Preference Reference</reference/read-preference/>`
+
+- Videos:
+
+  - `Introduction to Read Preference <https://university.mongodb.com/videos/y/I62q4cyeSyc>`_
+  - `Read Preference Options <https://university.mongodb.com/videos/y/jCEZvexlpj4>`_
+
 
 Write Concern
 -------------
 
-Videos: 
-  - Write Concern Principles_
-  - Examining the 'w' parameter_
-  - Write Concern Use Cases and Patterns_
-Docs:
-  - Write Concern_
-  - Write Concern Reference_
+- Videos: 
 
-.. _Write Concern Principles: https://university.mongodb.com/videos/y/73Jl2woKhNo
-.. _Examining the 'w' parameter: https://university.mongodb.com/videos/y/K3N6psPZCD0
-.. _Write Concern Use Cases and Patterns: https://university.mongodb.com/videos/y/sSkFhx1jKSs
-.. _Write Concern: http://docs.mongodb.org/manual/core/write-concern/
-.. _Write Concern Reference: http://docs.mongodb.org/manual/reference/write-concern/
+  - `Write Concern Principles <https://university.mongodb.com/videos/y/73Jl2woKhNo>`_
+  - `Examining the 'w' parameter <https://university.mongodb.com/videos/y/K3N6psPZCD0>`_
+  - `Write Concern Use Cases and Patterns <https://university.mongodb.com/videos/y/sSkFhx1jKSs>`_
+
+- Docs:
+
+  - :manual:`Write Concern</core/write-concern/>`
+  - :manual:`Write Concern Reference</reference/write-concern/>`
 
 
 Sample Problems

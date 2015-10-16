@@ -17,8 +17,8 @@ CRUD Subtopics
 - Update: Standard update, Multi update, upsert, save
 - Delete
 
-Overview
---------
+Introduction
+------------
 
 For the exam, we won't expect you to have operators memorized, but you should be able to recognize the correct operator for the job when you see it, either in the question portion, or the answer portion. 
 
@@ -162,7 +162,7 @@ Keep in mind, a find() query will return a cursor:
 
 - Videos:
 
-  - :manual:`Cursor lesson <https://university.mongodb.com/videos/y/3jA6iFSEJOI>`_
+  - `Cursor lesson <https://university.mongodb.com/videos/y/3jA6iFSEJOI>`_
 
 
 There are other collection read methods that will not return cursors, but which should be considered:
@@ -203,43 +203,34 @@ There are other methods that can be applied to cursors themselves. These can ret
 
 - cursor.sort()
 
-  - Sort documentation_
-  - Lesson on sort, skip, and limit_
-  - Second lesson on sorting_
+  - :manual:`Sort documentation</reference/method/cursor.sort/>`
+  - `Lesson on sort, skip, and limit <https://university.mongodb.com/videos/y/BsmQ4SNCikc>`_
+  - `Second lesson on sorting <https://university.mongodb.com/videos/y/hwUg8r7a-d8>`_
 
 - cursor.skip()
 
-  - Skip documentation_
-  - Lesson on sort, skip, and limit_
+  - :manual:`Skip documentation</reference/method/cursor.skip/>`
+  - `Lesson on sort, skip, and limit <https://university.mongodb.com/videos/y/BsmQ4SNCikc>`_
 
 - cursor.limit()
 
-  - Limit documentation_
-  - Lesson on sort, skip, and limit_
+  - :manual:`Limit documentation</reference/method/cursor.limit/>`
+  - `Lesson on sort, skip, and limit <https://university.mongodb.com/videos/y/BsmQ4SNCikc>`_
 
 - cursor.next()
 
-  - Next documentation_
-  - The lesson on cursors, above, reproduced here_, also shows how to do this
+  - :manual:`Next documentation</tutorial/iterate-a-cursor/>`
+  - The lesson on cursors, above, `reproduced here <https://university.mongodb.com/videos/y/3jA6iFSEJOI>`_, also shows how to do this
 
-.. _Sort documentation: http://docs.mongodb.org/manual/reference/method/cursor.sort/
-.. _Lesson on sort, skip, and limit: https://university.mongodb.com/videos/y/BsmQ4SNCikc
-.. _Second lesson on sorting: https://university.mongodb.com/videos/y/hwUg8r7a-d8
-.. _Skip documentation: http://docs.mongodb.org/manual/reference/method/cursor.skip/
-.. _Limit documentation: http://docs.mongodb.org/manual/reference/method/cursor.limit/
-.. _Next documentation: http://docs.mongodb.org/manual/tutorial/iterate-a-cursor/
-.. _reproduced here: https://university.mongodb.com/videos/y/3jA6iFSEJOI
 
 You can also project your results in order to limit the fields you get back.
 
 - projection
-  - Documentation_
-  - from .find() documentation_
-  - Lesson_
 
-.. _Documentation: http://docs.mongodb.org/manual/tutorial/project-fields-from-query-results/
-.. _from .find() documentation: http://docs.mongodb.org/manual/reference/method/db.collection.find/
-.. _Lesson: https://university.mongodb.com/videos/y/8zlMXX70KEw
+  - :manual:`Documentation</tutorial/project-fields-from-query-results/>`
+  - :manual:`from .find() documentation</reference/method/db.collection.find/>`
+  - `Lesson <https://university.mongodb.com/videos/y/8zlMXX70KEw>`_
+
 
 Update
 ------
@@ -255,89 +246,86 @@ For the exam, you should be able to:
 Updates can occur with a few collection methods, some of which were in the insert section:
 
 - db.collection.save()
-  - This will update if the _id is specified and it matches an existing document.
-  - Documentation_.
-  - Lesson video_.
 
-.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.save/
-.. _Lesson video: https://university.mongodb.com/videos/y/fWLiwAC-Q20
+  - This will update if the _id is specified and it matches an existing document.
+  - :manual:`Documentation</reference/method/db.collection.save/>`
+  - `Lesson video <https://university.mongodb.com/videos/y/fWLiwAC-Q20>`_
+
 
 - db.collection.findAndModify
-  - unless updating, and upsert : true is set
-  - Documentation here_
 
-.. _Documentation here: http://docs.mongodb.org/manual/reference/method/db.collection.findAndModify/
+  - unless updating, and upsert : true is set
+  - :manual:`Documentation here</reference/method/db.collection.findAndModify/>`
+
 
 - db.collection.update()
+
   - This will update unless upsert: true is specified and the query matches no documents.
-  - Documentation_
-  - Update tutorial_
+  - :manual:`Documentation</reference/method/db.collection.update/>`
+  - :manual:`Update tutorial</tutorial/modify-documents/>`
   - With no operators specified in the update parameter, there will be a wholesale update
-    - Wholesale update lesson video_
+
+    - `Wholesale update lesson video <https://university.mongodb.com/videos/y/g7Fi1xXsuvU>`_
+
   - Operators
+
     - $set (modify a field)
-      - $set lesson video_
-      - $set documentation_
+
+      - `$set lesson video <https://university.mongodb.com/videos/y/XyhNjs2pNVc>`_
+      - :manual:`$set documentation</reference/operator/update/set/#up._S_set>`
+
     - $unset (remove a field)
-      - $unset lesson video_
-      - $unset documentation_
+
+      - `$unset lesson video <https://university.mongodb.com/videos/y/LpErz8jLW0I>`_
+      - :manual:`$unset documentation</reference/operator/update/unset/#up._S_unset>`
+
     - $rename
-      - $rename documentation_
+
+      - :manual:`$rename documentation</reference/operator/update/rename/#up._S_rename>`
+
     - $setOnInsert
-      - $setOnInsert documentation_
+
+      - :manual:`$setOnInsert documentation</reference/operator/update/setOnInsert/#up._S_setOnInsert>`
+
     - $inc
-      - $inc documentation_
+
+      - :manual:`$inc documentation</reference/operator/update/inc/#up._S_inc>`
+
     - $mul
-      - $mul documentation_
+
+      - :manual:`$mul documentation</reference/operator/update/mul/#up._S_mul>`
+
     - $min and $max
-      - $min documentation_
-      - $max documentation_
+
+      - :manual:`$min documentation</reference/operator/update/min/#up._S_min>`
+      - :manual:`$max documentation</reference/operator/update/max/#up._S_max>`
+
     - Array operators
-      - Array operators lesson video_
-      - Positional $ documentation_
-      - $addToSet documentation_
-      - $pop documentation_
-      - $pull documentation_
-      - $pullAll documentation_
-      - $push documentation_
+
+      - `Array operators lesson video <https://university.mongodb.com/videos/y/GOn0EWKDQoY>`_
+      - :manual:`Positional $ documentation</reference/operator/update/positional/#up._S_>`
+      - :manual:`$addToSet documentation</reference/operator/update/addToSet/#up._S_addToSet>`
+      - :manual:`$pop documentation</reference/operator/update/pop/#up._S_pop>`
+      - :manual:`$pull documentation</reference/operator/update/pull/#up._S_pull>`
+      - :manual:`$pullAll documentation</reference/operator/update/pullAll/#up._S_pullAll>`
+      - :manual:`$push documentation</reference/operator/update/push/#up._S_push>`
+
         - There are additional modifiers if you use $push (and sometimes $addToSet)
-        - $each documentation_
-        - $slice documentation_
-        - $sort documentation_
-        - $position documentation_
+        - :manual:`$each documentation</reference/operator/update/each/#up._S_each>`
+        - :manual:`$slice documentation</reference/operator/update/slice/#up._S_slice>`
+        - :manual:`$sort documentation</reference/operator/update/sort/#up._S_sort>`
+        - :manual:`$position documentation</reference/operator/update/position/#up._S_position>`
+
   - Upserts
-    - Upsert lesson video_
+
+    - `Upsert lesson video <https://university.mongodb.com/videos/y/Dy2p8k3EZs4>`_
+
   - Multi updates
-    - Multi update lesson video_
+
+    - `Multi update lesson video <https://university.mongodb.com/videos/y/2GNNdUmDL-4>`_
 
 
-.. _Documentation: http://docs.mongodb.org/manual/reference/method/db.collection.update/
-.. _Update tutorial: http://docs.mongodb.org/manual/tutorial/modify-documents/
-.. _Wholesale update lesson video: https://university.mongodb.com/videos/y/g7Fi1xXsuvU
-.. _$set lesson video: https://university.mongodb.com/videos/y/XyhNjs2pNVc
-.. _$set documentation: http://docs.mongodb.org/manual/reference/operator/update/set/#up._S_set
-.. _$unset lesson video: https://university.mongodb.com/videos/y/LpErz8jLW0I
-.. _$unset documentation: http://docs.mongodb.org/manual/reference/operator/update/unset/#up._S_unset
-.. _$rename documentation: http://docs.mongodb.org/manual/reference/operator/update/rename/#up._S_rename
-.. _$setOnInsert documentation: http://docs.mongodb.org/manual/reference/operator/update/setOnInsert/#up._S_setOnInsert
-.. _$inc documentation: http://docs.mongodb.org/manual/reference/operator/update/inc/#up._S_inc
-.. _$mul documentation: http://docs.mongodb.org/manual/reference/operator/update/mul/#up._S_mul
-.. _$min documentation: http://docs.mongodb.org/manual/reference/operator/update/min/#up._S_min
-.. _$max documentation: http://docs.mongodb.org/manual/reference/operator/update/max/#up._S_max
-.. _Array operators lesson video: https://university.mongodb.com/videos/y/GOn0EWKDQoY
-.. _Positional $ documentation: http://docs.mongodb.org/manual/reference/operator/update/positional/#up._S_
-.. _$addToSet documentation: http://docs.mongodb.org/manual/reference/operator/update/addToSet/#up._S_addToSet
-.. _$each documentation: http://docs.mongodb.org/manual/reference/operator/update/each/#up._S_each
-.. _$slice documentation: http://docs.mongodb.org/manual/reference/operator/update/slice/#up._S_slice
-.. _$pop documentation: http://docs.mongodb.org/manual/reference/operator/update/pop/#up._S_pop
-.. _$pull documentation: http://docs.mongodb.org/manual/reference/operator/update/pull/#up._S_pull
-.. _$pullAll documentation: http://docs.mongodb.org/manual/reference/operator/update/pullAll/#up._S_pullAll
-.. _$push documentation: http://docs.mongodb.org/manual/reference/operator/update/push/#up._S_push
-.. _$sort documentation: http://docs.mongodb.org/manual/reference/operator/update/sort/#up._S_sort
-.. _$position documentation: http://docs.mongodb.org/manual/reference/operator/update/position/#up._S_position
 .. _$pushAll documentation: http://docs.mongodb.org/manual/reference/operator/update/pushAll/#up._S_pushAll
-.. _Upsert lesson video: https://university.mongodb.com/videos/y/Dy2p8k3EZs4
-.. _Multi update lesson video: https://university.mongodb.com/videos/y/2GNNdUmDL-4
 
 Delete
 ------
@@ -345,17 +333,15 @@ Delete
 Deletion is about removing documents from the database.
 
 For the exam, you should be able to:
+
   - Drop a collection
   - Build a query that deletes only the documents you want it to
 
-- Lesson on deletion_
-- Documentation on dropping a collection_
-- Documentation on db.collection.remove()_
+- `Lesson on deletion <https://university.mongodb.com/videos/y/5K0t1dU8IJY>`_
+- :manual:`Documentation on dropping a collection</reference/method/db.collection.drop/>`
+- :manual:`Documentation on db.collection.remove()</reference/method/db.collection.remove/>`
 
 
-.. _Lesson on deletion: https://university.mongodb.com/videos/y/5K0t1dU8IJY
-.. _Documentation on dropping a collection: http://docs.mongodb.org/manual/reference/method/db.collection.drop/
-.. _Documentation on db.collection.remove()
 
 
 

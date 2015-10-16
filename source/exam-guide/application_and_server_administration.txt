@@ -1,5 +1,6 @@
+================================================
 Application and Server Administration (DBA Only)
-------------------------------------------------
+================================================
 
 For the Certification Exam, students will be expected to:
 
@@ -15,9 +16,13 @@ Application and Server Administration Topics
 - Server Logs
 - The Profiler
 - MongoDB Security
+
   - MongoDB CR
+
     - User roles
+
   - Security Features Available
+
 - Cluster Architecture
 - Diagnostics and Debugging
 - Maintenance
@@ -25,8 +30,8 @@ Application and Server Administration Topics
 - Recovery
 
 
-Application and Server Administration Introduction
---------------------------------------------------
+Introduction
+------------
 
 While the definitions are somewhat fluid, Application Administration deals with MongoDB's relationship to applications. Since MongoDB is a flexible data store, it's basically never used alone, except for training purposes. It's always hooked into an application, and this requires a certain set of features to assist with the interface, such as the wire protocol, over-the-wire encryption, and security. 
 
@@ -39,17 +44,19 @@ Journal
 MongoDB's journal is a "write ahead" log used to ensure consistency of data on disk for MMAPv1 (though it's not necessary for WiredTiger), and also is used to frequently commit writes to disk.
 
 Videos:
-  - Journal's impact on resident memory_
-Docs:
-  - Journaling Mechanics_
-  - Manage Journaling_
-Blog:
-  - How MongoDB's Journaling Works_
 
-.. _Journal's impact on resident memory: https://university.mongodb.com/videos/y/8TmmEzm50cw
-.. _Journaling Mechanics: http://docs.mongodb.org/manual/core/journaling/
-.. _Manage Journaling: http://docs.mongodb.org/manual/tutorial/manage-journaling/
-.. _How MongoDB's Journaling Works: http://blog.mongodb.org/post/33700094220/how-mongodbs-journaling-works
+  - `Journal's impact on resident memory <https://university.mongodb.com/videos/y/8TmmEzm50cw>`_
+
+Docs:
+
+  - :manual:`Journaling Mechanics</core/journaling/>`
+  - :manual:`Manage Journaling</tutorial/manage-journaling/>`
+
+Blog:
+
+  - `How MongoDB's Journaling Works <http://blog.mongodb.org/post/33700094220/how-mongodbs-journaling-works>`_
+
+.. _How MongoDB's Journaling Works: 
 
 Server Logs
 -----------
@@ -57,48 +64,41 @@ Server Logs
 The server logs capture several things by default: connections, the creation/dropping of collections/databases, and long-running events (more than 100 ms), among other things. You'll need to know the things at about this level, but you won't need to know things much deeper than that.
 
 Docs:
-  - Log Messages_
-  - Rotate Log Files_
-  - Process Logging_
-Videos:
-  - Examining Log Files_
 
-.. _Log Messages: http://docs.mongodb.org/manual/reference/log-messages/
-.. _Rotate Log Files: http://docs.mongodb.org/manual/tutorial/rotate-log-files/
-.. _Process Logging: http://docs.mongodb.org/manual/administration/monitoring/#process-logging
-.. _Examining Log Files: https://university.mongodb.com/videos/y/qc1hOvhCohY
+  - :manual:`Log Messages</reference/log-messages/>`
+  - :manual:`Rotate Log Files</tutorial/rotate-log-files/>`
+  - :manual:`Process Logging</administration/monitoring/#process-logging>`
+
+Videos:
+
+  - `Examining Log Files <https://university.mongodb.com/videos/y/qc1hOvhCohY>`_
+
 
 The Profiler
 ------------
 
 Docs:
-  - Database Profiling_
 
-.. _Database Profiling: http://docs.mongodb.org/manual/administration/analyzing-mongodb-performance/#database-profiling
+  - :manual:`Database Profiling</administration/analyzing-mongodb-performance/#database-profiling>`
+
 
 Videos:
-  - Profiler Demo_
-  - Profiling Overview_
-  - Profiler Helper Function_
-  - Examining Profiler Operations_
-  - Filtering the Profiler by Timestamp_
 
+  - `Profiler Demo <https://university.mongodb.com/videos/y/_ApSNwSRYVo>`_
+  - `Profiling Overview <https://university.mongodb.com/videos/y/ww5pYJqukAg>`_
+  - `Profiler Helper Function <https://university.mongodb.com/videos/y/_ApSNwSRYVo>`_
+  - `Examining Profiler Operations <https://university.mongodb.com/videos/y/FSrJz_hkisM>`_
+  - `Filtering the Profiler by Timestamp <https://university.mongodb.com/videos/y/P6igqf5Vc9w>`_
 
-.. _Profiler Demo: https://university.mongodb.com/videos/y/_ApSNwSRYVo
-.. _Profiling Overview: https://university.mongodb.com/videos/y/ww5pYJqukAg
-.. _Profiler Helper Function: https://university.mongodb.com/videos/y/_ApSNwSRYVo
-.. _Examining Profiler Operations: https://university.mongodb.com/videos/y/FSrJz_hkisM
-.. _Filtering the Profiler by Timestamp: https://university.mongodb.com/videos/y/P6igqf5Vc9w
 
 Monitoring and Performance Tuning
 ---------------------------------
 
 Docs:
-  - Monitoring for MongoDB_ (a great page listing resources for all types of system monitoring)
-  - Analyzing MongoDB Performance_
 
-.. _Monitoring for MongoDB: http://docs.mongodb.org/manual/administration/monitoring/
-.. _Analyzing MongoDB Performance: http://docs.mongodb.org/manual/administration/analyzing-mongodb-performance/
+  - :manual:`Monitoring for MongoDB</administration/monitoring/>`
+  - :manual:`Analyzing MongoDB Performance</administration/analyzing-mongodb-performance/>`
+
 
 MongoDB Security
 ----------------
@@ -106,45 +106,28 @@ MongoDB Security
 For security, you should be familiar with MongoDB-CR (defining user roles and permissions) to the extent of knowing the roles and how to set permissions. You should also know about the other options and best practices for MongoDB's security features, but will not need to know details about them for the certification exam.
 
 Docs:
-  - Security Introduction_
-  - Authentication_
-  - Authorization_
-  - Network Exposure and Security_
-  - Collection-Level Access Control_
-  - Auditing_
-  - Security and MongoDB API Interfaces_
-  - Kerberos Authentication_
-  - MongoDB Security Guide_ (A good resource when implementing security for MongoDB)
-  - Security Tutorials_ (A good set of tutorials for security)
-Tutorials:
-  - Deploy Replica Set and Configure Authentication and Authorization_
-  - Authentication Tutorials_
-  - Network Security Tutorials_
 
-.. _Security Introduction: http://docs.mongodb.org/manual/core/security-introduction/
-.. _Authentication: http://docs.mongodb.org/manual/core/authentication/
-.. _Authorization: http://docs.mongodb.org/manual/core/authorization/
-.. _Network Exposure and Security: http://docs.mongodb.org/manual/core/security-network/
-.. _Collection Level Access Control: http://docs.mongodb.org/manual/core/collection-level-access-control/
-.. _Auditing: http://docs.mongodb.org/manual/core/auditing/
-.. _Kerberos Authentication: http://docs.mongodb.org/manual/core/kerberos/
-.. _MongoDB Security Guide: http://docs.mongodb.org/master/MongoDB-security-guide.pdf
-.. _Security Tutorials: http://docs.mongodb.org/manual/administration/security/
+  - :manual:`Security Introduction</core/security-introduction/>`
+  - :manual:`Authentication</core/authentication/>`
+  - :manual:`Authorization</core/authorization/>`
+  - :manual:`Network Exposure and Security</core/security-network/>`
+  - :manual:`Collection-Level Access Control</core/collection-level-access-control/>`
+  - :manual:`Auditing</core/auditing/>`
+  - :manual:`Kerberos Authentication</core/kerberos/>`
+  - `MongoDB Security Guide <http://docs.mongodb.org/master/MongoDB-security-guide.pdf>`_
+  - :manual:`Security Tutorials</administration/security/>`
+
 
 Cluster Architecture
 --------------------
 
 Know about patterns. For example, in a replica set, know that you should have an odd number of members in, distributit across data centers, and use cases for tags. For a sharded cluster, understand tag based sharding, tag use cases, and  Some of this is covered in Replication and Sharding, but where those sections largerly are concerned with what can be done, this section emphasizes what should be done.
 
-- Replica Set Deployment Architectures_
-- Sharded Cluster Requirements_
-- Production Cluster Architecture_
-- Config Server Availability_
+- :manual:`Replica Set Deployment Architectures</core/replica-set-architectures/>`
+- :manual:`Sharded Cluster Requirements</core/sharded-cluster-requirements/>`
+- :manual:`Production Cluster Architecture</core/sharded-cluster-architectures-production/>`
+- :manual:`Config Server Availability</core/sharded-cluster-config-servers/#config-server-availability>`
 
-.. _Sharded Cluster Requirements: http://docs.mongodb.org/manual/core/sharded-cluster-requirements/
-.. _Production Cluster Architecture: http://docs.mongodb.org/manual/core/sharded-cluster-architectures-production/
-.. _Replica Set Deployment Architectures: http://docs.mongodb.org/manual/core/replica-set-architectures/
-.. _Config Server Availability: http://docs.mongodb.org/manual/core/sharded-cluster-config-servers/#config-server-availability
 
 Diagnostics and Debugging
 -------------------------
@@ -152,20 +135,17 @@ Diagnostics and Debugging
 This section captures anything that isn't captured elsewhere (such as the server tools sections, the logs, or the profiler), and questions will either ask how to use those tools, or what tools are the right tool for a particular problem or piece of information you're trying to gather. For any commands listed here, be familiar with how to use the command, and how to interpret what it returns.
 
 Docs:
-  - db.currentOp()_
-  - db.serverStatus()_
-  - Diagnostics_
-  - rs.status()_
-  - sh.status()_
-Webinar:
-  - Diagnostics and Debugging_, a great talk that touches on many topics in this section, presented by MongoDB's very engaging Asya Kamsky
 
-.. _db.currentOp(): http://docs.mongodb.org/manual/reference/method/db.currentOp/
-.. _Diagnostics: http://docs.mongodb.org/manual/faq/diagnostics/
-.. _Diagnostics and Debugging: https://www.mongodb.com/presentations/webinar-diagnostics-and-debugging-mongodb
-.. _db.serverStatus(): http://docs.mongodb.org/manual/reference/method/db.serverStatus/
-.. _rs.status(): http://docs.mongodb.org/manual/reference/method/rs.status/
-.. _sh.status(): http://docs.mongodb.org/manual/reference/method/sh.status/
+  - :manual:`db.currentOp()</reference/method/db.currentOp/>`
+  - :manual:`db.serverStatus()</reference/method/db.serverStatus/>`
+  - :manual:`Diagnostics</faq/diagnostics/>`
+  - :manual:`rs.status()</reference/method/rs.status/>`
+  - :manual:`sh.status()</reference/method/sh.status/>`
+
+Webinar:
+
+  - `Diagnostics and Debugging <https://www.mongodb.com/presentations/webinar-diagnostics-and-debugging-mongodb>`_
+
 
 Maintenance
 -----------
@@ -173,18 +153,16 @@ Maintenance
 You should know the procedure for rotating log files, upgrade your servers (hot), and removing shards from a cluster. You should also know how to kill long-running processes manually.
 
 Docs:
-  - Rotate Log Files_
-  - Upgrade to the Latest Version of MongoDB_
-  - db.killOp()_
-Videos:
-  - Removing a Shard_
-  - Upgrading a Sharded Cluster_
 
-.. _db.killOp(): http://docs.mongodb.org/manual/reference/method/db.killOp/
-.. _Rotate Log Files: http://docs.mongodb.org/v2.6/tutorial/rotate-log-files/
-.. _Removing a Shard: https://university.mongodb.com/videos/y/kSlGXXe215Q
-.. _Upgrading a Sharded Cluster: https://university.mongodb.com/videos/y/3XrnQ9yFwfU
-.. _Upgrade to the Latest Version of MongoDB: http://docs.mongodb.org/v2.6/tutorial/upgrade-revision/
+  - `Rotate Log Files <http://docs.mongodb.org/v2.6/tutorial/rotate-log-files/>`_
+  - `Upgrade to the Latest Version of MongoDB <http://docs.mongodb.org/v2.6/tutorial/upgrade-revision/>`_
+  - :manual:`db.killOp()</reference/method/db.killOp/>`
+
+Videos:
+
+  - `Removing a Shard <https://university.mongodb.com/videos/y/kSlGXXe215Q>`_
+  - `Upgrading a Sharded Cluster <https://university.mongodb.com/videos/y/3XrnQ9yFwfU>`_
+
 
 Backup and Recovery
 -------------------
@@ -194,24 +172,19 @@ You will need to be familiar with your backup options.
 Keep in mind, most of the trouble people have with backups is restoring to them. You should also be familiar with your options for restoring data in the event of server failure.
 
 Docs:
- - Backup and Restore with Filesystem Snapshots_
- - Restore a Replica Set from MongoDB Backups_
- - Backup and Restore with MongoDB Tools_
-Videos:
-  - Overview of Backing Up_
-  - Mongodump_
-  - Filesystem Snapshot_
-  - Backing Up a Sharded Cluster_
-  - Backup Strategies_
 
-.. _Overview of Backing Up: https://university.mongodb.com/videos/y/hl58MKd2jCs
-.. _Mongodump: https://university.mongodb.com/videos/y/tbQE2ZPPbHA
-.. _Filesystem Snapshot: https://university.mongodb.com/videos/y/6A_jy8_YRIg
-.. _Backing Up a Sharded Cluster: https://university.mongodb.com/videos/y/DAWoj5Hd2Mo
-.. _Backup Strategies: https://university.mongodb.com/videos/y/7x9UPaq-i78
-.. _Backup and restore with Filesystem Snapshots: http://docs.mongodb.org/manual/tutorial/backup-with-filesystem-snapshots/
-.. _Restore a Replica Set from MongoDB Backups: http://docs.mongodb.org/manual/tutorial/restore-replica-set-from-backup/
-.. _Backup and Restore with MongoDB Tools: http://docs.mongodb.org/v2.6/tutorial/backup-with-mongodump/
+ - :manual:`Backup and Restore with Filesystem Snapshots</tutorial/backup-with-filesystem-snapshots/>`
+ - :manual:`Restore a Replica Set from MongoDB Backups</tutorial/restore-replica-set-from-backup/>`
+ - `Backup and Restore with MongoDB Tools <http://docs.mongodb.org/v2.6/tutorial/backup-with-mongodump/>`_
+
+Videos:
+
+  - `Overview of Backing Up <https://university.mongodb.com/videos/y/hl58MKd2jCs>`_
+  - `Mongodump <https://university.mongodb.com/videos/y/tbQE2ZPPbHA>`_
+  - `Filesystem Snapshot <https://university.mongodb.com/videos/y/6A_jy8_YRIg>`_
+  - `Backing Up a Sharded Cluster <https://university.mongodb.com/videos/y/DAWoj5Hd2Mo>`_
+  - `Backup Strategies <https://university.mongodb.com/videos/y/7x9UPaq-i78>`_
+
 
 Further Exercises
 -----------------

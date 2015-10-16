@@ -1,14 +1,16 @@
+=======================
 Philosophy and Features
------------------------
+=======================
 
 On the certification exam, we will attempt to verify that you:
 - Know and can define the basic features of MongoDB 
 - Understand JSON and BSON at a basic level
 
 
-Philosophy and Features Subtopics
----------------------------------
+Subtopics
+---------
 
+- Introduction
 - JSON
 - BSON
 - The Mongo Shell
@@ -16,6 +18,10 @@ Philosophy and Features Subtopics
 - The Mongo Shell
 - MongoDB and Relational DB's
 - MongoDB as a "schemaless" database
+
+
+Introduction
+------------
 
 Here is a white paper that touches on multiple topics_.
 
@@ -26,30 +32,32 @@ JSON
 ----
 
 The JSON spec is pretty basic; you should know:
+
 - All JSON types
 - The structure of JSON objects and arrays
 - How to nest JSON objects, arrays, and other types
 
 Here are some good resources:
 
-Videos:
-- JSON video lessons
-  - Introduction to JSON_
-  - JSON revisited_
-  - JSON subdocuments_
-  - JSON spec_
-- JSON web or pdf literature:
-  - Intro to JSON_
-  - json.org_
-  - Document databases_
+- Videos:
 
-.. _json.org: http://json.org/
-.. _Document databases: https://www.mongodb.com/document-databases
-.. _Intro to JSON: http://docs.mongodb.org/manual/reference/mongodb-extended-json/
-.. _JSON revisited: https://university.mongodb.com/videos/y/CTffxoSSLqg
-.. _JSON subdocuments: https://university.mongodb.com/videos/y/vrYAEH3g13M
-.. _JSON spec: https://university.mongodb.com/videos/y/kOrsT94-A28
-.. _Introduction to JSON: _https://university.mongodb.com/videos/y/PTATjNSjbJ0
+  - `Introduction to JSON <https://university.mongodb.com/videos/y/PTATjNSjbJ0>`_
+  - `JSON revisited <https://university.mongodb.com/videos/y/CTffxoSSLqg>`_
+  - `JSON subdocuments <https://university.mongodb.com/videos/y/vrYAEH3g13M>`_
+  - `JSON spec <https://university.mongodb.com/videos/y/kOrsT94-A28>`_
+
+
+- Other MongoDB Links
+
+  - `Document databases <https://www.mongodb.com/document-databases>`_
+
+- Docs:
+
+  - :manual:`Intro to JSON</reference/mongodb-extended-json/>`
+
+- External links:
+
+  - `json.org <http://json.org/>`_
 
 
 BSON
@@ -58,12 +66,14 @@ BSON
 The following should help elucidate BSON a bit:
 
 - Web docs:
-  - BSON spec_
-- MongoDB Docs:
-  - Bsondump_ (you can point it at MongoDB data files if you're using MMAPv1)
 
-.. _BSON spec: http://bsonspec.org/  
-.. _BSONdump: http://docs.mongodb.org/manual/reference/program/bsondump/
+  - `BSON spec <http://bsonspec.org/>`_
+
+- MongoDB Docs:
+
+  - :manual:`BSONdump</reference/program/bsondump/>`
+   
+    - you can point it at MongoDB data files if you're using MMAPv1 to see what they contain.
 
 
 The Mongo Shell
@@ -72,18 +82,18 @@ The Mongo Shell
 The javascript shell is used both for administration of MongoDB, and to teach people how to use the database. It's essentially a lightweight javascript client. Here are some resources to help familiar with it:
 
 Video:
-  - Lesson video_
+
+  - `Lesson video <https://university.mongodb.com/videos/y/e18vCIdQKp4>`_
+
 Docs:
-  - Getting Started with the mongo Shell_
-  - mongo Shell Quick Reference_
+
+  - :manual:`Getting Started with the mongo Shell</tutorial/getting-started-with-the-mongo-shell/>`
+  - :manual:`mongo Shell Quick Reference</reference/mongo-shell/>`
 
 You should also know the types in the shell_.
 
 
-.. _Getting Started with the mongo Shell: http://docs.mongodb.org/manual/tutorial/getting-started-with-the-mongo-shell/
 
-.. _Lesson video: https://university.mongodb.com/videos/y/e18vCIdQKp4
-.. _mongo Shell Quick Reference: http://docs.mongodb.org/manual/reference/mongo-shell/
 .. _types in the shell: http://docs.mongodb.org/manual/core/shell-types/
 
 
@@ -95,12 +105,13 @@ Vertical scaling can be done by any database -- it involves buying a bigger box 
 Horizontal scaling, though, involves distributing your data across multiple servers, and at this task, not every database is equally scalable. MongoDB is designed to horizontally scale well.
 
 Webinar:
-  - Scaling MongoDB Webinar Series_
-Docs:
-  - Sharding Introduction_
 
-.. _Scaling MongoDB Webinar Series: https://www.mongodb.com/lp/webinar/scaling-series-sept-2014
-.. _Sharding Introduction: http://docs.mongodb.org/manual/core/sharding-introduction/
+  - `Scaling MongoDB Webinar Series <https://www.mongodb.com/lp/webinar/scaling-series-sept-2014>`_
+
+Docs:
+
+  - :manual:`Sharding Introduction</core/sharding-introduction/>`
+
 
 
 MongoDB and Relational DB's
@@ -110,15 +121,16 @@ Relational databases are the biggest players in the database world right now. Mo
 
 
 Video:
-  - MongoDB and Relational DB's_
-Docs:
-  - SQL to MongoDB Mapping Chart_
-MongoDB.com:
-  - Compare MongoDB and MySQL_
 
-.. _MongoDB and Relational DB's: https://university.mongodb.com/videos/y/-KIC1LXxcGM
-.. _Compare MongoDB and MySQL: https://www.mongodb.com/compare/mongodb-mysql
-.. _SQL to MongoDB Mapping Chart: http://docs.mongodb.org/manual/reference/sql-comparison/
+  - `MongoDB and Relational DB's <https://university.mongodb.com/videos/y/-KIC1LXxcGM>`_
+
+Docs:
+
+  - :manual:`SQL to MongoDB Mapping Chart</reference/sql-comparison/>`
+
+MongoDB.com:
+
+  - `Compare MongoDB and MySQL <https://www.mongodb.com/compare/mongodb-mysql>`_
 
 
 MongoDB as a "Schemaless" Database
@@ -126,11 +138,9 @@ MongoDB as a "Schemaless" Database
 
 Some people refer to MongoDB as "schemaless," though it's more accurate to say that MongoDB can use a flexible schema. While in a relational DB, every row of a table must contain the same fields, with MongoDB, you can have fields that are present in one document but not in another document, even if they're in the same collection. This gives developers a flexibility that relational databases lack.
 
-- Lesson video_
-- Data Modeling Introduction_
+- `Lesson video <https://university.mongodb.com/videos/y/uKB-Hoqs6zI>`_
+- `Data Modeling Introduction <http://docs.mongodb.org/master/core/data-modeling-introduction/>`_
 
-.. _Lesson video: https://university.mongodb.com/videos/y/uKB-Hoqs6zI
-.. _Data Modeling Introduction: http://docs.mongodb.org/master/core/data-modeling-introduction/
 
 
 Sample Problems

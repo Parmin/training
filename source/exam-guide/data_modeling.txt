@@ -9,16 +9,22 @@ On the certification exam, we will attempt to verify that you :
 - Know the benefits of special data formats in MongoDB
 - Understand the implications of the storage engine for data modeling
 
+
 Data Modeling Subtopoics
 ------------------------
 
+- Introduction
 - Document Structure
+
   - Embedding
   - References
   - Denormalizing
+
 - Relational Features and MongoDB Patterns
+
   - Transactions
   - Atomic Writes
+
 - One-to-many relationships
 - One-to-one relationships
 - Many-to-many relationships
@@ -26,12 +32,13 @@ Data Modeling Subtopoics
 - Schema Design Patterns
 - Bulk Operations
 - MongoDB BLOB options
+
   - GridFS
   - Binary Data
 
 
-Data Modeling Introduction
---------------------------
+Introduction
+------------
 
 For data modeling, keep in mind at all times that the structure of documents affects performance. Your goals are to try to ensure that any data you need is in memory, especially if you're going to read it frequently. There are costs associated with going to disk for data that isn't in memory. You not only need to spend time seeking and reading data from disk, but when you pull that data into memory, you push other data out.
 
@@ -42,34 +49,35 @@ One of the key concepts of data modeling is the idea of the "working set" of dat
 Much of data modeling is centered around designing schemas that ensure that you're reading everything you need with as few queries as possible, while also removing from your frequently-read documents anything you don't frequently use.
 
 Docs:
-  - Data Modeling Introduction_
-  - Working Set_
+
+  - `Data Modeling Introduction <http://docs.mongodb.org/master/core/data-modeling-introduction/>`_
+  - `Working Set <http://docs.mongodb.org/master/faq/diagnostics/#what-is-a-working-set>`_
+
 Video:
-  - Schema Design Introduction_
+
+  - `Schema Design Introduction <https://youtu.be/AABYJM12qF4>`_
+
 White Paper:
-  - Data Model Design for MongoDB_
+
+  - `Data Model Design for MongoDB <http://docs.mongodb.org/master/MongoDB-data-models-guide.pdf>`_
+
     - This is more of a full guide than an introduction, and looks into many of the sections of the exam.
 
-.. _Data Modeling Introduction: http://docs.mongodb.org/master/core/data-modeling-introduction/
-.. _Schema Design Introduction: https://youtu.be/AABYJM12qF4
-.. _Data Model Design for MongoDB: http://docs.mongodb.org/master/MongoDB-data-models-guide.pdf
-.. _Working Set: http://docs.mongodb.org/master/faq/diagnostics/#what-is-a-working-set
 
 
 Document Structure
 ------------------
 
 Docs:
-  - Document Structure_
-  - Data Model Design_
-Video:
-  - Benefits of Embedding_
-  - When to Denormalize_
 
-.. _Document Structure: http://docs.mongodb.org/master/core/data-modeling-introduction/#document-structure
-.. _Data Model Design: http://docs.mongodb.org/v3.0/core/data-model-design/
-.. _Benefits of Embedding: https://university.mongodb.com/videos/y/XIN0Dqht08Q
-.. _When to Denormalize: https://university.mongodb.com/videos/y/jDZ-HFoJ0vg
+  - `Document Structure <http://docs.mongodb.org/master/core/data-modeling-introduction/#document-structure>`_
+  - `Data Model Design <http://docs.mongodb.org/v3.0/core/data-model-design/>`_
+
+Video:
+
+  - `Benefits of Embedding <https://university.mongodb.com/videos/y/XIN0Dqht08Q>`_
+  - `When to Denormalize <https://university.mongodb.com/videos/y/jDZ-HFoJ0vg>`_
+
 
 
 Relational Features and MongoDB Patterns
@@ -78,97 +86,81 @@ Relational Features and MongoDB Patterns
 Many developers and DBA's come from the relational world, so you should be familiar with some of the features of relational DB's, particularly joins (which involve simultaneously reading from several tables) and transactions (which involve simultaneously writing to several tables). 
 
 Videos:
-  - Living without Constraints_
-  - Living without Transactions_
+
+  - `Living without Constraints <https://university.mongodb.com/videos/y/YFRMkDPaams>`_
+  - `Living without Transactions <https://university.mongodb.com/videos/y/FfRr3qjRfww>`_
 
 Docs:
-  - Database References_
-  - Atomicity and Transactions_
-  - Atomicity of Write Operations_
 
-.. _Atomicity and Transactions: http://docs.mongodb.org/manual/core/write-operations-atomicity/
-.. _Atomicity of Write Operations: http://docs.mongodb.org/master/core/data-modeling-introduction/#atomicity-of-write-operations
-.. _Database References: http://docs.mongodb.org/master/reference/database-references/
-.. _Living without Constraints: https://university.mongodb.com/videos/y/YFRMkDPaams
-.. _Living without Transactions: https://university.mongodb.com/videos/y/FfRr3qjRfww
+  - `Database References <http://docs.mongodb.org/master/reference/database-references/>`_
+  - :manual:`Atomicity and Transactions</core/write-operations-atomicity/>`
+  - `Atomicity of Write Operations <http://docs.mongodb.org/master/core/data-modeling-introduction/#atomicity-of-write-operations>`_
 
 
 One-to-One Relationships
 ------------------------
 
 Docs:
-  - Model One-to-One Relationships with Embedded Documents_
-Video:
-  - One to One Relationships_
 
-.. _One to One Relationships: https://university.mongodb.com/videos/y/cCsfon0vUlQ
-.. _Model One-to-One Relationships with Embedded Documents: http://docs.mongodb.org/master/tutorial/model-embedded-one-to-one-relationships-between-documents/
+  - `Model One-to-One Relationships with Embedded Documents <http://docs.mongodb.org/master/tutorial/model-embedded-one-to-one-relationships-between-documents/>`_
+
+Video:
+
+  - `One to One Relationships <https://university.mongodb.com/videos/y/cCsfon0vUlQ>`_
+
 
 
 One-to-Many Relationships
 -------------------------
 
 Video:
-  - One to Many Relationships_
-Docs:
-  - One-to-Many Relationships with Embedded Documents_
-  - One-to-Many Relationships with Document References_
-Blog Posts: 
-  - Rules of Thumb_
-  - Rules of Thumb Part 2_
-  - Rules of Thumb Part 3_
 
-.. _Rules of Thumb: http://blog.mongodb.org/post/87200945828/6-rules-of-thumb-for-mongodb-schema-design-part-1  
-.. _Rules of Thumb Part 2: http://blog.mongodb.org/post/87892923503/6-rules-of-thumb-for-mongodb-schema-design-part-2
-.. _Rules of Thumb Part 3: http://blog.mongodb.org/post/88473035333/6-rules-of-thumb-for-mongodb-schema-design-part-3
-.. _One to Many Relationships: https://university.mongodb.com/videos/y/EIaP1KbVkUc
-.. _One-to-Many Relationships with Embedded Documents: http://docs.mongodb.org/master/tutorial/model-embedded-one-to-many-relationships-between-documents/
-.. _One-to-Many Relationships with Document References: http://docs.mongodb.org/master/tutorial/model-referenced-one-to-many-relationships-between-documents/
+  - `One to Many Relationships <https://university.mongodb.com/videos/y/EIaP1KbVkUc>`_
+
+Docs:
+
+  - `One-to-Many Relationships with Embedded Documents <http://docs.mongodb.org/master/tutorial/model-embedded-one-to-many-relationships-between-documents/>`_
+  - `One-to-Many Relationships with Document References <http://docs.mongodb.org/master/tutorial/model-referenced-one-to-many-relationships-between-documents/>`_
+
+Blog Posts: 
+
+  - `Rules of Thumb <http://blog.mongodb.org/post/87200945828/6-rules-of-thumb-for-mongodb-schema-design-part-1  >`_
+  - `Rules of Thumb Part 2 <http://blog.mongodb.org/post/87892923503/6-rules-of-thumb-for-mongodb-schema-design-part-2>`_
+  - `Rules of Thumb Part 3 <http://blog.mongodb.org/post/88473035333/6-rules-of-thumb-for-mongodb-schema-design-part-3>`_
 
 
 Many-to-Many Relationships
 --------------------------
 
 Video:
-  - Many to Many Relationships_
 
-
-.. _Many to Many Relationships: https://university.mongodb.com/videos/y/fEYYjZ7zEHc
-
-
+  - `Many to Many Relationships <https://university.mongodb.com/videos/y/fEYYjZ7zEHc>`_
 
 
 Modeling Tree Structures
 ------------------------
 
 Video:
-  - Trees_
-Docs:
-  - Model Tree Structures_
-  - Model Tree Structures with Parent References_
-  - Model Tree Structures with Child References_
-  - Model Tree Structures with an Array of Ancestors_
-  - Model Tree Structures with Materialized Paths_
-  - Model Tree Structures with Nested Sets_
 
-.. _Trees: https://university.mongodb.com/videos/y/lIjXyQklGWY
-.. _Model Tree Structures: http://docs.mongodb.org/master/applications/data-models-tree-structures/
-.. _Model Tree Structures with Parent References: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-parent-references/
-.. _Model Tree Structures with Child References: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-child-references/
-.. _Model Tree Structures with an Array of Ancestors: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-ancestors-array/
-.. _Model Tree Structures with Materialized Paths: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-materialized-paths/
-.. _Model Tree Structures with Nested Sets: http://docs.mongodb.org/master/tutorial/model-tree-structures-with-nested-sets/
+  - `Trees <https://university.mongodb.com/videos/y/lIjXyQklGWY>`_
+
+Docs:
+
+  - `Model Tree Structures <http://docs.mongodb.org/master/applications/data-models-tree-structures/>`_
+  - `Model Tree Structures with Parent References <http://docs.mongodb.org/master/tutorial/model-tree-structures-with-parent-references/>`_
+  - `Model Tree Structures with Child References <http://docs.mongodb.org/master/tutorial/model-tree-structures-with-child-references/>`_
+  - `Model Tree Structures with an Array of Ancestors <http://docs.mongodb.org/master/tutorial/model-tree-structures-with-ancestors-array/>`_
+  - `Model Tree Structures with Materialized Paths <http://docs.mongodb.org/master/tutorial/model-tree-structures-with-materialized-paths/>`_
+  - `Model Tree Structures with Nested Sets <http://docs.mongodb.org/master/tutorial/model-tree-structures-with-nested-sets/>`_
 
 
 Schema Design Patterns
 ---------------------- 
 
 Docs:
- - Model Data to Support Keyword Search_
- - Model Monetary Data_
 
-.. _Model Data to Support Keyword Search: http://docs.mongodb.org/master/tutorial/model-data-for-keyword-search/
-.. _Model Monetary Data: http://docs.mongodb.org/master/tutorial/model-monetary-data/
+ - `Model Data to Support Keyword Search <http://docs.mongodb.org/master/tutorial/model-data-for-keyword-search/>`_
+ - `Model Monetary Data <http://docs.mongodb.org/master/tutorial/model-monetary-data/>`_
 
 
 Bulk Operations
@@ -177,11 +169,10 @@ Bulk Operations
 Bulk Operations allow you to use bulk write operations to amortize a write concern response over many documents.
 
 Docs:
-  - db.collection.insert()_
-  - Bulk Write Operations_
 
-.. _db.collection.insert(): http://docs.mongodb.org/master/reference/method/db.collection.insert/#db.collection.insert
-.. _Bulk Write Operations: http://docs.mongodb.org/master/core/bulk-write-operations/
+  - `db.collection.insert() <http://docs.mongodb.org/master/reference/method/db.collection.insert/#db.collection.insert>`_
+  - `Bulk Write Operations <http://docs.mongodb.org/master/core/bulk-write-operations/>`_
+
 
 
 MongoDB BLOB Options
@@ -190,11 +181,20 @@ MongoDB BLOB Options
 MongoDB has a binary type (which you should be aware of), and can also break up large BLOBS using GridFS.
 
 Video:
-  - GridFS
-Docs:
-  - GridFS Storage_
-  - GridFS Reference_
 
-.. _GridFS: https://university.mongodb.com/videos/y/AsL5p1Z0Ss8
-.. _GridFS Reference: http://docs.mongodb.org/manual/reference/gridfs/
-.. _GridFS Storage: http://docs.mongodb.org/manual/core/gridfs/
+  - `GridFS <https://university.mongodb.com/videos/y/AsL5p1Z0Ss8>`_
+
+Docs:
+
+  - :manual:`GridFS Storage</core/gridfs/>`
+  - :manual:`GridFS Reference</reference/gridfs/>`
+
+Exercises
+---------
+
+- Think of an online marketplace, analogous to, perhaps, eBay or Amazon.
+
+  - Create a schema for handling the data associated with your producs.
+
+    - Optimize the schema for fast writes
+    - Optimize the scheme for fast reads.
