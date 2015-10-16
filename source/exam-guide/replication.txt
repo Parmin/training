@@ -122,11 +122,11 @@ This is only a concern for DBA's. You should know what happens if:
 - Third, a new primary is elected
 - Fourth, your old primary reconnects to the rest of the replica set
 
-Video:
+- Video:
 
   - `Recovery <https://university.mongodb.com/videos/y/TGsnu9RBjzA>`_
 
-Docs: 
+- Docs: 
 
   - :manual:`Rollbacks</core/replica-set-rollbacks/>`
 

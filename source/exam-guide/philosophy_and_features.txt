@@ -15,7 +15,6 @@ Subtopics
 - BSON
 - The Mongo Shell
 - Horizontal Scaling
-- The Mongo Shell
 - MongoDB and Relational DB's
 - MongoDB as a "schemaless" database
 
@@ -81,20 +80,16 @@ The Mongo Shell
 
 The javascript shell is used both for administration of MongoDB, and to teach people how to use the database. It's essentially a lightweight javascript client. Here are some resources to help familiar with it:
 
-Video:
+- Video:
 
   - `Lesson video <https://university.mongodb.com/videos/y/e18vCIdQKp4>`_
 
-Docs:
+- Docs:
 
   - :manual:`Getting Started with the mongo Shell</tutorial/getting-started-with-the-mongo-shell/>`
   - :manual:`mongo Shell Quick Reference</reference/mongo-shell/>`
 
-You should also know the types in the shell_.
-
-
-
-.. _types in the shell: http://docs.mongodb.org/manual/core/shell-types/
+You should also know the :manual:`types in the shell</core/shell-types/>`.
 
 
 Vertical and Horizontal Scaling
@@ -104,11 +99,11 @@ Vertical scaling can be done by any database -- it involves buying a bigger box 
 
 Horizontal scaling, though, involves distributing your data across multiple servers, and at this task, not every database is equally scalable. MongoDB is designed to horizontally scale well.
 
-Webinar:
+- Webinar:
 
   - `Scaling MongoDB Webinar Series <https://www.mongodb.com/lp/webinar/scaling-series-sept-2014>`_
 
-Docs:
+- Docs:
 
   - :manual:`Sharding Introduction</core/sharding-introduction/>`
 
@@ -120,15 +115,15 @@ MongoDB and Relational DB's
 Relational databases are the biggest players in the database world right now. MongoDB stands in contrast to them, and you should be familiar with some of the basic features of Relational Databases that aren't present in MongoDB, and conversely, the features of MongoDB that aren't present in relational databases.
 
 
-Video:
+- Video:
 
   - `MongoDB and Relational DB's <https://university.mongodb.com/videos/y/-KIC1LXxcGM>`_
 
-Docs:
+- Docs:
 
   - :manual:`SQL to MongoDB Mapping Chart</reference/sql-comparison/>`
 
-MongoDB.com:
+- MongoDB.com:
 
   - `Compare MongoDB and MySQL <https://www.mongodb.com/compare/mongodb-mysql>`_
 

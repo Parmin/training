@@ -167,21 +167,21 @@ Keep in mind, a find() query will return a cursor:
 
 There are other collection read methods that will not return cursors, but which should be considered:
 
-  - db.collection.count()
+- db.collection.count()
 
-    - Docs:
+  - Docs:
 
-      - :manual:`Count</reference/method/db.collection.count/>`
+    - :manual:`Count</reference/method/db.collection.count/>`
 
-    - Videos:
+  - Videos:
 
-      - `Count <https://university.mongodb.com/videos/y/eKD5bVmNQMI>`_
+    - `Count <https://university.mongodb.com/videos/y/eKD5bVmNQMI>`_
 
-  - db.collection.distinct()
+- db.collection.distinct()
 
-    - Docs:
+  - Docs:
 
-      - :manual:`Distinct</method/db.collection.distinct/>`
+    - :manual:`Distinct</method/db.collection.distinct/>`
 
 
 There are other methods that can be applied to cursors themselves. These can return a number (like count), or they can modify the result set you're going to get back (such as sort, skip, and limit). You may also be expected to know how to manually iterate a cursor.
@@ -239,9 +239,9 @@ Updates modify existing documents.
 
 For the exam, you should be able to:
 
-  - Properly use the save, update, and findAndModify queries to mutate existing documents
-  - Understand which parameter finds the documents to change and which mutates them, and how
-  - Understand the behavior of all update operators
+- Properly use the save, update, and findAndModify queries to mutate existing documents
+- Understand which parameter finds the documents to change and which mutates them, and how
+- Understand the behavior of all update operators
 
 Updates can occur with a few collection methods, some of which were in the insert section:
 
@@ -384,15 +384,24 @@ e. db.c.find( { b : [ 0 , 5 ] } )
 
 
 3. Consider the following example document from the sample collection. All documents in this collection have the same schema.
-{
-        "_id" : 3, 
-            "a" : 7,
-                "b" : 4
-}
+
+.. code-block:: javascript
+
+  {
+          "_id" : 3, 
+          "a" : 7,
+          "b" : 4
+  }
+
 Which of the following queries will replace this with the document,
-{
-        "_id" : 7, 
-            "c" : 4
+
+.. code-block:: javascript
+
+  {
+          "_id" : 7, 
+          "c" : 4,
+          "b" : 4
+  }
 
 a. db.sample.update( { "_id" : 3 } , { "_id" : 7 , "c" : 4 } )
 b. db.sample.update( { "_id" : 3 } , { "$set" : { "_id" : 7 , "c" : 4 } } )

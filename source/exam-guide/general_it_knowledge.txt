@@ -30,7 +30,7 @@ Fundamental Database Concepts
 
 It is expected that you will understand the basics of the database industry: what constitutes a relational (or a non-relational) database. You should also understand how joins and transactions work in a general way, though we won't ask you to perform them.
 
-From mongoDB.com:
+- From mongodb.com:
 
   - `NoSQL Database Explained <https://www.mongodb.com/nosql-explained>`_
 

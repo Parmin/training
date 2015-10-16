@@ -54,7 +54,7 @@ Aggregation Stages
 
 Each aggregation stage performs an operation. You should know each of them.
 
-- Video:
+- Videos:
 
   - `Using a document for _id <https://university.mongodb.com/videos/y/zoN4cj_XQzY>`_
   - `Aggregation Expressions <https://university.mongodb.com/videos/y/L4G14MTfTgQ>`_
@@ -78,26 +78,26 @@ Some stages come with their own operators; you should be familiar with these. Fo
 
 - Videos:
 
-- `Using $sum <https://university.mongodb.com/videos/y/93MSz3uDC1A>`_
-- `Using $avg <https://university.mongodb.com/videos/y/baIDZ-M5j7w>`_
-- `Using $addToSet <https://university.mongodb.com/videos/y/YzURaZnKI9s>`_
-- `Using $push <https://university.mongodb.com/videos/y/LQcBM-g0ACY>`_
-- `Using $max and $min <https://university.mongodb.com/videos/y/BYoNX4trjOQ>`_
-- `Double $group Stages <https://university.mongodb.com/videos/y/EIWF9Oxeb8M>`_
-- `Revisiting $first and $last <https://university.mongodb.com/videos/y/JOdAnxVAMwc>`_
+  - `Using $sum <https://university.mongodb.com/videos/y/93MSz3uDC1A>`_
+  - `Using $avg <https://university.mongodb.com/videos/y/baIDZ-M5j7w>`_
+  - `Using $addToSet <https://university.mongodb.com/videos/y/YzURaZnKI9s>`_
+  - `Using $push <https://university.mongodb.com/videos/y/LQcBM-g0ACY>`_
+  - `Using $max and $min <https://university.mongodb.com/videos/y/BYoNX4trjOQ>`_
+  - `Double $group Stages <https://university.mongodb.com/videos/y/EIWF9Oxeb8M>`_
+  - `Revisiting $first and $last <https://university.mongodb.com/videos/y/JOdAnxVAMwc>`_
 
 - Docs:
 
-- :manual:`$match</reference/operator/aggregation/match/#pipe._S_match>`
-- :manual:`$group</reference/operator/aggregation/group/#pipe._S_group>`
-- :manual:`Aggregation Pipeline Operators</reference/operator/aggregation/>`
+  - :manual:`$match</reference/operator/aggregation/match/#pipe._S_match>`
+  - :manual:`$group</reference/operator/aggregation/group/#pipe._S_group>`
+  - :manual:`Aggregation Pipeline Operators</reference/operator/aggregation/>`
 
 
 
 Aggregation Mechanics
 ---------------------
 
-Aggregation Limits
+- Aggregation Limits
 
   - From pipeline size to sorting, you should be aware of the limits that apply to the Aggregation pipeline.
 

@@ -43,16 +43,16 @@ Journal
 
 MongoDB's journal is a "write ahead" log used to ensure consistency of data on disk for MMAPv1 (though it's not necessary for WiredTiger), and also is used to frequently commit writes to disk.
 
-Videos:
+- Videos:
 
   - `Journal's impact on resident memory <https://university.mongodb.com/videos/y/8TmmEzm50cw>`_
 
-Docs:
+- Docs:
 
   - :manual:`Journaling Mechanics</core/journaling/>`
   - :manual:`Manage Journaling</tutorial/manage-journaling/>`
 
-Blog:
+- Blog:
 
   - `How MongoDB's Journaling Works <http://blog.mongodb.org/post/33700094220/how-mongodbs-journaling-works>`_
 
@@ -63,13 +63,13 @@ Server Logs
 
 The server logs capture several things by default: connections, the creation/dropping of collections/databases, and long-running events (more than 100 ms), among other things. You'll need to know the things at about this level, but you won't need to know things much deeper than that.
 
-Docs:
+- Docs:
 
   - :manual:`Log Messages</reference/log-messages/>`
   - :manual:`Rotate Log Files</tutorial/rotate-log-files/>`
   - :manual:`Process Logging</administration/monitoring/#process-logging>`
 
-Videos:
+- Videos:
 
   - `Examining Log Files <https://university.mongodb.com/videos/y/qc1hOvhCohY>`_
 
@@ -77,12 +77,12 @@ Videos:
 The Profiler
 ------------
 
-Docs:
+- Docs:
 
   - :manual:`Database Profiling</administration/analyzing-mongodb-performance/#database-profiling>`
 
 
-Videos:
+- Videos:
 
   - `Profiler Demo <https://university.mongodb.com/videos/y/_ApSNwSRYVo>`_
   - `Profiling Overview <https://university.mongodb.com/videos/y/ww5pYJqukAg>`_
@@ -94,7 +94,7 @@ Videos:
 Monitoring and Performance Tuning
 ---------------------------------
 
-Docs:
+- Docs:
 
   - :manual:`Monitoring for MongoDB</administration/monitoring/>`
   - :manual:`Analyzing MongoDB Performance</administration/analyzing-mongodb-performance/>`
@@ -105,7 +105,7 @@ MongoDB Security
 
 For security, you should be familiar with MongoDB-CR (defining user roles and permissions) to the extent of knowing the roles and how to set permissions. You should also know about the other options and best practices for MongoDB's security features, but will not need to know details about them for the certification exam.
 
-Docs:
+- Docs:
 
   - :manual:`Security Introduction</core/security-introduction/>`
   - :manual:`Authentication</core/authentication/>`
@@ -134,7 +134,7 @@ Diagnostics and Debugging
 
 This section captures anything that isn't captured elsewhere (such as the server tools sections, the logs, or the profiler), and questions will either ask how to use those tools, or what tools are the right tool for a particular problem or piece of information you're trying to gather. For any commands listed here, be familiar with how to use the command, and how to interpret what it returns.
 
-Docs:
+- Docs:
 
   - :manual:`db.currentOp()</reference/method/db.currentOp/>`
   - :manual:`db.serverStatus()</reference/method/db.serverStatus/>`
@@ -142,7 +142,7 @@ Docs:
   - :manual:`rs.status()</reference/method/rs.status/>`
   - :manual:`sh.status()</reference/method/sh.status/>`
 
-Webinar:
+- Webinar:
 
   - `Diagnostics and Debugging <https://www.mongodb.com/presentations/webinar-diagnostics-and-debugging-mongodb>`_
 
@@ -152,13 +152,13 @@ Maintenance
 
 You should know the procedure for rotating log files, upgrade your servers (hot), and removing shards from a cluster. You should also know how to kill long-running processes manually.
 
-Docs:
+- Docs:
 
   - `Rotate Log Files <http://docs.mongodb.org/v2.6/tutorial/rotate-log-files/>`_
   - `Upgrade to the Latest Version of MongoDB <http://docs.mongodb.org/v2.6/tutorial/upgrade-revision/>`_
   - :manual:`db.killOp()</reference/method/db.killOp/>`
 
-Videos:
+- Videos:
 
   - `Removing a Shard <https://university.mongodb.com/videos/y/kSlGXXe215Q>`_
   - `Upgrading a Sharded Cluster <https://university.mongodb.com/videos/y/3XrnQ9yFwfU>`_
@@ -171,13 +171,13 @@ You will need to be familiar with your backup options.
 
 Keep in mind, most of the trouble people have with backups is restoring to them. You should also be familiar with your options for restoring data in the event of server failure.
 
-Docs:
+- Docs:
 
  - :manual:`Backup and Restore with Filesystem Snapshots</tutorial/backup-with-filesystem-snapshots/>`
  - :manual:`Restore a Replica Set from MongoDB Backups</tutorial/restore-replica-set-from-backup/>`
  - `Backup and Restore with MongoDB Tools <http://docs.mongodb.org/v2.6/tutorial/backup-with-mongodump/>`_
 
-Videos:
+- Videos:
 
   - `Overview of Backing Up <https://university.mongodb.com/videos/y/hl58MKd2jCs>`_
   - `Mongodump <https://university.mongodb.com/videos/y/tbQE2ZPPbHA>`_
