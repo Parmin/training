@@ -174,18 +174,18 @@ Table of Contents
     - Mongostat
     - Mongotop
   
-  Backing up and restoring data (DBA Only)
+  - Backing up and restoring data (DBA Only)
   
     - Mongodump
     - Mongorestore
   
-  Advanced MongoDB Diagnostics (DBA Only)
+  - Advanced MongoDB Diagnostics (DBA Only)
   
     - Mongosniff
     - Bsondump
     - Mongoperf
   
-  Manipulating BLOBs (DBA Only)
+  - Manipulating BLOBs (DBA Only)
   
     - Mongofiles
 
