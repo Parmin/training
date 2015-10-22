@@ -1,5 +1,6 @@
+===========
 Aggregation
------------
+===========
 
 On the exam, students should be able to:
 
@@ -52,7 +53,13 @@ The Aggregation section is emphasized much more heavily in Dev exams than in DBA
 Aggregation Stages
 ------------------
 
-Each aggregation stage performs an operation. You should know each of them.
+For the exam, you will need to know:
+
+- All top-level Aggregation operators (and the stage they correspond to)
+- What those stages do
+- Whether the stage increases the number of documents you have, decreases them, or leaves them the same
+
+Resources:
 
 - Videos:
 
@@ -74,7 +81,17 @@ Each aggregation stage performs an operation. You should know each of them.
 Aggregation Operators
 ---------------------
 
-Some stages come with their own operators; you should be familiar with these. For example, $match uses all of the standard MongoDB CRUD query operators, such as $in, $or, and $gte. Refer to the CRUD db.collection.find() section for more information. $group, on the other hand, has unique accumulator operators to combine documents passed to this pipeline; even when they look familiar from CRUD (like $push), you should learn the $group versions, and how they work.
+For the exam, you will need to know:
+
+- All operators that are used by each stage
+
+  - Note that $match operators are by and large those used for querying ($lt, $in, etc.)
+  - Other stages may have unique operators
+
+- How to use $project to change your document schema and rename keys
+- Which operators to use to perform typical tasks with the aggregation pipeline
+
+Resources:
 
 - Videos:
 
@@ -90,6 +107,7 @@ Some stages come with their own operators; you should be familiar with these. Fo
 
   - :manual:`$match</reference/operator/aggregation/match/#pipe._S_match>`
   - :manual:`$group</reference/operator/aggregation/group/#pipe._S_group>`
+  - :manual:`$project</reference/operator/aggregation/project/>`
   - :manual:`Aggregation Pipeline Operators</reference/operator/aggregation/>`
 
 
@@ -97,39 +115,34 @@ Some stages come with their own operators; you should be familiar with these. Fo
 Aggregation Mechanics
 ---------------------
 
-- Aggregation Limits
+For the exam, you will need to know:
 
-  - From pipeline size to sorting, you should be aware of the limits that apply to the Aggregation pipeline.
+- Memory limits imposed on the aggregation pipeline's data, and for use in sorting
+- Optimizations that are applied to the aggregation pipeline
+- When you are able to use indexes for aggregation
+
+Resources:
 
 - Video:
 
   - `Aggregation Limits <https://university.mongodb.com/videos/y/U_gRSxEq3c0>`_
 
-
-Aggregation Optimization
-------------------------
-
-MongoDB will optimize Aggregation_ in some cases. Be aware of those cases & how it works.
-
 - Docs:
 
   - :manual:`Optimizing the Aggregation Pipeline</core/aggregation-pipeline-optimization/>`
   - :manual:`Aggregation Limits</core/aggregation-pipeline-limits/>`
+  - :manual:`</core/aggregation-pipeline/#aggregation-pipeline-operators-and-performance>`
 
-
-Aggregation Techniques
-----------------------
-
-Be aware of how to build an aggregation pipeline for a desired output.
-
-- Video:
-
-  - `Compound Grouping <https://university.mongodb.com/videos/y/qTbtax_cKcc>`_
-  - `Double Unwind <https://university.mongodb.com/videos/y/YXGL27217B8>`_
-  
 
 Aggregation Options
 -------------------
+
+For the exam, you will need to know:
+
+- The aggregation options available
+- What the effect of these options will be
+
+Resources:
 
 - Docs:
 
@@ -145,12 +158,20 @@ Aggregation Examples
 
 More than any other section, Aggregation is about practice. Here are some examples to give you some ideas and help you to get started.
 
+For the exam, you will need to know:
+
+- How to construct an aggregation query that will perform the operations you require
+- How to use multiple $group and $unwind stages to accomplish more than you could without them
+
+Resources:
+
 - Videos:
 
   - `Simple Aggregation Example <https://university.mongodb.com/videos/y/DQBXCsjeO5c>`_
   - `Simple Aggregation Expanded <https://university.mongodb.com/videos/y/3lEpnMcfpCs>`_
   - `$unwind Example <https://university.mongodb.com/videos/y/U_4Enh2TTp4>`_
   - `Compound Grouping <https://university.mongodb.com/videos/y/qTbtax_cKcc>`_
+  - `Double Unwind <https://university.mongodb.com/videos/y/YXGL27217B8>`_
 
 - Docs: 
 
@@ -158,6 +179,36 @@ More than any other section, Aggregation is about practice. Here are some exampl
   - :manual:`Aggregation with Zip Code Data</tutorial/aggregation-zip-code-data-set/>`
   - :manual:`Aggregation with User Preference Data</tutorial/aggregation-with-user-preference-data/>`
 
+
+Sample Aggregation Problems
+---------------------------
+
+1. Which of the following statements are true about the $match pipeline operator? Check all that apply.
+a. You should use it as early as possible in the pipeline.
+b. It can be used as many times as needed.
+c. It has a syntax similar to find() commands.
+
+2. Suppose you have the following collection with only 2 documents:
+
+.. code-block:: javascript
+
+  > db.people.find()
+  { "_id" : "apples", "traits" : [ "sweet" , "crispy" ] }
+  { "_id" : "oranges", "traits" : [ "sweet" , "orange" , "juicy" ] }
+
+You run an aggregation query and begin with { $unwind : "$traits" }.
+How many documents will you have in the pipeline after the $unwind stage?
+a. 1
+b. 2
+c. 3
+d. 4
+e. 5
+
+Answers
+-------
+
+1. a, b, c
+2. e
 
 Exercises
 ---------

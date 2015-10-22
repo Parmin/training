@@ -4,12 +4,23 @@ Indexes
 On the certification exam, we will attempt to verify that you:
 
 - Understand the types of indexes available in MongoDB
-- Know how to determine the efficiency of a query
-- Can model queries and indexes for maximum efficiency
-- Recognize the implications of specialized index types
 
-  - sparse
-  - unique
+  - Single Field Indexes
+  - Compound Indexes
+  - Multikey Indexes
+  - Special Indexes
+    
+    - Geo Indexes
+    - Text Indexes
+
+- Know the options you can have for an index
+
+  - TTL
+  - Sparse
+  - Unique
+
+- Know how to determine the efficiency of a query
+- Know the benefits & costs of having an index
 
 Indexes Subtopics
 -----------------
@@ -37,8 +48,7 @@ Indexes Subtopics
 Introduction
 ------------
 
-Good use of indexes is the single greatest determinant of performance on a database -- not just in MongoDB, but in any database. The vast majority of performance-related support tickets at MongoDB are solved with improved use of indexes. Both developers and DBA's need to be aware of what options are available, how to use them, and how to assess their effect on performance.
-
+Here are some basics to help introduce you to indexes.
 
 - Videos:
 
@@ -49,11 +59,13 @@ Good use of indexes is the single greatest determinant of performance on a datab
   - :manual:`Index Concepts</core/indexes/>`
 
 
-
 Creating Indexes
 ----------------
 
-Indexes are created either on collection creation (for the unique _id index), or using the db.collection.createIndex() command. The former preferred command was db.collection.ensureIndex, which has been deprecated.
+On the exam, we will ensure that you:
+
+- Can create an index
+- Know that the _id field is created implicitly
 
 - Videos:
 
@@ -69,9 +81,20 @@ Indexes are created either on collection creation (for the unique _id index), or
 Single Field Indexes
 --------------------
 
-This can include top-level fields, embedded fields, or embedded documents.
+For the exam, you should be able to:
 
-- Docs: 
+- Recognize single-field indexes
+- Know when a single-field index is used (and when it isn't)
+
+  - for .find() queries
+  - for .update() queries
+  - for .remove() queries
+
+- Know how to create a single-field index on a field in a subdocument
+
+Here are some resources to help:
+
+- Docs:
 
   - :manual:`Single Field Indexes</core/index-single/>`
   - :manual:`Embedded Fields</core/index-single/#indexes-on-embedded-fields>`
@@ -81,7 +104,17 @@ This can include top-level fields, embedded fields, or embedded documents.
 Collection Scans
 ----------------
 
-A collection scan occurs when you can't use an index for a query, so you end up scanning the entire collection, one document at a time. This is terribly inefficient for large collections.
+For the exam, you should know:
+
+- What a collection scan is
+
+  - It's when every document in the collection must be checked in order to determine the result set of a query
+
+- When a collection scan occurs
+- Why a collection scan is undesirable
+
+  - Time will increase linearly with collection size
+  - If your collection doesn't fit in RAM, this will cause paging.
 
 - Videos:
 
@@ -91,7 +124,10 @@ A collection scan occurs when you can't use an index for a query, so you end up 
 Compound Indexes
 ----------------
 
-A compound index is an index on two or more ordered fields. Order (and direction) are important for whether or not an index can be used, whether or not it can be used to sort, and how efficiently it gets used for a particular query.
+On the exam, you should know:
+
+- What a compound index is
+- How to use the left subset of a compound index
 
 - Docs:
 
@@ -100,6 +136,13 @@ A compound index is an index on two or more ordered fields. Order (and direction
 
 Multikey Indexes
 ----------------
+
+
+On the exam, you should know:
+
+- The definition of multikey indexes
+- Restrictions on multikey indexes
+- How many index points will be associated with a particular document when it has an index on an array field
 
 A multikey index is an index on an array. You will have one index entry per array element.
 
@@ -116,7 +159,12 @@ Videos:
 Sorting with Indexes
 --------------------
 
-You'll notice that the index creation document looks a lot like a sorting document. This isn't an accident. The index is ordered just like the sort result query, and if you've built your index correctly, you can use it to avoid sorting the result set of a query.
+For the exam, you'll need to know:
+
+- How to sort with an index
+- How to use a compound index to both filter and sort
+- How to perform a compound sort using a compound index
+- When an index will or won't work for a compound sort
 
 Docs:
 
@@ -126,7 +174,26 @@ Docs:
 The .explain() Methods
 ----------------------
 
-The .explain() method can be run on a cursor, or on a collection, to show the user index usage and performance for that query. There are several verbosities to choose from, depending on use case.
+For the exam, you should know:
+
+- How to create an Explainable object with db.collection.explain() and use it to explain a cursor
+- How to explain a cursor with cursor.explain()
+- The three verbosity settings of explain plans, and what they offer.
+- How to read each type of explain to determine things such as:
+
+  - How many documents were returned by the query
+  - How many documents were read by the query
+  - How many index entries were viewed by the query
+  - Which index was used by the query
+  - When a collection scan occurs
+  - How many index entries were viewed during the query
+  - Which shards were involved in the query for a sharded collection
+  - How to recognize that a query is covered
+  - Whether or not an index was used to sort the query
+  - How long the query took (or was estimated to take)
+  - Which types of queries can use an index (.find(), .update(), .remove())
+
+Here are some resources:
 
 - Videos:
 
@@ -144,7 +211,13 @@ The .explain() method can be run on a cursor, or on a collection, to show the us
 Selecting an Index
 ------------------
 
-MongoDB chooses its indexes using its Query Optimizer, which infrequently runs the query against all candidate indexes to determine which is fastest.
+For the exam, you should know:
+
+- How an index is chosen when multiple indexes may work
+- When the query optimizer is re-run
+- How to force a particular index to be used for a query
+
+  - Dangers of hinting an index
 
 - Videos:
 
@@ -154,10 +227,17 @@ MongoDB chooses its indexes using its Query Optimizer, which infrequently runs t
 - Docs:
 
   - :manual:`Query Plans</core/query-plans/>`
+  - :manual:`.hint()</reference/method/cursor.hint/>`
 
 
 Covered Queries
 ---------------
+
+For the exam, you will need to know:
+
+- What a covered query is
+- Why it is good for performance
+- How to recognize that a covered query has happened in an explain plan
 
 - Video: 
 
@@ -171,7 +251,13 @@ Covered Queries
 Indexing Strategies
 -------------------
 
-There are right ways to use indexes, and wrong ways. Here, we talk about some best practices.
+For the exam, you will want to know:
+
+- How to create the best possible index for a query that sorts on one field, queries for an exact match on a second field, and does a range query on a third.
+- When an index can or cannot be used to sort for a particular query
+- Recognize how selective queries are, and how much they're likely to benefit from an index.
+
+Resources:
 
 - Docs: 
 
@@ -191,6 +277,14 @@ Effect of Indexes on Write Performance
 
 Indexes generally speed up read performance, but can slow down write performance. Find queries are almost always faster, and inserts are almost always slower, but hybrid actions (with a find & a write) such as update and remove, may depend on the use case (though they usually are faster with indexes). Be aware of the advantages and drawbacks.
 
+For the exam, you will want to know:
+
+- Why indexes can slow down write operations
+- Why document growth is a problem in MMAPv1 for indexes
+- Why update and delete operations can either benefit or suffer in performance due to indexes (but usually benefit)
+
+Resources:
+
 - Docs:
 
   - :manual:`Write Operation Performance</core/write-performance/#indexes>`
@@ -203,7 +297,15 @@ Indexes generally speed up read performance, but can slow down write performance
 Unique Indexes
 --------------
 
-Unique indexes cause the database to enforce uniqueness on a collection level.
+For the exam, you should know:
+
+- How to create a unique index
+- How to recognize a unique index from the db.collection.getIndexes() command
+- What happens when you try to insert a document with a value that matches an existing document for a unique indexed field
+- How unique compound indexes work
+- What happens if you try to create a unique index on a collection with non-unique values for the unique field(s)
+
+Resources:
 
 - Video:
 
@@ -218,7 +320,14 @@ Unique indexes cause the database to enforce uniqueness on a collection level.
 Sparse Indexes
 --------------
 
-Sparse indexes lack entries when a document lacks the indexed fields. They're smaller, and have fewer entries, but they can sometimes be ignored by the system, as they may lead to incorrect results in some cases.
+For the exam, you should know:
+
+- How to create a sparse index
+- How many index points you'll have for a sparse index on a small collection
+- When a sparse index wouldn't automatically be used (ie, for sorting)
+- Dangers of using .hint() with a sparse index
+
+Resources:
 
 - Video:
 
@@ -231,7 +340,16 @@ Sparse indexes lack entries when a document lacks the indexed fields. They're sm
 TTL Indexes
 -----------
 
-TTL (Time-to-Live) indexes expire after a certain time has passed, and are auto-deleted by the server.
+For the exam, you should know:
+
+- How to create a TTL index
+- How to recognize a TTL index in the output of db.collection.getIndexes()
+
+  - And recognize the time before deletion occurs
+
+- Know when deletion of documents will definitely not occur, and when it may occur
+
+Resources:
 
 - Video:
 
@@ -245,7 +363,14 @@ TTL (Time-to-Live) indexes expire after a certain time has passed, and are auto-
 Background Index Creation
 -------------------------
 
-Background index creation turns index creation into a non-blocking operation, but also slows down index creation.
+For the exam, you will need to know:
+
+- How to create background indexes
+- What operations can occur if an index is created in the background rather than foreground
+- How the time required to build a background index differs from the time required to build an index in the foreground
+- How using a background index will differ from using an index built in the foreground (hint: you use them the same way)
+
+Resources:
 
 - Video: 
 
@@ -254,17 +379,31 @@ Background index creation turns index creation into a non-blocking operation, bu
 - Docs:
 
   - :manual:`Build Indexes in the Background</tutorial/build-indexes-in-the-background/>`
+  - :manual:`Background Index Creation</core/index-creation/#index-creation-background>`
 
 
 Regex on String Fields and Indexes
 ----------------------------------
 
-- Docs: Index Use in Regex_
+For the exam, you will need to know:
 
-.. _Index Use in Regex: http://docs.mongodb.org/manual/reference/operator/query/regex/#index-use
+- How standard indexes behave with strings
+- How to use indexes most efficiently by anchoring the regex on the left
+
+Resources:
+
+- :manual:`Index Use in Regex</reference/operator/query/regex/#index-use>`
 
 Text Indexes
 ------------
+
+For the exam, you will need to know:
+
+- How to build a text index
+- How to use a text index to query
+- How to sort results by text score
+
+Resources:
 
 - Video:
 
@@ -280,7 +419,17 @@ Text Indexes
 2d and 2dSphere Indexes
 -----------------------
 
-2D Indexes are for flat geometries, like you might create in a video game, or in a small area. For locations on the earth, use a 2dSphere index.
+For the exam, you will need to know:
+
+- How to create 2dsphere indexes
+- How to create geoJSON points for a 2dsphere indexed field in MongoDB
+- How to query for geoJSON points:
+
+  - Within a circle
+  - Near a point
+  - Within a polygon
+
+Resources:
 
 - Video:
 
@@ -400,3 +549,26 @@ Answers to Sample Problems
 3. a, b, c
 4. b, c
 5. a
+
+Exercises
+---------
+
+On your own, do the following:
+
+- Create:
+
+  - A single-field index
+  - A compound index
+  - A text index
+  - A single-field index on a string field
+  - A 2dsphere index
+  - A ttl index
+  - A unique index
+  - A background index
+
+- For each of the above, notice how they are distinguished in db.collection.getIndexes() output.
+- Insert some data for the indexes you created. Perform queries for each of the indexes.
+- For a TTL index, write a script to insert 1 document per second. Look at when documents get deleted (hint: there will be more than 61 when documents get trimmed!).
+- Get explain plans for these queries. Use all 3 verbosities.
+- Explain a covered query & verify that it's working (you'll see 0 documents viewed, though some index entries will be viewed).
+- Perform some geospatial queries & look at the results.

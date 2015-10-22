@@ -7,7 +7,9 @@ On the certification exam, we will attempt to verify that you:
 - Understand all CRUD operations for manipulating documents
 - Know all CRUD operators and how to use them
 - Understand the properties of the _id field and its implications for CRUD operations
+- Know the mongoDB types
 - Can use regex to find string documents
+
 
 CRUD Subtopics
 --------------
@@ -16,6 +18,7 @@ CRUD Subtopics
 - Read: matching, regex, projecting, sorting, operators, cursors
 - Update: Standard update, Multi update, upsert, save
 - Delete
+
 
 Introduction
 ------------
@@ -26,6 +29,7 @@ You should also be able to recognize correct query format, to know which paramet
 
 Be aware of what will happen if you don't sort, and know the difference between sorting forwards and backwards.
 
+
 Create
 ------
 
@@ -35,7 +39,13 @@ For the exam, you should be able to:
 
 - Properly use the insert, save, update, and findAndModify queries to create new documents
 - Match an insertion query with a description of what it does
-- Understand the _id field and the implications this has for insertion operations
+- Understand the properties of the _id field and the implications this has for insertion operations
+- Know how objectId's work in MongoDB
+- Know how to perform bulk insertion
+
+ObjectId's can be found in the documentation. Know what the bytes do, and when they're implicitly created.
+
+- :manual:`objectId</reference/object-id/>`
 
 Document creation can occur through a few commands:
 
@@ -49,6 +59,7 @@ Document creation can occur through a few commands:
   - Video:
 
     - `Inserting Docs <https://university.mongodb.com/videos/y/qqfVxGLIrLg>`_
+
 
 - db.collection.save()
 
@@ -105,6 +116,7 @@ You should also be familiar with the special properties of the _id field:
 - Docs:
   
   - :manual:`The _id Field</core/document/#the-id-field>`
+  - :manual:`The _id Field</reference/method/db.collection.insert/#id-field>`
 
 - Video: 
 
@@ -231,6 +243,14 @@ You can also project your results in order to limit the fields you get back.
   - :manual:`from .find() documentation</reference/method/db.collection.find/>`
   - `Lesson <https://university.mongodb.com/videos/y/8zlMXX70KEw>`_
 
+Finally, you can bulk insert by passing an array to db.collection.insert().
+
+You should also know the difference between ordered & unordered bulk inserts.
+
+Docs:
+
+- :manual:`Insert Multiple Documents</reference/method/db.collection.insert/#insert-multiple-documents>`
+
 
 Update
 ------
@@ -242,6 +262,7 @@ For the exam, you should be able to:
 - Properly use the save, update, and findAndModify queries to mutate existing documents
 - Understand which parameter finds the documents to change and which mutates them, and how
 - Understand the behavior of all update operators
+- Know when upserts and db.collection.save() will and won't insert documents
 
 Updates can occur with a few collection methods, some of which were in the insert section:
 
@@ -254,7 +275,7 @@ Updates can occur with a few collection methods, some of which were in the inser
 
 - db.collection.findAndModify
 
-  - unless updating, and upsert : true is set
+  - It's an update, except sometimes, when upserting.
   - :manual:`Documentation here</reference/method/db.collection.findAndModify/>`
 
 
@@ -370,17 +391,22 @@ e. 5
 
 Example document (as it exists in the collection):
 
-> db.c.find()
-{ "_id" : 12, b : [ 3, 5, 7, 2, 1, -4, 3, 12 ] }
+.. code-block:: javascript
+
+  > db.c.find()
+  { "_id" : 12, b : [ 3, 5, 7, 2, 1, -4, 3, 12 ] }
+
 Document you want returned by your query:
 
-{ "_id" : 12, "b" : [ 3, 5, 7, 2, 1 ] }
+.. code-block:: javascript
 
-a. db.c.find( { } , { b : [ 0, 1, 2, 3, 4, 5 ] } )
-b. db.c.find( { } , { b : [ 0 , 5 ] } )
-c. db.c.find( { } , { b : { $slice : [ 0 , 5 ] } } ) 
-d. db.c.find( { } , { b : { $substr[ 0 , 5 ] } } )
-e. db.c.find( { b : [ 0 , 5 ] } )
+  { "_id" : 12, "b" : [ 3, 5, 7, 2, 1 ] }
+
+  a. db.c.find( { } , { b : [ 0, 1, 2, 3, 4, 5 ] } )
+  b. db.c.find( { } , { b : [ 0 , 5 ] } )
+  c. db.c.find( { } , { b : { $slice : [ 0 , 5 ] } } ) 
+  d. db.c.find( { } , { b : { $substr[ 0 , 5 ] } } )
+  e. db.c.find( { b : [ 0 , 5 ] } )
 
 
 3. Consider the following example document from the sample collection. All documents in this collection have the same schema.
@@ -411,7 +437,9 @@ e. This operation cannot be done with a single query.
 
 4. Which of the documents below will be retrieved by the following query? Assume the documents are stored in a collection called "sample". Check all that apply.
 
-db.sample.find( { "$or" : [ { "a" : { "$in" : [ 3, 10] } }, { "b" : { "$lt" : 2 } } ] } )
+.. code-block:: javascript
+
+  db.sample.find( { "$or" : [ { "a" : { "$in" : [ 3, 10] } }, { "b" : { "$lt" : 2 } } ] } )
 
 a. { "_id" : 1, "a" : 0, "c" : 0, "b" : 2 }
 b. { "_id" : 2, "a" : 2, "c" : 0, "b" : 1 }
@@ -427,14 +455,17 @@ j. { "_id" : 10, "a" : 3, "c" : 1, "b" : 1 }
 
 5. You perform the following operation in the shell:
 
-db.foo.insert( { } );
+.. code-block:: javascript
+
+  db.foo.insert( { } );
+
 What gets inserted?
 
-a. An empty document
-b. A document with an _id assigned to be an ObjectId
-c. A document that matches the collection's existing schema, but with null fields
-d. No document will be inserted; an error will be raised
-e. A document will be inserted with the same _id as the last document inserted
+  a. An empty document
+  b. A document with an _id assigned to be an ObjectId
+  c. A document that matches the collection's existing schema, but with null fields
+  d. No document will be inserted; an error will be raised
+  e. A document will be inserted with the same _id as the last document inserted
 
 
 Answers to Sample Problems
@@ -445,3 +476,15 @@ Answers to Sample Problems
 3. e
 4. b, e, h, i, j
 5. b
+
+Exercises
+---------
+
+Here are some things you can do on your own:
+
+- Insert some sample data. Write a for loop that bulk inserts 1,000 documents at a time, 1000 times, for a total of 1 million documents inserted. Do it in such a way that each of its non-_id fields is unique.
+- Perform the same operation, but use some (but not all) non-unique _id's. See the difference between an ordered vs. unordered bulk insert.
+- Perform queries on the sample set. Find documents with fields greater than or less than certain values.
+- Perform updates on the sample set. Set new fields without deleting old fields, increment fields, etc.
+- Perform array operations, pushing to and popping from arrays.
+- Insert documents with nested subdocuments. Query on the subdocument fields.

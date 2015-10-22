@@ -4,13 +4,6 @@ Introduction
 You're about to take the MongoDB Certification Exam -- Congratulations!
 
 
-
-Topics Covered
---------------
-
-Be sure to check the table of contents to see everything that's going to be covered on the exam.
-
-
 Taking the Exam: an Overview
 ----------------------------
 
@@ -36,6 +29,7 @@ Taking the Exam: Scoring and Test-Taking Strategies
 The exam currently has two types of problem: Multiple Choice, and Check All that Apply. Most questions (of average difficulty) will have 5 choices for Multiple Choice, or 3 for Check All that Apply. 
 
 There is no penalty for guessing, so you should have an answer for every problem. If you find that you are getting close to running out of time, be sure to run through & provide an answer for each question. Leaving them blank will guarantee that you don't get credit.
+
 
 Taking the Exam: Translation Software
 -------------------------------------
