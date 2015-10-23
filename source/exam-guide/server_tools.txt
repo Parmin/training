@@ -45,15 +45,19 @@ Introduction
 
 Most of the information tested can be found by running the tools with --help.
 
-For the Dev exam, you will need to know tools to import/export data, and to perform basic tests of your appliation. You will need to know about:
+For the Dev exam, you will need to know:
 
 - mongoimport
 - mongoexport
 - mongostat
 - mongotop
 
-For the DBA exam, you will need to know all of the tools that ship with MongoDB. This includes the tools listed above, as well as:
+For the DBA exam, you will need to know:
 
+- mongoimport
+- mongoexport
+- mongostat
+- mongotop
 - mongodump
 - mongorestore
 - mongosniff
@@ -65,7 +69,14 @@ For the DBA exam, you will need to know all of the tools that ship with MongoDB.
 Importing and Exporting Data
 ----------------------------
 
-You should be able to import and export common data types to/from MongoDB, such as JSON, CSV, and TSV files.
+For the exam, you should know:
+
+- How to import/export data between mongoDB and:
+
+  - JSON files
+  - CSV files
+
+Resources:
 
 - Docs:
 
@@ -79,11 +90,19 @@ You should be able to import and export common data types to/from MongoDB, such 
   - `Importing from Reddit <https://university.mongodb.com/videos/y/oVmoi6fS4X8>`_
 
 
-
 Basic Server Monitoring
 -----------------------
 
-You should know how to use mongostat and mongotop to ensure that the database is behaving as you expect. Make sure you look at what they display for each storage engine, and understand what information each field can tell you. For DBA's, we may ask you to diagnose an issue based on the output of mongostat.
+For the exam, you will need to know:
+
+- How to use mongostat to ensure that the database is behaving as you expect.
+
+  - For both MMAPv1 and WiredTiger
+
+- How to use mongotop to look at server activity on data
+- Know all fields for mongostat and mongotop
+
+Resources: 
 
 - Docs:
 
@@ -96,11 +115,15 @@ You should know how to use mongostat and mongotop to ensure that the database is
   - `mongotop video <https://university.mongodb.com/videos/y/D9YLXgy7NYo>`_
 
 
-
 Backing up and Restoring Data (DBA Only)
 ----------------------------------------
 
-You should be familiar with how to use mongodump to backup a database (including using --oplog to capture write operations that occur during the mongodump), and mongorestore to bring it back.
+For the exam, you should know:
+
+- How to use mongodump and mongorestore to save & restore data
+- How to include your oplog in a mongodump or mongorestore
+
+Resources:
 
 - Docs:
 
@@ -115,7 +138,11 @@ You should be familiar with how to use mongodump to backup a database (including
 Advanced MongoDB Diagnostics (DBA Only)
 ---------------------------------------
 
-For these tools, you should be aware that they exist, and what they're there for, but we will not ask for detailed information about their behavior.
+For the exam, you should know:
+
+  - What mongosniff, bsondump, and mongoperf do
+
+Resources:
 
 - Docs:
 
@@ -124,11 +151,14 @@ For these tools, you should be aware that they exist, and what they're there for
   - :manual:`mongoperf</reference/program/mongoperf/>`
 
 
-
 Manipulating BLOBs (DBA only)
 -----------------------------
 
-The mongofiles utility is used to store binary data in MongoDB's GriFS storage. You should be aware of what it does, but will not need more than that.
+For the exam, you will need to:
+
+- Be able to use mongofiles to put data into GridFS
+
+Resources:
 
 - Docs: 
 
