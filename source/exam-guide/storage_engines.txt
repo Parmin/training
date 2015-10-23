@@ -2,7 +2,7 @@
 Storage Engines
 ===============
 
-By the end of this module, students will know:
+For the exam, students will need to know:
 
 - The locking level or concurrency protocols for each storage engine
 - The compression algorithms available for WiredTiger
@@ -37,6 +37,7 @@ Storage Engine Subtopics
 
 - Concurrency in MongoDB 3.0
 - Data Files
+
 
 Introduction
 ------------
@@ -86,23 +87,41 @@ Summary of Major Differences between MMAPv1 and WiredTiger
 MMAPv1
 ------
 
-An upgrade to the "classic" MongoDB storage engine, this involved an early design decision to rely on the mmap system call to memory map the data files (where the BSON documents were written out) onto the disk, and simply treat them as if they were in memory while the operating system handled the storage layer.
+For the exam, you will need to know:
+
+- How memory mapping is used in the MMAPv1 storage engine
+- Locking granularity in MMAPv1
+- Why Powers of Two Allocation is used in MMAPv1
+
+  - Why it is usually a good idea
+  - How to turn it off
+
 
 - Docs:
   - `Storage FAQ MMAPv1 Section <http://docs.mongodb.org/master/faq/storage/#mmapv1-storage-engine>`_
   - :manual:`Power of 2 Sized Allocations</core/storage/#power-of-2-allocation>`
   - :manual:`No Padding</core/storage/#no-padding-allocation-strategy>`
+  - `Concurrency FAQ <http://docs.mongodb.org/master/faq/concurrency/>`_
 - Videos:
   - `MMAPv1 <https://university.mongodb.com/videos/y/PZCdLVB4lw4>`_
   - `MMAPv1 Documents and Data Files <https://university.mongodb.com/videos/y/9nYFnlM4vYw>`_
 
 
-
 WiredTiger
 ----------
 
+For the exam, you will need to know:
+
+- The concurrency level in WiredTiger
+- Compression options in WiredTiger
+
+  - Default settings
+
+- How the WiredTiger cache works
+
 - Docs:
 
+  - `Concurrency FAQ <http://docs.mongodb.org/master/faq/concurrency/>`_
   - `Storage FAQ WiredTiger Section <http://docs.mongodb.org/master/faq/storage/#wiredtiger-storage-engine>`_
   - :manual:`Index Prefix Compression</reference/glossary/#term-prefix-compression>`
   - Compression Options:
@@ -115,18 +134,14 @@ WiredTiger
   - `WiredTiger <https://university.mongodb.com/videos/y/O9TGqK3FBX8>`_
 
 
-Concurrency
------------
-
-- Docs:
-
-  - `Concurrency FAQ <http://docs.mongodb.org/master/faq/concurrency/>`_
-
-
 Data Files
 ----------
 
-Be sure to look at your data directory and be able to recognize the difference between a WiredTiger data directory and an MMAPv1 one.
+For the exam, you will need to:
+
+- Be able to recognize whether a dbpath directory is for MMAPv1 or WiredTiger based on the files present
+- For MMAPv1, know how larges its database files will be
+
 
 Here is an MMAPv1 directory:
 
