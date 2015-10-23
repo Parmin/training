@@ -28,31 +28,41 @@ This section will cover concepts that you should understand before taking the ex
 Fundamental Database Concepts
 -----------------------------
 
-It is expected that you will understand the basics of the database industry: what constitutes a relational (or a non-relational) database. You should also understand how joins and transactions work in a general way, though we won't ask you to perform them.
+It is expected that you will understand the basics of the database industry:
+
+- What constitutes a relational (or a non-relational) database. 
+- How joins and transactions work in a conceptual way
+
+Resources:
 
 - From mongodb.com:
 
   - `NoSQL Database Explained <https://www.mongodb.com/nosql-explained>`_
 
 
-
 Fundamentals of System Programming
 ----------------------------------
 
-You should be able to define:
+For the exam, you should be able to define:
 
 - Physical Memoary
 - Virtual Memory
 - Memory Mapping
 - Hex (base-16) Representations of Data
 
-You can find resources around the web to help you with this. Most likely, however, this isn't new to you.
+You can find resources around the web to help you with this.
 
 
 Basics of Javascript Programming
 --------------------------------
 
-Specifically, you should know enough to navigate the MongoDB administrative shell. Everything on the exam will have to do with that administrative shell, so that's all we'll focus on. We won't, for example, require you to write Java or Python.
+For the exam, you should know:
+
+- How to assign values to variables
+- How to write a "for" or "while" loop
+- How to print data
+- How to list available databases/collections in the mongo shell
+- How to switch to a database context
 
 Here are some basic exercises in the Mongo shell:
 
@@ -123,9 +133,6 @@ In MongoDB, you will often be working with database or collection objects:
   { "_id" : ObjectId("55afeb6a6daadd6baf25c63b"), "name" : "Dwight", "title" : "Chair of the Board" }
   { "_id" : ObjectId("55afeb7b6daadd6baf25c63c"), "name" : "Andrew", "title" : "VP of Developer Experience" }
        
-We'll be going through relevant functions during the review session, but definitely be aware of how they're invoked in the shell.
-
-
 Exercises to Complete
 ---------------------
 

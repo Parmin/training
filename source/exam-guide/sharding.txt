@@ -37,30 +37,7 @@ Sharding Subtopics
   - Chunk Migration
 
 - Queries in a Sharded Cluster
-
-  - The Mongos
-  - Targeted
-  - Scatter-gather
-  - Index Usage
-  - Primary shard
-  - Sorting Queries in a Sharded Cluster
-
 - Choosing a Shard Key
-
-  - Properties of Bad Shard Keys
-
-    - Problems that bad shard keys cause
-
-  - Properties of Good Shard Keys
-
-    - Cardinality
-    - Selectivity
-
-  - Hashed Shard Keys
-
-    - What problem they solve
-    - What problem they cause
-
 - Primary Shard
 
 
@@ -86,9 +63,14 @@ Note that sharding is largely orthogonal to Replication, which is about data dur
 The Shard Key
 -------------
 
-The Shard Key determines which data ends up on which shard. Each document must contain the shard key, and it is immutable.
+For the exam, you should know:
 
-Because of reliance on the shard key, there are implications for data modeling that should be considered in a sharded cluster.
+- Properties of the shard key in a sharded cluster
+- What makes a good shard key
+- What makes a bad shard key
+- How the shard key implements ranged-based sharding in MongoDB
+
+Resources:
 
 - Docs:
 
@@ -97,17 +79,23 @@ Because of reliance on the shard key, there are implications for data modeling t
   - `Unique Keys <http://docs.mongodb.org/v2.6/tutorial/enforce-unique-keys-for-sharded-collections/>`_
 
 
-Chunks
-------
+Chunks and the Balancer
+-----------------------
 
-Chunks are logical groupings of the sharded collection, and they each live on one server.
+For the exam, you should know:
 
-While a chunk is useful in that it determines where documents live, don't just think of a chunk as a bunch of documents -- think of it as a range of the shard key. All documents with a shard key value in that range live on that shard, but you can have chunks without documents.
+- How to define a chunk by shard key range
+- How to determine whether a document is contained in the chunk or not
+- When chunk splits occur automatically
+- How the balancer uses chunks to keep the cluster balanced
+
+Resources:
 
 - Docs:
 
   - :manual:`Chunk (glossary entry)</reference/glossary/#term-chunk>`
   - :manual:`Chunk Splits in a Sharded Cluster</core/sharding-chunk-splitting/ >`
+  - `Sharded Collection Balancing <http://docs.mongodb.org/master/core/sharding-balancing/>`_
 
 - Videos:
 
@@ -117,7 +105,14 @@ While a chunk is useful in that it determines where documents live, don't just t
 Config Servers and Cluster Metadata
 -----------------------------------
 
-The config servers hold all metadata for the cluster, though the routers (mongos's) will create cached versions, as well.
+For the exam, you should know:
+
+- What data the config server contains
+- How to access the data in the config server
+- What happens when a config server is unavailable or its data gets corrupted
+- How to fix a corrupted config server
+
+Resources:
 
 - Docs:
 
@@ -134,32 +129,39 @@ The config servers hold all metadata for the cluster, though the routers (mongos
 Pre-Splitting Data (DBA Only)
 -----------------------------
 
+For the exam, you should know:
+
+- How to pre-split chunks
+- Why you would want to pre-split chunks
+- How to merge and split chunks manually
+
+Resources:
+
 - Docs:
 
   - `Create Chunks <http://docs.mongodb.org/master/tutorial/create-chunks-in-sharded-cluster/>`_
   - `Split Chunks <http://docs.mongodb.org/master/tutorial/split-chunks-in-sharded-cluster/>`_
-  
-
-
-Balancing
----------
-
-The cluster doesn't try to balance bytes or documents across the cluster -- it balances "chunks," or ranges of the shard key.
-
-- Docs:
-
-  - `Sharded Collection Balancing <http://docs.mongodb.org/master/core/sharding-balancing/>`_
-
 
 
 Queries in a Sharded Cluster
 ----------------------------
+
+For the exam, you should know:
+
+- Performance implications for targeted vs. scatter-gather queries
+- Whether a query will be targeted or scatter gather
+- How to read the .explain output to determine which shards were affected by a targeted query
+- How sorting and aggregation work in a sharded cluster
+- What the mongos's are and what they do
+
+Resources:
 
 - Docs:
 
   - `Broadcast Operations <http://docs.mongodb.org/master/core/sharded-cluster-query-router/#broadcast-operations>`_
   - `Targeted Operations <http://docs.mongodb.org/master/core/sharded-cluster-query-router/#targeted-operations>`_
   - `Sharded Cluster Query Routing <http://docs.mongodb.org/master/core/sharded-cluster-query-router/>`_
+  - :manual:`Aggregation Pipeline and Sharded Collections</manual/core/aggregation-pipeline-sharded-collections/>`
 
 - Video:
 
@@ -168,6 +170,17 @@ Queries in a Sharded Cluster
 
 Choosing a Shard Key
 --------------------
+
+For the exam, you should know:
+
+- What makes a good shard key:
+
+  - High cardinality
+  - High selectivity
+  - Non-monotonically increasing/decreasing values
+  - What these mean
+
+Resources:
 
 - Video:
 
@@ -182,6 +195,13 @@ Choosing a Shard Key
 
 Primary Shard
 -------------
+
+For the exam, you should know:
+
+- What data the primary shard contains
+- What operations in aggregation and queries occur on the primary shard
+
+Resources:
 
 Docs:
 
