@@ -49,6 +49,17 @@ Replication is about availability and durability. It is, generally speaking, not
 Nodes
 -----
 
+In the exam, you will be expected to know:
+
+- The options to use when creating a node, such as:
+ 
+  - Arbiter
+  - Delayed
+  - votes
+  - priority
+
+Resources:
+
 - Docs: 
 
   - :manual:`Replica Set Members</core/replica-set-members/>`
@@ -65,7 +76,10 @@ Nodes
 Initiating a Replica Set
 ------------------------
 
-You should be familiar with the rs.initiate() function.
+For the exam, you should be familiar with:
+
+- How to initiate a replica set (or initiate a single server and add members)
+- The initial sync of a secondary
 
 - Video:
 
@@ -74,22 +88,19 @@ You should be familiar with the rs.initiate() function.
 - Docs:
 
   - :manual:`rs.initiate()</reference/method/rs.initiate/#rs.initiate>`
-
-
-Initial Sync
-------------
-
-An initial sync occurs when a data-bearing member connects to a replica set and begins pulling data. There is an initial sync, followed by walking the oplog.
-
-- Docs:
-
   - :manual:`Initial Sync</core/replica-set-sync/#initial-sync>`
 
 
 Elections
 ---------
 
-Elections determine which of the data bearing members will become primary. You should be aware of the mechanics of elections, and which member should win the election (or members, if there are multiple members that are equally eligible).
+For the exam, you will need to know:
+
+- Everything that can trigger an election
+- How priority, votes, optime, and unreachable servers in the set will affect the election
+- Which server will win the election
+
+Resources:
 
 - Docs: 
 
@@ -100,7 +111,12 @@ Elections determine which of the data bearing members will become primary. You s
 Failover
 --------
 
-Failover is the process of replica set recovery when the primary goes down. A secondary steps up and takes over.
+For the exam, you will need to know:
+
+- What triggers failover
+- That failover triggers an election
+
+Resources:
 
 - Video:
 
@@ -115,12 +131,12 @@ Failover is the process of replica set recovery when the primary goes down. A se
 Rollback
 --------
 
-This is only a concern for DBA's. You should know what happens if:
+For the exam, you will need to know:
 
-- First, you take a write on your Primary that does not make it to other replica set members
-- Second, your primary loses its status as primary (perhaps due to a server failure or a network partition) while keeping the write
-- Third, a new primary is elected
-- Fourth, your old primary reconnects to the rest of the replica set
+- What series of events will or won't trigger rollback
+- What happens to data that gets rolled back
+
+Resources:
 
 - Video:
 
@@ -134,7 +150,12 @@ This is only a concern for DBA's. You should know what happens if:
 rs.status()
 -----------
 
-rs.status() is a good way to determine the state of a replica set. You should be familiar with the output of this call, and be able to interpret it.
+For the certification exam, you should be able to:
+
+- Read the output of rs.status()
+- Know what data is in rs.status()
+
+Resources:
 
 - Video:
 
@@ -148,17 +169,33 @@ rs.status() is a good way to determine the state of a replica set. You should be
 Replica Set Reconfiguration
 ---------------------------
 
-You may need to add a member or remove a member, so you should be familiar with how to do this. You should also know what constraints might interfere with this process (not having a majority of members available, for example).
+For the certification exam, you will need to be able to:
+
+- Add and remove replica set members
+- Reconfigure a replica set
+
+Resources:
 
 - Docs: 
 
+  - :manual:`rs.add()</reference/method/rs.add/>`
+  - :manual:`rs.remove()</reference/method/rs.remove/>`
+  - :manual:`rs.reconfig()</reference/method/rs.reconfig/>`
   - :manual:`Reconfigure a Replica Set</tutorial/reconfigure-replica-set-with-unavailable-members/>`
 
 
 Oplog
 -----
 
-The oplog is the implementation of MongoDB's statement based replication. You'll need to be familiar with it.
+For the certification exam, you will need to:
+
+- Understand the nature of MongoDB's statement-based replication
+- Understand why the oplog operations must be idempotent
+- Know what operations will be stored in the oplog
+- Know that the oplog stores the _id of the document for writes
+- Calculate how many oplog entries there may be for a particular write operation (one per document affected)
+
+Resources:
 
 - Video:
 
@@ -171,11 +208,15 @@ The oplog is the implementation of MongoDB's statement based replication. You'll
   - :manual:`Idempotent (glossary)</reference/glossary/#term-idempotent>`
 
 
-
 Read Preference
 ---------------
 
-Read preference is about deciding where you want to draw your data from. The default is Primary, so that you can capture writes as they happen; reading from a secondary will result in an "eventual consistency" model.
+For the exam, you should know:
+
+- Which server (or servers) could be queried for every possible read concern (depending on the state of your servers, as well)
+- When your read preference allows you to read stale data
+
+Resources:
 
 - Docs:
 
@@ -189,6 +230,14 @@ Read preference is about deciding where you want to draw your data from. The def
 
 Write Concern
 -------------
+
+For the exam, you should know:
+
+- The default write concern
+- How to set write concern to majority or a fixed number of servers
+- How many servers will have copies of the data for a given write concern
+- How to ensure writes get to the journal before acknowledgment
+- How to amortize write concern on insert using a bulk insert
 
 - Videos: 
 
@@ -243,3 +292,13 @@ Answers to Sample Problems
 2. a, b
 3. c
 4. d
+
+Exercises
+---------
+
+- Set up a replica set on your laptop.
+- Write data to the primary and see it propagate to the secondary.
+- Connect to the mongod on your server with a driver, and look at how throughput changes as you increase your write concern.
+- Compare standard vs. bulk insert speed for w = 1, 2, or 3
+- Step down your primary
+- Create rollback using a primary, a secondary, and an arbiter
