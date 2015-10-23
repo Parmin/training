@@ -1,5 +1,6 @@
+=============
 Data Modeling
--------------
+=============
 
 On the certification exam, we will attempt to verify that you :
 
@@ -40,13 +41,13 @@ Data Modeling Subtopoics
 Introduction
 ------------
 
-For data modeling, keep in mind at all times that the structure of documents affects performance. Your goals are to try to ensure that any data you need is in memory, especially if you're going to read it frequently. There are costs associated with going to disk for data that isn't in memory. You not only need to spend time seeking and reading data from disk, but when you pull that data into memory, you push other data out.
+For the exam, you should know:
 
-Your schema is what data you're storing in documents, and how that data is stored. Data modeling is about choosing the right schema for your tasks.
+- What the basic considerations of data modeling are
+- What a working set is
+- Why your working set matters
 
-One of the key concepts of data modeling is the idea of the "working set" of data. This is the data you read frequently. If it fits in RAM, your performance should be good; if it doesn't, you'll frequently have to touch the disk. This will often have higher costs for spinning disk media than for SSD's, but there will be a cost, regardless.
-
-Much of data modeling is centered around designing schemas that ensure that you're reading everything you need with as few queries as possible, while also removing from your frequently-read documents anything you don't frequently use.
+Resources:
 
 - Docs:
 
@@ -61,12 +62,19 @@ Much of data modeling is centered around designing schemas that ensure that you'
 
   - `Data Model Design for MongoDB <http://docs.mongodb.org/master/MongoDB-data-models-guide.pdf>`_
 
-    - This is more of a full guide than an introduction, and looks into many of the sections of the exam.
-
+    - This is more of a full guide than an introduction, and touches on many of the sections of the exam.
 
 
 Document Structure
 ------------------
+
+For the exam, you should know:
+
+- The difference between embedding and referencing
+- What it means to denormalize data
+- How these would be represented in a collection
+
+Resources:
 
 - Docs:
 
@@ -79,11 +87,12 @@ Document Structure
   - `When to Denormalize <https://university.mongodb.com/videos/y/jDZ-HFoJ0vg>`_
 
 
-
 Relational Features and MongoDB Patterns
 ----------------------------------------
 
-Many developers and DBA's come from the relational world, so you should be familiar with some of the features of relational DB's, particularly joins (which involve simultaneously reading from several tables) and transactions (which involve simultaneously writing to several tables). 
+For the exam, you should know:
+
+- You don't actually need to know this, but it can help for people who come from the relational world to know the differences.
 
 - Videos:
 
@@ -100,6 +109,13 @@ Many developers and DBA's come from the relational world, so you should be famil
 One-to-One Relationships
 ------------------------
 
+For the exam, you should know:
+
+- How to model one-to-one relationships
+- Advantages and disadvantages of embedding vs. referencing for one-to-one relationships
+
+Resources:
+
 - Docs:
 
   - `Model One-to-One Relationships with Embedded Documents <http://docs.mongodb.org/master/tutorial/model-embedded-one-to-one-relationships-between-documents/>`_
@@ -109,9 +125,16 @@ One-to-One Relationships
   - `One to One Relationships <https://university.mongodb.com/videos/y/cCsfon0vUlQ>`_
 
 
-
 One-to-Many Relationships
 -------------------------
+
+For the exam, you should know:
+
+- Your options for modeling one-to-many relationships
+- Advantages and disadvantages of those options
+- Common patterns
+
+Resources:
 
 - Video:
 
@@ -132,6 +155,12 @@ One-to-Many Relationships
 Many-to-Many Relationships
 --------------------------
 
+For the exam, you should know:
+
+- How to model many-to-many relationships
+
+Resources:
+
 - Video:
 
   - `Many to Many Relationships <https://university.mongodb.com/videos/y/fEYYjZ7zEHc>`_
@@ -139,6 +168,13 @@ Many-to-Many Relationships
 
 Modeling Tree Structures
 ------------------------
+
+For the exam, you should know:
+
+- Common tree structure modeling patterns
+- Advantages & disadvantages of each for reading & writing
+
+Resources:
 
 - Video:
 
@@ -153,9 +189,15 @@ Modeling Tree Structures
   - `Model Tree Structures with Materialized Paths <http://docs.mongodb.org/master/tutorial/model-tree-structures-with-materialized-paths/>`_
   - `Model Tree Structures with Nested Sets <http://docs.mongodb.org/master/tutorial/model-tree-structures-with-nested-sets/>`_
 
-
 Schema Design Patterns
 ---------------------- 
+
+For the exam, you should know:
+
+- How to model data for keyword search
+- How to model monetary data
+
+Resources:
 
 - Docs:
 
@@ -163,22 +205,16 @@ Schema Design Patterns
  - `Model Monetary Data <http://docs.mongodb.org/master/tutorial/model-monetary-data/>`_
 
 
-Bulk Operations
----------------
-
-Bulk Operations allow you to use bulk write operations to amortize a write concern response over many documents.
-
-- Docs:
-
-  - `db.collection.insert() <http://docs.mongodb.org/master/reference/method/db.collection.insert/#db.collection.insert>`_
-  - `Bulk Write Operations <http://docs.mongodb.org/master/core/bulk-write-operations/>`_
-
-
-
 MongoDB BLOB Options
 --------------------
 
-MongoDB has a binary type (which you should be aware of), and can also break up large BLOBS using GridFS.
+For the exam, you should know:
+
+- That GridFS can store large binary files in a queryable format
+- Approximately how large the documents in GridFS are
+- How to store data in GridFS
+
+Resources:
 
 - Video:
 
