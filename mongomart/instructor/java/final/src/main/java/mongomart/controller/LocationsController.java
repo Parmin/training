@@ -40,11 +40,6 @@ public class LocationsController {
             long numStores = storeDao.countStores();
             int numPages = ((int) Math.ceil(numStores / (double) storesPerPage));
 
-            // pages are 0 based, so we need to subtract 1.
-            if (numPages > 0) {
-                numPages -= 1;
-            }
-
             Map<String, Object> attributes = new HashMap<>();
 
             List<Store> stores = new ArrayList<>();

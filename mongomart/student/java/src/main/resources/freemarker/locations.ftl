@@ -128,9 +128,9 @@
             <div class="row text-center">
                 <div class="col-lg-12">
                     <ul class="pagination">
-                    <#list 0..numPages as i>
+                    <#list 0..(numPages-1) as i>
                         <li <#if page == (i)>class="active"</#if>>
-                            <a href="?page=${i}&amp;city=${city!}&amp;state=${state!}&amp;zip=${zip!}&amp;find=${find!}">${i+1}</a>
+                            <a href="?page=${i}&city=${city!}&state=${state!}&zip=${zip!}&find=${find!}">${i+1}</a>
                         </li>
                     </#list>
                     </ul>
