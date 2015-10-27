@@ -11,13 +11,11 @@
 import pymongo
 import itemDAO
 import cartDAO
+import storeDAO
 import bottle
-import cgi
-import re
 import math
-import decimal
 
-from bottle import route, request, response, template
+from bottle import request
 
 __author__ = 'jz'
 
@@ -132,7 +130,7 @@ def cart_helper(updated):
 
 # Add an item to the cart
 @bottle.route('/cart/add')
-def cart():
+def add_to_cart():
     itemid = request.query.itemid
     item = items.get_item(int(itemid))
 
@@ -150,6 +148,68 @@ def update_cart():
 
     return cart_helper(True)
 
+@bottle.route('/locations')
+def locations():
+    city = request.query.city
+    state = request.query.state
+    zip_code = request.query.zip
+    find = request.query.find
+
+    # Pagination calculations
+    try:
+        page = int(request.query.page)
+    except ValueError:
+        page = 0
+    stores_per_page = 5
+    skip = stores_per_page * page
+    num_pages = 0;
+    num_stores = stores.count_stores()
+    if num_stores > stores_per_page:
+        num_pages = int(math.ceil(num_stores / stores_per_page))
+
+    zip_error = ''
+    city_and_state_error = ''
+    locations = []
+    if find == "byZip":
+        zip_code = zip_code.strip()
+        if not zip_code:
+            zip_error = "Please supply a zip."
+        try:
+            locations = stores.get_stores_closest_to_zip(zip_code, skip, stores_per_page)
+        except storeDAO.ZipNotFound:
+            zip_error = "Can't find " + zip + " in our database."
+            city = ""
+            state = ""
+    elif find == "byCityAndState":
+        city = city.strip()
+        state = state.strip()
+        if not city or not state:
+            city_and_state_error =  "Please supply a city and state."
+        else:
+            try:
+                locations = stores.get_stores_closest_to_city_and_state(
+                    city, state, skip, stores_per_page)
+            except storeDAO.CityAndStateNotFound:
+                city_and_state_error = (
+                    "Can't find " + city + ", " + state + " in our database."
+                )
+                zip_code = ""
+    states = stores.get_all_states()
+    return bottle.template('locations', {
+        'zip_error': zip_error,
+        'city_and_state_error': city_and_state_error,
+        'stores': locations,
+        'num_stores': num_stores,
+        'find': find,
+        'states': states,
+        'city': city,
+        'state': state,
+        'zip': zip_code,
+        'page': page,
+        'num_pages': num_pages
+    })
+
+
 #
 # TODO-lab1
 #
@@ -161,6 +221,7 @@ database = {}
 
 items = itemDAO.ItemDAO(database)
 cart = cartDAO.CartDAO(database)
+stores = storeDAO.StoreDAO(database)
 
 bottle.debug(True)
 # Start the webserver running and wait for requests

@@ -81,7 +81,7 @@
                 <div class="col-lg-12">
                     <ul class="pagination">
                     
-                        %for i in range(0,(pages+1)):
+                        %for i in xrange(pages):
                             <li class={{'active' if page == i else 'inactive'}}>
                                 <a href="/search?page={{i}}&query={{query_string}}">{{i + 1}}</a>
                             </li>
@@ -105,8 +105,8 @@
 </div>
 <!-- /.container -->
 
-<#-- Include footer -->
-<#include "includes/footer.ftl">
+% # Include footer
+%include('includes/footer.tpl')
 
 </body>
 

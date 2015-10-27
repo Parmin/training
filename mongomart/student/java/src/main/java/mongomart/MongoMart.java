@@ -4,6 +4,7 @@ import com.mongodb.client.MongoDatabase;
 import freemarker.template.Configuration;
 import mongomart.controller.AdminController;
 import mongomart.controller.CartController;
+import mongomart.controller.LocationsController;
 import mongomart.controller.StoreController;
 
 import java.io.IOException;
@@ -71,7 +72,7 @@ public class MongoMart {
         AdminController adminController = new AdminController(cfg, itemDatabase);
         StoreController storeController = new StoreController(cfg, itemDatabase);
         CartController cartController = new CartController(cfg, itemDatabase);
-
+        LocationsController locationsController = new LocationsController(cfg, itemDatabase);
     }
 
     /**

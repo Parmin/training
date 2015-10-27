@@ -16,19 +16,17 @@
 #
 #
 
-
+from __future__ import division
 
 import pymongo
 import itemDAO
 import cartDAO
 import reviewDAO
+import storeDAO
 import bottle
-import cgi
-import re
 import math
-import decimal
 
-from bottle import route, request, response, template
+from bottle import request
 
 
 
@@ -60,14 +58,14 @@ def index():
     item_count = items.get_num_items(category)
 
     num_items = len(all_items)
-    
+
     if num_items > ITEMS_PER_PAGE:
         # Since we got back one extra item than we needed, we need to trim it
         if before > 0:
             all_items = all_items[1:len(all_items)];
         else:
             all_items = all_items[0:ITEMS_PER_PAGE];
-            
+
 
     if include_next_page(num_items, before, after):
         next_page_url = '/?category=' + category + '&after=' + str(all_items[len(all_items)-1]['_id'])
@@ -75,12 +73,10 @@ def index():
     if include_previous_page(num_items, before, after):
         previous_page_url = '/?category=' + category + '&before=' + str(all_items[0]['_id'])
 
-    num_pages = 0;
-    if item_count > ITEMS_PER_PAGE:
-        num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
+    num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
 
-    return bottle.template('home', dict(category_param=category, 
-                                        categories=categories, 
+    return bottle.template('home', dict(category_param=category,
+                                        categories=categories,
                                         useRangeBasedPagination=True,
                                         item_count=item_count,
                                         pages=num_pages,
@@ -94,15 +90,15 @@ def include_next_page(num_items, before, after):
     # If homepage, display a next link is number of items is large enough
     if (before == 0 and after == 0 and num_items > ITEMS_PER_PAGE):
         return True
-    
+
     # If only a "before" parameter is passed in
     elif before > 0:
         return True
-    
+
     # Only an "after" parameter was passed in
     elif num_items > ITEMS_PER_PAGE:
         return True
-    
+
     return False
 
 def include_previous_page(num_items, before, after):
@@ -112,7 +108,7 @@ def include_previous_page(num_items, before, after):
     # If only a "before" parameter is passed in
     elif (before > 0 and num_items > ITEMS_PER_PAGE):
         return True
-    
+
     return False
 
 @bottle.route('/search')
@@ -123,9 +119,7 @@ def search():
     search_items = items.search_items(query, int(page), ITEMS_PER_PAGE)
     item_count = items.get_num_search_items(query)
 
-    num_pages = 0;
-    if item_count > ITEMS_PER_PAGE:
-        num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
+    num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
 
     return bottle.template('search', dict(query_string=query,
                                         item_count=item_count,
@@ -137,20 +131,20 @@ def search():
 @bottle.route('/item')
 def item():
     itemid = request.query.id
-    
+
     item = items.get_item(int(itemid))
     stars = reviews.get_avg_stars(int(itemid))
     num_reviews = reviews.get_num_reviews(int(itemid))
 
     # Solution for Lab 2 (calculating total reviews and avg stars)
-    # 
+    #
     # if 'reviews' in item:
     #   num_reviews = len(item['reviews'])
     #
     #    for review in item['reviews']:
     #        stars += review['stars']
     #
-    #    if ( num_reviews > 0 ): 
+    #    if ( num_reviews > 0 ):
     #        stars = stars / num_reviews
 
     related_items = items.get_related_items()
@@ -168,15 +162,15 @@ def add_review():
     name = request.query.name
     stars = int(request.query.stars)
 
-    item = items.add_review(itemid, review, name, stars)
+    items.add_review(itemid, review, name, stars)
     reviews.add_review(itemid, review, name, stars)
 
     return bottle.redirect("/item?id=" + str(itemid))
 
 @bottle.route('/cart')
-def cart():
-    return cart_helper(False)   
-    
+def shopping_cart():
+    return cart_helper(False)
+
 def cart_helper(updated):
     user_cart = cart.get_cart(USERID)
     total = 0
@@ -186,15 +180,15 @@ def cart_helper(updated):
     return bottle.template('cart', dict(updated=updated,
                                         cart=user_cart,
                                         total=total
-                                        ))    
+                                        ))
 
 @bottle.route('/cart/add')
-def cart():
+def add_to_cart():
     itemid = request.query.itemid
     item = items.get_item(int(itemid))
 
     cart.add_item(USERID, item)
-    
+
     return cart_helper(True)
 
 @bottle.route('/cart/update')
@@ -206,6 +200,65 @@ def update_cart():
 
     return cart_helper(True)
 
+@bottle.route('/locations')
+def locations():
+    city = request.query.city
+    state = request.query.state
+    zip_code = request.query.zip
+    find = request.query.find
+
+    # Pagination calculations
+    try:
+        page = int(request.query.page)
+    except ValueError:
+        page = 0
+    stores_per_page = 5
+    skip = stores_per_page * page
+    num_stores = stores.count_stores()
+    num_pages = int(math.ceil(num_stores / stores_per_page))
+
+    zip_error = ''
+    city_and_state_error = ''
+    locations = []
+    if find == "byZip":
+        zip_code = zip_code.strip()
+        if not zip_code:
+            zip_error = "Please supply a zip."
+        try:
+            locations = stores.get_stores_closest_to_zip(zip_code, skip, stores_per_page)
+        except storeDAO.ZipNotFound:
+            zip_error = "Can't find " + zip + " in our database."
+            city = ""
+            state = ""
+    elif find == "byCityAndState":
+        city = city.strip()
+        state = state.strip()
+        if not city or not state:
+            city_and_state_error =  "Please supply a city and state."
+        else:
+            try:
+                locations = stores.get_stores_closest_to_city_and_state(
+                    city, state, skip, stores_per_page)
+            except storeDAO.CityAndStateNotFound:
+                city_and_state_error = (
+                    "Can't find " + city + ", " + state + " in our database."
+                )
+                zip_code = ""
+    states = stores.get_all_states()
+    return bottle.template('locations', {
+        'zip_error': zip_error,
+        'city_and_state_error': city_and_state_error,
+        'stores': locations,
+        'num_stores': num_stores,
+        'find': find,
+        'states': states,
+        'city': city,
+        'state': state,
+        'zip': zip_code,
+        'page': page,
+        'num_pages': num_pages
+    })
+
 # connection string should contain multiple host names
 # e.g. MongoClient('mongodb://localhost:27017,localhost:27018/?replicaSet=rs0')
 
@@ -216,8 +269,8 @@ database = connection.mongomart
 items = itemDAO.ItemDAO(database)
 cart = cartDAO.CartDAO(database)
 reviews = reviewDAO.ReviewDAO(database)
+stores = storeDAO.StoreDAO(database)
 
 
 bottle.debug(True)
 bottle.run(host='localhost', port=8080)         # Start the webserver running and wait for requests
-

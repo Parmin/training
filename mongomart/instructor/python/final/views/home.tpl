@@ -90,7 +90,7 @@
                         <!-- Show page numbers for pagination -->
                         %if useRangeBasedPagination == False:
 
-                            %for i in range(0,(pages+1)):
+                            %for i in xrange(pages):
                                 <li class={{'active' if page == i else 'inactive'}}>
                                     <a href="/?page={{i}}&category={{category_param}}">{{i + 1}}</a>
                                 </li>

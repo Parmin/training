@@ -91,39 +91,24 @@ public class StoreDao {
     }
 
     private List<Store> getStoresClosestToLocation(
-            final double longitude, final double latitude, final int skip, final int limit) {
-        List<Document> pipeline = buildClosestToLocationPipeline(longitude, latitude);
-        pipeline.add(new Document("$skip", skip));
-        pipeline.add(new Document("$limit", limit));
-        List<Document> docs = collection.aggregate(pipeline).into(new ArrayList<>());
+             final double longitude, final double latitude, final int skip, final int limit) {
+        // TODO-lab6
+
+        // Use the $geoNear aggregration operator to query for stores
+        // in order of proximity to the specified point (i.e.,
+        // longitude and latitude), skipping over `skip` documents and
+        // limiting results to `limit`. Ensure that your document has
+        // a computed field `distanceFromPoint` (see docToStore).
+
+        List<Document> docs = new ArrayList<>();
+
+        // TODO-lab6 Replace code above.
+
         return docsToStores(docs);
     }
 
     public long countStores() {
         return collection.count();
-    }
-
-    private List<Document> buildClosestToLocationPipeline(final double longitude, final double latitude) {
-        // Documents are already sorted
-        List<Double> coordinates = new ArrayList<>();
-        coordinates.add(longitude);
-        coordinates.add(latitude);
-        long numStores = countStores();
-
-        Document geoNear = new Document(
-                "$geoNear",
-                new Document(
-                        "near",
-                        new Document("type", "Point").append("coordinates", coordinates)
-                )
-                        .append("distanceField", "distanceFromPoint")
-                        .append("spherical", true)
-                        .append("distanceMultiplier", 0.001)
-                        .append("limit", numStores)
-            );
-        List<Document> pipeline = new ArrayList<>();
-        pipeline.add(geoNear);
-        return pipeline;
     }
 
     private static Store docToStore(Document document) {
