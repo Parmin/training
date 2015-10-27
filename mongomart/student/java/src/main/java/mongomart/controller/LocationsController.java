@@ -37,10 +37,12 @@ public class LocationsController {
             int page = getIntFromString(request.queryParams("page"));
             int storesPerPage = 5;
             int skip = storesPerPage * page;
-            int numPages = 0;
             long numStores = storeDao.countStores();
-            if (numStores > storesPerPage) {
-                numPages = (int) Math.ceil(numStores / storesPerPage);
+            int numPages = ((int) Math.ceil(numStores / (double) storesPerPage));
+
+            // pages are 0 based, so we need to subtract 1.
+            if (numPages > 0) {
+                numPages -= 1;
             }
 
             Map<String, Object> attributes = new HashMap<>();
