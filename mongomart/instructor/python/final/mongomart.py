@@ -16,7 +16,7 @@
 #
 #
 
-
+from __future__ import division
 
 import pymongo
 import itemDAO
@@ -73,9 +73,7 @@ def index():
     if include_previous_page(num_items, before, after):
         previous_page_url = '/?before=' + str(all_items[0]['_id'])
 
-    num_pages = 0;
-    if item_count > ITEMS_PER_PAGE:
-        num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
+    num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
 
     return bottle.template('home', dict(category_param=category,
                                         categories=categories,
@@ -121,9 +119,7 @@ def search():
     search_items = items.search_items(query, int(page), ITEMS_PER_PAGE)
     item_count = items.get_num_search_items(query)
 
-    num_pages = 0;
-    if item_count > ITEMS_PER_PAGE:
-        num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
+    num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
 
     return bottle.template('search', dict(query_string=query,
                                         item_count=item_count,
@@ -218,10 +214,8 @@ def locations():
         page = 0
     stores_per_page = 5
     skip = stores_per_page * page
-    num_pages = 0;
     num_stores = stores.count_stores()
-    if num_stores > stores_per_page:
-        num_pages = int(math.ceil(num_stores / stores_per_page))
+    num_pages = int(math.ceil(num_stores / stores_per_page))
 
     zip_error = ''
     city_and_state_error = ''
