@@ -6,6 +6,8 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import mongomart.model.Address;
+import mongomart.model.Geo;
 import mongomart.model.Store;
 import org.bson.Document;
 
@@ -128,16 +130,18 @@ public class StoreDao {
         List<Double> coords = (List<Double>) document.get("coords");
         double longitude = coords.get(0);
         double latitude = coords.get(1);
-
+        Geo geo = new Geo(longitude, latitude);
+        Address address = new Address(
+            document.getString("address"), document.getString("address2"),
+            document.getString("city"), document.getString("state"),
+            document.getString("zip"), document.getString("country"));
+        
         double distanceFromPoint = document.containsKey("distanceFromPoint") ?
                 document.getDouble("distanceFromPoint") : 0.0;
 
         return new Store(
                 document.getObjectId("_id"), document.getString("storeId"), document.getString("name"),
-                longitude, latitude, document.getString("address"),
-                document.getString("address2"), document.getString("city"), document.getString("state"),
-                document.getString("zip"), document.getString("country"), distanceFromPoint
-        );
+                geo, address, distanceFromPoint);
     }
 
     private static List<Store> docsToStores(List<Document> documents) {

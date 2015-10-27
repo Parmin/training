@@ -9,30 +9,18 @@ public class Store {
     private final ObjectId id;
     private final String storeId;
     private final String name;
-    private final double latitude;
-    private final double longitude;
-    private final String address;
-    private final String address2;
-    private final String city;
-    private final String state;
-    private final String zip;
-    private final String country;
+    private final Geo geo;
+    private final Address address;
     private final double distanceFromPoint;
 
-    public Store(final ObjectId id, final String storeId, final String name, final double longitude,
-                 final double latitude, final String address, final String address2, final String city,
-                 final String region, final String zip, final String country, final double distanceFromPoint) {
+    public Store(final ObjectId id, final String storeId, final String name,
+                 final Geo geo, final Address address,
+                 final double distanceFromPoint) {
         this.id = id;
         this.storeId = storeId;
         this.name = name;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.geo = geo;
         this.address = address;
-        this.address2 = address2;
-        this.city = city;
-        this.state = region;
-        this.zip = zip;
-        this.country = country;
         this.distanceFromPoint = distanceFromPoint;
     }
 
@@ -49,35 +37,35 @@ public class Store {
     }
 
     public double getLatitude() {
-        return latitude;
+        return geo.getLatitude();
     }
 
     public double getLongitude() {
-        return longitude;
+        return geo.getLongitude();
     }
 
     public String getAddress() {
-        return address;
+        return address.getAddress();
     }
 
     public String getAddress2() {
-        return address2;
+        return address.getAddress2();
     }
 
     public String getCity() {
-        return city;
+        return address.getCity();
     }
 
     public String getState() {
-        return state;
+        return address.getState();
     }
 
     public String getZip() {
-        return zip;
+        return address.getZip();
     }
 
     public String getCountry() {
-        return country;
+        return address.getCountry();
     }
 
     public double getDistanceFromPoint() {
