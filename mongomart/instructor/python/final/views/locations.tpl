@@ -130,7 +130,7 @@
                     <ul class="pagination">
                     % for i in xrange(num_pages):
                         <li {{'class="active"' if page == i else ''}}>
-                            <a href="?page={{i}}&city={{city}}&state={{state}}&zip={{zip}}&find={{find}}">{{i+1}}</a>
+                            <a href="?page={{i}}&amp;city={{city}}&amp;state={{state}}&amp;zip={{zip}}&amp;find={{find}}">{{i+1}}</a>
                         </li>
                     % end
                     </ul>
