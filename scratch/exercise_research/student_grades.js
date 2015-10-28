@@ -1,3 +1,7 @@
+/*
+Setup the exercise, load all relevant data and 
+configure the cluster (if needed)
+*/
 function setup() {
 	load('data/students.js');
 
@@ -11,24 +15,34 @@ function setup() {
 	}
 }
 
+/*
+Solve the exercise, update any documents or configurations to 
+pass the submit() function
+*/
 function solve()  {
-	db.getSiblingDB("students").grades.find( { "grade" : "A" })	
+	db.getSiblingDB("students").grades.update( { "grade" : { $gte : 90 } }, { $set : { "grade" : "A" } }, { "multi" : true });	
 }
 
+/*
+Submit the exercise for correctness
+*/
 function submit() {
-	if (db.getSiblingDB("students").grades.find( { "grade" : "A" }) == 1) {
+	if (db.getSiblingDB("students").grades.find( { "grade" : "A" }).count() == 1) {
 		return true
 	}
 	else {
 		print("Incorrect submission");
 		return false;
 	}
-
 }
 
+/*
+Clean up the exercise, remove all inserted documents, indexes, etc.
+*/
 function cleanup() {
 	print("Cleaning up...");
 	db.getSiblingDB("students").grades.remove({});
 }
 
+// Run setup
 setup();
