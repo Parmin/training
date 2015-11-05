@@ -5,6 +5,11 @@ configure the cluster (if needed)
 function setup() {
 	load('data/students.js');
 
+	aClient = new HttpClient();
+aClient.get('http://some/thing?with=arguments', function(response) {
+    print(response);
+});
+
 	if (db.getSiblingDB("students").grades.count() == 5) {
 		return true
 	}
@@ -13,6 +18,11 @@ function setup() {
 		cleanup();
 		return false;
 	}
+}
+
+function getDescription() {
+	return "Please add a grade field to each student, e.g. students >= 90 will get a grade of 'A', students
+	 >= 80 < 90 will get a B, etc.";
 }
 
 /*
