@@ -176,7 +176,7 @@
       <g>
         <g>
           <text transform="matrix(1, 0, 0, 1, 438.934, 116.715)">
-            <tspan x="-9" y="5.5" font-family="Inconsolata" font-size="18" fill="#DD4F01">26</tspan>
+            <tspan x="-9" y="5.5" font-family="Inconsolata" font-size="18" fill="#DD4F01">27</tspan>
           </text>
           <path d="M422.171,100.931 L456.698,100.931 L456.698,133.5 L422.171,133.5 z" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
         </g>
@@ -214,7 +214,7 @@
     </g>
     <g>
       <text transform="matrix(1, 0, 0, 1, 386.987, 195.049)">
-        <tspan x="-9" y="5.5" font-family="Inconsolata" font-size="18" fill="#DD4F01">22</tspan>
+        <tspan x="-9" y="5.5" font-family="Inconsolata" font-size="18" fill="#DD4F01">26</tspan>
       </text>
       <path d="M370.389,179.264 L404.917,179.264 L404.917,211.833 L370.389,211.833 z" fill-opacity="0" stroke="#1D4494" stroke-width="2"/>
     </g>
