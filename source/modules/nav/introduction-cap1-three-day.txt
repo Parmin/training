@@ -1,0 +1,9 @@
+================
+MongoDB Overview
+================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-introduction-cap1-three-day.rst
+
+.. include:: /includes/toc/introduction-cap1-three-day.rst             
