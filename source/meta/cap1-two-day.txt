@@ -1,0 +1,17 @@
+:orphan:
+
+===============================
+MongoDB Training for CapitalOne
+===============================
+
+.. toctree::
+
+   /modules/nav/introduction-cap1-two-day
+   /modules/nav/schema-design-essentials
+   /modules/nav/indexes-cap1-two-day
+   /modules/nav/replica-sets-cap1-two-day
+   /modules/nav/sharding
+   /modules/nav/aggregation
+   /modules/nav/mongomart-cap1-two-day
+   /modules/nav/performance-essentials
+

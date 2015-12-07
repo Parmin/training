@@ -1,0 +1,9 @@
+============
+Replica Sets
+============
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-replica-sets-cap1-two-day.rst
+
+.. include:: /includes/toc/replica-sets-cap1-two-day.rst             

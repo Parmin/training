@@ -1,0 +1,9 @@
+=======
+Indexes
+=======
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-indexes-cap1-three-day.rst
+
+.. include:: /includes/toc/indexes-cap1-three-day.rst             
