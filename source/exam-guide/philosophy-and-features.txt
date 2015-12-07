@@ -1,0 +1,262 @@
+=======================
+Philosophy and Features
+=======================
+
+In the Philosophy and Features section on the exam, we will verify that you understand the following:
+
+- The key features of MongoDB and what functionality they provide
+- Fundamentals of JSON and BSON
+- The MongoDB data model at a high level
+- The MongoDB query model at a high level
+- Data consistency and availability in MongoDB
+
+The `MongoDB Architecture Guide <http://s3.amazonaws.com/info-mongodb-com/MongoDB_Architecture_Guide.pdf>`_ provides a concise overview of these subjects. We expand on this material below.
+
+
+JSON
+----
+
+For the exam you should know:
+
+- What data types JSON supports, e.g., objects and arrays
+- The structure of JSON objects and arrays
+- How to nest data in JSON objects and arrays
+- How to read JSON
+
+Resources:
+
+- Videos:
+
+  - `Introduction to JSON <https://university.mongodb.com/videos/y/PTATjNSjbJ0>`_
+  - `JSON revisited <https://university.mongodb.com/videos/y/CTffxoSSLqg>`_
+  - `JSON spec <https://university.mongodb.com/videos/y/kOrsT94-A28>`_
+
+- Docs:
+
+  - :manual:`Intro to JSON</reference/mongodb-extended-json/>`
+
+- External links:
+
+  - `json.org <http://json.org/>`_
+
+
+BSON
+----
+
+For the exam you should know:
+
+- That BSON is a binary JSON data format
+- What we mean in describing BSON as lightweight, traversable, and efficient
+- How BSON encodes a value using explicit type information, a binary representation of the value, and explicit byte length.
+
+Resource:
+
+`BSON specification <http://bsonspec.org/>`_
+
+
+The Mongo Shell
+---------------
+
+For the exam you should know:
+
+- How to list available databases/collections in the mongo shell
+- How to switch to a particular database context
+- How to write JavaScript code to create sample data and for other simple tasks
+- How to print output using the "print" function
+- Administrative commands available in the Mongo shell
+
+Resources:
+
+- Video:
+
+  - `Lesson video <https://university.mongodb.com/videos/y/e18vCIdQKp4>`_
+
+- Docs:
+
+  - :manual:`Getting Started with the mongo Shell</tutorial/getting-started-with-the-mongo-shell/>`
+  - :manual:`mongo Shell Quick Reference</reference/mongo-shell/>`
+
+You should also know how to work with :manual:`data types in the shell</core/shell-types/>`.
+
+
+Shell Examples
+--------------
+
+To assign a value to a variable, you use the '=' sign. Let's assign the value of 5 to the 'x' variable:
+
+.. code-block:: javascript
+  
+  > var x = 5;
+  > print(x)
+  5
+
+JavaScript is lax about syntax so the following will also work. Note the lack of the `var` keyword and semicolons.
+
+.. code-block:: javascript
+  
+  > x = 5
+  5
+  > print(x)
+  5
+
+JavaScript and the shell include a number of built-in objects and functions that support a variety of uses. For example, `Math` is a built-in class with methods supporting a number of common mathematical operations. `ISODate` is another class commonly used when date objects are required.
+
+.. code-block:: javascript
+
+  > Math.floor(3.5)
+  3
+  > Math.PI
+  3.141592653589793
+  > ISODate()
+  ISODate("2015-07-22T19:04:34.219Z")
+  > print("hello")
+  hello
+  >
+
+Iteration in the shell (and in JavaScript in general) has the following syntax. Here we are using the most compact form. You may choose to write loops such as this with each statement and the curly braces on separate lines.
+
+.. code-block:: javascript
+
+  > var x = 0
+  > while ( x < 5 ) { x++; print(x) }
+  1
+  2
+  3
+  4
+  5
+  > for (i=0; i<=3; i++) { print(i) }
+  0
+  1
+  2
+  3
+  > x = { a : 4, b : 3, c : 2 }
+  { "a" : 4, "b" : 3, "c" : 2 }
+  > for (key in x) { print(key + ': ' + x[key]) }
+  a: 4
+  b: 3
+  c: 2
+  >
+
+In the mongo shell (and drivers), you will work with database handles and collection objects.
+
+.. code-block:: javascript
+
+  > db
+  test
+  > db.currentOP()
+  { "inprog" : [ ] }
+  > db.people.find()
+  { "_id" : ObjectId("55afeb6a6daadd6baf25c63b"), "name" : "Dwight", "title" : "Chair of the Board" }
+  { "_id" : ObjectId("55afeb7b6daadd6baf25c63c"), "name" : "Andrew", "title" : "VP of Developer Experience" }
+       
+
+Shell Exercises
+---------------
+
+The following are exercises you may find useful in ensuring you understand the above. 
+
+- Write a for loop that inserts one million documents in the mongo shell.
+- Create one collection with a field that contains the _id of documents in second collection. Perform a series of find operations that use the results of a query against the first collection to identify the _ids of documents to retrieve from the second collection.
+
+
+Vertical and Horizontal Scaling
+-------------------------------
+
+For the exam you should know:
+
+- The difference between vertical and horizontal scaling
+- That sharding is MongoDB's approach to horizontal scaling
+
+Resources:
+
+- Webinar:
+
+  - `Scaling MongoDB Webinar Series <https://www.mongodb.com/lp/webinar/scaling-series-sept-2014>`_
+
+- Docs:
+
+  - :manual:`Sharding Introduction</core/sharding-introduction/>`
+
+
+
+MongoDB and Relational Databases
+--------------------------------
+
+For the exam you should know:
+
+- The features typically found relational database management systems that MongoDB does not include for scalability reasons
+- How relational data models typically differ from data models in MongoDB
+
+Resources:
+
+- Video:
+
+  - `MongoDB and Relational Databases <https://university.mongodb.com/videos/y/-KIC1LXxcGM>`_
+
+- Docs:
+
+  - :manual:`SQL to MongoDB Mapping Chart</reference/sql-comparison/>`
+
+- MongoDB.com:
+
+  - `Compare MongoDB and MySQL <https://www.mongodb.com/compare/mongodb-mysql>`_
+
+
+Flexible Schema in MongoDB
+--------------------------
+
+For the exam you should understand:
+
+- Why we say MongoDB has a flexible schema (sometimes called "schemaless")
+- How this different from relational databases
+- Atomicity concerns with regard to write operations in MongoDB
+
+Resources:
+
+- Video:
+
+  - `MongoDB is Schemaless <https://university.mongodb.com/videos/y/uKB-Hoqs6zI>`_
+
+- Docs:
+
+  - `Data Modeling Introduction <http://docs.mongodb.org/master/core/data-modeling-introduction/>`_
+
+
+Sample Problems
+---------------
+
+1. Which features of relational database management systems were deliberately omitted in MongoDB and help us to obtain horizontal scalability? Check all that apply.
+
+   a. Multi-statement transactions
+   b. Authentication
+   c. Joins
+
+2. In order to ensure that you can maintain high availability in the face of server failure, you should implement which of the following?
+
+   a. Replication
+   b. Sharding
+   c. The proper storage engine
+   d. Properly defined user roles
+   e. Put indexes on all of your documents
+
+3. Which of the following are common uses of the mongo shell? Check all that apply.
+
+   a. Perform queries against MongoDB collections
+   b. Perform administrative tasks
+   c. Use as a JavaScript framework for your production system
+
+
+Answers to Sample Problems
+--------------------------
+
+1. a, c
+2. a
+3. a, b
+
+
+Suggested Exercises for the Reader
+----------------------------------
+
+- Consider a simple JSON document and determine how it will be encoded as BSON.
+- Write a simple routine in JavaScript that creates and inserts some sample data into a collection.
+- Experiment with a few find operations to ensure the data was inserted correctly.

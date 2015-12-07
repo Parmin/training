@@ -1,0 +1,38 @@
+Introduction
+------------
+
+You are about to take a MongoDB Certification Exam. We want you to be successful so we've prepared this guide to help you study. With a good understanding of the subjects covered here, you should be well prepared to pass. Good luck!
+
+
+Proctoring
+----------
+
+You will take the exam at home, at your computer. When you take the exam, there will be a live proctor from our partner, Examity, observing. He or she will take you through the steps, help you begin your test, and will let you know if anything is out of order so you don't violate exam rules without knowing it.
+
+
+Your Computer
+-------------
+
+Your computer must be a Windows PC or Mac (Sorry, no Linux yet!) with a video camera (webcam), a microphone, and speakers. The webcam can be built-in or it can be a peripheral, but you need to be able to position it so that the proctor can see your face throughout the exam. You must be able to pivot the camera (possibly by picking up your laptop) so that the proctor can see everything in the room including your desk. You can't use headphones, but do need to use speakers so that you can hear the proctor.
+
+Before you even schedule the exam, please go through Examity's `Computer Readiness Check <http://prod.examity.com/systemcheck/computerreadinesscheck.aspx>`_. This will tell you if there are any problems with your webcam, your internet connection, your microphone, etc. If you are going to have problems, it's best to find out early.
+
+
+Your Test-Taking Environment
+----------------------------
+
+You need to be alone when taking the exam. No one else should be in the room. You may not have any reference materials present and your desk area must be free of clutter. This will be verified by the proctor before the exam begins. You may take the exam at any time during the exam session for which you are registered, day or night. Exam sessions run for one week. They typically begin and end at 17:00 UTC on a Tuesday, but be sure to check the about page for your exam (`DBA <https://university.mongodb.com/exams/C100DBA/about>`_ or `Developer <https://university.mongodb.com/exams/C100DEV/about>`_) for the exact times.
+
+
+Scoring and Test-Taking Strategies
+----------------------------------
+
+The exam currently has two types of problems: multiple choice and check-all-that-apply. Most questions will have 5 choices for multiple choice or 3 for check-all-that-apply. 
+
+There is no penalty for guessing, so you should have an answer for every problem. If you find that you are getting close to running out of time, be sure to run through and provide an answer for each question. Leaving questions blank will guarantee that you don't get credit.
+
+
+Translation Software
+--------------------
+
+You may use translation software in order to translate the questions from English to another language. We do not support any particular translation software. We do not vouch for the translation accuracy of any software. However, you are welcome to use the translation software of your choice during the test if you are willing to assume any risks associated with the software.

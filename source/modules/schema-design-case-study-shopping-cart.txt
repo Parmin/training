@@ -197,7 +197,7 @@ Expiring the Shopping Cart
 
 Three options: 
 
-- Create a TTL index on "last_activity" field in "cart" collection.  Requires background process to update "quantity_in_carts" field in item document
+- Use a background process to expire items in the cart collection and update the "quantity_in_carts" field. 
 - Create a TTL index on "last_activity" field in "cart" collection.  Remove the "quantity_in_carts" field from the item document and create a query for determining the number of items currently allocated to user carts
 - Create a background process to change the "status" field of expired carts to "inactive"
 

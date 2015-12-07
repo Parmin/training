@@ -276,7 +276,7 @@ Fanout on Write
 
 - When the following are true:
 
-  - The number of newsfeed views are smaller than content posts
+  - The number of newsfeed views are greater than content posts
   - The number of users to the system is large
 
 - Fanout on write provides an efficient way to maintain fast performance as the system becomes large.

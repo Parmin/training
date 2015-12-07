@@ -2,54 +2,38 @@
 CRUD
 ====
 
-On the certification exam, we will attempt to verify that you:
+On the certification exam, we will verify that you:
 
-- Understand all CRUD operations for manipulating documents
-- Know all CRUD operators and how to use them
-- Understand the properties of the _id field and its implications for CRUD operations
-- Know the mongoDB types
-- Can use regex to find string documents
-
-
-CRUD Subtopics
---------------
-
-- Create
-- Read: matching, regex, projecting, sorting, operators, cursors
-- Update: Standard update, Multi update, upsert, save
-- Delete
+- Understand create, read, update, and delete operations
+- Are familiar with common operators for CRUD commands and know how to use them
+- Know the properties of the _id field and its implications for CRUD operations
+- Know MongoDB value types
+- Can use regex queries to match documents based on String field values
+- Understand when to sort query results and how to do so
 
 
 Introduction
 ------------
 
-For the exam, we won't expect you to have operators memorized, but you should be able to recognize the correct operator for the job when you see it, either in the question portion, or the answer portion. 
+For the exam, we will not expect you to have operators for CRUD commands memorized, but you should be able to recognize the correct operator for the job when you see it in the body of a question or in a list of answer choices.
 
-You should also be able to recognize correct query format, to know which parameters are necessary and which are optional, and how to use the optional parameters.
-
-Be aware of what will happen if you don't sort, and know the difference between sorting forwards and backwards.
+You should also be able to distinguish the correct syntax for CRUD commands from incorrectly formatted commands and to identify which parameters are required versus optional.
 
 
 Create
 ------
 
-Create covers the creation of documents.
-
 For the exam, you should be able to:
 
-- Properly use the insert, save, update, and findAndModify queries to create new documents
-- Match an insertion query with a description of what it does
-- Understand the properties of the _id field and the implications this has for insertion operations
-- Know how objectId's work in MongoDB
-- Know how to perform bulk insertion
+- Use the insert, save, update, and findAndModify commands to create new documents
+- Match a given create command with a description of exactly what it will do when executed
+- Understand how ObjectIds are created
+- Understand the uniqueness constraint for _id fields and the corresponding implications for insert operations
+- Know how to perform bulk insert operations
 
-ObjectId's can be found in the documentation. Know what the bytes do, and when they're implicitly created.
+Resources:
 
-- :manual:`objectId</reference/object-id/>`
-
-Document creation can occur through a few commands:
-
-- db.collection.insert()
+- db.collection.insert():
 
   - Docs:
 
@@ -63,43 +47,47 @@ Document creation can occur through a few commands:
 
 - db.collection.save()
 
-  - This can insert if the _id is not included, or the _id doesn't match any documents.
   - Docs:
 
     - :manual:`db.collection.save()</reference/method/db.collection.save/>`
 
   - Video:
 
-    - `The Save Command <https://university.mongodb.com/videos/y/fWLiwAC-Q20>`_
+    - `The save() command <https://university.mongodb.com/videos/y/fWLiwAC-Q20>`_
 
 
 - db.collection.update()
 
-  - can insert if it's an "upsert" that doesn't match the query.
   - Docs:
 
-    - :manual:`Upsert</reference/method/db.collection.update/>` (only an insert if upsert: true is set)
+    - :manual:`Upsert</reference/method/db.collection.update/>`
 
   - Video:
 
     - `Upsert lesson video <https://university.mongodb.com/videos/y/Dy2p8k3EZs4>`_ 
 
-- db.collection.findAndModify
+- db.collection.findAndModify()
 
-  - only if updating, and upsert : true is set
   - Docs: 
   
     - :manual:`db.collection.findAndModify()</manual/reference/method/db.collection.findAndModify/>`
 
-Most questions about document creation will involve insert, and it won't be a large part of the exam, because insertion is generally quite straightforward: you give a document that you want, and it gets inserted.
+- ObjectId values
 
-Things can be a bit more complicated for an upsert, however. Here, the "find" document can contribute fields to the document that gets created.
+  - Docs:
 
-Here's an example:
+    - :manual:`objectId</reference/object-id/>`
+
+
+Most questions about document creation will involve insert, and it won't be a large part of the exam, because insertion is generally quite straightforward.
+
+Things can be a bit more complicated for an upsert, however, if there is no existing document matching the find criteria. In such cases, a new document will be created. In such cases, the "find" document can contribute fields to the document that gets created. In the example below, assume there is no document with a=5 and b<=7.
 
 .. code-block:: javascript
 
-  > db.foo.update( { a : 5, b : { $lte : 7 } }, { $set : { c : 8 } }, { upsert : true } )
+  > db.foo.update( { a : 5, b : { $lte : 7 } },
+                   { $set : { c : 8 } },
+                   { upsert : true } )
   WriteResult({
       "nMatched" : 0,
       "nUpserted" : 1,
