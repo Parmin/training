@@ -1,8 +1,8 @@
 :orphan:
 
-==========================================
-MongoDB Essentials Training for CapitalOne
-==========================================
+===========================
+MongoDB Essentials Training
+===========================
 
 .. toctree::
 
@@ -12,7 +12,7 @@ MongoDB Essentials Training for CapitalOne
    /modules/nav/replica-sets-cap1-three-day
    /modules/nav/sharding-dev
    /modules/nav/aggregation
-   /modules/nav/schema-design-advanced
+   /modules/nav/schema-design-advanced-cap1-three-day
    /modules/nav/mongomart
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
