@@ -202,5 +202,6 @@ Exercise
 
 - Think of an online marketplace, analogous to, perhaps, eBay or Amazon.
 - Create a schema for handling the data associated with your producs.
-  - Optimize the schema for fast writes.
+
+- Optimize the schema for fast writes.
   - Then consider what changes you would make to optimize the schema for fast reads.
