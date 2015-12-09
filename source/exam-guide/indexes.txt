@@ -239,7 +239,7 @@ Resources:
 
 - Videos:
 
-  - `Efficiency of Index Use 2 <https://university.mongodb.com/videos/y/g032EW67SRA >`_
+  - `Efficiency of Index Use 2 <https://university.mongodb.com/videos/y/g032EW67SRA>`_
   - `Index Notes <https://university.mongodb.com/videos/y/OyXFYhLXTGk>`_
 
 

@@ -2,7 +2,7 @@
 Data Modeling
 =============
 
-On the certification exam, we will attempt to verify that you :
+On the certification exam, we will verify that you:
 
 - Understand the overriding principles of data modeling
 - Given two alternative data models, can determine which will be more efficient
@@ -11,41 +11,14 @@ On the certification exam, we will attempt to verify that you :
 - Understand the implications of the storage engine for data modeling
 
 
-Data Modeling Subtopoics
-------------------------
-
-- Introduction
-- Document Structure
-
-  - Embedding
-  - References
-  - Denormalizing
-
-- Relational Features and MongoDB Patterns
-
-  - Transactions
-  - Atomic Writes
-
-- One-to-many relationships
-- One-to-one relationships
-- Many-to-many relationships
-- Modeling Tree Structures
-- Schema Design Patterns
-- Bulk Operations
-- MongoDB BLOB options
-
-  - GridFS
-  - Binary Data
-
-
 Introduction
 ------------
 
 For the exam, you should know:
 
-- What the basic considerations of data modeling are
-- What a working set is
-- Why your working set matters
+- Fundamental data modeling considerations such as consideration for common data access patterns
+- How we define the term "working set"
+- Why considerations of the working set and working set size are important for efficient read and write operations
 
 Resources:
 
@@ -60,9 +33,7 @@ Resources:
 
 - White Paper:
 
-  - `Data Model Design for MongoDB <http://docs.mongodb.org/master/MongoDB-data-models-guide.pdf>`_
-
-    - This is more of a full guide than an introduction, and touches on many of the sections of the exam.
+  - `Data Model Design for MongoDB <http://docs.mongodb.org/master/MongoDB-data-models-guide.pdf>`_ Note: This is a fairly comprehensive overview, touching on many of the sections of the exam.
 
 
 Document Structure
@@ -70,9 +41,9 @@ Document Structure
 
 For the exam, you should know:
 
-- The difference between embedding and referencing
+- The difference between embedding documents and creating references
 - What it means to denormalize data
-- How these would be represented in a collection
+- How each of these practices are used to model data in a collection
 
 Resources:
 
@@ -131,14 +102,14 @@ One-to-Many Relationships
 For the exam, you should know:
 
 - Your options for modeling one-to-many relationships
-- Advantages and disadvantages of those options
-- Common patterns
+- Advantages and disadvantages of each options
+- Common patterns for modeling one-to-many relationships
 
 Resources:
 
 - Video:
 
-  - `One to Many Relationships <https://university.mongodb.com/videos/y/EIaP1KbVkUc>`_
+  - `One-to-Many Relationships <https://university.mongodb.com/videos/y/EIaP1KbVkUc>`_
 
 - Docs:
 
@@ -147,7 +118,7 @@ Resources:
 
 - Blog Posts: 
 
-  - `Rules of Thumb <http://blog.mongodb.org/post/87200945828/6-rules-of-thumb-for-mongodb-schema-design-part-1  >`_
+  - `Rules of Thumb <http://blog.mongodb.org/post/87200945828/6-rules-of-thumb-for-mongodb-schema-design-part-1>`_
   - `Rules of Thumb Part 2 <http://blog.mongodb.org/post/87892923503/6-rules-of-thumb-for-mongodb-schema-design-part-2>`_
   - `Rules of Thumb Part 3 <http://blog.mongodb.org/post/88473035333/6-rules-of-thumb-for-mongodb-schema-design-part-3>`_
 
@@ -225,12 +196,11 @@ Resources:
   - :manual:`GridFS Storage</core/gridfs/>`
   - :manual:`GridFS Reference</reference/gridfs/>`
 
-Exercises
----------
+
+Exercise
+--------
 
 - Think of an online marketplace, analogous to, perhaps, eBay or Amazon.
-
-  - Create a schema for handling the data associated with your producs.
-
-    - Optimize the schema for fast writes
-    - Optimize the scheme for fast reads.
+- Create a schema for handling the data associated with your producs.
+  - Optimize the schema for fast writes.
+  - Then consider what changes you would make to optimize the schema for fast reads.
