@@ -2,42 +2,21 @@
 Aggregation
 ===========
 
-On the exam, students should be able to:
+For the exam, you should understand:
 
-- Make an analogy between the aggregation pipeline and UNIX pipes
-- Specify appropriate Aggregation stages for an aggregation query
-- Know the usage of all aggregation operators
-
-Topics
-------
-
-- Introduction
-- Pipeline behavior
-- Stages
-
-  - Top-level operators
-  - Query and accumulation operators
-
-- Aggregation Mechanics
-
-  - Pipeline size (in documents)
-
-    - How some stages affect this number
-
-  - Memory limits in the aggregation pipeline
-  - allowDiskUse flag
-
-- Explaining aggregation queries
+- The analogy between the aggregation pipeline and UNIX pipes
+- Each aggregation stage operator and its semantics
+- How documents enter the pipeline, are pass from one stage to another, and returned when the pipeline completes
 
 
 Introduction
 ------------
 
-The Aggregation Pipeline is MongoDB's answer to SQL's GROUP BY statements. It allows you to combine data from multiple documents in a collection, and perform some basic arithmetic and statistical operations on them.
+An aggregation pipeline allows you to combine data from multiple documents in a collection and perform basic grouping, arithmetic, and statistical operations on them.
 
-The Pipeline is in analogy with UNIX pipes. Each stage takes inputs and outputs, but for the Aggregation pipeline, these are documents. You begin with a collection, and filter, transform, and combine documents as you go along. When you are done, you can either view your results, or output them to another collection.
+The aggregation framework in MongoDB is based on the idea of UNIX pipelining. Each stage done job. A stage accepts a list of documents as input, manipulates the data in some way, and emits output documents, passing them to the next stage. 
 
-The Aggregation section is emphasized much more heavily in Dev exams than in DBA exams, but you should be familiar with the basic concepts and format of aggregation queries even for the DBA exam.
+The Aggregation section of the exam is emphasized much more heavily in Developer exams than in DBA exams, but you should be familiar with the basic concepts and format of aggregation queries even for the DBA exam.
 
 - Videos:
 
@@ -55,9 +34,10 @@ Aggregation Stages
 
 For the exam, you will need to know:
 
-- All top-level Aggregation operators (and the stage they correspond to)
-- What those stages do
-- Whether the stage increases the number of documents you have, decreases them, or leaves them the same
+- All aggregation stage operators
+- The semantics of each stage operator
+- The output of each stage of operator
+- How to assemble aggregation pipelines to perform specific tasks. Note: the best way to prepare for these types of questions is practice.
 
 Resources:
 
@@ -76,7 +56,7 @@ Resources:
 - Docs:
 
   - :manual:`Aggregation Pipeline Quick Reference</meta/aggregation-quick-reference/>`
-
+    
 
 Aggregation Operators
 ---------------------
@@ -131,7 +111,7 @@ Resources:
 
   - :manual:`Optimizing the Aggregation Pipeline</core/aggregation-pipeline-optimization/>`
   - :manual:`Aggregation Limits</core/aggregation-pipeline-limits/>`
-  - :manual:`</core/aggregation-pipeline/#aggregation-pipeline-operators-and-performance>`
+  - :manual:`Aggregation Pipeline Behavior</core/aggregation-pipeline/#aggregation-pipeline-behavior>`
 
 
 Aggregation Options
@@ -184,36 +164,38 @@ Sample Aggregation Problems
 ---------------------------
 
 1. Which of the following statements are true about the $match pipeline operator? Check all that apply.
-a. You should use it as early as possible in the pipeline.
-b. It can be used as many times as needed.
-c. It has a syntax similar to find() commands.
+
+   a. You should use it as early as possible in the pipeline.
+   b. It can be used as many times as needed.
+   c. It has a syntax similar to find() commands.
 
 2. Suppose you have the following collection with only 2 documents:
 
-.. code-block:: javascript
+   .. code-block:: javascript
 
-  > db.people.find()
-  { "_id" : "apples", "traits" : [ "sweet" , "crispy" ] }
-  { "_id" : "oranges", "traits" : [ "sweet" , "orange" , "juicy" ] }
+      > db.people.find()
+      { "_id" : "apples", "traits" : [ "sweet" , "crispy" ] }
+      { "_id" : "oranges", "traits" : [ "sweet" , "orange" , "juicy" ] }
 
-You run an aggregation query and begin with { $unwind : "$traits" }.
-How many documents will you have in the pipeline after the $unwind stage?
-a. 1
-b. 2
-c. 3
-d. 4
-e. 5
+   If you run an aggregation query and use { $unwind : "$traits" } as the first stage, how many documents will be passed to the next stage of the aggregation pipeline?
+   
+   - 1
+   - 2
+   - 3
+   - 4
+   - 5
 
 Answers
 -------
 
 1. a, b, c
-2. e
+2. 5
 
-Exercises
----------
 
-- Find or build a data set. Perform an aggregation to see how many documents contain a field within a given range.
-- Count all of the elements in an array field, summed accross all documents in the collection.
+Aggregation Exercises for the Reader
+------------------------------------
+
+- Find or build a data set. Perform an aggregation query to see how many documents contain a field within a given range.
+- Count all of the elements in an array field, summed across all documents in the collection.
 - Count only the elements in an array field above a certain value.
-- Count only the elements in an array field where another field has a certain value.
+- Count the elements in an array field, but only for documents where another field has a certain value.
