@@ -1,7 +1,7 @@
 Indexes
 -------
 
-On the certification exam, we will attempt to verify that you:
+On the certification exam, we will verify that you:
 
 - Understand the types of indexes available in MongoDB
 
@@ -19,36 +19,14 @@ On the certification exam, we will attempt to verify that you:
   - Sparse
   - Unique
 
-- Know how to determine the efficiency of a query
-- Know the benefits & costs of having an index
+- Know how to improve the efficiency of a query using indexes
+- Understand the write performance costs of indexes
 
-Indexes Subtopics
------------------
-
-- Introduction
-- Creating Indexes
-- Single Field Indexes
-- Collection Scans
-- Compound Indexes (including using index prefixes)
-- Multikey Indexes
-- Sorting with Indexes
-- The .explain() method (for a cursor & for a collection)
-- Selecting an Index
-- Covered Queries
-- Indexing Strategies
-- Effect of Indexes on Read and Write Performance
-- Unique Indexes
-- Sparse Indexes
-- TTL (Time-to-live) Indexes
-- Background Index Creation (DBA Only)
-- Regex on String Fields and Indexes
-- Text Indexes
-- 2d and 2dSphere Indexes
 
 Introduction
 ------------
 
-Here are some basics to help introduce you to indexes.
+The following provide a basic introduction to indexes.
 
 - Videos:
 
@@ -64,8 +42,8 @@ Creating Indexes
 
 On the exam, we will ensure that you:
 
-- Can create an index
-- Know that the _id field is created implicitly
+- Know how to create an index
+- Know that the _id field is created implicitly if you do not supply one
 
 - Videos:
 
@@ -84,7 +62,7 @@ Single Field Indexes
 For the exam, you should be able to:
 
 - Recognize single-field indexes
-- Know when a single-field index is used (and when it isn't)
+- Know when a single-field index is used (and when it is not)
 
   - for .find() queries
   - for .update() queries
@@ -106,15 +84,9 @@ Collection Scans
 
 For the exam, you should know:
 
-- What a collection scan is
-
-  - It's when every document in the collection must be checked in order to determine the result set of a query
-
-- When a collection scan occurs
+- That a "collection scan" happens when every document in the collection must be checked in order to determine the result set of a query
+- Whether a collection scan will occur, given a query and list of available indexes
 - Why a collection scan is undesirable
-
-  - Time will increase linearly with collection size
-  - If your collection doesn't fit in RAM, this will cause paging.
 
 - Videos:
 
@@ -127,7 +99,7 @@ Compound Indexes
 On the exam, you should know:
 
 - What a compound index is
-- How to use the left subset of a compound index
+- How to use a prefix of a compound index to satisfy queries
 
 - Docs:
 
@@ -137,14 +109,13 @@ On the exam, you should know:
 Multikey Indexes
 ----------------
 
-
 On the exam, you should know:
 
-- The definition of multikey indexes
+- How to distinguish multikey indexes from other index types
 - Restrictions on multikey indexes
-- How many index points will be associated with a particular document when it has an index on an array field
+- How many index keys will be created for a particular document in a multikey index
 
-A multikey index is an index on an array. You will have one index entry per array element.
+A multikey index is an index on an array field. The index will contain one key per array element.
 
 - Docs:
 
@@ -159,12 +130,12 @@ Videos:
 Sorting with Indexes
 --------------------
 
-For the exam, you'll need to know:
+For the exam, you will need to know:
 
 - How to sort with an index
 - How to use a compound index to both filter and sort
 - How to perform a compound sort using a compound index
-- When an index will or won't work for a compound sort
+- When an index will or will not work for a compound sort
 
 Docs:
 
@@ -179,7 +150,7 @@ For the exam, you should know:
 - How to create an Explainable object with db.collection.explain() and use it to explain a cursor
 - How to explain a cursor with cursor.explain()
 - The three verbosity settings of explain plans, and what they offer.
-- How to read each type of explain to determine things such as:
+- How to read each type of explain plan to determine things such as:
 
   - How many documents were returned by the query
   - How many documents were read by the query
@@ -233,10 +204,10 @@ For the exam, you should know:
 Covered Queries
 ---------------
 
-For the exam, you will need to know:
+For the exam, you will need to understand:
 
-- What a covered query is
-- Why it is good for performance
+- Covered queries
+- Why covered queries are good for performance
 - How to recognize that a covered query has happened in an explain plan
 
 - Video: 
@@ -251,11 +222,11 @@ For the exam, you will need to know:
 Indexing Strategies
 -------------------
 
-For the exam, you will want to know:
+For the exam, you should know:
 
-- How to create the best possible index for a query that sorts on one field, queries for an exact match on a second field, and does a range query on a third.
-- When an index can or cannot be used to sort for a particular query
-- Recognize how selective queries are, and how much they're likely to benefit from an index.
+- How to create an index that supports a query that sorts on one field, queries for an exact match on a second field, and does a range query on a third field
+- When an index can be used to sort for a particular query
+- How selective queries are and how much they are likely to benefit from an index
 
 Resources:
 
@@ -268,14 +239,14 @@ Resources:
 
 - Videos:
 
-  - `Efficiency of Index Use 2 <https://university.mongodb.com/videos/y/g032EW67SRA >`_
+  - `Efficiency of Index Use 2 <https://university.mongodb.com/videos/y/g032EW67SRA>`_
   - `Index Notes <https://university.mongodb.com/videos/y/OyXFYhLXTGk>`_
 
 
 Effect of Indexes on Write Performance
 --------------------------------------
 
-Indexes generally speed up read performance, but can slow down write performance. Find queries are almost always faster, and inserts are almost always slower, but hybrid actions (with a find & a write) such as update and remove, may depend on the use case (though they usually are faster with indexes). Be aware of the advantages and drawbacks.
+Indexes generally speed up read performance, but can slow down write performance. Hybrid actions (e.g., with a find and a write) such as update and remove, may depend on the use case (though they usually are faster with indexes).
 
 For the exam, you will want to know:
 
@@ -303,7 +274,7 @@ For the exam, you should know:
 - How to recognize a unique index from the db.collection.getIndexes() command
 - What happens when you try to insert a document with a value that matches an existing document for a unique indexed field
 - How unique compound indexes work
-- What happens if you try to create a unique index on a collection with non-unique values for the unique field(s)
+- What happens if you try to create a unique index on a collection that already contains documents with non-unique values for the unique field(s)
 
 Resources:
 
@@ -323,8 +294,8 @@ Sparse Indexes
 For the exam, you should know:
 
 - How to create a sparse index
-- How many index points you'll have for a sparse index on a small collection
-- When a sparse index wouldn't automatically be used (ie, for sorting)
+- How many index keys you will have for a sparse index on a small collection
+- When a sparse index would not automatically be used (ie, for sorting)
 - Dangers of using .hint() with a sparse index
 
 Resources:
@@ -336,6 +307,7 @@ Resources:
 - Docs:
 
   - :manual:`Sparse Indexes</core/index-sparse/>`
+
 
 TTL Indexes
 -----------
@@ -387,12 +359,13 @@ Regex on String Fields and Indexes
 
 For the exam, you will need to know:
 
-- How standard indexes behave with strings
+- How standard indexes behave with strings fields (as compared to text indexes)
 - How to use indexes most efficiently by anchoring the regex on the left
 
 Resources:
 
 - :manual:`Index Use in Regex</reference/operator/query/regex/#index-use>`
+
 
 Text Indexes
 ------------
@@ -450,105 +423,132 @@ Resources:
 Sample Problems
 ---------------
 
-1. Given the following example document:
+1. Consider the following example document:
 
-{
-      "_id": ObjectId("5360c0a0a655a60674680bbe"),
+   .. code-block:: javascript
+
+      {
+        "_id": ObjectId("5360c0a0a655a60674680bbe"),
         "user": {
-                "login": "ir0n",
-                    "description": "Made of steel"
-                        "date": ISODate("2014-04-30T09:16:45.836Z"),
-                          }
-}
-with the following index creation command:
+                  "login": "ir0n",
+                  "description": "Made of steel"
+                  "date": ISODate("2014-04-30T09:16:45.836Z"),
+                }
+      }
 
-db.users.createIndex( { "user.login": 1, "user.date": -1 }, "myIndex" )
-When performing the following query:
+   and index creation command:
 
-db.users.find( { "user.login": /^ir.*/ }, { "user":1, "_id":0 } ).sort( { "user.date":1 } )
-Which of the following statements correctly describe how MongoDB will handle the query? Check all that apply.
+   .. code-block:: javascript
 
-a. As a covered query using "myIndex" because we are filtering out "_id" and only returning "user.login"
-b. As an indexed query using "myIndex" because field "user.login" is indexed
-c. As an optimized sort query (scanAndOrder = false) using "myIndex" because we are sorting on an indexed field
-d. MongoDB will need to do a table/collection scan to find matching documents
-e. None of the above
+      db.users.createIndex( { "user.login": 1, "user.date": -1 }, "myIndex" )
 
-2. You perform the following query on the sayings collection, which has the index { quote : â€œtextâ€ }:
+   When performing the following query:
 
-db.sayings.find( { $text : { $search : "fact find" } } )
-Assuming the following documents are in the collection, which ones will the query return? Check all that apply.
+   .. code-block:: javascript
 
-a. { _id : 1, quote : “That’s a fact, Jack.” } 
-b. { _id : 2, quote : “Find out if that fact is correct.” }
-c. { _id : 3, quote : “Nobody will ever catch me.” }
+      db.users.find( { "user.login": /^ir.*/ },
+                     { "user":1, "_id":0 } ).sort( { "user.date":1 } )
+
+   which of the following statements correctly describe how MongoDB will handle the query? Check all that apply.
+
+   a. As a covered query using "myIndex" because we are filtering out "_id" and only returning "user.login"
+   b. As an indexed query using "myIndex" because field "user.login" is indexed
+   c. As an optimized sort query (scanAndOrder = false) using "myIndex" because we are sorting on an indexed field
+   d. MongoDB will need to do a table/collection scan to find matching documents
+   e. None of the above
+
+
+2. You perform the following query on the sayings collection, which has the index
+
+   .. code-block:: javascript
+   
+      { quote : "text" }:
+
+   Assuming the documents below are in the collection, which ones will the following query return? Check all that apply.   
+
+   .. code-block:: javascript
+   
+      db.sayings.find( { $text : { $search : "fact find" } } )
+
+
+   a. { _id : 1, quote : “That’s a fact, Jack.” } 
+   b. { _id : 2, quote : “Find out if that fact is correct.” }
+   c. { _id : 3, quote : “Nobody will ever catch me.” }
+
 
 3. You have the following index on the toys collection:
 
-{ 
-   "manufacturer" : 1,
-   "name" : 1,
-   "date" : -1
-}
+   .. code-block:: javascript
 
-Which of the following is able to use the index for the query? Check all that apply.
+      { 
+        "manufacturer" : 1,
+        "name" : 1,
+        "date" : -1
+      }
 
-a. db.toys.find( { manufacturer : "Matteo", name : "Barbara", date : "2014-07-02" } )
-b. db.toys.find( { name : "Big Rig Truck", date : "2013-02-01", manufacturer : "Tanko" } )
-c. db.toys.find( { date : "2015-03-01", manufacturer : "Loggo", name : "Brick Set" } )
+   Which of the following is able to use the index for the query? Check all that apply.
 
-4. Adding an index on { a : 1 } can potentially decrease the speed of which of the following operations? Check all that apply.
+   a. db.toys.find( { manufacturer : "Matteo", name : "Barbara", date : "2014-07-02" } )
+   b. db.toys.find( { name : "Big Rig Truck", date : "2013-02-01", manufacturer : "Tanko" } )
+   c. db.toys.find( { date : "2015-03-01", manufacturer : "Loggo", name : "Brick Set" } )
 
-a. db.collection.find( { a : 232 } )
-b. db.collection.update( { b : 456 }, { $inc : { a : 1 } } )
-c. db.collection.insert( { a : 341 } )
 
-5. 
-You have the following indexes on the things collection:
+4. Adding the index { a : 1 } can potentially decrease the speed of which of the following operations? Check all that apply.
 
-[
-  {
-    "v" : 1,
-    "key" : {
-      "_id" : 1
-    },
-    "name" : "_id_",
-    "ns" : "test.things"
-  },
-  {
-    "v" : 1,
-    "key" : {
-      "a" : 1
-    },
-    "name" : "a_1",
-    "ns" : "test.things"
-  },
-  {
-    "v" : 1,
-    "key" : {
-      "c" : 1,
-      "b" : 1,
-      "a" : 1
-    },
-    "name" : "c_1_b_1_a_1",
-    "ns" : "test.things"
-  }
-]
+   a. db.collection.find( { a : 232 } )
+   b. db.collection.update( { b : 456 }, { $inc : { a : 1 } } )
+   c. db.collection.insert( { a : 341 } )
 
-Which of the following queries will require that you load every document into RAM in order to fulfill the query? Assume that no data is being written during the query. Check all that apply.
 
-a. db.things.find( { b : 1 } ).sort( { c : 1, a : 1 } )
-b. db.things.find( { c : 1 } ).sort( { a : 1, b : 1 } )
-c. db.things.find( { a : 1 } ).sort( { b : 1, c : 1 } )
+5. You have the following indexes on the things collection:
+
+   .. code-block:: javascript
+
+   [
+     {
+       "v" : 1,
+       "key" : {
+         "_id" : 1
+       },
+       "name" : "_id_",
+       "ns" : "test.things"
+     },
+     {
+       "v" : 1,
+       "key" : {
+         "a" : 1
+       },
+       "name" : "a_1",
+       "ns" : "test.things"
+     },
+     {
+       "v" : 1,
+       "key" : {
+         "c" : 1,
+         "b" : 1,
+         "a" : 1
+       },
+       "name" : "c_1_b_1_a_1",
+       "ns" : "test.things"
+     }
+   ]
+
+   Which of the following queries will require that you load every document into RAM in order to fulfill the query? Assume that no data is being written during the query. Check all that apply.
+
+   a. db.things.find( { b : 1 } ).sort( { c : 1, a : 1 } )
+   b. db.things.find( { c : 1 } ).sort( { a : 1, b : 1 } )
+   c. db.things.find( { a : 1 } ).sort( { b : 1, c : 1 } )
 
 
 Answers to Sample Problems
 --------------------------
+
 1. b
 2. a, b
 3. a, b, c
 4. b, c
 5. a
+
 
 Exercises
 ---------
@@ -568,7 +568,7 @@ On your own, do the following:
 
 - For each of the above, notice how they are distinguished in db.collection.getIndexes() output.
 - Insert some data for the indexes you created. Perform queries for each of the indexes.
-- For a TTL index, write a script to insert 1 document per second. Look at when documents get deleted (hint: there will be more than 61 when documents get trimmed!).
+- For a TTL index, write a script to insert 1 document per second. Look at when documents get deleted.
 - Get explain plans for these queries. Use all 3 verbosities.
 - Explain a covered query & verify that it's working (you'll see 0 documents viewed, though some index entries will be viewed).
-- Perform some geospatial queries & look at the results.
+- Perform some geospatial queries and look at the results.

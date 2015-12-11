@@ -1,0 +1,45 @@
+===========================
+General Computing Knowledge
+===========================
+
+Introduction
+------------
+
+This section will describe the foundational computing concepts with which you should be familiar. You should consider these to be prerequisites to understanding MongoDB. We do not teach these directly in our curriculum, but some questions on the exam assume knowledge of these concepts. You can find detailed information on these subjects in computer science textbooks or through a little Googling.
+
+
+Fundamental Database Concepts
+-----------------------------
+
+It is expected that you will understand broadly what a database is, specifically:
+
+- Records (i.e. rows/documents)
+- Tables/collections
+- Databases
+- Authentication and authorization concepts
+- Joins and how they work in relational databases
+- Transactions and a basic understanding related ideas such as commits and rollback.
+
+
+Memory Management and Data Representation
+-----------------------------------------
+
+For the exam, you should have a working understanding of the following:
+
+- Physical memory
+- Virtual memory
+- Memory mapping
+- Hexidecimal (base-16) representations of data
+
+
+Basics of JavaScript Programming
+--------------------------------
+
+For the exam, you should know:
+
+- How to assign values to variables in JavaScript
+- How to iterate (e.g., using `for` or `while`)
+
+
+
+

@@ -304,7 +304,6 @@ Analyzing Profiler Data
 - Run for 5 seconds.
 - Slow operations are captured.
 - The issue is there is not a proper index on the message field.
-- Allow class to discover this as the data is examined.
 - You will see how fast documents are getting inserted.
 - It will be slow b/c the documents are big.
 
