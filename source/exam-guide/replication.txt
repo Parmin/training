@@ -2,38 +2,18 @@
 Replication
 ===========
 
-On the certification exam, we will attempt to verify that you:
+On the certification exam, we will verify that you:
 
 - Understand the benefits of replication
 - Understand tradeoffs between speed and durability
 - Know the basics of how the oplog works, including concepts like idempotence and statement-based replication
-- Know what happens when a node (primary or not) fails
-
-Replication Subtopics
----------------------
-
-- Introduction
-- Nodes: Primary, Secondary, Arbiter, Delayed Secondaries, Hidden Secondaries
-- Initiating a Replica Set
-
-  - Initial Sync
-
-- Elections: Votes, Criteria for Winning an Election
-- Failover
-
-  - Rollback (DBA only)
-
-- rs.status()
-- Replica set reconfiguration
-- Oplog: Statement-based replication, Idempotence (DBA Only), Capped Collection (DBA only)
-- Read Preference: Primary, Secondary, PrimaryPreferred, SecondaryPreferred, Nearest
-- Write Concern: The w parameter, The j parameter
+- Understand how automated failover works in replica sets
 
 
 Introduction
 ------------
 
-Replication is about availability and durability. It is, generally speaking, not for scaling. That would be the purpose of Sharding.
+The motiviations behind replication are high availability and durability. It is, generally speaking, not for scaling. Sharding is MongoDB's scalability solution.
 
 - Videos: 
 
@@ -49,7 +29,7 @@ Replication is about availability and durability. It is, generally speaking, not
 Nodes
 -----
 
-In the exam, you will be expected to know:
+For the exam, you will be expected to know:
 
 - The options to use when creating a node, such as:
  
