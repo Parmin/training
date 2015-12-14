@@ -2,43 +2,12 @@
 Sharding
 ========
 
-On the certification exam, we will attempt to verify that you:
+On the certification exam, we will verify that you:
 
-- Know the benefits of sharding
+- Understand horizontal scaling and how sharding provides this capability in MongoDB
 - Know how to construct a good shard key, and what can go wrong with selecting a shard key
 - Understand the balancer
 - Know the role of the config servers and how they work.
-
-Sharding Subtopics
-------------------
-
-- Introduction
-- The Shard Key
-
-  - Other indexes in a sharded cluster
-
-- Chunks
-
-  - Which chunk a document belongs to
-  - Chunk ranges
-  - Chunk "size"
-  - Chunk Splits (DBA only)
-  - Config Servers and Cluster Metadata (DBA only)
-
-- Config Servers and Cluster Metadata
-
-  - The Config DB
-  - Sharding Processes
-
-- Pre-splitting data (DBA only)
-- Balancing
-
-  - Balancer
-  - Chunk Migration
-
-- Queries in a Sharded Cluster
-- Choosing a Shard Key
-- Primary Shard
 
 
 Introduction
@@ -46,7 +15,7 @@ Introduction
 
 Sharding is about scaling. With sharding, you can distribute your data across several replica sets, each of which is a logical "node" in the sharded cluster.
 
-Note that sharding is largely orthogonal to Replication, which is about data durability and availability.
+Note that sharding and replication solve different problems. Replication is concerned with data durability and high availability.
 
 - Docs:
 
@@ -65,7 +34,7 @@ The Shard Key
 
 For the exam, you should know:
 
-- Properties of the shard key in a sharded cluster
+- That shard keys are immutable
 - What makes a good shard key
 - What makes a bad shard key
 - How the shard key implements ranged-based sharding in MongoDB
@@ -85,7 +54,7 @@ Chunks and the Balancer
 For the exam, you should know:
 
 - How to define a chunk by shard key range
-- How to determine whether a document is contained in the chunk or not
+- How to determine whether a check range includes a specific document
 - When chunk splits occur automatically
 - How the balancer uses chunks to keep the cluster balanced
 
@@ -107,8 +76,8 @@ Config Servers and Cluster Metadata
 
 For the exam, you should know:
 
-- What data the config server contains
-- How to access the data in the config server
+- What data config servers contain
+- How to access data in config servers
 - What happens when a config server is unavailable or its data gets corrupted
 - How to fix a corrupted config server
 
@@ -133,7 +102,8 @@ For the exam, you should know:
 
 - How to pre-split chunks
 - Why you would want to pre-split chunks
-- How to merge and split chunks manually
+- How to split chunks manually
+- How to merge chunks manually
 
 Resources:
 
@@ -149,10 +119,10 @@ Queries in a Sharded Cluster
 For the exam, you should know:
 
 - Performance implications for targeted vs. scatter-gather queries
-- Whether a query will be targeted or scatter gather
-- How to read the .explain output to determine which shards were affected by a targeted query
+- Given a query and description of a sharding configuration, Whether the query will be targeted or scatter gather
+- How to read .explain() output to determine which shards were affected by a query
 - How sorting and aggregation work in a sharded cluster
-- What the mongos's are and what they do
+- What mongos nodes are and their role in a sharded cluster
 
 Resources:
 
@@ -199,7 +169,8 @@ Primary Shard
 For the exam, you should know:
 
 - What data the primary shard contains
-- What operations in aggregation and queries occur on the primary shard
+- What read and write operations occur on the primary shard
+- How aggregation queries use the primary shard
 
 Resources:
 

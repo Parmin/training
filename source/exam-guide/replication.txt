@@ -26,8 +26,8 @@ The motiviations behind replication are high availability and durability. It is,
   - :manual:`Replication Introduction</core/replication-introduction/>`
 
 
-Nodes
------
+Node Configuration Options
+--------------------------
 
 For the exam, you will be expected to know:
 
@@ -35,8 +35,8 @@ For the exam, you will be expected to know:
  
   - Arbiter
   - Delayed
-  - votes
-  - priority
+  - Votes
+  - Priority
 
 Resources:
 
@@ -76,9 +76,9 @@ Elections
 
 For the exam, you will need to know:
 
-- Everything that can trigger an election
+- What scenarios can trigger an election
 - How priority, votes, optime, and unreachable servers in the set will affect the election
-- Which server will win the election
+- For a given failover scenario, which node is likely to be elected primary
 
 Resources:
 
@@ -113,8 +113,9 @@ Rollback
 
 For the exam, you will need to know:
 
-- What series of events will or won't trigger rollback
-- What happens to data that gets rolled back
+- What series of events will cause a rollback to occur
+- What MongoDB does with rolled back data
+- How to access a log of operations that were rolled back
 
 Resources:
 
@@ -149,10 +150,12 @@ Resources:
 Replica Set Reconfiguration
 ---------------------------
 
-For the certification exam, you will need to be able to:
+For the certification exam, you should be able to:
 
 - Add and remove replica set members
 - Reconfigure a replica set
+
+Note that you will not be tested on these topics not through hands-on exercises but through multiple-choice and check-all-that-apply questions which test your understanding of these processes.
 
 Resources:
 
@@ -169,11 +172,11 @@ Oplog
 
 For the certification exam, you will need to:
 
-- Understand the nature of MongoDB's statement-based replication
+- Understand the mechanics of MongoDB's statement-based replication
 - Understand why the oplog operations must be idempotent
 - Know what operations will be stored in the oplog
 - Know that the oplog stores the _id of the document for writes
-- Calculate how many oplog entries there may be for a particular write operation (one per document affected)
+- Determine how many oplog entries there may be for a particular write operation (one per document affected)
 
 Resources:
 
@@ -219,6 +222,8 @@ For the exam, you should know:
 - How to ensure writes get to the journal before acknowledgment
 - How to amortize write concern on insert using a bulk insert
 
+Resources:
+
 - Videos: 
 
   - `Write Concern Principles <https://university.mongodb.com/videos/y/73Jl2woKhNo>`_
@@ -236,33 +241,33 @@ Sample Problems
 
 1. Given a replica set with five data-bearing members, suppose the primary goes down with operations in its oplog that have been copied from the primary to only one secondary. Assuming no other problems occur, which of the following describes what is most likely to happen?
 
-a. The primary may roll back the operations once it recovers.
-b. The secondary with the most current oplog will be elected primary.
-c. Missing operations will need to be manually re-performed.
-d. The most current secondary will roll back the operations following the election.
-e. Reads will be stale until the primary comes back up.
+   a. The primary may roll back the operations once it recovers.
+   b. The secondary with the most current oplog will be elected primary.
+   c. Missing operations will need to be manually re-performed.
+   d. The most current secondary will roll back the operations following the election.
+   e. Reads will be stale until the primary comes back up.
 
 2. Which of the following is true of the mechanics of replication in MongoDB? Check all that apply.
 
-a. Operations on the primary are recorded in a capped collection called the oplog.
-b. Members of a replica set may replicate data from any other data-bearing member of the set by default.
-c. Clients read from the nearest member of a replica set by default.
+   a. Operations on the primary are recorded in a capped collection called the oplog.
+   b. Members of a replica set may replicate data from any other data-bearing member of the set by default.
+   c. Clients read from the nearest member of a replica set by default.
 
 3. What read preference should your application use if you want to read from the primary under normal circumstances but allow reads from secondaries when a primary is unavailable?
 
-a. Nearest
-b. primary
-c. primaryPreferred
-d. secondaryPreferred
-e. Secondary
+   a. Nearest
+   b. primary
+   c. primaryPreferred
+   d. secondaryPreferred
+   e. Secondary
 
 4. Using an arbiter allows one to easily ensure an odd number of voters in replica sets. Why is this important? 
 
-a. To add greater redundancy
-b. For more efficient backup operations
-c. To help in disaster recovery
-d. To protect against network partitions
-e. To enable certain read preference settings
+   a. To add greater redundancy
+   b. For more efficient backup operations
+   c. To help in disaster recovery
+   d. To protect against network partitions
+   e. To enable certain read preference settings
 
 
 Answers to Sample Problems
@@ -273,12 +278,12 @@ Answers to Sample Problems
 3. c
 4. d
 
-Exercises
----------
+Exercises for the Reader
+------------------------
 
-- Set up a replica set on your laptop.
-- Write data to the primary and see it propagate to the secondary.
-- Connect to the mongod on your server with a driver, and look at how throughput changes as you increase your write concern.
+- Set up a replica set on your computer.
+- Write data to a primary and see it propagate to a secondary.
+- Connect to a mongod on your server with a driver. Explore how throughput changes as you change write concern to require writes to propagate to more nodes before succeeding.
 - Compare standard vs. bulk insert speed for w = 1, 2, or 3
 - Step down your primary
 - Create rollback using a primary, a secondary, and an arbiter
