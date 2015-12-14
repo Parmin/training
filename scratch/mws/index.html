@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="google" content="notranslate" />
+
+	<!--
+	mws.js looks for configuration options in a global variable: window.mwsConfig.
+	This is where you specify the address of the backend service.
+	-->
+        <script>
+            window.mwsConfig = {
+                HTTP_SERVER: "http://jasonz.pagekite.me:8080",
+                SOCKET_SERVER: "http://jasonz.pagekite.me:8080"
+            };
+        </script>
+        <script src="static/mws.js"></script>
+        <link rel='stylesheet' href='static/mws.css'/>
+
+	<!--
+	In this example, main.js defines a function called checkState.
+	This is used in the mws-verify attribute of one of the shells on this page.
+	-->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="static/main.js"></script>
+        <link rel='stylesheet' href='static/main.css'/>
+
+    </head>
+
+    <body>
+
+        <!--
+	When the page loads, mws.js automatically searches for <div class="mws"> elements
+	and instantiates a shell inside each one.
+	-->
+        <div class="mws" style="width: 700px;" mws-script="3.0/crud/find_student_grades.js"></div>
+        
+    </body>
+
+</html>

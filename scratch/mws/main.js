@@ -1,0 +1,9 @@
+
+
+
+
+function solved() {
+
+    alert("Success!")
+
+}

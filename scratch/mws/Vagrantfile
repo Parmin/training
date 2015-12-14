@@ -1,0 +1,80 @@
+# coding: utf-8
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+$script = <<'SCRIPT'
+set -ex
+
+
+# Install some packages
+sudo apt-get update
+DEBIAN_FRONTEND=noninteractive sudo apt-get install -y curl make g++ python-pip
+
+# Install mongodb
+(
+  cd /home/vagrant
+  curl -sS -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.0.6.tgz
+  tar xvf mongodb-linux-x86_64-3.0.6.tgz
+)
+
+# Install a newer version of nodejs than what apt has.
+(
+  readonly NODE_VERSION="v0.12.7"
+  readonly NODE_DIR="node-$NODE_VERSION-linux-x64"
+  readonly NODE_TARBALL="$NODE_DIR.tar.gz"
+  cd /tmp
+  curl -sS -O https://nodejs.org/dist/$NODE_VERSION/$NODE_TARBALL
+  tar xf $NODE_TARBALL
+  sudo rm -rf /opt/$NODE_DIR
+  sudo mv /tmp/$NODE_DIR /opt
+  # Add it to the shell path, for future sessions:
+  echo "PATH=/opt/$NODE_DIR/bin:\$PATH" | sudo tee /etc/profile.d/nodejs.sh
+)
+# and for this sessions:
+source /etc/profile.d/nodejs.sh
+
+
+# Install server dependencies
+(
+  cd /home/vagrant/edu-mws/server
+  npm install
+)
+
+# Create an RSA keypair.
+# The server uses this keypair to encrypt messages to itself (cookies).
+(
+  cd /home/vagrant/edu-mws/server/lib
+  openssl genrsa -out server_rsa.pem 2048
+  openssl rsa -pubout -in server_rsa.pem -out server_rsa.pub
+)
+
+# Create the dbpath for mongod
+mkdir -p /home/vagrant/mws-dbpath
+
+
+# Install client and example dependencies
+(
+  cd /home/vagrant/edu-mws/client
+  npm install
+)
+sudo pip install flask
+
+
+SCRIPT
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "precise64"
+  config.vm.network "private_network", ip: "192.168.33.11"
+  config.ssh.forward_agent = true
+  config.vm.synced_folder ".", "/home/vagrant/edu-mws"
+  config.vm.synced_folder "../education/edu-mws-data", "/home/vagrant/education/edu-mws-data"
+  config.vm.synced_folder "../university-exercises", "/home/vagrant/university-exercises"
+  config.vm.provision "shell", inline: $script, privileged: false
+end
