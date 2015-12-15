@@ -2,50 +2,20 @@
 Server Tools
 ============
 
-For the Certification Exam, Students will be expected to understand:
+For the certification exam, will will verify that you understand:
 
 - How to export and import data using server tools
 - How to monitor basic operations on the server using server tools
-- How to backup and restore data, and examine backed-up data, using the server tools (DBA only)
+- How to backup and restore data and examine backed-up data using server tools (DBA only)
 - Which tools to use to sniff network data, manipulate GridFS files, and analyze disk I/O (DBA only)
-
-
-Server Tools Topics
--------------------
-
-- Introduction
-- Importing/exporting data
-
-  - Mongoimport
-  - Mongoexport
-
-- Basic Server Monitoring
-
-  - Mongostat
-  - Mongotop
-
-- Backing up and restoring data (DBA Only)
-
-  - Mongodump
-  - Mongorestore
-
-- Advanced MongoDB Diagnostics (DBA Only)
-
-  - Mongosniff
-  - Bsondump
-  - Mongoperf
-
-- Manipulating BLOBs (DBA Only)
-
-  - Mongofiles
 
 
 Introduction
 ------------
 
-Most of the information tested can be found by running the tools with --help.
+Most of the information tested can be found by running the tools with the --help option.
 
-For the Dev exam, you will need to know:
+For the Developer exam, you will need to know:
 
 - mongoimport
 - mongoexport
@@ -69,12 +39,10 @@ For the DBA exam, you will need to know:
 Importing and Exporting Data
 ----------------------------
 
-For the exam, you should know:
+For the exam, you should know how to import/export data between MongoDB and:
 
-- How to import/export data between mongoDB and:
-
-  - JSON files
-  - CSV files
+- JSON files
+- CSV files
 
 Resources:
 
@@ -93,14 +61,11 @@ Resources:
 Basic Server Monitoring
 -----------------------
 
-For the exam, you will need to know:
+For the exam, you should know:
 
-- How to use mongostat to ensure that the database is behaving as you expect.
-
-  - For both MMAPv1 and WiredTiger
-
-- How to use mongotop to look at server activity on data
-- Know all fields for mongostat and mongotop
+- How to use mongostat to monitor MongoDB for both the MMAPv1 and WiredTiger storage engines 
+- How to use mongotop to look at server activity
+- What fields are of particular interest when diagnosing certain types of performance problems in both mongostat and mongotop
 
 Resources: 
 
@@ -120,7 +85,7 @@ Backing up and Restoring Data (DBA Only)
 
 For the exam, you should know:
 
-- How to use mongodump and mongorestore to save & restore data
+- How to use mongodump and mongorestore to save and restore data
 - How to include your oplog in a mongodump or mongorestore
 
 Resources:
@@ -132,49 +97,59 @@ Resources:
 
 - Video:
 
-  - `mongoDB tools for backup <https://university.mongodb.com/videos/y/Ln6gyZ_0yDk>`_
+  - `MongoDB tools for backup <https://university.mongodb.com/videos/y/Ln6gyZ_0yDk>`_
 
 
 Advanced MongoDB Diagnostics (DBA Only)
 ---------------------------------------
 
-For the exam, you should know:
+For the exam, you should know how to use the following tools:
 
-  - What mongosniff, bsondump, and mongoperf do
+- mongosniff
+- bsondump
+- mongoperf
 
 Resources:
 
-- Docs:
-
-  - :manual:`mongosniff</reference/program/mongosniff/>`
-  - :manual:`bsondump</reference/program/bsondump/>`
-  - :manual:`mongoperf</reference/program/mongoperf/>`
+- :manual:`mongosniff</reference/program/mongosniff/>`
+- :manual:`bsondump</reference/program/bsondump/>`
+- :manual:`mongoperf</reference/program/mongoperf/>`
 
 
 Manipulating BLOBs (DBA only)
 -----------------------------
 
-For the exam, you will need to:
-
-- Be able to use mongofiles to put data into GridFS
+For the exam, you will need to be able to use mongofiles to put data into GridFS.
 
 Resources:
 
-- Docs: 
-
-  - :manual:`mongofiles</reference/program/mongofiles/>`
+- :manual:`mongofiles</reference/program/mongofiles/>`
 
 
 
-Exercises
----------
+Exercises for the Reader
+------------------------
 
-- For each of the server tools listed in the topics section, run the tool with --help.
-- Run mongostat. Then, write a loop in the the language of your choice (or the shell) that bulk inserts 1,000 small documents per batch as fast as possible for at least a minute. Run it and look at the output of mongostat, and compare it with your expectations. Pay attention to each field.
-- Run mongostat. Then, write a loop in the language of your choice (or the shell) that individually inserts 1 large document (100+ kb per insert) at a time as fast as possible for at least a minute. Run it and look at the output of mongostat, comparing the output with your expectations. Pay attention to each field. This time, try to use a different storage engine than you did last time.
-- Run mongotop. Using a script from above, begin inserting data, and also run some queries in another database. Look at the output of mongotop.
-- Do the same with mongoperf.
-- Import a JSON file. You might find one at Reddit's technology subreddit, the Enron email data set, or find something else on the web.
+- For each of the server tools listed above, run the tool with --help.
+- Run mongostat.
+
+  - Write a little code that bulk inserts 1,000 small documents per batch as fast as possible for at least a minute.
+  - Run the code and look at the output of mongostat, and compare it with your expectations. Pay attention to each field.
+  
+- Run mongostat.
+
+  - Then, write a little code that individually inserts one large document (100+ kb per insert) at a time as fast as possible for at least a minute.
+  - Run it and look at the output of mongostat, comparing the output with your expectations.
+  - Pay attention to each field. This time, try to use a different storage engine than you did last time.
+  
+- Run mongotop.
+
+  - Using a script from either mongostat exercise, begin inserting data, and also run some queries in another database.
+  - Look at the output of mongotop.
+
+- For mongoperf, run a similar experiment as you did for mongotop.
+
+- Import a JSON file into a MongoDB collection. You might find one at Reddit's technology subreddit, the Enron email data set, or find something else on the web.
 
   - `Technology Subreddit <https://www.reddit.com/r/technology/.json>`_
   - `Enron email data set <http://www.cs.cmu.edu/~enron/>`_
@@ -184,7 +159,13 @@ Exercises
 
   - `US public data <https://catalog.data.gov/dataset?res_format=CSV>`_
 
-- Perform a mongodump. Look at the output using bsondump. Drop the database and then use mongorestore to get it back from your backup. Run mongodump with --oplog and compare the mongorestore with --oplog replay, and without.
-- If you are running a linux machine, run mongosniff and run some queries; find them using mongosniff.
+- Perform a mongodump.
+
+  - Look at the output using bsondump.
+  - Drop the database and then use mongorestore to get it back from your backup.
+
+- Run a mongodump with the --oplog option and compare the mongorestore with the --oplog replay option and without.
+
+- If you are running a Linux machine, run mongosniff and run some queries; find them using mongosniff.
 
 
