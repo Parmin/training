@@ -2,57 +2,26 @@
 Storage Engines
 ===============
 
-For the exam, students will need to know:
+For the exam, we will verify that you know:
 
-- The locking level or concurrency protocols for each storage engine
+- Concurrency levels for MMAPv1 and WiredTiger
 - The compression algorithms available for WiredTiger
-- For MMAPv1, the causes & effects of document movement
+- For MMAPv1, the causes and effects of document movement
 - The effects of these features on the performance of MongoDB
-
-Storage Engine Subtopics
-------------------------
-
-- Introduction
-- Summary of Major Differences between MMAPv1 and WiredTiger
-- MMAPv1
-
-  - Collection Level Locking
-  - Data Files
-  - Document Growth
-  - Document Movement
-  - Power of Two Sizes Allocation Strategy
-
-    - No Padding Option
-
-  - Updating indexes on document movement
-
-- WiredTiger
-
-  - Block Compression
-
-    - Compression Algorithms
-
-  - Index Prefix Compression
-  - Concurrency Protocols
-
-- Concurrency in MongoDB 3.0
-- Data Files
-
 
 Introduction
 ------------
 
-MongoDB's storage engine is its method of taking BSON, storing it in memory, and writing it to disk. Pluggable storage engines were introduced with MongoDB 3.0; prior to that, the "classic" storage engine for MongoDB was MMAPv1.
+A database storage engine is the underlying software component that a database management system uses to create, read, update, and delete data from a database. In the case of MongoDB, the storage engine organizes BSON data in memory and on disk to support read and write operations. Pluggable storage engines were introduced with MongoDB 3.0. Prior to that, MongoDB's storage engine was what we now call MMAPv1.
 
 - Docs:
 
-  - `Storage FAQ <https://docs.mongodb.org/v3.0/core/storage/>`_
-  - :manual:`Storage for Write Operations</core/storage/>`
+  - :manual:`MMAPv1 </v3.0/core/mmapv1/>`
+  - :manual:`WiredTiger </v3.0/core/wiredtiger/>`
 
 - Videos:
 
   - `Storage Engines Introduction <https://university.mongodb.com/videos/y/yV8qgeXvAyI>`_
-
 
 
 Summary of Major Differences between MMAPv1 and WiredTiger
@@ -61,48 +30,46 @@ Summary of Major Differences between MMAPv1 and WiredTiger
 - Locks/Concurrency
 
   - MMAPv1 uses collection level locking in MongoDB 3.0
-  - WT has document-level concurrency
+  - WiredTiger supports document-level concurrency
 
 - Journaling
 
-  - MMAPv1 requires it to prevent data corruption during process failure
-  - WT does not require it to prevent data corruption
-  - Makes writes to disk more timely in both, but also requires extra disk writing.
+  - MMAPv1 requires journaling to prevent data corruption during process failure
+  - WiredTiger does not require journaling to prevent data corruption
+  - Journaling causes data to be flushed to disk more often, but at a performance cost
 
 - Data Compression
 
-  - 2 options are available in WiredTiger, none in MMAPv1.
+  - WiredTiger supports both the snappy and zlib compression algorithms
+  - MMAPv1 does not support data compression
 
 - Other Considerations
 
-  - MMAPv1 is written out directly in data files that contain BSON documents. If a BSON document outgrows its allotted space, it will have to be moved. Indexes that point to this document point to its file offset, and will need to be updated, which can make writes more exmensive. It also leaves behind "holes" in the data files.
+  - Due to the way MMAPv1 organizes data, if a BSON document outgrows its allotted space, it must be moved. Indexes that point to this document point to its file offset and will need to be updated. As a consequence, writes that force a document to move on disk come at a relatively high performance cost. Document movement also leads to fragmentation.
 
-    - To minimize these occurrences, we use the Power of Two Sizes Allocation strategy, allocating a "record space" to each document that is larger than the document. If the document outgrows its record space, the record space remains behind when the document moves, and that record space can be re-used by another document.
-
-- Sharding and Replication
-
-  - There are no differences between the storage engines with respect to Sharding or Replication to be on the exam.
+  - To minimize document movement, MMAPv1 uses a power-of-two size allocation strategy, allocating a "record space" to each document that is larger than the document. If the document outgrows its record space, the newly allocated space for the document will be twice as large as the previous allocation. Power-of-two sizing also enables the storage engine to more easily reuse space vacated by a moved document, because all document allocations will be a size that is a power of two.
 
 
 MMAPv1
 ------
 
-For the exam, you will need to know:
+For the exam, you should know:
 
-- How memory mapping is used in the MMAPv1 storage engine
-- Locking granularity in MMAPv1
-- Why Powers of Two Allocation is used in MMAPv1
+- The mechanics of memory mapping in the MMAPv1 storage engine
+- That MMAPv1 supports collection-level concurrency (locking)
+- Why Power-of-two allocation is used in MMAPv1
 
   - Why it is usually a good idea
   - How to turn it off
 
-
 - Docs:
-  - `Storage FAQ MMAPv1 Section <http://docs.mongodb.org/master/faq/storage/#mmapv1-storage-engine>`_
-  - :manual:`Power of 2 Sized Allocations</core/storage/#power-of-2-allocation>`
-  - :manual:`No Padding</core/storage/#no-padding-allocation-strategy>`
-  - `Concurrency FAQ <http://docs.mongodb.org/master/faq/concurrency/>`_
+
+  - :manual:`Concurrency FAQ </faq/concurrency/>`
+  - :manual:`Power of 2 Sized Allocations </core/storage/#power-of-2-allocation>`
+  - :manual:`No Padding </core/storage/#no-padding-allocation-strategy>`
+
 - Videos:
+
   - `MMAPv1 <https://university.mongodb.com/videos/y/PZCdLVB4lw4>`_
   - `MMAPv1 Documents and Data Files <https://university.mongodb.com/videos/y/9nYFnlM4vYw>`_
 
@@ -110,10 +77,10 @@ For the exam, you will need to know:
 WiredTiger
 ----------
 
-For the exam, you will need to know:
+For the exam, you should know:
 
-- The concurrency level in WiredTiger
 - Compression options in WiredTiger
+- That WiredTiger supports document-level concurrency (locking)
 
   - Default settings
 
@@ -121,13 +88,13 @@ For the exam, you will need to know:
 
 - Docs:
 
-  - `Concurrency FAQ <http://docs.mongodb.org/master/faq/concurrency/>`_
+  - :manual:`Concurrency FAQ </faq/concurrency/>`
   - `Storage FAQ WiredTiger Section <http://docs.mongodb.org/master/faq/storage/#wiredtiger-storage-engine>`_
-  - :manual:`Index Prefix Compression</reference/glossary/#term-prefix-compression>`
+  - :manual:`Index Prefix Compression </reference/glossary/#term-prefix-compression>`
   - Compression Options:
 
-    - :manual:`Snappy</reference/glossary/#term-snappy>`
-    - :manual:`Zlib</reference/glossary/#term-zlib>`
+    - :manual:`snappy </reference/glossary/#term-snappy>`
+    - :manual:`zlib </reference/glossary/#term-zlib>`
 
 - Videos:
 
@@ -137,13 +104,13 @@ For the exam, you will need to know:
 Data Files
 ----------
 
-For the exam, you will need to:
+For the exam, you should know:
 
-- Be able to recognize whether a dbpath directory is for MMAPv1 or WiredTiger based on the files present
-- For MMAPv1, know how larges its database files will be
+- Whether a dbpath directory is for MMAPv1 or WiredTiger based on the files present
+- For MMAPv1, the maximum size of database files and when MMAPv1 will create new database files
 
 
-Here is an MMAPv1 directory:
+Following is an example of an MMAPv1 data directory:
 
 .. code:: bash
 
@@ -163,7 +130,7 @@ Here is an MMAPv1 directory:
   drwxr-xr-x   4 will  staff   136B Sep 10 15:52 ../
   drwxr-xr-x  15 will  staff   510B Sep 16 00:34 ./
 
-And here is a WiredTiger directory:
+and here is an example of WiredTiger data directory:
 
 .. code:: bash
 
@@ -190,9 +157,9 @@ And here is a WiredTiger directory:
   drwxr-xr-x   4 will  staff   136B Sep 16 15:43 ../
   drwxr-xr-x  20 will  staff   680B Sep 16 15:43 ./
 
-Exercises
----------
+Exercises for the Reader
+------------------------
 
-- Use mongostat and mongotop to compare the throughput of inserts, updates, and reads for WiredTiger and MMAPv1. Do so for a variety of loads and different types of read & write operations.
-- Perform lots of inserts for both WiredTiger and MMAPv1, and compare the size of the data files. Repeat with each compression option for WiredTiger.
-- Set up a replica set with different storage engines simultaneously operating in it.
+- Use mongostat and mongotop to compare the throughput of inserts, updates, and reads for WiredTiger and MMAPv1. Do so for a variety of loads and different types of read an write operations.
+- Perform many inserts for both WiredTiger and MMAPv1. Compare the size of the data files. Repeat with each compression option for WiredTiger.
+- Set up a replica set with different storage engines for different nodes in that replica sets.
