@@ -2,52 +2,32 @@
 Application and Server Administration (DBA Only)
 ================================================
 
-For the Certification Exam, students will be expected to:
+For the certification exam, we will verify that you:
 
-- Understand the purpose of the journal, the log, and security.
-- Know the advantages/disadvantages of different cluster architecture options.
+- Understand the mechanics of the MongoDB journal and server logs
+- Understand MongoDB security
+- Can identify the advantages and disadvantages of different cluster architectures
 - Be able to evaluate options about basic server diagnostics, maintenance, backup, and disaster recovery.
-
-
-Application and Server Administration Topics
---------------------------------------------
-
-- Journal
-- Server Logs
-- The Profiler
-- MongoDB Security
-
-  - MongoDB CR
-
-    - User roles
-
-  - Security Features Available
-
-- Cluster Architecture
-- Diagnostics and Debugging
-- Maintenance
-- Backup
-- Recovery
 
 
 Introduction
 ------------
 
-While the definitions are somewhat fluid, Application Administration deals with MongoDB's relationship to applications. Since MongoDB is a flexible data store, it's basically never used alone, except for training purposes. It's always hooked into an application, and this requires a certain set of features to assist with the interface, such as the wire protocol, over-the-wire encryption, and security. 
+While the definitions are somewhat fluid, Application Administration deals with MongoDB's relationship to applications. The features we consider here include: the wire protocol, over-the-wire encryption, and security. 
 
-Server administration deals with all other aspects of architecting, maintaining, or repairing the server system. While Sharding and Replication are big enough to merit their own sections in the exam, this should cover almost everything else.
+Server administration deals with architecting, maintaining, and debugging a deployment. 
 
 
 Journal
 -------
 
-For the exam, you will be expected to:
+For the exam, you should know:
 
-- Know the purpose of the journal
-- Understand that it's implemented as a binary write-ahead log
-- Understand why it ensures consistent data in the event of server failure for MMAPv1
-- Understand why it is unnecessary for WiredTiger
-- Understand how long writes can take to get to disk with and without the journal for MMAPv1 and WiredTiger
+- The purpose of the journal
+- That the journal is implemented as a binary write-ahead log
+- Why the journal ensures consistent data in the event of server failure for MMAPv1
+- Why the journal is unnecessary for WiredTiger
+- The fundamentals of how the journal works, e.g., how often data is flushed to disk, for both MMAPv1 and WiredTiger
 
 Resources:
 
@@ -64,10 +44,11 @@ Resources:
 
   - `How MongoDB's Journaling Works <http://blog.mongodb.org/post/33700094220/how-mongodbs-journaling-works>`_
 
+
 Server Logs
 -----------
 
-For the exam, you will need to know:
+For the exam, you should to know:
 
 - What queries get captured in the server logs
 - How to rotate log files
@@ -90,18 +71,17 @@ For the exam, you will need to know:
 The Profiler
 ------------
 
-For the exam, you will need to know:
+For the exam, you should know:
 
-- How to turn on & off the profiler, or change its settings
+- How to turn the profiler on and off or change its settings
 - What the profiler captures
-- Where that information goes
+- Where that information is stored
 
 Resources:
 
 - Docs:
 
   - :manual:`Database Profiling</administration/analyzing-mongodb-performance/#database-profiling>`
-
 
 - Videos:
 
@@ -117,19 +97,17 @@ Monitoring and Performance Tuning
 
 For the exam, you will need to know:
 
-- What tools are available to monitor or performance tune MongoDB
+- What tools are available to monitor and tune MongoDB
 - How to interpret their output for simple scenarios, such as:
 
   - Working set has outgrown RAM
   - Contention is limiting write speed (MMAPv1)
-  - Disk I/O is saturating
+  - Disk I/O is saturated
 
 Resources:
 
-- Docs:
-
-  - :manual:`Monitoring for MongoDB</administration/monitoring/>`
-  - :manual:`Analyzing MongoDB Performance</administration/analyzing-mongodb-performance/>`
+- :manual:`Monitoring for MongoDB</administration/monitoring/>`
+- :manual:`Analyzing MongoDB Performance</administration/analyzing-mongodb-performance/>`
 
 
 MongoDB Security
@@ -137,33 +115,27 @@ MongoDB Security
 
 For the exam, you should know:
 
-- MongoDB-CR (defining user roles and permissions)
+- How to define user roles and permissions in MongoDB Challenge and Response (MongoDB-CR)
 - Which other security best practices are available
 
 Resources:
 
-- Docs:
-
-  - :manual:`Security Introduction</core/security-introduction/>`
-  - :manual:`Authentication</core/authentication/>`
-  - :manual:`Authorization</core/authorization/>`
-  - :manual:`Network Exposure and Security</core/security-network/>`
-  - :manual:`Collection-Level Access Control</core/collection-level-access-control/>`
-  - :manual:`Auditing</core/auditing/>`
-  - :manual:`Kerberos Authentication</core/kerberos/>`
-  - `MongoDB Security Guide <http://docs.mongodb.org/master/MongoDB-security-guide.pdf>`_
-  - :manual:`Security Tutorials</administration/security/>`
+- :manual:`Security Introduction</core/security-introduction/>`
+- :manual:`Authentication</core/authentication/>`
+- :manual:`Authorization</core/authorization/>`
+- :manual:`Hardening Network Infrastructure</core/security-network/>`
+- :manual:`Collection-Level Access Control</core/collection-level-access-control/>`
+- :manual:`Auditing</core/auditing/>`
+- :manual:`Security Tutorials</administration/security/>`
 
 
 Cluster Architecture
 --------------------
 
-For the exam, you should know:
-
-- Deployment patterns in:
+For the exam, you should know common deployment patterns for:
   
-  - Replica sets
-  - Sharded clusters
+- Replica sets
+- Sharded clusters
 
 Resources:
 
@@ -212,6 +184,8 @@ For the exam, you should be able to:
 - Create new users in MongoDB-CR
 - Remove a shard from a sharded cluster
 
+Resources:
+
 - Docs:
 
   - `Rotate Log Files <http://docs.mongodb.org/v2.6/tutorial/rotate-log-files/>`_
@@ -228,10 +202,10 @@ Backup and Recovery
 
 For the exam, you will need to know:
 
-- Your backup options for servers & clusters
+- Backup options for individual servers and clusters
 
   - Filesystem snapshots
-  - Mongodump
+  - mongodump
 
 - How to restore data from these backups
 
@@ -239,9 +213,9 @@ Resources:
 
 - Docs:
 
- - :manual:`Backup and Restore with Filesystem Snapshots</tutorial/backup-with-filesystem-snapshots/>`
- - :manual:`Restore a Replica Set from MongoDB Backups</tutorial/restore-replica-set-from-backup/>`
- - `Backup and Restore with MongoDB Tools <http://docs.mongodb.org/v2.6/tutorial/backup-with-mongodump/>`_
+  - :manual:`Backup and Restore with Filesystem Snapshots</tutorial/backup-with-filesystem-snapshots/>`
+  - :manual:`Restore a Replica Set from MongoDB Backups</tutorial/restore-replica-set-from-backup/>`
+  - `Backup and Restore with MongoDB Tools <http://docs.mongodb.org/v2.6/tutorial/backup-with-mongodump/>`_
 
 - Videos:
 
@@ -252,12 +226,40 @@ Resources:
   - `Backup Strategies <https://university.mongodb.com/videos/y/7x9UPaq-i78>`_
 
 
-Further Exercises
------------------
+Exercises for the Reader
+------------------------
 
-- Create a replica set or sharded cluster. Create a database, and then drop it. Put the server under a simulated load, and then insert an array of large documents (~15 MB), preferably as a bulk insert. Check the server logs and try to find the long-running events.
-- Run a mongod with --auth. Log in, and create a User Admin, and use that login to create a user with Read permissions in one database and ReadWrite permissions in another. Verify that you are able to login and read/write as appropriate, and are locked out of other databases.
-- Backup your data with a filesystem snapshot. Drop your database, and restore from the backup. Repeat for mongodump/mongorestore.
-- Turn on the profiler to level 2, and then perform some read queries, and some write queries. Find out how long they took. Don't forget to set the profiler back to level 0.
-- Turn on the profiler to level 1, and try to create some long-running queries that get captured.
-- Start a long-running process, then use db.currentOp() and db.killOp() to find and kill it.
+- Find long-running events:
+
+  - Create a replica set or sharded cluster.
+  - Create a database, and then drop it.
+  - Put the server under a simulated load and then insert an array of large documents (~15 MB), preferably as a bulk insert.
+  - Check the server logs and try to find the long-running events.
+
+- Create a user admin
+
+  - Run a mongod with the --auth flag.
+  - Log in and create a User Admin
+  - Use that login to create a user with Read permissions in one database and ReadWrite permissions in another.
+  - Verify that you are able to login and read/write as appropriate, and are locked out of other databases.
+
+- Backup some data
+
+  - Use a working MongoDB deployment.
+  - Backup your data with a filesystem snapshot.
+  - Drop your database, and restore from the backup.
+  - Repeat for mongodump/mongorestore.
+
+- Long-running queries
+
+  - Turn on the profiler set to level 2.
+  - Perform some reads and some write queries.
+  - Find out how long they took.
+  - Don't forget to set the profiler back to level 0.
+
+- Kill a long-running process
+
+  - Turn on the profiler set to level 1.
+  - Create some long-running queries.
+  - Start a long-running process.
+  - Use db.currentOp() and db.killOp() to find and kill the long running process.
