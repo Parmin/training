@@ -1,0 +1,126 @@
+ERROR:giza.operations.make:target: pdf not defined in the make interface
+WARNING:giza.content.changelog.tasks:changelog generation is not configured.
+WARNING:giza.content.changelog.tasks:changelog generation is not configured.
+ERROR:giza.content.images:"/Users/shannon/training/source/images/data-modeling-documents-include-only-useful-data.svg" does not exist
+ERROR:giza.content.images:"/Users/shannon/training/source/images/security-auth-categories.svg" does not exist
+ERROR:giza.content.images:"/Users/shannon/training/source/images/data-modeling-documents-include-useless-data.svg" does not exist
+ERROR:giza.content.images:"/Users/shannon/training/source/images/data-modeling-documents-include-only-useful-data.svg" does not exist
+ERROR:giza.content.images:"/Users/shannon/training/source/images/security-auth-categories.svg" does not exist
+ERROR:giza.content.images:"/Users/shannon/training/source/images/data-modeling-documents-include-useless-data.svg" does not exist
+WARNING:giza.content.dependencies:included file does not exist: /Users/shannon/training/source/includes/toc/dfn-list-exercises.rst
+WARNING:giza.content.dependencies:included file does not exist: /Users/shannon/training/source/includes/toc/exercises.rst
+WARNING:giza.content.dependencies:included file does not exist: /Users/shannon/training/source/includes/toc/dfn-list-exercises.rst
+WARNING:giza.content.dependencies:included file does not exist: /Users/shannon/training/source/includes/toc/exercises.rst
+WARNING:giza.content.post.latex:pdf build encountered error early on admin-two-day-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on developer-three-day-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on admin-three-day-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on cap1-two-day-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on developer-two-day-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on cap1-three-day-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on advanced-developer-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on rapid-start-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on essentials-three-day-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on essentials-four-day-student-workbook.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on admin-two-day-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on admin-three-day-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on developer-three-day-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on developer-two-day-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on cap1-two-day-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on cap1-three-day-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on rapid-start-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on advanced-developer-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on essentials-four-day-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.post.latex:pdf build encountered error early on essentials-three-day-instructor-guide.tex, continuing cautiously.
+WARNING:giza.content.sphinx:WARNING: intersphinx inventory '/Users/shannon/training/build/metadriver.inv' not readable due to ValueError: unknown or unsupported inventory version
+ERROR:giza.content.sphinx:source/exam-guide/indexes.txt:511: ERROR: Unexpected indentation.
+WARNING:giza.content.sphinx:source/exam-guide/indexes.txt:512: WARNING: Block quote ends without a blank line; unexpected unindent.
+WARNING:giza.content.sphinx:source/exam-guide/indexes.txt:515: WARNING: Definition list ends without a blank line; unexpected unindent.
+ERROR:giza.content.sphinx:source/exam-guide/indexes.txt:517: ERROR: Unexpected indentation.
+ERROR:giza.content.sphinx:source/exam-guide/indexes.txt:519: ERROR: Unexpected indentation.
+WARNING:giza.content.sphinx:source/exam-guide/indexes.txt:520: WARNING: Block quote ends without a blank line; unexpected unindent.
+WARNING:giza.content.sphinx:source/exam-guide/indexes.txt:523: WARNING: Block quote ends without a blank line; unexpected unindent.
+ERROR:giza.content.sphinx:source/exam-guide/indexes.txt:525: ERROR: Unexpected indentation.
+ERROR:giza.content.sphinx:source/exam-guide/indexes.txt:527: ERROR: Unexpected indentation.
+WARNING:giza.content.sphinx:source/exam-guide/indexes.txt:530: WARNING: Block quote ends without a blank line; unexpected unindent.
+WARNING:giza.content.sphinx:source/exam-guide/indexes.txt:533: WARNING: Block quote ends without a blank line; unexpected unindent.
+WARNING:giza.content.sphinx:source/exam-guide/indexes.txt:534: WARNING: Definition list ends without a blank line; unexpected unindent.
+WARNING:giza.content.sphinx:source/meta/cap1-three-day.txt:7: WARNING: toctree contains reference to nonexisting document u'modules/nav/replica-sets-cap1-three-day'
+WARNING:giza.content.sphinx:source/meta/cap1-three-day.txt:7: WARNING: toctree contains reference to nonexisting document u'modules/nav/schema-design-advanced-cap1-three-day'
+WARNING:giza.content.sphinx:source/modules/agenda-dba-3-days.txt:107: WARNING: Title underline too short.
+WARNING:giza.content.sphinx:source/modules/agenda-dba-3-days.txt:128: WARNING: Title underline too short.
+ERROR:giza.content.sphinx:source/modules/agenda-dba-3-days.txt:206: ERROR: Duplicate substitution definition name: "mms_auto".
+ERROR:giza.content.sphinx:source/modules/agenda-dba-3-days.txt:154: ERROR: Undefined substitution referenced: "prod_notes".
+WARNING:giza.content.sphinx:source/modules/agenda-developer-advanced.txt:31: WARNING: Title underline too short.
+WARNING:giza.content.sphinx:source/modules/agenda-developer-advanced.txt:71: WARNING: Title underline too short.
+WARNING:giza.content.sphinx:source/modules/crud-bulk-operations.txt:69: WARNING: Title underline too short.
+WARNING:giza.content.sphinx:source/modules/mms-monitoring.txt:18: WARNING: Title underline too short.
+ERROR:giza.content.sphinx:source/modules/nav/exercises.txt:7: SEVERE: Problems with "include" directive path: source/includes/toc/dfn-list-exercises.rst
+ERROR:giza.content.sphinx:source/modules/nav/exercises.txt:9: SEVERE: Problems with "include" directive path: source/includes/toc/exercises.rst
+WARNING:giza.content.sphinx:source/modules/sharding-tags.txt:7: WARNING: Title underline too short.
+WARNING:giza.content.sphinx:source/modules/sharding-tags.txt:70: WARNING: Bullet list ends without a blank line; unexpected unindent.
+WARNING:giza.content.sphinx:source/exam-guide/aggregation.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/application-and-server-administration.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/crud.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/data-modeling.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/general-computing-knowledge.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/indexes.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/philosophy-and-features.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/replication.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/server-tools.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/sharding.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/storage-engines.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/taking-an-exam.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exam-guide/toc.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/adv-ops-automation.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/crud-basic-queries-using-update.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/crud-creating-data-in-the-shell.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/crud-dropping-a-collection.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/crud-element-operators.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/crud-multi-update.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/crud-using-set-with-multi.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-geo-2d-creation.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-geo-2d-insertion.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-geo-2d-query.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-geo-2dsphere-creation.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-geo-2dsphere-inserts.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-geo-2dsphere-near.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-multikey-sorting.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-text-creation.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-text-inserting.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-text-query-1.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-text-query-2.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/indexes-text-sort.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/mongomart-java.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/replica-set-network-partition.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/schema-design-atomic-operations.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/security-create-readwrite.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/security-create-useradmin.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/exercises/sharding-lab.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/agenda.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/agenda-dba-advanced.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/agenda-essentials-3-days.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/aggregation-exercises.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/crud-bulk-operations.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/crud-operator-modifiers.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/crud-overview.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/crud-projection.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/crud-update-operators.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/disasters-happen.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/human-disasters.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/indexes-aggregation.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/indexes-filters.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/indexes-geo-2dsphere.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/indexes-geo-introduction.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/mms-backup.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/mongo-shell.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/nav/backup-admin.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/nav/crud-admin.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/nav/exercises.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/nav/indexes-dev.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/nav/mms-admin-one-day.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/nav/mms-five-day-training.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/nav/performance-five-day-training.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/nav/supplementary-dev.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/replica-set-backing-up.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/replica-set-rolling-upgrade.txt:: WARNING: document isn't included in any toctree
+WARNING:giza.content.sphinx:source/modules/sharding-considerations.txt:: WARNING: document isn't included in any toctree
