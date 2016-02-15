@@ -1,8 +1,8 @@
-file: /modules/introduction-warmup
-description: |
-  Activities to get the class started
----  
 file: /modules/introduction-mongodb-stores-documents
 description: |
   Activities to get the class started
+---
+file: /exercises/mongodb-installation
+description: |
+  Install MongoDB and experiment with a few operations.
 ...

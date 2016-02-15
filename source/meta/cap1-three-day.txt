@@ -9,12 +9,14 @@ MongoDB Essentials Training
    /modules/nav/introduction-cap1-three-day
    /modules/nav/crud-cap1-three-day
    /modules/nav/indexes-cap1-three-day
+   /modules/nav/schema-design-cap1-three-day
    /modules/nav/replica-sets-cap1-three-day
    /modules/nav/sharding-dev
    /modules/nav/aggregation
    /modules/nav/schema-design-advanced-cap1-three-day
-   /modules/nav/mongomart
+   /modules/nav/application-engineering-java-cap1-three-day
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
    /modules/nav/security-essentials
+   /modules/nav/mms
 
