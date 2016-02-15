@@ -1,0 +1,14 @@
+file: /modules/schema-design-case-study-time-series
+description: | 
+  Case Study: Time Series Data
+---
+file: /modules/schema-design-case-study-cms
+description: | 
+  Case Study: CMS
+---
+file: /modules/schema-design-case-study-shopping-cart
+description: | 
+  Case Study: Shopping Cart
+...
+
+

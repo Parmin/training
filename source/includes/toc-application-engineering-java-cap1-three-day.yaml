@@ -1,0 +1,20 @@
+file: /modules/mongomart-java-introduction
+description: | 
+  Take a quick tour through the Mongomart application.
+---
+file: /modules/mongomart-java-lab-setup-and-connect
+description: | 
+  Set up MongoDB and connect to the database from our application.
+---
+file: /modules/mongomart-java-lab-all-queries
+description: | 
+  Write all queries our application will need.
+---
+file: /modules/mongomart-java-lab-improve-data-model-for-scalability
+description: | 
+  Change our data model to store reviews in their own collection.
+---
+file: /modules/mongomart-java-lab-improve-query-performance
+description: | 
+  Use range based pagination rather than sort and limit.
+...

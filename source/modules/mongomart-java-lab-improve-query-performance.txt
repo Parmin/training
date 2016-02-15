@@ -1,0 +1,20 @@
+================================
+Lab: Improving Query Performance
+================================
+
+
+Description
+-----------
+
+- Pagination throughout MongoMart uses the inefficient sort() and limit() method.
+- Optimize MongoMart to use range based pagination.
+- You may modify method names and return values for this lab.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Solution in /instructor/java/lab_5
+      - Please type in solution with the class instead of distributing source code

@@ -1,0 +1,19 @@
+=====================================
+Application Engineering: Introduction
+=====================================
+
+
+Introduction
+------------
+
+- In this lab, we'll set up and optimize an application called MongoMart.
+- MongoMart is an on-line store for buying MongoDB merchandise.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Student skeleton code is located in /student/java
+      - Ensure data is correctly loaded from /student/data

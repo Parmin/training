@@ -1,0 +1,20 @@
+======================================
+Lab: Setup and Connect to the Database
+======================================
+
+
+Description
+-----------
+
+- Import the "item" collection to a standalone MongoDB server (without replication) as noted in the README.md file of the /data directory of MongoMart.
+- Become familiar with the structure of the Java application in /java/src/main/java/mongomart/
+- Modify the MongoMart.java class to properly connect to your local database instance
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Solution in /instructor/java/lab_1
+      - Please type in solution with the class instead of distributing source code

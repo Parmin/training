@@ -1,0 +1,22 @@
+=================================================
+Lab: Use a Local Replica Set with a Write Concern
+=================================================
+
+
+Description
+-----------
+
+- It is important to use replication for production MongoDB instances, however, Lab 1 advised us to use a standalone server.
+- Convert your local standalone mongod instance to a three node replica set named "shard1".
+- Modify MongoMart's MongoDB connection string to include at least two nodes from the replica set.
+- Modify your application's write concern to MAJORITY for all writes to the "cart" collection.
+- Any writes to the "item" collection should continue using the default write concern of W:1
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Solution in /instructor/java/lab_3
+      - Please type in solution with the class instead of distributing source code

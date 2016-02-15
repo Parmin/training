@@ -1,0 +1,9 @@
+=============
+Schema Design
+=============
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-schema-design-cap1-three-day.rst
+
+.. include:: /includes/toc/schema-design-cap1-three-day.rst             

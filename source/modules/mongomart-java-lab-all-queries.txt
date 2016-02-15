@@ -1,0 +1,20 @@
+============================================
+Lab: Populate All Necessary Database Queries
+============================================
+
+
+Description
+-----------
+
+- After running the MongoMart.java class, navigate to "localhost:8080" to view the application.
+- Initially, all data is static and the application does not query the database.
+- Modify the ItemDao.java and CartDao.java classes to ensure all information comes from the database (do not modify the method return types or parameters).
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Solution in /instructor/java/lab_2
+      - Please type in solution with the class instead of distributing source code
