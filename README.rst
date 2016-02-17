@@ -74,7 +74,7 @@ These materials are updated for MongoDB 3.0 and used for MongoDB instructor-led 
 -  CRUD
 -  Indexes
 -  Aggregation
--  Drivers   
+-  Drivers
 -  Schema Design
 -  Advanced Schema Design
 -  Application Engineering
