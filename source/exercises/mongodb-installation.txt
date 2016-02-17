@@ -43,6 +43,11 @@ Installing MongoDB
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+
+
 
 Linux Setup
 -----------
@@ -66,6 +71,18 @@ Linux Setup
       - You might want to add the MongoDB bin directory to your path, e.g.
       - Once installed, create the MongoDB data directory.
       - Make sure you have write permission on this directory.
+
+
+      If you are using Koding these are a few instructions you can follow:
+
+        - Download MongoDB tarbal and setup the environment
+
+        .. code-block:: bash
+
+          wget http://downloads.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1204-3.2.1.tgz
+          tar xzvf mongodb-linux-x86_64-ubuntu1204-3.2.1.tgz
+          cd mongodb-linux-x86_64-ubuntu1204-3.2.1/bin
+          export PATH=`pwd`:$PATH
 
 
 Install on Windows
@@ -120,24 +137,24 @@ Explore the ``mongod`` command.
 
    <path to mongodb>/bin/mongod --help
 
-Launch a ``mongod`` with the WiredTiger storage engine:
+Launch a ``mongod`` with the MMAPv1 storage engine:
 
 .. code-block:: bash
 
    <path to mongodb>/bin/mongod
 
-Alternatively, launch with the MMAPv1 storage engine.
+Alternatively, launch with the WiredTiger storage engine.
 
 .. code-block:: bash
 
-   <path to mongodb>/bin/mongod --storageEngine mmapv1
+   <path to mongodb>/bin/mongod --storageEngine wiredTiger
 
 Specify an alternate path for data files using the ``--dbpath`` option. (Make sure the directory already exists.) E.g.,
 
 .. code-block:: none
 
-   mkdir -p /test/mongodb/data
-   <path to mongodb>/bin/mongod --dbpath /test/mongodb/data
+   <path to mongodb>/bin/mongod --storageEngine wiredTiger
+                                --dbpath /test/mongodb/data/wt
 
 
 .. include:: /includes/student-notes.rst
@@ -150,9 +167,8 @@ Specify an alternate path for data files using the ``--dbpath`` option. (Make su
       - Please verify that all can successfully launch a mongod.
 
 
-
-The WiredTiger Data Directory
------------------------------
+The MMAPv1 Data Directory
+-------------------------
 
 .. code-block:: bash
 
@@ -166,27 +182,8 @@ The WiredTiger Data Directory
 
 - Data files
 
-  - Each collection and index stored in its own file.
-
-.. include:: /includes/student-notes.rst
-
-The MMAPv1 Data Directory
--------------------------
-
-.. code-block:: bash
-
-   ls /data/db
-
-- The mongod.lock file
-
-  - The same has in WiredTiger
-
-- Data files
-
   - The names of the files correspond to available databases.
   - A single database may have multiple files.
-  
-    - Will fail to start if WiredTiger files found
 
 .. include:: /includes/student-notes.rst
 
@@ -201,6 +198,24 @@ The MMAPv1 Data Directory
       - sample.2 is 256 MB, etc.
       - This continues until sample.5, which is 2 GB
       - All subsequent data files are also 2 GB.
+
+
+The WiredTiger Data Directory
+-----------------------------
+
+.. code-block:: bash
+
+   ls /data/db
+
+- The mongod.lock file
+
+  - Used in the same way as MMAPv1.
+- Data files
+
+  - Each collection and index stored in its own file.
+  - Will fail to start if MMAPv1 files found
+
+.. include:: /includes/student-notes.rst
 
 
 Import Exercise Data
@@ -232,8 +247,17 @@ Import Exercise Data
 
    .. note::
 
+      For local installs
+
       - Import the data provided on the USB drive into the *sample* database.
 
+      For Koding environment
+
+      - Download *sample* data from:
+
+      .. code-block:: bash
+
+        wget https://www.dropbox.com/s/54xsjwq59zoq1fe/sample.tgz
 
 Launch a Mongo Shell
 --------------------
@@ -251,6 +275,14 @@ Display available commands.
    help
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+    On Koding environment do the following:
+
+    - Create a new *Terminal* and rename it to **Client**
 
 
 Explore Databases
@@ -280,6 +312,13 @@ To use a particular database we can type the following.
       - We can display the name of the database we are currently using by evaluating :js:data:`db` in the mongo shell.
       - Highlight the power of the Mongo shell here.
       - It is a fully programmable JavaScript environment.
+
+        - To demonstrate this you can use the following code block
+
+        .. code-block:: js
+
+          for(i=0;i<10;i++){ print("this is line "+i)}
+
 
 
 Exploring Collections
