@@ -7,13 +7,16 @@ Lab: Aggregation Framework
 Exercise: Working with Array Fields
 -----------------------------------
 
-Use the aggregation framework to find the name of the individual who has made the most comments on a blog. 
+Use the aggregation framework to find the name of the individual who has made the most comments on a blog.
 
 Start by importing the necessary data if you have not already.
 
 .. code-block:: bash
 
+   # for version <= 2.6.x
    mongoimport -d blog -c posts --drop posts.json
+   # for version > 3.0
+   mongoimport -d blog -c posts --drop --batchSize=100 posts.json
 
 To help you verify your work, the author with the fewest comments is Mariela Sherer and she commented 387 times.
 
@@ -43,7 +46,7 @@ Exercise: Repeated Aggregation Stages
 Import the zips.json file from the data handouts provided:
 
 .. code-block:: javascript
-   
+
    mongoimport -d test -c zips --drop zips.json
 
 Consider together cities in the states of California (CA) and New York (NY) with populations over 25,000. Calculate the average population of this sample of cities.
@@ -70,7 +73,7 @@ Please note:
 
 
 .. include:: /includes/student-notes.rst
-           
+
 
 Exercise: Projection
 --------------------
@@ -78,25 +81,25 @@ Exercise: Projection
 Calculate the total number of people who live in a zip code in the US where the city starts with a digit.
 
 ``$project`` can extract the first digit from any field. E.g.,
-   
+
 .. code-block:: javascript
 
    db.zips.aggregate([
        {$project:
            {
                first_char: { $substr: ["$city", 0, 1] },
-           }    
+           }
        }
    ])
 
-   
+
 .. only:: instructor
 
    .. note::
 
       .. code-block:: javascript
 
-         db.zips.aggregate( [ 
+         db.zips.aggregate( [
             { $project : {
                 first_char: { $substr: [ "$city", 0, 1] },
                 pop: 1,
@@ -115,7 +118,7 @@ Calculate the total number of people who live in a zip code in the US where the 
 
 
 .. include:: /includes/student-notes.rst
-   
+
 
 Exercise: Descriptive Statistics
 --------------------------------
@@ -131,5 +134,31 @@ If you have not already done so, import the grades collection as follows.
 Before you attempt this exercise, explore the ``grades`` collection a little to ensure you understand how it is structured.
 
 For additional exercises, consider other statistics you might want to see with this data and how to calculate them.
+
+
+.. only:: instructor
+
+  .. note::
+
+    A solution should be something like the following:
+
+      - Unwind all the different scores
+      - Average the based on class_id, student_id and score type
+      - Average per class and student
+      - Get top student per class
+      - Get the top class that has the student with highest score average
+
+    .. code-block:: javascript
+
+      db.grades.aggregate([
+
+      {$unwind: "$scores"   },
+      {$project: { type: "$scores.type", score: "$scores.score", "student_id":1, class_id:1}},
+      {$group: { _id: { student_id: "$student_id", "class_id": "$class_id", "type": "$type"}, avg_score_type: {"$avg": "$score"   }}} ,
+      {$group: { _id: {student_id: "$_id.student_id", class_id: "$_id.class_id"}, avg_class_score: {"$avg": "$avg_score_type"} } } ,
+      {$group: { _id: "$_id.class_id", max_score: {"$max": "$avg_class_score"}  } },
+      {$sort: {"max_score":1}},
+      {$limit:1}])
+      ])
 
 .. include:: /includes/student-notes.rst
