@@ -1,20 +1,20 @@
 .. This includes the page title and the MongoDB graphics:
 .. include:: header.tmpl
 
-Advanced Operations Instructor Material
----------------------------------------
+Advanced Administrators' Instructor Material
+--------------------------------------------
 
 Introduction
 ~~~~~~~~~~~~
 
-Advanced Operations Training is a 2-day consulting engagement at the customer
+Advanced Administrators' Training is a 2-day consulting engagement at the customer
 site. It consists of splitting the students into teams and running a set of
 scenarios on MongoDB that pits each team against each other in a bid to
 identify and provide a solution to the problem put in front of them. Teams are
 awarded points on speed, elegance, and effectiveness of their solution. The
 winning team receives a prize.
 
-Advanced Operations Training is an entirely practical set of exercises, where
+Advanced Administrators' Training is an entirely practical set of exercises, where
 teams are hands-on throughout the day, actively working together to identify
 and implement a solution.
 
@@ -25,7 +25,7 @@ This session is designed for 4-12 people. Audience should be technical. The day
 is mostly beneficial for operations/DBAs, but developers may also find content
 interesting.
 
-The Advanced Operations Training session should ideally follow on from a
+The Advanced Administrators' Training session should ideally follow on from a
 MongoDB training course, as candidates will be using prior knowledge to
 complete exercises. This is not designed for complete beginners.
 
@@ -184,7 +184,7 @@ Verify that you can spin up instances
 +++++++++++++++++++++++++++++++++++++
 
 Open the EC2 console in a browser, then open a shell and cd to the
-``admin-operations-training/instance-launch`` directory and run ::
+``admin-administrators-training/instance-launch`` directory and run ::
 
     $ ./repl.sh 1 [Your Name]
     $ ./shutDownRepl.sh
@@ -195,26 +195,26 @@ Launching Instances
 ~~~~~~~~~~~~~~~~~~~
 
 1. To launch the initial instances for the groups for all sections other than
-   `Performance` go into the Advanced Operations Training repo located at
-   ``training/advanced-operations-training/`` and go into the
+   `Performance` go into the Advanced Administrators' Training repo located at
+   ``training/advanced-administrators-training/`` and go into the
    `instance-launch` directory. To run any of the scripts in this directory you
    must have the Amazon ``aws-cli`` tool installed and configured on your machine. If
    you don't have the Amazon ``aws-cli`` tool installed on your machine, see the following
    section for installation instructions.
 
    To launch a node for each team with the preloaded scripts and data sets run
-   the following command ``advanced-operations-training/instance-launch/repl.sh
+   the following command ``advanced-administrators-training/instance-launch/repl.sh
    [Number of teams] [Your Name]`` We use your name so that the instances can be
    associated with you.
 
    The script should return to you an instance ID. Give it a minute or two for
    all of the instance to launch and become available. To give the teams the IP
-   addresses to connect to, run the ``advanced-operations-training/instance-launch/getReplIPs.sh``
+   addresses to connect to, run the ``advanced-administrators-training/instance-launch/getReplIPs.sh``
    script and the output should give you what you need to get started.
 
 
 2. To launch the sharded cluster for the performance and sharding exercise,
-   you'll want to run ``advanced-operations-training/instance-launch/shard.sh
+   you'll want to run ``advanced-administrators-training/instance-launch/shard.sh
    [Number of teams] [Your Name]``.  It should be noted that by default *this script
    will launch 8 machines per team* - 2 shards with 3 member replica
    sets each, a mongos, and a config server. This can add up if you have a lot
@@ -224,7 +224,7 @@ Launching Instances
    want to leave the AWS console open so you can keep an eye on its progress.
    When it's done it will print the public DNS names of the instances, along
    with which team each instance belongs to. You can also run
-   ``advanced-operations-training/instance-launch/getShardIPs.sh`` to print them
+   ``advanced-administrators-training/instance-launch/getShardIPs.sh`` to print them
    out again.
 
 Note: if you ran this training before 2015, you may have needed to run this
@@ -303,7 +303,7 @@ Outside Internet access for the competitors is vital so they can access the
 virtual machines running in Amazon EC2.
 
 The VMs are ``M1.small`` instances running Amazon Linux. SSH'ing to
-the instances will require the *PEM file* contained in the Advanced Operations
+the instances will require the *PEM file* contained in the Advanced Administrators'
 Training Git repository. You will need to ensure that the PEM file has been
 distributed to the competitors in order for them to connect to the instances.
 You will also need the IP addresses listed from the ``/<path-to-wargaming-repo>/
@@ -365,7 +365,7 @@ the shards, config server, and mongos.
 These will only remove the nodes launched by the previous execution of
 `repl.sh` and `shard.sh`. If you ran either of the launch commands twice in a
 row to rebuild a cluster, you will have to log on to the EC2 dashboard,
-filter on "Advanced Operations Training" and terminate the instances there. At
-the end of an Advanced Operations Training session, *ALWAYS* log on to the
+filter on "Advanced Administrators' Training" and terminate the instances there. At
+the end of an Advanced Administrators' Training session, *ALWAYS* log on to the
 EC2 dashboard to make sure all of the instances launched by you have been
 terminated.

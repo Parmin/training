@@ -8,7 +8,7 @@ Agenda
 Introduction
 ~~~~~~~~~~~~
 
-Advanced Ops Training is designed for operations staff responsible for
+Advanced Administrators' Training is designed for operations staff responsible for
 maintaining MongoDB applications. The instructor leads teams through a series
 of scenarios that represent potential issues encountered during the normal
 operation of MongoDB. Teams are hands-on throughout the course, actively
