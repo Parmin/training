@@ -73,7 +73,7 @@ What index is needed for the following query to avoid an in-memory sort?
    .. note::
 
       - Trick question, the answer most students will give is `{ _id: 1, tstamp: 1 }`, however, the `$in` will require an in-memory sort
-      - (`tstamp`) or (`tstamp`, `x`) are the only indexes that will prevent an in-memory sort, but aren't selective at all
+      - (`tstamp`) or (`tstamp`, `_id`) are the only indexes that will prevent an in-memory sort, but aren't selective at all
 
 .. include:: /includes/student-notes.rst
 
@@ -81,7 +81,7 @@ What index is needed for the following query to avoid an in-memory sort?
 Exercise: Determine Indexes Needed
 ----------------------------------
 
-- In a mongo shell run performance.b(). This will run in an infinite loop printing some output as it runs various statements against the server.
+- In a mongo shell run `performance.b()`. This will run in an infinite loop printing some output as it runs various statements against the server.
 - Now imagine we have detected a performance problem and suspect there is a slow operation running.
 - Find the slow operation and terminate it. Every slow operation is assumed to run for 100ms or more.
 - In order to do this, open a second window (or tab) and run a second instance of the mongo shell.
@@ -121,5 +121,19 @@ How many index entries and documents are examined for the following query? How m
    db.sensor_readings.find(
                             { "active": false, "_id": { $gte: 99, $lte: 1000 } }
 			  ).explain("executionStats")
+
+.. only:: instructor
+
+   .. note::
+
+      - We should be looking for
+
+      .. code-block:: javascript
+
+        var execStats = db.sensor_readings.find({ "active": false,
+          "_id": { $gte: 99, $lte: 1000 }
+          }).explain("executionStats").executionStats
+        execStats.totalKeysExamined
+        execStats.totalDocsExamined
 
 .. include:: /includes/student-notes.rst
