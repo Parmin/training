@@ -1,20 +1,20 @@
 .. This includes the page title and the MongoDB graphics:
 .. include:: header.tmpl
 
-Advanced Administrators' Instructor Material
+Advanced Administrator Instructor Material
 --------------------------------------------
 
 Introduction
 ~~~~~~~~~~~~
 
-Advanced Administrators' Training is a 2-day consulting engagement at the customer
+Advanced Administrator Training is a 2-day consulting engagement at the customer
 site. It consists of splitting the students into teams and running a set of
 scenarios on MongoDB that pits each team against each other in a bid to
 identify and provide a solution to the problem put in front of them. Teams are
 awarded points on speed, elegance, and effectiveness of their solution. The
 winning team receives a prize.
 
-Advanced Administrators' Training is an entirely practical set of exercises, where
+Advanced Administrator Training is an entirely practical set of exercises, where
 teams are hands-on throughout the day, actively working together to identify
 and implement a solution.
 
@@ -25,7 +25,7 @@ This session is designed for 4-12 people. Audience should be technical. The day
 is mostly beneficial for operations/DBAs, but developers may also find content
 interesting.
 
-The Advanced Administrators' Training session should ideally follow on from a
+The Advanced Administrator Training session should ideally follow on from a
 MongoDB training course, as candidates will be using prior knowledge to
 complete exercises. This is not designed for complete beginners.
 
@@ -195,7 +195,7 @@ Launching Instances
 ~~~~~~~~~~~~~~~~~~~
 
 1. To launch the initial instances for the groups for all sections other than
-   `Performance` go into the Advanced Administrators' Training repo located at
+   `Performance` go into the Advanced Administrator Training repo located at
    ``training/advanced-administrators-training/`` and go into the
    `instance-launch` directory. To run any of the scripts in this directory you
    must have the Amazon ``aws-cli`` tool installed and configured on your machine. If
@@ -303,7 +303,7 @@ Outside Internet access for the competitors is vital so they can access the
 virtual machines running in Amazon EC2.
 
 The VMs are ``M1.small`` instances running Amazon Linux. SSH'ing to
-the instances will require the *PEM file* contained in the Advanced Administrators'
+the instances will require the *PEM file* contained in the Advanced Administrator
 Training Git repository. You will need to ensure that the PEM file has been
 distributed to the competitors in order for them to connect to the instances.
 You will also need the IP addresses listed from the ``/<path-to-wargaming-repo>/
@@ -365,7 +365,7 @@ the shards, config server, and mongos.
 These will only remove the nodes launched by the previous execution of
 `repl.sh` and `shard.sh`. If you ran either of the launch commands twice in a
 row to rebuild a cluster, you will have to log on to the EC2 dashboard,
-filter on "Advanced Administrators' Training" and terminate the instances there. At
-the end of an Advanced Administrators' Training session, *ALWAYS* log on to the
+filter on "Advanced Administrator Training" and terminate the instances there. At
+the end of an Advanced Administrator Training session, *ALWAYS* log on to the
 EC2 dashboard to make sure all of the instances launched by you have been
 terminated.

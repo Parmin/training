@@ -1,11 +1,11 @@
-# MongoDB Advanced Administrators' Training
+# MongoDB Advanced Administrator Training
 
 ## Overview
 
 
 ### Introduction
 
-Advanced Administrators' Training is designed for operations staff responsible for maintaining MongoDB applications. The instructor leads teams through a series of scenarios that represent potential issues encountered during the normal operation of MongoDB. Teams are hands-on throughout the course, actively working together to identify and implement solutions. The instructor evaluates teams based on the speed, elegance, and effectiveness of their solutions and provides feedback on strategy and best practices.
+Advanced Administrator Training is designed for operations staff responsible for maintaining MongoDB applications. The instructor leads teams through a series of scenarios that represent potential issues encountered during the normal operation of MongoDB. Teams are hands-on throughout the course, actively working together to identify and implement solutions. The instructor evaluates teams based on the speed, elegance, and effectiveness of their solutions and provides feedback on strategy and best practices.
 
 Each scenario develops skills in critical areas such as diagnostics, troubleshooting, maintenance, performance tuning, and disaster recovery. Teams will work in Amazon EC2 instances prepared for this training. The instructor will distribute connection details when the training begins. The scenarios for this training fall into four subject areas as follows.
 

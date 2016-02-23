@@ -5,7 +5,7 @@
 Introduction
 ~~~~~~~~~~~~
 
-Advanced Administrators' Training is a 2-day on-site course designed for DBAs. The instructor leads teams through a series of scenarios that represent potential issues encountered during the normal operation of MongoDB. Teams are hands-on throughout the course, actively working together to identify and implement solutions. The instructor evaluates teams based on the speed, elegance, and effectiveness of their solutions and provides feedback on strategy and best practices.
+Advanced Administrator Training is a 2-day on-site course designed for DBAs. The instructor leads teams through a series of scenarios that represent potential issues encountered during the normal operation of MongoDB. Teams are hands-on throughout the course, actively working together to identify and implement solutions. The instructor evaluates teams based on the speed, elegance, and effectiveness of their solutions and provides feedback on strategy and best practices.
 
 
 Exercises
