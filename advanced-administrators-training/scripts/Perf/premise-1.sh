@@ -30,4 +30,4 @@ sleep 3
 
 $MONGOPATH/mongoimport -d twitter -c tweets twitter.json
 
-$MONGPATH/mongo mapreduce.js &
+$MONGOPATH/mongo mapreduce.js &
