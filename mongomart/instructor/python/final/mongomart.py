@@ -1,6 +1,6 @@
 
 #
-# Copyright (c) 2008 - 2013 10gen, Inc. <http://10gen.com>
+# Copyright (c) 2008 - 2016 MongoDB, Inc. <http://mongodb.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
