@@ -59,6 +59,7 @@ ami_id=ami-5435143c # Advanced Ops MMS 10
 ami_id=ami-1080a178 # Advanced Ops MMS 11 # fix premise-3.sh
 ami_id=ami-8488a9ec # Advanced Ops MMS 12 # remove premise-4.sh
 ami_id=ami-8707b7ec # Advanced Ops MMS 13 # increase groups to 10
+ami_id=ami-0d201267 # Advanced Ops MMS 14 # update glibc, fix typo
 
 
 echo 'launching' $ami_id

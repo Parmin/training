@@ -14,7 +14,7 @@ This script will confirm that the automation agent is running and start a
 replica set on ports 27017, 27018, 27019. Then it will prompt you to import the
 replica set into MMS.
 
-1. Log in to MMS as ``advanced-ops+training@mongodb.com``
+1. Log in to MMS as ``advanced-ops+instructor@mongodb.com``
 
 2. Choose the MMS Group ``team01-advanced-ops`` from the dropdown in the top-left
 

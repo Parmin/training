@@ -7,6 +7,7 @@ ami_id=ami-08c6b861  # old
 ami_id=ami-00b2ff68  # Advanced Ops Sharded
 ami_id=ami-3c9fd054  # Advanced Ops Sharded 2
 ami_id=ami-b2ade4da  # Advanced Ops Sharded 3
+ami_id=ami-3726145d  # Advanced Ops Sharded 4
 
 SSH_KEY=../credentials/AdvancedOpsTraining.pem
 
