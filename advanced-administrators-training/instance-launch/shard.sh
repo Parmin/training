@@ -21,7 +21,7 @@ function wait_for_ssh() {
         echo '  attempt' $i
         output="$(ssh_exec "$hostname" "echo 'hi'" 2>"$ssh_err" || true)"
         if [ "$output" = "hi" ]; then break; fi
-        sleep 3
+        sleep 30
         #echo >&2 -n "."
     done
     echo >&2 ""
