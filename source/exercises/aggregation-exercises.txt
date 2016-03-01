@@ -35,7 +35,7 @@ To help you verify your work, the author with the fewest comments is Mariela She
 	       num_comments: { $sum: 1 }
 	     }
 	   },
-	   { "$sort": { "num_comments": -1 } },
+	   { "$sort": { "num_comments": 1 } },
 	   { "$limit": 10 }
 	 ])
 
@@ -47,7 +47,7 @@ Import the zips.json file from the data handouts provided:
 
 .. code-block:: javascript
 
-   mongoimport -d test -c zips --drop zips.json
+   mongoimport -d sample -c zips --drop zips.json
 
 Consider together cities in the states of California (CA) and New York (NY) with populations over 25,000. Calculate the average population of this sample of cities.
 
@@ -129,7 +129,7 @@ If you have not already done so, import the grades collection as follows.
 
 .. code-block:: bash
 
-   mongoimport -d test -c grades --drop grades.json
+   mongoimport -d sample -c grades --drop grades.json
 
 Before you attempt this exercise, explore the ``grades`` collection a little to ensure you understand how it is structured.
 
@@ -156,9 +156,8 @@ For additional exercises, consider other statistics you might want to see with t
       {$project: { type: "$scores.type", score: "$scores.score", "student_id":1, class_id:1}},
       {$group: { _id: { student_id: "$student_id", "class_id": "$class_id", "type": "$type"}, avg_score_type: {"$avg": "$score"   }}} ,
       {$group: { _id: {student_id: "$_id.student_id", class_id: "$_id.class_id"}, avg_class_score: {"$avg": "$avg_score_type"} } } ,
-      {$group: { _id: "$_id.class_id", max_score: {"$max": "$avg_class_score"}  } },
-      {$sort: {"max_score":1}},
+      {$group: { _id: "$_id.class_id", best_class_score: {"$max": "$avg_class_score"}  } },
+      {$sort: {"best_class_score":1}},
       {$limit:1}])
-      ])
 
 .. include:: /includes/student-notes.rst

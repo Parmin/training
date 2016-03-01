@@ -233,9 +233,11 @@ Import Exercise Data
 
    mongoimport -d sample -c zips zips.json
 
+   mongoimport -d sample -c grades grades.json
+
    cd dump
 
-   mongorestore -d sample training
+   mongorestore -d sample city
 
    mongorestore -d sample digg
 

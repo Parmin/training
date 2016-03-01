@@ -4,57 +4,39 @@ Lab: Finding Documents
 
 
 
-Exercise: Scores < 65
+Exercise: student_id < 65
 ---------------------
 
-In the sample database, how many documents in the scores collection have a score less than 65?
+In the sample database, how many documents in the grades collection have a student_id less than 65?
 
 .. only:: instructor
 
    .. note::
 
-      - 832
+      - 650
 
         .. code-block :: javascript
 
-          db.scores.find( { score: { $lt: 65 } } )
+          db.grades.find( { student_id: { $lt: 65 } } ).count()
 
 
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Exams and Quizzes
----------------------------
+Exercise: Inspection Result "Fail" & "Pass"
+-------------------------------------------
 
-In the sample database, how many documents in the scores collection have the type "exam" or "quiz"?
-
-.. only:: instructor
-
-   .. note::
-
-      - 2000
-
-        .. code-block :: javascript
-
-          db.scores.find({ type: { $in: [ "exam", "quiz" ] } }).count()
-
-.. include:: /includes/student-notes.rst
-
-
-Exercise: Highest Quiz Score
-----------------------------
-
-Find the highest quiz score.
+In the sample database, how many documents in the inspections collection have `result` "Pass" or "Fail"?
 
 .. only:: instructor
 
    .. note::
 
-      - You can .limit() with .sort()
+      - 16808
 
         .. code-block :: javascript
 
-          db.scores.find( { type: "quiz" } ).sort( {score:  -1 } ).limit(1)[0].score
+          db.inspections.find({ "result": { $in: [ "Pass", "Fail" ] } }).count()
 
 .. include:: /includes/student-notes.rst
 
@@ -62,7 +44,7 @@ Find the highest quiz score.
 Exercise: View Count > 1000
 ---------------------------
 
-In the digg.stories collection, write a query to find all stories where the view count is greater than 1000.
+In the stories collection, write a query to find all stories where the view count is greater than 1000.
 
 .. only:: instructor
 
@@ -73,6 +55,24 @@ In the digg.stories collection, write a query to find all stories where the view
         .. code-block :: javascript
 
           db.stories.find( { "shorturl.view_count": { $gt: 1000 } } )
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Highest Number comments
+---------------------------------
+
+Find the video that has more comments in the stories collection
+
+.. only:: instructor
+
+   .. note::
+
+      - You can .limit() with .sort()
+
+        .. code-block :: javascript
+
+          db.stories.find({media:"videos"}).sort({comments:-1}).limit(1)[0].comments
 
 .. include:: /includes/student-notes.rst
 
