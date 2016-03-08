@@ -140,7 +140,7 @@ For additional exercises, consider other statistics you might want to see with t
 
   .. note::
 
-    A solution should be something like the following:
+    A solution should be something like them following:
 
       - Unwind all the different scores
       - Average the based on class_id, student_id and score type
