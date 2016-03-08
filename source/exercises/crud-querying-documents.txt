@@ -62,7 +62,7 @@ In the stories collection, write a query to find all stories where the view coun
 Exercise: Most comments
 -----------------------
 
-Find the video that has most comments in the stories collection
+Find the video that has the most comments in the stories collection
 
 .. only:: instructor
 
