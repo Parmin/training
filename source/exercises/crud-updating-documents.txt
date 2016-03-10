@@ -3,12 +3,12 @@ Lab: Updating Documents
 =======================
 
 
-Exercise: Letter Grades
------------------------
+Exercise: Pass Inspections
+--------------------------
 
-- Using the ``sample.scores`` namespace, set the proper "grade" attributes.
-- For example, users with scores greater than 90 get an "A".
-- Set the grade to "B" for scores falling between 80 and 90 and so on for grades "C", "D", and "F".
+Using the ``sample.inspections`` namespace, let's go ahead and
+update all inspections with a result of "Completed" to have the result "No Violation Issued"
+
 
 .. only:: instructor
 
@@ -16,22 +16,29 @@ Exercise: Letter Grades
 
       .. code-block:: javascript
 
-        db.scores.update( { score: { $gte: 90 } }, { $set: { grade: "A" } },
-          { multi: true } )
-        WriteResult({ "nMatched" : 626, "nUpserted" : 0, "nModified" : 626 })
-
-      - and so on for ``{ score: { $gte: 80, $lt: 90 } }`` etc.
-      - In the shell you could write a JS script with a loop. In SQL you could do it in one statement, note the difference.
+        db.inspections.update({result: 'No Violation Issued'}, {$set: {result: 'Completed' }},false, true  )
+        WriteResult({
+          "nMatched": 37749,
+          "nUpserted": 0,
+          "nModified": 37749
+        })
+        //or
+        db.inspections.updateMany({result: 'No Violation Issued'}, {$set: {result: 'Completed' }})
+        {
+          "acknowledged": true,
+          "matchedCount": 37749,
+          "modifiedCount": 37749
+        }
 
 
 .. include:: /includes/student-notes.rst
 
 
-Exercise: 10 Extra-Credit Points
---------------------------------
+Exercise: Set  ``fine`` value
+-----------------------------
 
-- You’re being nice, so you decide to add 10 points to every score on every exam where the score is lower than 60.
-- How do you do this update?
+- To all inspections that failed the inspection
+- We will be setting a fine value of 100
 
 .. only:: instructor
 
@@ -39,11 +46,82 @@ Exercise: 10 Extra-Credit Points
 
       .. code-block:: javascript
 
-         db.scores.update( { name : "exam", score : { $lt : 60 } },
-                           { $inc : { score : 10 } }, { multi: true } )
+        db.inspections.update({'result': 'Fail'}, {$set: {fine: 100}}, false, true  )
+        WriteResult({
+          "nMatched": 1120,
+          "nUpserted": 0,
+          "nModified": 1120
+        })
+
+Exercise: Increase ``fine`` in ROSEDALE
+---------------------------------------
+
+- Update all inspections done in the city of **"ROSEDALE"**
+- To failed inspections
+- Raise the ``fine`` value by 150
+
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+        db.inspections.update({'address.city': 'ROSEDALE', result: 'Fail' }, {$inc: {fine: 150 }},false, true  )
+        WriteResult({
+          "nMatched": 2,
+          "nUpserted": 0,
+          "nModified": 2Â
+        })
 
 .. include:: /includes/student-notes.rst
 
+
+Exercise: Give a pass to "MONGODB"
+---------------------------------------
+
+- Today MongoDB got the visit from the inspectors
+- Obviously we have no problems with the officials
+- So go ahead and update "MongoDB" and set the ``result`` to "AWESOME"
+- MongoDB's address is {city: 'New York', zip: 10036, street: '43', number: 229}
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+        db.inspections.update({'business_name': 'MongoDB' }, {
+        $set: {
+          address: {
+            city: 'New York',
+            zip: 10036, street: '43', number: 229
+          },
+          result: 'AWESOME',
+          id: "XXXXXXX",
+          certificate_number: 140021221},
+        $currentDate: {date: { $type: "date" } }
+        },
+          true, false  )
+          WriteResult({
+          "nMatched": 0,
+          "nUpserted": 1,
+          "nModified": 0,
+          "_id": ObjectId("XXXXXXXXX")
+        })
+
+    On this exercise we can also add a variation around the certificate_number
+    to check o can come up with the query that finds out which would be
+    the following certificate_number.
+
+    Something like this query should be granted extra points:
+
+      .. code-block:: javascript
+
+        db.inspections.find({certificate_number: {$type:16}},
+          {certificate_number: 1, id: 1}).sort({certificate_number:-1}).limit(1)
+
+.. include:: /includes/student-notes.rst
 
 Exercise: Updating Array Elements
 ---------------------------------
