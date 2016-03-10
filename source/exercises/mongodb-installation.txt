@@ -33,7 +33,7 @@ Installing MongoDB
 ------------------
 
 - Visit http://docs.mongodb.org/manual/installation/.
-- We strongly recommend you to install the Enterprise Version
+- Please install the Enterprise version of MongoDB.
 - Click on the appropriate link, such as "Install on Windows" or "Install on OS X" and follow the instructions.
 
 - Versions:

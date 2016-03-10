@@ -123,8 +123,10 @@ Calculate the total number of people who live in a zip code in the US where the 
 Exercise: Descriptive Statistics
 --------------------------------
 
-From the ``grades`` collection, find the class (display the ``class_id``) with the best average student performance.
+From the ``grades`` collection, find the class (display the ``class_id``) with the highest average student performance on **exams**.
+To solve this problem you'll want an average of averages.
 
+First calculate the average exam score of each student in each class. Then determine the average class exam score using these values.
 If you have not already done so, import the grades collection as follows.
 
 .. code-block:: bash
@@ -142,22 +144,23 @@ For additional exercises, consider other statistics you might want to see with t
 
     A solution should be something like them following:
 
-      - Unwind all the different scores
-      - Average the based on class_id, student_id and score type
-      - Average per class and student
-      - Get top student per class
-      - Get the top class that has the student with highest score average
+    - Unwind all the different scores
+    - Match based on a score type of "exam"
+    - Average the based on class_id and student_id
+    - Average per class
+    - Sort into descending order
+    - Limit to 1
 
     .. code-block:: javascript
 
       db.grades.aggregate([
-
-      {$unwind: "$scores"   },
-      {$project: { type: "$scores.type", score: "$scores.score", "student_id":1, class_id:1}},
-      {$group: { _id: { student_id: "$student_id", "class_id": "$class_id", "type": "$type"}, avg_score_type: {"$avg": "$score"   }}} ,
-      {$group: { _id: {student_id: "$_id.student_id", class_id: "$_id.class_id"}, avg_class_score: {"$avg": "$avg_score_type"} } } ,
-      {$group: { _id: "$_id.class_id", best_class_score: {"$max": "$avg_class_score"}  } },
-      {$sort: {"best_class_score":1}},
-      {$limit:1}])
+         {$unwind: "$scores"},
+         {$match: {"scores.type": "exam"}},
+         {$group: {_id: {student_id: "$student_id", class_id: "$class_id"},
+                   student_avg: {$avg: "$scores.score"}}},
+         {$group: {_id: {class_id: "$_id.class_id"},
+                   class_avg: {$avg: "$student_avg"}}},
+         {$sort: {class_avg: -1}}
+      ])
 
 .. include:: /includes/student-notes.rst
