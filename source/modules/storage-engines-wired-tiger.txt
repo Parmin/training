@@ -270,7 +270,8 @@ WT and the Journal
 - Without the journal, writes only reach the disk during checkpoints
 - With the journal, MongoDB will log writes between checkpoints
 - The journal is compressed (default library is Snappy)
-- Multiple threads writing to the journal can piggy back onto the same write to disk.
+- Multiple threads writing to the journal can piggy back onto the same write to disk
+- The journal in WT writes every 100 ms by default
 
 .. include:: /includes/student-notes.rst
 
