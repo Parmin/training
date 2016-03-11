@@ -124,7 +124,7 @@ WT Data Structures - Collections
 
 - Pages of documents are kept in b+tree structures, one tree per collection
 
-  - Root page points to internal pages, internal pages point to either more internal pages, or leaf pages.
+  - Root page points to internal pages. Internal pages either point to other internal pages, or to leaf pages.
   - Leaf pages contain the data (MongoDB documents)
 
 - Pages are ordered and grouped by recordId
@@ -202,6 +202,7 @@ WT Cache - Pages
 
   .. note::
 
+    - Pages will split during reconciliation (it's the next slide)
     - Internal pages are 2K
     - Leaf (data bearing) pages are 32K, but can grow to accommodate large documents
 
@@ -237,6 +238,10 @@ Checkpoints
   .. note::
 
     - The journal can be used to write to disk between checkpoints
+    - "Clean" pages in this context means that they have an empty update list
+
+      - Everything gets incorporated into the "on disk" page
+      - Updates going forward will make it into the update list
 
 
 Checkpoints and Performance
