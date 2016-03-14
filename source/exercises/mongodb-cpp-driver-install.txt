@@ -1,0 +1,233 @@
+==================================
+Lab: Installing C++ MongoDB Driver
+==================================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this exercise students should understand:
+
+- Prerequisites of MongoDB C++ Driver
+- Build and Install Instructions
+- First `hellomongo.cpp` exercise
+
+.. include:: /includes/student-notes.rst
+
+
+Latest Release
+--------------
+
+Current MongoDB C++11 Driver 3.0.0 is the first stable release of the C++11 series.
+
+This new driver is **incompatible** with all previous MongoDB C++ drivers.
+
+You can find the new release on the following link:
+
+https://github.com/mongodb/mongo-cxx-driver/releases/tag/r3.0.0
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    make sure to soften up the message by saying that this new driver is:
+
+      - A complete new implementation of the API (in case students are already familiar with the legacy version)
+      - The driver requires conforming with C++11 specification
+
+
+Dependencies
+------------
+
+The MongoDB C++11 Driver has some system requirements:
+
+- GCC 4.8.2 OR clang-3.5 OR VS 2015 Update 1 or Apple Clang 5.1+
+- CMake 3.2+
+- MongoDB C driver version 1.3.1+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    You can also point students to the tutorial install where all of this instructions will be defined:
+
+    https://github.com/mongodb/mongo-cxx-driver/wiki/Quickstart-Guide-(New-Driver)
+
+    If possible these installation should already performed but in case
+    someone missed it or just to check their system installation we should go
+    through the install instructions.
+
+
+Install MongoDB C Driver
+------------------------
+
+After validating that compiler and make versions are meet we should install MongoDB C Driver as dependency:
+
+1. Install C driver prerequisites
+  - automake
+  - autoconf
+  - libtool
+
+.. include:: /includes/student-notes.rst
+
+Install MongoDB C Driver
+------------------------
+
+2. Build & Install if from Git
+
+  .. code-block:: bash
+
+    git clone https://github.com/mongodb/mongo-c-driver.git
+    cd mongo-c-driver
+    git checkout r1.3
+    ./autogen.sh --with-libbson=bundled
+    make
+    sudo make install
+
+  For specific OS install `follow these instructions <http://api.mongodb.org/c/current/installing.html>`_.
+
+.. include:: /includes/student-notes.rst
+
+Install MongoDB C++ Driver
+--------------------------
+
+For the installation of the C++ driver we need to proceed with the following instructions:
+
+#. Clone the repository and use tag r3.0.0
+#. Build from source
+#. Test the installation
+
+.. include:: /includes/student-notes.rst
+
+
+Install MongoDB C++ Driver
+--------------------------
+
+1. Clone repository
+
+.. code-block:: bash
+
+  git clone -b r3.0.0 https://github.com/mongodb/mongo-cxx-driver
+  cd mongo-cxx-driver
+
+.. include:: /includes/student-notes.rst
+
+
+Install MongoDB C++ Driver
+--------------------------
+
+2. Build & Install
+
+.. code-block:: bash
+
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+  sudo make && sudo make install
+
+.. include:: /includes/student-notes.rst
+
+
+Test MongoDB C++ Driver
+-----------------------
+
+3. Let's edit `hellomongo.ccp`
+
+.. code-block:: cpp
+
+  void run(){
+    mongocxx::client conn{mongocxx::uri{}};
+    auto cursor = conn.list_databases();
+    for (auto&& x : cursor) {
+      std::cout << x["name"].get_utf8().value << std::endl;
+    }
+  }
+
+  int main(int, char**) {
+      try{
+        run();
+        std::cout << "connected ok" << std::endl;
+      } catch( const mongocxx::exception &e ) {
+        std::cout << "caught " << e.what() << std::endl;
+      }
+      return EXIT_SUCCESS;
+  }
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    The full `hellomongo.cpp` file can be found in this gist:
+      - https://gist.github.com/nleite/abc9598f27f5fe4721c2
+
+      .. code-block:: c++
+
+        #include <iostream>
+        #include <mongocxx/client.hpp>
+        #include <mongocxx/cursor.hpp>
+        #include <mongocxx/exception/exception.hpp>
+
+        void run(){
+          mongocxx::client conn{mongocxx::uri{}};
+          auto cursor = conn.list_databases();
+          for (auto&& x : cursor) {
+            std::cout << x["name"].get_utf8().value << std::endl;
+          }
+        }
+
+        int main(int, char**) {
+            try{
+              run();
+              std::cout << "connected ok" << std::endl;
+            } catch( const mongocxx::exception &e ) {
+              std::cout << "caught " << e.what() << std::endl;
+            }
+            return EXIT_SUCCESS;
+
+        }
+
+
+Connect To MongoDB
+------------------
+
+2. Let's compile and run `hellomongo.cpp`
+
+.. code-block:: bash
+
+  c++ --std=c++11 hellomongo.cpp -o hellomongo $(pkg-config --cflags --libs libmongocxx)
+
+And execute the newly build `hellomongo` executable:
+
+.. code-block:: bash
+
+  ./hellomongo
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Don't forget to mention that they should be setting this file
+    into a specific code folder where we will be placing several different
+    code snippets along the way
+
+    .. code-block:: bash
+
+      mkdir snippets
+      cd snippets
+      touch hellomongo.cpp
+
+    The execution should output something similar to the following:
+
+    .. code-block:: bash
+
+      $ ./hellomongo                                                                                  [15:18:00]
+      Listing Databases:
+      local
+      connected ok
