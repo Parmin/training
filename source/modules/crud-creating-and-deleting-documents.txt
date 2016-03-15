@@ -16,44 +16,84 @@ Upon completing this module students should understand:
 .. include:: /includes/student-notes.rst
 
 
+Baseline
+--------
+
+For the extent of this lab we will be using same baseline code snippet called `crud.cpp`
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Please ask your students to go ahead and under the `snippets` folder create a new file called `crud.cpp`
+    This file should have one **main** method that we will extend over the set of exercises as they are completed.
+
+    This initial file should look like the following:
+
+    .. code-block:: cpp
+
+      #include <iostream>
+      #include <mongocxx/client.hpp>
+      #include <mongocxx/cursor.hpp>
+      #include <mongocxx/collection.hpp>
+      #include <bsoncxx/builder/stream/document.hpp>
+      #include <mongocxx/exception/exception.hpp>
+
+
+      int main(int, char**) {
+          try{
+
+          } catch( const mongocxx::exception &e ) {
+            std::cout << "caught " << e.what() << std::endl;
+          }
+          return EXIT_SUCCESS;
+
+      }
+
 Creating New Documents
 ----------------------
 
 - Create documents using ``insert()``.
 - For example:
 
-  .. code-block:: javascript
+  .. code-block:: cpp
 
-     // Specify the collection name
-     db.<COLLECTION>.insert( { "name" : "Mongo" } )
+    // instantiate a connection
+    client conn{mongocxx::uri{}};
+    //instantiate a collection
+    collection coll = conn["sample"]["cpp"];
 
-     // For example
-     db.people.insert( { "name" : "Mongo" } )
+    //create a document
+    auto doc0 = document{} << "name" << "Dwight" << finalize;
 
-.. include:: /includes/student-notes.rst
-
-Example: Inserting a Document
-------------------------------
-
-Experiment with the following commands.
-
-.. code-block:: javascript
-
-   use sample
-
-   db.movies.insert( { "title" : "Jaws" } )
-
-   db.movies.find()
+    //insert one document
+    coll.insert_one(doc0.view());
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-   .. note::
-        
-      - Make sure the students are performing the operations along with you.
-      - Some students will have trouble starting things up, so be helpful at this stage.
+  .. note::
 
+    Make sure you focus students attention on the following aspects:
+    - syntactic sugar of the document construction using `<<` operator
+    - simple database objects instantiation
+    - same api call has new MongoDB 3.2 shell methods
+
+    Also redirect students into the shell so the can also check the creation of these documents
+
+    .. code-block:: bash
+
+      mongo sample
+      db.cpp.find()
+
+    And don't forget the compilation instructions:
+
+    .. code-block:: bash
+
+      c++ --std=c++11 crud.cpp -o crud $(pkg-config --cflags --libs libmongocxx)
 
 
 Implicit ``_id`` Assignment
@@ -70,11 +110,16 @@ Example: Assigning _ids
 
 Experiment with the following commands.
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-    db.movies.insert( { "_id" : "Jaws", "year" : 1975 } )
+    //assign `_id` field
+    auto doc1 = document{} << "_id" << 1 << "name" << "Dwight" << finalize;
 
-    db.movies.find()
+    //and fetch back the results
+    auto cursor = coll.find({});
+    for (auto&& x : cursor) {
+      std::cout << "_id: " << x["_id"].get_int32() << std::endl;
+    }
 
 .. include:: /includes/student-notes.rst
 
@@ -84,6 +129,27 @@ Experiment with the following commands.
 
       - Note that you can assign an _id to be of almost any type.
       - It does not need to be an ObjectId.
+
+      A new method should be created on our `crud.cpp` to express this variation
+
+      .. code-block:: cpp
+
+        void insert_with_id(){
+          // instantiate a connection
+          client conn{mongocxx::uri{}};
+          //instantiate a collection
+          collection coll = conn["sample"]["cpp"];
+          //create a document
+          auto doc1 = document{} << "_id" << 1 << "name" << "Dwight" << finalize;
+
+          //insert the document
+          coll.insert_one(doc1.view());
+          //
+          auto cursor = coll.find({});
+          for (auto&& x : cursor) {
+            std::cout << "_id: " << x["_id"].get_int32() << std::endl;
+          }
+        }
 
 
 
@@ -96,6 +162,18 @@ Inserts will fail if...
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+    Don't forget that if we run multiple times,
+    you should ask the students to this,
+    we will get a duplicated key error
+
+    .. code-block:: bash
+
+      ./crud
+      ./crud
+
 
 Example: Inserts will fail if...
 ---------------------------------
@@ -103,8 +181,8 @@ Example: Inserts will fail if...
 .. code-block:: javascript
 
    // fails because _id can't have an array value
-   db.movies.insert( { "_id" : [ "Star Wars", 
-                                 "The Empire Strikes Back", 
+   db.movies.insert( { "_id" : [ "Star Wars",
+                                 "The Empire Strikes Back",
                                  "Return of the Jedi" ] } )
 
    // succeeds
@@ -141,21 +219,21 @@ Example: Inserts will fail if...
 Bulk Inserts
 ------------
 
-- MongoDB 2.6 introduced bulk inserts. 
+- MongoDB 2.6 introduced bulk inserts.
 - You may bulk insert using an array of documents.
-- The API has two core concepts: 
+- The API has two core concepts:
 
   - Ordered bulk operations
-  - Unordered bulk operations 
+  - Unordered bulk operations
 
-- The main difference is in the way the operations are executed in bulk. 
+- The main difference is in the way the operations are executed in bulk.
 
 .. only:: instructor
 
    .. note::
 
-      - In the case of an ordered bulk operation, every operation will be executed in the order they are added to the bulk operation. 
-      - In the case of an unordered bulk operation however there is no guarantee what order the operations are executed. 
+      - In the case of an ordered bulk operation, every operation will be executed in the order they are added to the bulk operation.
+      - In the case of an unordered bulk operation however there is no guarantee what order the operations are executed.
       - With an unordered bulk operation, the operations in the list may be reordered to increase performance.
 
 .. include:: /includes/student-notes.rst
@@ -180,7 +258,7 @@ Experiment with the following bulk insert.
 .. code-block:: javascript
 
    db.movies.insert( [ { "_id" : "Batman", "year" : 1989 },
-                       { "_id" : "Home Alone", "year" : 1990 }, 
+                       { "_id" : "Home Alone", "year" : 1990 },
                        { "_id" : "Ghostbusters", "year" : 1984 },
                        { "_id" : "Ghostbusters", "year" : 1984 } ] )
    db.movies.find()
@@ -189,12 +267,12 @@ Experiment with the following bulk insert.
 
 .. only:: instructor
 
-   .. note:: 
+   .. note::
 
       - This example has a duplicate key error.
       - Only the first 3 documents will be inserted.
 
-    
+
 Unordered Bulk Insert
 ---------------------
 
@@ -202,8 +280,8 @@ Unordered Bulk Insert
 - If any given insert fails, MongoDB will still attempt the others.
 - The inserts may be executed in a different order from the way in which you specified them.
 - The next exercise is very similar to the previous one.
-- However, we are using ``{ ordered : false }`` 
-- One insert will fail, but all the rest will succeed. 
+- However, we are using ``{ ordered : false }``
+- One insert will fail, but all the rest will succeed.
 
 .. include:: /includes/student-notes.rst
 
@@ -216,8 +294,8 @@ Experiment with the following bulk insert.
 .. code-block:: javascript
 
    db.movies.insert( [ { "_id" : "Jaws", "year" : 1975 },
-                       { "_id" : "Titanic", "year" : 1997 }, 
-                       { "_id" : "The Lion King", "year" : 1994 } ], 
+                       { "_id" : "Titanic", "year" : 1997 },
+                       { "_id" : "The Lion King", "year" : 1994 } ],
                        { ordered : false } )
    db.movies.find()
 
@@ -332,7 +410,7 @@ Dropping a Database
 - You can drop an entire database with ``db.dropDatabase()``
 - This drops the database on which the method is called.
 - It also deletes the associated data files from disk, freeing disk space.
-- Beware that in the mongo shell, this does not change database context.  
+- Beware that in the mongo shell, this does not change database context.
 
 .. include:: /includes/student-notes.rst
 
@@ -356,4 +434,3 @@ Example: Dropping a Database
    use sample  // take us back to the sample db
 
 .. include:: /includes/student-notes.rst
-
