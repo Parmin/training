@@ -9,6 +9,7 @@ MongoDB Administrator Training
    /modules/nav/introduction
    /modules/nav/crud
    /modules/nav/indexes
+   /modules/nav/storage
    /modules/nav/replica-sets
    /modules/nav/sharding
    /modules/nav/performance-essentials

@@ -9,6 +9,7 @@ MongoDB Essentials Training
    /modules/nav/introduction
    /modules/nav/crud
    /modules/nav/indexes
+   /modules/nav/storage
    /modules/nav/drivers
    /modules/nav/aggregation
    /modules/nav/schema-design-intro

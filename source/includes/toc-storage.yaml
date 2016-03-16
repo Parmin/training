@@ -1,0 +1,8 @@
+file: /modules/introduction-storage-engines
+description: |
+  MongoDB storage engines
+---
+file: /modules/storage-engines-wired-tiger
+description: |
+  Internals of the WiredTiger storage engine
+...

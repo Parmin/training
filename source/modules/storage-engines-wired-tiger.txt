@@ -196,6 +196,15 @@ WT Cache - Pages
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - There is a picture of a tree on the next page.
+
+WT Cache - Trees
+----------------
+
 .. figure:: /figures/trees-in-cache.png
 
 .. only:: instructor
@@ -216,6 +225,12 @@ WT Cache -- Reconciliation
 - Happens before data can get written to disk
 - Documents in the page may need to be rewritten/inserted/deleted
 - WT may need to split the page, if it grows too large
+
+.. include:: /includes/student-notes.rst
+
+
+WT Cache -- Reconciliation (Continued)
+--------------------------------------
 
 .. figure:: /figures/wt-page-reconciliation.png
 
@@ -256,7 +271,32 @@ Checkpoints and Performance
 
 - Ironically, high write throughput between checkpoints can mean a bigger hit to performance during checkpoints
 
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Very large WT caches means around 100 GB+
+
+Checkpoints - Old and New Pages
+-------------------------------
+
 .. figure:: /figures/checkpoint-free-up-pages.png
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - This is the first of two images on checkpoints.
+    - When you go to the next one, the animation will change slightly
+
+
+Checkpoints - Old and New Pages, Part 2
+---------------------------------------
+
 .. figure:: /figures/checkpoint-free-up-pages-2.png
 
 .. include:: /includes/student-notes.rst
@@ -265,7 +305,7 @@ Checkpoints and Performance
 
   .. note::
 
-    - Very large WT caches means around 100 GB+
+    - This is the second of two images on checkpoints.
 
 
 WT and the Journal
