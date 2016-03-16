@@ -2,7 +2,7 @@
 Lab: Installing and Configuring MongoDB
 =======================================
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this exercise students should understand:
@@ -77,7 +77,7 @@ Install on Windows
 
 - It is helpful to add the location of the MongoDB binaries to your path.
 - To do this, from "System Properties" select "Advanced" then "Environment Variables"
-  
+
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
@@ -95,7 +95,7 @@ Create a Data Directory on Windows
 - Create a data directory with a command such as the following.
 
   .. code-block:: none
-  
+
      md \data\db
 
 .. include:: /includes/student-notes.rst
@@ -157,8 +157,8 @@ The MMAPv1 Data Directory
 - The mongod.lock file
 
   - This prevents multiple mongods from using the same data directory simultaneously.
-  - Each MongoDB database directory has one .lock. 
-  - The lock file contains the process id of the mongod that is using the directory. 
+  - Each MongoDB database directory has one .lock.
+  - The lock file contains the process id of the mongod that is using the directory.
 
 - Data files
 
@@ -175,7 +175,7 @@ The MMAPv1 Data Directory
 
       - sample.0 is 64 MB
       - sample.1 is 128 MB
-      - sample.2 is 256 MB, etc. 
+      - sample.2 is 256 MB, etc.
       - This continues until sample.5, which is 2 GB
       - All subsequent data files are also 2 GB.
 
@@ -209,17 +209,19 @@ Import Exercise Data
 
    unzip sampledata.zip
 
-   cd sampledata 
+   cd sampledata
 
    mongoimport -d sample -c tweets twitter.json
 
    mongoimport -d sample -c zips zips.json
 
-   cd dump 
+   cd dump
 
    mongorestore -d sample training
 
    mongorestore -d sample digg
+
+   mongorestore -d air air
 
 **Note:** If there is an error importing data directly from a USB drive, please copy the sampledata.zip file to your local computer first.
 
@@ -228,7 +230,7 @@ Import Exercise Data
 .. only:: instructor
 
    .. note::
-      
+
       - Import the data provided on the USB drive into the *sample* database.
 
 
@@ -238,7 +240,7 @@ Launch a Mongo Shell
 Open another command shell. Then type the following to start the Mongo shell.
 
 .. code-block:: bash
-  
+
    mongo
 
 Display available commands.
@@ -262,7 +264,7 @@ Display available databases.
 To use a particular database we can type the following.
 
 .. code-block:: bash
- 
+
    use <database_name>
 
    db
@@ -273,9 +275,9 @@ To use a particular database we can type the following.
 
    .. note::
 
-      - This assigns the variable :js:data:`db` to a connection object for the selected database. 
+      - This assigns the variable :js:data:`db` to a connection object for the selected database.
       - We can display the name of the database we are currently using by evaluating :js:data:`db` in the mongo shell.
-      - Highlight the power of the Mongo shell here. 
+      - Highlight the power of the Mongo shell here.
       - It is a fully programmable JavaScript environment.
 
 
@@ -305,18 +307,15 @@ Exploring Collections
 Admin Commands
 --------------
 
-- There are also a number of admin commands at our disposal. 
-- The following will shut down the mongod we are connected to through the Mongo shell. 
+- There are also a number of admin commands at our disposal.
+- The following will shut down the mongod we are connected to through the Mongo shell.
 - You can also just kill with Ctrl-C in the shell window from which you launched the mongod.
 
   .. code-block:: bash
 
      db.adminCommand( { shutdown : 1 } )
 
-- Confirm that the mongod process has indeed stopped. 
-- Once you have, please restart it. 
+- Confirm that the mongod process has indeed stopped.
+- Once you have, please restart it.
 
 .. include:: /includes/student-notes.rst
-
-
-
