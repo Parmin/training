@@ -3,98 +3,207 @@ Lab: Finding Documents
 ======================
 
 
-
-Exercise: Scores < 65
----------------------
-
-In the sample database, how many documents in the scores collection have a score less than 65?
-   
 .. only:: instructor
 
    .. note::
 
-      - 832
-      - db.scores.find( { score: { $lt: 65 } } )
-        
+    The following set of exercises should all be built using C++ statements
+    instead of the traditional javascript shell examples.
 
-.. include:: /includes/student-notes.rst
-
-
-Exercise: Exams and Quizzes
----------------------------
-
-In the sample database, how many documents in the scores collection have the type "exam" or "quiz"?
-   
-.. only:: instructor
-
-   .. note::
-
-      - 2000
-      - db.scores.find({ type: { $in: [ "exam", "quiz" ] } }).count()
-
-.. include:: /includes/student-notes.rst
+    Make use of the code snippets that come with the material.
 
 
-Exercise: Highest Quiz Score 
-----------------------------
+Exercise: Airline Country
+-------------------------
 
-Find the highest quiz score.
+In the air database, how many documents in airlines collection are registered in Spain?
 
 .. only:: instructor
 
    .. note::
 
-      - You can .limit() with .sort()
-      - db.scores.find( { type: "quiz" } ).sort( { score:  -1 } ).limit(1)[0].score
+      - 166
+      .. code-block:: cpp
+
+        void count_spanish_airlines(){
+          // instantiate a connection
+          client conn{mongocxx::uri{}};
+          // instantiate a collection
+          collection coll = conn["air"]["airlines"];
+          // create query filter
+          document filter;
+          filter << "country" << "Spain";
+
+          std::cout << "Spanish Airlines: " << coll.count(filter)<< std::endl;
+        }
 
 .. include:: /includes/student-notes.rst
 
 
-Exercise: View Count > 1000
----------------------------
 
-In the digg.stories collection, write a query to find all stories where the view count is greater than 1000.
-   
-.. only:: instructor
+Exercise: Airline < 10
+----------------------
 
-   .. note::
-
-      - Requires querying into subdocuments
-      - db.stories.find( { "shorturl.view_count": { $gt: 1000 } } )
-
-.. include:: /includes/student-notes.rst
-
-
-Exercise: Television or Videos
-------------------------------
-
-Find all digg stories where the topic name is "Television" or the media type is "videos". Skip the first 5 results and limit the result set to 10.
-
-.. only:: instructor
-
-   .. note::
-
-      .. code-block:: javascript
-
-         db.stories.find( { "$or": [ { "topic.name": "Television" },
-	                             { media: "news" } ] } ).skip(5).limit(10)
-        
-.. include:: /includes/student-notes.rst
-
-
-Exercise: News or Images
-------------------------
-
-Query for all digg stories whose media type is either "news" or "images" and where the topic name is "Comedy". (For extra practice, construct two queries using different sets of operators to do this.)
+In the air.airlines collection, find all airlines that have `airline` id lower than 10
 
 .. only:: instructor
 
    .. note::
 
-      .. code-block:: javascript
+      - Simple query using range operators
 
-         db.stories.find( { media: { $in: [ "news", "images" ] },
-	                    "topic.name": "Comedy" })
-        
+      .. code-block:: cpp
+
+        void lower_than_10(){
+          // instantiate a connection
+          client conn{mongocxx::uri{}};
+          // instantiate a collection
+          collection coll = conn["air"]["airlines"];
+
+          document filter;
+          filter << "airline" << open_document << "$lt" << 10 << close_document;
+
+          cursor c = coll.find(filter.view());
+          std::cout << "Lower than 10" << std::endl;
+          for ( auto&& d : c ){
+            std::cout << bsoncxx::to_json(d) << std::endl;
+          }
+        }
+
+
 .. include:: /includes/student-notes.rst
-      
+
+
+Exercise: German or Italian Airlines
+------------------------------------
+
+Find all airlines that are either German or Italian. Skip the first 5 and limit the results to 10.
+
+.. only:: instructor
+
+   .. note::
+
+      - make use of ``options::find`` for skip and limit
+      - make use of ``$or`` operator
+      - In the c++ implementation also make note on the usage of `b_document` type
+
+      .. code-block:: cpp
+
+        void italian_or_german_skip5_limit10(){
+          // instantiate a connection
+          client conn{mongocxx::uri{}};
+          // instantiate a collection
+          collection coll = conn["air"]["airlines"];
+
+          document filter, german;
+          german << "country" << "Germany";
+
+          bsoncxx::types::b_document g{german.view()};
+
+          filter << "$or" << open_array
+            << g
+            << open_document  << "country" << "Italy" << close_document
+          << close_array;
+
+          options::find opts;
+          opts.skip(5);
+          opts.limit(10);
+
+          cursor c = coll.find(filter.view(), opts);
+          std::cout << "italian_or_german_skip5_limit10" << std::endl;
+          for ( auto&& d : c ){
+            std::cout << bsoncxx::to_json(d) << std::endl;
+          }
+        }
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Route New York -> Barcelona
+-------------------------------------
+
+From the air database, how many routes depart from New York airports (NYC, LGA, EWR) with destination Barcelona (BCN)?
+
+.. only:: instructor
+
+   .. note::
+
+      - doted notation query with ``$in`` operator and array structure
+      - 11
+
+      .. code-block:: cpp
+
+        void routes_NYC_BARCELONA(){
+          // instantiate a connection
+          client conn{mongocxx::uri{}};
+          // instantiate a collection
+          collection coll = conn["air"]["routes"];
+          // create query filter
+          document filter;
+          filter << "src_airport" << open_document
+            << "$in" << open_array
+              << "JFK" << "LGA" << "EWR" << close_array
+            << close_document
+            << "dst_airport" << "BCN";
+          std::cout << "query: "<< bsoncxx::to_json(filter.view()) << std::endl;
+          std::cout << "NYC -> Barcelona: " << coll.count(filter.view())<< std::endl;
+        }
+
+      .. code-block:: bash
+
+        query: {
+          "src_airport" : {
+              "$in" : [
+                  "JFK",
+                  "LGA",
+                  "EWR"
+              ]
+          },
+          "dst_airport" : "BCN"
+        }
+        NYC -> Barcelona: 11
+
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Air France with Destination NYC
+-----------------------------------------
+
+Find all `airplanes` that support the Air France routes with destination NYC.
+
+
+.. only:: instructor
+
+   .. note::
+
+      - make use of doted notation
+      - make use of more than one filter field
+      - make use of projection
+
+      .. code-block:: cpp
+
+        void airfrance_destination_NYC(){
+          // instantiate a connection
+          client conn{mongocxx::uri{}};
+          // instantiate a collection
+          collection coll = conn["air"]["routes"];
+
+          document filter, projection;
+          filter << "airline.name" << "Air France" << "dst_airport" << open_document
+            << "$in" << open_array
+              << "JFK" << "LGA" << "EWR" << close_array
+            << close_document;
+          projection << "airplane" << 1 << "_id" << 0;
+
+          options::find opts;
+          opts.projection(projection.view());
+          std::cout << "query: "<< bsoncxx::to_json(filter.view()) << std::endl;
+          cursor c = coll.find(filter.view(), opts);
+
+          for ( auto&& d : c ){
+            std::cout << bsoncxx::to_json(d) << std::endl;
+          }
+        }
+
+.. include:: /includes/student-notes.rst

@@ -371,7 +371,7 @@ void insert_loop(){
   coll.drop();
   for (int i=1; i<=10000; i++) {
       document b0;
-      b0 << "i" << i;
+      b0 << "a" << i;
       coll.insert_one(b0.view());
   }
 
