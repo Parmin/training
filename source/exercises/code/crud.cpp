@@ -197,18 +197,14 @@ void drop_database(){
   std::cout << "Number of collections: " << count << std::endl;
 }
 
-void insert_many(bool ordered){
-  // instantiate a connection
-  client conn{mongocxx::uri{}};
-  //instantiate a collection
-  collection coll = conn["sample"]["unordered"];
+void insert_many(collection& coll, bool ordered){
   //instantiate vector of document views!
   std::vector<bsoncxx::document::view> docs{};
 
-  auto b0 = document{} << "_id" << 0 << "name" << "Badminton" << finalize;
-  auto b1 = document{} << "_id" << 1 << "name" << "Snooker" << finalize;
-  auto b2 = document{} << "_id" << 0 << "name" << "Karts" << finalize;
-  auto b3 = document{} << "_id" << 2 << "name" << "Javellin throw" << finalize;
+  auto b0 = document{} << "_id" << 0 << "name" << "Badminton" << "indoor" << true << finalize;
+  auto b1 = document{} << "_id" << 1 << "name" << "Snooker" << "indoor" << true << finalize;
+  auto b2 = document{} << "_id" << 0 << "name" << "Karts" << "indoor" << false << finalize;
+  auto b3 = document{} << "_id" << 2 << "name" << "Javellin throw" << "indoor" << true << finalize;
 
   docs.push_back(b0.view());
   docs.push_back(b1.view());
@@ -227,9 +223,175 @@ void insert_many(bool ordered){
 
 
 
+void read_simple(){
+  // instantiate a connection
+  client conn{mongocxx::uri{}};
+  //instantiate a collection
+  collection coll = conn["sample"]["sports"];
+  coll.drop();
+  insert_many(coll, false);
+  // returns all documents in collection
+  auto cursor = coll.find({});
+  for( auto&& d : cursor){
+    std::cout << bsoncxx::to_json(d) << std::endl;
+  }
+  auto query = document{} << "_id" << 0 << finalize;
+  // returns one document that has _id = 0
+  std::cout << "query << \"_id\" << 0;" << std::endl;
+  for ( auto&& d : coll.find(query.view())){
+    std::cout << bsoncxx::to_json(d) << std::endl;
+  }
+
+  auto query2 = document{} << "name" << "Snooker" << "indoor" << true << finalize;
+  std::cout << "query" << bsoncxx::to_json(query2.view()) << std::endl;
+
+  for ( auto&& d : coll.find(query2.view())){
+    std::cout << bsoncxx::to_json(d) << std::endl;
+  }
+
+}
+
+
+void insert_sports(collection &coll){
+  coll.drop();
+  auto b0 = document{} << "name" << "Badminton"
+      << "category" << open_array
+        << "field" << "indoor" << "pairs" << "individual" << close_array
+      << finalize;
+  auto b1 = document{} << "name" << "Javelin throw"
+      << "category" << open_array
+        << "individual" << "track" << "outdoors" << close_array
+      << finalize;
+  auto b2 = document{} << "name" << "Football (not soccer!)"
+      << "category" << open_array
+        << "team" << "field" << "outdoors" << close_array
+      << finalize;
+  std::vector<bsoncxx::document::view> docs{};
+  docs.push_back(b0.view());
+  docs.push_back(b1.view());
+  docs.push_back(b2.view());
+  auto options = options::insert{};
+  options.ordered(true);
+  coll.insert_many(docs, options );
+}
+
+void iterate_cursor(cursor c, std::string name ){
+  std::cout << name << std::endl;
+  for ( auto&& d : c ){
+    std::cout << bsoncxx::to_json(d) << std::endl;
+  }
+}
+
+void find_array(){
+  client conn{mongocxx::uri{}};
+  //instantiate a collection
+  collection coll = conn["sample"]["sports"];
+  insert_sports(coll);
+
+  // Match documents where "category" contains the value specified
+  auto query0 = document{} << "category" << "field" << finalize;
+  // Should return 2 documents
+  iterate_cursor(coll.find(query0.view()), "query0");
+
+
+  // Match documents where "category" equals the value specified
+  auto query1 = document{} << "category" << open_array
+    << "team" << close_array
+  << finalize;
+  // no documents
+  iterate_cursor(coll.find(query1.view()), "query1");
+
+  // only the second document
+  auto query2 = document{} << "category" << open_array
+    << "individual" << "track" << "outdoors" << close_array
+  << finalize;
+  iterate_cursor(coll.find(query2.view()), "query2");
+}
+
+void find_subdocument(collection &coll){
+
+  // find worldcup is {teams : 32}
+  auto query0 = document{} << "worldcup"<< open_document
+      << "teams" << 32
+    << close_document
+  << finalize;
+  iterate_cursor(coll.find(query0.view()), "query0");
+
+
+  auto query1 = document{} << "worldcup.teams" << 32 << finalize;
+  iterate_cursor(coll.find(query1.view()), "query1");
+}
+
+void insert_subdocument(){
+  client conn{mongocxx::uri{}};
+  collection coll = conn["sample"]["sports"];
+  coll.drop();
+  auto b0 = document{} << "name" << "Football (not soccer!)"
+      << "worldcup" << open_document
+        << "host" << "Brazil"
+        << "teams" << 32
+        << "champion" << "Germany"
+      << close_document
+    << finalize;
+  auto b1 = document{} << "name" << "Rugby"
+      << "worldcup" << open_document
+        << "host" << "England"
+        << "teams" << 20
+        << "champion" << "New Zeland"
+      << close_document
+    << finalize;
+  coll.insert_one(b0.view());
+  coll.insert_one(b1.view());
+  find_subdocument(coll);
+}
+
+
+void find_projected(collection &coll){
+  document query;
+  document projection;
+
+  query << "title" << "Forrest Gump";
+  projection <<  "title" << 1 << "imdb_rating" << 1;
+  options::find opts;
+  opts.projection( projection.view());
+  iterate_cursor(coll.find(query.view(), opts), "queryprojected");
+
+}
+
+void find_movies(){
+  client conn{mongocxx::uri{}};
+  collection coll = conn["sample"]["movies"];
+
+  find_projected(coll);
+}
+
+void insert_loop(){
+  client conn{mongocxx::uri{}};
+  collection coll = conn["sample"]["iterate"];
+  coll.drop();
+  for (int i=1; i<=10000; i++) {
+      document b0;
+      b0 << "i" << i;
+      coll.insert_one(b0.view());
+  }
+
+  cursor c = coll.find({});
+
+  for ( auto&& d : c ){
+    std::cout << bsoncxx::to_json(d) << std::endl;
+  }
+}
+
+void find_distinct(){
+  client conn{mongocxx::uri{}};
+  collection coll = conn["sample"]["distinct"];
+  coll.drop();
+}
+
+
 int main(int, char**) {
     try{
-      insert_many(false);
+      insert_loop();
     } catch( const exception &e ) {
       std::cout << "caught " << e.what() << std::endl;
     }

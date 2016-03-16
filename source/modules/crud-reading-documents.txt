@@ -45,19 +45,26 @@ Example: Querying by Example
 
 Experiment with the following sequence of commands.
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-  db.movies.drop()
-  db.movies.insert([ { "title" : "Jaws", "year" : 1975, "imdb_rating" : 8.1 },
-                     { "title" : "Batman", "year" : 1989, "imdb_rating" : 7.6 },
-                   ] )
-  db.movies.find()
+  collection coll = conn["sample"]["sports"];
+  coll.drop();
+  //insert documents
+  std::vector<bsoncxx::document::view> docs{};
+  auto b0 = document{} << "_id" << 0 << "name" << "Badminton" << "indoor" << true << finalize;
+  auto b1 = document{} << "_id" << 1 << "name" << "Snooker" << "indoor" << true << finalize;
+  docs.push_back(b0.view());
+  docs.push_back(b1.view());
+  coll.insert_many(docs);
+  // find all documents in collection - db.sports.find()
+  coll.find({});
+  // find documents that match name = Snooker
+  document query = document{} << "name" << "Snooker";
+  coll.find(query);
 
-  db.movies.find( { "year" : 1975 } )
-
-  // Multiple Batman movies from different years, find the correct one
-  db.movies.find( { "year" : 1989, "title" : "Batman" } )
-
+  // Multiple indoor sports but only one that is called Badminton
+  document query = document{} << "name" << "Snooker" << "indoor" << true;
+  coll.find(query);
 .. include:: /includes/student-notes.rst
 
 
@@ -71,6 +78,12 @@ Experiment with the following sequence of commands.
       - Values for returned documents must match the conditions specified in the query document.
       - If multiple fields are specified, all must be present in each document returned.
       - Think of it as a logical AND for all fields.
+
+      In the C++ driver context we need to explain to students that:
+
+      - we create query documents with the same process as any other document
+      - views, read only objects that document builders produce, are sent has query matching to `find()` method
+      - introduce helper `bsoncxx::to_json(...)` to prettify the output
 
 
 
@@ -94,23 +107,67 @@ Querying Arrays
 Example: Querying Arrays
 ------------------------
 
-.. code-block:: javascript
+Let's assume the following dataset:
 
-  db.movies.drop()
-  db.movies.insert( 
-   [{ "title" : "Batman", "category" : [ "action", "adventure" ] },
-    { "title" : "Godzilla", "category" : [ "action", "adventure", "sci-fi" ] },
-    { "title" : "Home Alone", "category" : [ "family", "comedy" ] }
-   ])
+.. code-block:: cpp
+
+  auto b0 = document{} << "name" << "Badminton"
+      << "category" << open_array
+        << "field" << "indoor" << "pairs" << "individual" << close_array
+      << finalize;
+  auto b1 = document{} << "name" << "Javelin throw"
+      << "category" << open_array
+        << "individual" << "track" << "outdoors" << close_array
+      << finalize;
+  auto b2 = document{} << "name" << "Football (not soccer!)"
+      << "category" << open_array
+        << "team" << "field" << "outdoors" << close_array
+      << finalize;
+  std::vector<bsoncxx::document::view> docs{};
+  docs.push_back(b0.view());
+  docs.push_back(b1.view());
+  docs.push_back(b2.view());
+  auto options = options::insert{};
+  options.ordered(true);
+  coll.insert_many(docs, options );
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Important note here is the usage of ``bsoncxx::builder::stream::open_array``
+    builder helper.
+    There are several different `helpers <http://mongodb.github.io/mongo-cxx-driver/stream_2helpers_8hpp_source.html>`_
+    for the different structural document substructures.
+
+    Make sure your students are aware of these.
+
+
+Example: Querying Arrays
+------------------------
+
+.. code-block:: cpp
 
   // Match documents where "category" contains the value specified
-  db.movies.find( { "category" : "action" } )
+  auto query0 = document{} << "category" << "field" << finalize;
+  // Should return 2 documents
+  auto cur = coll.find(query0.view());
+
 
   // Match documents where "category" equals the value specified
-  db.movies.find( { "category" : [ "action", "sci-fi" ] } )  // no documents
+  auto query1 = document{} << "category" << open_array
+    << "team" << close_array
+  << finalize;
+  // no documents
+  auto cur = coll.find(query1.view());
 
   // only the second document
-  db.movies.find( { "category" : [ "action", "adventure", "sci-fi" ] } )  
+  auto query2 = document{} << "category" << open_array
+    << "individual" << "track" << "outdoors" << close_array
+  << finalize;
+  auto cur = coll.find(query2.view());
 
 .. include:: /includes/student-notes.rst
 
@@ -128,7 +185,7 @@ Querying with Dot Notation
 - Dot notation is used to query on fields in embedded documents.
 - The syntax is:
 
-  .. code-block:: javascript 
+  .. code-block:: javascript
 
      "field1.field2" : value
 
@@ -140,54 +197,104 @@ Querying with Dot Notation
 Example: Querying with Dot Notation
 -----------------------------------
 
-.. code-block:: javascript
+Using the following documents
 
-   db.movies.insert( 
-       [ { 
-             "title" : "Avatar", 
-             "box_office" : { "gross" : 760, 
-                              "budget" : 237,
-                              "opening_weekend" : 77
-                            }
-         },
-         { 
-             "title" : "E.T.", 
-             "box_office" : { "gross" : 349, 
-                              "budget" : 10.5,
-                              "opening_weekend" : 14
-                            }
-          }
-        ] )
+.. code-block:: cpp
 
-   db.movies.find( { "box_office" : { "gross" : 760 } } ) // no values
-
-   // dot notation
-   db.movies.find( { "box_office.gross" : 760 } )  // expected value
+  auto b0 = document{} << "name" << "Football (not soccer!)"
+      << "worldcup" << open_document
+        << "host" << "Brazil"
+        << "teams" << 32
+        << "champion" << "Germany"
+      << close_document
+    << finalize;
+  auto b1 = document{} << "name" << "Rugby"
+      << "worldcup" << open_document
+        << "host" << "England"
+        << "teams" << 20
+        << "champion" << "New Zeland"
+      << close_document
+    << finalize;
+  coll.insert_one(b0.view());
+  coll.insert_one(b1.view());
+  // find worldcup with 40 teams
+  auto query0 = document{} << "worldcup.teams" << 40 << finalize;
+  coll.find(query0.view()) // no values
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    Make sure you ensure that students understand the end result documents by querying the database
+
+    .. code-block:: bash
+
+      mongo sample --eval 'printjson(db.sports.find())'
+
+
+Example: Querying with Dot Notation
+-----------------------------------
+
+.. code-block:: cpp
+
+  // find worldcup is {teams : 32}
+  auto query0 = document{} << "worldcup"<< open_document
+      << "teams" << 32
+    << close_document
+  << finalize;
+  iterate_cursor(coll.find(query0.view()), "query0");
+  // how many values should the above query return ?
+
+   // dot notation
+   auto query1 = document{} << "worldcup.teams" << 32 << finalize;
+   coll.find(query1.view())
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Important to explain the differences between matching query and dot notation!
+
+    You can use the white board to diagram the different object creation and matching of document fields.
 
 Example: Arrays and Dot Notation
 --------------------------------
 
+Using the `mongo` shell we can create the following dataset:
+
 .. code-block:: javascript
 
-   db.movies.insert( [ 
-       { "title" : "E.T.", 
-         "filming_locations" : 
+   db.movies.insert( [
+       { "title" : "E.T.",
+         "filming_locations" :
             [ { "city" : "Culver City", "state" : "CA", "country" : "USA" },
               { "city" : "Los Angeles", "state" : "CA", "country" : "USA" },
               { "city" : "Cresecent City", "state" : "CA", "country" : "USA" }
             ] },
        { "title": "Star Wars",
-         "filming_locations" : 
+         "filming_locations" :
             [ { "city" : "Ajim", "state" : "Jerba", "country" : "Tunisia" },
               { "city" : "Yuma", "state" : "AZ", "country" : "USA" }
             ] } ] )
 
-    db.movies.find( { "filming_locations.country" : "USA" } ) // two documents
-
 .. include:: /includes/student-notes.rst
+
+
+
+Example: Arrays and Dot Notation
+--------------------------------
+
+.. code-block:: cpp
+
+  // db.movies.find( { "filming_locations.country" : "USA" } )
+  auto query = document{} << "filming_locations.country"<< "USA"<< finalize;
+  coll.find(query.view()); // two documents
+
 
 .. only:: instructor
 
@@ -234,35 +341,45 @@ Projection: Example (Setup)
         "opening_weekend" : 24,
         "budget" : 55
       }
-    })    
+    })
 
 .. include:: /includes/student-notes.rst
 
 Projection: Example
 -------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.movies.findOne( { "title" : "Forrest Gump" }, 
-                      { "title" : 1, "imdb_rating" : 1 } )
-   {
-      "_id" : ObjectId("5515942d31117f52a5122353"),
+   document query;
+   document projection;
+   //db.movies.findOne( { "title" : "Forrest Gump" }, { "title" : 1, "imdb_rating" : 1 } )
+   query << "title" << "Forrest Gump";
+   projection <<  "title" << 1 << "imdb_rating" << 1;
+   options::find opts;
+   opts.projection( projection.view());
+   coll.find(query.view(), opts);
+   /*
+     {
+      "_id" : {
+          "$oid" : "56e99cf3d7de9ca24ffc54e6"
+      },
       "title" : "Forrest Gump",
       "imdb_rating" : 8.8
-   }     
+      }
+   */
 
 .. include:: /includes/student-notes.rst
 
 
 Projection Documents
---------------------   
-  
+--------------------
+
 - Include fields with ``fieldName: 1``.
 
   - Any field not named will be excluded
   - except _id, which must be explicitly excluded.
 
-- Exclude fields with ``fieldName: 0``. 
+- Exclude fields with ``fieldName: 0``.
 
   - Any field not named will be included.
 
@@ -274,21 +391,21 @@ Example: Projections
 
 .. code-block:: javascript
 
-   for (i=1; i<=20; i++) { 
-       db.movies.insert( { "_id" : i, "title" : i, 
+   for (i=1; i<=20; i++) {
+       db.movies.insert( { "_id" : i, "title" : i,
                            "imdb_rating" : i, "box_office" : i } )
    }
    db.movies.find()
    // no "box_office"
    db.movies.find( { "_id" : 3 }, { "title" : 1, "imdb_rating" : 1 } )
-   // no "imdb_rating" 
-   db.movies.find( { "_id" : { $gte : 10 } }, { "imdb_rating" : 0 } ) 
+   // no "imdb_rating"
+   db.movies.find( { "_id" : { $gte : 10 } }, { "imdb_rating" : 0 } )
    // just "title"
    db.movies.find( { "_id" : 4 }, { "_id" : 0, "title" : 1 } )
    // just "imdb_rating", "box_office"
-   db.movies.find( { "_id" : 5 }, { _id : 0, "title" : 0 } ) 
+   db.movies.find( { "_id" : 5 }, { _id : 0, "title" : 0 } )
    // Can't mix inclusion/exclusion except _id
-   db.movies.find( { "_id" : 6 }, { "title" : 1, "imdb_rating" : 0 } ) 
+   db.movies.find( { "_id" : 6 }, { "title" : 1, "imdb_rating" : 0 } )
 
 .. only:: instructor
 
@@ -311,28 +428,39 @@ Cursors
 Example: Introducing Cursors
 ----------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.testcol.drop()
-   for (i=1; i<=10000; i++) { 
-       db.testcol.insert( { a : Math.floor( Math.random() * 100 + 1 ),
-                            b : Math.floor( Math.random() * 100 + 1 ) } )
-   }
-   db.testcol.find()  
-    
-   it  
-   it  
+    collection coll = conn["sample"]["iterate"];
+    coll.drop();
+    for (int i=1; i<=10000; i++) {
+        document b0;
+        b0 << "i" << i;
+        coll.insert_one(b0.view());
+    }
+
+    cursor c = coll.find({});
+
+    for ( auto&& d : c ){
+      std::cout << bsoncxx::to_json(d) << std::endl;
+    }
+
 
 .. include:: /includes/student-notes.rst
 
-
 .. only:: instructor
 
-   .. note::
+  .. note::
 
-      - With the ``find()`` above, the shell iterates over the first 20 documents. 
-      - ``it`` causes the shell to iterate over the next 20 documents.
-      - Can continue issuing ``it`` commands until all documents are seen.
+    Important to note that the `cursor` operates over batches of results that the server sends back to the client application.
+
+    The size of cursor can be defined using ``mongocxx::options::find`` options.
+
+    .. code-block:: cpp
+
+      mongocxx::options::find opts;
+      opts.batch_size(30);
+      coll.find({}, opts);
+
 
 
 Example: Cursor Objects in the Mongo Shell
@@ -361,12 +489,17 @@ Example: Cursor Objects in the Mongo Shell
 .. include:: /includes/student-notes.rst
 
 
-Cursor Methods
---------------
+
+Shell Cursor Methods
+--------------------
+
+The `mongo` shell offers some cursor helper methods:
 
 - ``count()``: Returns the number of documents in the result set.
 - ``limit()``: Limits the result set to the number of documents specified.
 - ``skip()``: Skips the number of documents specified.
+
+These are not present in the **c++** cursor object!
 
 .. include:: /includes/student-notes.rst
 
@@ -379,14 +512,21 @@ Example: Using ``count()``
    db.testcol.drop()
    for (i=1; i<=100; i++) { db.testcol.insert( { a : i } ) }
 
-   // all 100 
-   db.testcol.count()   
+   // all 100
+   db.testcol.count()
 
    // just 41 docs
-   db.testcol.count( { a : { $lt : 42 } } )  
+   db.testcol.count( { a : { $lt : 42 } } )
 
    // Another way of writing the same query
-   db.testcol.find( { a : { $lt : 42 } } ).count(  )  
+   db.testcol.find( { a : { $lt : 42 } } ).count(  )
+
+To perform a count in **c++** you should use the following method:
+
+.. code-block:: cpp
+
+  cursor c = coll.find({});
+  std::distance(c.begin(), c.end());
 
 .. include:: /includes/student-notes.rst
 
@@ -407,21 +547,20 @@ Example: Using ``sort()``
 .. code-block:: javascript
 
    db.testcol.drop()
-   for (i=1; i<=20; i++) { 
-       db.testcol.insert( { a : Math.floor( Math.random() * 10 + 1 ), 
-                            b : Math.floor( Math.random() * 10 + 1 ) } ) 
+   for (i=1; i<=20; i++) {
+       db.testcol.insert( { a : Math.floor( Math.random() * 10 + 1 ),
+                            b : Math.floor( Math.random() * 10 + 1 ) } )
    }
-
-   db.testcol.find()                            
+   db.testcol.find()
 
    // sort descending; use 1 for ascending
-   db.testcol.find().sort( { a : -1 } )         
+   db.testcol.find().sort( { a : -1 } )
 
    // sort by b, then a
-   db.testcol.find().sort( { b : 1, a : 1 } )   
+   db.testcol.find().sort( { b : 1, a : 1 } )
 
    // $natural order is just the order on disk.
-   db.testcol.find().sort( { $natural : 1 } )  
+   db.testcol.find().sort( { $natural : 1 } )
 
 .. include:: /includes/student-notes.rst
 
@@ -433,16 +572,58 @@ Example: Using ``sort()``
       - If you never delete any documents or change their size, this will be the same order in which you inserted them.
       - Sorting two or more fields breaks the convention of javascript objects that key / value pairs are unordered.
       - In some drivers you may need to take special care with this.
-      - For example, in Python, you would usually query with a dictionary. 
+      - For example, in Python, you would usually query with a dictionary.
       - But dictionaries are unordered in Python, so you would use an array of tuples instead.
 
+Example: Using ``sort()`` C++
+-----------------------------
+
+To perform ``sort`` operations in **c++** we need to use the following:
+
+.. code-block:: cpp
+
+  mongocxx::options::find opts;
+  // sort a descending
+  auto sortby = document{} << "a" << -1 << finalize;
+
+  // sort a ascending
+  auto sortby = document{} << "a" << 1 << finalize;
+
+  // sort by natural insert order
+  auto sortby = document{} << "$natural" << 1 << finalize;
+
+  opts.sort(sortby.view());
+  coll.find({}, opts);
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    As in any of the following `cursor` methods, these will be achieved by
+    providing our find method the respective ``mongocxx::options::find``.
+
+    The list of options has both cursor operations but also connection and other
+    attributes relevant to perform a query:
+
+    - hint
+    - limit
+    - max_await_time
+    - max_time
+    - batch_size
+    - allow_partial_results
+    - projection
+    - read_preference
+    - skip
+    - ...
 
 The ``skip()`` Method
 ---------------------
 
 - Skips the specified number of documents in the result set.
 - The returned cursor will begin at the first document beyond the number specified.
-- Regardless of the order in which you specify ``skip()`` and ``sort()`` on a cursor, ``sort()`` happens first.
 
 .. include:: /includes/student-notes.rst
 
@@ -452,7 +633,6 @@ The ``limit()`` Method
 
 - Limits the number of documents in a result set to the first ``k``.
 - Specify ``k`` as the argument to ``limit()``
-- Regardless of the order in which you specify ``limit()``, ``skip()``, and ``sort()`` on a cursor, ``sort()`` happens first.
 - Helps reduce resources consumed by queries.
 
 .. include:: /includes/student-notes.rst
@@ -468,12 +648,12 @@ The ``distinct()`` Method
 .. include:: /includes/student-notes.rst
 
 
-Example: Using ``distinct()``
------------------------------
+Example: Using ``distinct()`` shell
+-----------------------------------
 
 .. code-block:: javascript
 
-   db.movie_reviews.drop()    
+   db.movie_reviews.drop()
    db.movie_reviews.insert( [ { "title" : "Jaws", "rating" : 5 },
                               { "title" : "Home Alone", "rating" : 1 },
                               { "title" : "Jaws", "rating" : 7 },
@@ -499,3 +679,27 @@ Example: Using ``distinct()``
 .. include:: /includes/student-notes.rst
 
 
+
+Example: Using ``distinct()`` C++
+---------------------------------
+
+.. code-block:: cpp
+
+  collection coll = conn["sample"]["movie_reviews"];
+  cursor c = coll.distinct("name", {})
+  for ( auto&& d : c ){
+    std::cout << bsoncxx::to_json(d) << std::endl;
+  }
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    A variation between `mongo` shell and **c++** driver is the fact that this
+    method return a cursor in the case of the driver while the shell method
+    returns a javascript array.
+
+    Although this is the case, the actual command sent to the server always
+    returns a cursor.
