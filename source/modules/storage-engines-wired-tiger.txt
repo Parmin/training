@@ -88,7 +88,7 @@ Writes in WT
 
   - The new version of the document is first prepared 
   
-    - this takes a little time
+    - This takes a little time
 
   - In a single CPU cycle, the write gets committed
 
@@ -99,16 +99,31 @@ Writes in WT
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note:: 
+
+    - by "a little time", the exact time depends on:
+
+      - Size of the document
+      - Free CPU resources
+      - % of cache that is dirty
+      - etc.
+      - The important thing is that the time it takes may vary, but its commit is essentially instantaneous
+
 
 Introduction to the WiredTiger Cache
 ------------------------------------
 
-- The WT cache is separate from the filesystem cache (though their sum is limited by the available RAM)
-- Greater of either 1 GB, or 60% of RAM minus 1 GB
-- Data is written to, and read from, the WT cache
-- The filesystem cache is used to transfer data between the WT cache and disk
+- The WT cache is separate from the filesystem cache 
 
-  - So you still need the filesystem cache for good performance!
+  - The sum is limited by the available RAM
+
+- Greater of either 1 GB, or 60% of RAM minus 1 GB
+- MongoDB writes to, and reads from, the WT cache
+- The filesystem cache transfers data to and from WT to disk
+
+  - The FS cache *can* be an I/O bottleneck
 
 .. include:: /includes/student-notes.rst
 
@@ -118,24 +133,51 @@ Introduction to the WiredTiger Cache
 
     - In 3.0, WT cache size was the greater of 50% of RAM or 2 GB
     - WT cache size is tunable
+    - FS cache will have to thrash a lot when reading/writing if it's too small
+
+      - There's a reason why the default FS cache is about as big as the WT cache.
 
 
-WT Data Structures - Collections
---------------------------------
+WT Data Structures - Pages
+--------------------------
 
-- Pages of documents are kept in b+tree structures, one tree per collection
+- Pages of documents for a collection are kept in b+tree structures 
 
-  - Root page points to internal pages. Internal pages either point to other internal pages, or to leaf pages.
-  - Leaf pages contain the data (MongoDB documents)
+  - One tree per collection
+  - Many pages per tree
+
+- Root page points to internal pages.
+- Internal pages either point to other internal pages, or to leaf pages.
+- Leaf pages contain the data (i.e., documents)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - This isn't quite a simple b+tree:
+    - All data is in the leaf nodes (like a b+tree)
+
+      - But the node contains a bunch of unordered data, plus some metadata
+
+        - But it contains a little index to get to that data
+
+
+WT Data Structures - Pages (Continued)
+--------------------------------------
 
 - Pages are ordered and grouped by recordId
+- RecordId is an internal identifier, *not* the _id!
 
-  - It's an internal itentifier, NOT the _id!
+    - recordId is for the MongoDB Storage Engine API 
 
-    - recordId is for the MongoDB Storage Engine API (used by WiredTiger and MMAPv1)
+      - used by WiredTiger and MMAPv1
+
     - _id is a MongoDB value
 
-  - In MMAPv1, it was an offset; in WT, it's just a unique identifier
+  - In MMAPv1, it was a file offset (and could change)
+  - In WT, it's just a unique identifier (and is immutable)
 
 .. include:: /includes/student-notes.rst
 
@@ -144,20 +186,12 @@ WT Data Structures - Collections
   .. note:: 
 
     - `cursor.showRecordId()` will display the recordId in documents
-    - For MMAPv1, recordId points to a data file offset
-    - This isn't quite a simple b+tree:
-
-      - All data is in the leaf nodes (like a b+tree)
-
-        - But the node contains a bunch of unordered data, plus some metadata
-
-          - But it contains a little index to get to that data
 
 
 WT Data on Disk
 ---------------
 
-- Data is organized into pages, just like it is in the cache
+- Data is organized into pages, just like in the cache
 
   - Root, internal, and leaf pages
 
@@ -166,8 +200,8 @@ WT Data on Disk
   - A tiny header
   - An unordered series of key: value pairs
 
-- Each page may be compressed (determined when mongod is launched)
-- Each page may be encrypted (determined when mongod is launched)
+- Each page may be compressed
+- Each page may be encrypted
 
 .. include:: /includes/student-notes.rst
 
@@ -179,6 +213,7 @@ WT Data on Disk
 
       - The cache is simpler
 
+    - Compression / encryption is determined when the mongod is launched
     - Encryption at rest is only for MongoDB Enterprise
     
       - Sometimes called the "Encrypted Storage Engine," but it's not a new storage engine, it's just WT with additional functionality
@@ -189,8 +224,11 @@ WT Cache - Pages
 
 - 3 parts:
 
-  - Decompressed copy of the on-disk page (read only)
-  - A small index to find the keys on the page (built when the page is read from disk)
+  - Copy of the on-disk page (read only)
+  - A small index to find the keys on the page 
+  
+    - Built when the page is read from disk
+
   - A skip list for writes (this can grow quite large)
 
 - Writes do not cause pages to split (yet)
@@ -202,6 +240,9 @@ WT Cache - Pages
   .. note::
 
     - There is a picture of a tree on the next page.
+    - The on-disk page is decompressed (if compression is used)
+    
+      - and unencrypted (if encryption is used)
 
 WT Cache - Trees
 ----------------
