@@ -77,7 +77,7 @@ CRUD (2 hours)
 
 .. |crud_query| raw:: html
 
-   <a href="crud-reading-documents.html">Query Operators</a>
+   <a href="crud-query-operators.html">Query Operators</a>
 
 .. |crud_lab_find| raw:: html
 

@@ -36,23 +36,23 @@ Example: Comparison Operators (Setup)
 .. code-block:: javascript
 
   // insert sample data
-  db.movies.insert( [ 
-    { 
-      "title" : "Batman", 
-      "category" : [ "action", "adventure" ], 
-      "imdb_rating" : 7.6, 
-      "budget" : 35 
+  db.movies.insert( [
+    {
+      "title" : "Batman",
+      "category" : [ "action", "adventure" ],
+      "imdb_rating" : 7.6,
+      "budget" : 35
     },
-    { 
-      "title" : "Godzilla", 
-      "category" : [ "action", 
-      "adventure", "sci-fi" ], 
-      "imdb_rating" : 6.6 
+    {
+      "title" : "Godzilla",
+      "category" : [ "action",
+      "adventure", "sci-fi" ],
+      "imdb_rating" : 6.6
     },
-    { 
-      "title" : "Home Alone", 
-      "category" : [ "family", "comedy" ], 
-      "imdb_rating" : 7.4 
+    {
+      "title" : "Home Alone",
+      "category" : [ "family", "comedy" ],
+      "imdb_rating" : 7.4
     }
   ] )
 
@@ -62,17 +62,26 @@ Example: Comparison Operators (Setup)
 Example: Comparison Operators
 ------------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-  db.movies.find()
+  // db.movies.find()
+  coll.find( {} );
 
-  db.movies.find( { "imdb_rating" : { $gte : 7 } } )         
+  // db.movies.find( { "imdb_rating" : { $gte : 7 } } )
+  query << "imdb_rating" << open_document << "$gte" << 7 << close_document;
 
-  db.movies.find( { "category" : { $ne : "family" } } )          
+  // db.movies.find( { "category" : { $ne : "family" } } )
+  query << "category" << open_document << "$ne" << "family" << close_document;
 
-  db.movies.find( { "title" : { $in : [ "Batman", "Godzilla" ] } } )   
+  // db.movies.find( { "title" : { $in : [ "Batman", "Godzilla" ] } } )
+  query << "title" << open_document << "$in"
+    << open_array << "Batman" << "Godzilla" << close_array<< close_document;
 
-  db.movies.find( { "title" : { $nin : [ "Batman", "Godzilla" ] } } )  
+  // db.movies.find( { "title" : { $nin : [ "Batman", "Godzilla" ] } } )
+  query << "title" << open_document << "$nin"
+    << open_array << "Batman" << "Godzilla" << close_array<< close_document;
+
+  coll.find( query.view() );
 
 .. include:: /includes/student-notes.rst
 
@@ -83,7 +92,7 @@ Logical Query Operators
 - ``$or``: Match either of two or more values
 - ``$not``: Used with other operators
 - ``$nor``: Match neither of two or more values
-- ``$and``: Match both of two or more values 
+- ``$and``: Match both of two or more values
 
   - This is the default behavior for queries specifying more than one condition.
   - Use ``$and`` if you need to include the same operator more than once in a query.
@@ -94,20 +103,67 @@ Logical Query Operators
 Example: Logical Operators
 ---------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.movies.find( { $or : [ 
-      { "category" : "sci-fi" }, { "imdb_rating" : { $gte : 7 } } 
-    ] } )      
+   /* db.movies.find( { $or : [
+   { "category" : "sci-fi" }, { "imdb_rating" : { $gte : 7 } }] } )
+   */
+   query << "$or"
+     << open_array
+       << open_document << "category" << "sci-fi" << close_document
+       << open_document << "imdb_rating"
+         << open_document << "$gte" << 7 << close_document
+       << close_document
+     << close_array;
 
-   // more complex $or, really good sci-fi movie or medicore family movie
-   db.movies.find( { $or : [ 
-      { "category" : "sci-fi", "imdb_rating" : { $gte : 8 } }, 
-      { "category" : "family", "imdb_rating" : { $gte : 7 } } 
-    ] } )
+.. include:: /includes/student-notes.rst
+
+
+Example: Logical Operators
+---------------------------
+
+.. code-block:: cpp
+
+  // more complex $or, really good sci-fi movie or medicore family movie
+  /* db.movies.find( { $or : [
+      { "category" : "sci-fi", "imdb_rating" : { $gte : 8 } },
+      { "category" : "family", "imdb_rating" : { $gte : 7 } }] } )
+  */
+  document category_scifi, category_family;
+  category_scifi << "category" << "sci-fi"
+    << "imdb_rating" << open_document  << "$gte" << 8 << close_document;
+  category_family << "category" << "sci-fi"
+    << "imdb_rating" << open_document  << "$gte" << 7 << close_document;
+
+  b_document or1{category_scifi.view()};
+  b_document or2{category_family.view()};
+
+  query << "$or"
+    << open_array
+      << or1 << or2
+    << close_array;
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    In this example we should highlight the composability of documents using
+    ``bsoncxx::types::b_document``.
+
+
+Example: Logical Operators
+---------------------------
+
+.. code-block:: cpp
 
    // find bad movies
-   db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )          
+   //db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )
+   query << "imdb_rating"
+     << open_document << "$not"
+       << open_document << "$gt" << 7 << close_document
+     << close_document;
 
 .. include:: /includes/student-notes.rst
 
@@ -115,29 +171,8 @@ Example: Logical Operators
 
    .. note::
 
-      - ``db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )`` also returns everything that doesnt have an "imdb_rating"
-
-
-Example: Logical Operators 
----------------------------
-
-.. code-block:: javascript
-
-   // find movies within an imdb_rating range
-   db.movies.find( { "imdb_rating" : { $gt : 5 , $lte : 7 } } )  // and is implicit
-
-   // queries can be nested, why are there no results?
-   db.movies.find( { $and : [ 
-      { $or : [ 
-        { "category" : "sci-fi", "imdb_rating" : { $gte : 8 } }, 
-        { "category" : "family", "imdb_rating" : { $gte : 7 } } 
-      ] } , 
-      { $or : [ 
-        { "category" : "action", "imdb_rating" : { $gte : 6 } } 
-      ] } 
-    ] } )
-
-.. include:: /includes/student-notes.rst
+      - ``{ "imdb_rating" : { $not : { $gt : 7 } } }`` also returns everything
+      that doesn't have an "imdb_rating"
 
 
 
@@ -154,20 +189,34 @@ Element Query Operators
 Example: Element Operators
 ---------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.movies.find( { "budget" : { $exists : true } } )   
+   using namespace builder::basic;
+   //db.movies.find( { "budget" : { $exists : true } } )
+   builder::basic::document query;
+   query.append(kvp("budget", [](sub_document sd) {
+                 sd.append(kvp("$exists", true));}));
 
    // type 1 is Double
-   db.movies.find( { "budget" : { $type : 1 } } )        
+   //db.movies.find( { "budget" : { $type : 1 } } )
+   builder::basic::document query;
+   query.append(kvp("budget", [](sub_document sd) {
+                 sd.append(kvp("$type", 1));}));
 
    // type 3 is Object (embedded document)
-   db.movies.find( { "budget" : { $type : 3 } } )        
+   //db.movies.find( { "budget" : { $type : 3 } } )
+   builder::basic::document query;
+   query.append(kvp("budget", [](sub_document sd) {
+                 sd.append(kvp("$type", 3));}));
 
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
 
+  .. note::
+
+    - In this example we are using ``builder::basic`` to build the query documents
 
 Array Query Operators
 ---------------------
@@ -182,11 +231,18 @@ Array Query Operators
 Example: Array Operators
 -------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.movies.find( { "category" : { $all : [ "sci-fi", "action" ] } } )  
+   //db.movies.find( { "category" : { $all : [ "sci-fi", "action" ] } } )
+   builder::basic::document query;
+   query.append(kvp("category", [](sub_document sd) {
+                 sd.append(kvp("$all",[](sub_array sa) {
+                   sa.append("sci-fi", "action"); }));}
+               ));
 
-   db.movies.find( { "category" : { $size : 3 } } )  
+   //db.movies.find( { "category" : { $size : 3 } } )
+   query.append(kvp("category", [](sub_document sd) {
+                 sd.append(kvp("$size", 3));}));
 
 .. include :: /includes/student-notes.rst
 
@@ -196,27 +252,27 @@ Example: $elemMatch
 
 .. code-block:: javascript
 
-  db.movies.insert( { 
+  db.movies.insert( {
       "title" : "Raiders of the Lost Ark",
-      "filming_locations" : [ 
+      "filming_locations" : [
         { "city" : "Los Angeles", "state" : "CA", "country" : "USA" },
         { "city" : "Rome", "state" : "Lazio", "country" : "Italy" },
         { "city" : "Florence", "state" : "SC", "country" : "USA" }
       ] } )
 
   // This query is incorrect, it won't return what we want
-  db.movies.find( { 
-      "filming_locations.city" : "Florence", 
-      "filming_locations.country" : "Italy" 
+  db.movies.find( {
+      "filming_locations.city" : "Florence",
+      "filming_locations.country" : "Italy"
     } )
 
   // $elemMatch is needed, now there are no results, this is expected
-  db.movies.find( { 
-      "filming_locations" : { 
-        $elemMatch : { 
-          "city" : "Florence", 
+  db.movies.find( {
+      "filming_locations" : {
+        $elemMatch : {
+          "city" : "Florence",
           "country" : "Italy"
-         } } } )  
+         } } } )
 
 .. include:: /includes/student-notes.rst
 
@@ -225,13 +281,7 @@ Example: $elemMatch
    .. note::
 
       - Comparing the last two queries demonstrates ``$elemMatch``.
-      
+
 .. raw:: latex
 
    \newpage
-
-
-
-
-
-

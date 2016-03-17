@@ -1,0 +1,20 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.box_check_update = false
+  config.vm.synced_folder "shared/", "/vagrant", create: true
+  config.vm.define "mongodb-training-cpp" do |server|
+    server.vm.provider "virtualbox" do |vb|
+       vb.gui = true
+	     vb.customize ["modifyvm", :id, "--cpus", "2"]
+       vb.name = "mongodb-training-cpp"
+       vb.memory = 3072
+    end
+    server.vm.hostname = "cpp.mongodb.course"
+    server.vm.network :private_network, ip: "192.168.14.101"
+    server.vm.provision :shell, path: "provision-mongod", args: ENV['ARGS']
+  end
+
+end
