@@ -3,20 +3,82 @@ Lab: Updating Documents
 =======================
 
 
-Exercise: Letter Grades
------------------------
+Exercise: Set Points
+--------------------
 
-- Using the ``sample.scores`` namespace, set the proper "grade" attributes.
-- For example, users with scores greater than 90 get an "A".
-- Set the grade to "B" for scores falling between 80 and 90 and so on for grades "C", "D", and "F".
+- Using the ``air.airlines`` namespace, set a "points" attribute to airlines.
+- For example, airlines "Emirates" and "Qatar Airways" should have `90`.
+- Set `points` to `75` for airlines "Iberia Airlines" and "Air France".
+- All the remaining should get `50` points
 
 .. only:: instructor
 
    .. note::
 
-      - ``db.scores.update( { score: { $gte: 90 } }, { $set: { grade: "A" } }, { multi: true } )``
-      - and so on for ``{ score: { $gte: 80, $lt: 90 } }`` etc.
-      - In the shell you could write a JS script with a loop. In SQL you could do it in one statement, note the difference.
+      - make use of ``$set`` operator of new field
+      - make sure you highlight the last statement *All the remaining should get grade 50*
+
+        - students might be lead to believe that they just need to update all
+        - make use of ``$exists : false`` operator
+
+      - first should update 2 and match 2
+      - second should update 2 and match 2
+      - third should update 6044 and update 6044
+
+      .. code-block:: cpp
+
+        void update_airlines(document &filter, document &update){
+
+          client conn{mongocxx::uri{}};
+          // instantiate a collection
+          collection coll = conn["air"]["airlines"];
+
+          auto res = coll.update_many(filter.view(), update.view());
+          std::cout << "result" << std::endl
+          << " modif "<< res->modified_count() << std::endl
+          << " matched "<< res->matched_count() << std::endl;
+        }
+
+        void update_90(){
+
+          document filter, update;
+          filter << "name" << open_document
+            << "$in" << open_array
+              << "Emirates" << "Qatar Airways" << close_array
+            << close_document;
+
+          update << "$set" << open_document
+            << "points" << 90 << close_document;
+
+          update_airlines(filter, update);
+        }
+
+        void update_75(){
+          document filter, update;
+
+          filter << "$or" << open_array
+              << open_document << "name"<< "Iberia Airlines" << close_document
+              << open_document << "name"<<  "Air France" << close_document
+            << close_array;
+
+          update << "$set" << open_document
+            << "points" << 75 << close_document;
+
+          update_airlines(filter, update);
+        }
+
+        void update_50(){
+          document update, filter;
+          filter << "points" << open_document
+            << "$exists" << false
+
+          << close_document;
+          update << "$set" << open_document
+            << "points" << 50 << close_document;
+
+          update_airlines(filter, update);
+        }
+
 
 
 .. include:: /includes/student-notes.rst
@@ -25,17 +87,26 @@ Exercise: Letter Grades
 Exercise: 10 Extra-Credit Points
 --------------------------------
 
-- You’re being nice, so you decide to add 10 points to every score on every exam where the score is lower than 60.
+- You’re being nice, so you decide to add `10` points to every airline that is based out of `Portugal`.
 - How do you do this update?
-   
+
 .. only:: instructor
 
    .. note::
 
-      .. code-block:: javascript
+      - should update `45` documents
+      - make use of ``$inc`` operator
 
-         db.scores.update( { name : "exam", score : { $lt : 60 } },
-                           { $inc : { score : 10 } }, { multi: true } )
+      .. code-block:: cpp
+
+        void inc_portuguese(){
+          document update, filter;
+          filter << "country" << "Portugal";
+          update << "$inc" << open_document
+            << "points" << 10 << close_document;
+
+          update_airlines(filter, update);
+        }
 
 .. include:: /includes/student-notes.rst
 
@@ -43,23 +114,57 @@ Exercise: 10 Extra-Credit Points
 Exercise: Updating Array Elements
 ---------------------------------
 
-Insert a document representing product metrics for a backpack:   
+Insert a document representing flight bookings metrics for a route:
 
 .. code-block:: javascript
 
-   db.product_metrics.insert( 
-      { name: "backpack", 
-        purchasesPast7Days: [ 0, 0, 0, 0, 0, 0, 0] })
+   db.bookings.insert(
+      { dst_airport: "JFK", src_airport: "LHR",
+        bookingPast7Days: [ 0, 0, 0, 0, 0, 0, 0] })
 
-Each 0 within the "purchasesPast7Days" field corresponds to a day of the week. The first element is Monday, the second element is Tuesday, etc.).  
+Each 0 within the "purchasesPast7Days" field corresponds to a day of the week. The first element is Monday, the second element is Tuesday, etc.).
 
-Write an update statement to increment the number of backpacks sold on Friday by 200.
+Write an update statement to increment the number of bookings on Friday by 200.
 
 .. only:: instructor
 
    .. note::
 
       - Talk about how this can be used for time series data, real-time graphs/charts
-      - ``db.product_metrics.update( { "name" : "backpack" }, { $inc : { "purchases_past_7_days.4" : 200 } } )``
 
+      .. code-block:: cpp
+
+        void update_bookings(){
+          client conn{mongocxx::uri{}};
+          // instantiate a collection
+          collection coll = conn["air"]["bookings"];
+
+          document update, filter;
+          filter << "dst_airport" << "JFK" << "src_airport" << "LHR";
+          update << "$inc" << open_document
+            << "bookingPast7Days.4" << 200 << close_document;
+
+          coll.update_one(filter.view(), update.view());
+        }
+
+
+      .. code-block:: bash
+
+        mongo air --eval 'db.bookings.findOne()'                                                                                                                          [20:50:10]
+        MongoDB shell version: 3.2.0-rc3-304-g07b2e02
+        connecting to: air
+        {
+            "_id" : ObjectId("56e9ff2e45a36c51ebf12425"),
+            "dst_airport" : "JFK",
+            "src_airport" : "LHR",
+            "bookingPast7Days" : [
+                    0,
+                    0,
+                    0,
+                    0,
+                    200,
+                    0,
+                    0
+            ]
+        }
 .. include:: /includes/student-notes.rst
