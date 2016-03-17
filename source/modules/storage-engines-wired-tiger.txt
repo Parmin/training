@@ -9,22 +9,22 @@ Learning Objectives
 Upon completing this module, students should understand:
 
 - The basic features of WiredTiger
-- How the WiredTiger cache works
-- How WiredTiger uses checkpoints and the journal to write to disk
-- The basics of WiredTiger's compression and encryption
-- How WiredTiger implements indexes
+- How the WT cache works
+- How WT uses checkpoints and the journal to write to disk
+- The basics of WT's compression and encryption
+- How WT implements indexes
 
 
 What is WiredTiger?
 -------------------
 
-- A high performance, open source storage engine
+- An open source, high performance storage engine
 - From the team that created BerkeleyDB
-- Built to minimize contention between threads/processes (i.e., no blocking)
-- Designed to minimize disk I/O and fully utilize CPU resources
+- Built to minimize contention between threads/processes
+- Designed to minimize disk I/O, fully utilize CPU resources
 - Introduced as a MongoDB storage engine in 3.0
 
-  - Replaced MMAPv1 to become the default storage engine in MongoDB 3.2
+  - Became the default in MongoDB 3.2
 
 .. include:: /includes/student-notes.rst
 
@@ -34,19 +34,14 @@ Features of WiredTiger
 
 - Multi-Version Concurrency Controls (MVCC)
 
-  - Keep old versions of data while creating new ones
-   
-    - Copy on write is a frequently used pattern
+  - Keeps old versions of data while creating new ones
+  - No locks; read/write threads see data as it existed when the thread started
 
-  - No need for locks; just make sure threads only see versions that were current when the thread started
+- Different representations of data on-disk vs. in-memory
 
-- Different representations of in-memory data vs. on-disk
+  - On-disk compression (and encryption with Enterprise)
 
-  - On-disk compression and, with Enterprise, encryption
-
-- Indexes are implemented in the same data structures as documents
-
-  - WiredTiger hardly knows the difference
+- Indexes implemented just like collections
 
 .. include:: /includes/student-notes.rst
 
@@ -54,23 +49,26 @@ Features of WiredTiger
 
   .. note::
 
-    - Indexes have an advantage because:
+    - Indexes really are *almost* just like collections.
+    - Minor differences:
 
-      - They are smaller than full documents
-      - They benefit from prefix compression (we'll see more in a few minutes)
+      - They benefit from prefix compression (we'll see more in a few slides)
+      - Just index key and an ObjectId; not the full BSON document
+
+        - So they're smaller
       
 
 Concurrency in WT
 -----------------
 
-- Updates don't happen in-place. Instead, a new copy is made.
+- Updates don't happen in-place; a new copy is made
 
-  - Both of those copies remain available as long as necessary.
+  - Old copies remain as long as necessary
 
-- Threads that are reading will see the version that was committed before the read started.
-- Writes that conflict will both make progress, but one of them will "win"
+- Reads/writes see only data commited before they begin
+- If writes conflict, only one will "win"
 
-  - The "losing" thread will have to start over, will not be able to commit
+  - The "losing" thread will start over, but cannot commit
 
 .. include:: /includes/student-notes.rst
 
@@ -88,11 +86,14 @@ Writes in WT
 
 - When writes happen: 
 
-  - The new version of the document is first prepared (this takes a little time)
-  - Then, in a single CPU operation, the write gets committed
+  - The new version of the document is first prepared 
+  
+    - this takes a little time
 
-- Even if two documents are adjacent, getting updated simultaneously, commits won't conflict
-- Conflicting writes (i.e., same document at the same time) will result in only one of those writes happening
+  - In a single CPU cycle, the write gets committed
+
+- Even two adjacent documents, getting updated simultaneously, won't conflict
+- If writes conflict (i.e., same document, same time), only one write succeeds
 
   - The other write will will be retried with back-off
 
