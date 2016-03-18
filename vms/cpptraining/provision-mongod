@@ -86,9 +86,9 @@ function configure_desktop(){
 }
 
 function install_ide(){
-	sudo add-apt-repository ppa:pasgui
+	sudo add-apt-repository ppa:pasgui -y
 	sudo apt-get update
-	sudo apt-get install codeblocks
+	sudo apt-get install codeblocks -y
 }
 
 config
@@ -97,4 +97,5 @@ install_mongod
 install_mongocpp_dependencies
 install_mongocpp
 configure_desktop
+install_ide
 echo "DONE"

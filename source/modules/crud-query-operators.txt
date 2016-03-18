@@ -250,6 +250,8 @@ Example: Array Operators
 Example: $elemMatch
 --------------------
 
+Let's assume we have the following document:
+
 .. code-block:: javascript
 
   db.movies.insert( {
@@ -260,19 +262,31 @@ Example: $elemMatch
         { "city" : "Florence", "state" : "SC", "country" : "USA" }
       ] } )
 
+.. include:: /includes/student-notes.rst
+
+Example: $elemMatch
+--------------------
+
+If we want to find a movie that was shoot in the city of Florence, country Italy
+
+.. code-block:: cpp
+
+  document query;
+  //db.movies.find( {"filming_locations.city" : "Florence","filming_locations.country" : "Italy"} )
+  query << "filming_locations.city" << "Florence"
+  << "filming_locations.country" << "Italy";
   // This query is incorrect, it won't return what we want
-  db.movies.find( {
-      "filming_locations.city" : "Florence",
-      "filming_locations.country" : "Italy"
-    } )
+
 
   // $elemMatch is needed, now there are no results, this is expected
-  db.movies.find( {
-      "filming_locations" : {
-        $elemMatch : {
-          "city" : "Florence",
-          "country" : "Italy"
-         } } } )
+  //db.movies.find( { "filming_locations" : { $elemMatch : { "city" : "Florence", "country" : "Italy"} } } )
+  query << "filming_locations"
+  << open_document << "$elemMatch"
+    << open_document
+      << "city" << "Florence" << "country" << "Italy"
+    << close_document
+  << close_document
+
 
 .. include:: /includes/student-notes.rst
 

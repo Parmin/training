@@ -207,3 +207,7 @@ Find all `airplanes` that support the Air France routes with destination NYC.
         }
 
 .. include:: /includes/student-notes.rst
+
+.. raw:: latex
+
+   \newpage
