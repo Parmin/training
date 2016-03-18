@@ -38,11 +38,13 @@ The ``update()`` Method
 Parameters to ``update()``
 --------------------------
 
-- Keep the following in mind regarding the required parameters for ``update()``
+- Keep the following in mind regarding the required parameters for ``update``
 - The query parameter:
 
   - Use the same syntax as with ``find()``.
-  - By default only the first document found is updated.
+
+    - To update only one matching query we use ``update_one``
+    - To update all members matching query ``update_many``
 
 - The update parameter:
 
@@ -69,23 +71,23 @@ Example: ``$set`` and ``$unset`` (Setup)
 
 .. code-block:: javascript
 
-  db.movies.insert( [ 
-    { 
-      "title" : "Batman", 
-      "category" : [ "action", "adventure" ], 
-      "imdb_rating" : 7.6, 
-      "budget" : 35 
+  db.movies.insert( [
+    {
+      "title" : "Batman",
+      "category" : [ "action", "adventure" ],
+      "imdb_rating" : 7.6,
+      "budget" : 35
     },
-    { 
-      "title" : "Godzilla", 
-      "category" : [ "action", 
-      "adventure", "sci-fi" ], 
-      "imdb_rating" : 6.6 
+    {
+      "title" : "Godzilla",
+      "category" : [ "action",
+      "adventure", "sci-fi" ],
+      "imdb_rating" : 6.6
     },
-    { 
-      "title" : "Home Alone", 
-      "category" : [ "family", "comedy" ], 
-      "imdb_rating" : 7.4 
+    {
+      "title" : "Home Alone",
+      "category" : [ "family", "comedy" ],
+      "imdb_rating" : 7.4
     }
   ] )
 
@@ -94,19 +96,41 @@ Example: ``$set`` and ``$unset`` (Setup)
 Example: ``$set`` and ``$unset``
 --------------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.movies.update( { "title" : "Batman" }, { $set : { "imdb_rating" : 7.7 } } )  
+   document criteria, update;
+   //db.movies.update( { "title" : "Batman" }, { $set : { "imdb_rating" : 7.7 } } )
+   criteria << "title" << "Batman";
+   update << "$set" << open_document << "imdb_rating" << 7.7 << close_document;
 
-   db.movies.update( { "title" : "Godzilla" }, { $set : { "budget" : 1 } } ) 
+   //db.movies.update( { "title" : "Godzilla" }, { $set : { "budget" : 1 } } )
+   criteria << "title" << "Godzilla";
+   update << "$set" << open_document << "budget" << 1 << close_document;
 
-   db.movies.update( { "title" : "Home Alone" }, 
-                     { $set : { "budget" : 15, "imdb_rating" : 5.5 } } )
+   //db.movies.update( { "title" : "Home Alone" }, { $set : { "budget" : 15, "imdb_rating" : 5.5 } } )
+   criteria << "title" << "Godzilla";
+   update << "$set" << open_document
+    << "budget" << 15 << "imdb_rating" << 5.5
+   << close_document;
 
-   // how will this query behave?
-   db.movies.update( { "title" : "Batman" }, { "imdb_rating" : 7.7 } )
+   //db.movies.update( { "title" : "Home Alone" }, { $unset :  { "budget" : 1 } } )
+   criteria << "title" << "Home Alone";
+   update << "$unset" << open_document << "budget" << 1 << close_document;
+   coll.update_one(criteria.view(), update.view());
 
-   db.movies.update( { "title" : "Home Alone" }, { $unset :  { "budget" : 1 } } )
+.. include:: /includes/student-notes.rst
+
+Example: ``$set`` and ``$unset``
+--------------------------------
+
+How will this query behave?
+
+.. code-block:: cpp
+
+   //db.movies.update( { "title" : "Batman" }, { "imdb_rating" : 7.7 } )
+   criteria << "title" << "Batman";
+   update << "imdb_rating" << 7.7 ;
+
 
 .. include:: /includes/student-notes.rst
 
@@ -121,19 +145,27 @@ Example: ``$set`` and ``$unset``
 Example: Update Array Elements by Index
 ---------------------------------------
 
+Mongo shell
+
 .. code-block:: javascript
 
    // add a sample document to track mentions per hour
-   db.movie_mentions.insert( { "title" : "E.T.", 
-                               "day" : ISODate("2015-03-27T00:00:00.000Z"), 
+   db.movie_mentions.insert( { "title" : "E.T.",
+                               "day" : ISODate("2015-03-27T00:00:00.000Z"),
                                "mentions_per_hour" : [ 0, 0, 0, 0, 0, 0, 0,
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                 0, 0 ] 
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                 0, 0 ]
                               } )
 
+C++ instruction
+
+.. code-block:: cpp
+
    // update all mentions for the fifth hour of the day
-   db.movie_mentions.update( { "title" : "E.T." } , 
-                             { $set :  { "mentions_per_hour.5" : 2300 } } )                               
+   //db.movie_mentions.update( { "title" : "E.T." } ,{ $set :  { "mentions_per_hour.5" : 2300 } } )
+   criteria << "title" << "E.T.";
+   update << "$set"
+   << open_document << "mentions_per_hour.5" << 2300 << close_document;
 
 .. include:: /includes/student-notes.rst
 
@@ -164,47 +196,57 @@ Update Operators
 Example: Update Operators
 -------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.movies.update( { "title" : "Batman" }, { $inc : { "imdb_rating" : 2 } } )        
+   criteria << "title" << "Batman";
+   //db.movies.update( { "title" : "Batman" }, { $inc : { "imdb_rating" : 2 } } )
+   update << "$inc"
+   << open_document << "imdb_rating" << 2 << close_document;
 
-   db.movies.update( { "title" : "Home Alone" }, { $inc : { "budget" : 5 } } )  
-
-   db.movies.update( { "title" : "Batman" }, { $mul : { "imdb_rating" : 4 } } )  
-
-   db.movies.update( { "title" : "Batman" }, 
-                     { $rename : { "budget" : "estimated_budget" } } )
-
-   db.movies.update( { "title" : "Home Alone" }, { $min : { "budget" : 5 } } )  
-
-   db.movies.update( { "title" : "Home Alone" }, 
-                     { $currentDate : { "last_updated" : { $type : "timestamp" } } } )
+   //db.movies.update( { "title" : "Batman" }, { $inc : { "budget" : -5 } } )
+   update << "$inc"
+   << open_document << "budget" << -5 << close_document;
 
    // increment movie mentions by 10
-   db.movie_mentions.update( { "title" : "E.T." } , 
-                             { $inc :  { "mentions_per_hour.5" : 10 } } )                               
-
-
-.. include:: /includes/student-notes.rst
-
-
-``update()`` Defaults to one Document
--------------------------------------
-
-- By default, ``update()`` modifies the first document found that matches the query.
-- The default use case is one where there is only one document that fits the query.
-- This is to reduce the chances of unintended collection scans for updates.
+   // db.movie_mentions.update( { "title" : "Batman" } , { $inc :  { "mentions_per_hour.5" : 10 } } )
+   update << "$inc"
+   << open_document << "mentions_per_hour.5" << 10 << close_document;
 
 .. include:: /includes/student-notes.rst
 
+
+Example: Update Operators
+-------------------------
+
+.. code-block:: cpp
+
+   //db.movies.update( { "title" : "Batman" }, { $mul : { "imdb_rating" : 4 } } )
+   update << "$mul"
+   << open_document << "imdb_rating" << 4 << close_document;
+
+   //db.movies.update( { "title" : "Batman" },{ $rename : { "budget" : "estimated_budget" } } )
+   update << "$rename"
+   << open_document << "budget" << "estimated_budget" << close_document;
+
+   //db.movies.update( { "title" : "Batman" }, { $min : { "budget" : 5 } } )
+   update << "$min"
+   << open_document << "budget" << 5 << close_document;
+
+   //db.movies.update( { "title" : "Batman" }, { $currentDate : { "last_updated" : { $type : "timestamp" } } } )
+   update << "$currentDate"
+   << open_document << "last_updated"
+      << open_document << "$type" << "timestamp" << close_document
+   << close_document;
+
+
+
+.. include:: /includes/student-notes.rst
 
 
 Updating Multiple Documents
 ---------------------------
 
-- In order to update multiple documents, we use the third (optional) parameter to ``update()``.
-- The third parameter is an options document.
-- Specify ``multi: true`` as one field in this document.
+- In order to update multiple documents, ``update_many()``.
 - Bear in mind that without an appropriate index, you may scan every document in the collection.
 
 .. include:: /includes/student-notes.rst
@@ -213,22 +255,24 @@ Updating Multiple Documents
 Example: Multi-Update
 ---------------------
 
-Use ``db.testcol.find()`` after each of these updates.
+Use ``coll.find({});`` after each of these updates.
 
 .. code-block:: javascript
-  
-   // let's start tracking the number of sequals for each movie
-   db.movies.update( { }, { $set : { "sequels" : 0 } } )
 
-   // we need { multi : true } to change all documents 
-   db.movies.update( { }, { $set : { "sequels" : 0 } },
-                     { multi : true } )
+   // let's start tracking the number of sequals for each movie
+   // in the shell, we need { multi : true } to change all documents
+   //db.movies.update( { }, { $set : { "sequels" : 0 } },{ multi : true } )
+   // in c++ we just need to call update_many
+   update << "$set" << open_document << "sequels" : 0 << close_document;
+   coll.update_many({}, update.view());
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
    .. note::
+
+      Make a note that for the `mongo` shell we have a slightly different behavior
 
       - ``db.movies.update( { }, { $set : { "sequels" : 0 } } )`` only updates one document.
       - ``db.movies.update( { }, { $set : { "sequels" : 0 } }, { multi : true } )`` updates four documents.
@@ -256,23 +300,53 @@ Array Operators
 Example: Array Operators
 ------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.movies.update( { "title" : "Batman" }, 
-                     { $push : { "category" : "superhero" } } ) 
-   db.movies.update( { "title" : "Batman" }, 
-                     { $pushAll : { "category" : [ "villain", "comicbased" ] } } ) 
-   
-   db.movies.update( { "title" : "Batman" }, 
-                     { $pop : { "category" : 1 } } )  
+   criteria << "title" << "Batman";
+   //db.movies.update( { "title" : "Batman" },{ $push : { "category" : "superhero" } } )
+   update << "$push"
+   << open_document << "category" << "superhero" << close_document ;
 
-   db.movies.update( { "title" : "Batman" }, 
-                     { $pull : { "category" : "action" } } )  
-   db.movies.update( { "title" : "Batman" }, 
-                     { $pullAll : { "category" : [ "villain", "comicbased" ] } } ) 
-    
-   db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )  
-   db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )  
+   //db.movies.update( { "title" : "Batman" },{ $pushAll : { "category" : [ "villain", "comicbased" ] } } )
+   update << "$pushAll"
+   << open_document << "category"
+      << open_array <<  "villain" << "comicbased" << close_array
+   << close_document ;
+
+   //db.movies.update( { "title" : "Batman" },{ $pop : { "category" : 1 } } )
+   update << "$pop"
+   << open_document << "category" << 1 << close_document ;
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+  .. note::
+
+     - Pass $pop a value of -1 to remove the first element of an array and 1 to remove the last element in an array.
+
+Example: Array Operators
+------------------------
+
+.. code-block:: cpp
+
+   //db.movies.update( { "title" : "Batman" },{ $pull : { "category" : "action" } } )
+   update << "$pull"
+   << open_document << "category" << "action" << close_document ;
+
+   //db.movies.update( { "title" : "Batman" },{ $pullAll : { "category" : [ "villain", "comicbased" ] } } )
+   update << "$pullAll"
+   << open_document << "category"
+      << open_array <<  "villain" << "comicbased" << close_array
+   << close_document ;
+
+   //db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )
+   update << "$addToSet"
+   << open_document << "category" << "action" << close_document ;
+   //db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )
+   update << "$addToSet"
+   << open_document << "category" << "action" << close_document ;
 
 .. include:: /includes/student-notes.rst
 
@@ -280,8 +354,8 @@ Example: Array Operators
 .. only:: instructor
 
    .. note::
-   
-      - Pass $pop a value of -1 to remove the first element of an array and 1 to remove the last element in an array.
+
+      - Pass $addToSet only adds the new value if it is already present in the array!
 
 
 The Positional ``$`` Operator
@@ -292,12 +366,10 @@ The Positional ``$`` Operator
 - ``$`` replaces the element in the specified position with the value given.
 - Example:
 
-  .. code-block:: javascript
+  .. code-block:: cpp
 
-     db.<COLLECTION>.update(
-         { <array> : value ... },
-         { <update operator> : { "<array>.$" : value } }
-     )
+     update << "$UPDATE_OPERATOR"
+     << open_document << "array.$" << value << close_document;
 
 .. include:: /includes/student-notes.rst
 
@@ -308,10 +380,12 @@ Example: The Positional ``$`` Operator
 .. code-block:: javascript
 
    // the "action" category needs to be changed to "action-adventure"
-   db.movies.update( { "category": "action",  }, 
-                     { $set: { "category.$" : "action-adventure" } }, 
-                     { multi: true } )
-   db.movies.find()
+   //db.movies.update( { "category": "action",  },{ $set: { "category.$" : "action-adventure" } },{ multi: true } )
+   criteria << "category" << "action";
+   update << "$set"
+   << open_document << "category.$" << "action-adventure" << close_document
+
+   coll.update_many(criteria.view, update.view());
 
 .. include:: /includes/student-notes.rst
 
@@ -319,15 +393,16 @@ Example: The Positional ``$`` Operator
 Upserts
 -------
 
-- By default, if no document matches an update query, the ``update()`` method does nothing.
-- By specifying ``upsert: true``, ``update()`` will insert a new document if no matching document exists.
-- The ``db.<COLLECTION>.save()`` method is syntactic sugar that performs an upsert if the _id is not yet present
+- By default, if no document matches an update query, the ``update`` methods does nothing.
+- By specifying ``options::update::upsert()``, ``update`` will insert a new document if no matching document exists.
+- In the mongo shell ``db.<COLLECTION>.save()`` method is syntactic sugar that performs an upsert if the _id is not yet present
 - Syntax:
 
-  .. code-block:: javascript
+  .. code-block:: cpp
 
-     db.<COLLECTION>.update( <query document>, <update document>, 
-                           { upsert: true } )
+     options::update opts;
+     opts.upsert(true);
+     coll.update_one( criteria.view() , update.view(), opts );
 
 .. include:: /includes/student-notes.rst
 
@@ -350,17 +425,26 @@ Example: Upserts
 
 .. code-block:: javascript
 
-   db.movies.update( { "title" : "Jaws" }, 
-                     { $inc: { "budget" : 5 } }, 
-                     { upsert: true } )
+   options::update opts;
+   opts.upsert(true);
+   //db.movies.update( { "title" : "Jaws" },{ $inc: { "budget" : 5 } }, { upsert: true } )
+   criteria << "title" << "Jaws";
+   update << "$inc"
+   << open_document << "budget" << 5 << close_document;
+   coll.update_one(criteria.view(), update.view(), opts);
 
-   db.movies.update( { "title" : "Jaws II" }, 
-                     { $inc: { "budget" : 5 } }, 
-                     { upsert: true } )
+   //db.movies.update( { "title" : "Jaws II" }, { $inc: { "budget" : 5 } }, { upsert: true } )
+   criteria << "title" << "Jaws II";
+   update << "$inc"
+   << open_document << "budget" << 5 << close_document;
+   coll.update_one(criteria.view(), update.view(), opts);
 
-   db.movies.update( { "title" : "Jaws III", "category" : [ "horror" ] }, 
-                     { $set : { "budget" : 1 } }, 
-                     { upsert: true } )
+   //db.movies.update( { "title" : "Jaws III", "category" : [ "horror" ] },{ $set : { "budget" : 1 } },{ upsert: true } )
+   criteria
+   << "title" << "Jaws II" << "category" << open_array << "horror"<< close_array;
+   update << "$set"
+   << open_document << "budget" << 1 << close_document;
+   coll.update_one(criteria.view(), update.view(), opts);
 
 .. include:: /includes/student-notes.rst
 
@@ -373,105 +457,54 @@ Example: Upserts
          // updates the document with "title" = "Jaws" by incrementing "budget"
          db.movies.update( { "title" : "Jaws" }, { $inc: { "budget" : 5 } }, { upsert: true } )
 
-         // 1) creates a new document, 2) assigns an _id, 3) sets "title" to "Jaws II" 
+         // 1) creates a new document, 2) assigns an _id, 3) sets "title" to "Jaws II"
          // 4) performs the update
          db.movies.update( { "title" : "Jaws II" }, { $inc: { "budget" : 5 } }, { upsert: true } )
 
-         // 1) creates a new document, 2) sets "title" : "Jaws III", 
+         // 1) creates a new document, 2) sets "title" : "Jaws III",
          // 3) Set budget to 1
          db.movies.update( { "title" : "Jaws III" }, { "budget" : 1 }, { upsert: true } )
 
 
-``save()``
-----------
-
-- Updates the document if the _id is found, inserts it otherwise
-- Syntax:
-
-  .. code-block:: javascript
-
-     db.<COLLECTION>.save( document )
-
-.. include:: /includes/student-notes.rst
-
-
-Example: ``save()``
--------------------
-
-- If the document does not contain an ``_id`` field, then the ``save()`` method calls the ``insert()`` method. During the operation, the mongo shell will create an ObjectId and assign it to the ``_id`` field.
-  
-- If the document contains an ``_id`` field, then the ``save()`` method is equivalent to an update with the upsert option set to true and the query predicate on the ``_id`` field.
-
-.. code-block:: javascript
-
-   // insert
-   db.movies.save( { "title" : "Beverly Hills Cops", "imdb_rating" : 7.3 })            
-
-   // update with { upsert: true }
-   db.movies.save( { "_id" : 1234, "title" : "Spider Man", "imdb_rating" : 7.3 })  
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - A lot of users prefer to use update/insert, to have more explicit control over the operation
-
-
-Be Careful with ``save()``
---------------------------
-
-Be careful that you are not modifying stale data when using ``save()``. For example:
-        
-.. code-block:: javascript
-
-   db.movies.drop()
-   db.movies.insert( { "title" : "Jaws", "imdb_rating" : 7.3 } )
-
-   db.movies.find( { "title" : "Jaws" } )
-
-   // store the complete document in the application
-   doc = db.movies.findOne( { "title" : "Jaws" } )
-
-   db.movies.update( { "title" : "Jaws"  }, { $inc: { "imdb_rating" : 2 } } )
-   db.movies.find()
-
-   doc.imdb_rating = 7.4
-   doc
-
-   db.movies.save(doc)  // just lost our incrementing of "imdb_rating"
-   db.movies.find()
-
-.. include:: /includes/student-notes.rst
-
-
-``findAndModify()``
--------------------
+Find and Modify
+---------------
 
 Modify a document and return either:
 
 - The pre-modification document
-- If "new:true" is set, the modified document
+- If ``options::return_document::k_after`` is set, the modified document
 
 Helpful for making changes to a document and reading the document in the state before or after the update occurred.
 
 .. include:: /includes/student-notes.rst
 
 
-``findAndModify()`` Example
----------------------------
+``find_one_and_update``
+-----------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-  db.worker_queue.findAndModify({
-      "query" : { "state" : "unprocessed" },
-      "update" : { $set: { "worker_id" : 123, "state" : "processing" } },
-  })
+  options::find_one_and_update opts;
+  opts.return_document(options::return_document::k_after);
 
+  criteria < "state" << "unprocessed";
+  update << "$set"
+  << open_document
+    << "worker_id" << 123 << "state" << "processing"
+  << close_document;
 
-	   
-        
+  auto doc = coll.find_one_and_update(criteria.view(), update.view(), opts);
 
+  std::cout << bsoncxx::to_json(doc) << std::endl;
 
+.. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - C++ driver implements a set of API methods for the different operations of find and modify
+
+      - find_one_and_update
+      - find_one_and_replace
+      - find_one_and_delete
