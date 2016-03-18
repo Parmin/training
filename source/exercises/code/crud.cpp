@@ -17,6 +17,7 @@ using namespace mongocxx;
 void insert(){
   // instantiate a connection
   client conn{mongocxx::uri{}};
+  database db = conn["some"];
   //instantiate a collection
   collection coll = conn["sample"]["simple"];
   //create a document
