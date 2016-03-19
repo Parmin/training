@@ -1,0 +1,240 @@
+===============================
+MongoDB C++ Driver Introduction
+===============================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand
+
+- The different versions of MongoDB C++ Driver
+- A basic understanding of main ``namespaces``
+- Different API interfaces
+- Main classes
+
+.. include:: /includes/student-notes.rst
+
+
+MongoDB C++ Driver
+------------------
+
+- The MongoDB C++ driver is a native C++ implementation library
+- Released under `Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_
+- Maintained and supported by MongoDB, Inc staff.
+
+  - https://docs.mongodb.org/ecosystem/drivers/cpp/
+
+- Freely available on `github <https://github.com/mongodb/mongo-cxx-driver/>`_
+
+.. include:: /includes/student-notes.rst
+
+
+MongoDB C++ Driver Versions
+---------------------------
+
+Currently we support the following versions:
+
+- `legacy-1.1.0+ <http://api.mongodb.org/cxx/current/>`_
+- `C++ 11 <http://api.mongodb.org/cxx11/current/>`_
+
+.. list-table::
+   :header-rows: 1
+   :widths: 37 21 21 21 21
+
+   * - Driver Version
+     - MongoDB 2.4
+     - MongoDB 2.6
+     - MongoDB 3.0
+     - MongoDB 3.2
+
+   * - C++11 3.0.0
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+
+   * - legacy-1.1.0+
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+
+   * - legacy-1.0.0+
+     - ✓
+     - ✓
+     - ✓
+     -
+
+.. include:: /includes/student-notes.rst
+
+
+MongoDB C++ Driver
+------------------
+
+For this particular course we will be focussing exclusively on the new C++11 Driver implementation.
+
+.. include:: /includes/student-notes.rst
+
+
+Driver Architecture
+-------------------
+
+.. include:: /images/cpp-driver-architecture.rst
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Important to note that the C++ driver wraps the C Driver.
+    The C driver will handle all the communication and command parsing while the
+    C++ driver will give the syntactic and high level integration at C++ level.
+
+    2 Main namespaces:
+
+    - mongocxx : all database level objects will be defined at this level
+    - bsoncxx : all document level operations and objects that parse or handle BSON format structures
+
+
+``mongocxx``
+------------
+
+In this namespace we will find the classes and structures that will deal with operations at server / database level.
+
+- Client
+- Connection configuration
+- Database level operations
+- Collection level operations
+- Instruction options and exceptions handling
+- Authentication Mechanism
+
+.. include:: /includes/student-notes.rst
+
+
+``mongocxx``
+------------
+
+.. code-block:: cpp
+
+  /// Class representing a MongoDB connection string URI.
+  using namespace mongocxx::uri;
+  uri m_uri("mongodb://training.mongodb.course:9999");
+
+  /// Class representing a client connection to MongoDB.
+  using namespace mongocxx::client;
+  client mc{m_uri};
+
+  /// Class representing a MongoDB database.
+  using namespace mongocxx::database;
+  database db = mongo_client["database_name"];
+
+  /// Class representing server side document groupings (a.k.a collections) within a MongoDB database.
+  using namespace mongocxx::collection;
+  collection coll = db["collection_name"];
+  /// collections serve the data operations
+  coll.find_one({});
+  coll.insert_many([{}]);
+  coll.delete_many({});
+
+.. include:: /includes/student-notes.rst
+
+
+``mongocxx``
+------------
+
+.. code-block:: cpp
+
+  /// Options is a specific namespace that determines the different operation options.
+  /// write_concern, read_preferences, skip, limit, sort
+  using namespace mongocxx::options;
+  find find_opts;
+  find_opts.sort(...);
+
+  insert insert_opts;
+  insert_opts.write_concern(...);
+
+  /// Result is a namespace the encloses all different types of write operation response messages
+  using namespace mongocxx::result;
+  insert_many im_result;
+  im_result = coll.insert_many([ ... ], insert_opts);
+
+  /// Class representing a pointer to the result set of a query on a MongoDB server.
+  using namespace mongocxx::cursor;
+  cursor cur;
+  cur = coll.find({}, find_opts);
+  // ... iterate over cursor elements
+
+
+.. include:: /includes/student-notes.rst
+
+
+``bsoncxx``
+-----------
+
+In this namespace we will find the classes and structures that will deal with document and BSON level instruction set API.
+
+- Build documents
+- Data types
+- Document validation operations
+
+
+.. include:: /includes/student-notes.rst
+
+
+``bsoncxx`` Document Builder
+----------------------------
+
+For the vast majority of the exercises in this course we will be using ``bsoncxx::builder`` to create and parse BSON objects.
+
+- The API offers 2 types of builders
+
+  - basic
+  - stream
+
+- Over the examples and exercises we will be using mainly ``bsoncxx::builder::stream`` builder.
+
+.. include:: /includes/student-notes.rst
+
+
+``bsoncxx`` Document Builder
+----------------------------
+
+.. code-block:: cpp
+
+  /// A streaming interface for constructing a BSON document.
+  using namespace bsoncxx::builder::stream;
+  document query;
+  query << "first_name" << "Marc" << "last_name" << "Schwering";
+
+  /// A traditional builder-style interface for constructing a BSON document.
+  using namespace bsoncxx::builder::basic;
+  document query;
+  query.append( kvp("first_name", "Marc") );
+  query.append( kvp("last_name", "Schwering") );
+
+.. include:: /includes/student-notes.rst
+
+
+Document vs Views
+-----------------
+
+In this driver there is a clear distinction between the document builders,
+the objects that we will be using for creating queries, documents,
+update statements ... and the actual object sent through the driver.
+
+- builder creates the document structure
+- view is sent to the driver operation.
+
+  - this is a read only parsed version of the built document.\
+
+.. code-block:: cpp
+
+  document query;
+  query << "singer" << "Jennifer Lopez";
+  cursor cur = coll.find( query.view()  );
+
+
+.. include:: /includes/student-notes.rst

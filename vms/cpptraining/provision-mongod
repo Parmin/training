@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+#
+# Bash script for provisioning the MongoDB instances
+
+set -e
+set -x
+
+function config(){
+	export CLIENT_IP_ADDR=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}' | tail -1`
+	export CLIENT_FQDN=`hostname`
+	export CLIENT_NAME=`hostname | cut -d. -f 1 | tr '[:upper:]' '[:lower:]'`
+	echo "Configuring /etc/hosts ..."
+	echo "127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4" > /etc/hosts
+	echo "::1       localhost localhost.localdomain localhost6 localhost6.localdomain6" >> /etc/hosts
+	echo "$CLIENT_IP_ADDR    $CLIENT_FQDN $CLIENT_NAME" >> /etc/hosts
+}
+
+function install_mongod(){
+	echo "Install MongoDB Enterprise"
+	sudo apt-get install -y --force-yes mongodb-enterprise mongodb-enterprise-server mongodb-enterprise-shell
+	sudo sh -c "killall mongod; true"
+	mkdir -p /home/vagrant/data
+	chmod -R 777 /home/vagrant/data
+	chown -R mongodb:mongodb /home/vagrant/data
+
+  #cp /vagrant/mongod.conf /home/vagrant
+
+  echo "Set LC_ALL=C to .profile"
+  sudo echo "export LC_ALL=C" >> /home/vagrant/.profile
+}
+
+function update_repo(){
+	echo "Install MongoDB Enterprise Repository"
+	echo "deb http://repo.mongodb.com/apt/ubuntu "$(lsb_release -sc)"/mongodb-enterprise/stable multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+	echo "Update Repositoryies"
+	sudo apt-get update -y
+	echo "Installing MongoDB Enterprise Dependencies"
+	sudo apt-get install -y libgssapi-krb5-2 libsasl2-2 libssl1.0.0 libstdc++6 snmp
+
+}
+
+
+function config(){
+  sudo su
+	# disable THP
+  echo -e "never" > /sys/kernel/mm/transparent_hugepage/enabled
+  echo -e "never" > /sys/kernel/mm/transparent_hugepage/defrag
+
+	# disable mongod upstart service
+	echo 'manual' | sudo tee /etc/init/mongod.override
+}
+
+
+function install_mongocpp_dependencies(){
+	#install cmake
+	sudo apt-get install -y software-properties-common
+	sudo add-apt-repository ppa:george-edison55/cmake-3.x
+	sudo apt-get update -y
+
+	sudo apt-get install pkg-config libssl-dev libsasl2-dev git cmake g++ -y
+	wget https://github.com/mongodb/mongo-c-driver/releases/download/1.3.4/mongo-c-driver-1.3.4.tar.gz
+	tar xzf mongo-c-driver-1.3.4.tar.gz
+	cd mongo-c-driver-1.3.4
+	./configure
+	make
+	sudo make install
+
+	cd -
+
+}
+
+function install_mongocpp(){
+	git clone -b r3.0.0 https://github.com/mongodb/mongo-cxx-driver
+	cd mongo-cxx-driver/build
+	sudo cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+	sudo make && sudo make install
+}
+
+function configure_desktop(){
+	sudo apt-get install -y xfce4 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 ubuntu-desktop
+	sudo VBoxClient-all
+	sudo sed -i 's/allowed_users=console/allowed_users=anybody/g' /etc/X11/Xwrapper.config
+	sudo su - vagrant
+	startxfce4&
+}
+
+function install_ide(){
+	sudo add-apt-repository ppa:pasgui -y
+	sudo apt-get update
+	sudo apt-get install codeblocks -y
+}
+
+config
+update_repo
+install_mongod
+install_mongocpp_dependencies
+install_mongocpp
+configure_desktop
+install_ide
+echo "DONE"

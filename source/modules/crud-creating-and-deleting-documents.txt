@@ -16,44 +16,84 @@ Upon completing this module students should understand:
 .. include:: /includes/student-notes.rst
 
 
+Baseline
+--------
+
+For the extent of this lab we will be using same baseline code snippet called `crud.cpp`
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Please ask your students to go ahead and under the `snippets` folder create a new file called `crud.cpp`
+    This file should have one **main** method that we will extend over the set of exercises as they are completed.
+
+    This initial file should look like the following:
+
+    .. code-block:: cpp
+
+      #include <iostream>
+      #include <mongocxx/client.hpp>
+      #include <mongocxx/cursor.hpp>
+      #include <mongocxx/collection.hpp>
+      #include <bsoncxx/builder/stream/document.hpp>
+      #include <mongocxx/exception/exception.hpp>
+
+
+      int main(int, char**) {
+          try{
+
+          } catch( const mongocxx::exception &e ) {
+            std::cout << "caught " << e.what() << std::endl;
+          }
+          return EXIT_SUCCESS;
+
+      }
+
 Creating New Documents
 ----------------------
 
 - Create documents using ``insert()``.
 - For example:
 
-  .. code-block:: javascript
+  .. code-block:: cpp
 
-     // Specify the collection name
-     db.<COLLECTION>.insert( { "name" : "Mongo" } )
+    // instantiate a connection
+    client conn{mongocxx::uri{}};
+    //instantiate a collection
+    collection coll = conn["sample"]["cpp"];
 
-     // For example
-     db.people.insert( { "name" : "Mongo" } )
+    //create a document
+    auto doc0 = document{} << "name" << "Dwight" << finalize;
 
-.. include:: /includes/student-notes.rst
-
-Example: Inserting a Document
-------------------------------
-
-Experiment with the following commands.
-
-.. code-block:: javascript
-
-   use sample
-
-   db.movies.insert( { "title" : "Jaws" } )
-
-   db.movies.find()
+    //insert one document
+    coll.insert_one(doc0.view());
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-   .. note::
-        
-      - Make sure the students are performing the operations along with you.
-      - Some students will have trouble starting things up, so be helpful at this stage.
+  .. note::
 
+    Make sure you focus students attention on the following aspects:
+    - syntactic sugar of the document construction using `<<` operator
+    - simple database objects instantiation
+    - same api call has new MongoDB 3.2 shell methods
+
+    Also redirect students into the shell so the can also check the creation of these documents
+
+    .. code-block:: bash
+
+      mongo sample
+      db.cpp.find()
+
+    And don't forget the compilation instructions:
+
+    .. code-block:: bash
+
+      c++ --std=c++11 crud.cpp -o crud $(pkg-config --cflags --libs libmongocxx)
 
 
 Implicit ``_id`` Assignment
@@ -70,11 +110,16 @@ Example: Assigning _ids
 
 Experiment with the following commands.
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-    db.movies.insert( { "_id" : "Jaws", "year" : 1975 } )
+    //assign `_id` field
+    auto doc1 = document{} << "_id" << 1 << "name" << "Dwight" << finalize;
 
-    db.movies.find()
+    //and fetch back the results
+    auto cursor = coll.find({});
+    for (auto&& x : cursor) {
+      std::cout << "_id: " << x["_id"].get_int32() << std::endl;
+    }
 
 .. include:: /includes/student-notes.rst
 
@@ -84,6 +129,27 @@ Experiment with the following commands.
 
       - Note that you can assign an _id to be of almost any type.
       - It does not need to be an ObjectId.
+
+      A new method should be created on our `crud.cpp` to express this variation
+
+      .. code-block:: cpp
+
+        void insert_with_id(){
+          // instantiate a connection
+          client conn{mongocxx::uri{}};
+          //instantiate a collection
+          collection coll = conn["sample"]["cpp"];
+          //create a document
+          auto doc1 = document{} << "_id" << 1 << "name" << "Dwight" << finalize;
+
+          //insert the document
+          coll.insert_one(doc1.view());
+          //
+          auto cursor = coll.find({});
+          for (auto&& x : cursor) {
+            std::cout << "_id: " << x["_id"].get_int32() << std::endl;
+          }
+        }
 
 
 
@@ -96,25 +162,39 @@ Inserts will fail if...
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+    Don't forget that if we run multiple times,
+    you should ask the students to this,
+    we will get a duplicated key error
+
+    .. code-block:: bash
+
+      ./crud
+      ./crud
+
 
 Example: Inserts will fail if...
 ---------------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   // fails because _id can't have an array value
-   db.movies.insert( { "_id" : [ "Star Wars", 
-                                 "The Empire Strikes Back", 
-                                 "Return of the Jedi" ] } )
+    //1 - fails to insert document
+    auto doc2 = document{} << "_id" << open_array << 0 << 1 << 2<< close_array<< finalize;
+    coll.insert_one(doc2.view());
 
-   // succeeds
-   db.movies.insert( { "_id" : "Star Wars" } )
+   //2 - succeeds
+   auto doc3 = document{} << "_id" << "Eliot" << finalize;
+   coll.insert_one(doc3.view());
 
-   // fails because of duplicate id
-   db.movies.insert( { "_id" : "Star Wars" } )
+   //3 - fails because of duplicate id
+   auto doc4 = document{} << "_id" << "Eliot" << finalize;
+   coll.insert_one(doc4.view());
 
-   // malformed document
-   db.movies.insert( { "Star Wars" } )
+   //4 - malformed document => compilation error!
+   auto doc5 = document{} << "hello" << finalize;
+   coll.insert_one(doc5.view());
 
 .. include:: /includes/student-notes.rst
 
@@ -122,40 +202,32 @@ Example: Inserts will fail if...
 
    .. note::
 
-      - The following will fail because it attempts to use an array as an ``_id``.
-
-        .. code-block:: javascript
-
-           db.movies.insert( { "_id" : [ "Star Wars", "The Empire Strikes Back", "Return of the Jedi" ] } )
-
-      - The second insert with ``_id : "Star Wars"`` will fail because there is already a document with ``_id`` of "Star Wars" in the collection.
-
-      - The following will fail because it is a malformed document (i.e. no field name, just a value).
-
-      .. code-block:: javascript
-
-         db.movies.insert( { "Star Wars" } )
+      - 1 fails because array values are not admissible for `_id`
+        - one of the very few restrictions for `_id` values
+      - 2 succeeds
+      - 3 fails because `_id` is a primary key and therefore must be unique
+      - 4 fails to compile since malformed BSON objects will be detected at compilation time.
 
 
 
 Bulk Inserts
 ------------
 
-- MongoDB 2.6 introduced bulk inserts. 
+- MongoDB allows applications to perform bulk inserts.
 - You may bulk insert using an array of documents.
-- The API has two core concepts: 
+- The API has two core concepts:
 
   - Ordered bulk operations
-  - Unordered bulk operations 
+  - Unordered bulk operations
 
-- The main difference is in the way the operations are executed in bulk. 
+- The main difference is in the way the operations are executed in bulk.
 
 .. only:: instructor
 
    .. note::
 
-      - In the case of an ordered bulk operation, every operation will be executed in the order they are added to the bulk operation. 
-      - In the case of an unordered bulk operation however there is no guarantee what order the operations are executed. 
+      - In the case of an ordered bulk operation, every operation will be executed in the order they are added to the bulk operation.
+      - In the case of an unordered bulk operation however there is no guarantee what order the operations are executed.
       - With an unordered bulk operation, the operations in the list may be reordered to increase performance.
 
 .. include:: /includes/student-notes.rst
@@ -166,11 +238,20 @@ Ordered Bulk Insert
 
 - For ordered inserts MongoDB will stop processing inserts upon encountering an error.
 - Meaning that only inserts occurring before an error will complete.
-- The default setting for ``db.<COLLECTION>.insert`` is an ordered insert.
+- The default setting for ``coll.insert_many()`` is an ordered insert.
+
+  - `options::insert{}`
+
 - See the next exercise for an example.
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    Ask students to extend again the `crud.cpp` file to include a method that
+    would insert ordered or unordered depending on a boolean input value
 
 Example: Ordered Bulk Insert
 -----------------------------
@@ -179,50 +260,152 @@ Experiment with the following bulk insert.
 
 .. code-block:: javascript
 
-   db.movies.insert( [ { "_id" : "Batman", "year" : 1989 },
-                       { "_id" : "Home Alone", "year" : 1990 }, 
-                       { "_id" : "Ghostbusters", "year" : 1984 },
-                       { "_id" : "Ghostbusters", "year" : 1984 } ] )
-   db.movies.find()
+    std::vector<bsoncxx::document::view> docs{};
+
+    auto b0 = document{} << "_id" << 0 << "name" << "Soccer" << finalize;
+    auto b1 = document{} << "_id" << 1 << "name" << "Rugby" << finalize;
+    auto b2 = document{} << "_id" << 0 << "name" << "Tennis" << finalize;
+    auto b3 = document{} << "_id" << 2 << "name" << "Football" << finalize;
+
+    docs.push_back(b0.view());
+    docs.push_back(b1.view());
+    docs.push_back(b2.view());
+    docs.push_back(b3.view());
+
+    auto result = coll.insert_many(docs, options::insert{});
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-   .. note:: 
+   .. note::
 
       - This example has a duplicate key error.
-      - Only the first 3 documents will be inserted.
+      - Only the first 2 documents will be inserted.
+      - Students need to capture the `operation_exception`
 
-    
+      Full block code:
+
+      .. code-block:: cpp
+
+        void insert_many_ordered(){
+          // instantiate a connection
+          client conn{mongocxx::uri{}};
+          //instantiate a collection
+          collection coll = conn["sample"]["cpp"];
+          //instantiate vector of document views!
+          std::vector<bsoncxx::document::view> docs{};
+
+          auto b0 = document{} << "_id" << 0 << "name" << "Soccer" << finalize;
+          auto b1 = document{} << "_id" << 1 << "name" << "Rugby" << finalize;
+          auto b2 = document{} << "_id" << 0 << "name" << "Tennis" << finalize;
+          auto b3 = document{} << "_id" << 2 << "name" << "Football" << finalize;
+
+
+          docs.push_back(b0.view());
+          docs.push_back(b1.view());
+          docs.push_back(b2.view());
+          docs.push_back(b3.view());
+
+
+          //insert ordered (default)
+          try{
+            coll.insert_many(docs, options::insert{});
+          } catch ( const operation_exception &ex ) {
+            std::cout << "caught op exception -> " << bsoncxx::to_json(ex.raw_server_error()->view()) << std::endl;
+          }
+        }
+
+
 Unordered Bulk Insert
 ---------------------
 
-- Pass ``{ ordered : false }`` to insert to perform unordered inserts.
+- Pass ``mongocxx::options::insert`` with `ordered` flag set to false.
 - If any given insert fails, MongoDB will still attempt the others.
 - The inserts may be executed in a different order from the way in which you specified them.
 - The next exercise is very similar to the previous one.
-- However, we are using ``{ ordered : false }`` 
-- One insert will fail, but all the rest will succeed. 
+- However, we are using
+
+  .. code-block:: cpp
+
+    auto options = options::insert{};
+    options.ordered(false);
+
+- One insert will fail, but all the rest will succeed.
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    Ask students to change the previous method of `crud.cpp` to insert
+    ordered or unordered depending on a boolean input value.
 
 Example: Unordered Bulk Insert
 -------------------------------
 
 Experiment with the following bulk insert.
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.movies.insert( [ { "_id" : "Jaws", "year" : 1975 },
-                       { "_id" : "Titanic", "year" : 1997 }, 
-                       { "_id" : "The Lion King", "year" : 1994 } ], 
-                       { ordered : false } )
-   db.movies.find()
+    auto b0 = document{} << "_id" << 0 << "name" << "Badminton" << finalize;
+    auto b1 = document{} << "_id" << 1 << "name" << "Snooker" << finalize;
+    auto b2 = document{} << "_id" << 0 << "name" << "Karts" << finalize;
+    auto b3 = document{} << "_id" << 2 << "name" << "Javellin throw" << finalize;
+
+    docs.push_back(b0.view());
+    docs.push_back(b1.view());
+    docs.push_back(b2.view());
+    docs.push_back(b3.view());
+
+
+    auto options = options::insert{};
+    //insert unordered
+    options.ordered(false);
+    coll.insert_many(docs, options);
+
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    Important to refer that an ``operation_exception`` is also going to be
+    thrown if there's any sort of error with one of the insert operations.
+
+    Full code :
+
+    .. code-block:: cpp
+
+      void insert_many(bool ordered){
+        // instantiate a connection
+        client conn{mongocxx::uri{}};
+        //instantiate a collection
+        collection coll = conn["sample"]["unordered"];
+        //instantiate vector of document views!
+        std::vector<bsoncxx::document::view> docs{};
+
+        auto b0 = document{} << "_id" << 0 << "name" << "Badminton" << finalize;
+        auto b1 = document{} << "_id" << 1 << "name" << "Snooker" << finalize;
+        auto b2 = document{} << "_id" << 0 << "name" << "Karts" << finalize;
+        auto b3 = document{} << "_id" << 2 << "name" << "Javellin throw" << finalize;
+
+        docs.push_back(b0.view());
+        docs.push_back(b1.view());
+        docs.push_back(b2.view());
+        docs.push_back(b3.view());
+
+        //insert unordered
+        auto options = options::insert{};
+        options.ordered(ordered);
+        try{
+          coll.insert_many(docs, options);
+        } catch ( const operation_exception &ex ) {
+          std::cout << "caught op exception -> " << bsoncxx::to_json(ex.raw_server_error()->view()) << std::endl;
+        }
+      }
 
 
 The Shell is a JavaScript Interpreter
@@ -247,22 +430,21 @@ Deleting Documents
 
 You may delete documents from a MongoDB deployment in several ways.
 
-- Use ``remove()`` to delete documents matching a specific set of conditions.
+- Use ``delete_one`` or ``delete_many`` to delete documents matching a specific set of conditions.
 - Drop an entire collection.
 - Drop a database.
 
 .. include:: /includes/student-notes.rst
 
 
-Using ``remove()``
-------------------
+Using ``collection::delete`` methods
+------------------------------------
 
-- Remove documents from a collection using ``remove()``.
+- Remove documents from a collection using ``delete_one()``.
 - This command has one required parameter, a query document.
-- All documents in the collection matching the query document will be removed.
-- Pass an empty document to remove all documents.
-- Prior to MongoDB 2.6 calling ``remove()`` with no parameters would remove all documents.
-- Limit ``remove()`` to one document using ``justOne``.
+- ``delete_one()`` will remove one document in the collection matching the query document.
+- If one passes an empty document it will still just remove one document.
+- To remove all documents matching the query document one needs to use ``delete_many()``
 
 .. include:: /includes/student-notes.rst
 
@@ -270,33 +452,93 @@ Using ``remove()``
 Example: Removing Documents
 ----------------------------
 
-Experiment with removing documents. Do a ``find()`` after each ``remove()`` command below.
+Using the previous generated dataset, do a ``find()`` after each ``delete`` command below.
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   for (i=1; i<=20; i++) { db.testcol.insert( { _id : i, a : i } ) }
-
-   db.testcol.remove( { a : 1 } )  // Remove the first document
+   // Remove the first document
+   delete_query << "a" << 1;
+   coll.delete_one(delete_query.view());
 
    // $lt is a query operator that enables us to select documents that
    // are less than some value. More on operators soon.
-   db.testcol.remove( { a : { $lt : 5 } } )  // Remove three more
+   // Remove three more
+   delete_query << "a" << open_document << "$lt" << 5 << close_document ;
+   coll.delete_many(delete_query.view());
 
-   db.testcol.remove( { a : { $lt : 10 } },
-                            { justOne : true } )  // Remove one more
 
-   db.testcol.remove()  // Error: requires a query document.
+   // Remove one more
+   delete_query << "a" << open_document << "$lt" << 10 << close_document ;
+   coll.delete_one(delete_query.view());
 
-   db.testcol.remove( { } )  // All documents removed
+   // All documents removed
+   coll.delete_many({});
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    You should take the opportunity to explain the differences between document builder and view.
+
+    For the following example:
+
+    .. code-block:: cpp
+
+      void delete_after_find(){
+
+        // instantiate a connection
+        client conn{mongocxx::uri{}};
+        //instantiate a collection
+        collection coll = conn["sample"]["stuff"];
+
+
+        auto cursor = coll.find({});
+        document delete_query;
+        for ( auto&& x : cursor){
+          delete_query << "_id" << x["_id"].get_oid();
+          auto result = coll.delete_one(delete_query.view());
+          std::cout << "Result:  " << result->deleted_count() << std::endl;
+        }
+
+      }
+
+
+      int main(int, char**) {
+          try{
+            delete_after_find();
+          } catch( const exception &e ) {
+            std::cout << "caught " << e.what() << std::endl;
+          }
+          return EXIT_SUCCESS;
+
+      }
+
+    What seems to be the problem ? If we run this code how many deletes will we get?
+    The students should mention notice that
+    ``delete_query << "_id" << x["_id"].get_oid();`` is appending a new
+    _id:oid key value pair to the document builder without actually replacing it:
+    ``{_id: 1, _id: 2, _id: 3}``
+    Once the buider generates the view, the actual bson structure sent to the
+    server, then it will pick only the first ``_id: 1`` pair and therefore try
+    to delete always the same document.
+
+    Make sure to notice this with the students and to explain the differences
+    between **view** and **document builder**.
 
 
 
 Dropping a Collection
 ---------------------
 
-- You can drop an entire collection with ``db.<COLLECTION>.drop()``
+- You can drop an entire collection with:
+
+  .. code-block:: cpp
+
+    collection coll = conn["sample"]["tobedropped"];
+    coll.drop();
+
 - The collection and all documents will be deleted.
 - It will also remove any metadata associated with that collection.
 - Indexes are one type of metadata removed.
@@ -308,7 +550,8 @@ Dropping a Collection
 
    .. note::
 
-      Mention that ``drop()`` is more performant than remove because of the lookup costs associated with ``remove()``.
+      On this section you should ask students to extend the `crud.cpp` file to
+      add a drop collection method.
 
 
 Example: Dropping a Collection
@@ -316,11 +559,19 @@ Example: Dropping a Collection
 
 .. code-block:: javascript
 
-   db.colToBeDropped.insert( { a : 1 } )
-   show collections  // Shows the colToBeDropped collection
+  void drop_collection(){
+    // instantiate a connection
+    client conn{mongocxx::uri{}};
+    //instantiate a collection
+    collection coll = conn["sample"]["names"];
 
-   db.colToBeDropped.drop()
-   show collections  // collection is gone
+    auto b0 = document{} << "_id" << 0 << "name" << "Meghan" << finalize;
+    auto b1 = document{} << "_id" << 1 << "name" << "Elizabeth" << finalize;
+    auto b2 = document{} << "_id" << 2 << "name" << "Beatriz" << finalize;
+    auto b3 = document{} << "_id" << 3 << "name" << "Anna" << finalize;
+
+    coll.drop();
+  }
 
 .. include:: /includes/student-notes.rst
 
@@ -329,10 +580,15 @@ Example: Dropping a Collection
 Dropping a Database
 -------------------
 
-- You can drop an entire database with ``db.dropDatabase()``
+- You can drop an entire database with
+
+  .. code-block:: cpp
+
+    mongocxx::database db = conn["toBeDropped"];
+    db.drop();
+
 - This drops the database on which the method is called.
 - It also deletes the associated data files from disk, freeing disk space.
-- Beware that in the mongo shell, this does not change database context.  
 
 .. include:: /includes/student-notes.rst
 
@@ -340,20 +596,62 @@ Dropping a Database
 Example: Dropping a Database
 -----------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   use tempDB
-   db.testcol1.insert( { a : 1 } )
-   db.testcol2.insert( { a : 1 } )
+  //insert some data
+  //...
+  // list all collections
+  auto cursor = db.list_collections();
+  auto count = std::distance(cursor.begin(), cursor.end());
+  std::cout << "Number of collections: " << count << std::endl;
 
-   show dbs  // Here they are
-   show collections  // Shows the two collections
+  db.drop();
 
-   db.dropDatabase()
-   show collections  // No collections
-   show dbs  // The db is gone
-
-   use sample  // take us back to the sample db
+  cursor = db.list_collections();
+  count = std::distance(cursor.begin(), cursor.end());
+  std::cout << "Number of collections: " << count << std::endl;
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    The important note on this section of code is that we can iterate to count
+    quickly over a cursor by applying the following pattern
+    ``auto count = std::distance(cursor.begin(), cursor.end());``
+
+    A full set drop method could be something like the following:
+
+    .. code-block:: cpp
+
+      void drop_database(){
+        // instantiate a connection
+        client conn{mongocxx::uri{}};
+        //instantiate database object
+        database db = conn["tempDB"];
+        //instantiate collections
+        collection coll1 = db["coll1"];
+        collection coll2 = db["coll2"];
+        // insert one document on first collection
+        auto b1 = document{} << "brand" << "Mercedes Benz" << finalize;
+        auto result1 = coll1.insert_one(b1.view());
+        std::cout << "Inserted " << bsoncxx::to_json(result1->inserted_id()) << std::endl;
+        // insert one document on second collection
+        auto b2 = document{} << "drink" << "Gin Tonic" << finalize;
+        auto result2 = coll2.insert_one(b2.view());
+        std::cout << "Inserted " << bsoncxx::to_json(result2->inserted_id()) << std::endl;
+
+        // list all collections
+        auto cursor = db.list_collections();
+
+        auto count = std::distance(cursor.begin(), cursor.end());
+        std::cout << "Number of collections: " << count << std::endl;
+
+
+        db.drop();
+
+        cursor = db.list_collections();
+        count = std::distance(cursor.begin(), cursor.end());
+        std::cout << "Number of collections: " << count << std::endl;
+      }

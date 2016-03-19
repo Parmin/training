@@ -95,10 +95,23 @@ Write Concern: ``{ w : 1 }``
 Example: ``{ w : 1 }``
 ----------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.edges.insert( { from : "tom185", to : "mary_p" }, 
-                    { writeConcern : { w : 1 } } )
+   //db.edges.insert( { from : "tom185", to : "mary_p" }, { writeConcern : { w : 1 } } )
+   client conn{mongocxx::uri{}};
+   collection coll = conn["sample"]["messages"];
+
+   document doc;
+   doc << "from" << "bryan" << "to" << "meghan";
+
+   write_concern wc{};
+   wc.nodes(1);
+
+   options::insert opts;
+   opts.write_concern(wc);
+
+   coll.insert_one( doc.view(), opts);
+
 
 .. include:: /includes/student-notes.rst
 
@@ -122,13 +135,20 @@ Write Concern: ``{ w : 2 }``
 Example: ``{ w : 2 }``
 ----------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.customer.update( { user : "mary_p" },
-                       { $push : { shoppingCart:
-                         { _id : 335443, name : "Brew-a-cup", 
-                         price : 45.79 } } },
-                       { writeConcern : { w : 2 } } )
+    client conn{mongocxx::uri{}};
+    collection coll = conn["sample"]["messages"];
+
+    write_concern wc{};
+    wc.nodes(2);
+    //we can set the write concern at collection level
+    coll.write_concern(wc);
+
+    document doc;
+    doc << "from" << "raul" << "to" << "john";
+
+    coll.insert_one( doc.view(), opts);
 
 .. include:: /includes/student-notes.rst
 
@@ -158,13 +178,32 @@ Write Concern: ``{ w : "majority" }``
 Example: ``{ w : "majority" }``
 -------------------------------
 
-.. code-block:: javascript
+.. code-block:: cpp
 
-   db.products.update({ _id : 335443 },
-                      { $inc : { inStock : -1 } },
-                      { writeConcern : { w : "majority" }})
+    client conn{mongocxx::uri{}};
+    write_concern wc{};
+    // majority of nodes with confirmation within 100 milliseconds
+    wc.majority(std::chrono::milliseconds(100));
+    conn.write_concern(wc);
+
+    collection coll = conn["sample"]["messages"];
+
+    document criteria, update;
+    criteria << "from" << "raul" ;
+    update << "$set"
+    << open_document << "from" << "raul marin" << close_document;
+
+    coll.update_many( criteria.view(), update.view());
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    The c++ driver requests a timeout value for the confirmation to be acknowledge by the majority of nodes.
+    This only affects the confirmation, not the actual execution of the write operation.
+    Make sure that students undertand that there will be no rollback of the operation it the timeout is exhausted.
 
 
 Quiz: Which write concern?
@@ -193,4 +232,3 @@ Further Reading
 See :manual:`Write Concern Reference</reference/write-concern>` for more details on write concern configurations, including setting timeouts and identifying specific replica set members that must acknowledge writes (i.e. :manual:`tag sets</tutorial/configure-replica-set-tag-sets/#replica-set-configuration-tag-sets>`).
 
 .. include:: /includes/np.rst
-
