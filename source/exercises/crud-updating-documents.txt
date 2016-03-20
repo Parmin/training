@@ -80,8 +80,8 @@ Exercise: Increase ``fine`` in ROSEDALE
 Exercise: Give a pass to "MONGODB"
 ---------------------------------------
 
-- Today MongoDB got the visit from the inspectors
-- Obviously we have no problems with the officials
+- Today MongoDB got a visit from the inspectors
+- We passed, of course.
 - So go ahead and update "MongoDB" and set the ``result`` to "AWESOME"
 - MongoDB's address is {city: 'New York', zip: 10036, street: '43', number: 229}
 
@@ -110,7 +110,7 @@ Exercise: Give a pass to "MONGODB"
           "_id": ObjectId("XXXXXXXXX")
         })
 
-    On this exercise we can also add a variation around the certificate_number
+    In this exercise we can also add a variation around the certificate_number
     to check o can come up with the query that finds out which would be
     the following certificate_number.
 
