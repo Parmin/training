@@ -98,6 +98,12 @@ Driver Architecture
     - mongocxx : all database level objects will be defined at this level
     - bsoncxx : all document level operations and objects that parse or handle BSON format structures
 
+    Important to note to students:
+
+    - The application **only** sees libmongocxx and libbsoncxx while using c++ driver
+    - There is no invocation of the c driver through c++ driver.
+
+
 
 ``mongocxx``
 ------------
