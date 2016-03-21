@@ -12,13 +12,14 @@ Day 1 (Morning)
 
 .. include:: /includes/student-notes.rst
 
-Introduction (30 minutes)
+Introduction (40 minutes)
 -------------------------
 
 - |link_warmup|
 - |link_overview|
 - |link_stores|
 - |link_storage|
+- |link_cpp|
 
 .. |link_warmup| raw:: html
 
@@ -35,6 +36,10 @@ Introduction (30 minutes)
 .. |link_storage| raw:: html
 
    <a href="introduction-storage-engines.html">Storage Engines</a>
+
+.. |link_cpp| raw:: html
+
+  <a href="introduction-cpp-driver-architecture.html">C++ Driver Architecture</a>
 
 .. include:: /includes/student-notes.rst
 
