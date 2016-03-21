@@ -114,7 +114,9 @@ Exercise: Give a pass to "MONGODB"
     to check o can come up with the query that finds out which would be
     the following certificate_number.
 
-    Something like this query should be granted extra points:
+    You may also want to ask what query would be required if we want to get the
+    next `certificate_number` value. Extra points of appraisal for students that
+    come up with the following:
 
       .. code-block:: javascript
 
