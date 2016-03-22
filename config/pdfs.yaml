@@ -62,6 +62,22 @@ class: 'howto'
 tag: 'workbook'
 edition: 'student'
 ---
+source: 'meta/amadeus-three-day'
+output: 'amadeus-three-day-instructor.tex'
+title: 'MongoDB Developer Training'
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'guide'
+edition: 'instructor'
+---
+source: 'meta/amadeus-three-day'
+output: 'amadeus-three-day-student.tex'
+title: 'MongoDB Developer Training'
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'workbook'
+edition: 'student'
+---
 # ---
 # source: 'meta/admin-one-day'
 # output: 'admin-one-day-instructor.tex'

@@ -130,7 +130,7 @@ Text Search Score
 
   .. code-block:: javascript
 
-     db.<COLLECTION>.find(
+     db.montyPython.find(
          { $text : { $search : "swallow coconut"} }, 
          { textScore: {$meta : "textScore" } } 
      ).sort(

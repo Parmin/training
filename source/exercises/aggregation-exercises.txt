@@ -1,11 +1,11 @@
-==========================
-Lab: Aggregation Framework
-==========================
+==============================
+Lab: Working with Array Fields
+==============================
 
 
 
-Exercise: Working with Array Fields
------------------------------------
+Lab: Working with Array Fields
+------------------------------
 
 Use the aggregation framework to find the name of the individual who has made the most comments on a blog. 
 

@@ -1,6 +1,6 @@
-===============
-Query Operators
-===============
+============================
+Query Operators (C++ Driver)
+============================
 
 
 Learning Objectives

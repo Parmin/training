@@ -1,6 +1,6 @@
-====================
-Aggregation Tutorial
-====================
+==========================================
+An Aggregation Tutorial Using Twitter Data
+==========================================
 
 
 Learning Objectives

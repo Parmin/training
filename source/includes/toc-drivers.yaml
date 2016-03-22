@@ -2,9 +2,13 @@ file: /modules/drivers-introduction
 description: | 
   An introduction to the MongoDB drivers
 --- 
-file: /exercises/drivers-python-tutorial
+file: /modules/introduction-cpp-driver-architecture
+description: | 
+  An overview of the MongoDB C++ driver
+---
+file: /exercises/mongodb-cpp-driver-installation
 description: |
-  A quick tour through the Python driver
+  Install the MongoDB C++ driver and experiment with a few operations
 ...
 
 

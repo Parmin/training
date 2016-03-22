@@ -6,7 +6,15 @@ file: /modules/aggregation-optimization
 description: | 
   Resource management in the aggregation pipeline
 --- 
-file: /exercises/aggregation-exercises
+file: /exercises/aggregation-working-with-array-fields
 description: | 
-  Aggregation labs
+  Aggregation lab
+--- 
+file: /exercises/aggregation-repeated-aggregation-stages
+description: | 
+  Aggregation lab
+--- 
+file: /exercises/aggregation-descriptive-statistics
+description: | 
+  Aggregation lab
 ...
