@@ -1,6 +1,6 @@
-================
-Compound Indexes
-================
+======================================================
+Compound Indexes and Troubleshooting Index Performance
+======================================================
 
 Learning Objectives
 -------------------

@@ -267,7 +267,7 @@ Simulate the number of writes that would have occurred and determine the index(e
 .. code-block:: javascript
 
   > db.tweets.explain("executionStats").update({ "user.followers_count" : 1000 },
-    { $set : { "large_following" : true } } )
+    { $set : { "large_following" : true } }, { "multi" : true } )
 
 .. include:: /includes/student-notes.rst
 

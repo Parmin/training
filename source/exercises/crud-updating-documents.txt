@@ -1,6 +1,6 @@
-=======================
-Lab: Updating Documents
-=======================
+====================================
+Lab: Updating Documents (C++ Driver)
+====================================
 
 
 Exercise: Set Points

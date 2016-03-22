@@ -49,21 +49,21 @@ Currently we support the following versions:
      - MongoDB 3.2
 
    * - C++11 3.0.0
-     - ✓
-     - ✓
-     - ✓
-     - ✓
+     - X
+     - X
+     - X
+     - X
 
    * - legacy-1.1.0+
-     - ✓
-     - ✓
-     - ✓
-     - ✓
+     - X
+     - X
+     - X
+     - X
 
    * - legacy-1.0.0+
-     - ✓
-     - ✓
-     - ✓
+     - X
+     - X
+     - X
      -
 
 .. include:: /includes/student-notes.rst
