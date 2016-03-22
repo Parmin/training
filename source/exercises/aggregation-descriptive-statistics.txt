@@ -1,0 +1,21 @@
+===========================
+Lab: Descriptive Statistics
+===========================
+
+
+Lab: Descriptive Statistics
+---------------------------
+
+From the ``grades`` collection, find the class (display the ``class_id``) with the best average student performance.
+
+If you have not already done so, import the grades collection as follows.
+
+.. code-block:: bash
+
+   mongoimport -d test -c grades --drop grades.json
+
+Before you attempt this exercise, explore the ``grades`` collection a little to ensure you understand how it is structured.
+
+For additional exercises, consider other statistics you might want to see with this data and how to calculate them.
+
+.. include:: /includes/student-notes.rst
