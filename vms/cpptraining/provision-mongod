@@ -19,9 +19,9 @@ function install_mongod(){
 	echo "Install MongoDB Enterprise"
 	sudo apt-get install -y --force-yes mongodb-enterprise mongodb-enterprise-server mongodb-enterprise-shell
 	sudo sh -c "killall mongod; true"
-	mkdir -p /home/vagrant/data
-	chmod -R 777 /home/vagrant/data
-	chown -R mongodb:mongodb /home/vagrant/data
+	mkdir -p /data
+	chmod -R 777 /data
+	chown -R mongodb:mongodb /data
 
   #cp /vagrant/mongod.conf /home/vagrant
 
@@ -78,11 +78,11 @@ function install_mongocpp(){
 }
 
 function configure_desktop(){
+	set +x
+	set +e
 	sudo apt-get install -y xfce4 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 ubuntu-desktop
 	sudo VBoxClient-all
 	sudo sed -i 's/allowed_users=console/allowed_users=anybody/g' /etc/X11/Xwrapper.config
-	sudo su - vagrant
-	startxfce4&
 }
 
 function install_ide(){
@@ -91,11 +91,22 @@ function install_ide(){
 	sudo apt-get install codeblocks -y
 }
 
+function install_dataset(){
+	mkdir -p /home/vagrantdataset
+	cd /home/vagrant/dataset
+	wget https://www.dropbox.com/s/64ivb07cxagtr4t/20160322.tgz
+	tar xvzf 20160322.tgz
+	cd
+}
+
 config
 update_repo
 install_mongod
 install_mongocpp_dependencies
 install_mongocpp
+install_dataset
 configure_desktop
 install_ide
 echo "DONE"
+
+reboot
