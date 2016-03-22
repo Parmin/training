@@ -92,7 +92,7 @@ function install_ide(){
 }
 
 function install_dataset(){
-	mkdir -p /home/vagrantdataset
+	mkdir -p /home/vagrant/dataset
 	cd /home/vagrant/dataset
 	wget https://www.dropbox.com/s/64ivb07cxagtr4t/20160322.tgz
 	tar xvzf 20160322.tgz
