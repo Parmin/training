@@ -6,9 +6,7 @@ Lab: Updating Documents
 Exercise: Pass Inspections
 --------------------------
 
-Using the ``sample.inspections`` namespace, let's go ahead and
-update all inspections with a result of "Completed" to have the result "No Violation Issued"
-
+In the sample.inspections namespace, let's imagine that we want to do a little data cleaning. We've decided to eliminate the "Completed" inspection result and use only "No Violation Issued" for such inspection cases. Please update all inspections accordingly.
 
 .. only:: instructor
 
@@ -16,14 +14,18 @@ update all inspections with a result of "Completed" to have the result "No Viola
 
       .. code-block:: javascript
 
-        db.inspections.update({result: 'No Violation Issued'}, {$set: {result: 'Completed' }},false, true  )
+        db.inspections.update({result: "Completed"},
+                              {$set: {result: "No Violation Issued"}},
+                              false,
+                              true )
         WriteResult({
           "nMatched": 37749,
           "nUpserted": 0,
           "nModified": 37749
         })
         //or
-        db.inspections.updateMany({result: 'No Violation Issued'}, {$set: {result: 'Completed' }})
+        db.inspections.update({result: "Completed"},
+                              {$set: {result: "No Violation Issued"}})
         {
           "acknowledged": true,
           "matchedCount": 37749,
@@ -34,11 +36,10 @@ update all inspections with a result of "Completed" to have the result "No Viola
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Set  ``fine`` value
------------------------------
+Exercise: Set ``fine`` value
+----------------------------
 
-- To all inspections that failed the inspection
-- We will be setting a fine value of 100
+For all inspections that failed, set a ``fine`` value of 100.
 
 .. only:: instructor
 
@@ -46,7 +47,10 @@ Exercise: Set  ``fine`` value
 
       .. code-block:: javascript
 
-        db.inspections.update({'result': 'Fail'}, {$set: {fine: 100}}, false, true  )
+        db.inspections.update({result: "Fail"},
+                              {$set: {fine: 100}},
+                              false,
+                              true)
         WriteResult({
           "nMatched": 1120,
           "nUpserted": 0,
@@ -56,10 +60,8 @@ Exercise: Set  ``fine`` value
 Exercise: Increase ``fine`` in ROSEDALE
 ---------------------------------------
 
-- Update all inspections done in the city of **"ROSEDALE"**
-- To failed inspections
-- Raise the ``fine`` value by 150
-
+- Update all inspections done in the city of **"ROSEDALE"**.
+- For failed inspections, raise the ``fine`` value by 150.
 
 .. only:: instructor
 
@@ -67,20 +69,23 @@ Exercise: Increase ``fine`` in ROSEDALE
 
       .. code-block:: javascript
 
-        db.inspections.update({'address.city': 'ROSEDALE', result: 'Fail' }, {$inc: {fine: 150 }},false, true  )
+        db.inspections.update({"address.city": "ROSEDALE", result: "Fail" },
+                              {$inc: {fine: 150}},
+                              false,
+                              true)
         WriteResult({
           "nMatched": 2,
           "nUpserted": 0,
-          "nModified": 2Â
+          "nModified": 2
         })
 
 .. include:: /includes/student-notes.rst
 
 
 Exercise: Give a pass to "MONGODB"
----------------------------------------
+----------------------------------
 
-- Today MongoDB got a visit from the inspectors
+- Today MongoDB got a visit from the inspectors.
 - We passed, of course.
 - So go ahead and update "MongoDB" and set the ``result`` to "AWESOME"
 - MongoDB's address is {city: 'New York', zip: 10036, street: '43', number: 229}
@@ -91,18 +96,19 @@ Exercise: Give a pass to "MONGODB"
 
       .. code-block:: javascript
 
-        db.inspections.update({'business_name': 'MongoDB' }, {
-        $set: {
-          address: {
-            city: 'New York',
-            zip: 10036, street: '43', number: 229
-          },
-          result: 'AWESOME',
-          id: "XXXXXXX",
-          certificate_number: 140021221},
-        $currentDate: {date: { $type: "date" } }
-        },
-          true, false  )
+        db.inspections.update({business_name: "MongoDB"},
+                              {$set: {
+                                   address: {
+                                       city: "New York",
+                                       zip: 10036,
+                                       street: "43",
+                                       number: 229 },
+                                   result: "AWESOME",
+                                   id: "XXXXXXX",
+                                   certificate_number: 140021221} ,
+                               $currentDate: {date: { $type: "date" } } },
+                              true,
+                              false )
           WriteResult({
           "nMatched": 0,
           "nUpserted": 1,
@@ -110,18 +116,14 @@ Exercise: Give a pass to "MONGODB"
           "_id": ObjectId("XXXXXXXXX")
         })
 
-    In this exercise we can also add a variation around the certificate_number
-    to check o can come up with the query that finds out which would be
-    the following certificate_number.
+    We can also add a variation to see if students can determine how to sort results so they can look at certificate numbers granted in sequence. Kudos to students that recognize the need to filter for certificate_number values that are integers and also do some form of projection.
 
-    You may also want to ask what query would be required if we want to get the
-    next `certificate_number` value. Extra points of appraisal for students that
-    come up with the following:
+    .. code-block:: javascript
 
-      .. code-block:: javascript
-
-        db.inspections.find({certificate_number: {$type:16}},
-          {certificate_number: 1, id: 1}).sort({certificate_number:-1}).limit(1)
+        db.inspections.find(
+            {certificate_number: {$type:16}},
+            {certificate_number: 1,
+             id:1}).sort({certificate_number:-1}).limit(1)
 
 .. include:: /includes/student-notes.rst
 
@@ -148,7 +150,8 @@ Write an update statement to increment the number of backpacks sold on Friday by
 
         .. code-block:: javascript
 
-          db.product_metrics.update( { "name" : "backpack" },
-            { $inc : { "purchases_past_7_days.4" : 200 } } )
+          db.product_metrics.update(
+              {name: "backpack" },
+              {$inc: { "purchases_past_7_days.4" : 200 } } )
 
 .. include:: /includes/student-notes.rst
