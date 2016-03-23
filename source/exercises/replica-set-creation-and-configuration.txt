@@ -6,10 +6,10 @@ Lab: Setting up a Replica Set
 Overview
 --------
 
-- In this exercise we will setup a 3 data node replica set on a single machine. 
+- In this exercise we will setup a 3 data node replica set on a single machine.
 - In production, each node should be run on a dedicated host:
 
-  - To avoid any potential resource contention 
+  - To avoid any potential resource contention
   - To provide isolation against server failure
 
 .. include:: /includes/student-notes.rst
@@ -123,15 +123,15 @@ Problems That May Occur When Initializing the Replica Set
 
 - bindIp parameter is incorrectly set
 - Replica set configuration may need to be explicitly specified to use a different hostname:
-  
+
 .. code-block:: javascript
-  
-  > conf = {             
+
+  > conf = {
       _id: "<REPLICA-SET-NAME>",
       members: [
           { _id : 0, host : "<HOSTNAME>:27017"},
           { _id : 1, host : "<HOSTNAME>:27018"},
-          { _id : 2, host : "<HOSTNAME>:27019", 
+          { _id : 2, host : "<HOSTNAME>:27019",
             "arbiterOnly" : true},
         ]
       }
@@ -194,12 +194,12 @@ To change the replica set configuration, first connect to the primary via mongo 
 
    mongo --port <PRIMARY_PORT>   # e.g. 27017
 
-Let's raise the priority of one of the secondaries. Assuming it is the 3rd node (e.g. on port 27019):
+Let's raise the priority of one of the secondaries. Assuming it is the 2nd node (e.g. on port 27018):
 
 .. code-block:: javascript
 
    cfg = rs.conf()
-   cfg["members"][2]["priority"] = 10
+   cfg["members"][1]["priority"] = 10
    rs.reconfig(cfg)
 
 .. include:: /includes/student-notes.rst
@@ -208,7 +208,7 @@ Let's raise the priority of one of the secondaries. Assuming it is the 3rd node 
 
    .. note::
 
-      - Note that ``cfg["members"][2]["priority"] = 10`` does not actually change the priority.
+      - Note that ``cfg["members"][1]["priority"] = 10`` does not actually change the priority.
       - ``rs.reconfig(cfg)`` does.
 
 
