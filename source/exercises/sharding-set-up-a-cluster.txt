@@ -9,7 +9,7 @@ Learning Objectives
 Upon completing this module students should understand:
 
 - How to set up a sharded cluster including:
-  
+
   - Replica Sets as Shards
   - Config Servers
   - Mongos processes
@@ -69,7 +69,7 @@ On Windows, run the following commands instead:
    md c:\data\cluster\shard2\m0 c:\data\cluster\shard2\m1 c:\data\cluster\shard2\arb
    md c:\data\cluster\s0 c:\data\cluster\s1
 
-    
+
 .. include:: /includes/student-notes.rst
 
 
@@ -95,8 +95,8 @@ Initiate a Replica Set (Linux/MacOS)
 
    mongo --port 27107 --eval "\
        rs.initiate(); sleep(3000);\
-       rs.add   ('<HOSTNAME>:27108');\
-       rs.addArb('<HOSTNAME>:27109')"
+       rs.add('$HOSTNAME:27108');\
+       rs.addArb('$HOSTNAME:27109')"
 
 
 .. include:: /includes/student-notes.rst
@@ -132,7 +132,7 @@ Initiate a Replica Set (Windows)
 
 Spin Up a Second Replica Set (Linux/MacOS)
 ------------------------------------------
-    
+
 .. code-block:: bash
 
    mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
@@ -152,14 +152,14 @@ Spin Up a Second Replica Set (Linux/MacOS)
 
    mongo --port 27117 --eval "\
        rs.initiate(); sleep(3000);\
-       rs.add   ('<HOSTNAME>:27118');\
-       rs.addArb('<HOSTNAME>:27119')"
+       rs.add   ('$HOSTNAME:27118');\
+       rs.addArb('$HOSTNAME:27119')"
 
 .. include:: /includes/student-notes.rst
 
 Spin Up a Second Replica Set (Windows)
 ------------------------------------------
-    
+
 .. code-block:: bash
 
    mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
@@ -188,7 +188,7 @@ Spin Up a Second Replica Set (Windows)
 
 A Third Replica Set (Linux/MacOS)
 ---------------------------------
-    
+
 .. code-block:: bash
 
    mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
@@ -208,14 +208,14 @@ A Third Replica Set (Linux/MacOS)
 
    mongo --port 27127 --eval "\
        rs.initiate(); sleep(3000);\
-       rs.add   ('<HOSTNAME>:27128');\
-       rs.addArb('<HOSTNAME>:27129')"
+       rs.add   ('$HOSTNAME:27128');\
+       rs.addArb('$HOSTNAME:27129')"
 
 .. include:: /includes/student-notes.rst
 
 A Third Replica Set (Windows)
 -----------------------------
-    
+
 .. code-block:: bash
 
    mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
@@ -244,7 +244,7 @@ A Third Replica Set (Windows)
 Status Check
 ------------
 
-- Now we have three replica sets running. 
+- Now we have three replica sets running.
 - We have one for each shard.
 - They do not know about each other yet.
 - To make them a sharded cluster we will:
@@ -312,12 +312,20 @@ Now our mongos's. We need to tell them about our config servers.
 .. code-block:: bash
 
    mongos --logpath ~/data/cluster/s0/mongos.log --fork --port 27017 \
-          --configdb localhost:27217,localhost:27218,localhost:27219
+          --configdb <HOSTNAME>:27217,<HOSTNAME>:27218,<HOSTNAME>:27219
 
    mongos --logpath ~/data/cluster/s1/mongos.log --fork --port 27018 \
-          --configdb localhost:27217,localhost:27218,localhost:27219
+          --configdb <HOSTNAME>:27217,<HOSTNAME>:27218,<HOSTNAME>:27219
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Students should replace <HOSTNAME> by the local machine name
+    - echo $HOSTNAME
+
 
 Launch the Mongos Processes (Windows)
 -------------------------------------
@@ -326,8 +334,9 @@ Now our mongos's. We need to tell them about our config servers.
 
 .. code-block:: bash
 
+   configseedlist="$HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219"
    mongos --logpath c:\data\cluster\s0\mongos.log --port 27017 \
-          --configdb localhost:27217,localhost:27218,localhost:27219
+          --configdb $configseedlist
 
    mongos --logpath c:\data\cluster\s1\mongos.log --port 27018 \
           --configdb localhost:27217,localhost:27218,localhost:27219
@@ -340,9 +349,9 @@ Add All Shards
 
 .. code-block:: bash
 
-   echo 'sh.addShard( "shard0/localhost:27107" ); \
-         sh.addShard("shard1/localhost:27117" ); \
-         sh.addShard( "shard2/localhost:27127" ); sh.status()' | mongo
+   echo "sh.addShard( 'shard0/$HOSTNAME:27107' ); \
+         sh.addShard( 'shard1/$HOSTNAME:27117' ); \
+         sh.addShard( 'shard2/$HOSTNAME:27127' ); sh.status()" | mongo
 
 .. note::
 
@@ -358,13 +367,24 @@ Enable sharding for the test database, shard a collection, and insert some docum
 
 .. code-block:: bash
 
-   echo 'sh.enableSharding("test"); \
-         sh.shardCollection("test.testcol", { a : 1, b : 1 } )' | mongo
+   mongo --port 27017
 
-   echo 'for (i=0; i<10000; i++) { docArr = []; for (j=0; j<1000; j++) { \
-        docArr.push( { a : i, b : j, c : "Filler String 000000000000000000000 \
-        000000000000000000000000000000000000000000000000000000000000000000000 \
-        000000000000000" } )  }; db.testcol.insert(docArr) }' | mongo
+.. code-block:: javascript
+
+   sh.enableSharding("test")
+   sh.shardCollection("test.testcol", { a : 1, b : 1 } )
+
+   for (i=0; i<1000; i++) {
+      docArr = [];
+      for (j=0; j<1000; j++) {
+        docArr.push(
+        {
+          a : i, b : j,
+          c : "Filler String 0000000000000000000000000000000000000000000000000"
+        } )
+      };
+   db.testcol.insert(docArr)
+   };
 
 
 Observe What Happens
