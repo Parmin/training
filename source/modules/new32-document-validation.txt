@@ -1,0 +1,219 @@
+===================
+Document Validation
+===================
+
+
+Learing Objectives
+------------------
+
+Upon completing this module, students should be able to:
+
+- Define the different types of document validation
+- Create, discover, and bypass document validation in a collection
+- List the restrictions on document validation
+
+.. include:: /includes/student-notes.rst
+
+
+Introduction to Document Validation
+-----------------------------------
+
+- Designed to ensure that you insert data in the proper schema
+
+  - Can be a layer of protection against bugs in the application
+
+- Can be implemented for either a new or for an existing collection
+- Can be bypassed without removing validation, if necessary
+
+.. include:: /includes/student-notes.rst
+
+
+Document Validation Options
+---------------------------
+
+- The first option to consider is *validationLevel*
+- Can be either
+
+  - *strict* 
+  
+    - applies to all inserts and updates
+
+  - *moderate*
+    
+    - Applies to all inserts
+    - Applies to all updates of valid documents
+    - Does not apply to updates of currently invalid documents
+
+  - *off*
+
+    - Turns validation off entirely
+
+.. include:: /includes/student-notes.rst
+
+
+Document Validation Options (Continued)
+---------------------------------------
+
+- In addition to the *validationLevel*, there is also a *validationAction*
+- Two possible actions
+
+  - *error*: rejects insertions/updates that violate the rule
+  - *warn*: logs rule violations, but allows them to proceed
+
+.. include:: /includes/student-notes.rst
+
+
+Creating a Collection with Document Validation
+----------------------------------------------
+
+- Suppose you want the following rules:
+
+  - At least one of the following
+  
+    - The *phone* field is a string
+    - The *email* field matches a regular expression
+    - The *status* field is either "Unknown" or "Incomplete"
+
+  - You want the *error* action, not *warn*
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The students may ask if it's strict or moderate validation
+    - Point out that it doesn't matter for new collections
+
+      - All new inserts must be valid
+      - All updates will be to valid documents
+
+    - So it's always *strict* for a new collection
+
+
+Creating a Collection with Document Validation (Continued)
+----------------------------------------------------------
+
+.. code-block:: javascript
+
+  db.createCollection( "contacts",
+     {
+        validator: { $or:
+           [
+              { phone: { $type: "string" } },
+              { email: { $regex: /@mongodb\.com$/ } },
+              { status: { $in: [ "Unknown", "Incomplete" ] } }
+           ]
+        },
+        validationAction: "error"
+     }
+  )
+
+.. include:: /includes/student-notes.rst
+
+
+Seeing the Results of Validation
+--------------------------------
+
+To see what the validation rules are for all collections in a database:
+
+.. code-block:: javascript
+
+  db.getCollectionInfos()
+
+And you can see the results when you try to insert:
+
+.. code-block:: javascript
+
+  db.contacts.insert( { _id : "Will", phone : "(112)-358-1321" } )  // will work
+  db.contacts.insertOne( { _id : "John Snow", email : "john.snow@mongodb.com" } ) // will work
+  db.contacts.insertOne( { _id : "Larry Page", email : "larry@google.com" } )  // won't work
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Be sure to demonstrate these for the students
+
+
+Adding Validation to an Existing Collection
+-------------------------------------------
+
+.. code-block::javascript
+
+  db.contacts.drop()
+  db.contacts.insertOne( { _id : "Fibonacci", phone: "(112)-358-1321" } )
+  db.contacts.insertOne( { _id : "Larry Page", email : "larry@google.com" } )  // will work
+  db.runCommand( {
+     collMod: "contacts",
+     validator: { $or:
+        [
+           { phone: { $type: "string" } },
+           { email: { $regex: /@mongodb\.com$/ } },
+           { status: { $in: [ "Unknown", "Incomplete" ] } }
+        ]
+     },
+     validationAction: "error",
+     validationLevel: "moderate"
+  } )
+  db.contacts.updateOne( { _id : "Larry Page" }, { $set : { email : "nothing" } } )  // will work
+  db.contacts.updateOne( { _id : "Fibonacci" }, { $set : { phone : null } } )  // will fail
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Both inserts worked b/c there was no validation
+    - The Larry Page update worked because the document was already invalid and "moderate" validationLevel will let them stay invalid
+    - The Fibonacci update failed because the document was valid, and was moved to an invalid state.
+
+
+Bypassing Document Validation
+-----------------------------
+
+- You can bypass document validation
+- This is subject to user roles restrictions
+- See documentation for details 
+
+  - Doesn't work on standard operations like updateOne
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - User roles are covered in the security section
+    - The user roles of "dbAdmin" and "restore" are allowed
+    - You can also have the "bypassDocumentValidation" action set for a custom role
+    - Works with
+
+      - applyOps command
+      - insert command (*not* db.collection.insertOne or db.collection.insertMany)
+      - update command (*not* db.collection.updateOne or db.collection.updateMany)
+      - $out for aggregation pipeline
+      - findAndModify command and db.collection.findAndModify
+      
+
+Limits of Document Validation
+-----------------------------
+
+- You cannot validate documents for the following databases:
+
+  - admin
+  - local
+  - config
+
+- Nor for collections that start with "system.*"
+- Some user roles can still bypass validation
+- validationLevel of "warn" will still allow invalid documents
+
+  - It just logs them
+
+.. include:: /includes/student-notes.rst
