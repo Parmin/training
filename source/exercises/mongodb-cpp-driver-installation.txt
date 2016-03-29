@@ -1,6 +1,6 @@
-==================================
-Lab: Installing C++ MongoDB Driver
-==================================
+======================================
+Lab: Installing the MongoDB C++ Driver
+======================================
 
 
 Learning Objectives

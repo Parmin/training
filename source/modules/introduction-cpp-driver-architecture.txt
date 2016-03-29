@@ -1,6 +1,6 @@
-===============================
-MongoDB C++ Driver Introduction
-===============================
+======================================
+Introduction to the MongoDB C++ Driver
+======================================
 
 
 Learning Objectives
