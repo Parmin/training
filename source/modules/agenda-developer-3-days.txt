@@ -6,345 +6,147 @@ Developer Training (3 Days)
 Day 1 (Morning)
 ---------------
 
-- Introduction (30 minutes)
-- Lab: Installing and configuring MongoDB (30 minutes)
-- CRUD (2 hours)
-
-.. include:: /includes/student-notes.rst
-
-Introduction (40 minutes)
--------------------------
-
-- |link_warmup|
-- |link_overview|
-- |link_stores|
-- |link_storage|
-- |link_cpp|
-
-.. |link_warmup| raw:: html
-
-   <a href="introduction-warmup.html">Warm Up</a>
-
-.. |link_overview| raw:: html
-
-   <a href="introduction-overview.html">MongoDB Overview</a>
-
-.. |link_stores| raw:: html
-
-   <a href="introduction-mongodb-stores-documents.html">MongoDB Stores Documents</a>
-
-.. |link_storage| raw:: html
-
-   <a href="introduction-storage-engines.html">Storage Engines</a>
-
-.. |link_cpp| raw:: html
-
-  <a href="introduction-cpp-driver-architecture.html">C++ Driver Architecture</a>
+- Introduction and Installation (1 hour)
+- The MongoDB C++ Driver (1 hour)
+- CRUD, Part I (1 hour)
 
 .. include:: /includes/student-notes.rst
 
 
-Lab: Installing and configuring MongoDB (40 minutes)
-----------------------------------------------------
+Introduction (1 hour)
+---------------------
 
-- |lab_install_link|
-- |lab_install_driver_link|
-- Review answers
-
-.. |lab_install_link| raw:: html
-
-   <a href="../exercises/mongodb-installation.html">Lab: Installing and configuring MongoDB</a>
-
-.. |lab_install_driver_link| raw:: html
-
-  <a href="../exercises/mongodb-cpp-driver-install.html">Lab: Installing C++ MongoDB Driver</a>
-
-.. include:: /includes/student-notes.rst
+- :doc:`/modules/introduction-warmup`
+- :doc:`/modules/introduction-overview`
+- :doc:`/modules/introduction-mongodb-stores-documents`
+- :doc:`/modules/introduction-storage-engines`
+- :doc:`/exercises/mongodb-installation`
 
 
-CRUD (2 hours)
---------------
+The MongoDB C++ Driver (1 hour)
+-------------------------------
 
-- |crud_create|
-- |crud_read|
-- |crud_query|
-- |crud_lab_find|
-- |crud_update|
-- |crud_lab_updating|
+- :doc:`/modules/drivers-introduction`
+- :doc:`/modules/introduction-cpp-driver-architecture`
+- :doc:`/exercises/mongodb-cpp-driver-installation`
 
-.. |crud_create| raw:: html
 
-   <a href="crud-creating-and-deleting-documents.html">Creating and Deleting Documents</a>
+CRUD, Part I (1 hour)
+---------------------
 
-.. |crud_read| raw:: html
-
-   <a href="crud-reading-documents.html">Reading Documents</a>
-
-.. |crud_query| raw:: html
-
-   <a href="crud-query-operators.html">Query Operators</a>
-
-.. |crud_lab_find| raw:: html
-
-   <a href="../exercises/crud-querying-documents.html">Lab: Finding Documents</a>
-
-.. |crud_update| raw:: html
-
-   <a href="crud-updating-documents.html">Updating Documents</a>
-
-.. |crud_lab_updating| raw:: html
-
-   <a href="../exercises/crud-updating-documents.html">Lab: Updating Documents</a>
-
-.. include:: /includes/student-notes.rst
+- :doc:`/modules/crud-creating-and-deleting-documents`
+- :doc:`/modules/crud-reading-documents`
 
 
 Day 1 (Afternoon)
 -----------------
 
-- Indexes (2 hours)
-- Lab: Building and Examining Indexes (30 minutes)
-- Aggregation (1.5 hours)
+- CRUD, Part II (2 hours)
+- Indexes, Part I (1 hour)
+- Indexes, Part II (1 hour)
 
-.. include:: /includes/student-notes.rst
 
-Indexes (2 hours)
------------------
 
-- |indexes_fund|
-- |indexes_compound|
-- |indexes_multikey|
-- |indexes_hashed|
-- |indexes_geo|
-- |indexes_ttl|
-- |indexes_text|
 
-.. |indexes_fund| raw:: html
-
-   <a href="indexes-fundamentals.html">Index Fundamentals</a>
-
-.. |indexes_compound| raw:: html
-
-   <a href="indexes-compound.html">Compound Indexes</a>
-
-.. |indexes_multikey| raw:: html
-
-   <a href="indexes-multikey.html">Multikey Indexes</a>
-
-.. |indexes_hashed| raw:: html
-
-   <a href="indexes-hashed.html">Hashed Indexes</a>
-
-.. |indexes_geo| raw:: html
-
-   <a href="indexes-geo.html">Geospatial Indexes</a>
-
-.. |indexes_ttl| raw:: html
-
-   <a href="indexes-TTL.html">TTL Indexes</a>
-
-.. |indexes_text| raw:: html
-
-   <a href="indexes-text.html">Text Indexes</a>
-
-.. include:: /includes/student-notes.rst
-
-Lab: Building and Examining Indexes (30 minutes)
-------------------------------------------------
-
-- |lab_indexes|
-- Review Answers
-
-.. |lab_indexes| raw:: html
-
-   <a href="../exercises/indexes-exercises.html">Lab: Building and Examining Indexes</a>
-
-.. include:: /includes/student-notes.rst
-
-Aggregation (1.5 hours)
+CRUD, Part II (2 hours)
 -----------------------
 
-- |aggregation_tut|
-- |aggregation_opt|
-- |aggregation_lab_link|
+- :doc:`/modules/crud-query-operators`
+- :doc:`/exercises/crud-querying-documents`
+- :doc:`/modules/crud-updating-documents`
+- :doc:`/exercises/crud-updating-documents`
 
 
-.. |aggregation_tut| raw:: html
 
-   <a href="aggregation.html">Aggregation Tutorial</a>
 
-.. |aggregation_opt| raw:: html
+Indexes, Part I (1 hour)
+------------------------
 
-   <a href="aggregation-optimization.html">Optimizing Aggregation</a>
+- :doc:`/modules/indexes-fundamentals`
+- :doc:`/modules/indexes-compound`
+- :doc:`/exercises/indexes-optimizing-an-index`
+- :doc:`/modules/indexes-multikey`
+- :doc:`/modules/indexes-hashed`
 
-.. |aggregation_lab_link| raw:: html
 
-   <a href="../exercises/aggregation-exercises.html">Lab: Aggregating Zip Code Data</a>
+Indexes, Part II (1 hour)
+-------------------------
 
-.. include:: /includes/student-notes.rst
+- :doc:`/modules/indexes-geo`
+- :doc:`/modules/indexes-TTL`
+- :doc:`/modules/indexes-text`
+- :doc:`/exercises/indexes-finding-slow-operations`
+- :doc:`/exercises/indexes-using-explain`
+
+
 
 
 Day 2 (Morning)
 ---------------
 
-- Schema Design (3 hours)
+- Aggregation (2.5 hours)
 
-.. include:: /includes/student-notes.rst
 
-Schema Design (3 hours)
+Aggregation (2.5 hours)
 -----------------------
 
-- |schema_link|
-- |schema_evol|
-- |schema_patterns|
-- |schema_lab_link|
-- Review class answers
+- :doc:`/modules/aggregation`
+- :doc:`/modules/aggregation-optimization`
+- :doc:`/exercises/aggregation-working-with-array-fields`
+- :doc:`/exercises/aggregation-repeated-aggregation-stages`
+- :doc:`/exercises/aggregation-descriptive-statistics`
 
-.. |schema_link| raw:: html
-
-   <a href="schema-design-core-concepts.html">Schema Design Core Concepts</a>
-
-.. |schema_evol| raw:: html
-
-   <a href="schema-design-application-lifetime.html">Schema Evolution</a>
-
-.. |schema_patterns| raw:: html
-
-   <a href="schema-design-common-design-patterns.html">Common Schema Design Patterns</a>
-
-.. |schema_lab_link| raw:: html
-
-   <a href="../exercises/schema-group-exercise.html">Group Lab: Data Model for an E-Commerce Site</a>
-
-.. include:: /includes/student-notes.rst
 
 
 Day 2 (Afternoon)
 -----------------
 
-- Replication (4 hours)
-
-.. include:: /includes/student-notes.rst
-
-Replication (4 hours)
----------------------
-
-- |replication_link|
-- |replication_election|
-- |replication_roles|
-- |replication_oplog|
-- |replication_wc|
-- |replication_rp|
-- |replication_lab_link|
+- Schema Design (3 hours)
+- Replica Sets, Part I (1 hour)
 
 
-.. |replication_link| raw:: html
+Schema Design (3 hours)
+-----------------------
 
-   <a href="replica-set-introduction.html">Introduction to Replica Sets</a>
+- :doc:`/modules/schema-design-core-concepts`
+- :doc:`/modules/schema-design-application-lifetime`
+- :doc:`/modules/schema-design-common-design-patterns`
+- :doc:`/exercises/schema-group-exercise`
 
-.. |replication_election| raw:: html
 
-   <a href="replica-set-elections.html">Elections in Replica Sets</a>
+Replica Sets, Part I (1 hour)
+-----------------------------
 
-.. |replication_roles| raw:: html
-
-   <a href="replica-set-roles-and-configuration.html">Replica Sets Roles and Configurations</a>
-
-.. |replication_oplog| raw:: html
-
-   <a href="replica-set-oplog.html">The Oplog: Statement Based Replication</a>
-
-.. |replication_wc| raw:: html
-
-   <a href="replica-set-write-concern.html">Write Concern</a>
-
-.. |replication_rp| raw:: html
-
-   <a href="replica-set-read-preference.html">Read Preference</a>
-
-.. |replication_lab_link| raw:: html
-
-   <a href="../exercises/replica-set-creation-and-configuration.html">Lab: Setting up a Replica Set</a>
-
-.. include:: /includes/student-notes.rst
-
+- :doc:`/modules/replica-set-introduction`
+- :doc:`/modules/replica-set-elections`
 
 
 Day 3 (Morning)
 ---------------
 
-- Sharding (3 hours)
+- Replica Sets, Part II (3 hours)
 
-.. include:: /includes/student-notes.rst
 
-Sharding (3 hours)
-------------------
-
-- |sharding_link|
-- |sharding_balance|
-- |sharding_tags|
-- |sharding_lab_link|
-
-.. |sharding_link| raw:: html
-
-   <a href="sharding-intro.html">Introduction to Sharding</a>
-
-.. |sharding_balance| raw:: html
-
-   <a href="sharding-balancing.html">Balancing Shards</a>
-
-.. |sharding_tags| raw:: html
-
-   <a href="sharding-tags.html">Shard Tags</a>
-
-.. |sharding_lab_link| raw:: html
-
-   <a href="../exercises/sharding-set-up-a-cluster.html">Lab: Setting Up a Sharded Cluster</a>
-
-.. include:: /includes/student-notes.rst
+Replica Sets, Part II (3 hours)
+---------------------------------
+- :doc:`/modules/replica-set-roles-and-configuration`
+- :doc:`/modules/replica-set-oplog`
+- :doc:`/exercises/replica-set-oplog`
+- :doc:`/modules/replica-set-write-concern`
+- :doc:`/modules/replica-set-read-preference`
+- :doc:`/exercises/replica-set-creation-and-configuration`
 
 
 Day 3 (Afternoon)
 -----------------
 
-- Drivers (2 hours)
-- Performance Troubleshooting (2 hours)
+- Sharding (3 hours)
 
-.. include:: /includes/student-notes.rst
 
-Drivers (2 hours)
------------------
+Sharding (3 hours)
+------------------
 
-- |intro_mm|
-- |mm_lab_4|
-
-.. |intro_mm| raw:: html
-
-   <a href="mongomart.html">Introduction to MongoMart</a>
-
-.. |mm_lab_4| raw:: html
-
-   <a href="mongomart-java.html#lab-4-improve-how-reviews-are-stored-and-queried">Instructor Demo: Improve How Reviews are Stored and Queried in MongoMart</a>
-
-.. include:: /includes/student-notes.rst
-
-Performance Troubleshooting (2 hours)
--------------------------------------
-
-- |tools|
-- |mtools|
-- |prod_notes|
-
-.. |tools| raw:: html
-
-   <a href="performance.html">Performance Troublshooting</a>
-
-.. |mtools| raw:: html
-
-   <a target="_blank" href="https://github.com/rueckstiess/mtools">Mtools</a>
-
-.. |prod_notes| raw:: html
-
-   <a target="_blank" href="http://docs.mongodb.org/manual/administration/production-notes/">MongoDB Production Notes</a>
-
-.. include:: /includes/student-notes.rst
+- :doc:`/modules/sharding-intro`
+- :doc:`/modules/sharding-balancing`
+- :doc:`/modules/sharding-tags`
+- :doc:`/exercises/sharding-set-up-a-cluster`
