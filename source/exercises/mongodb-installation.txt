@@ -223,7 +223,7 @@ Import Exercise Data
 
    mongorestore -d air air
 
-**Note:** If there is an error importing data directly from a USB drive, please copy the sampledata.zip file to your local computer first.
+**Note:** If there is an error importing data from a USB drive, copy sampledata.zip to your local computer first.
 
 .. include:: /includes/student-notes.rst
 
