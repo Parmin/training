@@ -30,8 +30,8 @@ Comparison Query Operators
 .. include:: /includes/student-notes.rst
 
 
-Example: Comparison Operators (Setup)
---------------------------------------
+Example (Setup)
+---------------
 
 .. code-block:: javascript
 
