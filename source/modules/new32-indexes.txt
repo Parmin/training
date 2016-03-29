@@ -118,6 +118,32 @@ Partial Indexes vs. Sparse Indexes
 .. include:: /includes/student-notes.rst
 
 
+Question
+--------
+
+When you have a partial index on a field in a collection, which documents will have an index key in that index?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Correct answer: 
+     
+      - Only those documents where the field matches a particular query (or filter expression)
+
+    - Wrong answers:
+
+      - All documents
+
+        - This is the case for standard indexes. 
+
+      - Only those documents where the field is present
+
+        - This is the case for sparse indexes, which you can now think of as a subset of partial indexes
+
+
 Partial Indexes - Advantages
 ----------------------------
 
@@ -149,6 +175,34 @@ Partial Indexes - Use Cases
   .. note::
 
     - "A small subset" usually means at least an order of magnitude less
+
+
+Question
+--------
+
+What is a valid use case for a partial index?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Correct answer:
+      
+        - When only a small subset of the keys ever get queried, and never any part of the larger set
+        - It allows you to save disk space and keep the index smaller when it's in memory
+
+    - Incorrect answers
+    
+      - Getting full coverage for all index keys present in a field in the collection
+
+        - Useful only in cases where you only need some of the index keys
+
+      - When you want multiple indexes on the same key
+
+        - MongoDB won't allow you to build these
+        - They would increase total overhead in the indexes without improving performance
 
 
 Identifying Partial Indexes
@@ -266,4 +320,56 @@ Partial Indexes - Tips
     - The reason why it isn't used is that the index doesn't know when it's going to miss documents
 
       - So the server has to be careful
+
+Question
+--------
+
+Here are your indexes:
+
+.. code-block:: javascript
+
+  > db.scores.getIndexes()
+  [
+    {
+      "v" : 1,
+      "key" : {
+        "_id" : 1
+      },
+      "name" : "_id_",
+      "ns" : "test.scores"
+    },
+    {
+      "v" : 1,
+      "key" : {
+        "score" : 1,
+        "student_id" : 1
+      },
+      "name" : "score_1_student_id_1",
+      "ns" : "test.scores",
+      "partialFilterExpression" : {
+        "score" : {
+          "$gte" : 0.65
+        },
+        "subject_name" : "history"
+      }
+    }
+  ]
+
+Which of the following documents are indexed?
+
+.. code-block:: javascript
+
+  { "_id" : ObjectId("56f584eedd48dc94f645bbbc"), "student_id" : 2, "subject_id" : 5, "score" : 0.8427400308789077, "subject_name" : "history" }
+  { "_id" : ObjectId("56f584eedd48dc94f645bb87"), "student_id" : 3, "subject_id" : 5, "score" : 0.5709192872517002, "subject_name" : "history" }
+  { "_id" : ObjectId("56f584eedd48dc94f645bb88"), "student_id" : 4, "subject_id" : 1, "score" : 0.5655646907360857, "subject_name" : "physics" }
+  { "_id" : ObjectId("56f584eedd48dc94f645bb89"), "student_id" : 4, "subject_id" : 1, "score" : 0.7524370314265274, "subject_name" : "physics" }
+  { "_id" : ObjectId("56f584eedd48dc94f645bbc6"), "student_id" : 3, "subject_id" : 5, "score" : 0.8934865718211463, "subject_name" : "history" }
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The first and last documents are the ones that will be indexed.
 
