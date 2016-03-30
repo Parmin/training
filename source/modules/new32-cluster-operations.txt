@@ -1,0 +1,144 @@
+=====================================
+New Cluster Operations in MongoDB 3.2
+=====================================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students will be able to:
+
+- Distinguish stale from dirty reads
+- Use Read Concern in MongoDB 3.2
+- State which of those read concern solves, and how
+- List the differences between using config servers as replica sets (CSRS) and the original replication protocol
+- Evaluate the merits of each with respect to the other
+- Changes to Write Concern
+
+
+Background: Stale Reads
+-----------------------
+
+- Occurs when the data read from the DB does not reflect the most recent writes that have occurred
+
+  - This can occur when you are reading from secondaries
+  - Databases that permit stale reads are sometimes called "Eventually consistent"
+
+- The data is still consistent, it's just an old version
+- A Read Preference of Primary is designed to prevent stale reads
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - If asked about Aphyr's blog post, "Jepsen: MongoDB Stale Reads"
+
+      - https://aphyr.com/posts/322-jepsen-mongodb-stale-reads
+      - Aphyr found a way to create an edge case for stale reads, where one primary hadn't stepped down yet, but another was elected first from the existing primary.  
+      - It's an edge case, and you can see its status here:
+
+        - https://jira.mongodb.org/browse/SERVER-17975?jql=project%20%3D%20SERVER%20AND%20text%20~%20%22stale%20reads%22
+        - As of March 2016, the bug has not yet been fixed.
+
+
+Background: Dirty Reads
+-----------------------
+
+- Occurs when an application sees a write
+
+  - But that write will get lost
+
+- Can occur during a network partition
+- Can occur if a server goes down before replication propagates the write
+
+  - With rollback, if the write made it to the journal
+  - Without rollback, if not
+
+- It involves reading a write that will disappear
+
+  - It will be as if that write had never occurred
+
+.. include:: /includes/student-notes.rst
+
+
+Background: Dirty Reads and Write Concern
+-----------------------------------------
+
+- A write concern of w: 2 or greater doesn't prevent dirty reads
+
+  - A write might go unacknowledged
+
+    - Even though it's there on the primary
+
+  - But that won't prevent another server from reading it
+
+- No functionality available as MongoDB 3.0 can prevent dirty reads
+
+.. include:: /includes/student-notes.rst
+
+
+Background: Stale vs. Dirty Reads
+---------------------------------
+
+- Stale reads are reads that reflect an old, but valid, view of the data
+
+  - They involve missing some set of writes after a certain point in time
+  - Reading from a secondary will often cause these
+
+- Dirty reads are reads that reflect data that will not persist
+
+  - Can occur due to server failure, network partitions
+  - They are, in some sense, not valid reads
+
+.. include:: /includes/student-notes.rst
+
+
+Introduction to Read Concern
+----------------------------
+
+- Introduced in MongoDB 3.2
+- Prevents dirty reads
+- Two settings
+
+  - "local": read the most recent data on the server
+    
+    - This is the historical behavior
+
+  - "majority": read the data only after it cannot be rolled back
+
+    - An older version of the data is returned for reads until each write reaches a majority of the replica set members
+
+.. include:: /includes/student-notes.rst
+
+
+Using Read Concern 
+------------------
+
+- You must:
+
+  - Use WiredTiger
+  - Start the mongod with the flag `--enableMajorityReadConcern`
+
+- In the shell, you can use `cursor.readConcern("majority")
+- Use both "majority" Read Concern and "majority" Write Concern
+
+  - Otherwise, an application may not "see" its own writes
+
+.. include:: /includes/student-notes.rst
+
+
+Read Concern and Read Preference
+--------------------------------
+
+- Read Preference determines the server you are reading from
+- Read Concern determines how far a write has propagated
+- With read concern enabled, the Primary and all Secondaries are keeping track of how many servers a write has reached
+- The Primary server in a replica set will always have the most current data
+
+  - No Secondary will ever allow a write to be read before the Primary does
+
+- Use a Read Preference of Primary when using a Read Concern of "majority"
+
+.. include:: /includes/student-notes.rst
