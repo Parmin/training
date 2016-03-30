@@ -18,14 +18,21 @@ Upon completing this module, students should be able to:
 Introduction to Document Validation
 -----------------------------------
 
-- Designed to ensure that you insert data in the proper schema
+- Designed to ensure that the application inserts data with the proper schema
 
   - Can be a layer of protection against bugs in the application
 
-- Can be implemented for either a new or for an existing collection
+- Can be implemented for a new or existing collection
 - Can be bypassed without removing validation, if necessary
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - Bypassing the instruction will involve logging in with a privileged account (if auth is enabled) and running special commands.
+    - You cannot bypass document validation with updateOne, insertMany, etc.
 
 
 Document Validation Options
@@ -57,8 +64,8 @@ Document Validation Options (Continued)
 - In addition to the *validationLevel*, there is also a *validationAction*
 - Two possible actions
 
-  - *error*: rejects insertions/updates that violate the rule
-  - *warn*: logs rule violations, but allows them to proceed
+  - *error* : rejects insertions/updates that violate the rule
+  - *warn* : logs rule violations, but allows them to proceed
 
 .. include:: /includes/student-notes.rst
 
@@ -68,7 +75,7 @@ Creating a Collection with Document Validation
 
 - Suppose you want the following rules:
 
-  - At least one of the following
+  - At least one of the following:
   
     - The *phone* field is a string
     - The *email* field matches a regular expression
@@ -125,7 +132,7 @@ And you can see the results when you try to insert:
 
 .. code-block:: javascript
 
-  db.contacts.insert( { _id : "Will", phone : "(112)-358-1321" } )  // will work
+  db.contacts.insertOne( { _id : "Will", phone : "(112)-358-1321" } )  // will work
   db.contacts.insertOne( { _id : "John Snow", email : "john.snow@mongodb.com" } ) // will work
   db.contacts.insertOne( { _id : "Larry Page", email : "larry@google.com" } )  // won't work
 
@@ -142,7 +149,7 @@ And you can see the results when you try to insert:
 Adding Validation to an Existing Collection
 -------------------------------------------
 
-.. code-block::javascript
+.. code-block:: javascript
 
   db.contacts.drop()
   db.contacts.insertOne( { _id : "Fibonacci", phone: "(112)-358-1321" } )
