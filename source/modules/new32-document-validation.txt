@@ -9,6 +9,9 @@ Learing Objectives
 Upon completing this module, students should be able to:
 
 - Define the different types of document validation
+
+  - And the use cases for each
+
 - Create, discover, and bypass document validation in a collection
 - List the restrictions on document validation
 
@@ -18,56 +21,134 @@ Upon completing this module, students should be able to:
 Introduction to Document Validation
 -----------------------------------
 
-- Designed to ensure that the application inserts data with the proper schema
+- Prevents or warns warns when the following occurs:
 
-  - Can be a layer of protection against bugs in the application
+  - Insert/update of documents that don't match a schema
 
+- Designed as a layer of protection against bugs in the application
 - Can be implemented for a new or existing collection
-- Can be bypassed without removing validation, if necessary
+- Can be bypassed, if necessary
 
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
 
-  .. note:: 
+validationLevel
+---------------
 
-    - Bypassing the instruction will involve logging in with a privileged account (if auth is enabled) and running special commands.
-    - You cannot bypass document validation with updateOne, insertMany, etc.
-
-
-Document Validation Options
----------------------------
-
-- The first option to consider is *validationLevel*
-- Can be either
-
-  - *strict* 
+- Determines what to apply validation *to*
   
-    - applies to all inserts and updates
-
-  - *moderate*
+- Can be:
+  
+  - "strict" applies to:
+  
+    - All inserts and updates
+  
+  - "moderate" applies to:
     
-    - Applies to all inserts
-    - Applies to all updates of valid documents
-    - Does not apply to updates of currently invalid documents
-
+    - All inserts
+    - All updates of valid documents
+    - **Not** to updates of currently invalid documents
+  
   - *off*
-
+  
     - Turns validation off entirely
 
 .. include:: /includes/student-notes.rst
 
 
-Document Validation Options (Continued)
----------------------------------------
+validationAction
+----------------
 
-- In addition to the *validationLevel*, there is also a *validationAction*
-- Two possible actions
+- What to do when an invalid document is either
+
+  - Inserted
+  - Updated illegally
+
+- Possible actions
 
   - *error* : rejects insertions/updates that violate the rule
   - *warn* : logs rule violations, but allows them to proceed
 
 .. include:: /includes/student-notes.rst
+
+
+Question
+--------
+
+- What are the uses for the two validationLevels?
+- What are the uses for the two validationActions?
+
+.. include:: /includes/student-notes.rst
+
+  .. only:: instructor
+
+    .. note::
+
+      - After the next two slides, you can come back and review their answers
+
+
+Document Validation Options: Use Cases
+--------------------------------------
+
+- validationLevel: "strict"
+
+    - Useful when you're doing one of the following:
+
+      - Changing a schema
+
+        - All updates should map to the new schema
+
+      - Creating a new collection
+      - Validating an existing collection already in compliance
+
+.. include:: /includes/student-notes.rst
+
+
+Document Validation Options: Use Cases (continued)
+--------------------------------------------------
+
+- validationLevel: "moderate"
+
+  - Useful when you're doing one of the following:
+
+    - Changing a schema, and you haven't migrated fully
+    - Application can't map the old schema to the new
+
+.. include:: /includes/student-notes.rst
+
+
+Document Validation Options: Use Cases (continued)
+--------------------------------------------------
+
+  - validationAction: "error"
+
+    - Useful when:
+    
+      - The application needs to rely on valid documents
+      - Applications can't be trusted to write properly
+      - It is better to prevent invalid documents
+
+.. include:: /includes/student-notes.rst
+
+
+Document Validation Options: Use Cases (continued)
+--------------------------------------------------
+
+  - validationAction: "warn"
+
+    - Useful when:
+
+      - You need to receive all writes
+      - Your application can handle other schemas
+      - Tracking schema-related issues is important
+
+.. include:: /includes/student-notes.rst
+
+  .. only:: instructor
+
+    .. note::
+
+      - You can compare their answers to what you've discussed in this slide and the previous ones
 
 
 Creating a Collection with Document Validation
@@ -96,6 +177,7 @@ Creating a Collection with Document Validation
       - All updates will be to valid documents
 
     - So it's always *strict* for a new collection
+    - If you want the students to do it on their own, don't go to the next slide, yet
 
 
 Creating a Collection with Document Validation (Continued)
@@ -103,7 +185,7 @@ Creating a Collection with Document Validation (Continued)
 
 .. code-block:: javascript
 
-  db.createCollection( "contacts",
+  db.createCollection("contacts",
      {
         validator: { $or:
            [
@@ -139,12 +221,6 @@ And you can see the results when you try to insert:
 
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
-
-  .. note::
-
-    - Be sure to demonstrate these for the students
-
 
 Adding Validation to an Existing Collection
 -------------------------------------------
@@ -176,7 +252,7 @@ Adding Validation to an Existing Collection
 
   .. note::
 
-    - Both inserts worked b/c there was no validation
+    - First two inserts worked b/c there was no validation at first
     - The Larry Page update worked because the document was already invalid and "moderate" validationLevel will let them stay invalid
     - The Fibonacci update failed because the document was valid, and was moved to an invalid state.
 
@@ -187,8 +263,10 @@ Bypassing Document Validation
 - You can bypass document validation
 - This is subject to user roles restrictions
 - See documentation for details 
+- Security roles: 
 
-  - Doesn't work on standard operations like updateOne
+  - "dbAdmin" and "restore" can bypass validation
+  - "bypassDocumentValidation" action can be set
 
 .. include:: /includes/student-notes.rst
 
@@ -197,16 +275,7 @@ Bypassing Document Validation
   .. note::
 
     - User roles are covered in the security section
-    - The user roles of "dbAdmin" and "restore" are allowed
-    - You can also have the "bypassDocumentValidation" action set for a custom role
-    - Works with
 
-      - applyOps command
-      - insert command (*not* db.collection.insertOne or db.collection.insertMany)
-      - update command (*not* db.collection.updateOne or db.collection.updateMany)
-      - $out for aggregation pipeline
-      - findAndModify command and db.collection.findAndModify
-      
 
 Limits of Document Validation
 -----------------------------
@@ -219,8 +288,56 @@ Limits of Document Validation
 
 - Nor for collections that start with "system.*"
 - Some user roles can still bypass validation
-- validationLevel of "warn" will still allow invalid documents
-
-  - It just logs them
+- Remember, validationLevel "warn" still allows invalid documents
 
 .. include:: /includes/student-notes.rst
+
+
+Question
+--------
+
+What are the validation levels available and what are the differences?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Answers:
+
+    - Strict - every insert or update must pass validation
+    - Moderate - if the document doesn’t currently pass validation, you can update it in a way that doesn’t pass validation
+
+      - But new documents must be validated, and once a document passes validation it must stay valid going forward
+
+    - None - disables document validation
+
+
+Question
+--------
+
+What command do you use to determine what the validation rule is for the *things* collection?
+
+.. only:: instructor
+
+  .. note::
+
+    - Trick question. You can find out for all collections in the database with db.getCollectionInfos(), but there’s no way to do it for just one collection.
+
+
+Question
+--------
+
+What three databases can’t have document validation? Why?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - admin: holds security
+    - local: holds the oplog and other replication information
+    - config: holds sharding metadata
+    - In each of these cases, MongoDB needs the data to work properly
