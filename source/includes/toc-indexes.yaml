@@ -18,6 +18,10 @@ file: /modules/indexes-hashed
 description: | 
   Hashed indexes
 --- 
+file: /modules/indexes-partial
+description: | 
+  Partial indexes
+--- 
 file: /modules/indexes-geo
 description: | 
   Geospatial indexes: both those on legacy coordinate pairs and those supporting queries that calculate geometries on an earth-like sphere. 
