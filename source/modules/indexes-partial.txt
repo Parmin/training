@@ -69,6 +69,7 @@ Our filter
 
      "74.113.166.192" to "74.113.166.255"
 
+ - We want only documents with ip addresses outside this range.
  - To create a partial index we must define a filter expression.
  - In this case we can use expression below.
  - Rather than strings for ip addresses, we'll use longs.
@@ -76,7 +77,7 @@ Our filter
 
    .. code-block:: javascript
 
-      {ip: { $gte: 1248962240, $lte: 1248962303}}
+      {ip: {$lt: 1248962240, $gt: 1248962303}}
 
 
 Creating a partial index
@@ -92,8 +93,8 @@ Creating a partial index
      db.nginxlog.createIndex(
          {resource: 1, httpReferrer: 1},
          {partialFilterExpression:
-             {ip: {$gte: 1248962240,
-                   $lte: 1248962303}}
+             {ip: {$lt: 1248962240,
+                   $gt: 1248962303}}
          })
 
 - When creating a partial index, the filter expression need not be on indexed fields (though it can be).
