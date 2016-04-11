@@ -1,0 +1,13 @@
+{
+    "name": "nginxLogsToJSON",
+    "version": "0.1.0",
+    "description": "Parse nginx logs to produce JSON documents",
+    "main": "app.js",
+    "dependencies": {
+        "nginxparser": "~1.2.5",
+        "command-line-args": "~2.1.6",
+        "ip": "~1.1.2"
+    },
+    "author": "Shannon Bradshaw",
+    "license": "0BSD"
+}
