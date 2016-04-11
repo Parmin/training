@@ -24,10 +24,15 @@ Background: Stale Reads
   - This can occur when you are reading from secondaries
   - Databases that permit stale reads are sometimes called "Eventually consistent"
 
-- The data is still consistent, it's just an old version
 - A Read Preference of Primary is designed to prevent stale reads
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Stale reads see a view of the data that was in place at some point in the recent time
 
 
 Background: Dirty Reads
@@ -35,19 +40,24 @@ Background: Dirty Reads
 
 - Occurs when an application sees a write
 
-  - But that write will get lost
+  - But that write will not persist
 
 - Can occur during a network partition
 - Can occur if a server goes down before replication propagates the write
 
-  - With rollback, if the write made it to the journal
+  - With rollback, if the write made it to a journal
   - Without rollback, if not
 
-- It involves reading a write that will disappear
-
-  - It will be as if that write had never occurred
+- It will be as if that data had never been written
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - There's no way to know, during a read, that it is a dirty read.
+    - It only becomes dirty after the fact, when one or more servers go down in such a way that the write is gone.
 
 
 .. Stale and Dirty Reads
@@ -102,14 +112,21 @@ Background: Stale vs. Dirty Reads
 - Stale reads are reads that reflect an old, but valid, view of the data
 
   - They involve missing some set of writes after a certain point in time
-  - Reading from a secondary will often cause these
+  - Reading from a secondary makes you vulnerable to stale reads
 
 - Dirty reads are reads that reflect data that will not persist
 
-  - Can occur due to server failure, network partitions
-  - They are, in some sense, not valid reads
-
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Dirty reads:
+
+    - Can occur due to server failure, network partitions
+    - They are, in some sense, invalid views of the data
+    - They are only apparent after the fact
 
 
 Introduction to Read Concern
@@ -123,7 +140,7 @@ Introduction to Read Concern
     
     - This is the historical behavior.
 
-  - "majority": read the data only after it cannot be rolled back
+  - "majority": ensures data is written to a majority of nodes
 
     - An older version of the data is cached
     - The older version is returned for reads
@@ -132,6 +149,15 @@ Introduction to Read Concern
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    Questions to ask:
+
+      - What can happen if I write a document with writeConcern: "majority" and read from the primary? Can I avoid dirty reads?
+      - What can happen if I write a document with writeConcern: 1 and readPreference: "secondary"? Can I avoid dirty reads? What about stale reads?
+      - What can happen if I write w: 1 and read concern "majority"? Stale reads? Dirty reads?
 
 .. Example: Read Concern Majority
 .. ------------------------------
@@ -186,7 +212,7 @@ Read Concern and Read Preference: Secondary
   - No Secondary will ever allow a write to be read before the Primary does
   - After the primary read commits the write, it will tell the secondaries they can read commit the write
 
-- You can read from secondaries, but their data will always be behind the primary
+- You can read from secondaries, but their data might be behind the primary
 
 .. include:: /includes/student-notes.rst
 
@@ -398,6 +424,9 @@ CSRS: Advantages
 - Provides the same availability guarantees as your data
 - Provides the same durability guarantees as your data
 - You can tune the size of the replica set
+- Not restricted to 3 nodes for config servers
+
+  - Suitable for large deployments across datacenters
 
 .. include:: /includes/student-notes.rst
 
