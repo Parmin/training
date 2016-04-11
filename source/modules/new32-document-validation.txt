@@ -14,6 +14,7 @@ Upon completing this module, students should be able to:
 
 - Create, discover, and bypass document validation in a collection
 - List the restrictions on document validation
+- Performance Implications of Document Validation
 
 .. include:: /includes/student-notes.rst
 
@@ -30,6 +31,30 @@ Introduction to Document Validation
 - Can be bypassed, if necessary
 
 .. include:: /includes/student-notes.rst
+
+
+Example: Document Validation
+----------------------------
+
+.. code-block:: javascript
+
+  db.createCollection("products",
+     {
+        validator: { 
+            price : { $exists : true }
+        },
+        validationAction: "error"
+     }
+  )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Students can look at this to get a sense of how document validation works
+    - validationAction: "error" means that the server will reject non-matching documents
 
 
 Why Document Validation?
@@ -108,7 +133,7 @@ Document Validation Options: Use Cases
 
       - Changing a schema
 
-        - All updates should map to the new schema
+        - All updates map documents to the new schema
 
       - Creating a new collection
       - Validating an existing collection already in compliance
@@ -129,7 +154,6 @@ Document Validation Options: Use Cases (continued)
     - Application can't map the old schema to the new in just one update
 
       - Perhaps because you're merging multiple documents into one can need to perform two-phase commits
-
 
 
 .. include:: /includes/student-notes.rst
@@ -203,20 +227,22 @@ Creating a Collection with Document Validation (Continued)
 
 .. code-block:: javascript
 
-  db.createCollection("contacts",
+  db.createCollection("products",
      {
-        validator: { $or:
-           [
-              { phone: { $type: "string" } },
-              { email: { $regex: /@mongodb\.com$/ } },
-              { status: { $in: [ "Unknown", "Incomplete" ] } }
-           ]
+        validator: { 
+            price: { $exists: true }
         },
         validationAction: "error"
      }
   )
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - This is the same example we saw at the beginning of this lesson
 
 
 Seeing the Results of Validation
@@ -232,9 +258,7 @@ And you can see the results when you try to insert:
 
 .. code-block:: javascript
 
-  db.contacts.insertOne( { _id : "Will", phone : "(112)-358-1321" } )  // will work
-  db.contacts.insertOne( { _id : "John Snow", email : "john.snow@mongodb.com" } ) // will work
-  db.contacts.insertOne( { _id : "Larry Page", email : "larry@google.com" } )  // won't work
+  db.products.insert( { price: 25, currency: "USD" } )
 
 
 .. include:: /includes/student-notes.rst
@@ -245,24 +269,20 @@ Adding Validation to an Existing Collection
 
 .. code-block:: javascript
 
-  db.contacts.drop()
-  db.contacts.insertOne( { _id : "Fibonacci", phone: "(112)-358-1321" } )
-  db.contacts.insertOne( { _id : "Larry Page", email : "larry@google.com" } )  // will work
+  db.products.drop()
+  db.products.insertOne( { name: "watch", price: 10000, currency: "USD" } )
+  db.products.insertOne( { name: "happiness" } )
   db.runCommand( {
-     collMod: "contacts",
-     validator: { $or:
-        [
-           { phone: { $type: "string" } },
-           { email: { $regex: /@mongodb\.com$/ } },
-           { status: { $in: [ "Unknown", "Incomplete" ] } }
-        ]
+     collMod: "products",
+     validator: { 
+         price: { $exists: true }
      },
      validationAction: "error",
      validationLevel: "moderate"
   } )
-  db.contacts.updateOne( { _id : "Larry Page" }, { $set : { email : "nothing" } } )  // will work
-  db.contacts.updateOne( { _id : "Fibonacci" }, { $set : { phone : null } } )  // will fail
-
+  db.products.updateOne( { name : "happiness" }, { $set : { note: "You can't put a price on this." } } )
+  db.products.updateOne( { name : "watch" }, { $unset : { price : 1 } } )
+  db.products.insertOne( { name : "inner peace" } )
 
 .. include:: /includes/student-notes.rst
 
@@ -271,8 +291,9 @@ Adding Validation to an Existing Collection
   .. note::
 
     - First two inserts worked b/c there was no validation at first
-    - The Larry Page update worked because the document was already invalid and "moderate" validationLevel will let them stay invalid
-    - The Fibonacci update failed because the document was valid, and was moved to an invalid state.
+    - First update worked b/c the document didn't match before the update
+    - Second update failed because it doesn't match the validator, and the document matched before the update was attempted
+    - Final insert failed because it didn't match the validator
 
 
 Bypassing Document Validation
@@ -280,8 +301,8 @@ Bypassing Document Validation
 
 - You can bypass document validation
 - This is subject to user roles restrictions
-- See documentation for details 
-- Security roles: 
+- See documentation for details
+- Security roles:
 
   - "dbAdmin" and "restore" can bypass validation
   - "bypassDocumentValidation" action can be set
@@ -307,6 +328,15 @@ Limits of Document Validation
 - Nor for collections that start with "system."
 - Some user roles can still bypass validation
 - Remember, validationLevel "warn" still allows invalid documents
+
+.. include:: /includes/student-notes.rst
+
+
+Document Validation and Performance
+-----------------------------------
+
+- Validation adds an expression-matching evaluation to every insert and update
+- Testing shows negligible impact on performance
 
 .. include:: /includes/student-notes.rst
 
