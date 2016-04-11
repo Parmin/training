@@ -50,20 +50,20 @@ Background: Dirty Reads
 .. include:: /includes/student-notes.rst
 
 
-Stale and Dirty Reads
----------------------
-
-.. figure:: /figures/temp_dirty_vs_stale_reads.JPG
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - This shows stale and dirty reads
-    - A stale read is a read that was true at some point in the past, but no longer is.
-    - A dirty read is a read of data that will not persist
+.. Stale and Dirty Reads
+.. ---------------------
+.. 
+.. .. figure:: /figures/temp_dirty_vs_stale_reads.JPG
+.. 
+.. .. include:: /includes/student-notes.rst
+.. 
+.. .. only:: instructor
+.. 
+..   .. note::
+.. 
+..     - This shows stale and dirty reads
+..     - A stale read is a read that was true at some point in the past, but no longer is.
+..     - A dirty read is a read of data that will not persist
 
 
 Background: Dirty Reads and Write Concern
@@ -133,20 +133,20 @@ Introduction to Read Concern
 .. include:: /includes/student-notes.rst
 
 
-Example: Read Concern Majority
-------------------------------
-
-.. figure:: /figures/temp_read_concern_example.JPG
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note:: 
-
-    - This shows 2 writes happening, and several reads.
-    - Note that the applications are using w : "majority" and readConcernLevel: "majority"
-    - The application doesn't read a write until after the secondary has confirmed to the primary that it has received the write
+.. Example: Read Concern Majority
+.. ------------------------------
+.. 
+.. .. figure:: /figures/temp_read_concern_example.JPG
+.. 
+.. .. include:: /includes/student-notes.rst
+.. 
+.. .. only:: instructor
+.. 
+..   .. note:: 
+.. 
+..     - This shows 2 writes happening, and several reads.
+..     - Note that the applications are using w : "majority" and readConcernLevel: "majority"
+..     - The application doesn't read a write until after the secondary has confirmed to the primary that it has received the write
 
 
 Quiz
