@@ -145,7 +145,7 @@ Introduction to Read Concern
     - An older version of the data is cached
     - The older version is returned for reads
     
-      - until enough secondaries acknowledge the write
+      - until a majority of the set acknowledge the write
 
 .. include:: /includes/student-notes.rst
 
