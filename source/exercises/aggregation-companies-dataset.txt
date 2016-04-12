@@ -1,0 +1,60 @@
+Exercise: Importing the "companies" dataset
+--------------------------------------------
+
+`Handout Link <https://raw.githubusercontent.com/thatnerd/work-public/master/mongodb_trainings/companies.zip>`_
+
+Download the handout and unpack.
+
+Next, do the following:
+
+.. code-block:: bash
+
+  $ mongoimport -d training -c companies --drop companies.json
+
+You now have a dataset of companies on your server.
+
+.. include:: /includes/student-notes.rst
+
+
+
+The Companies Dataset: Fields of Interest
+-----------------------------------------
+
+Here are some interesting fields in the data set:
+
+.. code-block:: javascript
+
+  > db.companies.find( { }, { name : 1, number_of_employees: 1, _id: 0, founded_year: 1, deadpooled_year: 1, total_money_raised: 1 } )
+
+Additional fields of potential interest:
+
+-  "tag_list", "alias_list", "description", "overview", "products", "relationships", "competitions", "providerships", "total_money_raised", "funding_rounds", "investments", "acquisition", "acquisitions", "offices", "milestones",  "partners" 
+
+.. include:: /includes/student-notes.rst
+
+
+
+The Companies Dataset: Next Steps
+---------------------------------
+
+- At this point, you've got the companies dataset.
+- Take a look at the following fields. What do you notice about them?
+
+  - tag_list
+  - providerships
+  - products
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The tag list is a comma-separated string, not an array
+
+      - Some fields are the empty string ("")
+      - Some fields are null
+
+    - providerships and products are either empty arrays, or an array of subdocuments
+
