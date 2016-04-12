@@ -1,0 +1,530 @@
+===========
+Aggregation
+===========
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students will be able to:
+
+- List and use the new aggregation stages are in MongoDB 3.2
+  - $sample
+  - $indexStats
+  - $lookup
+- Use the new or revised operators introduced in MongoDB 3.2
+
+.. include:: /includes/student-notes.rst
+
+
+New Pipeline Operators
+----------------------
+
+- $sample is used to pull in a random set of documents
+
+  - You can specify how many
+
+- $indexStats will tell you how often your indexes are being used
+
+  - Stats are gathered since the server process started
+
+- $lookup is used to pull data from a collection into an aggregation on this collection
+
+  - It uses a key whose values are equal for the two collections
+
+.. include:: /includes/student-notes.rst
+
+
+Introduction to $sample
+-----------------------
+
+- Pulls a random sample of documents from your collection
+- Useful for doing statistics
+
+  - As we will see below, MongoDB now has better stastical methods for aggregation
+
+- If it's larger than 5% of the collection, it will perform a collection scan
+
+  - $samples of less than 5% of the collection will not perform a collection scan
+
+.. include:: /includes/student-notes.rst
+
+
+Example: $sample
+----------------
+
+- First, prepare the collection:
+
+.. code-block:: javascript
+
+      min_id = db.numbers.count()
+      if (a == null) { min_id = 0 } else { min_id = a._id };
+      x = [];
+      for (i=1; i<=100; i++) {
+          threeDice = 0;
+          for (j=1; j<=3; j++) { threeDice += Math.floor(Math.random() * 6 + 1 ) };
+          x.push( { _id : (min_id + i-1),
+                    smallNums : Math.random(),
+                    biggerNums : Math.floor(Math.random() * 100 + 1 ),
+                    dndStat : threeDice } );
+      };
+      db.numbers.insertMany(x);
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - On WiredTiger, $sample can be quite slow as of the writing of this content.
+  
+      - https://jira.mongodb.org/browse/HELP-1856
+      - It currently builds a batch of 16 MB of documents (minimum), regardless of collection size
+      - This is why we keep the collection small.
+  
+
+Example: $sample (Continued)
+----------------------------
+
+- Next, sample a few documents:
+
+.. code-block:: javascript
+
+  db.numbers.aggregate( [ { $sample : { size : 5 } } ] )
+
+- You can do it a few times to see how the sample changes
+- This is a random sample, not necessarily a representative sample
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Knowing how big of a sample to look at is way beyond the scope of anything you're teaching
+    - Tell them to talk to a statistician if asked.
+
+
+Introduction to $indexStats
+---------------------------
+
+- Tells you how many times each index has been used
+
+  - Since the server process began
+
+- Must be the first stage of the pipeline
+  
+  - You can use other stages to aggregate the data
+
+- One document per index
+
+  - A field gets incremented each time you use the index
+
+.. include:: /includes/student-notes.rst
+
+
+Using $indexStats
+-----------------
+
+- Here is how you run it
+
+.. code-block:: javascript
+
+  db.numbers.aggregate( [ { $indexStats : { } } ] )
+
+- Most likely only has a single document, for the _id index
+
+.. code-block:: javascript
+
+  db.numbers.find( { _id : 5 } )
+  db.numbers.aggregate( [ { $indexStats : { } } ] ) // incremented its value
+  db.numbers.createIndex( { smallNums : 1 } ) 
+  db.numbers.aggregate( [ { $indexStats : { } } ] ) // Another document is present
+  db.numbers.find( { smallNums : { $gte : 0.5 } } )
+  db.numbers.aggregate( [ { $indexStats : { } } ] ) // incremented new index value
+
+.. include:: /includes/student-notes.rst
+
+
+Introduction to $lookup
+-----------------------
+
+- In SQL terms, performs a left outer join 
+- In non-SQL terms, it pulls documents from another collection into the pipeline
+ 
+  - Pulls from an unsharded collection in the same DB
+
+- Matches documents based on a field in each collection that must be equal
+- This functionality was previously not available with a single query
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - In some sense, this isn't completely *new* functionality
+  
+      - Previously, you could get this behavior with two separate queries
+  
+        - One for a collection that contains reference values
+        - The other for the referenced collection, using its values
+
+
+Example: Using $lookup
+----------------------
+
+- Let's create a separate collection to join to
+
+.. code-block:: javascript
+
+  for (i=3; i<=9; i++) { db.statDescription.insertOne( { stat : i, description : "below average" } ) }
+  for (i=10; i<=11; i++) { db.statDescription.insertOne( { stat : i, description: "average" } ) }
+  for (i=12; i<=18; i++) { db.statDescription.insertOne( { stat : i, description : "above average" } ) }
+  db.statDescription.insertOne( { stat : 18, description : "maximum" } )
+  db.statDescription.insertOne( { stat : 3, description : "minimum" } )
+  db.numbers.insertOne( { dndStat : 19 } )
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Using $lookup (Continued)
+----------------------------------
+
+.. code-block:: javascript
+
+  db.numbers.aggregate( [ 
+      { $project : { _id : 0, dndStat : 1 } },
+      {
+        $lookup : {
+          from : "statDescription",
+          localField: "dndStat",
+          foreignField: "stat",
+          as : "description" }
+      },
+      { $sort : { dndStat : -1 } } ] )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+   
+    - There may not be any max or min documents. If not:
+
+    .. code-block:: javascript
+
+      min_id = db.numbers.count()
+      if (a == null) { min_id = 0 } else { min_id = a._id };
+      x = [];
+      for (i=1; i<=100; i++) {
+          threeDice = 0;
+          for (j=1; j<=3; j++) { threeDice += Math.floor(Math.random() * 6 + 1 ) };
+          x.push( { _id : (min_id + i-1),
+                    smallNums : Math.random(),
+                    biggerNums : Math.floor(Math.random() * 100 + 1 ),
+                    dndStat : threeDice } );
+      };
+      db.numbers.insertMany(x);
+
+    - Point out that: 
+      
+      - the 19 has no documents to join to
+      - 18's each get 2 documents
+      - All others get one document joined (but it still goes in an array)
+
+
+$lookup Considerations
+----------------------
+
+- You've got a local field and a foreign field (in the foreign collection)
+
+  - These must be equal
+
+- Foreign documents are pushed into the "as" array
+- The foreign collection cannot be sharded
+
+  - But the collection you're aggregating on can be
+
+.. include:: /includes/student-notes.rst
+
+
+New Aggregation Functionality
+-----------------------------
+
+- 3.2 introduced a lot of new operators
+
+  - Changed the functionality of a few operators
+
+- Accumulators for $group
+- Arithmetic operators
+- Array operators
+- General enhancements
+
+.. include:: /includes/student-notes.rst
+
+
+New Accumulators
+----------------
+
+- Accumulators do math on a set of numbers
+
+  - Used with $group
+
+- $stdDevSamp - Sample Standard Deviation
+
+  - Example: { $stdDevSamp : <array> }
+
+- $stdDevPop - Population Standard Deviation
+
+  - Example : { $stdDevPop : <array> } 
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The standard deviation of a population means you're looking at every member.
+    - The standard deviation of a sample means that you don't have every member of a population.
+    - For a sample of size N from a larger population, it will be slightly larger than for a population of N
+
+      - This reflects the fact that your sample, while random, might not be representative of the larger population
+
+    - This is not a stats course, so don't talk about the formulas
+
+
+New Aggregation Arithmetic
+--------------------------
+
+- $sqrt: Calculate a square root
+- $abs: Calculate the absolute value
+- $log: Calculate the logarithm in a specified base
+- $log10: Log base 10
+- $ln: Natural logarithm
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - All of these are well documented if they want to use them
+    - But there are too many to practice, so just go over them quick
+
+
+New Aggregation Arithmetic (Continued)
+--------------------------------------
+
+- $pow: Raise a number to an exponent
+- $exp: Raise e to a power
+- $trunc: Truncate a number to its integer
+- $ceil: Return the smallest integer greater than or equal to a specified number
+- $floor: Return the largest integer less than or equal to the specified number
+
+.. include:: /includes/student-notes.rst
+
+
+
+
+
+
+
+
+
+$slice
+------
+
+Return a subset of an array, you may specify a starting position within the array and the number of elements to return from that starting position
+
+.. include:: /includes/student-notes.rst
+
+$slice
+------
+
+Return first 2 elements from array
+
+.. code-block:: javascript
+  
+  > db.profile.aggregate( { 
+    $project : { 
+      "interests" : { 
+        $slice : [ "$interests", 2 ] 
+      } 
+    } } )
+
+Return first 2 elements starting at the 2nd element (remember array position starts at 0)
+  
+.. code-block:: javascript
+
+  > db.profile.aggregate( { 
+    $project : { 
+      "interests" : { 
+        $slice : [ "$interests", 1,2 ] 
+      } 
+    } } )
+
+.. include:: /includes/student-notes.rst
+
+$arrayElemAt
+------------
+
+Returns an element from the array’s position, a negative value can be used for the index and describes the position starting from the end of the array.
+
+.. include:: /includes/student-notes.rst
+
+$arrayElemAt
+------------
+
+.. code-block:: javascript
+
+  > db.profile.aggregate( { 
+    $project : { 
+      "interests" : { 
+        $arrayElemAt : [ "$interests", 0 ] 
+      } 
+    } } )
+
+Result:
+
+.. code-block:: javascript
+
+  { "_id" : "jason", "interests" : "html5" }
+
+.. include:: /includes/student-notes.rst
+
+$concatArrays
+-------------
+
+- Join several arrays into a single array  
+- $concatArrays can take a list of arrays and join them together 
+
+.. include:: /includes/student-notes.rst
+
+$concatArrays
+-------------
+
+.. code-block:: javascript
+
+  > db.profile.aggregate( { 
+    $project : { 
+      "all_interests" : { 
+        $concatArrays : [ 
+          "$food_interests", "$computer_interests" 
+        ] 
+      } 
+    } })
+
+Result
+
+.. code-block:: javascript
+
+  { "_id" : "jason", "all_interests" : [ "cheese", "olives", "html5", "mongodb", 
+  "test" ] }
+
+.. include:: /includes/student-notes.rst
+
+$isArray
+--------
+
+- $isArray takes one argument and returns true if it's an array, false otherwise
+- Useful for conditional statements
+
+.. include:: /includes/student-notes.rst
+
+$concatArrays
+-------------
+
+.. code-block:: javascript
+
+  > db.profile.aggregate({ 
+    $project: { 
+      "food_interests_array" : {
+            $cond: { 
+              if: { 
+                $isArray: '$food_interests' 
+              }, 
+              then: "$food_interests", 
+              else: [] 
+            }
+        } 
+      } } )
+
+.. include:: /includes/student-notes.rst
+
+$filter
+-------
+
+The $filter operator allows you to only keep the elements of an array that satisfy a given condition.
+
+.. include:: /includes/student-notes.rst
+
+$filter
+-------
+
+.. code-block:: javascript
+
+  > db.profile.aggregate({ $project: {   
+    "numerical_array" : {
+           "$filter": {
+              input: [1,"a",2,null,3.1,
+              NumberLong(4),"5"],
+              as: "num",
+              cond: { "$and": [
+                {$gte: [ "$$num", NumberLong("-
+                9223372036854775807") ]}, 
+                {$lte: [ "$$num", NumberLong("9
+                223372036854775807")  ]}
+              ] } 
+          } } } } ) 
+
+Result: "numerical_array" only contains numbers
+
+.. include:: /includes/student-notes.rst
+
+Changes to $unwind Behavior
+---------------------------
+
+- $unwind can now be performed on a non-array value, and not return an error as it previously behaved in 3.0
+
+- $unwind is the ability to output empty arrays after an $unwind operator. 
+
+- Output the index or position of the element from an $unwind operation
+
+.. include:: /includes/student-notes.rst
+
+New Math Operators
+------------------
+
+$stdDevSamp $stdDevPop - standard deviation sample and standard deviation population accumulator 
+
+$abs - takes a numeric argument and makes it positive
+Round number
+
+$trunc -  truncates Number towards 0, for example,  returns round number whose absolute value is largest while being less than absolute value of that Number
+
+$ceil - rounds number towards positive infinity
+
+$floor -  rounds towards negative infinity
+
+.. include:: /includes/student-notes.rst
+
+New Math Operators
+------------------
+
+$sqrt: square root of a number, always returns double
+
+Log and exponential arithmetic operators:
+
+$log[Number, Base] - log of Number according to a Base, returns double
+
+$log10 [Number] - base 10 log of Number
+
+$ln: [Number] - Natural log of Number
+
+$pow: [Base, Exponent] - "power" of a number, takes a base and exponent
+
+$exp: [Number] - natural exponent function
+
+.. include:: /includes/student-notes.rst
