@@ -14,6 +14,7 @@ Upon completing this module, students should understand:
 - The basics of WT's compression and encryption
 - How WT implements indexes
 
+.. include:: /includes/student-notes.rst
 
 What is WiredTiger?
 -------------------
