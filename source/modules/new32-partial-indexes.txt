@@ -78,9 +78,10 @@ Example: Creating Partial Indexes (Continued)
 
 .. code-block:: javascript
 
-  > db.integers.createIndex( { integer : 1 },
-                             { partialFilterExpression : { importance : "very" },
-                               name : "very_important_integers" } )
+  > db.integers.createIndex(
+      { integer : 1 },
+      { partialFilterExpression : { importance : "very" },
+      name : "very_important_integers" } )
   {
       "createdCollectionAutomatically" : false,
       "numIndexesBefore" : 1,
@@ -113,6 +114,12 @@ Partial Indexes: Visualization
   .. note::
 
     - This is a diagram of both the partial index and its collection.
+    - Not all keys are present
+    - Technically, an index would be a btree
+
+      - This is a conceptual index with proper ordering
+      - Contains pointers to documents in the collection
+      
     - The index isn't a btree, but it is ordered by the index key.
     
       - The keys are present only for "very" important documents.
@@ -122,17 +129,27 @@ Partial Indexes vs. Sparse Indexes
 ----------------------------------
 
 - Both Sparse and Partial Indexes only index some documents
-- Sparse indexes include keys only if the field is present
+- Sparse indexes include keys only if the field exists
 - Partial indexes could have keys for a variety of patterns
-- Sparse indexes are a special case of partial indexes
+- Sparse indexes are functionally a subset of partial indexes
 
-.. code-blcok:: javascript
+  - Use partial indexes from now on
 
-  db.integers.createIndex( { importance : 1 },
-                           { partialFilterExpression : { importance : { $exists : true } } } 
-                          )  // creates the equivalent of a sparse index
+.. code-block:: javascript
+
+  > db.integers.createIndex(
+      { importance : 1 },
+      { partialFilterExpression : { importance : { $exists : true } } } 
+      )  // creates the equivalent of a sparse index
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Using { $exists: true } is how to create sparse index functionality using a partial index
+    - Sparse indexes still work, but we now recommend people use partial indexes going forward
 
 
 Question
@@ -179,12 +196,16 @@ Partial Indexes - Advantages
 Partial Indexes - Disadvantages
 -------------------------------
 
-- Can't accommodate queries that don't match the partialFilterExpression
-- May not always be used in situations where they should be
+- Used only for queries that match the partialFilterExpression
+- May not always be used in whene they should be
 
-  - Because the server may not realize that it's only looking for documents in the partial index
+  - The server may not realize it can use the index
 
-- Prevents other indexes from being built
+    - Unless the query makes it explicit
+
+- Prevents other indexes from being built on the same key
+
+  - Simple or compound
 
 .. include:: /includes/student-notes.rst
 
@@ -204,10 +225,10 @@ Partial Indexes - Use Cases
 
   - Or a set of related queries
 
-- A partial index should only be created
+- A partial index should only be created:
 
   - When the query only reaches a small subset of the collection
-  - When no other query of the same shape needs to be indexed
+  - When no non-matching query of the same shape
 
 .. include:: /includes/student-notes.rst
 
@@ -217,6 +238,9 @@ Partial Indexes - Use Cases
 
     - "A small subset" usually means at least an order of magnitude less than the full collection -- preferably more
     - The same shape means that the DB uses the query in the same way. Filtering and sorting on the same fields in the same order, for example.
+
+
+ADD A SOLID EXAMPLE HERE
 
 
 Question
