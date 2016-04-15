@@ -240,35 +240,20 @@ Partial Indexes - Use Cases
     - The same shape means that the DB uses the query in the same way. Filtering and sorting on the same fields in the same order, for example.
 
 
-ADD A SOLID EXAMPLE HERE
+Quiz
+----
 
+You use the following queries regularly on your production server:
 
-Question
---------
+.. code-block:: javascript
 
-What is a valid use case for a partial index?
+  > db.things.find( { last_update : { $gte : ISODate("2016-01-01") } } )
+  > db.things.find( { last_update : { $gte : ISODate("2015-01-01") } } )
 
-.. include:: /includes/student-notes.rst
+- Is this a good use case for a partial index?
 
-.. only:: instructor
-
-  .. note::
-
-    - Correct answer:
-      
-        - When only a small subset of the documents ever get queried by the index
-        - And you want to to save system resources relative to having a full index
-
-    - Incorrect answers
-    
-      - Getting full coverage for all index keys present in a field in the collection
-
-        - Useful only in cases where you only need some of the index keys
-
-      - When you want multiple indexes on the same key
-
-        - MongoDB won't allow you to build these
-        - They would increase total overhead in the indexes without improving performance
+  - If not, why not?
+  - If so, what should you use as your partial index?
 
 
 Identifying Partial Indexes
@@ -300,8 +285,8 @@ Identifying Partial Indexes
   .. note::
 
     - You can identify a partial index from the output of getIndexes()
-    - This also allows you to identify the coverage of the index
     - The presence of of a partialFilterExpression indicates a partial index
+    - This also allows you to identify the coverage of the index
 
 
 Creating Partial Indexes
@@ -342,7 +327,6 @@ Partial Indexes - Pitfalls
 
 - You can .explain() queries to verify that the index is used
 
-
 .. include:: /includes/student-notes.rst
 
 
@@ -351,7 +335,9 @@ Partial Indexes - Tips
 
 - You can .hint() a partial index to ensure that it gets used
 
-  - Be careful; it's easy to write bugs into code this way
+  - Be careful; it's possible to miss documents if done wrong
+
+    - This happens if documents don't have index entries
 
 - You can't have both a standard and a partial index for a collection
 
@@ -376,8 +362,32 @@ Partial Indexes - Tips
 
       - So the server has to be careful
 
-Question
---------
+
+Example: Hinting Done Wrong
+---------------------------
+
+.. code-block:: javascript
+
+  db.foo.drop()
+  docs = []; for (i=1; i<=10; i++) { docs.push( { student_id: i, score : Math.random(), subject_name: "english" } ) }
+  db.foo.insertMany( docs )
+  docs = []; for (i=1; i<=10; i++) { docs.push( { student_id: i, score : Math.random(), subject_name: "mathematics" } ) }
+  db.foo.insertMany( docs )
+  db.foo.createIndex( { score : 1 }, { partialFilterExpression : { subject_name: "english" } } )
+  db.foo.find( { score : { $gte : 0.5 } } )  // works fine, but does a collection scan
+  db.foo.find( { score : { $gte : 0.5 } } ).hint( { score: 1 } ) // misses documents
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - 
+
+
+Quiz
+----
 
 Consider the following parital index. Note the partialFilterExpression in particular:
 
@@ -402,8 +412,8 @@ Consider the following parital index. Note the partialFilterExpression in partic
 .. include:: /includes/student-notes.rst
 
 
-Question (Continued)
---------------------
+Quiz (Continued)
+----------------
 
 Which of the following documents are indexed?
 
@@ -422,4 +432,3 @@ Which of the following documents are indexed?
   .. note::
 
     - The first and last documents are the ones that will be indexed.
-
