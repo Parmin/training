@@ -49,7 +49,9 @@ Creating Partial Indexes
   - Matching documents get indexed
   - Non-matching documents don't
 
-- The expression needn't be on indexed fields (though it can be)
+- The expression needn't be on indexed fields 
+
+  - though it can be
 
 .. include:: /includes/student-notes.rst
 
@@ -119,10 +121,8 @@ Partial Indexes: Visualization
 
       - This is a conceptual index with proper ordering
       - Contains pointers to documents in the collection
-      
-    - The index isn't a btree, but it is ordered by the index key.
-    
-      - The keys are present only for "very" important documents.
+
+    - The keys are present only for "very" important documents.
 
 
 Partial Indexes vs. Sparse Indexes
@@ -250,10 +250,27 @@ You use the following queries regularly on your production server:
   > db.things.find( { last_update : { $gte : ISODate("2016-01-01") } } )
   > db.things.find( { last_update : { $gte : ISODate("2015-01-01") } } )
 
+You have documents as far back as the year 2005.
+
 - Is this a good use case for a partial index?
 
   - If not, why not?
   - If so, what should you use as your partial index?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - This is a good use case.
+    - The partialFilterExpression should be:
+
+    .. code-block:: javascript
+
+      > { last_update : { $gte : ISODate("2015-01-01") } }
+
+    - This will allow the index to work for both queries
 
 
 Identifying Partial Indexes
@@ -287,12 +304,16 @@ Identifying Partial Indexes
     - You can identify a partial index from the output of getIndexes()
     - The presence of of a partialFilterExpression indicates a partial index
     - This also allows you to identify the coverage of the index
+    - This index is on the "integer" field
+    - But the partialFilterExpression is on the "importance" field
+
+      - Only indexing the documents with "importance": "very"
 
 
 Creating Partial Indexes
 ------------------------
 
-- You can use the following expressions for a partialFilterExpression:
+- Supported partialFilterExpression operators:
 
   - Equality, i.e., *field : value* or *field : { $eq : value }*
   - $lt, $lte, $gt, $gte
@@ -307,27 +328,36 @@ Creating Partial Indexes
 
   .. note::
 
-    - If they ask for some other logic, you can perform a hack by setting a separate field as a flag:
+    - All of this is as of MongoDB 3.2
+    - If they ask for some other logic, they can perform a hack by setting a separate field as a flag:
 
       - Manually input a field, with a value used in every document you want indexed
       - When you update the document, update that field, if necessary
       - This is the technique we have in the example, with { "important": "very" }
 
+        - There is some overhead with this technique
+
 
 Partial Indexes - Pitfalls
 --------------------------
 
-- Not used when a query goes outside of the filter range
+- Not used when:
 
-  - Even if there really are no documents outside of that range
+  - The indexed field not in the query
 
-- Not used when the indexed field isn't touched by the query
+  - A query goes outside of the filter range
 
-  - Even if looking only at documents that would be in the index
+    - Even if no documents are out of range
 
-- You can .explain() queries to verify that the index is used
+- You can .explain() queries to check them
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+    
+    - It's a good time to remind students that they should .explain() production queries periodically to ensure that they are working as intended
 
 
 Partial Indexes - Tips
@@ -337,15 +367,21 @@ Partial Indexes - Tips
 
   - Be careful; it's possible to miss documents if done wrong
 
-    - This happens if documents don't have index entries
+    - When documents don't match the partialFilterExpression
 
-- You can't have both a standard and a partial index for a collection
+- Can't have "double coverage" with multiple indexes
 
   - Or two partial indexes on the same fields
 
-- You might be able to use a large enough range on your partialFilterExpression to use a partial index for multiple queries
+.. include:: /includes/student-notes.rst
 
-  - Each query would use only a subset of the index
+
+Partial Indexes - Tips (Continued)
+----------------------------------
+
+- Partial Indexes can still be used for multiple queries
+
+  - Each query would use a subset of the partialFilterExpression
   - This is another area where you should be careful
 
 .. include:: /includes/student-notes.rst
@@ -361,6 +397,33 @@ Partial Indexes - Tips
     - The reason why it isn't used is that the index doesn't know when it's going to miss documents
 
       - So the server has to be careful
+
+
+.. not sure if I should have this (ADVICE PLEASE, CODE REVIEWERS):
+.. Example: No Double Index Coverage
+.. ---------------------------------
+.. 
+.. .. code-block:: javascript
+.. 
+..   db.foo.drop()
+..   db.foo.createIndex( { a : 1, b : -1 }, { partialFilterExpression : { a : { $gte : 100000 } } } )  // works fine
+..   db.foo.createIndex( { a : 1, b : -1  }, { partialFilterExpression : { a : { $lte : 100000 } } } )  // fails
+.. 
+.. .. include:: /includes/student-notes.rst
+.. 
+.. .. only:: instructor
+.. 
+..   .. note::
+.. 
+..     - Ask them why it fails
+..     - It fails because there's already an { a : 1, b : -1 } index on this collection
+.. 
+..       - You can't have two indexes on the same fields
+.. 
+..     - Ask them if they could create an { a : 1, b : 1 } index with { a : { $lte : 100000 } } 
+.. 
+..       - They can. It works because it's a fundamentally different index
+..       - They need to be very careful about index ordering if sorting
 
 
 Example: Hinting Done Wrong
@@ -383,7 +446,15 @@ Example: Hinting Done Wrong
 
   .. note::
 
-    - 
+    - The first query is a collection scan 
+    
+      - This would be *murder* on performance
+      - But it wouldn't miss documents
+
+    - The .hint() forces it to use the index
+
+      - But also forces it to skip documents
+      - They simply aren't present in the index
 
 
 Quiz
