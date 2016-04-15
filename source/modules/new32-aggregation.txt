@@ -363,12 +363,12 @@ Example: $filter
 Changes to $unwind Behavior
 ---------------------------
 
-- $unwind can now be performed on a non-array value, 
+- $unwind can now be performed on a non-array value
 
   - Returned an error in 3.0
+  - Keeps document as-is for non-array values in 3.2
 
 - $unwind is the ability to output empty arrays after an $unwind operator. 
-- Output the index or position of the element from an $unwind operation
 
 .. include:: /includes/student-notes.rst
 
@@ -376,5 +376,83 @@ Changes to $unwind Behavior
 Using Accumulators with $project
 --------------------------------
 
+- Accumulators take a set of values and combine them
+- Previously, you could $group a field
 
+  - Get one value from many
+
+- Can be used with $project in 3.2
+
+  - If used on an array
+
+.. include:: /includes/student-notes.rst
+
+
+$project Accumulators for 3.2
+-----------------------------
+
+- $avg: Averages over values
+- $sum: Sums the values
+- $min: Finds the minimum value
+- $max: finds the maximum value
+- $stdDevPop, $stdDevSamp
+- No other accumulators are currently supported
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Examples of unsupported accumulators:
+
+      - $first, $last
+      - $push
+      - $addToSet
+      - That's literally all of them
+
+
+Example: Project Accumulators
+-----------------------------
+
+.. code-block:: javascript
+
+  db.foo.drop()
+  db.foo.insertMany( [ { numbers: [ 1, 2, 3, 4, 5 ] }, { numbers: [ 6, 7, 8, 9, 10 ] } ] )
+  db.foo.aggregate( [ 
+    { 
+      $project: {
+        _id: 0,
+        avg: { $avg: "$numbers" },
+        sum: { $sum: "$numbers" },
+        min: { $min: "$numbers" },
+        max: { $max: "$numbers" },
+        stDevSamp: { $stdDevSamp: "$numbers" } } 
+    } ] )
+  db.foo.find( {}, { _id: 0 } )  // these are the original documents
+
+.. only:: instructor
+
+  .. note::
+
+    - The example is simple enough that they can see everything
+    - One document out per document in
+
+.. include:: /includes/student-notes.rst
+
+
+$project(ing) Arrays 
+--------------------
+
+- You can now use $project to create arrays
+
+  - From existing non-array fields
+
+.. code-block:: javascript
+
+  db.plants.drop()
+  db.plants.insertMany( [ { _id: "yellow plants", fruit: "banana", vegetable: "squash" }, { _id: "red plants", fruit: "strawberry", vegetable: "radish" } ] )
+  db.plants.aggregate( [ { $project: { plant_list: [ "$fruit", "$vegetable" ] } } ] )
+
+.. include:: /includes/student-notes.rst
 
