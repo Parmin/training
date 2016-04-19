@@ -196,7 +196,7 @@ Partial Indexes - Advantages
 Partial Indexes - Disadvantages
 -------------------------------
 
-- Used only for queries that match the partialFilterExpression
+- Used only for matching queries
 - Prevents other indexes from being built on the same key
 
   - Simple or compound
@@ -215,14 +215,14 @@ Partial Indexes - Disadvantages
 Partial Indexes - Use Cases
 ---------------------------
 
-- A partial index is an optimization for a particular search pattern
+- Optimization for a particular search pattern
 
   - Or a set of related queries
 
-- A partial index should only be created:
+- A partial index should only be created when:
 
-  - When the query only reaches a small subset of the collection
-  - When no non-matching query of the same shape is used by the application
+  - The query only hits a small subset of the collection
+  - No index needed for the same fields in the same orientation
 
 .. include:: /includes/student-notes.rst
 
@@ -357,40 +357,15 @@ Partial Indexes - Pitfalls
 Partial Indexes - Tips
 ----------------------
 
-- You can .hint() a partial index to ensure that it gets used
-
-  - Be careful; it's possible to miss documents if done wrong
-
-    - When documents don't match the partialFilterExpression
-
 - Can't have "double coverage" with multiple indexes
 
   - Or two partial indexes on the same fields
 
-.. include:: /includes/student-notes.rst
+- Can be used for multiple queries
 
-
-Partial Indexes - Tips (Continued)
-----------------------------------
-
-- Partial Indexes can still be used for multiple queries
-
-  - Each query would use a subset of the partialFilterExpression
-  - This is another area where you should be careful
+  - Each query would hit a subset of the filter
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - .hint()ing an index can sometimes be useful
-
-      - But it can also be dangerous if you .hint() the wrong index
-
-    - The reason why it isn't used is that the index doesn't know when it's going to miss documents
-
-      - So the server has to be careful
 
 
 Example: No Double Index Coverage
