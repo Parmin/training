@@ -74,10 +74,11 @@ Consider the following use case:
 
   .. note::
 
-    - Obviously, this use case *could* be handled on the front end
+    - This use case should be handled on the front end
     
-      - But this can act as an extra layer of protection
-      - If your front end gets re-written a lot, you don't need to worry about validation bugs getting written in if the validation is on the server
+      - But Schema Validation can act as an extra layer of protection
+
+   - Mulitple applications, with different validation rules or application versions, generally require a central validation point
 
 
 Why Document Validation? (Continued)
@@ -181,7 +182,7 @@ Document Validation Options: Use Cases (continued)
     - Useful when:
 
       - You need to receive all writes
-      - Your application can handle other schemas
+      - Your application can handle multiple versions of the schema
       - Tracking schema-related issues is important
 
 .. include:: /includes/student-notes.rst
@@ -330,6 +331,14 @@ Limits of Document Validation
 - Remember, validationLevel "warn" still allows invalid documents
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Ask the students why you can't write to these databases.
+
+      - It's because MongoDB holds metadata for security, replication, and sharding, respectively, in these databases.
 
 
 Document Validation and Performance
