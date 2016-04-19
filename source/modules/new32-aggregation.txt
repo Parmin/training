@@ -8,11 +8,13 @@ Learning Objectives
 
 Upon completing this module, students will be able to:
 
-- List and use the new aggregation stages are in MongoDB 3.2
+- List and use the new aggregation stages in MongoDB 3.2
+
   - $sample
   - $indexStats
   - $lookup
-- Use the new or revised operators introduced in MongoDB 3.2
+
+- Use the new or revised operators in MongoDB 3.2
 
 .. include:: /includes/student-notes.rst
 
@@ -29,24 +31,23 @@ Mongoimport the *companies.json* file:
 - You now have a dataset of companies on your server.
 - We will use these for our examples.
 
-
 .. include:: /includes/student-notes.rst
 
 
 New Pipeline Operators
 ----------------------
 
-- $sample is used to pull in a random set of documents
+- $sample used to pull in a random set of documents
 
   - You can specify how many
 
-- $indexStats will tell you how often your indexes are being used
+- $indexStats will show how often your indexes are being used
 
-  - Stats are gathered since the server process started
+  - Since the server process started
 
-- $lookup is used to pull data from a collection into an aggregation on this collection
+- $lookup pulls in data from another collection
 
-  - It uses a key whose values are equal for the two collections
+  - Matches a field on the two collections
 
 .. include:: /includes/student-notes.rst
 
@@ -54,14 +55,15 @@ New Pipeline Operators
 Introduction to $sample
 -----------------------
 
-- Pulls a random sample of documents from your collection
+- Randomized sample of documents
 - Useful for doing statistics
 
-  - As we will see below, MongoDB now has better stastical methods for aggregation
+- If sample is larger than 5% of the collection:
 
-- If it's larger than 5% of the collection, it will perform a collection scan
+  - $sample will perform a collection scan
+  - If not, it won't
 
-  - $samples of less than 5% of the collection will not perform a collection scan
+- Usable only as a first stage of the pipeline
 
 .. include:: /includes/student-notes.rst
 
@@ -134,13 +136,13 @@ Example: $indexStats
 Introduction to $lookup
 -----------------------
 
-- In SQL terms, performs a left outer join 
-- In non-SQL terms, it pulls documents from another collection into the pipeline
- 
-  - Pulls from an unsharded collection in the same DB
+- Pulls documents from another collection into the pipeline
 
-- Matches documents based on a field in each collection that must be equal
-- This functionality was previously not available with a single query
+  - In SQL terms, performs a left outer join 
+  - Works on an unsharded collection in the same DB
+
+- Documents based on a matching field in each collection
+- This was previously not doable with a single query
 
 .. include:: /includes/student-notes.rst
 
@@ -159,7 +161,7 @@ Introduction to $lookup
 Example: Using $lookup
 ----------------------
 
-- Let's create a separate collection to $lookup
+Create a separate collection for $lookup
 
 .. code-block:: javascript
 
@@ -170,8 +172,6 @@ Example: Using $lookup
       { employeeCount: 99999, comment: "This is a suspiciously accurate number." },
       { employeeCount: 99998, comment: "This isn't in the data set." }
       ] )
-  
-
 
 .. include:: /includes/student-notes.rst
 
@@ -209,13 +209,10 @@ Example: Using $lookup (Continued)
 $lookup Considerations
 ----------------------
 
-- You've got a local field and a foreign field (in the foreign collection)
-
-  - These must be equal
-
+- Match a local field to a foreign field
 - The foreign collection cannot be sharded
 
-  - But the collection you're aggregating on can be
+  - But the collection you're aggregating can be
 
 .. include:: /includes/student-notes.rst
 
@@ -294,8 +291,8 @@ New Aggregation Arithmetic (Continued)
 - $pow: Raise a number to an exponent
 - $exp: Raise e to a power
 - $trunc: Truncate a number to its integer
-- $ceil: Return the smallest integer greater than or equal to a specified number
-- $floor: Return the largest integer less than or equal to the specified number
+- $ceil: Round up to an integer
+- $floor: Round down to an integer
 
 .. include:: /includes/student-notes.rst
 
@@ -307,8 +304,8 @@ Example: $trunc
 
   db.companies.aggregate( [
     { $match : { number_of_employees: { $gte: 100, $lt: 1000 } } },
-    { $group : { _id : null, avg_num_employees: { $avg: "$number_of_employees" } } },
-    { $project : { _id: 0, avg_num_employees: { $trunc : "$avg_num_employees" } } }
+    { $group : { _id : null, mean_employees: { $avg: "$number_of_employees" } } },
+    { $project : { _id: 0, truncated_mean_employees: { $trunc : "$mean_employees" } } }
      ] )
 
 .. include:: /includes/student-notes.rst
@@ -350,6 +347,10 @@ Example: $filter
 
   .. note::
 
+    - Here we're filtering based on the round_code found in documents in the funding_rounds array.
+
+      - Just grabbing the subdocuments that match!
+
     - Notice that the "cond" field of the $filter document requires an expression.
     - The use of "$$" is because there's a variable, "series_e_funding", which we're creating in this stage of aggregation.
 
@@ -363,8 +364,6 @@ Changes to $unwind Behavior
 
   - Returned an error in 3.0
   - Keeps document as-is for non-array values in 3.2
-
-- $unwind is the ability to output empty arrays after an $unwind operator. 
 
 .. include:: /includes/student-notes.rst
 
