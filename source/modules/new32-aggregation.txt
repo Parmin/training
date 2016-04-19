@@ -20,11 +20,7 @@ Upon completing this module, students will be able to:
 Sample Dataset
 --------------
 
-`Handout Link <https://raw.githubusercontent.com/thatnerd/work-public/master/mongodb_trainings/companies.zip>`_
-
-Download the handout and unpack.
-
-Next, do the following:
+Mongoimport the *companies.json* file:
 
 .. code-block:: bash
 
