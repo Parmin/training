@@ -13,7 +13,7 @@ Upon completing this module, students should be able to:
 
 - List and describe the use cases for partial indexes
 - Create and use partial indexes
-- Outline the limitations of partial indexes
+- Outline the tradeoffs of partial indexes
 
 
 .. include:: /includes/student-notes.rst
@@ -24,7 +24,7 @@ What are Partial Indexes?
 
 - Ordinary indexes have one (or more!) key per document
 
-  - More if multikey
+  - Even more if multikey
 
 - Partial indexes only index *some* documents
 - Partial indexes can be compound indexes
@@ -37,7 +37,7 @@ What are Partial Indexes?
   .. note::
 
     - Multikey indexes have multiple points because they have one index key per entry in the array
-    - Compound indexes do *not* have multiple index points. They have just one index point per entry.
+    - Compound indexes have only one index point per document.
 
 
 Creating Partial Indexes
@@ -67,10 +67,10 @@ Example: Creating Partial Indexes
 
 .. code-block:: javascript
 
-  { "_id" : 7, "integer" : 7, "importance" : "very" }
+  { "_id" : 7, "integer" : 7, "importance" : "high" }
 
 - Create a partial index on the "integer" field
-- Create it only where "importance" is "very"
+- Create it only where "importance" is "high"
 
 .. include:: /includes/student-notes.rst
 
@@ -82,8 +82,8 @@ Example: Creating Partial Indexes (Continued)
 
   > db.integers.createIndex(
       { integer : 1 },
-      { partialFilterExpression : { importance : "very" },
-      name : "very_important_integers" } )
+      { partialFilterExpression : { importance : "high" },
+      name : "high_importance_integers" } )
   {
       "createdCollectionAutomatically" : false,
       "numIndexesBefore" : 1,
@@ -122,7 +122,7 @@ Partial Indexes: Visualization
       - This is a conceptual index with proper ordering
       - Contains pointers to documents in the collection
 
-    - The keys are present only for "very" important documents.
+    - The keys are present only for "high" importance documents.
 
 
 Partial Indexes vs. Sparse Indexes
@@ -130,7 +130,7 @@ Partial Indexes vs. Sparse Indexes
 
 - Both Sparse and Partial Indexes only index some documents
 - Sparse indexes include keys only if the field exists
-- Partial indexes could have keys for a variety of patterns
+- Partial indexes have keys for documents with fields that match a pattern
 - Sparse indexes are functionally a subset of partial indexes
 
   - Use partial indexes from now on
@@ -185,10 +185,10 @@ Partial Indexes - Advantages
 
   - Because not all documents get indexed
 
-- If implemented well, they will:
+- If implemented well, they:
 
   - Take up less memory and disk space
-  - Be even faster to traverse
+  - Are faster to traverse
 
 .. include:: /includes/student-notes.rst
 
@@ -197,12 +197,6 @@ Partial Indexes - Disadvantages
 -------------------------------
 
 - Used only for queries that match the partialFilterExpression
-- May not always be used in whene they should be
-
-  - The server may not realize it can use the index
-
-    - Unless the query makes it explicit
-
 - Prevents other indexes from being built on the same key
 
   - Simple or compound
@@ -221,14 +215,14 @@ Partial Indexes - Disadvantages
 Partial Indexes - Use Cases
 ---------------------------
 
-- A partial index is an optimization for a particular query
+- A partial index is an optimization for a particular search pattern
 
   - Or a set of related queries
 
 - A partial index should only be created:
 
   - When the query only reaches a small subset of the collection
-  - When no non-matching query of the same shape
+  - When no non-matching query of the same shape is used by the application
 
 .. include:: /includes/student-notes.rst
 
@@ -286,10 +280,10 @@ Identifying Partial Indexes
       "key" : {
         "integer" : 1
       },
-      "name" : "very_important_integers",
+      "name" : "high_importance_integers",
       "ns" : "test.integers",
       "partialFilterExpression" : {
-        "importance" : "very"
+        "importance" : "high"
       }
     },
     ...
@@ -307,7 +301,7 @@ Identifying Partial Indexes
     - This index is on the "integer" field
     - But the partialFilterExpression is on the "importance" field
 
-      - Only indexing the documents with "importance": "very"
+      - Only indexing the documents with "importance": "high"
 
 
 Creating Partial Indexes
@@ -333,7 +327,7 @@ Creating Partial Indexes
 
       - Manually input a field, with a value used in every document you want indexed
       - When you update the document, update that field, if necessary
-      - This is the technique we have in the example, with { "important": "very" }
+      - This is the technique we have in the example, with { "importance": "high" }
 
         - There is some overhead with this technique
 
@@ -399,31 +393,30 @@ Partial Indexes - Tips (Continued)
       - So the server has to be careful
 
 
-.. not sure if I should have this (ADVICE PLEASE, CODE REVIEWERS):
-.. Example: No Double Index Coverage
-.. ---------------------------------
-.. 
-.. .. code-block:: javascript
-.. 
-..   db.foo.drop()
-..   db.foo.createIndex( { a : 1, b : -1 }, { partialFilterExpression : { a : { $gte : 100000 } } } )  // works fine
-..   db.foo.createIndex( { a : 1, b : -1  }, { partialFilterExpression : { a : { $lte : 100000 } } } )  // fails
-.. 
-.. .. include:: /includes/student-notes.rst
-.. 
-.. .. only:: instructor
-.. 
-..   .. note::
-.. 
-..     - Ask them why it fails
-..     - It fails because there's already an { a : 1, b : -1 } index on this collection
-.. 
-..       - You can't have two indexes on the same fields
-.. 
-..     - Ask them if they could create an { a : 1, b : 1 } index with { a : { $lte : 100000 } } 
-.. 
-..       - They can. It works because it's a fundamentally different index
-..       - They need to be very careful about index ordering if sorting
+Example: No Double Index Coverage
+---------------------------------
+
+.. code-block:: javascript
+
+  db.foo.drop()
+  db.foo.createIndex( { a : 1, b : -1 }, { partialFilterExpression : { a : { $gte : 100000 } } } )  // works fine
+  db.foo.createIndex( { a : 1, b : -1  }, { partialFilterExpression : { a : { $lte : 100000 } } } )  // fails
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Ask them why it fails
+    - It fails because there's already an { a : 1, b : -1 } index on this collection
+
+      - You can't have two indexes on the same fields with the same ordering
+
+    - Ask them if they could create an { a : 1, b : 1 } index with { a : { $lte : 100000 } } 
+
+      - They can. It works because it's a fundamentally different index
+      - They need to be very careful about index ordering if sorting
 
 
 Example: Hinting Done Wrong
