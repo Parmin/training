@@ -6,4 +6,4 @@ Exercises
 
 .. include:: /includes/toc/dfn-list-exercises.rst
 
-.. include:: /includes/toc/exercises.rst             
+.. include:: /includes/toc/exercises.rst
