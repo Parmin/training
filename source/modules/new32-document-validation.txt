@@ -398,3 +398,5 @@ What three databases can’t have document validation? Why?
     - local: holds the oplog and other replication information
     - config: holds sharding metadata
     - In each of these cases, MongoDB needs the data to work properly
+
+      - You should never be writing anything else to these databases anyway
