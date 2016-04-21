@@ -210,6 +210,9 @@ $lookup Considerations
 ----------------------
 
 - Match a local field to a foreign field
+
+  - i.e., a field in another collection
+
 - The foreign collection cannot be sharded
 
   - But the collection you're aggregating can be
