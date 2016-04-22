@@ -10,9 +10,9 @@ Upon completing this module, students will be able to:
 
 - List and use the new aggregation stages in MongoDB 3.2
 
-  - $sample
-  - $indexStats
-  - $lookup
+  - ``$sample``
+  - ``$indexStats``
+  - ``$lookup``
 
 - Use the new or revised operators in MongoDB 3.2
 
@@ -22,11 +22,11 @@ Upon completing this module, students will be able to:
 Sample Dataset
 --------------
 
-Mongoimport the *companies.json* file:
+Mongoimport the ``companies.json`` file:
 
-.. code-block:: bash
-
-  $ mongoimport -d training -c companies --drop companies.json
+.. literalinclude:: /includes/aggregation_scripts.sh
+    :language: bash
+    :lines: 6
 
 - You now have a dataset of companies on your server.
 - We will use these for our examples.
@@ -37,30 +37,30 @@ Mongoimport the *companies.json* file:
 New Pipeline Operators
 ----------------------
 
-- $sample used to pull in a random set of documents
+- ``$sample`` used to pull in a random set of documents
 
   - You can specify how many
 
-- $indexStats will show how often your indexes are being used
+- ``$indexStats`` shows how many hits the indexes get
 
   - Since the server process started
 
-- $lookup pulls in data from another collection
+- ``$lookup`` pulls in data from another collection
 
   - Matches a field on the two collections
 
 .. include:: /includes/student-notes.rst
 
 
-Introduction to $sample
------------------------
+Introduction to ``$sample``
+---------------------------
 
 - Randomized sample of documents
 - Useful for doing statistics
 
 - If sample is larger than 5% of the collection:
 
-  - $sample will perform a collection scan
+  - ``$sample`` will perform a collection scan
   - If not, it won't
 
 - Usable only as a first stage of the pipeline
@@ -68,15 +68,13 @@ Introduction to $sample
 .. include:: /includes/student-notes.rst
 
 
-Example: $sample
-----------------
+Example: ``$sample``
+--------------------
 
-.. code-block:: javascript
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 5-8
 
-   db.companies.aggregate( [ 
-        { $sample : { size : 5 } },
-        { $project : { _id : 0, number_of_employees: 1 } }
-   ] )
 
 .. include:: /includes/student-notes.rst
 
@@ -86,14 +84,14 @@ Example: $sample
 
     - Obvioiusly, they will want their sample sizes to be large enough to be useful; 5 is too small for anything
     - A statistician may be required for determining how much is enough; it depends on the distribution of data
-    - On WiredTiger, $sample can be quite slow as of the writing of this content.
+    - On WiredTiger, ``$sample`` can be quite slow as of the writing of this content.
   
       - https://jira.mongodb.org/browse/SERVER-23408
       - This is a little slow, currently.
   
 
-Introduction to $indexStats
----------------------------
+Introduction to ``$indexStats``
+-------------------------------
 
 - Tells you how many times each index has been used
 
@@ -110,17 +108,13 @@ Introduction to $indexStats
 .. include:: /includes/student-notes.rst
 
 
-Example: $indexStats
---------------------
+Example: ``$indexStats``
+------------------------
 
-.. code-block:: javascript
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 11-18
 
-  db.companies.dropIndexes()
-  db.companies.createIndex( { number_of_employees : 1 } )
-  db.companies.aggregate( [ { $indexStats: {} } ] )
-  db.companies.find( { number_of_employees : { $gte : 100 } }, { number_of_employees: 1 } ).next()
-  db.companies.find( { number_of_employees : { $gte : 100 } }, { number_of_employees: 1 } ).next()
-  db.companies.aggregate( [ { $indexStats: {} } ] )
 
 .. only:: instructor
 
@@ -128,13 +122,14 @@ Example: $indexStats
 
     - Point out the "accesses" doc, with ops, is 0 for the new index initially.
     - Ops incremented to 2 from the two find() queries.
+    - The ``.next()`` operations are to get the DB to actually execute the query.
     - _id did not increment because we weren't using the index
     - Neither query changed its "since" field in the "accesses" doc
     - If using replication, the oplog will query on _id when replicating.
 
 
-Introduction to $lookup
------------------------
+Introduction to ``$lookup``
+---------------------------
 
 - Pulls documents from another collection into the pipeline
 
@@ -158,39 +153,27 @@ Introduction to $lookup
         - The other for the referenced collection, using its values
 
 
-Example: Using $lookup
-----------------------
+Example: Using ``$lookup``
+--------------------------
 
-Create a separate collection for $lookup
+Create a separate collection for ``$lookup``
 
-.. code-block:: javascript
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 22-33
 
-  db.commentOnEmployees.insertMany( [ 
-      { employeeCount: 405000, comment: "Biggest company in the set." },
-      { employeeCount: 405000, comment: "So you get two comments." },
-      { employeeCount: 100000, comment: "This is a suspiciously round number." },
-      { employeeCount: 99999, comment: "This is a suspiciously accurate number." },
-      { employeeCount: 99998, comment: "This isn't in the data set." }
-      ] )
+
 
 .. include:: /includes/student-notes.rst
 
 
-Example: Using $lookup (Continued)
-----------------------------------
+Example: Using ``$lookup`` (Continued)
+--------------------------------------
 
-.. code-block:: javascript
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 34-44
 
-  db.companies.aggregate( [
-    { $match: { number_of_employees: { $in: [ 405000, 388000, 100000, 99999, 99998 ] } } },
-    { $project: { _id :0, name: 1, number_of_employees: 1 } },
-    { $lookup: {
-        from: "commentOnEmployees",
-        localField: "number_of_employees",
-        foreignField: "employeeCount",
-        as: "example_comments"
-    } },
-    { $sort : { number_of_employees: -1 } } ] )
 
 .. include:: /includes/student-notes.rst
 
@@ -206,8 +189,8 @@ Example: Using $lookup (Continued)
     - Does not include documents in commentOnEmployees that don't match.
 
 
-$lookup Considerations
-----------------------
+``$lookup`` Considerations
+--------------------------
 
 - Match a local field to a foreign field
 
@@ -227,7 +210,7 @@ New Aggregation Functionality
 
   - Changed the functionality of a few operators
 
-- Accumulators for $group
+- Accumulators for ``$group``
 - Arithmetic operators
 - Array operators
 - General enhancements
@@ -240,20 +223,14 @@ New Accumulators
 
 - Accumulators do math on a set of numbers
 
-  - Used with $group
+  - Used in the ``$group`` stage
 
-- $stdDevSamp - Sample Standard Deviation
-- $stdDevPop - Population Standard Deviation
+- ``$stdDevSamp`` - Sample Standard Deviation
+- ``$stdDevPop`` - Population Standard Deviation
 
-.. code-block:: javascript
-
-  db.companies.aggregate( [
-  { $match : { number_of_employees: { $lt: 1000, $gte: 100 } } },
-  { $group : {
-      _id : null,
-      mean_employees: { $avg : "$number_of_employees" },
-      std_num_employees : { $stdDevPop: "$number_of_employees" } } }
-  ] )
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 48-54
 
 .. include:: /includes/student-notes.rst
 
@@ -263,7 +240,7 @@ New Accumulators
 
     - The standard deviation of a population means you're looking at every member
     - The standard deviation of a sample means just a randomly selected subset of a larger population
-    - It is not necessary to use the $sample stage
+    - It is not necessary to use the ``$sample`` stage
     - Don't go into the stats any deeper; this isn't a statistics class
 
       - We used this example just to show the syntax
@@ -272,11 +249,11 @@ New Accumulators
 New Aggregation Arithmetic
 --------------------------
 
-- $sqrt: Calculate a square root
-- $abs: Calculate the absolute value
-- $log: Calculate the logarithm in a specified base
-- $log10: Log base 10
-- $ln: Natural logarithm
+- ``$sqrt``: Calculate a square root
+- ``$abs``: Calculate the absolute value
+- ``$log``: Calculate the logarithm in a specified base
+- ``$log10``: Log base 10
+- ``$ln``: Natural logarithm
 
 .. include:: /includes/student-notes.rst
 
@@ -291,25 +268,22 @@ New Aggregation Arithmetic
 New Aggregation Arithmetic (Continued)
 --------------------------------------
 
-- $pow: Raise a number to an exponent
-- $exp: Raise e to a power
-- $trunc: Truncate a number to its integer
-- $ceil: Round up to an integer
-- $floor: Round down to an integer
+- ``$pow``: Raise a number to an exponent
+- ``$exp``: Raise e to a power
+- ``$trunc``: Truncate a number to its integer
+- ``$ceil``: Round up to an integer
+- ``$floor``: Round down to an integer
 
 .. include:: /includes/student-notes.rst
 
 
-Example: $trunc
----------------
+Example: ``$trunc``
+-------------------
 
-.. code-block:: javascript
-
-  db.companies.aggregate( [
-    { $match : { number_of_employees: { $gte: 100, $lt: 1000 } } },
-    { $group : { _id : null, mean_employees: { $avg: "$number_of_employees" } } },
-    { $project : { _id: 0, truncated_mean_employees: { $trunc : "$mean_employees" } } }
-     ] )
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 58-64
+  :emphasize-lines: 62-63
 
 .. include:: /includes/student-notes.rst
 
@@ -324,25 +298,21 @@ Example: $trunc
 New Aggregation Array Operators
 -------------------------------
 
-- $slice: returns a portion of an array
-- $arrayElemAt: Returns an element at the index
-- $concatArrays: Concatenates two or more arrays
-- $isArray: Determines if the operand is an array or not
-- $filter: Selects a subset of the array, based on the filter
+- ``$slice``: returns a portion of an array
+- ``$arrayElemAt``: Returns an element at the index
+- ``$concatArrays``: Concatenates two or more arrays
+- ``$isArray``: Determines if the operand is an array or not
+- ``$filter``: Selects a subset of the array, based on the filter
 
 .. include:: /includes/student-notes.rst
 
 
-Example: $filter
-----------------
+Example: ``$filter``
+--------------------
 
-.. code-block:: javascript
-
-  db.companies.aggregate( [
-    { $match : { "funding_rounds.round_code": "e" } },
-    { $project : { _id: 0, name: 1, series_e_funding: { $filter: { input: "$funding_rounds", as: "series_e_funding", cond: { $eq : [ "$$series_e_funding.round_code", "e" ] } } } } },
-    { $project : { name: 1, "series_e_funding.raised_amount": 1, "series_e_funding.raised_currency_code": 1, "series_e_funding.year": 1, } },
-     ] )
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 68-83
 
 .. include:: /includes/student-notes.rst
 
@@ -354,16 +324,16 @@ Example: $filter
 
       - Just grabbing the subdocuments that match!
 
-    - Notice that the "cond" field of the $filter document requires an expression.
-    - The use of "$$" is because there's a variable, "series_e_funding", which we're creating in this stage of aggregation.
+    - Notice that the "cond" field of the ``$filter`` document requires an expression.
+    - The use of ``$$`` is because there's a variable, "series_e_funding", which we're creating in this stage of aggregation.
 
-      - It doesn't yet exist as a field, because the $project round isn't done, yet.
+      - It doesn't yet exist as a field, because the ``$project`` round isn't done, yet.
 
 
-Changes to $unwind Behavior
----------------------------
+Changes to ``$unwind`` Behavior
+-------------------------------
 
-- $unwind can now be performed on a non-array value
+- ``$unwind`` can now be performed on a non-array value
 
   - Returned an error in 3.0
   - Keeps document as-is for non-array values in 3.2
@@ -371,29 +341,29 @@ Changes to $unwind Behavior
 .. include:: /includes/student-notes.rst
 
 
-Using Accumulators with $project
---------------------------------
+Using Accumulators with ``$project``
+------------------------------------
 
 - Accumulators take a set of values and combine them
-- Previously, you could $group a field
+- Previously, you could ``$group`` a field
 
   - Get one value from many
 
-- Can be used with $project in 3.2
+- Can be used with ``$project`` in 3.2
 
   - If used on an array
 
 .. include:: /includes/student-notes.rst
 
 
-$project Accumulators for 3.2
------------------------------
+``$project`` Accumulators for 3.2
+---------------------------------
 
-- $avg: Averages over values
-- $sum: Sums the values
-- $min: Finds the minimum value
-- $max: finds the maximum value
-- $stdDevPop, $stdDevSamp
+- ``$avg``: Averages over values
+- ``$sum``: Sums the values
+- ``$min``: Finds the minimum value
+- ``$max``: finds the maximum value
+- ``$stdDevPop``, ``$stdDevSamp``
 - No other accumulators are currently supported
 
 .. include:: /includes/student-notes.rst
@@ -404,30 +374,18 @@ $project Accumulators for 3.2
 
     - Examples of unsupported accumulators:
 
-      - $first, $last
-      - $push
-      - $addToSet
+      - ``$first``, ``$last``
+      - ``$push``
+      - ``$addToSet``
       - That's literally all of them
 
 
-Example: Project Accumulators
------------------------------
+Example: ``$project`` Accumulators
+----------------------------------
 
-.. code-block:: javascript
-
-  db.foo.drop()
-  db.foo.insertMany( [ { numbers: [ 1, 2, 3, 4, 5 ] }, { numbers: [ 6, 7, 8, 9, 10 ] } ] )
-  db.foo.aggregate( [ 
-    { 
-      $project: {
-        _id: 0,
-        avg: { $avg: "$numbers" },
-        sum: { $sum: "$numbers" },
-        min: { $min: "$numbers" },
-        max: { $max: "$numbers" },
-        stDevSamp: { $stdDevSamp: "$numbers" } } 
-    } ] )
-  db.foo.find( {}, { _id: 0 } )  // these are the original documents
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 87-100
 
 .. only:: instructor
 
@@ -439,18 +397,15 @@ Example: Project Accumulators
 .. include:: /includes/student-notes.rst
 
 
-$project(ing) Arrays 
---------------------
+``$project`` ing Arrays 
+-----------------------
 
-- You can now use $project to create arrays
+- You can now use ``$project`` to create arrays
 
   - From existing non-array fields
 
-.. code-block:: javascript
-
-  db.plants.drop()
-  db.plants.insertMany( [ { _id: "yellow plants", fruit: "banana", vegetable: "squash" }, { _id: "red plants", fruit: "strawberry", vegetable: "radish" } ] )
-  db.plants.aggregate( [ { $project: { plant_list: [ "$fruit", "$vegetable" ] } } ] )
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 103-108
 
 .. include:: /includes/student-notes.rst
-
