@@ -65,9 +65,9 @@ Example: Creating Partial Indexes
 
 - Consider the following schema:
 
-.. code-block:: javascript
-
-  { "_id" : 7, "integer" : 7, "importance" : "high" }
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 5
 
 - Create a partial index on the "integer" field
 - Create it only where "importance" is "high"
@@ -78,18 +78,9 @@ Example: Creating Partial Indexes
 Example: Creating Partial Indexes (Continued)
 ---------------------------------------------
 
-.. code-block:: javascript
-
-  > db.integers.createIndex(
-      { integer : 1 },
-      { partialFilterExpression : { importance : "high" },
-      name : "high_importance_integers" } )
-  {
-      "createdCollectionAutomatically" : false,
-      "numIndexesBefore" : 1,
-      "numIndexesAfter" : 2,
-      "ok" : 1
-  }
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 9-12
 
 .. include:: /includes/student-notes.rst
 
@@ -135,12 +126,10 @@ Partial Indexes vs. Sparse Indexes
 
   - Use partial indexes from now on
 
-.. code-block:: javascript
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 16-19
 
-  > db.integers.createIndex(
-      { importance : 1 },
-      { partialFilterExpression : { importance : { $exists : true } } } 
-      )  // creates the equivalent of a sparse index
 
 .. include:: /includes/student-notes.rst
 
@@ -239,10 +228,9 @@ Quiz
 
 You use the following queries regularly on your production server:
 
-.. code-block:: javascript
-
-  > db.things.find( { last_update : { $gte : ISODate("2016-01-01") } } )
-  > db.things.find( { last_update : { $gte : ISODate("2015-01-01") } } )
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 23,24
 
 You have documents as far back as the year 2005.
 
@@ -260,9 +248,9 @@ You have documents as far back as the year 2005.
     - This is a good use case.
     - The partialFilterExpression should be:
 
-    .. code-block:: javascript
-
-      > { last_update : { $gte : ISODate("2015-01-01") } }
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 28
 
     - This will allow the index to work for both queries
 
@@ -270,24 +258,10 @@ You have documents as far back as the year 2005.
 Identifying Partial Indexes
 ---------------------------
 
-.. code-block:: javascript
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 32-47
 
-  > db.integers.getIndexes()
-  [
-  ...,
-    {
-      "v" : 1,
-      "key" : {
-        "integer" : 1
-      },
-      "name" : "high_importance_integers",
-      "ns" : "test.integers",
-      "partialFilterExpression" : {
-        "importance" : "high"
-      }
-    },
-    ...
-  ]
 
 .. include:: /includes/student-notes.rst
 
@@ -371,11 +345,9 @@ Partial Indexes - Tips
 Example: No Double Index Coverage
 ---------------------------------
 
-.. code-block:: javascript
-
-  db.foo.drop()
-  db.foo.createIndex( { a : 1, b : -1 }, { partialFilterExpression : { a : { $gte : 100000 } } } )  // works fine
-  db.foo.createIndex( { a : 1, b : -1  }, { partialFilterExpression : { a : { $lte : 100000 } } } )  // fails
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 51-55
 
 .. include:: /includes/student-notes.rst
 
@@ -397,16 +369,9 @@ Example: No Double Index Coverage
 Example: Hinting Done Wrong
 ---------------------------
 
-.. code-block:: javascript
-
-  db.foo.drop()
-  docs = []; for (i=1; i<=10; i++) { docs.push( { student_id: i, score : Math.random(), subject_name: "english" } ) }
-  db.foo.insertMany( docs )
-  docs = []; for (i=1; i<=10; i++) { docs.push( { student_id: i, score : Math.random(), subject_name: "mathematics" } ) }
-  db.foo.insertMany( docs )
-  db.foo.createIndex( { score : 1 }, { partialFilterExpression : { subject_name: "english" } } )
-  db.foo.find( { score : { $gte : 0.5 } } )  // works fine, but does a collection scan
-  db.foo.find( { score : { $gte : 0.5 } } ).hint( { score: 1 } ) // misses documents
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 59-77
 
 .. include:: /includes/student-notes.rst
 
@@ -430,23 +395,9 @@ Quiz
 
 Consider the following parital index. Note the partialFilterExpression in particular:
 
-.. code-block:: javascript
-
-  {
-    "v" : 1,
-    "key" : {
-      "score" : 1,
-      "student_id" : 1
-    },
-    "name" : "score_1_student_id_1",
-    "ns" : "test.scores",
-    "partialFilterExpression" : {
-      "score" : {
-        "$gte" : 0.65
-      },
-      "subject_name" : "history"
-    }
-  }
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 81-95
 
 .. include:: /includes/student-notes.rst
 
@@ -456,13 +407,9 @@ Quiz (Continued)
 
 Which of the following documents are indexed?
 
-.. code-block:: javascript
-
-  { "_id" : 1, "student_id" : 2, "score" : 0.84, "subject_name" : "history" }
-  { "_id" : 2, "student_id" : 3, "score" : 0.57, "subject_name" : "history" }
-  { "_id" : 3, "student_id" : 4, "score" : 0.56, "subject_name" : "physics" }
-  { "_id" : 4, "student_id" : 4, "score" : 0.75, "subject_name" : "physics" }
-  { "_id" : 5, "student_id" : 3, "score" : 0.89, "subject_name" : "history" }
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 99-103
 
 .. include:: /includes/student-notes.rst
 
