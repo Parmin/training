@@ -67,7 +67,7 @@ Aggregation Stages
 The Match Stage
 ---------------
 
-- The ``$match`` operator works like the query phase of ``find()``, ``update()``, and ``remove()``.
+- The ``$match`` operator works like the query phase of ``find()``
 - Documents in the pipeline that match the query document will be passed to subsequent stages.
 - ``$match`` is often the first operator used in an aggregation stage.
 - Like other aggregation operators, ``$match`` can occur multiple times in a single pipeline.

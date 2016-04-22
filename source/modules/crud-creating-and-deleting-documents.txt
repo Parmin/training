@@ -19,18 +19,19 @@ Upon completing this module students should understand:
 Creating New Documents
 ----------------------
 
-- Create documents using ``insert()``.
+- Create documents using ``insertOne()`` and ``insertMany().
 - For example:
 
   .. code-block:: javascript
 
      // Specify the collection name
-     db.<COLLECTION>.insert( { "name" : "Mongo" } )
+     db.<COLLECTION>.insertOne( { "name" : "Mongo" } )
 
      // For example
-     db.people.insert( { "name" : "Mongo" } )
+     db.people.insertOne( { "name" : "Mongo" } )
 
 .. include:: /includes/student-notes.rst
+
 
 Example: Inserting a Document
 ------------------------------
@@ -41,7 +42,7 @@ Experiment with the following commands.
 
    use sample
 
-   db.movies.insert( { "title" : "Jaws" } )
+   db.movies.insertOne( { "title" : "Jaws" } )
 
    db.movies.find()
 
@@ -55,7 +56,6 @@ Experiment with the following commands.
       - Some students will have trouble starting things up, so be helpful at this stage.
 
 
-
 Implicit ``_id`` Assignment
 ---------------------------
 
@@ -65,6 +65,7 @@ Implicit ``_id`` Assignment
 
 .. include:: /includes/student-notes.rst
 
+
 Example: Assigning _ids
 ------------------------
 
@@ -72,8 +73,7 @@ Experiment with the following commands.
 
 .. code-block:: javascript
 
-    db.movies.insert( { "_id" : "Jaws", "year" : 1975 } )
-
+    db.movies.insertOne( { "_id" : "Jaws", "year" : 1975 } )
     db.movies.find()
 
 .. include:: /includes/student-notes.rst
@@ -84,7 +84,6 @@ Experiment with the following commands.
 
       - Note that you can assign an _id to be of almost any type.
       - It does not need to be an ObjectId.
-
 
 
 Inserts will fail if...
@@ -103,18 +102,18 @@ Example: Inserts will fail if...
 .. code-block:: javascript
 
    // fails because _id can't have an array value
-   db.movies.insert( { "_id" : [ "Star Wars", 
-                                 "The Empire Strikes Back", 
-                                 "Return of the Jedi" ] } )
+   db.movies.insertOne( { "_id" : [ "Star Wars", 
+                                    "The Empire Strikes Back", 
+                                    "Return of the Jedi" ] } )
 
    // succeeds
-   db.movies.insert( { "_id" : "Star Wars" } )
+   db.movies.insertOne( { "_id" : "Star Wars" } )
 
    // fails because of duplicate id
-   db.movies.insert( { "_id" : "Star Wars" } )
+   db.movies.insertOne( { "_id" : "Star Wars" } )
 
    // malformed document
-   db.movies.insert( { "Star Wars" } )
+   db.movies.insertOne( { "Star Wars" } )
 
 .. include:: /includes/student-notes.rst
 
@@ -138,17 +137,11 @@ Example: Inserts will fail if...
 
 
 
-Bulk Inserts
-------------
+insertMany
+----------
 
-- MongoDB 2.6 introduced bulk inserts. 
 - You may bulk insert using an array of documents.
-- The API has two core concepts: 
-
-  - Ordered bulk operations
-  - Unordered bulk operations 
-
-- The main difference is in the way the operations are executed in bulk. 
+- Use ``insertMany()`` instead of ``insertOne()``
 
 .. only:: instructor
 
@@ -161,28 +154,28 @@ Bulk Inserts
 .. include:: /includes/student-notes.rst
 
 
-Ordered Bulk Insert
--------------------
+Ordered insertMany
+------------------
 
 - For ordered inserts MongoDB will stop processing inserts upon encountering an error.
 - Meaning that only inserts occurring before an error will complete.
-- The default setting for ``db.<COLLECTION>.insert`` is an ordered insert.
+- The default setting for ``db.<COLLECTION>.insertMany`` is an ordered insert.
 - See the next exercise for an example.
 
 .. include:: /includes/student-notes.rst
 
 
-Example: Ordered Bulk Insert
------------------------------
+Example: Ordered insertMany
+---------------------------
 
-Experiment with the following bulk insert.
+Experiment with the following insertMany.
 
 .. code-block:: javascript
 
-   db.movies.insert( [ { "_id" : "Batman", "year" : 1989 },
-                       { "_id" : "Home Alone", "year" : 1990 }, 
-                       { "_id" : "Ghostbusters", "year" : 1984 },
-                       { "_id" : "Ghostbusters", "year" : 1984 } ] )
+   db.movies.insertMany( [ { "_id" : "Batman", "year" : 1989 },
+                           { "_id" : "Home Alone", "year" : 1990 }, 
+                           { "_id" : "Ghostbusters", "year" : 1984 },
+                           { "_id" : "Ghostbusters", "year" : 1984 } ] )
    db.movies.find()
 
 .. include:: /includes/student-notes.rst
@@ -195,12 +188,12 @@ Experiment with the following bulk insert.
       - Only the first 3 documents will be inserted.
 
     
-Unordered Bulk Insert
----------------------
+Unordered insertMany
+--------------------
 
 - Pass ``{ ordered : false }`` to insert to perform unordered inserts.
-- If any given insert fails, MongoDB will still attempt the others.
-- The inserts may be executed in a different order from the way in which you specified them.
+- If any given insert fails, MongoDB will still attempt all of the others.
+- The inserts may be executed in a different order than you specified.
 - The next exercise is very similar to the previous one.
 - However, we are using ``{ ordered : false }`` 
 - One insert will fail, but all the rest will succeed. 
@@ -208,21 +201,20 @@ Unordered Bulk Insert
 .. include:: /includes/student-notes.rst
 
 
-Example: Unordered Bulk Insert
--------------------------------
+Example: Unordered insertMany
+-----------------------------
 
-Experiment with the following bulk insert.
+Experiment with the following insert.
 
 .. code-block:: javascript
 
-   db.movies.insert( [ { "_id" : "Jaws", "year" : 1975 },
-                       { "_id" : "Titanic", "year" : 1997 }, 
-                       { "_id" : "The Lion King", "year" : 1994 } ], 
-                       { ordered : false } )
+   db.movies.insertMany( [ { "_id" : "Jaws", "year" : 1975 },
+                           { "_id" : "Titanic", "year" : 1997 }, 
+                           { "_id" : "The Lion King", "year" : 1994 } ], 
+                           { ordered : false } )
    db.movies.find()
 
 .. include:: /includes/student-notes.rst
-
 
 
 The Shell is a JavaScript Interpreter
@@ -247,50 +239,55 @@ Deleting Documents
 
 You may delete documents from a MongoDB deployment in several ways.
 
-- Use ``remove()`` to delete documents matching a specific set of conditions.
+- Use ``deleteOne()`` and ``deleteMany()`` to delete documents matching a specific set of conditions.
 - Drop an entire collection.
 - Drop a database.
 
 .. include:: /includes/student-notes.rst
 
 
-Using ``remove()``
-------------------
+Using ``deleteOne()``
+---------------------
 
-- Remove documents from a collection using ``remove()``.
+- Remove a document from a collection using ``deleteOne()``
 - This command has one required parameter, a query document.
-- All documents in the collection matching the query document will be removed.
-- Pass an empty document to remove all documents.
-- Prior to MongoDB 2.6 calling ``remove()`` with no parameters would remove all documents.
-- Limit ``remove()`` to one document using ``justOne``.
+- The first document in the collection matching the query document will be deleted.
 
 .. include:: /includes/student-notes.rst
 
 
-Example: Removing Documents
+Using ``deleteMany()``
+---------------------
+
+- Remove multiple documents from a collection using ``deleteMany()``.
+- This command has one required parameter, a query document.
+- All documents in the collection matching the query document will be deleted.
+- Pass an empty document to remove all documents.
+
+.. include:: /includes/student-notes.rst
+
+Example: Deleting Documents
 ----------------------------
 
-Experiment with removing documents. Do a ``find()`` after each ``remove()`` command below.
+Experiment with removing documents. Do a ``find()`` after each ``deleteMany()`` command below.
 
 .. code-block:: javascript
 
    for (i=1; i<=20; i++) { db.testcol.insert( { _id : i, a : i } ) }
 
-   db.testcol.remove( { a : 1 } )  // Remove the first document
+   db.testcol.deleteMany( { a : 1 } )  // Delete the first document
 
    // $lt is a query operator that enables us to select documents that
    // are less than some value. More on operators soon.
-   db.testcol.remove( { a : { $lt : 5 } } )  // Remove three more
+   db.testcol.deleteMany( { a : { $lt : 5 } } )  // Remove three more
 
-   db.testcol.remove( { a : { $lt : 10 } },
-                            { justOne : true } )  // Remove one more
+   db.testcol.deleteOne( { a : { $lt : 10 } } )  // Remove one more
 
-   db.testcol.remove()  // Error: requires a query document.
+   db.testcol.deleteMany()  // Error: requires a query document.
 
-   db.testcol.remove( { } )  // All documents removed
+   db.testcol.deleteMany( { } )  // All documents removed
 
 .. include:: /includes/student-notes.rst
-
 
 
 Dropping a Collection
@@ -316,14 +313,13 @@ Example: Dropping a Collection
 
 .. code-block:: javascript
 
-   db.colToBeDropped.insert( { a : 1 } )
+   db.colToBeDropped.insertOne( { a : 1 } )
    show collections  // Shows the colToBeDropped collection
 
    db.colToBeDropped.drop()
    show collections  // collection is gone
 
 .. include:: /includes/student-notes.rst
-
 
 
 Dropping a Database
@@ -343,8 +339,8 @@ Example: Dropping a Database
 .. code-block:: javascript
 
    use tempDB
-   db.testcol1.insert( { a : 1 } )
-   db.testcol2.insert( { a : 1 } )
+   db.testcol1.insertOne( { a : 1 } )
+   db.testcol2.insertOne( { a : 1 } )
 
    show dbs  // Here they are
    show collections  // Shows the two collections
@@ -356,4 +352,3 @@ Example: Dropping a Database
    use sample  // take us back to the sample db
 
 .. include:: /includes/student-notes.rst
-

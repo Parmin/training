@@ -14,11 +14,14 @@ Bulk Operations
 
 - Bulk operations are used to perform many operations at once, without
   requiring back-and-forth for each operation
-- We've been implicitly 
+
 - A result is returned once the entire bulk operation set has been executed
+
     - No results are returned until the bulk operation is done
+
 - Bulk operations are a way of increasing speed for writes
 - Bulk ops can have up to 1000 operations at a time
+
     - Larger bulk operations will be broken down into groups of 1000 operations
       at a time
 
