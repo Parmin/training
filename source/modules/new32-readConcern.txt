@@ -1,0 +1,44 @@
+===========
+readConcern
+===========
+
+
+readConcern
+-----------
+
+- Allows clients to choose a level of isolation for their reads
+- 'local' or 'majority'
+- WiredTiger storage engine required
+- replication.enableMajorityReadConcern parameter must be enabled
+
+.. include:: /includes/student-notes.rst
+
+readConcern
+-----------
+
+.. code-block:: javascript 
+
+	db.runCommand(
+	   {
+	     find: "payments",
+	     filter: { payment_amount: { $gt: 5 } },
+	     readConcern: { level: "majority" }
+	   }
+	)
+
+.. include:: /includes/student-notes.rst
+
+Commands Supporting readConcern
+-------------------------------
+
+- find
+- aggregate
+- distinct
+- count
+- geoNear
+- geoSearch
+- parallelCollectionScan
+
+.. include:: /includes/student-notes.rst
+
+

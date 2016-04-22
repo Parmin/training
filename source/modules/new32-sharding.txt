@@ -1,0 +1,78 @@
+========
+Sharding
+========
+
+Learning Objectives 
+-------------------
+
+- CSRS (config servers as a replica set) for MongoDB 3.2
+- Advantages to CSRS in MongoDB 3.2
+
+.. include:: /includes/student-notes.rst
+
+Benefits to CSRS
+----------------
+
+- Deploy config servers across more than 3 data centers
+- Fault tolerance (lose a data center, same considerations as a replica set)
+- Rolling upgrades
+- Deployments simpler and easier to understand
+
+.. include:: /includes/student-notes.rst
+
+Restrictions for CSRS
+---------------------
+
+- Must use MongoDB 3.2
+- Must use the WiredTiger storage engine
+- No arbiters
+- No delayed members
+- Must build indexes
+
+.. include:: /includes/student-notes.rst
+
+
+Launching a New Deployment
+--------------------------
+
+Start three config servers on different ports (XXXXX is the port number):
+
+.. code-block:: javascript
+
+	mongod --dbpath /data/configDB 
+		   --replSet myConfig 
+		   --logpath mongo.log 
+		   --fork 
+		   --configsvr
+		   --port XXXXX
+
+.. include:: /includes/student-notes.rst
+
+Initialize the Replica Set
+--------------------------
+
+.. code-block:: javascript
+
+	mongo
+	> rs.initiate({
+	 _id: "myConfig",
+	 configsvr: true,
+	 members: [ 
+	 	{_id: 0, host: "cfg1.example.com:27017"},
+	 	{_id: 1, host: "cfg2.example.com:27017"},
+	 	{_id: 2, host: "cfg3.example.com:27017"} 
+	 ],
+	})
+
+.. include:: /includes/student-notes.rst
+
+Start mongos
+------------
+
+.. code-block:: javascript
+
+	./mongos 
+	  --configdb myConfig/<C1>,<C2>,<C3>
+	  --fork
+
+.. include:: /includes/student-notes.rst

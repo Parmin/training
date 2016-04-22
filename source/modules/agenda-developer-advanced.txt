@@ -24,7 +24,7 @@ Day 1 (Morning)
 
 .. |cart_schema_link| raw:: html
 
-   <a href="schema-design-case-study-cms.html">Case Study: Shopping Cart</a>
+   <a href="schema-design-case-study-shopping-cart.html">Case Study: Shopping Cart</a>
 
 
 Day 1 (Afternoon)
@@ -36,7 +36,7 @@ Day 1 (Afternoon)
 
 .. |intro_mm| raw:: html
 
-   <a href="schema-design-case-study-cms.html">Introduction to MongoMart</a>
+   <a href="mongomart.html">Introduction to MongoMart</a>
 
 .. |mm_lab_1| raw:: html
 
