@@ -604,12 +604,12 @@ output:
   - type: print
     tag: 'print'
     dpi: 300
-    width: 1600
+    width: 2000
   - type: web
     dpi: 72
     width: 700
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 510
 ...

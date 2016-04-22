@@ -137,7 +137,8 @@ In this namespace we will find the classes and structures that will deal with op
   using namespace mongocxx::database;
   database db = mongo_client["database_name"];
 
-  /// Class representing server side document groupings (a.k.a collections) within a MongoDB database.
+  /// Class representing server side document groupings (a.k.a collections)
+  /// within a MongoDB database.
   using namespace mongocxx::collection;
   collection coll = db["collection_name"];
   /// collections serve the data operations
@@ -162,7 +163,8 @@ In this namespace we will find the classes and structures that will deal with op
   insert insert_opts;
   insert_opts.write_concern(...);
 
-  /// Result is a namespace the encloses all different types of write operation response messages
+  /// Result is a namespace the encloses all different types of write operation
+  /// response messages
   using namespace mongocxx::result;
   insert_many im_result;
   im_result = coll.insert_many([ ... ], insert_opts);

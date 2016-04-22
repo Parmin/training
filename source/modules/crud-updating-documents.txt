@@ -107,7 +107,8 @@ Example: ``$set`` and ``$unset``
    criteria << "title" << "Godzilla";
    update << "$set" << open_document << "budget" << 1 << close_document;
 
-   //db.movies.update( { "title" : "Home Alone" }, { $set : { "budget" : 15, "imdb_rating" : 5.5 } } )
+   //db.movies.update( { "title" : "Home Alone" },
+   //                  { $set : { "budget" : 15, "imdb_rating" : 5.5 } } )
    criteria << "title" << "Godzilla";
    update << "$set" << open_document
     << "budget" << 15 << "imdb_rating" << 5.5
@@ -162,7 +163,8 @@ C++ instruction
 .. code-block:: cpp
 
    // update all mentions for the fifth hour of the day
-   //db.movie_mentions.update( { "title" : "E.T." } ,{ $set :  { "mentions_per_hour.5" : 2300 } } )
+   // db.movie_mentions.update( { "title" : "E.T." },
+   //                           { $set :  { "mentions_per_hour.5" : 2300 } } )
    criteria << "title" << "E.T.";
    update << "$set"
    << open_document << "mentions_per_hour.5" << 2300 << close_document;
@@ -208,7 +210,8 @@ Example: Update Operators
    << open_document << "budget" << -5 << close_document;
 
    // increment movie mentions by 10
-   // db.movie_mentions.update( { "title" : "Batman" } , { $inc :  { "mentions_per_hour.5" : 10 } } )
+   // db.movie_mentions.update( { "title" : "Batman" } ,
+   //                           { $inc :  { "mentions_per_hour.5" : 10 } } )
    update << "$inc"
    << open_document << "mentions_per_hour.5" << 10 << close_document;
 
@@ -224,7 +227,8 @@ Example: Update Operators
    update << "$mul"
    << open_document << "imdb_rating" << 4 << close_document;
 
-   //db.movies.update( { "title" : "Batman" },{ $rename : { "budget" : "estimated_budget" } } )
+   //db.movies.update( { "title" : "Batman" },
+   //                  { $rename : { "budget" : "estimated_budget" } } )
    update << "$rename"
    << open_document << "budget" << "estimated_budget" << close_document;
 
@@ -232,7 +236,9 @@ Example: Update Operators
    update << "$min"
    << open_document << "budget" << 5 << close_document;
 
-   //db.movies.update( { "title" : "Batman" }, { $currentDate : { "last_updated" : { $type : "timestamp" } } } )
+   //db.movies.update( { "title" : "Batman" },
+   //                  { $currentDate : { "last_updated" :
+   //                                     { $type : "timestamp" } } } )
    update << "$currentDate"
    << open_document << "last_updated"
       << open_document << "$type" << "timestamp" << close_document
@@ -275,7 +281,7 @@ Use ``coll.find({});`` after each of these updates.
       Make a note that for the `mongo` shell we have a slightly different behavior
 
       - ``db.movies.update( { }, { $set : { "sequels" : 0 } } )`` only updates one document.
-      - ``db.movies.update( { }, { $set : { "sequels" : 0 } }, { multi : true } )`` updates four documents.
+      - ``db.movies.update({ },{$set: {"sequels": 0}}, {multi: true})`` updates four documents.
 
 
 Array Operators
@@ -303,11 +309,13 @@ Example: Array Operators
 .. code-block:: cpp
 
    criteria << "title" << "Batman";
-   //db.movies.update( { "title" : "Batman" },{ $push : { "category" : "superhero" } } )
+   //db.movies.update( { "title" : "Batman" },
+   //                  { $push : { "category" : "superhero" } } )
    update << "$push"
    << open_document << "category" << "superhero" << close_document ;
 
-   //db.movies.update( { "title" : "Batman" },{ $pushAll : { "category" : [ "villain", "comicbased" ] } } )
+   //db.movies.update( { "title" : "Batman" },
+   //                  { $pushAll : { "category" : [ "villain", "comicbased" ] } } )
    update << "$pushAll"
    << open_document << "category"
       << open_array <<  "villain" << "comicbased" << close_array
@@ -335,16 +343,19 @@ Example: Array Operators
    update << "$pull"
    << open_document << "category" << "action" << close_document ;
 
-   //db.movies.update( { "title" : "Batman" },{ $pullAll : { "category" : [ "villain", "comicbased" ] } } )
+   //db.movies.update( { "title" : "Batman" },
+   //                  { $pullAll : { "category" : [ "villain", "comicbased" ] } } )
    update << "$pullAll"
    << open_document << "category"
       << open_array <<  "villain" << "comicbased" << close_array
    << close_document ;
 
-   //db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )
+   //db.movies.update( { "title" : "Batman" },
+   //                  { $addToSet : { "category" : "action" } } )
    update << "$addToSet"
    << open_document << "category" << "action" << close_document ;
-   //db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )
+   //db.movies.update( { "title" : "Batman" },
+   //                  { $addToSet : { "category" : "action" } } )
    update << "$addToSet"
    << open_document << "category" << "action" << close_document ;
 
@@ -380,7 +391,9 @@ Example: The Positional ``$`` Operator
 .. code-block:: javascript
 
    // the "action" category needs to be changed to "action-adventure"
-   //db.movies.update( { "category": "action",  },{ $set: { "category.$" : "action-adventure" } },{ multi: true } )
+   //db.movies.update({"category": "action"},
+   //                 {$set: {"category.$": "action-adventure"}},
+   //                 { multi: true } )
    criteria << "category" << "action";
    update << "$set"
    << open_document << "category.$" << "action-adventure" << close_document
@@ -427,19 +440,22 @@ Example: Upserts
 
    options::update opts;
    opts.upsert(true);
-   //db.movies.update( { "title" : "Jaws" },{ $inc: { "budget" : 5 } }, { upsert: true } )
+   //db.movies.update( { "title" : "Jaws" },{ $inc: { "budget" : 5 } },
+   //                  { upsert: true } )
    criteria << "title" << "Jaws";
    update << "$inc"
    << open_document << "budget" << 5 << close_document;
    coll.update_one(criteria.view(), update.view(), opts);
 
-   //db.movies.update( { "title" : "Jaws II" }, { $inc: { "budget" : 5 } }, { upsert: true } )
+   //db.movies.update( { "title" : "Jaws II" },
+   //                  { $inc: { "budget" : 5 } }, { upsert: true } )
    criteria << "title" << "Jaws II";
    update << "$inc"
    << open_document << "budget" << 5 << close_document;
    coll.update_one(criteria.view(), update.view(), opts);
 
-   //db.movies.update( { "title" : "Jaws III", "category" : [ "horror" ] },{ $set : { "budget" : 1 } },{ upsert: true } )
+   //db.movies.update( { "title" : "Jaws III", "category" : [ "horror" ] },
+   //                  { $set : { "budget" : 1 } },{ upsert: true } )
    criteria
    << "title" << "Jaws II" << "category" << open_array << "horror"<< close_array;
    update << "$set"
@@ -455,15 +471,18 @@ Example: Upserts
       .. code-block:: javascript
 
          // updates the document with "title" = "Jaws" by incrementing "budget"
-         db.movies.update( { "title" : "Jaws" }, { $inc: { "budget" : 5 } }, { upsert: true } )
+         db.movies.update( { "title" : "Jaws" },
+                           { $inc: { "budget" : 5 } }, { upsert: true } )
 
          // 1) creates a new document, 2) assigns an _id, 3) sets "title" to "Jaws II"
          // 4) performs the update
-         db.movies.update( { "title" : "Jaws II" }, { $inc: { "budget" : 5 } }, { upsert: true } )
+         db.movies.update( { "title" : "Jaws II" },
+                           { $inc: { "budget" : 5 } }, { upsert: true } )
 
          // 1) creates a new document, 2) sets "title" : "Jaws III",
          // 3) Set budget to 1
-         db.movies.update( { "title" : "Jaws III" }, { "budget" : 1 }, { upsert: true } )
+         db.movies.update( { "title" : "Jaws III" }, { "budget" : 1 },
+                           { upsert: true } )
 
 
 Find and Modify

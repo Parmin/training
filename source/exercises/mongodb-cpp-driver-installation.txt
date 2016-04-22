@@ -9,7 +9,7 @@ Learning Objectives
 Upon completing this exercise students should understand:
 
 - Prerequisites of MongoDB C++ Driver
-- Build and Install Instructions
+- How to build and install the C++ Driver
 - First `hellomongo.cpp` exercise
 
 .. include:: /includes/student-notes.rst
@@ -63,31 +63,31 @@ The MongoDB C++11 Driver has some system requirements:
     through the install instructions.
 
 
-Install MongoDB C Driver
-------------------------
+Before Installing the C Driver
+------------------------------
 
-After validating that compiler and make versions are meet we should install MongoDB C Driver as dependency:
+After validating that compiler and make dependencies are met, ensure the following C driver dependencies are installed.
 
-1. Install C driver prerequisites
-  - automake
-  - autoconf
-  - libtool
+- automake
+- autoconf
+- libtool
 
 .. include:: /includes/student-notes.rst
 
+
 Install MongoDB C Driver
 ------------------------
 
-2. Build & Install if from Git
+Clone from GitHub and build
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    git clone https://github.com/mongodb/mongo-c-driver.git
-    cd mongo-c-driver
-    git checkout r1.3
-    ./autogen.sh --with-libbson=bundled
-    make
-    sudo make install
+  git clone https://github.com/mongodb/mongo-c-driver.git
+  cd mongo-c-driver
+  git checkout r1.3
+  ./autogen.sh --with-libbson=bundled
+  make
+  sudo make install
 
   For specific OS install `follow these instructions <http://api.mongodb.org/c/current/installing.html>`_.
 
@@ -96,7 +96,7 @@ Install MongoDB C Driver
 Install MongoDB C++ Driver
 --------------------------
 
-For the installation of the C++ driver we need to proceed with the following instructions:
+To install the C++ driver, we will complete the following steps
 
 #. Clone the repository and use tag r3.0.0
 #. Build from source
@@ -105,10 +105,10 @@ For the installation of the C++ driver we need to proceed with the following ins
 .. include:: /includes/student-notes.rst
 
 
-Install MongoDB C++ Driver
---------------------------
+Clone the C++ Driver Repository
+-------------------------------
 
-1. Clone repository
+Clone repository
 
 .. code-block:: bash
 
@@ -118,10 +118,10 @@ Install MongoDB C++ Driver
 .. include:: /includes/student-notes.rst
 
 
-Install MongoDB C++ Driver
---------------------------
+Build and Install the C++ Driver
+--------------------------------
 
-2. Build & Install
+Build and Install
 
 .. code-block:: bash
 
@@ -131,10 +131,10 @@ Install MongoDB C++ Driver
 .. include:: /includes/student-notes.rst
 
 
-Test MongoDB C++ Driver
------------------------
+Test the C++ Driver
+-------------------
 
-3. Let's edit `hellomongo.ccp`
+Let's edit `hellomongo.ccp`
 
 .. code-block:: cpp
 
@@ -195,7 +195,7 @@ Test MongoDB C++ Driver
 Connect To MongoDB
 ------------------
 
-2. Let's compile and run `hellomongo.cpp`
+Let's compile and run `hellomongo.cpp`
 
 .. code-block:: bash
 
@@ -213,7 +213,7 @@ And execute the newly build `hellomongo` executable:
 
   .. note::
 
-    Don't forget to mention that they should be setting this file
+    Don't forget to mention that students should be placing this file
     into a specific code folder where we will be placing several different
     code snippets along the way
 
