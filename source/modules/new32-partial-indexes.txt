@@ -1,0 +1,420 @@
+===============
+Partial Indexes
+===============
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should be able to:
+
+- Outline how partial indexes work
+
+  - Including differences between Sparse, Partial Indexes
+
+- List and describe the use cases for partial indexes
+- Create and use partial indexes
+- Outline the tradeoffs of partial indexes
+
+
+.. include:: /includes/student-notes.rst
+
+
+What are Partial Indexes?
+-------------------------
+
+- Ordinary indexes have one (or more!) key per document
+
+  - Even more if multikey
+
+- Partial indexes only index *some* documents
+- Partial indexes can be compound indexes
+- Partial indexes can be multikey indexes
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Multikey indexes have multiple points because they have one index key per entry in the array
+    - Compound indexes have only one index point per document.
+
+
+Creating Partial Indexes
+------------------------
+
+- Partial Indexes must specify a "partialFilterExpression"
+- Think of this as a query
+
+  - Matching documents get indexed
+  - Non-matching documents don't
+
+- The expression needn't be on indexed fields 
+
+  - though it can be
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+
+Example: Creating Partial Indexes
+---------------------------------
+
+- Consider the following schema:
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 5
+
+- Create a partial index on the "integer" field
+- Create it only where "importance" is "high"
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Creating Partial Indexes (Continued)
+---------------------------------------------
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 9-12
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - We are choosing to name this index; the name is optional
+    - This is a single-field index, but compound indexes work the same
+    - The filter field is totally unrelated to the indexed field
+
+
+Partial Indexes: Visualization
+------------------------------
+
+.. figure:: /figures/partial_index_and_collection.svg
+    :align: center
+    :figwidth: 500 px
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - This is a diagram of both the partial index and its collection.
+    - Not all keys are present
+    - Technically, an index would be a btree
+
+      - This is a conceptual index with proper ordering
+      - Contains pointers to documents in the collection
+
+    - The keys are present only for "high" importance documents.
+
+
+Partial Indexes vs. Sparse Indexes
+----------------------------------
+
+- Both Sparse and Partial Indexes only index some documents
+- Sparse indexes include keys only if the field exists
+- Partial indexes have keys for documents with fields that match a pattern
+- Sparse indexes are functionally a subset of partial indexes
+
+  - Use partial indexes from now on
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 16-19
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Using { $exists: true } is how to create sparse index functionality using a partial index
+    - Sparse indexes still work, but we now recommend people use partial indexes going forward
+
+
+Question
+--------
+
+When you have a partial index on a collection, which documents will have an index key pointing to them?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Correct answer: 
+     
+      - Only those documents where the field matches the partialFilterExpression
+
+    - Wrong answers:
+
+      - All documents
+
+        - This is the case for standard indexes. 
+
+      - Only those documents where the field exists
+
+        - This is the case for sparse indexes, which you can now think of as a subset of partial indexes
+
+
+Partial Indexes - Advantages
+----------------------------
+
+- Can (and should) be much smaller than standard indexes
+
+  - Because not all documents get indexed
+
+- If implemented well, they:
+
+  - Take up less memory and disk space
+  - Are faster to traverse
+
+.. include:: /includes/student-notes.rst
+
+
+Partial Indexes - Disadvantages
+-------------------------------
+
+- Used only for matching queries
+- Prevents other indexes from being built on the same key
+
+  - Simple or compound
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - No two indexes for a collection can differ only in their options document, so a partial index will prevent a full index from getting built, and vice versa.
+
+      - A partial index will also prevent other partial indexes from being built on the same fields (with the same ordering)
+
+
+Partial Indexes - Use Cases
+---------------------------
+
+- Optimization for a particular search pattern
+
+  - Or a set of related queries
+
+- A partial index should only be created when:
+
+  - The query only hits a small subset of the collection
+  - No index needed for the same fields in the same orientation
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - "A small subset" usually means at least an order of magnitude less than the full collection -- preferably more
+    - The same shape means that the DB uses the query in the same way. Filtering and sorting on the same fields in the same order, for example.
+
+
+Quiz
+----
+
+You use the following queries regularly on your production server:
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 23,24
+
+You have documents as far back as the year 2005.
+
+- Is this a good use case for a partial index?
+
+  - If not, why not?
+  - If so, what should you use as your partial index?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - This is a good use case.
+    - The partialFilterExpression should be:
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 28
+
+    - This will allow the index to work for both queries
+
+
+Identifying Partial Indexes
+---------------------------
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 32-47
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - You can identify a partial index from the output of getIndexes()
+    - The presence of of a partialFilterExpression indicates a partial index
+    - This also allows you to identify the coverage of the index
+    - This index is on the "integer" field
+    - But the partialFilterExpression is on the "importance" field
+
+      - Only indexing the documents with "importance": "high"
+
+
+Creating Partial Indexes
+------------------------
+
+- Supported partialFilterExpression operators:
+
+  - Equality, i.e., *field : value* or *field : { $eq : value }*
+  - $lt, $lte, $gt, $gte
+  - $type
+  - $and at the top level only
+
+- No other expressions are currently supported
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - All of this is as of MongoDB 3.2
+    - If they ask for some other logic, they can perform a hack by setting a separate field as a flag:
+
+      - Manually input a field, with a value used in every document you want indexed
+      - When you update the document, update that field, if necessary
+      - This is the technique we have in the example, with { "importance": "high" }
+
+        - There is some overhead with this technique
+
+
+Partial Indexes - Pitfalls
+--------------------------
+
+- Not used when:
+
+  - The indexed field not in the query
+
+  - A query goes outside of the filter range
+
+    - Even if no documents are out of range
+
+- You can .explain() queries to check them
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+    
+    - It's a good time to remind students that they should .explain() production queries periodically to ensure that they are working as intended
+
+
+Partial Indexes - Tips
+----------------------
+
+- Can't have "double coverage" with multiple indexes
+
+  - Or two partial indexes on the same fields
+
+- Can be used for multiple queries
+
+  - Each query would hit a subset of the filter
+
+.. include:: /includes/student-notes.rst
+
+
+Example: No Double Index Coverage
+---------------------------------
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 51-55
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Ask them why it fails
+    - It fails because there's already an { a : 1, b : -1 } index on this collection
+
+      - You can't have two indexes on the same fields with the same ordering
+
+    - Ask them if they could create an { a : 1, b : 1 } index with { a : { $lte : 100000 } } 
+
+      - They can. It works because it's a fundamentally different index
+      - They need to be very careful about index ordering if sorting
+
+
+Example: Hinting Done Wrong
+---------------------------
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 59-77
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The first query is a collection scan 
+    
+      - This would be *murder* on performance
+      - But it wouldn't miss documents
+
+    - The .hint() forces it to use the index
+
+      - But also forces it to skip documents
+      - They simply aren't present in the index
+
+
+Quiz
+----
+
+Consider the following parital index. Note the partialFilterExpression in particular:
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 81-95
+
+.. include:: /includes/student-notes.rst
+
+
+Quiz (Continued)
+----------------
+
+Which of the following documents are indexed?
+
+.. literalinclude:: /includes/partial_indexes.js
+  :language: javascript
+  :lines: 99-103
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The first and last documents are the ones that will be indexed.
