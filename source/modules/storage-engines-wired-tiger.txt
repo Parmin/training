@@ -16,6 +16,7 @@ Upon completing this module, students should understand:
 
 .. include:: /includes/student-notes.rst
 
+
 What is WiredTiger?
 -------------------
 

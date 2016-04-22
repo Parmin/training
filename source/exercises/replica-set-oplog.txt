@@ -10,6 +10,7 @@ Let's take a look at a concrete example. Launch mongo shell as follows.
 
 .. code-block:: bash
 
+   mkdir -p /data/db
    mongo --nodb
 
 Create a replica set by running the following command in the mongo shell.
@@ -19,6 +20,17 @@ Create a replica set by running the following command in the mongo shell.
    replicaSet = new ReplSetTest( { nodes : 3 } )
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    `mongo --nodb` command will start a MongoDB shell without connecting to a host.
+
+    This allows the user to perform a set of operations using the javascript handlers and helpers that the mongo shell allows.
+
+    A set of those helpers allow the creation of replica set nodes and sharded clusters running on the local machine. The only restriction is that a `/data` folder exists and the user running `mongo` has write permission on that folder.
+
 
 
 ``ReplSetTest``
@@ -120,11 +132,11 @@ The oplog is a capped collection in the ``local`` database of each replica set m
    { "ts" : Timestamp(1406944987, 1), "h" : NumberLong(0), "v" : 2, "op" : "n",
      "ns" : "", "o" : { "msg" : "initiating set" } }
    ...
-   { "ts" : Timestamp(1406945076, 1), "h" : NumberLong("-9144645443320713428"), 
-     "v" : 2, "op" : "u", "ns" : "store.products", "o2" : { "_id" : 2 }, 
+   { "ts" : Timestamp(1406945076, 1), "h" : NumberLong("-9144645443320713428"),
+     "v" : 2, "op" : "u", "ns" : "store.products", "o2" : { "_id" : 2 },
      "o" : { "$set" : { "inStock" : 19 } } }
-   { "ts" : Timestamp(1406945076, 2), "h" : NumberLong("-7873096834441143322"), 
-     "v" : 2, "op" : "u", "ns" : "store.products", "o2" : { "_id" : 5 }, 
+   { "ts" : Timestamp(1406945076, 2), "h" : NumberLong("-7873096834441143322"),
+     "v" : 2, "op" : "u", "ns" : "store.products", "o2" : { "_id" : 5 },
      "o" : { "$set" : { "inStock" : 49 } } }
 
 .. include:: /includes/student-notes.rst
@@ -139,4 +151,11 @@ The oplog is a capped collection in the ``local`` database of each replica set m
       - Note that there is one operation per document affected.
       - More specifically, one operation for each of the documents with the _id values 2 and 5.
 
+      One can test students by asking them to insert data into the `store.notes` collection and then go find those writes in the oplog
 
+      .. code-block:: javascript
+
+        use store
+        db.notes.insert({'note': 'oh my lord!'})
+        use local
+        db.rs.oplog.find({'ns': 'store.notes'})
