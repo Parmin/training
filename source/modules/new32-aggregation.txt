@@ -1,0 +1,411 @@
+===========
+Aggregation
+===========
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students will be able to:
+
+- List and use the new aggregation stages in MongoDB 3.2
+
+  - ``$sample``
+  - ``$indexStats``
+  - ``$lookup``
+
+- Use the new or revised operators in MongoDB 3.2
+
+.. include:: /includes/student-notes.rst
+
+
+Sample Dataset
+--------------
+
+Mongoimport the ``companies.json`` file:
+
+.. literalinclude:: /includes/aggregation_scripts.sh
+    :language: bash
+    :lines: 6
+
+- You now have a dataset of companies on your server.
+- We will use these for our examples.
+
+.. include:: /includes/student-notes.rst
+
+
+New Pipeline Operators
+----------------------
+
+- ``$sample`` used to pull in a random set of documents
+
+  - You can specify how many
+
+- ``$indexStats`` shows how many hits the indexes get
+
+  - Since the server process started
+
+- ``$lookup`` pulls in data from another collection
+
+  - Matches a field on the two collections
+
+.. include:: /includes/student-notes.rst
+
+
+Introduction to ``$sample``
+---------------------------
+
+- Randomized sample of documents
+- Useful for doing statistics
+
+- If sample is larger than 5% of the collection:
+
+  - ``$sample`` will perform a collection scan
+  - If not, it won't
+
+- Usable only as a first stage of the pipeline
+
+.. include:: /includes/student-notes.rst
+
+
+Example: ``$sample``
+--------------------
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 5-8
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Obvioiusly, they will want their sample sizes to be large enough to be useful; 5 is too small for anything
+    - A statistician may be required for determining how much is enough; it depends on the distribution of data
+    - On WiredTiger, ``$sample`` can be quite slow as of the writing of this content.
+  
+      - https://jira.mongodb.org/browse/SERVER-23408
+      - This is a little slow, currently.
+  
+
+Introduction to ``$indexStats``
+-------------------------------
+
+- Tells you how many times each index has been used
+
+  - Since the server process began
+
+- Must be the first stage of the pipeline
+  
+  - You can use other stages to aggregate the data
+
+- One document per index
+
+  - A field increments each time the index gets used
+
+.. include:: /includes/student-notes.rst
+
+
+Example: ``$indexStats``
+------------------------
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 11-18
+
+
+.. only:: instructor
+
+  .. note::
+
+    - Point out the "accesses" doc, with ops, is 0 for the new index initially.
+    - Ops incremented to 2 from the two find() queries.
+    - The ``.next()`` operations are to get the DB to actually execute the query.
+    - _id did not increment because we weren't using the index
+    - Neither query changed its "since" field in the "accesses" doc
+    - If using replication, the oplog will query on _id when replicating.
+
+
+Introduction to ``$lookup``
+---------------------------
+
+- Pulls documents from another collection into the pipeline
+
+  - In SQL terms, performs a left outer join 
+  - Works on an unsharded collection in the same DB
+
+- Documents based on a matching field in each collection
+- This was previously not doable with a single query
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - In some sense, this isn't completely *new* functionality
+  
+      - Previously, you could get this behavior with two separate queries
+  
+        - One for a collection that contains reference values
+        - The other for the referenced collection, using its values
+
+
+Example: Using ``$lookup``
+--------------------------
+
+Create a separate collection for ``$lookup``
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 22-33
+
+
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Using ``$lookup`` (Continued)
+--------------------------------------
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 34-44
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+   
+    - Note that the comment documents get pushed in their entirety.
+    - It includes all companies that made it to the pipeline
+
+      - Even if there is no corresponding comment (as for IBM)
+
+    - Does not include documents in commentOnEmployees that don't match.
+
+
+``$lookup`` Considerations
+--------------------------
+
+- Match a local field to a foreign field
+
+  - i.e., a field in another collection
+
+- The foreign collection cannot be sharded
+
+  - But the collection you're aggregating can be
+
+.. include:: /includes/student-notes.rst
+
+
+New Aggregation Functionality
+-----------------------------
+
+- 3.2 introduced a lot of new operators
+
+  - Changed the functionality of a few operators
+
+- Accumulators for ``$group``
+- Arithmetic operators
+- Array operators
+- General enhancements
+
+.. include:: /includes/student-notes.rst
+
+
+New Accumulators
+----------------
+
+- Accumulators do math on a set of numbers
+
+  - Used in the ``$group`` stage
+
+- ``$stdDevSamp`` - Sample Standard Deviation
+- ``$stdDevPop`` - Population Standard Deviation
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 48-54
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The standard deviation of a population means you're looking at every member
+    - The standard deviation of a sample means just a randomly selected subset of a larger population
+    - It is not necessary to use the ``$sample`` stage
+    - Don't go into the stats any deeper; this isn't a statistics class
+
+      - We used this example just to show the syntax
+
+
+New Aggregation Arithmetic
+--------------------------
+
+- ``$sqrt``: Calculate a square root
+- ``$abs``: Calculate the absolute value
+- ``$log``: Calculate the logarithm in a specified base
+- ``$log10``: Log base 10
+- ``$ln``: Natural logarithm
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - All of these are well documented if they want to use them
+    - But there are too many to practice, so just go over them quick
+
+
+New Aggregation Arithmetic (Continued)
+--------------------------------------
+
+- ``$pow``: Raise a number to an exponent
+- ``$exp``: Raise e to a power
+- ``$trunc``: Truncate a number to its integer
+- ``$ceil``: Round up to an integer
+- ``$floor``: Round down to an integer
+
+.. include:: /includes/student-notes.rst
+
+
+Example: ``$trunc``
+-------------------
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 58-64
+  :emphasize-lines: 62-63
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - We just selected one arithmetic operator to show
+    - They can go to the manual for syntax
+
+
+New Aggregation Array Operators
+-------------------------------
+
+- ``$slice``: returns a portion of an array
+- ``$arrayElemAt``: Returns an element at the index
+- ``$concatArrays``: Concatenates two or more arrays
+- ``$isArray``: Determines if the operand is an array or not
+- ``$filter``: Selects a subset of the array, based on the filter
+
+.. include:: /includes/student-notes.rst
+
+
+Example: ``$filter``
+--------------------
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 68-83
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Here we're filtering based on the round_code found in documents in the funding_rounds array.
+
+      - Just grabbing the subdocuments that match!
+
+    - Notice that the "cond" field of the ``$filter`` document requires an expression.
+    - The use of ``$$`` is because there's a variable, "series_e_funding", which we're creating in this stage of aggregation.
+
+      - It doesn't yet exist as a field, because the ``$project`` round isn't done, yet.
+
+
+Changes to ``$unwind`` Behavior
+-------------------------------
+
+- ``$unwind`` can now be performed on a non-array value
+
+  - Returned an error in 3.0
+  - Keeps document as-is for non-array values in 3.2
+
+.. include:: /includes/student-notes.rst
+
+
+Using Accumulators with ``$project``
+------------------------------------
+
+- Accumulators take a set of values and combine them
+- Previously, you could ``$group`` a field
+
+  - Get one value from many
+
+- Can be used with ``$project`` in 3.2
+
+  - If used on an array
+
+.. include:: /includes/student-notes.rst
+
+
+``$project`` Accumulators for 3.2
+---------------------------------
+
+- ``$avg``: Averages over values
+- ``$sum``: Sums the values
+- ``$min``: Finds the minimum value
+- ``$max``: finds the maximum value
+- ``$stdDevPop``, ``$stdDevSamp``
+- No other accumulators are currently supported
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Examples of unsupported accumulators:
+
+      - ``$first``, ``$last``
+      - ``$push``
+      - ``$addToSet``
+      - That's literally all of them
+
+
+Example: ``$project`` Accumulators
+----------------------------------
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 87-100
+
+.. only:: instructor
+
+  .. note::
+
+    - The example is simple enough that they can see everything
+    - One document out per document in
+
+.. include:: /includes/student-notes.rst
+
+
+``$project`` ing Arrays 
+-----------------------
+
+- You can now use ``$project`` to create arrays
+
+  - From existing non-array fields
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 103-108
+
+.. include:: /includes/student-notes.rst
