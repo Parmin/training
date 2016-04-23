@@ -79,7 +79,7 @@ Example: ``replaceOne()``
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
-    :lines: 5-13
+    :lines: 5-15
 
 .. include:: /includes/student-notes.rst
 
@@ -130,7 +130,7 @@ Example: ``$set`` and ``$unset`` (Setup)
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
-    :lines: 18-36
+    :lines: 19-37
 
 .. include:: /includes/student-notes.rst
 
@@ -140,7 +140,7 @@ Example: ``$set`` and ``$unset``
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
-    :lines: 37-41
+    :lines: 38-47
 
 .. include:: /includes/student-notes.rst
 
@@ -165,7 +165,7 @@ Example: Update Operators
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
-    :lines: 45-55
+    :lines: 50-60
 
 .. include:: /includes/student-notes.rst
 
@@ -173,7 +173,6 @@ Example: Update Operators
 The ``updateMany()`` Method
 ---------------------------
 
-- Can update multiple documents
 - Takes the same arguments as ``updateOne``
 - Updates all documents that match
 
@@ -184,12 +183,12 @@ The ``updateMany()`` Method
 .. include:: /includes/student-notes.rst
 
 
-Example: ``updateMany``
------------------------
+Example: ``updateMany`` vs. ``updateOne()``
+-------------------------------------------
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
-    :lines: 59-64
+    :lines: 65-70
 
 .. include:: /includes/student-notes.rst
 
@@ -197,8 +196,8 @@ Example: ``updateMany``
 
    .. note::
 
-      - ``db.movies.update( { }, { $set : { "sequels" : 0 } } )`` only updates one document.
-      - ``db.movies.update( { }, { $set : { "sequels" : 0 } }, { multi : true } )`` updates four documents.
+      - First query only updates one document.
+      - Second query updates four documents.
 
 
 Array Element Updates by Index
@@ -215,19 +214,10 @@ Array Element Updates by Index
 Example: Update Array Elements by Index
 ---------------------------------------
 
-.. code-block:: javascript
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 79-91
 
-   // add a sample document to track mentions per hour
-   db.movie_mentions.insertOne( { "title" : "E.T.", 
-                                  "day" : ISODate("2015-03-27T00:00:00.000Z"), 
-                                  "mentions_per_hour" : [ 0, 0, 0, 0, 0, 0, 0,
-                                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                    0, 0 ] 
-                                 } )
-
-   // update all mentions for the fifth hour of the day
-   db.movie_mentions.updateOne( { "title" : "E.T." } , 
-                                { $set :  { "mentions_per_hour.5" : 2300 } } )                               
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
@@ -235,7 +225,9 @@ Example: Update Array Elements by Index
    .. note::
 
       - Cool pattern for time series data
-      - Displaying charts is now trivial, can change granularity to by the minute, hour, day, etc.
+      - Displaying charts is now trivial
+        
+        - Can change granularity to by the minute, hour, day, etc.
 
 
 Array Operators
@@ -260,23 +252,9 @@ Array Operators
 Example: Array Operators
 ------------------------
 
-.. code-block:: javascript
-
-   db.movies.update( { "title" : "Batman" }, 
-                     { $push : { "category" : "superhero" } } ) 
-   db.movies.update( { "title" : "Batman" }, 
-                     { $pushAll : { "category" : [ "villain", "comicbased" ] } } ) 
-   
-   db.movies.update( { "title" : "Batman" }, 
-                     { $pop : { "category" : 1 } } )  
-
-   db.movies.update( { "title" : "Batman" }, 
-                     { $pull : { "category" : "action" } } )  
-   db.movies.update( { "title" : "Batman" }, 
-                     { $pullAll : { "category" : [ "villain", "comicbased" ] } } ) 
-    
-   db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )  
-   db.movies.update( { "title" : "Batman" }, { $addToSet : { "category" : "action" } } )  
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 99-112
 
 .. include:: /includes/student-notes.rst
 
@@ -296,12 +274,10 @@ The Positional ``$`` Operator
 - ``$`` replaces the element in the specified position with the value given.
 - Example:
 
-  .. code-block:: javascript
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 121-124
 
-     db.<COLLECTION>.update(
-         { <array> : value ... },
-         { <update operator> : { "<array>.$" : value } }
-     )
 
 .. include:: /includes/student-notes.rst
 
@@ -309,13 +285,9 @@ The Positional ``$`` Operator
 Example: The Positional ``$`` Operator
 --------------------------------------
 
-.. code-block:: javascript
-
-   // the "action" category needs to be changed to "action-adventure"
-   db.movies.update( { "category": "action",  }, 
-                     { $set: { "category.$" : "action-adventure" } }, 
-                     { multi: true } )
-   db.movies.find()
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 133-136
 
 .. include:: /includes/student-notes.rst
 
@@ -323,15 +295,17 @@ Example: The Positional ``$`` Operator
 Upserts
 -------
 
-- By default, if no document matches an update query, the ``update()`` method does nothing.
-- By specifying ``upsert: true``, ``update()`` will insert a new document if no matching document exists.
-- The ``db.<COLLECTION>.save()`` method is syntactic sugar that performs an upsert if the _id is not yet present
+- If no document matches a write query:
+
+  - By default, nothing happens
+  - With ``upsert: true``, inserts one new document
+
+- Works for ``updateOne()``, ``updateMany()``, ``replaceOne()``
 - Syntax:
 
-  .. code-block:: javascript
-
-     db.<COLLECTION>.update( <query document>, <update document>, 
-                           { upsert: true } )
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 149-151
 
 .. include:: /includes/student-notes.rst
 
@@ -339,12 +313,16 @@ Upserts
 Upsert Mechanics
 ----------------
 
-- Will update as usual if documents matching the query document exist.
-- Will be an upsert if no documents match the query document.
+- Will update if documents matching the query exist
+- Will insert if no documents match
 
-  - MongoDB creates a new document using equality conditions in the query document.
-  - Adds an ``_id`` if the query did not specify one.
-  - Performs an update on the new document.
+  - Creates a new document using equality conditions in the query document
+  - Adds an ``_id`` if the query did not specify one
+  - Performs the write on the new document
+
+- ``updateMany()`` will only create one document
+
+  - If none match, of course
 
 .. include:: /includes/student-notes.rst
 
@@ -352,19 +330,9 @@ Upsert Mechanics
 Example: Upserts
 ----------------
 
-.. code-block:: javascript
-
-   db.movies.update( { "title" : "Jaws" }, 
-                     { $inc: { "budget" : 5 } }, 
-                     { upsert: true } )
-
-   db.movies.update( { "title" : "Jaws II" }, 
-                     { $inc: { "budget" : 5 } }, 
-                     { upsert: true } )
-
-   db.movies.update( { "title" : "Jaws III", "category" : [ "horror" ] }, 
-                     { $set : { "budget" : 1 } }, 
-                     { upsert: true } )
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 163-173
 
 .. include:: /includes/student-notes.rst
 
@@ -372,29 +340,25 @@ Example: Upserts
 
    .. note::
 
-      .. code-block:: javascript
-
-         // updates the document with "title" = "Jaws" by incrementing "budget"
-         db.movies.update( { "title" : "Jaws" }, { $inc: { "budget" : 5 } }, { upsert: true } )
-
-         // 1) creates a new document, 2) assigns an _id, 3) sets "title" to "Jaws II" 
-         // 4) performs the update
-         db.movies.update( { "title" : "Jaws II" }, { $inc: { "budget" : 5 } }, { upsert: true } )
-
-         // 1) creates a new document, 2) sets "title" : "Jaws III", 
-         // 3) Set budget to 1
-         db.movies.update( { "title" : "Jaws III" }, { "budget" : 1 }, { upsert: true } )
+      - Note that an updateMany works just like updateOne when no matching documents are found.
+      - First query updates the document with "title" = "Jaws" by incrementing "budget"
+      - Second query: 1) creates a new document, 2) assigns an _id, 3) sets "title" to "Jaws II" 4) performs the update
+      - Third query: 1) creates a new document, 2) sets "title" : "Jaws III", 3) Set budget to 1
 
 
 ``save()``
 ----------
 
-- Updates the document if the _id is found, inserts it otherwise
+- The ``db.<COLLECTION>.save()`` method is syntactic sugar
+
+  - Similar to ``replaceOne()``, querying the ``_id`` field
+  - Upsert if ``_id`` is not in the collection
+
 - Syntax:
 
-  .. code-block:: javascript
-
-     db.<COLLECTION>.save( document )
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 184
 
 .. include:: /includes/student-notes.rst
 
@@ -402,16 +366,15 @@ Example: Upserts
 Example: ``save()``
 -------------------
 
-- If the document does not contain an ``_id`` field, then the ``save()`` method calls the ``insertOne()`` method. During the operation, the mongo shell will create an ObjectId and assign it to the ``_id`` field.
-- If the document contains an ``_id`` field, then the ``save()`` method is equivalent to an update with the upsert option set to true and the query predicate on the ``_id`` field.
+- If the document in the argument does not contain an ``_id`` field, then the ``save()`` method acts like ``insertOne()`` method
 
-.. code-block:: javascript
+  - An ObjectId will be assigned to the ``_id`` field.
 
-   // insert
-   db.movies.save( { "title" : "Beverly Hills Cops", "imdb_rating" : 7.3 })            
+- If the document in the argument contains an ``_id`` field: then the ``save()`` method is equivalent to a replaceOne with the query argument on ``_id`` and the upsert option set to true
 
-   // update with { upsert: true }
-   db.movies.save( { "_id" : 1234, "title" : "Spider Man", "imdb_rating" : 7.3 })  
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 196-200
 
 .. include:: /includes/student-notes.rst
 
@@ -427,54 +390,47 @@ Be Careful with ``save()``
 
 Be careful that you are not modifying stale data when using ``save()``. For example:
         
-.. code-block:: javascript
-
-   db.movies.drop()
-   db.movies.insertOne( { "title" : "Jaws", "imdb_rating" : 7.3 } )
-
-   db.movies.find( { "title" : "Jaws" } )
-
-   // store the complete document in the application
-   doc = db.movies.findOne( { "title" : "Jaws" } )
-
-   db.movies.update( { "title" : "Jaws"  }, { $inc: { "imdb_rating" : 2 } } )
-   db.movies.find()
-
-   doc.imdb_rating = 7.4
-   doc
-
-   db.movies.save(doc)  // just lost our incrementing of "imdb_rating"
-   db.movies.find()
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 211-226
 
 .. include:: /includes/student-notes.rst
 
 
-``findAndModify()``
--------------------
+``findOneAndUpdate()`` and ``findOneAndReplace()``
+--------------------------------------------------
 
-Modify a document and return either:
+- Update (or replace) one document and return the document
 
-- The pre-modification document
-- If "new:true" is set, the modified document
+  - By default, the document is returned pre-write
 
-Helpful for making changes to a document and reading the document in the state before or after the update occurred.
+- Can read a document in the state before or after the update occurred.
+- Makes a read plus a write atomic
+- Can be used with upsert to insert a document
 
 .. include:: /includes/student-notes.rst
 
 
-``findAndModify()`` Example
----------------------------
+Options fields for ``findOneAndUpdate()``, ``findOneAndReplace()``
+------------------------------------------------------------------
 
-.. code-block:: javascript
+- The following are all optional, and can be in the options document
+- ``projection: <document>`` will let you select the fields to see
+- ``sort: <document>`` sorts first and applies the operation to the first document
+- ``maxTimeoutMS: <number>`` specifies how long the operation can take
 
-  db.worker_queue.findAndModify({
-      "query" : { "state" : "unprocessed" },
-      "update" : { $set: { "worker_id" : 123, "state" : "processing" } },
-  })
+  - Returns an error if this time is exceeded
+
+- ``upsert: <boolean>`` if true, inserts if no document is found
+
+.. include:: /includes/student-notes.rst
 
 
-	   
-        
+Example: ``findOneAndUpdate()``
+-------------------------------
 
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 236-239
 
-
+.. include:: /includes/student-notes.rst
