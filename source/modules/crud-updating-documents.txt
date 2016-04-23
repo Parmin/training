@@ -8,8 +8,10 @@ Learning Objectives
 
 Upon completing this module students should understand
 
-- The ``update()`` method
-- The required parameters for ``update()``
+- The ``replaceOne()`` method
+- The ``updateOne()`` method
+- The ``updateMany()`` method
+- The required parameters for these methods
 - Field update operators
 - Array update operators
 - The concept of an upsert and use cases.
@@ -18,36 +20,93 @@ Upon completing this module students should understand
 .. include:: /includes/student-notes.rst
 
 
+The ``replaceOne()`` Method
+---------------------------
 
-The ``update()`` Method
------------------------
+- Takes one document and replaces it with another
 
-- Mutate documents in MongoDB using ``update()``.
-- ``update()`` requires two parameters:
+  - But leaves the _id unchanged
 
-  - A query document used to select documents to be updated
+- Takes two parameters:
 
-  - An update document that specifies how selected documents will change
+  - A matching document
+  - A replacement document
 
-
-- ``update()`` cannot delete a document.
+- This is, in some sense, the simplest form of update
 
 .. include:: /includes/student-notes.rst
 
 
-Parameters to ``update()``
+First Parameter to ``replaceOne()``
+-----------------------------------
+
+- Required parameters for ``replaceOne()``
+
+  - The query parameter:
+  
+    - Use the same syntax as with ``find()``
+    - Only the first document found is replaced
+
+- Cannot delete a document
+
+.. include:: /includes/student-notes.rst
+
+
+Second Parameter to ``replaceOne()``
+------------------------------------
+
+- The second parameter is the replacement parameter:
+
+  - The document to replace the original document
+
+- The _id must stay the same
+- You must replace the entire document
+  
+  - You cannot modify just one field
+  - Except for the _id
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - If they try to modify the _id, it will throw an error
+
+
+Example: ``replaceOne()``
+-------------------------
+
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 5-13
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Ask the students why the first replace killed the ``title`` field
+    - Ask why the final replace failed
+
+
+The ``updateOne()`` Method
 --------------------------
 
-- Keep the following in mind regarding the required parameters for ``update()``
-- The query parameter:
+- Mutate one document in MongoDB using ``updateOne()``
 
-  - Use the same syntax as with ``find()``.
-  - By default only the first document found is updated.
+  - Affects only the _first_ document found
 
-- The update parameter:
+- Two parameters:
 
-  - Take care to simply modify documents if that is what you intend.
-  - Replacing documents in their entirety is easy to do by mistake.
+  - A query document
+
+    - same syntax as with ``find()``
+
+  - Change document
+
+    - Operators specify the fields and changes
 
 .. include:: /includes/student-notes.rst
 
@@ -55,11 +114,13 @@ Parameters to ``update()``
 ``$set`` and ``$unset``
 -----------------------
 
-- Update one or more fields using the ``$set`` operator.
+- Use to specify fields to replace for updates
 - If the field already exists, using ``$set`` will change its value.
-- If the field does not exist, ``$set`` will create it and set it to the new value.
-- Any fields you do not specify will not be modified.
-- You can remove a field using ``$unset``.
+
+  - If not, ``$set`` will create it, set to the new value
+
+- Non-specified fields will not be modified
+- Alternatively, remove a field using ``$unset``
 
 .. include:: /includes/student-notes.rst
 
@@ -67,83 +128,21 @@ Parameters to ``update()``
 Example: ``$set`` and ``$unset`` (Setup)
 ----------------------------------------
 
-.. code-block:: javascript
-
-  db.movies.insert( [ 
-    { 
-      "title" : "Batman", 
-      "category" : [ "action", "adventure" ], 
-      "imdb_rating" : 7.6, 
-      "budget" : 35 
-    },
-    { 
-      "title" : "Godzilla", 
-      "category" : [ "action", 
-      "adventure", "sci-fi" ], 
-      "imdb_rating" : 6.6 
-    },
-    { 
-      "title" : "Home Alone", 
-      "category" : [ "family", "comedy" ], 
-      "imdb_rating" : 7.4 
-    }
-  ] )
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 18-36
 
 .. include:: /includes/student-notes.rst
+
 
 Example: ``$set`` and ``$unset``
 --------------------------------
 
-.. code-block:: javascript
-
-   db.movies.update( { "title" : "Batman" }, { $set : { "imdb_rating" : 7.7 } } )  
-
-   db.movies.update( { "title" : "Godzilla" }, { $set : { "budget" : 1 } } ) 
-
-   db.movies.update( { "title" : "Home Alone" }, 
-                     { $set : { "budget" : 15, "imdb_rating" : 5.5 } } )
-
-   // how will this query behave?
-   db.movies.update( { "title" : "Batman" }, { "imdb_rating" : 7.7 } )
-
-   db.movies.update( { "title" : "Home Alone" }, { $unset :  { "budget" : 1 } } )
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 37-41
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - Update will only update the first document it finds by default
-      - Difference between using $set and not using $set is very important
-
-
-Example: Update Array Elements by Index
----------------------------------------
-
-.. code-block:: javascript
-
-   // add a sample document to track mentions per hour
-   db.movie_mentions.insert( { "title" : "E.T.", 
-                               "day" : ISODate("2015-03-27T00:00:00.000Z"), 
-                               "mentions_per_hour" : [ 0, 0, 0, 0, 0, 0, 0,
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                 0, 0 ] 
-                              } )
-
-   // update all mentions for the fifth hour of the day
-   db.movie_mentions.update( { "title" : "E.T." } , 
-                             { $set :  { "mentions_per_hour.5" : 2300 } } )                               
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - Cool pattern for time series data
-      - Displaying charts is now trivial, can change granularity to by the minute, hour, day, etc.
-
 
 
 Update Operators
@@ -164,65 +163,33 @@ Update Operators
 Example: Update Operators
 -------------------------
 
-.. code-block:: javascript
-
-   db.movies.update( { "title" : "Batman" }, { $inc : { "imdb_rating" : 2 } } )        
-
-   db.movies.update( { "title" : "Home Alone" }, { $inc : { "budget" : 5 } } )  
-
-   db.movies.update( { "title" : "Batman" }, { $mul : { "imdb_rating" : 4 } } )  
-
-   db.movies.update( { "title" : "Batman" }, 
-                     { $rename : { "budget" : "estimated_budget" } } )
-
-   db.movies.update( { "title" : "Home Alone" }, { $min : { "budget" : 5 } } )  
-
-   db.movies.update( { "title" : "Home Alone" }, 
-                     { $currentDate : { "last_updated" : { $type : "timestamp" } } } )
-
-   // increment movie mentions by 10
-   db.movie_mentions.update( { "title" : "E.T." } , 
-                             { $inc :  { "mentions_per_hour.5" : 10 } } )                               
-
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 45-55
 
 .. include:: /includes/student-notes.rst
 
 
-``update()`` Defaults to one Document
--------------------------------------
-
-- By default, ``update()`` modifies the first document found that matches the query.
-- The default use case is one where there is only one document that fits the query.
-- This is to reduce the chances of unintended collection scans for updates.
-
-.. include:: /includes/student-notes.rst
-
-
-
-Updating Multiple Documents
+The ``updateMany()`` Method
 ---------------------------
 
-- In order to update multiple documents, we use the third (optional) parameter to ``update()``.
-- The third parameter is an options document.
-- Specify ``multi: true`` as one field in this document.
-- Bear in mind that without an appropriate index, you may scan every document in the collection.
+- Can update multiple documents
+- Takes the same arguments as ``updateOne``
+- Updates all documents that match
+
+  - ``updateOne`` stops after the first match
+  - ``updatemany`` continues until it has matched all
+  - Without an appropriate index, you may scan every document in the collection.
 
 .. include:: /includes/student-notes.rst
 
 
-Example: Multi-Update
----------------------
+Example: ``updateMany``
+-----------------------
 
-Use ``db.testcol.find()`` after each of these updates.
-
-.. code-block:: javascript
-  
-   // let's start tracking the number of sequals for each movie
-   db.movies.update( { }, { $set : { "sequels" : 0 } } )
-
-   // we need { multi : true } to change all documents 
-   db.movies.update( { }, { $set : { "sequels" : 0 } },
-                     { multi : true } )
+.. literalinclude:: /includes/crud-updating-documents.js
+    :language: javascript
+    :lines: 59-64
 
 .. include:: /includes/student-notes.rst
 
@@ -232,6 +199,43 @@ Use ``db.testcol.find()`` after each of these updates.
 
       - ``db.movies.update( { }, { $set : { "sequels" : 0 } } )`` only updates one document.
       - ``db.movies.update( { }, { $set : { "sequels" : 0 } }, { multi : true } )`` updates four documents.
+
+
+Array Element Updates by Index
+------------------------------
+
+- You can use dot notation to specify an array index
+- You will update only that element
+
+  - Other elements will not be affected
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Update Array Elements by Index
+---------------------------------------
+
+.. code-block:: javascript
+
+   // add a sample document to track mentions per hour
+   db.movie_mentions.insertOne( { "title" : "E.T.", 
+                                  "day" : ISODate("2015-03-27T00:00:00.000Z"), 
+                                  "mentions_per_hour" : [ 0, 0, 0, 0, 0, 0, 0,
+                                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                    0, 0 ] 
+                                 } )
+
+   // update all mentions for the fifth hour of the day
+   db.movie_mentions.updateOne( { "title" : "E.T." } , 
+                                { $set :  { "mentions_per_hour.5" : 2300 } } )                               
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Cool pattern for time series data
+      - Displaying charts is now trivial, can change granularity to by the minute, hour, day, etc.
 
 
 Array Operators
@@ -398,8 +402,7 @@ Example: Upserts
 Example: ``save()``
 -------------------
 
-- If the document does not contain an ``_id`` field, then the ``save()`` method calls the ``insert()`` method. During the operation, the mongo shell will create an ObjectId and assign it to the ``_id`` field.
-  
+- If the document does not contain an ``_id`` field, then the ``save()`` method calls the ``insertOne()`` method. During the operation, the mongo shell will create an ObjectId and assign it to the ``_id`` field.
 - If the document contains an ``_id`` field, then the ``save()`` method is equivalent to an update with the upsert option set to true and the query predicate on the ``_id`` field.
 
 .. code-block:: javascript
@@ -427,7 +430,7 @@ Be careful that you are not modifying stale data when using ``save()``. For exam
 .. code-block:: javascript
 
    db.movies.drop()
-   db.movies.insert( { "title" : "Jaws", "imdb_rating" : 7.3 } )
+   db.movies.insertOne( { "title" : "Jaws", "imdb_rating" : 7.3 } )
 
    db.movies.find( { "title" : "Jaws" } )
 

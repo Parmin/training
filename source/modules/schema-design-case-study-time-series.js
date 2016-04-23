@@ -13,7 +13,7 @@ function populateSeconds(metric, min, max) {
 		var rVal = Math.floor(Math.random() * (max - min)) + min;
 		minuteDocument.values.push(rVal);
 	    }
-	    db.metrics.insert(minuteDocument);
+	    db.metrics.insertOne(minuteDocument);
 	    nowInt -= 60000;
 	}
 	

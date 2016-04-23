@@ -52,7 +52,7 @@ per second.
    i = 0
    while (true) {
        i += 1;
-       db.sessions.insert( { "last_user_action" : ISODate(), "b" : i } );
+       db.sessions.insertOne( { "last_user_action" : ISODate(), "b" : i } );
        sleep(1000);  // Sleep for 1 second
    }
 

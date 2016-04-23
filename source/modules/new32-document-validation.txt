@@ -259,7 +259,7 @@ And you can see the results when you try to insert:
 
 .. code-block:: javascript
 
-  db.products.insert( { price: 25, currency: "USD" } )
+  db.products.insertOne( { price: 25, currency: "USD" } )
 
 
 .. include:: /includes/student-notes.rst

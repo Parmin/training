@@ -236,7 +236,7 @@ Optimizing Comments Option 1
   
 .. code-block:: javascript
 
-  > db.blog.update(
+  > db.blog.updateOne(
    { "_id" : 334456 },
      { $push: {
          "comments": {
@@ -250,7 +250,7 @@ Optimizing Comments Option 1
 
 .. code-block:: javascript
 
-  > db.comments.insert( { "article_id" : 334456, name" : "Frank", 
+  > db.comments.insertOne( { "article_id" : 334456, name" : "Frank", 
     "comment" : "Great Story", "date" : ISODate() })
 
 .. include:: /includes/student-notes.rst
@@ -265,7 +265,7 @@ Optimizing Comments Option 2
 
 .. code-block:: javascript
 
-  > db.comments.insert( { "article_id" : 334456, name" : "Frank", 
+  > db.comments.insertOne( { "article_id" : 334456, name" : "Frank", 
     "comment" : "Great Story", "date" : ISODate() })
    
 

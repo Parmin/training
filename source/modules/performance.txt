@@ -45,13 +45,13 @@ In one window, perform the following commands.
           doc = { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j) };
           arr.push(doc)
       };
-      db.testcol.insert(arr);
+      db.testcol.insertMany(arr);
       var x = db.testcol.find( { b : 255 } );
       x.next();
       var x = db.testcol.find( { _id : 1000 * (i-1) + 255 } );
       x.next();
       var x = "asdf";
-      db.testcol.update( { a : i, b : 255 }, { $set : { d : x.pad(1000) } });
+      db.testcol.updateOne( { a : i, b : 255 }, { $set : { d : x.pad(1000) } });
       print(i)
   }
 
@@ -106,11 +106,11 @@ Perform the following then, in another window, run ``mongotop``.
           doc = {_id: (1000*(i-1)+j), a: i, b: j, c: (1000*(i-1)+j)};
           arr.push(doc)
       };
-      db.testcol.insert(arr);
+      db.testcol.insertMany(arr);
       var x = db.testcol.find( {b: 255} ); x.next();
       var x = db.testcol.find( {_id: 1000*(i-1)+255} ); x.next();
       var x = "asdf";
-      db.testcol.update( {a: i, b: 255}, {$set: {d: x.pad(1000)}});
+      db.testcol.updateOne( {a: i, b: 255}, {$set: {d: x.pad(1000)}});
       print(i)
   }
 
@@ -154,11 +154,11 @@ Do the following then, connect with a separate shell, and repeatedly run ``db.cu
           doc = {_id: (1000*(i-1)+j), a: i, b: j, c: (1000*(i-1)+j)};
           arr.push(doc)
       };
-      db.testcol.insert(arr);
+      db.testcol.insertMany(arr);
       var x = db.testcol.find( {b: 255} ); x.next();
       var x = db.testcol.find( {_id: 1000*(i-1)+255 }); x.next();
       var x = "asdf";
-      db.testcol.update( {a: i, b: 255}, {$set: {d: x.pad(1000)}});
+      db.testcol.updateOne( {a: i, b: 255}, {$set: {d: x.pad(1000)}});
       print(i)
   }
 
@@ -190,10 +190,10 @@ Look at the output of the following:
 .. code-block:: javascript
 
   db.testcol.drop()  
-  db.testcol.insert( { a : 1 } )
+  db.testcol.insertOne( { a : 1 } )
   db.testcol.stats()
   var x = "asdf"
-  db.testcol2.insert( { a : x.pad(10000000) } )
+  db.testcol2.insertOne( { a : x.pad(10000000) } )
   db.testcol2.stats()
   db.stats()
 
@@ -238,10 +238,10 @@ Perform the following, then look in your db.system.profile.
   db.testcol.drop()
   db.system.profile.drop()
   db.setProfilingLevel(2)
-  db.testcol.insert( { a : 1 } )
+  db.testcol.insertOne( { a : 1 } )
   db.testcol.find()
   var x = "asdf"
-  db.testcol.insert( { a : x.pad(10000000) } )  // ~10 MB
+  db.testcol.insertOne( { a : x.pad(10000000) } )  // ~10 MB
   db.setProfilingLevel(0)
   db.system.profile.find().pretty()
 
@@ -285,7 +285,7 @@ Exercise: Using ``db.serverStatus()``
      db.testcol.drop()
      var x = "asdf"
      for (i=0; i<=10000000; i++) { 
-         db.testcol.insert( { a : x.pad(100000) } ) 
+         db.testcol.insertOne( { a : x.pad(100000) } ) 
      }
 
 - In the second window, type periodically:
@@ -335,15 +335,15 @@ Performance Tips: Write Concern
 Bulk Operations
 ---------------
 
-- Using bulk operations can improve performance, especially when using write concern greater than 1.
-- These enable the server to bulk write and bulk acknowledge.
-- Can be done with both inserts and updates.
+- Using bulk operations (including ``insertMany`` and ``updateMany`` ) can improve performance, especially when using write concern greater than 1.
+- These enable the server to amortize acknowledgement.
+- Can be done with both ``insertMany`` and ``updateMany`` .
 
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Comparing bulk inserts with ``mongostat``
----------------------------------------------------
+Exercise: Comparing ``insertMany`` with ``mongostat``
+-----------------------------------------------------
 
 Let's spin up a 3-member replica set:
 
@@ -364,30 +364,30 @@ Let's spin up a 3-member replica set:
 .. include:: /includes/student-notes.rst
 
 
-``mongostat``, bulk inserts with ``{w: 1}``
--------------------------------------------
+``mongostat``, ``insertOne`` with ``{w: 1}``
+--------------------------------------------
 
-Perform the following, with writeConcern : 1 and no bulk inserts:
+Perform the following, with ``writeConcern : 1`` and ``insertOne()``:
 
 .. code-block:: javascript
 
   db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
-      for (j=1; j<=1000; j++) { 
-          db.testcol.insert( { _id : (1000 * (i-1) + j),
-                               a : i, b : j, c : (1000 * (i-1)+ j) },
-                             { writeConcern : { w : 1 } } );
+  for (i=1; i<=10000; i++) {
+      for (j=1; j<=1000; j++) {
+          db.testcol.insertOne( { _id : (1000 * (i-1) + j),
+                                  a : i, b : j, c : (1000 * (i-1)+ j) },
+                                { writeConcern : { w : 1 } } );
       };
       print(i);
   }
 
-Run ``mongostat`` and see how fast that happens. 
+Run ``mongostat`` and see how fast that happens.
 
 .. include:: /includes/student-notes.rst
 
 
-Bulk inserts with ``{w: 3}``
-----------------------------
+Multiple ``insertOne`` s with ``{w: 3}``
+----------------------------------------
 
 Increase the write concern to 3 (safer but slower):
 
@@ -396,7 +396,7 @@ Increase the write concern to 3 (safer but slower):
   db.testcol.drop()
   for (i=1; i<=10000; i++) { 
       for (j=1; j<=1000; j++) { 
-          db.testcol.insert(
+          db.testcol.insertOne(
 	      { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j)}, 
 	      { writeConcern: { w: 3 } } 
           );
@@ -409,11 +409,11 @@ Again, run mongostat.
 .. include:: /includes/student-notes.rst
 
 
-``mongostat``, bulk inserts with ``{w: 3}``
--------------------------------------------
+``mongostat``, ``insertMany`` with ``{w: 3}``
+---------------------------------------------
 
-- Finally, let's use bulk inserts to our advantage:
-- Note that writeConcern is still { w: 3 } 
+- Finally, let's use ``insertMany`` to our advantage:
+- Note that ``writeConcern`` is still ``{ w: 3 }``
 
 .. code-block:: javascript
 
@@ -425,7 +425,7 @@ Again, run mongostat.
 	       { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j) } 
            ); 
        };
-       db.testcol.insert( arr, { writeConcern : { w : 3 } } );
+       db.testcol.insertMany( arr, { writeConcern : { w : 3 } } );
        print(i);
    }
 
@@ -465,4 +465,3 @@ Indexes and Performance
   - Revisit the indexing section for more detail.
       
 .. include:: /includes/student-notes.rst
-

@@ -97,8 +97,8 @@ Example: ``{ w : 1 }``
 
 .. code-block:: javascript
 
-   db.edges.insert( { from : "tom185", to : "mary_p" }, 
-                    { writeConcern : { w : 1 } } )
+   db.edges.insertOne( { from : "tom185", to : "mary_p" }, 
+                       { writeConcern : { w : 1 } } )
 
 .. include:: /includes/student-notes.rst
 
@@ -124,11 +124,11 @@ Example: ``{ w : 2 }``
 
 .. code-block:: javascript
 
-   db.customer.update( { user : "mary_p" },
-                       { $push : { shoppingCart:
-                         { _id : 335443, name : "Brew-a-cup", 
-                         price : 45.79 } } },
-                       { writeConcern : { w : 2 } } )
+   db.customer.updateOne( { user : "mary_p" },
+                          { $push : { shoppingCart:
+                            { _id : 335443, name : "Brew-a-cup", 
+                            price : 45.79 } } },
+                          { writeConcern : { w : 2 } } )
 
 .. include:: /includes/student-notes.rst
 
@@ -160,9 +160,9 @@ Example: ``{ w : "majority" }``
 
 .. code-block:: javascript
 
-   db.products.update({ _id : 335443 },
-                      { $inc : { inStock : -1 } },
-                      { writeConcern : { w : "majority" }})
+   db.products.updateOne({ _id : 335443 },
+                         { $inc : { inStock : -1 } },
+                         { writeConcern : { w : "majority" }})
 
 .. include:: /includes/student-notes.rst
 

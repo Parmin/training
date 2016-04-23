@@ -40,7 +40,7 @@ Example: Array of Numbers
     a = [ { "lap_times" : [ 3, 5, 2, 8 ] },
           { "lap_times" : [ 1, 6, 4, 2 ] },
           { "lap_times" : [ 6, 3, 3, 8 ] } ]
-    db.race_results.insert( a )        
+    db.race_results.insertMany( a )        
 
     // Used the index
     db.race_results.find( { lap_times : 1 } ).explain()  
@@ -70,7 +70,7 @@ Create a collection and add an index on the ``x`` field:
             { "name" : "Luke", "rating" : 1.4 }, 
             { "name" : "Matt", "rating" : 5 },
             { "name" : "Sue", "rating" : 7 } ] }]
-   db.blog.insert(b)
+   db.blog.insertMany(b)
 
    db.blog.createIndex( { "comments" : 1 } )
    // vs
@@ -132,7 +132,7 @@ Add some documents and create an index simulating a player in a game moving on a
          { "last_moves" : [ [ 4, 5 ], [ 5, 6 ] ] },
          { "last_moves" : [ [ 3, 4 ] ] },
          { "last_moves" : [ [ 4, 5 ] ] } ] 
-   db.player.insert(c)
+   db.player.insertMany(c)
    db.player.find()
 
 .. include:: /includes/student-notes.rst
@@ -227,16 +227,16 @@ Example: Multikey Indexes on Multiple Fields
    db.testcol.createIndex( { x : 1, y : 1 } )
 
    // no problems yet
-   db.testcol.insert( { _id : 1, x : 1, y : 1 } )  
+   db.testcol.insertOne( { _id : 1, x : 1, y : 1 } )  
 
    // still OK
-   db.testcol.insert( { _id : 2, x : [ 1, 2 ], y : 1 } )  
+   db.testcol.insertOne( { _id : 2, x : [ 1, 2 ], y : 1 } )  
 
    // still OK
-   db.testcol.insert( { _id : 3, x : 1, y : [ 1, 2 ] } )  
+   db.testcol.insertOne( { _id : 3, x : 1, y : [ 1, 2 ] } )  
 
    // Won't work
-   db.testcol.insert( { _id : 4, x : [ 1, 2 ], y : [ 1, 2 ] } )
+   db.testcol.insertOne( { _id : 4, x : [ 1, 2 ], y : [ 1, 2 ] } )
 
 .. include:: /includes/student-notes.rst
 

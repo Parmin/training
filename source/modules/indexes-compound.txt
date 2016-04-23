@@ -95,7 +95,7 @@ Load the Data
          { "timestamp" : 3, "username" : "sam", "rating" : 1 },
          { "timestamp" : 4, "username" : "anonymous", "rating" : 2 },
          { "timestamp" : 5, "username" : "martha", "rating" : 5 } ]
-   db.messages.insert(a)
+   db.messages.insertMany(a)
 
 .. include:: /includes/student-notes.rst
 
@@ -334,8 +334,8 @@ Exercise: Covered Queries
 
    db.testcol.drop()
    for (i=1; i<=20; i++) { 
-     db.testcol.insert({ "_id" : i, "title" : i, "name" : i, 
-                         "rating" : i, "budget" : i })
+     db.testcol.insertOne({ "_id" : i, "title" : i, "name" : i, 
+                            "rating" : i, "budget" : i })
    };
    db.testcol.createIndex( { "title" : 1, "name" : 1, "rating" : 1 } )
    
