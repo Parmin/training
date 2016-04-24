@@ -9,7 +9,7 @@ Upon completing this module students should understand:
 
 - How to insert documents into MongoDB collections.
 - ``_id`` fields:
-- How to remove documents from a collection
+- How to delete documents from a collection
 - How to remove a collection from a database
 - How to remove a database from a MongoDB deployment
 
@@ -125,7 +125,7 @@ Example: Inserts will fail if...
 
         .. code-block:: javascript
 
-           db.movies.insert( { "_id" : [ "Star Wars", "The Empire Strikes Back", "Return of the Jedi" ] } )
+           db.movies.insertOne( { "_id" : [ "Star Wars", "The Empire Strikes Back", "Return of the Jedi" ] } )
 
       - The second insert with ``_id : "Star Wars"`` will fail because there is already a document with ``_id`` of "Star Wars" in the collection.
 
@@ -133,8 +133,7 @@ Example: Inserts will fail if...
 
       .. code-block:: javascript
 
-         db.movies.insert( { "Star Wars" } )
-
+         db.movies.insertOne( { "Star Wars" } )
 
 
 insertMany
@@ -249,7 +248,7 @@ You may delete documents from a MongoDB deployment in several ways.
 Using ``deleteOne()``
 ---------------------
 
-- Remove a document from a collection using ``deleteOne()``
+- Delete a document from a collection using ``deleteOne()``
 - This command has one required parameter, a query document.
 - The first document in the collection matching the query document will be deleted.
 
@@ -259,10 +258,10 @@ Using ``deleteOne()``
 Using ``deleteMany()``
 ---------------------
 
-- Remove multiple documents from a collection using ``deleteMany()``.
+- Delete multiple documents from a collection using ``deleteMany()``.
 - This command has one required parameter, a query document.
 - All documents in the collection matching the query document will be deleted.
-- Pass an empty document to remove all documents.
+- Pass an empty document to delete all documents.
 
 .. include:: /includes/student-notes.rst
 
@@ -273,7 +272,7 @@ Experiment with removing documents. Do a ``find()`` after each ``deleteMany()`` 
 
 .. code-block:: javascript
 
-   for (i=1; i<=20; i++) { db.testcol.insert( { _id : i, a : i } ) }
+   for (i=1; i<=20; i++) { db.testcol.insertOne( { _id : i, a : i } ) }
 
    db.testcol.deleteMany( { a : 1 } )  // Delete the first document
 
@@ -305,7 +304,7 @@ Dropping a Collection
 
    .. note::
 
-      Mention that ``drop()`` is more performant than remove because of the lookup costs associated with ``remove()``.
+      Mention that ``drop()`` is more performant than ``deleteMany()`` because of the costs associated with ``deleteMany()``, which pulls documents into memory and deletes them one at a time.
 
 
 Example: Dropping a Collection

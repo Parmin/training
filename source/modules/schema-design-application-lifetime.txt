@@ -108,7 +108,7 @@ Users can review a book.
        rating: 5
    };
 
-   db.books.update(
+   db.books.updateOne(
        { _id: 3 },
        { $push: { reviews: review }}
    );
@@ -170,7 +170,7 @@ Adding a new review to the appropriate bucket
        created_at: ISODate("2012-10-13T12:26:11.502Z")
    };
 
-   db.reviews.update(
+   db.reviews.updateOne(
 	 { _id: "bob-201210" },
 	 { $push: { reviews: myReview }}
    );
@@ -210,7 +210,7 @@ Deleting a review
 
 .. code-block:: javascript
 
-   cursor = db.reviews.update(
+   db.reviews.updateOne(
        { _id: "bob-201210" },
        { $pull: { reviews: { _id: ObjectId("…") }}}
    );

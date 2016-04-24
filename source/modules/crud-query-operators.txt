@@ -36,7 +36,7 @@ Example: Comparison Operators (Setup)
 .. code-block:: javascript
 
   // insert sample data
-  db.movies.insert( [ 
+  db.movies.insertOne( [ 
     { 
       "title" : "Batman", 
       "category" : [ "action", "adventure" ], 
@@ -196,7 +196,7 @@ Example: $elemMatch
 
 .. code-block:: javascript
 
-  db.movies.insert( { 
+  db.movies.insertOne( { 
       "title" : "Raiders of the Lost Ark",
       "filming_locations" : [ 
         { "city" : "Los Angeles", "state" : "CA", "country" : "USA" },

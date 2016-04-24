@@ -66,11 +66,11 @@ Statement-Based Replication
 Example
 -------
 
-Suppose the following remove is issued and it deletes 100 documents:
+Suppose the following command is issued and it deletes 100 documents:
 
 .. code-block:: javascript
 
-   db.foo.remove({ age : 30 })
+   db.foo.deleteMany({ age : 30 })
 
 This will be represented in the oplog with records such as the following:
 

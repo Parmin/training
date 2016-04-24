@@ -15,7 +15,7 @@ Upon completing this module students should understand
 - Field update operators
 - Array update operators
 - The concept of an upsert and use cases.
-- The findAndModify method
+- The ``findOneAndReplace()`` and ``findOneAndUpdate()`` methods
 
 .. include:: /includes/student-notes.rst
 
@@ -114,7 +114,7 @@ The ``updateOne()`` Method
 ``$set`` and ``$unset``
 -----------------------
 
-- Use to specify fields to replace for updates
+- Use to specify fields to replace for ``UpdateOne()``
 - If the field already exists, using ``$set`` will change its value.
 
   - If not, ``$set`` will create it, set to the new value
@@ -151,8 +151,8 @@ Update Operators
 - ``$inc``: Increment a field's value by the specified amount.
 - ``$mul``: Multiply a field's value by the specified amount.
 - ``$rename``: Rename a field.
-- ``$set``: Update one or more fields.
-- ``$unset`` Delete a field.
+- ``$set``: Update one or more fields (already discussed). 
+- ``$unset`` Delete a field (already discussed).
 - ``$min``: Update only if value is smaller than specified quantity
 - ``$max``: Update only if value is larger than specified quantity
 - ``$currentDate``: Set the value of a field to the current date or timestamp.

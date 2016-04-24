@@ -48,9 +48,10 @@ Experiment with the following sequence of commands.
 .. code-block:: javascript
 
   db.movies.drop()
-  db.movies.insert([ { "title" : "Jaws", "year" : 1975, "imdb_rating" : 8.1 },
-                     { "title" : "Batman", "year" : 1989, "imdb_rating" : 7.6 },
-                   ] )
+  db.movies.insertMany( [
+      { "title" : "Jaws", "year" : 1975, "imdb_rating" : 8.1 },
+      { "title" : "Batman", "year" : 1989, "imdb_rating" : 7.6 }
+  ] )
   db.movies.find()
 
   db.movies.find( { "year" : 1975 } )
@@ -97,7 +98,7 @@ Example: Querying Arrays
 .. code-block:: javascript
 
   db.movies.drop()
-  db.movies.insert( 
+  db.movies.insertMany( 
    [{ "title" : "Batman", "category" : [ "action", "adventure" ] },
     { "title" : "Godzilla", "category" : [ "action", "adventure", "sci-fi" ] },
     { "title" : "Home Alone", "category" : [ "family", "comedy" ] }
@@ -142,7 +143,7 @@ Example: Querying with Dot Notation
 
 .. code-block:: javascript
 
-   db.movies.insert( 
+   db.movies.insertMany( 
        [ { 
              "title" : "Avatar", 
              "box_office" : { "gross" : 760, 
@@ -172,7 +173,7 @@ Example: Arrays and Dot Notation
 
 .. code-block:: javascript
 
-   db.movies.insert( [ 
+   db.movies.insertMany( [ 
        { "title" : "E.T.", 
          "filming_locations" : 
             [ { "city" : "Culver City", "state" : "CA", "country" : "USA" },
@@ -219,7 +220,7 @@ Projection: Example (Setup)
 
 .. code-block:: javascript
 
-   db.movies.insert(
+   db.movies.insertOne(
    {
       "title" : "Forrest Gump",
       "category" : [ "drama", "romance" ],
@@ -275,8 +276,9 @@ Example: Projections
 .. code-block:: javascript
 
    for (i=1; i<=20; i++) { 
-       db.movies.insert( { "_id" : i, "title" : i, 
-                           "imdb_rating" : i, "box_office" : i } )
+       db.movies.insertOne(
+           { "_id" : i, "title" : i, 
+             "imdb_rating" : i, "box_office" : i } )
    }
    db.movies.find()
    // no "box_office"
@@ -315,8 +317,8 @@ Example: Introducing Cursors
 
    db.testcol.drop()
    for (i=1; i<=10000; i++) { 
-       db.testcol.insert( { a : Math.floor( Math.random() * 100 + 1 ),
-                            b : Math.floor( Math.random() * 100 + 1 ) } )
+       db.testcol.insertOne( { a : Math.floor( Math.random() * 100 + 1 ),
+                               b : Math.floor( Math.random() * 100 + 1 ) } )
    }
    db.testcol.find()  
     
@@ -377,7 +379,7 @@ Example: Using ``count()``
 .. code-block:: javascript
 
    db.testcol.drop()
-   for (i=1; i<=100; i++) { db.testcol.insert( { a : i } ) }
+   for (i=1; i<=100; i++) { db.testcol.insertOne( { a : i } ) }
 
    // all 100 
    db.testcol.count()   
@@ -408,7 +410,7 @@ Example: Using ``sort()``
 
    db.testcol.drop()
    for (i=1; i<=20; i++) { 
-       db.testcol.insert( { a : Math.floor( Math.random() * 10 + 1 ), 
+       db.testcol.insertOne( { a : Math.floor( Math.random() * 10 + 1 ), 
                             b : Math.floor( Math.random() * 10 + 1 ) } ) 
    }
 
@@ -474,11 +476,12 @@ Example: Using ``distinct()``
 .. code-block:: javascript
 
    db.movie_reviews.drop()    
-   db.movie_reviews.insert( [ { "title" : "Jaws", "rating" : 5 },
-                              { "title" : "Home Alone", "rating" : 1 },
-                              { "title" : "Jaws", "rating" : 7 },
-                              { "title" : "Jaws", "rating" : 4 },
-                              { "title" : "Jaws", "rating" : 8 } ] )
+   db.movie_reviews.insertMany( [
+       { "title" : "Jaws", "rating" : 5 },
+       { "title" : "Home Alone", "rating" : 1 },
+       { "title" : "Jaws", "rating" : 7 },
+       { "title" : "Jaws", "rating" : 4 },
+       { "title" : "Jaws", "rating" : 8 } ] )
    db.movie_reviews.distinct( "title" )
 
 

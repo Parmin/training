@@ -215,11 +215,14 @@ Other Operations
 
 In addition to ``find()``, we often want to use ``explain()`` to understand how other operations will be handled.
 
-- ``aggregate``
-- ``count``
-- ``group``
-- ``remove``
-- ``update``
+- ``aggregate()``
+- ``count()``
+- ``group()``
+- ``deleteOne()``
+- ``deleteMany()``
+- ``updateOne()``
+- ``updateMany()``
+- ``replaceOne()``
 
 .. include:: /includes/student-notes.rst
 
@@ -262,11 +265,11 @@ Simulate the number of writes that would have occurred and determine the index(e
 
 .. code-block:: javascript
 
-  > db.tweets.explain("executionStats").remove({ "user.followers_count" : 1000 })
+  > db.tweets.explain("executionStats").deleteMany( { "user.followers_count" : 1000 } )
 
 .. code-block:: javascript
 
-  > db.tweets.explain("executionStats").update({ "user.followers_count" : 1000 },
+  > db.tweets.explain("executionStats").updateMany( { "user.followers_count" : 1000 },
     { $set : { "large_following" : true } } )
 
 .. include:: /includes/student-notes.rst
@@ -341,10 +344,14 @@ Indexes and Read/Write Performance
   - Is inserted
   - Is deleted
   - Is updated in such a way that its indexed field changes
-  - If an update causes a document to move on disk
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - For mmapv1, an index may be modified if the document moves on disk (which it does when it outgrows its record space)
 
 
 Index Limitations
@@ -428,12 +435,3 @@ Building Indexes in the Background
     { background : true } )
 
 .. include:: /includes/student-notes.rst
-
-
-
-
-
-
-
-
-

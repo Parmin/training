@@ -9,7 +9,7 @@ Upon completing this module students should understand:
 
 - How to insert documents into MongoDB collections.
 - ``_id`` fields:
-- How to remove documents from a collection
+- How to delete documents from a collection
 - How to remove a collection from a database
 - How to remove a database from a MongoDB deployment
 
@@ -19,16 +19,16 @@ Upon completing this module students should understand:
 Creating New Documents
 ----------------------
 
-- Create documents using ``insert()``.
+- Create a document using ``insertOne()``.
 - For example:
 
   .. code-block:: javascript
 
      // Specify the collection name
-     db.<COLLECTION>.insert( { "name" : "Mongo" } )
+     db.<COLLECTION>.insertOne( { "name" : "Mongo" } )
 
      // For example
-     db.people.insert( { "name" : "Mongo" } )
+     db.people.insertOne( { "name" : "Mongo" } )
 
 .. include:: /includes/student-notes.rst
 
@@ -39,7 +39,7 @@ Example: Inserting a Document
 
    use sample
 
-   db.movies.insert( { "title" : "Jaws" } )
+   db.movies.insertOne( { "title" : "Jaws" } )
 
    db.movies.find()
 
@@ -60,7 +60,7 @@ Example: Assigning _ids
 
 .. code-block:: javascript
 
-    db.movies.insert( { "_id" : "Jaws", "year" : 1975 } )
+    db.movies.insertOne( { "_id" : "Jaws", "year" : 1975 } )
 
     db.movies.find()
 
@@ -72,7 +72,6 @@ Example: Assigning _ids
 
       - Note that you can assign an _id to be of almost any type.
       - It does not need to be an ObjectId.
-
 
 
 Inserts will fail if...
@@ -108,48 +107,37 @@ Deleting Documents
 
 You may delete documents from a MongoDB deployment in several ways.
 
-- Use ``remove()`` to delete documents matching a specific set of conditions.
-- Drop an entire collection.
-- Drop a database.
+- Use ``deleteMany()`` to delete all documents matching a specific set of conditions
+- Use ``deleteOne()`` to delete just one
+- You can also:
+
+  - Drop an entire collection.
+  - Drop a database.
 
 .. include:: /includes/student-notes.rst
 
 
-Using ``remove()``
-------------------
+Using ``deleteOne()`` and ``deleteMany()``
+------------------------------------------
 
-- Remove documents from a collection using ``remove()``.
-- This command has one required parameter, a query document.
-- All documents in the collection matching the query document will be removed.
-- Pass an empty document to remove all documents.
-- Prior to MongoDB 2.6 calling ``remove()`` with no parameters would remove all documents.
-- Limit ``remove()`` to one document using ``justOne``.
+- These commands have one required parameter, a query document.
+- For ``deleteMany()``, all documents in the collection matching the query document will be deleted.
 
-.. include:: /includes/student-notes.rst
+- Pass an empty document to remove all documents for ``deleteMany()``
 
-
-Example: Removing Documents
-----------------------------
-
-.. code-block:: javascript
-
-   for (i=1; i<=20; i++) { db.testcol.insert( { _id : i, a : i } ) }
-
-   db.testcol.remove( { a : 1 } )  // Remove the first document
-
-   // $lt is a query operator that enables us to select documents that
-   // are less than some value. More on operators soon.
-   db.testcol.remove( { a : { $lt : 5 } } )  // Remove three more
-
-   db.testcol.remove( { a : { $lt : 10 } },
-                            { justOne : true } )  // Remove one more
-
-   db.testcol.remove()  // Error: requires a query document.
-
-   db.testcol.remove( { } )  // All documents removed
+  - Or just the first one found for ``deleteOne()``
 
 .. include:: /includes/student-notes.rst
 
+
+Example: Deleting Documents
+---------------------------
+
+.. literalinclude:: /includes/crud-creating-and-deleting-documents-minimal.js
+  :language: javascript
+  :lines: 8-21
+
+.. include:: /includes/student-notes.rst
 
 
 Dropping a Collection
@@ -167,7 +155,7 @@ Dropping a Collection
 
    .. note::
 
-      Mention that ``drop()`` is more performant than remove because of the lookup costs associated with ``remove()``.
+      Mention that ``drop()`` is more performant than ``deleteMany()`` because of the costs associated with ``deleteMany()``, which pulls documents into memory and deletes them one-at-a-time.
 
 
 Example: Dropping a Collection
@@ -175,14 +163,13 @@ Example: Dropping a Collection
 
 .. code-block:: javascript
 
-   db.colToBeDropped.insert( { a : 1 } )
+   db.colToBeDropped.insertOne( { a : 1 } )
    show collections  // Shows the colToBeDropped collection
 
    db.colToBeDropped.drop()
    show collections  // collection is gone
 
 .. include:: /includes/student-notes.rst
-
 
 
 Dropping a Database
@@ -194,5 +181,3 @@ Dropping a Database
 - Beware that in the mongo shell, this does not change database context.  
 
 .. include:: /includes/student-notes.rst
-
-

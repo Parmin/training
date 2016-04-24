@@ -8,5 +8,5 @@ description: |
 ---
 file: /modules/crud-updating-documents-minimal
 description: | 
-  Using ``update()`` and associated operators to mutate existing documents
+  Using update methods and associated operators to mutate existing documents
 ...

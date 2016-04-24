@@ -141,7 +141,7 @@ Update the exact minute in the hour where the op_counter was recorded:
 
 ::
 
-  > db.metrics_by_minute.update( { 
+  > db.metrics_by_minute.updateOne( { 
     "clientid" : 1234,
     "timestamp": ISODate("2015-05-29T23:06:00.000Z"),
     "metric": "op_counter"}, 
@@ -158,7 +158,7 @@ Increment the counter for the exact minute in the hour where the op_counter metr
 
 ::
 
-  > db.metrics_by_minute.update( { 
+  > db.metrics_by_minute.updateOne( { 
     "clientid" : 1234,
     "timestamp": ISODate("2015-05-29T23:06:00.000Z"),
     "metric": "insert"}, 

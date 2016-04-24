@@ -75,7 +75,7 @@ Add an Item to a User's Cart
 
 .. code-block:: javascript
 
-  db.cart.update( { 
+  db.cart.updateOne( { 
       "_id": ObjectId("55932ef370c32e23e6552ced")
     }, {
       $push : {
@@ -102,7 +102,7 @@ Updating an Item in a Cart
 
 .. code-block:: javascript
 
-  db.cart.update( { 
+  db.cart.updateOne( { 
       "_id": ObjectId("55932ef370c32e23e6552ced"), 
       "items.itemid" : 4567 
     }, { 
@@ -118,7 +118,7 @@ Remove an Item from a User's Cart
 
 .. code-block:: javascript
 
-  db.cart.update({ 
+  db.cart.updateOne({ 
       "_id": ObjectId("55932ef370c32e23e6552ced")
     }, { 
       $pull : { 
@@ -157,7 +157,7 @@ Increment "quantity_in_carts"
 
 .. code-block:: javascript
 
-  db.item.update(
+  db.item.updateOne(
     { "_id": 8910 }, 
     { $inc : { "quantity_in_carts" : 1 } } )
 
@@ -165,7 +165,7 @@ Decrement "quantity_in_carts"
 
 .. code-block:: javascript
 
-  db.item.update(
+  db.item.updateOne(
     { "_id": 8910 }, 
     { $inc : { "quantity_in_carts" : -1 } } )
 
