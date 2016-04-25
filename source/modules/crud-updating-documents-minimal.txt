@@ -36,6 +36,13 @@ The ``replaceOne()`` Method
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note:: 
+
+    - By "simplest," we mean that it's simple conceptually -- that replacing a document is a sort of basic idea of how an update happens.
+    - We will later see update methods that will involve only changing some fields.
+
 
 First Parameter to ``replaceOne()``
 -----------------------------------
@@ -161,13 +168,16 @@ The ``updateMany()`` Method
 
   - ``updateOne`` stops after the first match
   - ``updatemany`` continues until it has matched all
-  - Without an appropriate index, you may scan every document in the collection.
+
+.. warning::
+
+  Without an appropriate index, you may scan every document in the collection.
 
 .. include:: /includes/student-notes.rst
 
 
-Example: ``updateMany`` vs. ``updateOne()``
--------------------------------------------
+Example: ``updateMany()``
+-------------------------
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
@@ -181,9 +191,6 @@ Example: ``updateMany`` vs. ``updateOne()``
 
       - First query only updates one document.
       - Second query updates four documents.
-
-
-
 
 
 Array Operators

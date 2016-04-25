@@ -36,6 +36,13 @@ The ``replaceOne()`` Method
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note:: 
+
+    - By "simplest," we mean that it's simple conceptually -- that replacing a document is a sort of basic idea of how an update happens.
+    - We will later see update methods that will involve only changing some fields.
+
 
 First Parameter to ``replaceOne()``
 -----------------------------------
@@ -178,13 +185,16 @@ The ``updateMany()`` Method
 
   - ``updateOne`` stops after the first match
   - ``updatemany`` continues until it has matched all
-  - Without an appropriate index, you may scan every document in the collection.
+
+.. warning::
+
+  Without an appropriate index, you may scan every document in the collection.
 
 .. include:: /includes/student-notes.rst
 
 
-Example: ``updateMany`` vs. ``updateOne()``
--------------------------------------------
+Example: ``updateMany()``
+-------------------------
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
@@ -388,7 +398,7 @@ Example: ``save()``
 Be Careful with ``save()``
 --------------------------
 
-Be careful that you are not modifying stale data when using ``save()``. For example:
+Careful not to modify stale data when using ``save()``. Example:
         
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
@@ -400,28 +410,28 @@ Be careful that you are not modifying stale data when using ``save()``. For exam
 ``findOneAndUpdate()`` and ``findOneAndReplace()``
 --------------------------------------------------
 
-- Update (or replace) one document and return the document
+- Update (or replace) one document and return it
 
   - By default, the document is returned pre-write
 
-- Can read a document in the state before or after the update occurred.
+- Can return the state before or after the update
 - Makes a read plus a write atomic
 - Can be used with upsert to insert a document
 
 .. include:: /includes/student-notes.rst
 
 
-Options fields for ``findOneAndUpdate()``, ``findOneAndReplace()``
-------------------------------------------------------------------
+``findOneAndUpdate()``, ``findOneAndReplace()`` Options
+-------------------------------------------------------
 
-- The following are all optional, and can be in the options document
-- ``projection: <document>`` will let you select the fields to see
-- ``sort: <document>`` sorts first and applies the operation to the first document
-- ``maxTimeoutMS: <number>`` specifies how long the operation can take
+- The following are optional fields for the options document
+- ``projection: <document>`` - select the fields to see
+- ``sort: <document>`` - sort to select the first document
+- ``maxTimeoutMS: <number>`` - how long to wait
 
-  - Returns an error if this time is exceeded
+  - Returns an error, kills operation if exceeded
 
-- ``upsert: <boolean>`` if true, inserts if no document is found
+- ``upsert: <boolean>`` if true, performs an upsert
 
 .. include:: /includes/student-notes.rst
 
