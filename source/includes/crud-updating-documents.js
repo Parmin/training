@@ -240,3 +240,21 @@ db.worker_queue.findOneAndUpdate(
 
 
 
+
+
+// findOneAndDelete example
+db.foo.drop();
+db.foo.insertMany( [ { a : 1 }, { a : 2 }, { a : 3 } ] );
+db.foo.find();  // shows the documents.
+db.foo.findOneAndDelete( { a : { $lte : 3 } } );
+db.foo.find();
+
+
+
+    
+
+
+
+
+
+

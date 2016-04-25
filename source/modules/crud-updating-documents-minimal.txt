@@ -47,7 +47,7 @@ First Parameter to ``replaceOne()``
     - Use the same syntax as with ``find()``
     - Only the first document found is replaced
 
-- Cannot delete a document
+- ``replaceOne()`` cannot delete a document
 
 .. include:: /includes/student-notes.rst
 
@@ -97,12 +97,12 @@ The ``updateOne()`` Method
 ``$set`` and ``$unset``
 -----------------------
 
-- Use to specify fields to replace for ``UpdateOne()``
-- If the field already exists, using ``$set`` will change its value.
+- Use to specify fields to change for ``UpdateOne()``
+- If the field already exists, using ``$set`` will change its value
 
   - If not, ``$set`` will create it, set to the new value
 
-- Non-specified fields will not be modified
+- Only specified fields will change
 - Alternatively, remove a field using ``$unset``
 
 .. include:: /includes/student-notes.rst
@@ -260,4 +260,5 @@ Example: ``findOneAndUpdate()``
     :lines: 236-239
 
 .. include:: /includes/student-notes.rst
+
 
