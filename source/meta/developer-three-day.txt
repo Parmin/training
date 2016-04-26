@@ -16,4 +16,5 @@ MongoDB Developer Training
    /modules/nav/sharding-dev
    /modules/nav/mongomart-fundamentals
    /modules/nav/mms-developer
+   /modules/nav/new-in-3-2
 

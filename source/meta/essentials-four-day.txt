@@ -21,4 +21,5 @@ MongoDB Essentials Training
    /modules/nav/security-essentials
    /modules/nav/mms
    /modules/nav/mms-advanced
+   /modules/nav/new-in-3-2
 

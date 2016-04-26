@@ -61,4 +61,8 @@ description: |
 file: /modules/backup
 description: |
   MongoDB backup strategies
+---
+file: /modules/nav/new-in-3-2
+description: |
+  Changes in MongoDB 3.2
 ...
