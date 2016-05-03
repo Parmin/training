@@ -1,0 +1,184 @@
+=============================
+Lab: Create User-Defined Role
+=============================
+
+
+Premise
+-------
+
+MongoDB comes with a set of *built-in* roles and we strongly
+advise to have a look to those before generating another role on your system.
+But sometimes we need to adjust our ``roles`` to match specific
+needs of our system.
+
+For that we can rely on User-Defined Roles that system administrators can create.
+This function should be carried by ``userAdmin`` level administration user
+since it is tightly bound with user management activities.
+
+.. only:: instructor
+
+  .. note::
+
+    At this point its good moment to ask the question:
+
+    - why can't we just have a ``root`` level user create the roles?
+    - why should we first have a look to the built-in roles ?
+
+Define Privileges
+-----------------
+
+Roles are set of privileges that a given user is granted with.
+For this particular exercise
+I would like to create a role that would have the following privileges:
+
+- user can `read` user details from database `brands`
+- can list all collections of database `brands`
+- can update all collections on database `brands`
+- can write to a specific collection `automotive` in database `brands`
+
+Create the a json array that will compile the outline set of privileges.
+
+.. only:: instructor
+
+  .. note::
+
+    Students should create a json object that will contain all of the above privileges
+
+    .. code-block:: javascript
+
+      privileges: [
+        { resource: { db: "brands", collection: "*"}, actions: ["viewUser", "listCollections", "update"]},
+        { resource: { db: "brands", collection: "automotive"}, actions: ["insert"] }
+      ]
+
+    Here you can reference the set of available privileges that MongoDB has:
+
+    https://docs.mongodb.org/manual/reference/privilege-actions/
+
+Create Role
+-----------
+
+Given the previous defined privileges we know
+need to create this role specific to database ``brands``.
+The name of this role should be ``carvoyeur``
+
+How does the instruction to create this role look like ?
+
+.. only:: instructor
+
+  .. note::
+
+    Students should come up with something very similar to the following:
+
+    .. code-block:: javascript
+
+      db.createRole({
+        role: "carvoyeur",
+        privileges: [
+          { resource: { db: "brands", collection: "*"}, actions: ["viewUser", "listCollections", "update"]},
+          { resource: { db: "brands", collection: "automotive"}, actions: ["insert"] }
+        ],
+        roles: []
+      })
+
+    Good moment to ask: Why do we need the ``roles`` array and why should that be empty?
+
+Grant Role: Part 1
+------------------
+
+We now want to grant this role to a ``brands`` database specific user named ``ilikecars``.
+
+.. code-block:: javascript
+
+  db.createUser(
+  {
+    user: "ilikecars",
+    pwd: "car+lover",
+    customData: { notes: ["application user"] },
+    roles: [
+      { role: "carvoyeur", db: "brands" }
+      ]
+  })
+
+Apart from the user creation step we want to
+make sure that this is a ``brands`` specific user.
+
+What step should we take before creating this user with this specific Role?
+
+
+.. only:: instructor
+
+  .. note::
+
+    Students should understand that for the creation of this user, since we
+    require it to be database specific, it should be created on
+    ``brands`` database.
+
+    .. code-block:: javascript
+
+      use brands
+      db.createUser(
+      {
+        user: "ilikecars",
+        pwd: "car+lover",
+        customData: { notes: ["application user"] },
+        roles: [
+          { role: "carvoyeur", db: "admin" }
+          ]
+      })
+
+
+Grant Role: Part 2
+------------------
+
+We now want o grant greater responsability to our recently created ``ilikecars``!
+
+Lets grant ``dbOwner`` role to ``ilikecars`` user.
+
+How does that command look like ?
+
+.. only:: instructor
+
+  .. note::
+
+    Students should come up with something similar to this command:
+
+    .. code-block:: javascript
+
+      use brands
+      db.grantRolesToUser(
+        "ilikecars",
+        [
+          { role: "dbOwner", db: "brands" }
+        ]
+      )
+
+    Students can come up with other commands like ``db.updateUser("ilikecars", {...})`` which is also valid.
+
+
+Revoke Role
+-----------
+
+Let's assume that our initial role ``voyeur`` is no longer valid.
+It's a security best practice to *clean up* any security aspect that is
+no longer valid or needed.
+
+Please indicate how can we revoke a particular role from a user.
+
+
+.. only:: instructor
+
+  .. note::
+
+    In this section the students should be able to indicate that the
+    command for doing this operation is the following:
+
+    .. code-block:: javascript
+
+      use brands
+      db.revokeRolesFromUser(
+        "ilikecars",
+        [
+          { role: "readWrite", db: "voyeur" }
+        ]
+      )

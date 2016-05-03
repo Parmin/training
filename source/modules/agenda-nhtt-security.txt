@@ -1,0 +1,31 @@
+==============
+NHTT: Security
+==============
+
+
+
+Authentication
+--------------
+
+- :doc:`/modules/security-authentication`
+- :doc:`/exercises/secure-mongod`
+- :doc:`/exercises/secured-replicaset`
+
+.. include:: /includes/student-notes.rst
+
+Authorization
+-------------
+
+- :doc:`/modules/security-authorization`
+- :doc:`/exercises/create-adminusers`
+- :doc:`/exercises/create-customrole`
+- :doc:`/exercises/create-applicationuser`
+.. include:: /includes/student-notes.rst
+
+
+Audit & Encryption
+------------------
+
+- :doc:`/modules/security-audit`
+- :doc:`/exercises/audit-user`
+- :doc:`/modules/security-encryption`

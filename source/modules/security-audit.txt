@@ -1,0 +1,129 @@
+========
+Auditing
+========
+
+Learning Objectives
+-------------------
+
+Upon completing this module, you should understand:
+
+- Auditing Capabilities of MongoDB
+- Enable Auditing
+- Configuration Options
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Simple set of slides that go through the configuration options of our auditing capabilities.
+
+    Account for 10 minutes or less for the delivery of this content.
+
+
+Auditing
+--------
+
+Auditing is the capability that a given system have to track system events.
+
+Logging and Auditing, while similar they serve a different purpose:
+
+- Logging are operation concerned events that are tracked for procedural reasons
+- Auditing is to capture system events that are relevant from a security perspective
+
+Auditing is available with MongoDB Enterprise!
+
+.. include:: /includes/student-notes.rst
+
+
+Auditing Configuration
+----------------------
+
+- **Format**: the output format of the emitted event messages
+
+  - BSON or JSON
+- **Destination**: Where to write the audit log
+
+  - Syslog, console or file
+- **Path**: audit log path in case we define **file** as destination
+
+- **Filter**: Expression that will filter based on the audit message model
+- **Audit DML**: By default we only audit DDL operations but we can also enable DML
+
+  - `auditAuthorizationSuccess`
+
+.. only:: instructor
+
+  .. note::
+
+    - make sure to explain what DML and DDL operations are:
+
+      - DML means data manipulation language (inserts, updates, removes, grant user role ...)
+      - DDL means data definition language (create collection, index, drop database ...)
+
+    You can take the opportunity to ask:
+
+    - Q: Why do we not enable DML by default ?
+
+      - A: Due to the performance impact of logging all write operations that occurs on a given server.
+    - Q: In which circumstances do we need to enable DML?
+
+      - A: On highly sensitive namespaces or for given set of users.
+
+.. include:: /includes/student-notes.rst
+
+
+Auditing Message
+----------------
+
+The audit facility will launch a message every time and auditable event is occurs:
+
+.. code-block:: json
+
+  {
+    atype: <String>,
+    ts : { "$date": <timestamp> },
+    local: { ip: <String>, port: <int> },
+    remote: { ip: <String>, port: <int> },
+    users : [ { user: <String>, db: <String> }, ... ],
+    roles: [ { role: <String>, db: <String> }, ... ],
+    param: <document>,
+    result: <int>
+  }
+
+.. include:: /includes/student-notes.rst
+
+
+Auditing Configuration
+----------------------
+
+If we want to configure our audit system to generate a `JSON` file we would
+need express the following command:
+
+.. code-block:: bash
+
+  mongod --auditDestination file --auditPath /some/dir/audit.log --auditFormat JSON
+
+If we want to capture events from a particular user `myUser`:
+
+.. code-block:: bash
+
+  mongod --auditDestination syslog --auditFilter '{"users.user": "myUser"}'
+
+To enable DML we need to set a specific parameter:
+
+.. code-block:: bash
+
+  mongod --auditDestination console --setParameter auditAuthorizationSuccess=true
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - we can define filters on any particular field of the audit message
+    - these will work has regular MongoDB query filter expressions, but not all operators will apply!
+
+    Be creative and ask students to set different filters based on roles or incoming connections.

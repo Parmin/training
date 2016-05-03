@@ -1,0 +1,238 @@
+================
+Lab: Audit Users
+================
+
+
+Premise
+-------
+
+In this lab we want you to be able to fully understand MongoDB Enterprise
+Auditing system.
+
+For the completion of this lab `MongoDB Enterprise version <https://www.mongodb.com/lp/download/mongodb-enterprise>`_ is required.
+
+Once you have installed this particular version we can follow through with the exercises.
+
+For this lab we assume that you are familiar with the setup of authentication enabled system although it is not a requirement for the audit capabilities to be enabled.
+
+Create Application User
+-----------------------
+
+For this lab we will be using auditing operations of a particular user.
+
+In order to accomplish that we need to create the following set of users
+
+- Root level user
+- User Administrator user
+- Application user
+
+.. only:: instructor
+
+  .. note::
+
+    At this point it might be useful to remind the students
+    of the importance of role segregation and task isolation.
+
+    You can go ahead and ask:
+
+      - Why do we need to have all of this users ?
+      - What's the major benefit that it brings to the systems security?
+
+
+Create Root user
+----------------
+
+1. To create a root level user we need to run the following command:
+
+.. code-block:: javascript
+
+  use admin
+  db.createUser(
+  {
+    user: "root",
+    pwd: "super+user",
+    roles: [
+      { role: "root", db: "admin" }
+      ]
+  })
+
+.. only:: instructor
+
+  .. note::
+
+    Here we should not that we need to start our `mongod` with no `--auth` enabled.
+
+    .. code-block:: bash
+
+      mongod --dbpath data
+
+    Students should be aware of this but still important to reinforce!
+
+
+Enable `mongod` authentication
+------------------------------
+
+2. Launch ``mongod`` with ``auth`` enabled
+
+.. code-block:: bash
+
+  mongod --dbpath data --auth
+
+.. only:: instructor
+
+  .. note::
+
+    Note to mention that after launching the system with `--auth`
+    they will be required to login using their `root` user
+
+    .. code-block:: bash
+
+      mongo admin -u root -p super+user
+
+    Again, students should be aware by now of this step!
+
+
+Create User Administrator user
+------------------------------
+
+3. Now we need to create our `user administrator` user:
+
+.. code-block:: javascript
+
+  use admin
+  db.createUser(
+  {
+    user: "userAdmin",
+    pwd: "i+create+users",
+    roles: [
+      { role: "userAdminAnyDatabase", db: "admin" }
+      ]
+  })
+
+.. only:: instructor
+
+  .. note::
+
+    We can now take the opportunity to ask the following questions:
+
+      - Is there any step that we should be taking now ?
+      - Can we keep creating users without introducing any command?
+
+    Important to remind students that they should login
+    with this user before proceeding to next step of creating further users.
+
+    .. code-block:: javascript
+
+      db.auth("userAdmin", "i+create+users")
+
+
+Create Application user
+-----------------------
+
+4. And finally we can create an application user:
+
+.. code-block:: javascript
+
+  use sample
+  db.createUser(
+  {
+    user: "appUser",
+    pwd: "i+am+user",
+    roles: [
+      { role: "readWrite", db: "sample" }
+      ]
+  })
+
+.. only:: instructor
+
+  .. note::
+
+    Make sure that students understand that the role
+    that this is user is being created with ``readWrite`` and the fact that,
+    although he has been given role permits over `sample`
+    this user needs to authenticate against `admin` database
+
+    Here you can ask:
+
+      - if we are adding ``readWrite`` on db ``sample`` what happens if I try to access ``admin``?
+      - what happens when we use the following command:
+
+        - `mongo sample -u appUser -p i+am+user`
+        - students should mention that this will fail and we should add the parameter ``--authenticationDatabase admin``
+
+
+Enable `mongod` audit
+---------------------
+
+Once the setup is completed, by having all our users created and
+authentication enabled, now is time to enable auditing:
+
+.. code-block:: bash
+
+  mongod --auditDestination file --auditFormat JSON --auditPath auditlog.json --auth --dbpath data
+
+Alternatively, you may want to edit your config file with the following:
+
+.. code-block:: yaml
+
+  auditLog:
+    destination: "file"
+    format: "JSON"
+    path: "/data/secure_replset/1/audit.log"
+
+.. only:: instructor
+
+  .. note::
+
+    Where you might want to remind the students of the variations on
+    the different audit formats and destination where we can adjust to
+    specific needs of our environment.
+
+    Good moment to ask:
+
+      - What other audit formats can we define to collect our audit messages?
+      - How can I set the audit system to send messages to `syslog`?
+
+
+Audit only `appUser` operations
+-------------------------------
+
+The challenge now is to audit only one specific user.
+
+Review the documentation on how to define such capabilities to your system.
+
+.. only:: instructor
+
+  .. note::
+
+    The students should follow the instructions to enable `auditFilter` option on the configuration of this instance
+
+    https://docs.mongodb.org/manual/tutorial/configure-audit-filters/
+
+    .. code-block:: bash
+
+      mongod --auth --dbpath data --auditFilter '{"users.user": "appUser" }' --auditDestination file --auditFormat JSON --auditPath auditlog.json
+
+
+Audit `appUser` DML operations
+------------------------------
+
+Now that we know how to filter based on the user it's time to be audit all operations.
+
+The challenge is to set the system so we can capture all write operations executed by this particular user.
+
+Please set the system so we can perform this operation.
+
+.. only:: instructor
+
+  .. note::
+
+    The students should enable the system with `auditAuthorizationSuccess` parameter enabled
+
+    https://docs.mongodb.org/manual/tutorial/configure-audit-filters/
+
+    They should also set the `auditFilter` expression to capture the all write operations
+
+    .. code-block:: bash
+
+      mongod --auth --dbpath data --setParameter auditAuthorizationSuccess=true --auditFilter '{"users.user": "appUser", atype: "authCheck",  "param.command": { $in: [ "insert", "delete", "update"] }}' --auditDestination file --auditFormat JSON --auditPath auditlog.json

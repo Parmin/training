@@ -1,0 +1,93 @@
+============================
+Lab: My First Secured mongod
+============================
+
+Premise
+-------
+
+It's time for us to get start setting
+our first MongoDB instance with security enabled!
+
+.. only:: instructor
+
+   .. note::
+
+      Expected time:
+
+      - 5 minutes
+
+      Prerequisites:
+
+      - Students should have installed MongoDB Enterprise version or compiled MongoDB community with --ssl flags.
+
+Launch ``mongod``
+-----------------
+
+1. Let's start by launching a ``mongod`` instance:
+
+.. code-block:: bash
+
+  mkdir /data/secure_instance_dbpath
+  mongod --dbpath /data/secure_instance_dbpath --port 28000
+
+At this moment there is nothing special about this setup.
+Just an ordinary `mongod` instance ready to receive connections.
+
+
+Root level user
+-------------------
+
+2. Create ``root`` level user:
+
+.. code-block:: bash
+
+  mongo --port 28000 admin  // Puts you in the _admin_ database
+
+.. code-block:: javascript
+
+  use admin
+  db.createUser( {
+    user: "maestro",
+    pwd: "maestro+rules",
+    customData: { information_field: "information value" },
+    roles: [
+      { role: "root", db: "admin" }
+      ]
+    } )
+
+.. only:: instructor
+
+  .. note::
+
+    At this point is convenient to mention the different built-in roles.
+
+    `root` is superuser role so make sure you mention his privileges.
+
+    https://docs.mongodb.org/manual/reference/built-in-roles/#superuser-roles
+
+Enable Authentication
+---------------------
+
+3. Launch ``mongod`` with ``auth`` enabled
+
+.. code-block:: bash
+
+  mongo admin --port 28000 --eval 'db.shutdownServer()'
+  mongod --dbpath /data/secure_instance_dbpath --auth
+
+.. only:: instructor
+
+  .. note::
+
+    With these commands, you can mention that:
+
+    - `mongo admin --eval 'db.shutdownServer()'` is a clean shutdown of the server
+    - ``timeoutSecs`` is parameter that should be used to control shutdown operation
+
+      - Especially w/ Replica Sets, which they'll be using, soon.
+
+Connect using the recently created ``maestro`` user.
+
+.. code-block:: bash
+
+  mongo --port 28000 admin -u maestro -p

@@ -1,0 +1,24 @@
+============================
+Lab: Create Application User
+============================
+
+
+Premise
+-------
+
+"*You are a system administrator and have ``dbOwner`` role
+over a given database that is supporting an simple application.
+This application will have 2 main interfaces that should not share
+any configuration for security reasons. We will need to create all
+necessary application users to comply this set of premisses*"
+
+.. only:: instructor
+
+   .. note::
+
+      Students should set up a secured Replica Set
+      using the the default Authentication Mechanism.
+
+      Dataset:
+
+      - need to figure these out!

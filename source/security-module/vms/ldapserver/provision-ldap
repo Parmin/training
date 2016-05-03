@@ -1,0 +1,62 @@
+# -*- mode: sh -*-
+# vi: set ft=sh :
+#!/usr/bin/env bash
+#
+# Bash script for provisioning the LDAP server
+
+set -e
+set -x
+
+
+function config_network(){
+	export CLIENT_IP_ADDR=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}' | tail -1`
+	export CLIENT_FQDN=`hostname`
+	export CLIENT_NAME=`hostname | cut -d. -f 1 | tr '[:upper:]' '[:lower:]'`
+	echo "Configuring /etc/hosts ..."
+	echo "127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4" > /etc/hosts
+	echo "::1       localhost localhost.localdomain localhost6 localhost6.localdomain6" >> /etc/hosts
+	echo "$CLIENT_IP_ADDR    $CLIENT_FQDN $CLIENT_NAME" >> /etc/hosts
+}
+
+
+function install_openldap(){
+  echo "Install Dependencies"
+  yum -y install openldap-servers openldap-clients openldap-devel openldap python-devel gcc cyrus-sasl-plain xfsprogs net-snmp ps-misc wget curl
+	echo "Instal pip"
+	curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+	python get-pip.py
+	easy_install pip
+	pip -V
+  pip install python-ldap
+
+  echo "Start Service"
+	sudo service slapd stop
+	sudo service slapd start
+
+  sleep 5
+}
+
+function configure_ldap(){
+  sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /vagrant/pw.ldif
+  # Add our specifics
+  sudo ldapadd -x -D "cn=Manager,dc=10gen,dc=me" -w password -f /vagrant/Domain.ldif
+  sudo ldapadd -x -D "cn=Manager,dc=10gen,dc=me" -w password -f /vagrant/Users.ldif
+  # setup saslauthd
+  sed -i 's/MECH=pam/MECH=ldap/' /etc/sysconfig/saslauthd
+  cp /vagrant/saslauthd.conf /etc/
+  service saslauthd start
+  # Add the users
+  echo bugs > /vagrant/users
+  echo features >> /vagrant/users
+  echo dbadmin >> /vagrant/users
+  python /vagrant/ldapconfig.py -f /vagrant/users
+  testsaslauthd -u bugs -p password -s mongod -f /var/run/saslauthd/mux
+  echo "Show your work!"
+  ldapsearch -x -LLL -b dc=10gen,dc=me
+  ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
+}
+
+
+config_network
+install_openldap
+configure_ldap

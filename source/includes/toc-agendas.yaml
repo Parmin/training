@@ -1,16 +1,20 @@
 file: /modules/agenda-essentials-4-days
-description: | 
+description: |
   Agenda for Essentials 4-Day Training
---- 
+---
 file: /modules/agenda-developer-3-days
-description: | 
+description: |
   Agenda for Developers 3-Day Training
---- 
+---
 file: /modules/agenda-dba-3-days
-description: | 
+description: |
   Agenda for Administrators 3-Day Training
---- 
+---
 file: /modules/agenda-developer-advanced
-description: | 
+description: |
   Agenda for Advanced Developers Training
+---
+file: /modules/agenda-nhtt-security
+description: |
+  Agenda for NHTT Security
 ...

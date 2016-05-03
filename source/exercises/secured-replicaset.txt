@@ -1,0 +1,258 @@
+==================================
+Lab: Secured Replica Set - KeyFile
+==================================
+
+
+Premise
+-------
+
+Security and Replication are two aspects that are often neglected during the Development phase to favor usability and faster development.
+
+These are also important aspects to take in consideration for your
+Production environments, since you probably don't want to have your production
+environment **Unsecured** and without **High Availability**!
+
+This lab is to get fully acquainted with all necessary steps to
+create a Secured Replica Set using ``keyfile`` for cluster authentication mode
+
+
+Setup Secured Replica Set
+-------------------------
+
+A few steps are required to fully setup a secured Replica Set:
+
+#. Instantiate one `mongod` node with no `auth` enabled
+#. Create `root` level user
+#. Create `clusterAdmin` user
+#. Generate `keyfile` for internal node Authentication
+#. Re-instantiate `mongod` with `auth` enabled, `keyfile` defined and `replSet` name
+#. Add Replica Set nodes
+
+We will also be basing our setup using `MongoDB configuration files <https://docs.mongodb.org/manual/reference/configuration-options/>`_
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    This might be a good opportunity to group students together.
+
+    If we can guarantee:
+      - connectivity between all students workstations
+      - administration rights over the workstations
+
+    Then we can go ahead and group students together to accomplish these tasks.
+
+
+Instantiate `mongod`
+--------------------
+
+This is a rather simple operation that requires just a simple instruction:
+
+.. code-block:: bash
+
+  $ pwd
+  /data
+  $ mkdir -p /data/secure_replset/{1,2,3}; cd secure_replset/1
+
+- Then go to `this yaml file<https://github.com/thatnerd/work-public/blob/master/mongodb_trainings/secure_replset_config.yaml>`_.
+- Copy it into your clipboard
+
+  $ pbpaste > mongod.conf; cat mongod.conf
+
+.. include:: /includes/student-notes.rst
+
+
+Instantiate `mongod` (Continued)
+--------------------------------
+
+- The site should have the following
+
+  - it may not fit on this slide
+
+.. code-block:: yaml
+
+  systemLog:
+    destination: file
+    path: "/data/secure_replset/1/mongod.log"
+    logAppend: true
+  storage:
+    dbPath: "/data/secure_replset/1"
+    wiredTiger:
+      engineConfig:
+        cacheSizeGB: 1
+  net:
+    port: 28001
+  processManagement:
+    fork: true
+  # setParameter:
+  #   enableLocalhostAuthBypass: false
+  # security:
+  #   keyFile: /data/secure_replset/1/mongodb-keyfile
+
+.. include:: /includes/student-notes.rst
+
+
+Instantiate `mongod` (Continued)
+--------------------------------
+
+After defining the basic configuration we just need to call `mongod` passing the configuration file.
+
+.. code-block:: bash
+
+  mongod -f mongod.conf
+
+.. only:: instructor
+
+  .. note::
+
+    If not mentioned before this is a good opportunity to have the students
+    review the configuration options that MongoDB configuration files have.
+
+    Make sure you emphasize the security options:
+
+    https://docs.mongodb.org/manual/reference/configuration-options/#security-options
+
+
+Create `root` level user
+------------------------
+
+We start by creating our typical `root` level user:
+
+.. code-block:: bash
+
+  $ mongo admin --port 28001
+
+.. code-block:: javascript
+
+  > use admin
+  > db.createUser(
+  {
+    user: "maestro",
+    pwd: "maestro+rules",
+    roles: [
+      { role: "root", db: "admin" }
+      ]
+  })
+
+
+Create `clusterAdmin` user
+--------------------------
+
+We need then to create `clusterAdmin` user to enable the management of our Replica Set:
+
+.. code-block:: bash
+
+  $ mongo admin --port 28001
+
+.. code-block:: javascript
+
+  > db.createUser(
+  {
+    user: "pivot",
+    pwd: "i+like+nodes",
+    roles: [
+      { role: "clusterAdmin", db: "admin" }
+      ]
+  })
+
+
+Generate a `keyfile`
+--------------------
+
+For internal Replica Set authentication we need to use a `keyfile`:
+
+.. code-block:: javascript
+
+  openssl rand -base64 741 > /data/secure_replset/1/mongodb-keyfile
+  chmod 600 /data/secure_replset/1/mongodb-keyfile
+
+
+Add `keyfile` to the configuration file
+---------------------------------------
+
+Now that we have the `keyfile` generated it's time to add that
+information to our configuration file. Just un-comment the 
+last few lines.
+
+.. code-block:: yaml
+
+  systemLog:
+    destination: file
+    path: "/data/secure_replset/1/mongod.log"
+    logAppend: true
+  storage:
+    dbPath: "/data/secure_replset/1"
+  net:
+    port: 28001
+  processManagement:
+    fork: true
+  setParameter:
+    enableLocalhostAuthBypass: false
+  security:
+    keyFile: /data/secure_replset/1/mongodb-keyfile
+  
+
+.. only:: instructor
+
+  .. note::
+
+    On this configuration we are focussing on getting the internal authentication to work with `keyfile`.
+    There are other options that you may want to bring up with the students.
+    It's probably a good time to ask?
+
+      - If I want to use x509 certificates what other settings would I need to be adding?
+      - Once I configured the system to use keyfile is that immutable?
+
+
+Configuring Replica Set
+-----------------------
+
+Now it's time to configure our Replica Set.
+
+The desired setup for this Replica Set should be named
+"VAULT" and consist of 3 data bearing nodes.
+
+Go ahead and make it happen!
+
+.. only:: instructor
+
+  .. note::
+
+    We expect the students to first draft a set of instructions that they need to complete:
+      - Add the replication configuration to the config file
+      - Connect with `pivot` user to initiate the replica set
+      - Instantiate the remaining nodes
+      - Add those nodes to the replica set
+
+    The end result should be something similar to the following:
+
+    .. code-block:: javascript
+
+      > rs.isMaster()
+      {
+      "setName" : "VAULT",
+      "setVersion" : 3,
+      "ismaster" : true,
+      "secondary" : false,
+      "hosts" : [
+        "node0:50000",
+        "node1:50000",
+        "node2:50000"
+      ],
+      ...
+      }
+
+    They will probably have something to add to their config files.
+    
+    `Here's the link<https://github.com/thatnerd/work-public/blob/master/mongodb_trainings/secure_replset_config_including_replset_options.yaml>`_
+    
+    and it looks like this:
+
+    .. code-block:: yaml
+
+      replication:
+        oplogSizeMB: 100
+        replSetName: "VAULT"
+        enableMajorityReadConcern: true

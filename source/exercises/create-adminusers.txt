@@ -1,0 +1,144 @@
+=========================
+Lab: Administration Users
+=========================
+
+
+Permise
+-------
+
+Security roles often span different levels:
+
+- Superuser roles
+- DBA Roles
+- System Admin Roles
+- User Administration Roles
+- Application Roles
+
+Over this lab we will be looking into administration roles
+and the differences around the users that require these roles.
+
+
+User Administration user
+-----------------------
+
+Generally, in complex systems, we need someone to administer users.
+This function should be different from ``root`` level user for a few reasons:
+
+- ``root`` level users should be used has last resort user
+- Administration of users is generally related with security officers
+- This user should not have any operational function then managing other users
+
+
+Create User Admin user
+----------------------
+
+Create a user that will administer other users:
+
+.. code-block:: javascript
+
+  db.createUser(
+  {
+    user: "securityofficer",
+    pwd: "doughnuts",
+    customData: { notes: ["admin", "the person that adds other persons"] },
+    roles: [
+      { role: "userAdminAnyDatabase", db: "admin" }
+      ]
+  })
+
+.. only:: instructor
+
+   .. note::
+
+      Make sure that users understand the importance of this role:
+
+      - What happens when we need to add a new user?
+      - What happens when someone loses their password?
+      - What happens when we need to remove a user?
+
+      These are very specific operations.
+      Also make note that we can be more granular if we want a
+      specific user to administrate only specific database users using role:
+
+      .. code-block:: javascript
+
+        { role: "userAdmin", db: "justthisdb" }
+
+
+Create DBA user
+---------------
+
+DBA's are generally concerned with the overall maintenance
+operations of the database.
+That means:
+
+- Optimization of queries
+- System resources utilization
+- Statistics
+
+.. code-block:: javascript
+
+  db.createUser(
+  {
+    user: "dba",
+    pwd: "i+love+indexes",
+    customData: { notes: ["admin", "the person admins databases"] },
+    roles: [
+      { role: "dbAdmin", db: "X" }
+      ]
+  })
+
+If want to make sure this DBA can administer all databases of the system,
+which role(s) should he have?
+
+.. only:: instructor
+
+   .. note::
+
+      The answer for this question is `dbAdminAnyDatabase`
+
+      On this section we should explore the existing built-in roles for database adminstrator
+      https://docs.mongodb.org/manual/reference/built-in-roles/#database-administration-roles
+      You should raise the some of the following questions
+
+      - Which differences exist between `dbAdmin` and `dbOwner` roles?
+      - When should we apply one or another?
+
+
+Create Cluster Admin user
+-------------------------
+
+Cluster administration is generally an operational role that differs
+from DBA in the sense that is more focussed on the deployment and
+cluster node management of the underlying cluster.
+
+Let's assume that we require our system to scale so we need to have a
+particular individual or team managing our cluster nodes.
+
+What would be the ideal role for a user that has to:
+
+- Add and remove replica nodes.
+- Manage shards.
+- Do backups.
+- Cannot read data from any application database.
+
+.. only:: instructor
+
+   .. note::
+
+      This is a tricky question since the correct answer actually requires two different roles:
+
+      .. code-block:: javascript
+
+        use admin
+        db.createUser(
+        {
+          user: "theITguy",
+          pwd: "i+love+networkprotocols",
+          customData: { notes: ["admin", "the person admins machines"] },
+          roles: ["clusterAdmin", "backup"]
+        })
+
+      Students can also come up with a custom user-defined role that
+      should be given credit but discouraged given that we have a
+      set of roles that perform the wanted operation.

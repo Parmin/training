@@ -1,0 +1,436 @@
+=============
+Authorization
+=============
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- Authorization Model
+- Different Resources and Actions available
+- How to create Privileges
+- How to create User-defined Roles
+- Different MongoDB Built-in Roles
+- How to grant Roles to Users
+
+.. include:: /includes/student-notes.rst
+
+
+Authorization vs Authentication
+-------------------------------
+
+Authorization and Authentication are generally confused and misinterpreted concepts:
+
+- Authorization model defines the rules by which users can interact with a given system
+  - which operations can they perform
+  - over which resources
+- Authentication is the mechanism by with Users identify and are granted access to a system:
+  - validation of credentials and identities
+  - manages accounts
+  - allows access and operational interfaces
+
+.. include:: /includes/student-notes.rst
+
+
+Authorization Basics
+--------------------
+
+MongoDB enforces a Role-Based Authorization Model.
+
+A user *is granted* roles that determine the user's access to database resources and operations.
+
+The model determines:
+  - Which roles are granted to users
+  - Which privileges compose roles
+  - Which actions can be performed over different resources
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    You can bring up the following open questions:
+      - What are privileges?
+      - What kind of resources can be found on a typical database?
+
+    Have some open discussion about what defines an action and what defines an action.
+
+    Also you can take the opportunity to give examples of different roles
+    in a company and how they are organized in terms of procedures and resources
+
+
+Authorization Resources
+-----------------------
+
+So what can be identified as a resource ?
+  - Databases ?
+  - Collections ?
+  - Documents ?
+  - Users ?
+  - Nodes ?
+  - Shard ?
+  - Replica Set ?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    These sets of questions are a precursor to the previous
+    small discussion around introduced concepts.
+
+    Don't spent more than 1 minute on this section.
+
+
+Authorization Resources
+-----------------------
+
+- Databases
+- Collections
+
+.. include:: /images/security-resources.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    The resources available in MongoDB are:
+      - databases
+      - collections
+
+    But that is not all. See next slides.
+
+
+Authorization Resources
+-----------------------
+
+- Cluster
+
+.. include:: /images/sharded-cluster-production-architecture.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Given the distributed nature of our database, MongoDB also represents
+    in the authorization module the cluster resource
+
+      - Replica Sets
+      - Shards
+
+    compose the Cluster domain.
+
+
+Authorization Actions
+---------------------
+
+Given a resource we will be able to perform **actions** over such resource:
+
+- Query and Write Actions
+- Database Management Actions
+- Deployment Management Actions
+- Replication Actions
+- Sharding Actions
+- Server Administration Actions
+- Diagnostic Actions
+- Internal Actions
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Actions are the verbs that one can perform on the database.
+    These verbs are organized in different types, although this organization
+    is logic one, not an operational one.
+
+    Here we can ask the students which common operations are they familiar
+    with while operating with a database and how does that
+    translate to MongoDB operations
+
+
+Authorization Actions
+---------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50 50
+
+   * - Query & Write
+     - Database Mgmt
+     - Deploy Mgmt
+   * - find
+     - enableProfiler
+     - planCacheRead
+   * - insert
+     - createIndex
+     - storageDetails
+   * - remove
+     - createCollection
+     - authSchemaUpgrade
+   * - update
+     - changeOwnPassword
+     - killop
+   * -
+     - ...
+     - ...
+
+You can check the `full list of privileges in MongoDB documentation <https://docs.mongodb.org/v3.0/reference/privilege-actions/#privilege-actions>`_.
+
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+ .. note::
+
+   These are just a few examples of the list of actions available.
+   The full list is available in MongoDB docs:
+   https://docs.mongodb.org/v3.0/reference/privilege-actions/#privilege-actions
+
+
+Authorization Privileges
+------------------------
+
+Privilege defines an action/operations that a user can perform on a resource
+
+Resource:
+
+.. code-block:: javascript
+
+  {"db": "yourdb", "collection": "mycollection"}
+
+Action: **find**
+
+Privilege:
+
+.. code-block:: javascript
+
+  {
+    resource: {"db": "yourdb", "collection": "mycollection"},
+    actions: ["find"]
+  }
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+.. note::
+
+  On this section we want to explain that we can set a privilege that
+  spans across multiple different actions over a given resource.
+
+  Also important to highlight that we can set `loose` resources like *all databases* or *all collections*
+
+  .. code-block:: javascript
+
+    {
+      resource: {"db": "", "collection": ""},
+      actions: ["find", "insert"]
+    }
+
+
+Authorization Roles
+-------------------
+
+MongoDB grants access to data through a role-based authorization system
+
+Built-in roles:
+  - Pre-canned roles that cover the most common sets of privileges users may require
+
+User-defined roles:
+  - If there’s a specific set of privileges not covered by the existing built-in your able to create your own roles
+
+.. include:: /includes/student-notes.rst
+
+
+Built-in Roles
+--------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 30 30
+
+   * - Database Admin
+     - Cluster Admin
+     - All Databases
+   * - dbAdmin
+     - clusterAdmin
+     - readAnyDatabase
+   * - dbOwner
+     - clusterManager
+     - readWriteAnyDatabase
+   * - userAdmin
+     - clusterMonitor
+     - userAdminAnyDatabase
+   * -
+     - hostManager
+     - dbAdminAnyDatabase
+
+.. list-table::
+  :header-rows: 1
+  :widths: 30 30
+
+  * - Database User
+    - Backup & Restore
+  * - read
+    - backup
+  * - readWrite
+    - restore
+
+.. list-table::
+  :header-rows: 1
+  :widths: 30 30
+
+  * - Superuser
+    - Internal
+  * - root
+    - __system
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Built-in roles have been created given the generic users that interact
+    with a database and their respective tasks.
+
+    - Database user roles: should be granted to application side users;
+    - Database administrators: roles conceived for system administrator, DBA’s and security officers
+    - Cluster Administrator roles: mostly for system administrators and DBA's; individuals that will deal with the overall administration of deployments
+    - Backup & Restore: for applications that perform only backup and restore operations – Cloud & Ops manager, for example
+    - All Database Roles: for global administrators of a deployment. If you want to avoid granting the same role for every single database
+    - Superuser: root level operations. Generally the first user that you create on any give system should probably have a root role and then add other specific users.
+    - Internal: it’s documented, it’s public but don’t mention it too much. This a backdoor (if you want to called it like that) that only the cluster members (other replica set members, or a mongos) should have access to. Do not assign this role to user objects representing applications or human administrators.
+
+
+Built-in Roles
+--------------
+
+To `grant` roles while creating an user:
+
+.. code-block:: javascript
+
+  use admin
+  db.createUser(
+    {
+      user: "myUser",
+      pwd: "$up3r$3cr7"
+      roles: [
+        {role: "readAnyDatabase", db: ""},
+        {role: "dbOwner", db: "superdb"},
+        {role: "readWrite", db: "yourdb"}
+      ]
+    }
+  )
+
+.. include:: /includes/student-notes.rst
+
+Built-in Roles
+--------------
+
+To `grant` roles to existing user:
+
+.. code-block:: javascript
+
+  use admin
+  db.grantRolesToUser( {
+    "reportsUser",
+    [
+      { role: "read", db: "accounts" }
+    ]
+  } )
+
+.. include:: /includes/student-notes.rst
+
+
+User-defined Roles
+------------------
+
+For situations where we can't find a suitable built-in role that meets our user
+needs we can create our own role.
+To create a role we need to define:
+
+- name
+- set of privileges
+- list of inherit roles (optional)
+
+.. code-block:: javascript
+
+  use admin
+  db.createRole({
+    role: "insertAndFindOnlyMyDB",
+    privileges: [
+      {resource: { db: "myDB", collection: "" }, actions: ["insert", "find"]}
+    ],
+    roles: []
+  })
+
+.. include:: /includes/student-notes.rst
+
+Role Privileges
+---------------
+
+To check which the `privileges` of any particular `role` we can get that information using `getRole` method:
+
+.. code-block:: javascript
+
+  db.getRole("insertAndFindOnlyMyDB",
+    {showPrivileges: true} )
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    There are many other authorization and user management commands and options that you should get your students acquainted with.
+    All of those can be found in the `security reference <https://docs.mongodb.org/manual/reference/security/>`_
+
+    The output of this slide command is should be similar to the following:
+
+    .. code-block:: javascript
+
+      {
+      "role": "insertAndFindOnlyMyDB",
+      "db": "admin",
+      "isBuiltin": false,
+      "roles": [ ],
+      "inheritedRoles": [ ],
+      "privileges": [
+        {
+          "resource": {
+            "db": "myDB",
+            "collection": ""
+          },
+          "actions": [
+            "find",
+            "insert"
+          ]
+        }
+      ],
+      "inheritedPrivileges": [
+        {
+          "resource": {
+            "db": "myDB",
+            "collection": ""
+          },
+          "actions": [
+            "find",
+            "insert"
+          ]
+        }
+       ]
+      }

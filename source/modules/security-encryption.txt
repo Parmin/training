@@ -1,0 +1,136 @@
+==========
+Encryption
+==========
+
+Learning Objectives
+-------------------
+
+Upon completing this module, you should understand:
+
+- Encryption Capabilities of MongoDB
+- Network Encryption
+- Native Encryption
+- Third Party Integration
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Simple set of slides that go through the configuration options of our auditing capabilities.
+
+    Account for 10 minutes or less for the delivery of this content.
+
+
+Encryption
+----------
+
+Encryption capabilities are important features that a database should provide.
+
+MongoDB offers two levels of encryption
+- Transport Layer
+- Encryption at Rest (>=3.2)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - important to note to students that encryption at rest is an enterprise version feature
+
+
+Network Encryption
+------------------
+
+MongoDB enables TLS/SSL encryption for transport layer encryption of all MongoDB instances traffic.
+
+There different network architecture options that can be configured:
+
+- Encryption Application traffic connections
+- Full encryption of all connections
+- Mixed encryption between nodes
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - mixed encryption means that we can have nodes in a replica set that communicate with some nodes not encrypted and others encrypted
+
+
+Native Encryption
+-----------------
+
+MongoDB Enterprise comes with a encrypted storage engine.
+
+- Native encryption supported by WiredTiger
+- Encrypts data at rest
+
+  - AES256-CBC: 256-bit Advanced Encryption Standard in Cipher Block Chaining mode (default)
+
+    - symmetric key (same key to encrypt and decrypt)
+  - AES256-GCM: 256-bit Advanced Encryption Standard in Galois/Counter Mode
+  - FIPS also available
+
+
+
+- Enables integration with Key Management tools
+
+.. include:: /includes/student-notes.rst
+
+
+Encryption and Replication
+--------------------------
+
+Encryption is not part of replication:
+
+- Master keys are not replicated
+
+  - Each node should have their own individual keys
+- Data is not natively encrypted on the wire
+
+  - Requires transport encryption to ensure secured transmission
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Important to raise awareness to this point
+    - many students might get the impression that configuring encryption in one of the nodes would be enough when that's not the case
+    - wire data needs to encrypted through TLS/SSL configuration
+
+      - Encrypted Storage Engine only provides encryption on data at rest
+    - We should use different encryption keys for different nodes.
+
+Third Party Integration
+-----------------------
+
+- Key Management Interoperability Protocol (KMIP)
+
+  - Integrates with Vormetric Data Security Manager (DSM) and SafeNet KeySecure
+- Storage Encryption
+
+  - Linux Unified Key Setup (LUKS)
+  - IBM Guardium Data Encryption
+  - Vormetric Data Security Platform
+
+    - Also enables Application Level Encryption on per-field or per-document
+  - Bitlocker Drive Encryption
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+  .. note::
+
+    MongoDB offers some integration options for Key Management and Storage Encryption
+
+    - Key managers are recommended for good security practices like key expiration and rotation
+    - Key managers are important if we want to be complaint with HIPAA, PCI-DSS, and FERPA certifications
+    - Third Party encryption is considered legacy options for previous versions of MongoDB (<3.2) where Encrypted Storage Engine was not available
