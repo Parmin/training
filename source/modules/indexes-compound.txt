@@ -250,7 +250,10 @@ Finally, let's add the sort and run the query.
 
 - Note that the ``winningPlan`` includes a ``SORT`` stage.
 - This means that MongoDB had to perform a sort in memory.  
-- In memory sorts for queries that retrieve large numbers of documents can degrade performance significantly.
+- In memory sorts on can degrade performance significantly.
+
+  - In-memory sorts that use > 32 MB will abort.
+
 - This is especially true if they are used frequently.
 
 .. include:: /includes/student-notes.rst
