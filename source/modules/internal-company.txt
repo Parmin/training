@@ -32,7 +32,7 @@ Logistics
 
 - ~13:00 Break for Lunch (45 min)
 
-- Break every 2 hours (~15min)
+- Break every 1 hour (~10min)
 
 - Wifi: xgen or xgen_public
 
@@ -246,9 +246,10 @@ Subscriptions
   - Unlimited # of servers
   - MongoDB Enterprise Server (advanced security)
   - Ops Manager
-  - Commercial Support
+  - Development Support
   - MongoDB Compass
   - BI Connector
+  - https://www.mongodb.com/products/development-support
 
 .. include:: /includes/student-notes.rst
 
@@ -258,7 +259,12 @@ Subscriptions
 
     Development subscription is meant to help customers accelerate their development cycle
     - Not for Production environment!
-    - Can use all the same tools in a development environment
+    - Can use all the same tools in a development environment?
+    - How different is Development Support from Commercial Support?
+
+      - 5*8 9h->18h (business hours) vs 24x7
+
+
 
 Subscriptions
 -------------
@@ -391,7 +397,7 @@ How to work at MongoDB
 - Public comments about MongoDB
 
   - Do not post anything on the internet, do not get in arguments/defend MongoDB
-  - Report to the communication department instead
+  - Report to the Communications department instead
 
     -  send mail to **publicmentions@mongodb.com**
 
@@ -405,7 +411,7 @@ How to work at MongoDB
   - If you share your screen, ensure that nothing about customers is visible
   - Never go to JIRA in front of customer (you don't want to show dev only notes)
   - If a costumer has presented, you can point the presentation, but do not cite the contents of the presentation
-  - You should read and agree on the data security policy
+  - You should read and agree on the data `security policy`_
 
 .. include:: /includes/student-notes.rst
 
@@ -417,3 +423,4 @@ IT Cheat Sheet
 
 .. _New Hires: https://wiki.mongodb.com/display/10GEN/How+To+Be+A+New+Hire+@+MongoDB
 .. _Systems Check List: https://wiki.mongodb.com/display/10GEN/Systems+Checklist
+.. _security policy: https://wiki.mongodb.com/display/SEC/Security+Overview
