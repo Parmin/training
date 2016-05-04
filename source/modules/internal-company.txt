@@ -1,0 +1,419 @@
+=====================
+MongoDB - The Company
+=====================
+
+Contents
+--------
+
+- Training (goal, logistics and history)
+- History of the company
+- Business Model
+- MongoDB Releases
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - first session of the day
+    - there might be some people getting in late
+    - some others will be with a considerable jetlag
+    - so present yourself
+    - talk firmly but with pause
+    - make sure everyone is heavily caffeinated
+
+Logistics
+---------
+
+- ~8:30 Breakfast
+- 9:00-17:00 Sessions
+- 17:00-18:00 Guest Speaker
+
+- ~13:00 Break for Lunch (45 min)
+
+- Break every 2 hours (~15min)
+
+- Wifi: xgen or xgen_public
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Except for the first day where Dev generally comes to greet all other special guests will be confirmed for 17:00
+
+
+Schedule
+--------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 60 60
+   :stub-columns: 1
+
+   * - Day
+     - 09:00 - 13:00
+     - 14:00 - 17:00
+   * - Monday
+     - Introduction & Overview
+     - Indexing
+   * - Tuesday
+     - Schema Design
+     - Replication
+   * - Wednesday
+     - Application & Drivers
+     - Sharding
+   * - Thursday
+     - Security
+     - Internals & Storage Engine
+   * - Friday
+     - Cloud & Ops Manager
+     - Fly Home
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+     - Except for the first day where Dev generally comes to greet all other special guests will be confirmed for 17:00
+
+
+Hi! I'm ...
+-----------
+
+- Name
+- Location
+- Position (CE, SA, TSE, Dev, Docs ... )
+- Relevant experience before MongoDB
+- Something funny or anecdote about you
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Make sure people are comfortable and know their partner
+    - Point out that they will be working in groups throughout the training
+    - The person next to you might be an expert in a matter that you might want to know about
+
+
+Goal of the Training
+--------------------
+
+- Try to get people up to speed as quickly as possible on:
+
+  - How MongoDB is supposed to work
+  - How MongoDB does not work
+
+- Get to
+
+  - Come to the mothership
+  - ask questions
+  - meet people
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - make sure people do make a lot of questions
+    - the previous introduction training sometimes is not enough
+    - tell students ask for deep technical questions
+
+
+Company History
+---------------
+
+
+- 2007: 10gen is founded
+- 2008: Business model changed from full stack SAAS to focus on storage layer
+- 2009: MongoDB v1.0 is released (9 people)
+- 2013: 10gen renamed to MongoDB (250 people)
+- 2014: Acquired WiredTiger (425 people)
+- 2016: Atlas (you are soon to find out) (545 people)
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - we started with a different idea - therefore the name 10gen (second gen)
+    - we are about to release another product that will put us in a different business altogether
+    - we have several other products like Ops Manager or Cloud Manager.
+
+MongoDB Company Overview
+------------------------
+
+.. figure:: /figures/company.png
+
+.. include:: /includes/student-notes.rst
+
+Database Popularity Index
+-------------------------
+
+.. figure:: /figures/db-engines-ranking.png
+
+.. include:: /includes/student-notes.rst
+
+
+Business Model
+--------------
+
+- **Subscriptions**
+
+  - Support
+  - OpsManager, Compass, BI connector
+  - on-demand online training
+  - enterprise builds (certified packages, security, auditing, in-memory)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - subscriptions today are different variations of these topics
+    - different subscriptions vary on the type of build customers have access to
+    - mention SLA's
+
+
+Business Model
+--------------
+
+- **Consulting**
+
+- **Training**
+
+- **Cloud Manager**
+
+- **Atlas**
+
+  - (shhhh! it's a secret!!!!)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - this tends to please investors
+
+      - something you can sell and costs very little to produce
+      - high margins
+      - revenues that are not proportional to number of employees
+
+
+Subscriptions
+-------------
+
+- **MongoDB Enterprise**
+
+  - Per server subscription
+  - MongoDB Enterprise Server (advanced security)
+  - Ops Manager
+  - Commercial Support: High SLA
+  - On-Demand MongoDB University
+  - MongoDB Compass
+  - BI Connector
+  - QA/Test nodes are 50% discounted and Development servers are for free
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    ask questions like:
+    - Do you guys know what a subscription stands for ?
+    - What does SLA mean ?
+    - What is Compass ? BI Connector ?
+    - What's the difference between QA/Test and Development nodes ?
+    - Can I have a Production environment with Development nodes ?
+
+
+Subscriptions
+-------------
+
+- **MongoDB Development Subscription**
+
+  - Unlimited # of servers
+  - MongoDB Enterprise Server (advanced security)
+  - Ops Manager
+  - Commercial Support
+  - MongoDB Compass
+  - BI Connector
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Development subscription is meant to help customers accelerate their development cycle
+    - Not for Production environment!
+    - Can use all the same tools in a development environment
+
+Subscriptions
+-------------
+
+- **MongoDB Professional**
+
+  - Cloud Manager Premium
+    - Visual Query Profiler + Index suggestions + Managed Indexes ...
+
+  - Commercial Support: Medium SLA
+  - MongoDB Compass
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    things to ask:
+    - What's the difference between Enterprise advanced and Professional ?
+    - What version of MongoDB will we support with Professional Support ?
+    - Can I have security ?
+    - Can I have Ops Manager ?
+
+Subscriptions
+-------------
+
+- **MongoDB Cloud Manager**
+
+  - Standard Cloud Manager
+    - No: Visual Query Profiler + Index suggestions + Managed Indexes ...
+
+  - Support for Cloud Manager: No SLA
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    ask questions like:
+    - Can I have support on Cloud Manager Instances ?
+    - What does it mean that we don't provide an SLA ?
+
+
+Open Source Model
+-----------------
+
+- Which code is open source ?
+
+  - **Database** is open source
+  - **Drivers** are open source
+  - **Ops Manager** and **Agents** are not open source!
+
+.. include:: /includes/student-notes.rst
+
+
+Open Source Model
+-----------------
+
+- `Open Source` is more to protect us and our customers than to accept contributions
+
+  - *MongoDB Inc* is the sole copyright holder of the source code
+
+- A third party can not distribute our binaries without the source code and they can't sell licenses of MongoDB
+- AGPL
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    questions to ask
+    - What is AGPL ? Affero General Public License
+      - https://en.wikipedia.org/wiki/Affero_General_Public_License
+
+    - What does it mean that third party can't distribute our binaries ? What if they are included on their software ?
+
+    - If I embed MongoDB on a binary? is this a violation of our license ?
+      - No, but they cannot sell support on that component of their product. Generally we will get a OEM license model for these situations
+
+.. include:: /includes/student-notes.rst
+
+
+Company Mission and Values
+--------------------------
+
+- Our Mission:
+
+  - *MongoDB unleashes the power of software and data for innovators everywhere.*
+
+- Our Core Values:
+
+  - Think Big, Go Far
+  - Make It Matter
+  - Build Together
+  - Be Intellectually Honest
+  - Own What You Do
+
+.. include:: /includes/student-notes.rst
+
+
+How to work at MongoDB
+----------------------
+
+- Getting started: Visit `New Hires`_ wiki page
+- System we are using: `Systems Check List`_
+- Jira Projects:
+
+  - CS (Commercial Support)
+  - MMSSUPPORT
+  - SUPPORT (Community Private, costumer to sign soon)
+  - FREE (Community Support)
+  - SERVER
+  - HELP (internal questions to MongoDB)
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Note that Barrie/Ramon will present on this topic in more detail
+
+How to work at MongoDB
+----------------------
+
+- Public comments about MongoDB
+
+  - Do not post anything on the internet, do not get in arguments/defend MongoDB
+  - Report to the communication department instead
+
+    -  send mail to **publicmentions@mongodb.com**
+
+.. include:: /includes/student-notes.rst
+
+How to work at MongoDB
+----------------------
+
+- Confidentiality
+
+  - If you share your screen, ensure that nothing about customers is visible
+  - Never go to JIRA in front of customer (you don't want to show dev only notes)
+  - If a costumer has presented, you can point the presentation, but do not cite the contents of the presentation
+  - You should read and agree on the data security policy
+
+.. include:: /includes/student-notes.rst
+
+IT Cheat Sheet
+--------------
+
+.. figure:: /figures/it-cheat-sheet.png
+
+
+.. _New Hires: https://wiki.mongodb.com/display/10GEN/How+To+Be+A+New+Hire+@+MongoDB
+.. _Systems Check List: https://wiki.mongodb.com/display/10GEN/Systems+Checklist
