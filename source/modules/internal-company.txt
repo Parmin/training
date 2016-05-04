@@ -231,11 +231,11 @@ Subscriptions
   .. note::
 
     ask questions like:
-    - Do you guys know what a subscription stands for ?
-    - What does SLA mean ?
-    - What is Compass ? BI Connector ?
-    - What's the difference between QA/Test and Development nodes ?
-    - Can I have a Production environment with Development nodes ?
+    - Do you guys know what a subscription stands for?
+    - What does SLA mean?
+    - What is Compass? BI Connector?
+    - What's the difference between QA/Test and Development nodes?
+    - Can I have a Production environment with Development nodes?
 
 
 Subscriptions
@@ -278,10 +278,10 @@ Subscriptions
   .. note::
 
     things to ask:
-    - What's the difference between Enterprise advanced and Professional ?
-    - What version of MongoDB will we support with Professional Support ?
-    - Can I have security ?
-    - Can I have Ops Manager ?
+    - What's the difference between Enterprise advanced and Professional?
+    - What version of MongoDB will we support with Professional Support?
+    - Can I have security?
+    - Can I have Ops Manager?
 
 Subscriptions
 -------------
@@ -300,14 +300,14 @@ Subscriptions
   .. note::
 
     ask questions like:
-    - Can I have support on Cloud Manager Instances ?
-    - What does it mean that we don't provide an SLA ?
+    - Can I have support on Cloud Manager Instances?
+    - What does it mean that we don't provide an SLA?
 
 
 Open Source Model
 -----------------
 
-- Which code is open source ?
+- Which code is open source?
 
   - **Database** is open source
   - **Drivers** are open source
@@ -333,12 +333,12 @@ Open Source Model
   .. note::
 
     questions to ask
-    - What is AGPL ? Affero General Public License
+    - What is AGPL? Affero General Public License
       - https://en.wikipedia.org/wiki/Affero_General_Public_License
 
-    - What does it mean that third party can't distribute our binaries ? What if they are included on their software ?
+    - What does it mean that third party can't distribute our binaries? What if they are included on their software?
 
-    - If I embed MongoDB on a binary? is this a violation of our license ?
+    - If I embed MongoDB on a binary? is this a violation of our license?
       - No, but they cannot sell support on that component of their product. Generally we will get a OEM license model for these situations
 
 .. include:: /includes/student-notes.rst
