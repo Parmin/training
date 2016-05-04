@@ -51,7 +51,7 @@ Experiment with the following commands.
 .. only:: instructor
 
    .. note::
-        
+
       - Make sure the students are performing the operations along with you.
       - Some students will have trouble starting things up, so be helpful at this stage.
 
@@ -102,8 +102,8 @@ Example: Inserts will fail if...
 .. code-block:: javascript
 
    // fails because _id can't have an array value
-   db.movies.insertOne( { "_id" : [ "Star Wars", 
-                                    "The Empire Strikes Back", 
+   db.movies.insertOne( { "_id" : [ "Star Wars",
+                                    "The Empire Strikes Back",
                                     "Return of the Jedi" ] } )
 
    // succeeds
@@ -146,8 +146,8 @@ insertMany
 
    .. note::
 
-      - In the case of an ordered bulk operation, every operation will be executed in the order they are added to the bulk operation. 
-      - In the case of an unordered bulk operation however there is no guarantee what order the operations are executed. 
+      - In the case of an ordered bulk operation, every operation will be executed in the order they are added to the bulk operation.
+      - In the case of an unordered bulk operation however there is no guarantee what order the operations are executed.
       - With an unordered bulk operation, the operations in the list may be reordered to increase performance.
 
 .. include:: /includes/student-notes.rst
@@ -172,7 +172,7 @@ Experiment with the following insertMany.
 .. code-block:: javascript
 
    db.movies.insertMany( [ { "_id" : "Batman", "year" : 1989 },
-                           { "_id" : "Home Alone", "year" : 1990 }, 
+                           { "_id" : "Home Alone", "year" : 1990 },
                            { "_id" : "Ghostbusters", "year" : 1984 },
                            { "_id" : "Ghostbusters", "year" : 1984 } ] )
    db.movies.find()
@@ -181,12 +181,12 @@ Experiment with the following insertMany.
 
 .. only:: instructor
 
-   .. note:: 
+   .. note::
 
       - This example has a duplicate key error.
       - Only the first 3 documents will be inserted.
 
-    
+
 Unordered insertMany
 --------------------
 
@@ -194,8 +194,8 @@ Unordered insertMany
 - If any given insert fails, MongoDB will still attempt all of the others.
 - The inserts may be executed in a different order than you specified.
 - The next exercise is very similar to the previous one.
-- However, we are using ``{ ordered : false }`` 
-- One insert will fail, but all the rest will succeed. 
+- However, we are using ``{ ordered : false }``
+- One insert will fail, but all the rest will succeed.
 
 .. include:: /includes/student-notes.rst
 
@@ -208,8 +208,8 @@ Experiment with the following insert.
 .. code-block:: javascript
 
    db.movies.insertMany( [ { "_id" : "Jaws", "year" : 1975 },
-                           { "_id" : "Titanic", "year" : 1997 }, 
-                           { "_id" : "The Lion King", "year" : 1994 } ], 
+                           { "_id" : "Titanic", "year" : 1997 },
+                           { "_id" : "The Lion King", "year" : 1994 } ],
                            { ordered : false } )
    db.movies.find()
 
@@ -256,7 +256,7 @@ Using ``deleteOne()``
 
 
 Using ``deleteMany()``
----------------------
+----------------------
 
 - Delete multiple documents from a collection using ``deleteMany()``.
 - This command has one required parameter, a query document.
@@ -327,7 +327,7 @@ Dropping a Database
 - You can drop an entire database with ``db.dropDatabase()``
 - This drops the database on which the method is called.
 - It also deletes the associated data files from disk, freeing disk space.
-- Beware that in the mongo shell, this does not change database context.  
+- Beware that in the mongo shell, this does not change database context.
 
 .. include:: /includes/student-notes.rst
 

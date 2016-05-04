@@ -49,15 +49,11 @@ Creating Partial Indexes
   - Matching documents get indexed
   - Non-matching documents don't
 
-- The expression needn't be on indexed fields 
+- The expression needn't be on indexed fields
 
   - though it can be
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
 
 
 Example: Creating Partial Indexes
@@ -152,15 +148,15 @@ When you have a partial index on a collection, which documents will have an inde
 
   .. note::
 
-    - Correct answer: 
-     
+    - Correct answer:
+
       - Only those documents where the field matches the partialFilterExpression
 
     - Wrong answers:
 
       - All documents
 
-        - This is the case for standard indexes. 
+        - This is the case for standard indexes.
 
       - Only those documents where the field exists
 
@@ -248,9 +244,9 @@ You have documents as far back as the year 2005.
     - This is a good use case.
     - The partialFilterExpression should be:
 
-.. literalinclude:: /includes/partial_indexes.js
-  :language: javascript
-  :lines: 28
+      .. literalinclude:: /includes/partial_indexes.js
+         :language: javascript
+         :lines: 28
 
     - This will allow the index to work for both queries
 
@@ -324,7 +320,7 @@ Partial Indexes - Pitfalls
 .. only:: instructor
 
   .. note::
-    
+
     - It's a good time to remind students that they should .explain() production queries periodically to ensure that they are working as intended
 
 
@@ -360,7 +356,7 @@ Example: No Double Index Coverage
 
       - You can't have two indexes on the same fields with the same ordering
 
-    - Ask them if they could create an { a : 1, b : 1 } index with { a : { $lte : 100000 } } 
+    - Ask them if they could create an { a : 1, b : 1 } index with { a : { $lte : 100000 } }
 
       - They can. It works because it's a fundamentally different index
       - They need to be very careful about index ordering if sorting
@@ -379,8 +375,8 @@ Example: Hinting Done Wrong
 
   .. note::
 
-    - The first query is a collection scan 
-    
+    - The first query is a collection scan
+
       - This would be *murder* on performance
       - But it wouldn't miss documents
 

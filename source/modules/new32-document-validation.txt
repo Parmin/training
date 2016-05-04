@@ -40,7 +40,7 @@ Example: Document Validation
 
   db.createCollection("products",
      {
-        validator: { 
+        validator: {
             price : { $exists : true }
         },
         validationAction: "error"
@@ -75,7 +75,7 @@ Consider the following use case:
   .. note::
 
     - This use case should be handled on the front end
-    
+
       - But Schema Validation can act as an extra layer of protection
 
    - Mulitple applications, with different validation rules or application versions, generally require a central validation point
@@ -118,9 +118,9 @@ Quiz
 
 .. include:: /includes/student-notes.rst
 
-  .. only:: instructor
+.. only:: instructor
 
-    .. note::
+   .. note::
 
       - After the next two slides, you can come back and review their answers
 
@@ -166,7 +166,7 @@ Document Validation Options: Use Cases (continued)
   - validationAction: "error"
 
     - Useful when:
-    
+
       - The application needs to rely on valid documents
       - Applications can't be trusted to write properly
       - It is better to prevent invalid documents
@@ -187,9 +187,9 @@ Document Validation Options: Use Cases (continued)
 
 .. include:: /includes/student-notes.rst
 
-  .. only:: instructor
+.. only:: instructor
 
-    .. note::
+   .. note::
 
       - You can compare their answers to what you've discussed in this slide and the previous ones
 
@@ -200,7 +200,7 @@ Creating a Collection with Document Validation
 - Suppose you want the following rules:
 
   - At least one of the following:
-  
+
     - The *phone* field is a string
     - The *email* field matches a regular expression
     - The *status* field is either "Unknown" or "Incomplete"
@@ -230,7 +230,7 @@ Creating a Collection with Document Validation (Continued)
 
   db.createCollection("products",
      {
-        validator: { 
+        validator: {
             price: { $exists: true }
         },
         validationAction: "error"
@@ -275,7 +275,7 @@ Adding Validation to an Existing Collection
   db.products.insertOne( { name: "happiness" } )
   db.runCommand( {
      collMod: "products",
-     validator: { 
+     validator: {
          price: { $exists: true }
      },
      validationAction: "error",

@@ -5,7 +5,7 @@ Lab: Finding Documents
 
 
 Exercise: student_id < 65
----------------------
+-------------------------
 
 In the sample database, how many documents in the grades collection have a student_id less than 65?
 
@@ -23,8 +23,8 @@ In the sample database, how many documents in the grades collection have a stude
 .. include:: /includes/student-notes.rst
 
 
-Exercise: Inspection Result "Fail" & "Pass"
--------------------------------------------
+Exercise: Inspection Result "Fail" and "Pass"
+---------------------------------------------
 
 In the sample database, how many documents in the inspections collection have `result` "Pass" or "Fail"?
 
