@@ -21,7 +21,7 @@ Introduction to Compound Indexes
 
 - It is common to create indexes based on more than one field.
 - These are called ``compound indexes``.
-- You may use up to 31 fields in a compound index.  
+- You may use up to 31 fields in a compound index.
 - You may not use hashed index fields.
 
 .. include:: /includes/student-notes.rst
@@ -32,23 +32,23 @@ The Order of Fields Matters
 
 Specifically we want to consider how the index will be used for:
 
-- Equality tests, e.g., 
+- Equality tests, e.g.,
 
   .. code-block:: javascript
-    
+
      db.movies.find( { "budget" : 7, "imdb_rating" : 8 } )
 
-- Range queries, e.g., 
+- Range queries, e.g.,
 
   .. code-block:: javascript
 
      db.movies.find( { "budget" : 10, "imdb_rating" : { $lt : 9 } } )
 
-- Sorting, e.g., 
+- Sorting, e.g.,
 
   .. code-block:: javascript
 
-     db.movies.find( { "budget" : 10, "imdb_rating" : 6 } 
+     db.movies.find( { "budget" : 10, "imdb_rating" : 6 }
                     ).sort( { "imdb_rating" : -1 } )
 
 .. include:: /includes/student-notes.rst
@@ -114,12 +114,12 @@ Now let's query for messages with timestamp in the range 2 through 4 inclusive.
 
 .. code-block:: javascript
 
-   db.messages.find( { timestamp : { $gte : 2, $lte : 4 } } ).explain()
+   db.messages.find( { timestamp : { $gte : 2, $lte : 4 } } ).explain("executionStats")
 
 Analysis:
 
-- Explain plan shows good performance, i.e. ``totalKeysExamined`` = ``n``.  
-- However, this does not satisfy our query.  
+- Explain plan shows good performance, i.e. ``totalKeysExamined`` = ``n``.
+- However, this does not satisfy our query.
 - Need to query again with ``{username: "anonymous"}`` as part of the query.
 
 .. include:: /includes/student-notes.rst
@@ -132,10 +132,10 @@ Let's add the ``user`` field to our query.
 
 .. code-block:: javascript
 
-   db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
-                       username : "anonymous" } ).explain()
+   db.messages.find( { timestamp : { $gte : 2, $lte : 4 },
+                       username : "anonymous" } ).explain("executionStats")
 
-``totalKeysExamined`` > ``n``. 
+``totalKeysExamined`` > ``n``.
 
 .. include:: /includes/student-notes.rst
 
@@ -146,10 +146,10 @@ Include ``username`` in Our Index
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.createIndex( { timestamp : 1, username : 1 }, 
+   db.messages.createIndex( { timestamp : 1, username : 1 },
                             { name : "myindex" } )
-   db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
-                       username : "anonymous" } ).explain()
+   db.messages.find( { timestamp : { $gte : 2, $lte : 4 },
+                       username : "anonymous" } ).explain("executionStats")
 
 ``totalKeysExamined`` is still > ``n``. Why?
 
@@ -189,11 +189,11 @@ Drop the index and build a new one with user.
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.createIndex( { username : 1 , timestamp : 1 }, 
+   db.messages.createIndex( { username : 1 , timestamp : 1 },
                             { name : "myindex" } )
 
-   db.messages.find( { timestamp : { $gte : 2, $lte : 4 }, 
-                       username : "anonymous" } ).explain()
+   db.messages.find( { timestamp : { $gte : 2, $lte : 4 },
+                       username : "anonymous" } ).explain("executionStats")
 
 ``totalKeysExamined`` is 2. ``n`` is 2.
 
@@ -219,7 +219,7 @@ username     timestamp
 .. only:: instructor
 
    .. note::
-  
+
       - This illustrates why.
       - There is a fundamental difference in the way the index is structured.
       - This supports a more efficient treatment of our query.
@@ -243,13 +243,13 @@ Finally, let's add the sort and run the query.
 
 .. code-block:: javascript
 
-   db.messages.find( { 
-                       timestamp : { $gte : 2, $lte : 4 }, 
-                       username : "anonymous" 
-                     } ).sort( { rating : -1 } ).explain();
+   db.messages.find( {
+                       timestamp : { $gte : 2, $lte : 4 },
+                       username : "anonymous"
+                     } ).sort( { rating : -1 } ).explain("executionStats");
 
 - Note that the ``winningPlan`` includes a ``SORT`` stage.
-- This means that MongoDB had to perform a sort in memory.  
+- This means that MongoDB had to perform a sort in memory.
 - In memory sorts for queries that retrieve large numbers of documents can degrade performance significantly.
 - This is especially true if they are used frequently.
 
@@ -265,12 +265,12 @@ Let's modify the index again to allow the database to sort for us.
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.createIndex( { username : 1 , timestamp : 1, rating : 1 }, 
+   db.messages.createIndex( { username : 1 , timestamp : 1, rating : 1 },
                             { name : "myindex" } );
-   db.messages.find( { 
-                       timestamp : { $gte : 2, $lte : 4 }, 
-                       username : "anonymous" 
-                     } ).sort( { rating : -1 } ).explain();
+   db.messages.find( {
+                       timestamp : { $gte : 2, $lte : 4 },
+                       username : "anonymous"
+                     } ).sort( { rating : -1 } ).explain("executionStats");
 
 - The explain plan remains unchanged, because the sort field comes after the range fields.
 - The index does not store entries in order by rating.
@@ -289,18 +289,18 @@ Rebuild the index as follows.
 .. code-block:: javascript
 
    db.messages.dropIndex( "myindex" );
-   db.messages.createIndex( { username : 1, rating : 1, timestamp : 1 }, 
+   db.messages.createIndex( { username : 1, rating : 1, timestamp : 1 },
                             { name : "myindex" } );
-   db.messages.find( { 
-                       timestamp : { $gte : 2, $lte : 4 }, 
-                       username : "anonymous" 
-                     } ).sort( { rating : -1 } ).explain();
+   db.messages.find( {
+                       timestamp : { $gte : 2, $lte : 4 },
+                       username : "anonymous"
+                     } ).sort( { rating : -1 } ).explain("executionStats");
 
 
 - We no longer have an in-memory sort, but need to examine more keys.
-- ``totalKeysExamined`` is 3 and and ``n`` is 2. 
+- ``totalKeysExamined`` is 3 and and ``n`` is 2.
 - This is the best we can do in this situation and this is fine.
-- However, if ``totalKeysExamined`` is much larger than ``n``, this might not be the best index.  
+- However, if ``totalKeysExamined`` is much larger than ``n``, this might not be the best index.
 
 .. include:: /includes/student-notes.rst
 
@@ -321,7 +321,7 @@ Covered Queries
 .. include:: /images/index-for-covered-query.rst
 
 - When a query and projection include only the indexed fields, MongoDB will return results directly from the index.
-- There is no need to scan any documents or bring documents into memory. 
+- There is no need to scan any documents or bring documents into memory.
 - These covered queries can be very efficient.
 
 .. include:: /includes/student-notes.rst
@@ -333,23 +333,23 @@ Exercise: Covered Queries
 .. code-block:: javascript
 
    db.testcol.drop()
-   for (i=1; i<=20; i++) { 
-     db.testcol.insertOne({ "_id" : i, "title" : i, "name" : i, 
+   for (i=1; i<=20; i++) {
+     db.testcol.insertOne({ "_id" : i, "title" : i, "name" : i,
                             "rating" : i, "budget" : i })
    };
    db.testcol.createIndex( { "title" : 1, "name" : 1, "rating" : 1 } )
-   
+
    // Not covered because _id is  present.
-   db.testcol.find( { "title" : 3 }, 
-                    { "title" : 1, "name" : 1, "rating" : 1 } 
+   db.testcol.find( { "title" : 3 },
+                    { "title" : 1, "name" : 1, "rating" : 1 }
                     ).explain("executionStats")
 
    // Not covered because other fields may exist in matching docs.
-   db.testcol.find( { "title" : 3 }, 
+   db.testcol.find( { "title" : 3 },
                     { "_id" : 0, "budget" : 0 } ).explain("executionStats")
 
    // Covered query!
-   db.testcol.find( { "title" : 3 }, 
+   db.testcol.find( { "title" : 3 },
                     { "_id" : 0, "title" : 1, "name" : 1, "rating" : 1 }
                     ).explain("executionStats")
 

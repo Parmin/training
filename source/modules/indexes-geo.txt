@@ -56,7 +56,7 @@ Location Field
 --------------
 
 - A geospatial index is based on a location field within documents in a collection.
-- The structure of location values depends on the type of geospatial index. 
+- The structure of location values depends on the type of geospatial index.
 - We will go into more detail on this in a few minutes.
 - We can identify other documents in this collection with Xs in our 2d coordinate system.
 
@@ -125,9 +125,9 @@ Creating a 2d Index
 
 Creating a 2d index:
 
-.. code-block:: javascript 
+.. code-block:: javascript
 
-   db.<COLLECTION>.createIndex( 
+   db.<COLLECTION>.createIndex(
     { field_name : "2d", <optional additional field> : <value> },
     { <optional options document> } )
 
@@ -142,8 +142,8 @@ Possible options key-value pairs:
 .. only:: instructor
 
    .. note:
-      
-      - Geohash precision divides the allowable range on each axis by two for every two bits. 
+
+      - Geohash precision divides the allowable range on each axis by two for every two bits.
       - A precision of 10 will divide each axis into 2^5 segments.
 
         - 2^10 total regions) for the index.
@@ -154,7 +154,7 @@ Possible options key-value pairs:
 Inserting Documents with a 2d Index
 -----------------------------------
 
-There are two accepted formats: 
+There are two accepted formats:
 
 - Legacy coordinate pairs
 - Document with the following fields specified:
@@ -173,7 +173,7 @@ Querying Documents Using a 2d Index
 - Use ``$near`` to retrieve documents close to a given point.
 - Use ``$geoWithin`` to find documents with a shape contained entirely within the query shape.
 - Use the following operators to specify a query shape:
-  
+
   - ``$box``
   - ``$polygon``
   - ``$center`` (circle)
@@ -210,7 +210,7 @@ The geoJSON Specification
 geoJSON Considerations
 ----------------------
 
-- The coordinates of points are given in degrees (latitude then longitude).
+- The coordinates of points are given in degrees (longitude then latitude).
 - The LineString that joins two points will always be a geodesic.
 - Short lines (around a few hundred kilometers or less) will go about where you would expect them to.
 - Polygons are made of a closed set of LineStrings.
@@ -221,7 +221,7 @@ geoJSON Considerations
 
       - A geodesic may not go where you think.
       - E.g., the LineString that joins the points [ 90, 5 ] and [ -90, 5 ]:
-   
+
         - Does NOT go through the point [ 0, 5 ]
         - DOES go through the point [ 0, 90 ] (i.e., the North Pole).
 
@@ -234,8 +234,8 @@ Simple Types of 2dsphere Objects
 **Point**: A single point on the globe
 
 .. code-block:: javascript
-  
-   { <field_name> : { type : "Point", 
+
+   { <field_name> : { type : "Point",
                       coordinates : [ <longitude>, <latitude> ] } }
 
 .. include:: /includes/student-notes.rst
@@ -245,11 +245,11 @@ Simple Types of 2dsphere Objects
 
 .. code-block:: javascript
 
-   { <field_name> : { type : "LineString", 
-                      coordinates : [ [ <longitude 1>, <latitude 1> ], 
+   { <field_name> : { type : "LineString",
+                      coordinates : [ [ <longitude 1>, <latitude 1> ],
                                       [ <longitude 2>, <latitude 2> ],
                                       ...,
-                                      [ <longitude n>, <latitude n> ] ] } } 
+                                      [ <longitude n>, <latitude n> ] ] } }
 
 .. include:: /includes/student-notes.rst
 
@@ -265,23 +265,23 @@ Polygons
 
 Simple Polygon:
 
-.. code-block:: javascript 
+.. code-block:: javascript
 
-   { <field_name> : { type : "Polygon", 
-                      coordinates : [ [ [ <Point1 coordinate pair> ], 
-                                        [ <Point2 coordinate pair> ], 
-                                        ... 
-                                        [ <Point1 coordinate pair again> ] ] 
-                    } } 
+   { <field_name> : { type : "Polygon",
+                      coordinates : [ [ [ <Point1 coordinate pair> ],
+                                        [ <Point2 coordinate pair> ],
+                                        ...
+                                        [ <Point1 coordinate pair again> ] ]
+                    } }
 
 Polygon with One Hole:
 
-.. code-block:: javascript 
+.. code-block:: javascript
 
-   { <field_name> : { type : "Polygon", 
-                      coordinates : [ [ <Points that define outer polygon> ], 
-                                      [ <Points that define inner polygon> ] ] 
-                    } } 
+   { <field_name> : { type : "Polygon",
+                      coordinates : [ [ <Points that define outer polygon> ],
+                                      [ <Points that define inner polygon> ] ]
+                    } }
 
 .. include:: /includes/student-notes.rst
 
@@ -308,14 +308,14 @@ Other Types of 2dsphere Objects
 Querying 2dsphere Objects
 -------------------------
 
-``$geoNear``: Finds all points, orders them by distance from a position. 
+``$geoNear``: Finds all points, orders them by distance from a position.
 
-.. code-block:: javascript 
+.. code-block:: javascript
 
-   { <field name> : { $near : { $geometry : { 
-                                    type : "Point", 
-                                    coordinates : [ lng, lat ] }, 
-                                    $maxDistance : <meters> } } } } 
+   { <field name> : { $near : { $geometry : {
+                                    type : "Point",
+                                    coordinates : [ lng, lat ] },
+                                    $maxDistance : <meters> } } } }
 
 ``$near``: Just like ``$geoNear``, except in very edge cases; check the docs.
 
