@@ -162,6 +162,15 @@ Database Popularity Index
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    Make sure to remark that:
+
+    - popularity is not profitability
+    - just means that we have a lot of users
+    - or that we are very easy to beat up!
 
 Business Model
 --------------
@@ -170,8 +179,13 @@ Business Model
 
   - Support
   - OpsManager, Compass, BI connector
-  - on-demand online training
-  - enterprise builds (certified packages, security, auditing, in-memory)
+  - On-demand online training
+  - Enterprise builds
+
+    - certified packages
+    - security
+    - auditing
+    - in-memory
 
 .. include:: /includes/student-notes.rst
 
@@ -184,8 +198,8 @@ Business Model
     - mention SLA's
 
 
-Business Model
---------------
+Business Model (continued)
+--------------------------
 
 - **Consulting**
 
@@ -220,9 +234,7 @@ Subscriptions
   - Ops Manager
   - Commercial Support: High SLA
   - On-Demand MongoDB University
-  - MongoDB Compass
-  - BI Connector
-  - QA/Test nodes are 50% discounted and Development servers are for free
+  - MongoDB Compass & BI Connector
 
 .. include:: /includes/student-notes.rst
 
@@ -230,7 +242,12 @@ Subscriptions
 
   .. note::
 
+    note that
+
+    - QA/Test nodes are 50% discounted and Development servers are for free
+
     ask questions like:
+
     - Do you guys know what a subscription stands for?
     - What does SLA mean?
     - What is Compass? BI Connector?
@@ -238,8 +255,8 @@ Subscriptions
     - Can I have a Production environment with Development nodes?
 
 
-Subscriptions
--------------
+Subscriptions(continued)
+------------------------
 
 - **MongoDB Development Subscription**
 
@@ -258,6 +275,7 @@ Subscriptions
   .. note::
 
     Development subscription is meant to help customers accelerate their development cycle
+
     - Not for Production environment!
     - Can use all the same tools in a development environment?
     - How different is Development Support from Commercial Support?
@@ -266,8 +284,8 @@ Subscriptions
 
 
 
-Subscriptions
--------------
+Subscriptions(continued)
+------------------------
 
 - **MongoDB Professional**
 
@@ -284,13 +302,14 @@ Subscriptions
   .. note::
 
     things to ask:
+
     - What's the difference between Enterprise advanced and Professional?
     - What version of MongoDB will we support with Professional Support?
     - Can I have security?
     - Can I have Ops Manager?
 
-Subscriptions
--------------
+Subscriptions(continued)
+------------------------
 
 - **MongoDB Cloud Manager**
 
@@ -306,6 +325,7 @@ Subscriptions
   .. note::
 
     ask questions like:
+
     - Can I have support on Cloud Manager Instances?
     - What does it mean that we don't provide an SLA?
 
@@ -317,13 +337,20 @@ Open Source Model
 
   - **Database** is open source
   - **Drivers** are open source
-  - **Ops Manager** and **Agents** are not open source!
+
+
+- What is *not* open source?
+
+  - Ops Manager and Agents
+  - Atlas
+  - BI Connector
+  - Encrypted and In-memory storage engines
 
 .. include:: /includes/student-notes.rst
 
 
-Open Source Model
------------------
+Open Source Model(continued)
+----------------------------
 
 - `Open Source` is more to protect us and our customers than to accept contributions
 
@@ -338,7 +365,8 @@ Open Source Model
 
   .. note::
 
-    questions to ask
+    questions to ask:
+
     - What is AGPL? Affero General Public License
       - https://en.wikipedia.org/wiki/Affero_General_Public_License
 
@@ -391,8 +419,8 @@ How to work at MongoDB
 
     Note that Barrie/Ramon will present on this topic in more detail
 
-How to work at MongoDB
-----------------------
+How to work at MongoDB(continued)
+---------------------------------
 
 - Public comments about MongoDB
 
@@ -403,8 +431,8 @@ How to work at MongoDB
 
 .. include:: /includes/student-notes.rst
 
-How to work at MongoDB
-----------------------
+How to work at MongoDB(continued)
+---------------------------------
 
 - Confidentiality
 
