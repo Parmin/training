@@ -25,9 +25,10 @@ MongoMart Demo of Fully Implemented Version
 
    .. note::
 
+      - Mongomart is in the training repo in the /mongomart directory. Distribute the materials in the /mongomart/student subdirectory to students.
       - Ensure you have a fully running version of the instructor MongoMart implementation: /instructor/java/final
       - The instructor version requires a three node replica set (uses MAJORITY writes)
-      - Ensure you've loaded the dataset from /data and create a text index (as described in the /data/README.md file)
+      - Ensure you've loaded the dataset from /mongomart/student/data and create a text index (as described in the /mongomart/student/data/README.md file)
       - DO NOT WALK THROUGH THIS VERSION OF THE SOURCE CODE WITH THE STUDENTS, ONLY THE STUDENT VERSION
 
 View Items
@@ -105,4 +106,3 @@ Shopping Cart
       - Add an item to your cart
       - Update the quantity in the cart
       - Checkout doesn't work, we are only interested in the cart functionality
-
