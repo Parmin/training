@@ -14,7 +14,7 @@ file: /modules/agenda-developer-advanced
 description: |
   Agenda for Advanced Developers Training
 ---
-file: /modules/agenda-nhtt-security
+file: /modules/agenda-nhtt
 description: |
-  Agenda for NHTT Security
+  Agenda for NHTT
 ...

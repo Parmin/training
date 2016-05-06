@@ -1,0 +1,230 @@
+==================================
+Schema Design Internal Reflections
+==================================
+
+Outline
+-------
+
+- MongoDB is schemaless...?
+- To embed, or not to embed
+- Denormalization and referencing
+- Arrays good.
+
+  - Nested arrays, [usually] bad!
+
+- BSON data types
+- Growing document considerations
+- Zola’s 6 Rules of Thumb
+
+
+.. include:: /includes/student-notes.rst
+
+
+MongoDB Schemaless
+------------------
+
+Quoting Derick:
+
+  .. image:: /images/derick_tweet.jpg
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    make sure that students understand how to deal with this topic. Specially field team.
+
+    - You can say that "your data has no schema till you find one"
+    - MongoDB flexibility allows to deal with changes that soon or later materialize
+    - John Page generally explains MongoDB as follows:
+
+      - MongoDB is similar with relational tables but with one large difference
+      - there's a field type called `table`
+      - where you can define inner fields
+      - you can define indexes on any field
+
+
+A New Database Type
+-------------------
+
+Wikipedia:
+
+  NoSQL databases are often very fast, do not require fixed table schemas, avoid join operations by storing denormalized data, and are designed to scale horizontally
+
+.. include:: /includes/student-notes.rst
+
+
+MongoDB has a *flexible* schema
+-------------------------------
+
+- Schemaless just means that collections do not enforce document structures
+
+- Easier to get started
+
+**If you don't have a schema, you're probably not looking hard enough**
+
+- The application drives the schema design, not the other way around!
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - raise their attention to the document validation: https://docs.mongodb.org/manual/core/document-validation/
+
+
+Get things in the right order
+-----------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 60 60
+
+   * - Relational World
+     - NoSQL World
+   * - 1) Model data
+     - 1) Define access to data
+   * - 2) Write queries for data access
+     - 2) Model data
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - advise students to avoid talking about MongoDB as NoSQL
+    - We are moving away from this concept although we will mostly be referred to as a NoSQL database
+    - Marketing department want's field to refer to this as `Nexus Architecture`
+
+
+Product Considerations
+----------------------
+
+- Core Server
+
+  - Max document size: 16 MB
+  - Simple update may result in a full document copy in the replication protocol
+  - Full documents get read from disk
+  - Atomic update at the document level
+
+- Storage Engine
+
+  - MMAPv1
+
+    - Growing documents may move (update index entries)
+
+  - WiredTiger
+
+    - Each update rewrites the whole document (MVCC)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    ask questions:
+
+      - Storage Engines
+
+        - what is MVCC?
+        - Can I do updates on multiple documents all at once? Can I guarantee that they are all updated?
+        - Why moving documents, after an update, can be a good/bad thing?
+
+      - Server
+
+        - If I'm reading the full document from disk, is that a good or bad thing?
+        - What if I just want a part of the document?
+        - Just 16 MB? or better saying, that much???
+
+
+Embed or Store Separately
+-------------------------
+
+Given MongoDB flexibility the question around *embed* or *separate document* will be very common.
+
+A few tips on how to approach these discussions:
+
+  - Combine objects that you will use together
+
+    - Efficiency for reads
+    - Atomicity for writes
+
+  - Store documents in separate collections when
+
+    - Read pattern are different
+    - Different lifecycle between relationships
+
+.. include:: /includes/student-notes.rst
+
+
+Denormalization and Referencing
+-------------------------------
+
+- **You cannot perform atomic updates on data that spans more than one document**
+
+  - No transactions!
+
+- Denormalization allows you to avoid some application-level joins at the expense of having more complex and expensive updates
+- Only makes sense when you have high read to write ratio
+  - one or more documents are read more often than they are updated
+
+.. include:: /includes/student-notes.rst
+
+Denormalization and Referencing (continued)
+-------------------------------------------
+- Can use bi-directional referencing if it optimizes your schema and you are willing to live without atomic updates
+- SQL developers don’t live in a perfect world. They often rely on denormalization due to huge performance issues with the normalized solution
+
+
+.. include:: /includes/student-notes.rst
+
+
+Zola’s 6 Rules of Thumb
+-----------------------
+
+William Zola was great Support Engineer that was loved by colleagues and customers.
+
+We have an yearly innovation award named after William Zola.
+
+He created a set of rules for good schema design.
+
+I) Favor embedding unless there is a compelling reason not to
+
+II) Needing to access an object on its own is a compelling reason not to embed it
+
+.. include:: /includes/student-notes.rst
+
+Zola’s 6 Rules of Thumb (continued)
+-----------------------------------
+
+III) Arrays should not grow without bound. High-cardinality arrays are a compelling reason not to embed.
+
+IV) Don’t be afraid of application-level joins
+
+  - if you index correctly and use the projection specifier then application-level joins are barely more expensive than server-side joins in a relational database.
+
+.. include:: /includes/student-notes.rst
+
+Zola’s 6 Rules of Thumb (continued)
+-----------------------------------
+
+V) Consider the write/read ratio when de-normalizing.
+
+  - A field that will mostly be read and only seldom updated is a good candidate for de-normalization.
+
+VI) As always with MongoDB, how you model your data depends *entirely* on your particular application’s data access patterns.
+
+  - You want to structure your data to match the ways that your application queries and updates it.
+
+
+.. include:: /includes/student-notes.rst
+
+
+References
+----------
+- https://docs.mongodb.com/manual/reference/sql-comparison/
+- https://docs.mongodb.com/manual/applications/data-models-relationships/

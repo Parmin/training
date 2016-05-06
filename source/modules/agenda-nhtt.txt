@@ -1,0 +1,46 @@
+============================
+New Hires Technical Training
+============================
+
+
+Day 1
+-----
+
+- Welcome
+- :doc:`/modules/internal-company`
+- :doc:`/modules/introduction-overview`
+- Indexing
+
+.. include:: /includes/student-notes.rst
+
+Day 2
+-----
+
+- :doc:`/modules/nav/schema-design-nhtt`
+- Replication
+
+.. include:: /includes/student-notes.rst
+
+Day 3
+-----
+
+- Applications and Drivers
+- Replication
+
+.. include:: /includes/student-notes.rst
+
+Day 4
+-----
+
+- :doc:`/modules/agenda-nhtt-security`
+- Replication
+
+.. include:: /includes/student-notes.rst
+
+Day 5
+-----
+
+- Cloud & Ops Manager
+- Misc
+
+.. include:: /includes/student-notes.rst

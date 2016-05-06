@@ -1,5 +1,5 @@
 source_dir: build/docs-mongodb/source
-sources: 
+sources:
   - images/crud-write-concern-ack.svg
   - images/crud-write-concern-unack.svg
   - images/crud-write-concern-w2.svg

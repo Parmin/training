@@ -1,0 +1,9 @@
+=============
+Schema Design
+=============
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-schema-design-nhtt.rst
+
+.. include:: /includes/toc/schema-design-nhtt.rst

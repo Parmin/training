@@ -1,0 +1,16 @@
+file: /modules/schema-design-nhtt
+description: |
+  Internal Reflections
+---
+file: /modules/schema-design-common-design-patterns
+description: |
+  Common design patterns for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB
+---
+file: /modules/schema-design-application-lifetime
+description: |
+  Considerations for evolving a MongoDB schema design over an application's lifetime
+---
+file: /modules/schema-design-case-study-cms
+description: |
+  Case Study: CMS
+...

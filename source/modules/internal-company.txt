@@ -290,7 +290,6 @@ Subscriptions(continued)
 - **MongoDB Professional**
 
   - Cloud Manager Premium
-
     - Visual Query Profiler + Index suggestions + Managed Indexes ...
 
   - Commercial Support: Medium SLA
@@ -309,13 +308,12 @@ Subscriptions(continued)
     - Can I have security?
     - Can I have Ops Manager?
 
-Subscriptions (continued)
+Subscriptions(continued)
 ------------------------
 
 - **MongoDB Cloud Manager**
 
   - Standard Cloud Manager
-
     - No: Visual Query Profiler + Index suggestions + Managed Indexes ...
 
   - Support for Cloud Manager: No SLA
@@ -340,6 +338,7 @@ Open Source Model
   - **Database** is open source
   - **Drivers** are open source
 
+
 - What is *not* open source?
 
   - Ops Manager and Agents
@@ -350,7 +349,7 @@ Open Source Model
 .. include:: /includes/student-notes.rst
 
 
-Open Source Model (continued)
+Open Source Model(continued)
 ----------------------------
 
 - `Open Source` is more to protect us and our customers than to accept contributions
@@ -369,13 +368,11 @@ Open Source Model (continued)
     questions to ask:
 
     - What is AGPL? Affero General Public License
-
       - https://en.wikipedia.org/wiki/Affero_General_Public_License
 
     - What does it mean that third party can't distribute our binaries? What if they are included on their software?
 
     - If I embed MongoDB on a binary? is this a violation of our license?
-
       - No, but they cannot sell support on that component of their product. Generally we will get a OEM license model for these situations
 
 .. include:: /includes/student-notes.rst
@@ -422,7 +419,7 @@ How to work at MongoDB
 
     Note that Barrie/Ramon will present on this topic in more detail
 
-How to work at MongoDB (continued)
+How to work at MongoDB(continued)
 ---------------------------------
 
 - Public comments about MongoDB
@@ -450,6 +447,7 @@ IT Cheat Sheet
 --------------
 
 .. figure:: /figures/it-cheat-sheet.png
+  :align: center
 
 
 .. _New Hires: https://wiki.mongodb.com/display/10GEN/How+To+Be+A+New+Hire+@+MongoDB
