@@ -3,6 +3,9 @@ NHTT: Security
 ==============
 
 
+.. image:: /images/security.jpg
+  :align: right
+
 
 Authentication
 --------------
@@ -11,7 +14,11 @@ Authentication
 - :doc:`/exercises/secure-mongod`
 - :doc:`/exercises/secured-replicaset`
 
+.. image:: /images/privilege.jpg
+
 .. include:: /includes/student-notes.rst
+
+
 
 Authorization
 -------------
@@ -20,8 +27,11 @@ Authorization
 - :doc:`/exercises/create-adminusers`
 - :doc:`/exercises/create-customrole`
 - :doc:`/exercises/create-applicationuser`
-.. include:: /includes/student-notes.rst
 
+.. image:: /images/authorization.jpg
+  :align: right
+
+.. include:: /includes/student-notes.rst
 
 Audit & Encryption
 ------------------
@@ -29,3 +39,8 @@ Audit & Encryption
 - :doc:`/modules/security-audit`
 - :doc:`/exercises/audit-user`
 - :doc:`/modules/security-encryption`
+
+.. image:: /images/audit.jpg
+  :align: right
+
+.. include:: /includes/student-notes.rst
