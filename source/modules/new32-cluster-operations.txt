@@ -1,4 +1,4 @@
-=====================================
+
 New Cluster Operations in MongoDB 3.2
 =====================================
 
@@ -59,21 +59,22 @@ Background: Dirty Reads
     - It only becomes dirty after the fact, when one or more servers go down in such a way that the write is gone.
 
 
-.. Stale and Dirty Reads
-.. ---------------------
-.. 
-.. .. figure:: /figures/temp_dirty_vs_stale_reads.JPG
-.. 
-.. .. include:: /includes/student-notes.rst
-.. 
-.. .. only:: instructor
-.. 
-..   .. note::
-.. 
-..     - This shows stale and dirty reads
-..     - A stale read is a read that was true at some point in the past, but no longer is.
-..     - A dirty read is a read of data that will not persist
-..     - Needs to be implemented before we un-comment this slide.
+Stale and Dirty Reads
+---------------------
+
+.. figure:: /figures/stale-read-and-dirty-read.svg
+   :figwidth: 380px
+   :align: center
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - This shows stale (top figure) and dirty (bottom figure) reads
+    - A stale read is a view of the data that was true at some point in the past, but no longer is.
+    - A dirty read is a view of data that will not persist
 
 
 Background: Dirty Reads and Write Concern
@@ -157,20 +158,45 @@ Introduction to Read Concern
       - What can happen if I write a document with writeConcern: 1 and readPreference: "secondary"? Can I avoid dirty reads? What about stale reads?
       - What can happen if I write w: 1 and read concern "majority"? Stale reads? Dirty reads?
 
-.. Example: Read Concern Majority
-.. ------------------------------
-.. 
-.. .. figure:: /figures/temp_read_concern_example.JPG
-.. 
-.. .. include:: /includes/student-notes.rst
-.. 
-.. .. only:: instructor
-.. 
-..   .. note:: 
-.. 
-..     - This shows 2 writes happening, and several reads.
-..     - Note that the applications are using w : "majority" and readConcernLevel: "majority"
-..     - The application doesn't read a write until after the secondary has confirmed to the primary that it has received the write
+
+Example: Read Concern Majority
+------------------------------
+
+.. figure:: /figures/read-concern.svg
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - This looks quite complicated, but all it's really showing is:
+    
+      - Two writes, both from App 1, and the associated replication and responses (red and green)
+      - Several reads at various times all from App 2 (blue)
+
+    - Note that the applications are using w : "majority" and readConcernLevel: "majority"
+    - The application doesn't read a write until after the secondary has confirmed to the primary that it has received the write
+    - Key:
+
+      - Red W's are the writes: W1 and W2, as they propagate through
+  
+        - Dashed red lines are acknowledgments of the writes
+  
+          - W1S2 is the acknowledgment of write 1 from the S2 server
+  
+      - Green C's are the read commits from readConcern majority. 
+
+        - C1 marks the moment where W1 has been committed
+        - C2 marks the moment where W2 has been committed
+        - The primary also gets a write acknowledgement when a commit occurs on the primary
+        - Note that the commits go from Primary to the secondaries, along with the oplog.
+
+      - Blue R's are the reads from App 2 at various points in time
+
+        - R0 is the initial state
+        - R1 is the state after W1 has been committed
+        - R2 is the state after W2 has been committed
 
 
 Quiz
