@@ -1,0 +1,37 @@
+
+.. only:: latex and not offset
+
+   .. figure:: /figures/document-validation-chart.jpg
+      :alt: Documentation validation
+      :align: center
+      :figwidth: 1600px
+
+.. only:: website and slides
+
+   .. figure:: /figures/document-validation-chart.jpg
+      :alt: Documentation validation
+      :align: center
+      :figwidth: 700px
+
+.. only:: website and html
+
+   .. figure:: /figures/document-validation-chart.jpg
+      :alt: Documentation validation
+      :align: center
+      :figwidth: 700px
+
+.. only:: website and not (html or slides)
+
+   .. raw:: html
+
+      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_figures/document-validation-chart.jpg" alt="Document validation"></img><p>Document validation</p></div>
+
+
+.. only:: latex and offset
+
+   .. raw:: latex
+
+      \begin{figure}[h!]
+      \centering
+      \includegraphics[width=400px]{document-validation-chart.eps}
+      \end{figure}

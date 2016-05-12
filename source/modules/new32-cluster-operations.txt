@@ -62,9 +62,7 @@ Background: Dirty Reads
 Stale and Dirty Reads
 ---------------------
 
-.. figure:: /figures/stale-read-and-dirty-read.svg
-   :figwidth: 380px
-   :align: center
+.. include:: /images/stale-reads-and-dirty-reads.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -96,7 +94,7 @@ Background: Dirty Reads and Write Concern
 
     - Might be a good time to ask how many ways dirty reads can happen.
 
-    - Answers: 
+    - Answers:
 
       - Primary gets a write, but crashes before the oplog sends data to the secondary
       - Primary and one secondary both get the write, but both crash before it gets to disk on either
@@ -136,14 +134,14 @@ Introduction to Read Concern
 - Two settings
 
   - "local": read the most recent data on the server
-    
+
     - This is the historical behavior.
 
   - "majority": ensures data is written to a majority of nodes
 
     - An older version of the data is cached
     - The older version is returned for reads
-    
+
       - until a majority of the set acknowledge the write
 
 .. include:: /includes/student-notes.rst
@@ -162,16 +160,16 @@ Introduction to Read Concern
 Example: Read Concern Majority
 ------------------------------
 
-.. figure:: /figures/read-concern.svg
+.. include:: /images/read-concern.rst
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - This looks quite complicated, but all it's really showing is:
-    
+
       - Two writes, both from App 1, and the associated replication and responses (red and green)
       - Several reads at various times all from App 2 (blue)
 
@@ -180,12 +178,12 @@ Example: Read Concern Majority
     - Key:
 
       - Red W's are the writes: W1 and W2, as they propagate through
-  
+
         - Dashed red lines are acknowledgments of the writes
-  
+
           - W1S2 is the acknowledgment of write 1 from the S2 server
-  
-      - Green C's are the read commits from readConcern majority. 
+
+      - Green C's are the read commits from readConcern majority.
 
         - C1 marks the moment where W1 has been committed
         - C2 marks the moment where W2 has been committed
@@ -208,7 +206,7 @@ What is the difference between a dirty read and a stale read?
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - Dirty read means you see a write that won't persist
     - Stale read means you don't see a write that has occurred
@@ -255,7 +253,7 @@ Read Concern: Summary
 ---------------------
 
 - readConcern: "majority" prevents dirty reads
-- Reading from the primary prevents stale reads 
+- Reading from the primary prevents stale reads
 
   - Even without readConcern: "majority"
 
@@ -264,7 +262,7 @@ Read Concern: Summary
 .. include:: /includes/student-notes.rst
 
 
-Using Read Concern 
+Using Read Concern
 ------------------
 
 - You must:
@@ -281,7 +279,7 @@ Using Read Concern
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - If running with readConcernLevel : "majority" but not w : "majority", it is possible to write something, get it acknowledged, and then try to read it back, but not see it.
 
@@ -300,7 +298,7 @@ Example: Using Read Concern
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - This will allow them to launch a replica set that can use majority read concern.
 
@@ -328,7 +326,7 @@ Example: Using Read Concern (Continued)
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - In this example, students can see that one document will propagate to the secondaries.
     - But the second document, while present on the primary, will not replicate.
@@ -345,11 +343,11 @@ What must you do in order to make the database return documents that have been r
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     Answer:
 
-      - Invoke the mongod with --enableMajorityReadConcern 
+      - Invoke the mongod with --enableMajorityReadConcern
       - Use cursor.readConcern("majority") on a read
 
         - Alternatively, use Read Concern "majority" with a driver's connection pool
@@ -373,7 +371,7 @@ Replication Protocol Version 1 (Continued)
 - Adds electionTimeoutMillis as an option
 
   - How long to wait before calling for an election
-  
+
     - When Secondaries can't see the primary
 
 - Required for readConcern: "majority"
@@ -382,7 +380,7 @@ Replication Protocol Version 1 (Continued)
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - Old replication protocol is now Replication Protocol 0
     - Previously, secondaries would acknowledge writes when they were received, not when they had been sent to the journal
@@ -439,7 +437,7 @@ What are the advantages of Replication Protocol 1?
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - electionTimeoutMillis now tunable
     - Secondaries write to the journal before acknowledging
