@@ -201,7 +201,7 @@ Example: Read Concern Level Majority
 
           - W1S2 is the acknowledgment of write 1 from the S2 server
 
-      - Green C's are the read commits from readConcern majority.
+      - Green C's are the read commits from read concern majority.
 
         - C1 marks the moment where W1 has been committed
         - C2 marks the moment where W2 has been committed
@@ -252,19 +252,6 @@ Read Concern and Read Preference: Secondary
 - Data on secondaries might be behind the primary
 
   - But never ahead of the Primary
-
-.. include:: /includes/student-notes.rst
-
-
-Read Concern: Summary
----------------------
-
-- readConcern: "majority" prevents dirty reads
-- Reading from the primary prevents stale reads
-
-  - Even without readConcern: "majority"
-
-- New in MongoDB 3.2
 
 .. include:: /includes/student-notes.rst
 
