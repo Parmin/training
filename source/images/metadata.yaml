@@ -103,8 +103,38 @@ output:
      dpi: 300
      width: 200
 ---
+name: partial-index-and-collection
+alt: "Partial index example"
+output:
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 1600
+   - type: 'web'
+     dpi: 72
+     width: 400
+   - type: 'offset'
+     tag: 'offset'
+     dpi: 300
+     width: 200
+---
 name: crud-write-concern-w2
 alt: "Write operation to a replica set with write concern level of ``w:2`` or write to the primary and at least one secondary."
+output:
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 1600
+   - type: 'web'
+     dpi: 72
+     width: 400
+   - type: 'offset'
+     tag: 'offset'
+     dpi: 300
+     width: 200
+---
+name: read-concern
+alt: "An illustration of the effect of setting read-concern"
 output:
    - type: 'print'
      tag: 'print'
@@ -209,7 +239,7 @@ output:
     width: 150
 ---
 name: sharded-cluster-no-config-servers
-alt: "A sharded cluster with no config servers."
+alt: "A sharded cluster with no config servers"
 output:
   - type: print
     tag: 'print'
@@ -237,6 +267,21 @@ output:
     tag: 'offset'
     dpi: 300
     width: 250
+---
+name: stale-reads-and-dirty-reads
+alt: "Stale reads and dirty reads"
+output:
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 1600
+   - type: 'web'
+     dpi: 72
+     width: 400
+   - type: 'offset'
+     tag: 'offset'
+     dpi: 300
+     width: 200
 ---
 name: database-landscape
 alt: "Database landscape"

@@ -2,7 +2,7 @@
 //
 
 // $sample example
-db.companies.aggregate( [ 
+db.companies.aggregate( [
      { $sample : { size : 5 } },
      { $project : { _id : 0, number_of_employees: 1 } }
 ] )
@@ -19,7 +19,7 @@ db.companies.aggregate( [ { $indexStats: {} } ] )
 
 
 // $lookup example
-db.commentOnEmployees.insertMany( [ 
+db.commentOnEmployees.insertMany( [
     { employeeCount: 405000,
       comment: "Biggest company in the set." },
     { employeeCount: 405000,
@@ -66,7 +66,7 @@ db.companies.aggregate( [
 
 // $filter example
 db.companies.aggregate( [
-  { $match : { funding_rounds.round_code: "e" } },
+  { $match : { "funding_rounds.round_code": "e" } },
   { $project : {
       _id: 0, name: 1,
       series_e_funding: {
@@ -77,9 +77,9 @@ db.companies.aggregate( [
   }, {
     $project : {
       name: 1,
-      series_e_funding.raised_amount: 1,
-      series_e_funding.raised_currency_code: 1,
-      series_e_funding.year: 1 } 
+      "series_e_funding.raised_amount": 1,
+      "series_e_funding.raised_currency_code": 1,
+      "series_e_funding.year": 1 }
   } ] )
 
 
@@ -87,15 +87,15 @@ db.companies.aggregate( [
 db.foo.drop()
 db.foo.insertMany( [ { numbers: [ 1, 2, 3, 4, 5 ] },
                      { numbers: [ 6, 7, 8, 9, 10 ] } ] )
-db.foo.aggregate( [ 
-  { 
+db.foo.aggregate( [
+  {
     $project: {
       _id: 0,
       avg: { $avg: "$numbers" },
       sum: { $sum: "$numbers" },
       min: { $min: "$numbers" },
       max: { $max: "$numbers" },
-      stDevSamp: { $stdDevSamp: "$numbers" } } 
+      stDevSamp: { $stdDevSamp: "$numbers" } }
   } ] )
 db.foo.find( {}, { _id: 0 } )  // these are the original documents
 

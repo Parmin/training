@@ -46,18 +46,12 @@ Creating Partial Indexes
 - Partial Indexes must specify a "partialFilterExpression"
 - Think of this as a query
 
-  - Matching documents get indexed
-  - Non-matching documents don't
+  - Matching documents are indexed
+  - Non-matching documents do not
 
-- The expression needn't be on indexed fields 
-
-  - though it can be
+- The expression does not need to be on indexed fields, but it can be.
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
 
 
 Example: Creating Partial Indexes
@@ -96,9 +90,7 @@ Example: Creating Partial Indexes (Continued)
 Partial Indexes: Visualization
 ------------------------------
 
-.. figure:: /figures/partial_index_and_collection.svg
-    :align: center
-    :figwidth: 500 px
+.. include:: /images/partial-index-and-collection.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -152,15 +144,15 @@ When you have a partial index on a collection, which documents will have an inde
 
   .. note::
 
-    - Correct answer: 
-     
+    - Correct answer:
+
       - Only those documents where the field matches the partialFilterExpression
 
     - Wrong answers:
 
       - All documents
 
-        - This is the case for standard indexes. 
+        - This is the case for standard indexes.
 
       - Only those documents where the field exists
 
@@ -248,9 +240,9 @@ You have documents as far back as the year 2005.
     - This is a good use case.
     - The partialFilterExpression should be:
 
-.. literalinclude:: /includes/partial_indexes.js
-  :language: javascript
-  :lines: 28
+      .. literalinclude:: /includes/partial_indexes.js
+         :language: javascript
+         :lines: 28
 
     - This will allow the index to work for both queries
 
@@ -302,8 +294,7 @@ Creating Partial Indexes
       - Manually input a field, with a value used in every document you want indexed
       - When you update the document, update that field, if necessary
       - This is the technique we have in the example, with { "importance": "high" }
-
-        - There is some overhead with this technique
+      - There is some overhead with this technique
 
 
 Partial Indexes - Pitfalls
@@ -312,82 +303,12 @@ Partial Indexes - Pitfalls
 - Not used when:
 
   - The indexed field not in the query
-
-  - A query goes outside of the filter range
-
-    - Even if no documents are out of range
+  - A query goes outside of the filter range, even if no documents are out of range
 
 - You can .explain() queries to check them
 
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
-
-  .. note::
-    
-    - It's a good time to remind students that they should .explain() production queries periodically to ensure that they are working as intended
-
-
-Partial Indexes - Tips
-----------------------
-
-- Can't have "double coverage" with multiple indexes
-
-  - Or two partial indexes on the same fields
-
-- Can be used for multiple queries
-
-  - Each query would hit a subset of the filter
-
-.. include:: /includes/student-notes.rst
-
-
-Example: No Double Index Coverage
----------------------------------
-
-.. literalinclude:: /includes/partial_indexes.js
-  :language: javascript
-  :lines: 51-55
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - Ask them why it fails
-    - It fails because there's already an { a : 1, b : -1 } index on this collection
-
-      - You can't have two indexes on the same fields with the same ordering
-
-    - Ask them if they could create an { a : 1, b : 1 } index with { a : { $lte : 100000 } } 
-
-      - They can. It works because it's a fundamentally different index
-      - They need to be very careful about index ordering if sorting
-
-
-Example: Hinting Done Wrong
----------------------------
-
-.. literalinclude:: /includes/partial_indexes.js
-  :language: javascript
-  :lines: 59-77
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - The first query is a collection scan 
-    
-      - This would be *murder* on performance
-      - But it wouldn't miss documents
-
-    - The .hint() forces it to use the index
-
-      - But also forces it to skip documents
-      - They simply aren't present in the index
 
 
 Quiz
