@@ -104,9 +104,7 @@ Background: Dirty Reads
 Stale and Dirty Reads
 ---------------------
 
-.. figure:: /figures/stale-read-and-dirty-read.svg
-   :figwidth: 380px
-   :align: center
+.. include:: /images/stale-reads-and-dirty-reads.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -135,7 +133,7 @@ Dirty Reads and Write Concern
   .. note::
 
     - Might be a good time to ask how many ways dirty reads can cause inconsistencies
-    - Answers: 
+    - Answers:
 
       - Primary gets a write, but crashes before the oplog sends data to the secondary
       - Primary and one secondary both get the write, but both crash before it gets to disk on either
@@ -152,7 +150,7 @@ Introduction to Read Concern
 - Two settings
 
   - ``local``: read the most current data on the server
-    
+
     - This is the historical behavior
     - Exposes the application to dirty reads
 
@@ -184,16 +182,16 @@ Introduction to Read Concern
 Example: Read Concern Level Majority
 ------------------------------------
 
-.. figure:: /figures/read-concern.svg
+.. include:: /images/read-concern.rst
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - This looks quite complicated, but all it's really showing is:
-    
+
       - Two writes, both from App 1, and the associated replication and responses (red and green)
       - Several reads at various times all from App 2 (blue)
 
@@ -202,12 +200,12 @@ Example: Read Concern Level Majority
     - Key:
 
       - Red W's are the writes: W1 and W2, as they propagate through
-  
+
         - Dashed red lines are acknowledgments of the writes
-  
+
           - W1S2 is the acknowledgment of write 1 from the S2 server
-  
-      - Green C's are the read commits from read concern majority. 
+
+      - Green C's are the read commits from read concern majority.
 
         - C1 marks the moment where W1 has been committed
         - C2 marks the moment where W2 has been committed
@@ -230,7 +228,7 @@ What is the difference between a dirty read and a stale read?
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - Dirty read means you see a write that may not persist
     - Stale read means you don't see a write that has occurred
@@ -262,14 +260,14 @@ Read Concern and Read Preference: Secondary
 .. include:: /includes/student-notes.rst
 
 
-Using Read Concern 
+Using Read Concern
 ------------------
 
 - To use read concern, you must:
 
   - Use WiredTiger on all members
   - Launch all mongod's in the set with
-  
+
     - ``--enableMajorityReadConcern``
 
   - Specify the read concern level to the driver
@@ -283,7 +281,7 @@ Using Read Concern
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - If running with read concern level: "majority" but not Write concern ``{ w: "majority" }``, it would be possible to insert a document, get it acknowledged, and then try to read it back, but not see it.
 
@@ -307,7 +305,7 @@ Example: Using Read Concern
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - This will allow them to launch a replica set that can use majority read concern.
 
@@ -325,7 +323,7 @@ Example: Using Read Concern (Continued)
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - In this example, students can see that one document will propagate to the secondaries.
     - But the second document, while present on the primary, will not replicate.
@@ -342,11 +340,11 @@ What must you do in order to make the database return documents that have been r
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     Answer:
 
-      - Invoke the mongod with --enableMajorityReadConcern 
+      - Invoke the mongod with --enableMajorityReadConcern
       - Use cursor.readConcern("majority") on a read
 
         - Alternatively, use read concern level ``majority`` with a driver's connection pool
@@ -384,7 +382,7 @@ Replication Protocol Version 1 (continued)
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - Old replication protocol is now known as replication protocol 0
     - Previously, secondaries would acknowledge writes before those writes were journaled
@@ -442,7 +440,7 @@ What are the advantages of replication protocol 1?
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - electionTimeoutMillis now tunable
     - Secondaries write to the journal before acknowledging
@@ -460,7 +458,7 @@ What are the advantages of config servers as replica sets (CSRS)?
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - You can get the same availability and durability guarantees as you have for your data
     - You can tune the size of the replica set
