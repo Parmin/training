@@ -40,7 +40,7 @@ Example: Document Validation
 
   db.createCollection("products",
      {
-        validator: { 
+        validator: {
             price : { $exists : true }
         },
         validationAction: "error"
@@ -75,7 +75,7 @@ Consider the following use case:
   .. note::
 
     - This use case should be handled on the front end
-    
+
       - But Schema Validation can act as an extra layer of protection
 
    - Mulitple applications, with different validation rules or application versions, generally require a central validation point
@@ -103,9 +103,7 @@ Another use case:
 validationAction and validationLevel
 ------------------------------------
 
-.. figure:: /figures/document_validation_chart.png
-    :align: center
-    :figwidth: 700px
+.. include:: document-validation-chart.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -118,78 +116,64 @@ Quiz
 
 .. include:: /includes/student-notes.rst
 
-  .. only:: instructor
+.. only:: instructor
 
-    .. note::
+   .. note::
 
       - After the next two slides, you can come back and review their answers
 
 
-Document Validation Options: Use Cases
---------------------------------------
+validationLevel: "strict"
+-------------------------
 
-- validationLevel: "strict"
+- Useful when you're doing one of the following:
 
-    - Useful when you're doing one of the following:
+  - Changing a schema such that all updates map documents to the new schema
+  - Creating a new collection
+  - Validating an existing collection already in compliance
 
-      - Changing a schema
-
-        - All updates map documents to the new schema
-
-      - Creating a new collection
-      - Validating an existing collection already in compliance
-
-    - Remember, this will impose validation on update even to invalid documents
+- This will impose validation on update even to invalid documents
 
 .. include:: /includes/student-notes.rst
 
 
-Document Validation Options: Use Cases (continued)
---------------------------------------------------
+validationLevel: "moderate"
+---------------------------
 
-- validationLevel: "moderate"
+- Useful when you're doing one of the following:
 
-  - Useful when you're doing one of the following:
-
-    - Changing a schema, and you haven't migrated fully
-    - Application can't map the old schema to the new in just one update
-
-      - Perhaps because you're merging multiple documents into one can need to perform two-phase commits
-
+  - Changing a schema, and you haven't migrated fully
+  - Application can't map the old schema to the new in just one update
 
 .. include:: /includes/student-notes.rst
 
 
-Document Validation Options: Use Cases (continued)
---------------------------------------------------
+validationAction: "error"
+-------------------------
 
-  - validationAction: "error"
+- Useful when:
 
-    - Useful when:
-    
-      - The application needs to rely on valid documents
-      - Applications can't be trusted to write properly
-      - It is better to prevent invalid documents
+  - The application needs to rely on valid documents
+  - Applications can't be trusted to write properly
+  - It is better to prevent invalid documents
 
 .. include:: /includes/student-notes.rst
 
 
-Document Validation Options: Use Cases (continued)
---------------------------------------------------
+validationAction: "warn"
+------------------------
 
-  - validationAction: "warn"
+- Useful when:
 
-    - Useful when:
-
-      - You need to receive all writes
-      - Your application can handle multiple versions of the schema
-      - Tracking schema-related issues is important
+  - You need to receive all writes
+  - Your application can handle multiple versions of the schema
+  - Tracking schema-related issues is important
 
 .. include:: /includes/student-notes.rst
 
-  .. only:: instructor
+.. only:: instructor
 
-    .. note::
+   .. note::
 
       - You can compare their answers to what you've discussed in this slide and the previous ones
 
@@ -197,40 +181,11 @@ Document Validation Options: Use Cases (continued)
 Creating a Collection with Document Validation
 ----------------------------------------------
 
-- Suppose you want the following rules:
-
-  - At least one of the following:
-  
-    - The *phone* field is a string
-    - The *email* field matches a regular expression
-    - The *status* field is either "Unknown" or "Incomplete"
-
-  - You want the *error* action, not *warn*
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - The students may ask if it's strict or moderate validation
-    - Point out that it doesn't matter for new collections
-
-      - All new inserts must be valid
-      - All updates will be to valid documents
-
-    - So it's always *strict* for a new collection
-    - If you want the students to do it on their own, don't go to the next slide, yet
-
-
-Creating a Collection with Document Validation (Continued)
-----------------------------------------------------------
-
 .. code-block:: javascript
 
   db.createCollection("products",
      {
-        validator: { 
+        validator: {
             price: { $exists: true }
         },
         validationAction: "error"
@@ -275,13 +230,13 @@ Adding Validation to an Existing Collection
   db.products.insertOne( { name: "happiness" } )
   db.runCommand( {
      collMod: "products",
-     validator: { 
+     validator: {
          price: { $exists: true }
      },
      validationAction: "error",
      validationLevel: "moderate"
   } )
-  db.products.updateOne( { name : "happiness" }, { $set : { note: "You can't put a price on this." } } )
+  db.products.updateOne( { name : "happiness" }, { $set : { note: "Priceless." } } )
   db.products.updateOne( { name : "watch" }, { $unset : { price : 1 } } )
   db.products.insertOne( { name : "inner peace" } )
 
@@ -293,7 +248,7 @@ Adding Validation to an Existing Collection
 
     - First two inserts worked b/c there was no validation at first
     - First update worked b/c the document didn't match before the update
-    - Second update failed because it doesn't match the validator, and the document matched before the update was attempted
+    - Second update failed because it doesn't match the validator and the document matched before the update was attempted
     - Final insert failed because it didn't match the validator
 
 

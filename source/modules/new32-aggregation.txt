@@ -38,16 +38,8 @@ New Pipeline Operators
 ----------------------
 
 - ``$sample`` used to pull in a random set of documents
-
-  - You can specify how many
-
-- ``$indexStats`` shows how many hits the indexes get
-
-  - Since the server process started
-
-- ``$lookup`` pulls in data from another collection
-
-  - Matches a field on the two collections
+- ``$indexStats`` shows how many hits the indexes get since the server process started
+- ``$lookup`` enables you to do a left outer join across two collections
 
 .. include:: /includes/student-notes.rst
 
@@ -56,14 +48,10 @@ Introduction to ``$sample``
 ---------------------------
 
 - Randomized sample of documents
-- Useful for doing statistics
-
-- If sample is larger than 5% of the collection:
-
-  - ``$sample`` will perform a collection scan
-  - If not, it won't
-
-- Usable only as a first stage of the pipeline
+- Useful for calculating statistics
+- ``$sample`` provides an efficient means of sampling a data set
+- Though if the sample size requested is larger than 5% of the collection ``$sample`` will perform a collection scan
+- Can use ``$sample`` only as a first stage of the pipeline
 
 .. include:: /includes/student-notes.rst
 
@@ -82,34 +70,28 @@ Example: ``$sample``
 
   .. note::
 
-    - Obvioiusly, they will want their sample sizes to be large enough to be useful; 5 is too small for anything
+    - Users will want their sample sizes to be large enough to be useful.
+    - 5 is too small for anything
     - A statistician may be required for determining how much is enough; it depends on the distribution of data
-    - On WiredTiger, ``$sample`` can be quite slow as of the writing of this content.
-  
-      - https://jira.mongodb.org/browse/SERVER-23408
-      - This is a little slow, currently.
-  
+    - Currently, on WiredTiger, ``$sample`` can be quite slow. See: `SERVER-23408 <https://jira.mongodb.org/browse/SERVER-23408>`_.
+
 
 Introduction to ``$indexStats``
 -------------------------------
 
-- Tells you how many times each index has been used
-
-  - Since the server process began
-
+- Tells you how many times each index has been used since the server process began
 - Must be the first stage of the pipeline
-  
-  - You can use other stages to aggregate the data
-
-- One document per index
-
-  - A field increments each time the index gets used
+- You can use other stages to aggregate the data
+- Returns one document per index
+- The ``accesses.ops`` field reports the number of times an index was used
 
 .. include:: /includes/student-notes.rst
 
 
 Example: ``$indexStats``
 ------------------------
+
+Issue each of the following commands in the mongo shell, one at a time.
 
 .. literalinclude:: /includes/aggregation_scripts.js
   :language: javascript
@@ -131,26 +113,19 @@ Example: ``$indexStats``
 Introduction to ``$lookup``
 ---------------------------
 
-- Pulls documents from another collection into the pipeline
+- Pulls documents from a second collection into the pipeline
 
-  - In SQL terms, performs a left outer join 
-  - Works on an unsharded collection in the same DB
+  - In SQL terms, performs a left outer join
+  - The second collection must be in the same database
+  - The second collection cannot be sharded
 
 - Documents based on a matching field in each collection
-- This was previously not doable with a single query
+- Previously, you could get this behavior with two separate queries
+
+  - One to the collection that contains reference values
+  - The other to the collection containing the documents referenced
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - In some sense, this isn't completely *new* functionality
-  
-      - Previously, you could get this behavior with two separate queries
-  
-        - One for a collection that contains reference values
-        - The other for the referenced collection, using its values
 
 
 Example: Using ``$lookup``
@@ -174,31 +149,15 @@ Example: Using ``$lookup`` (Continued)
   :language: javascript
   :lines: 34-44
 
-
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
+Reviewing the Output
+--------------------
 
-  .. note::
-   
-    - Note that the comment documents get pushed in their entirety.
-    - It includes all companies that made it to the pipeline
-
-      - Even if there is no corresponding comment (as for IBM)
-
-    - Does not include documents in commentOnEmployees that don't match.
-
-
-``$lookup`` Considerations
---------------------------
-
-- Match a local field to a foreign field
-
-  - i.e., a field in another collection
-
-- The foreign collection cannot be sharded
-
-  - But the collection you're aggregating can be
+- All companies matching the filter are included.
+- Even if there is no corresponding comment (as for IBM)
+- Note that the comment documents joined to each match are included in their entirety.
+- Does not include documents in commentOnEmployees that don't match.
 
 .. include:: /includes/student-notes.rst
 
@@ -206,13 +165,11 @@ Example: Using ``$lookup`` (Continued)
 New Aggregation Functionality
 -----------------------------
 
-- 3.2 introduced a lot of new operators
+3.2 introduced several new operators and expanded the functionality of a few operators:
 
-  - Changed the functionality of a few operators
-
-- Accumulators for ``$group``
-- Arithmetic operators
-- Array operators
+- New accumulators for ``$group``
+- New arithmetic operators
+- New array operators
 - General enhancements
 
 .. include:: /includes/student-notes.rst
@@ -221,12 +178,9 @@ New Aggregation Functionality
 New Accumulators
 ----------------
 
-- Accumulators do math on a set of numbers
-
-  - Used in the ``$group`` stage
-
-- ``$stdDevSamp`` - Sample Standard Deviation
-- ``$stdDevPop`` - Population Standard Deviation
+- Used in the ``$group`` stage
+- ``$stdDevSamp`` - sample standard deviation
+- ``$stdDevPop`` - population standard deviation
 
 .. literalinclude:: /includes/aggregation_scripts.js
   :language: javascript
@@ -238,16 +192,14 @@ New Accumulators
 
   .. note::
 
-    - The standard deviation of a population means you're looking at every member
-    - The standard deviation of a sample means just a randomly selected subset of a larger population
-    - It is not necessary to use the ``$sample`` stage
-    - Don't go into the stats any deeper; this isn't a statistics class
-
-      - We used this example just to show the syntax
+    - The standard deviation of a population means you're looking at every member.
+    - The standard deviation of a sample means just a randomly selected subset of a larger population.
+    - It is not necessary to use the ``$sample`` stage.
+    - Don't go into the stats any deeper; this isn't a statistics class.
 
 
-New Aggregation Arithmetic
---------------------------
+New Arithmetic Operators
+------------------------
 
 - ``$sqrt``: Calculate a square root
 - ``$abs``: Calculate the absolute value
@@ -265,8 +217,8 @@ New Aggregation Arithmetic
     - But there are too many to practice, so just go over them quick
 
 
-New Aggregation Arithmetic (Continued)
---------------------------------------
+New Arithmetic Operators (Continued)
+------------------------------------
 
 - ``$pow``: Raise a number to an exponent
 - ``$exp``: Raise e to a power
@@ -295,8 +247,8 @@ Example: ``$trunc``
     - They can go to the manual for syntax
 
 
-New Aggregation Array Operators
--------------------------------
+New Array Operators
+-------------------
 
 - ``$slice``: returns a portion of an array
 - ``$arrayElemAt``: Returns an element at the index
@@ -321,50 +273,63 @@ Example: ``$filter``
   .. note::
 
     - Here we're filtering based on the round_code found in documents in the funding_rounds array.
-
-      - Just grabbing the subdocuments that match!
-
+    - Just grabbing the subdocuments that match!
     - Notice that the "cond" field of the ``$filter`` document requires an expression.
     - The use of ``$$`` is because there's a variable, "series_e_funding", which we're creating in this stage of aggregation.
-
-      - It doesn't yet exist as a field, because the ``$project`` round isn't done, yet.
+    - It doesn't yet exist as a field, because the ``$project`` round isn't done, yet.
 
 
 Changes to ``$unwind`` Behavior
 -------------------------------
 
-- ``$unwind`` can now be performed on a non-array value
+- ``$unwind`` no longer errors on non-array operands.
+- If the operand is not:
 
-  - Returned an error in 3.0
-  - Keeps document as-is for non-array values in 3.2
+  - An array,
+  - Missing
+  - null
+  - An empty array
+
+- $unwind treats the operand as a single element array.
 
 .. include:: /includes/student-notes.rst
+
+
+``$unwind`` with a Document Operand
+-----------------------------------
+
+``$unwind`` also supports this form:
+
+.. code-block:: javascript
+
+   {
+     $unwind:
+       {
+         path: <field path>,
+         includeArrayIndex: <string>,
+         preserveNullAndEmptyArrays: <boolean>
+       }
+   }
+
+
+Document Operand Semantics
+--------------------------
+
+- ``path`` -- field path to an array field
+- ``includeArrayIndex``	-- the name of a new field to hold the array index of the element (optional)
+- ``preserveNullAndEmptyArrays`` -- output a document only if ``true`` and the path is null, missing, or an empty array
 
 
 Using Accumulators with ``$project``
 ------------------------------------
 
-- Accumulators take a set of values and combine them
-- Previously, you could ``$group`` a field
-
-  - Get one value from many
-
-- Can be used with ``$project`` in 3.2
-
-  - If used on an array
-
-.. include:: /includes/student-notes.rst
-
-
-``$project`` Accumulators for 3.2
----------------------------------
+For array fields, the following accumulators can be used in the project stage starting in 3.2:
 
 - ``$avg``: Averages over values
 - ``$sum``: Sums the values
 - ``$min``: Finds the minimum value
 - ``$max``: finds the maximum value
 - ``$stdDevPop``, ``$stdDevSamp``
-- No other accumulators are currently supported
 
 .. include:: /includes/student-notes.rst
 
@@ -372,7 +337,7 @@ Using Accumulators with ``$project``
 
   .. note::
 
-    - Examples of unsupported accumulators:
+     Unsupported accumulators:
 
       - ``$first``, ``$last``
       - ``$push``
@@ -391,18 +356,16 @@ Example: ``$project`` Accumulators
 
   .. note::
 
-    - The example is simple enough that they can see everything
+    - The example is simple enough that students can see everything
     - One document out per document in
 
 .. include:: /includes/student-notes.rst
 
 
-``$project`` ing Arrays 
+``$project`` ing Arrays
 -----------------------
 
-- You can now use ``$project`` to create arrays
-
-  - From existing non-array fields
+You can now use ``$project`` to create arrays from existing non-array fields:
 
 .. literalinclude:: /includes/aggregation_scripts.js
   :language: javascript
