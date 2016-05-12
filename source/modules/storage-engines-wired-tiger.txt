@@ -25,8 +25,7 @@ What is WiredTiger?
 - Built to minimize contention between threads/processes
 - Designed to minimize disk I/O, fully utilize CPU resources
 - Introduced as a MongoDB storage engine in 3.0
-
-  - Became the default in MongoDB 3.2
+- WiredTiger became the default in MongoDB 3.2
 
 .. include:: /includes/student-notes.rst
 
@@ -40,9 +39,7 @@ Features of WiredTiger
   - No locks; read/write threads see data as it existed when the thread started
 
 - Different representations of data on-disk vs. in-memory
-
-  - On-disk compression (and encryption with Enterprise)
-
+- On-disk compression (and encryption with Enterprise)
 - Indexes implemented just like collections
 
 .. include:: /includes/student-notes.rst
@@ -58,25 +55,22 @@ Features of WiredTiger
       - Just index key and an ObjectId; not the full BSON document
 
         - So they're smaller
-      
+
 
 Concurrency in WT
 -----------------
 
 - Updates don't happen in-place; a new copy is made
-
-  - Old copies remain as long as necessary
-
-- Reads/writes see only data commited before they begin
+- Old copies remain as long as necessary
+- Reads/writes see only data committed before they begin
 - If writes conflict, only one will "win"
-
-  - The "losing" thread will start over, but cannot commit
+- The "losing" thread will start over, but cannot commit
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - This is all conceptual for now; that's OK
     - These statements apply not only to documents, but also to indexes
@@ -86,24 +80,21 @@ Concurrency in WT
 Writes in WT
 ------------
 
-- When writes happen: 
+- When writes happen:
 
-  - The new version of the document is first prepared 
-  
-    - This takes a little time
-
+  - The new version of the document is first prepared
+  - This takes a little time
   - In a single CPU cycle, the write gets committed
 
 - Even two adjacent documents, getting updated simultaneously, won't conflict
 - If writes do conflict, only one succeeds
-
-  - The other write will will be retried with back-off
+- The other write will will be retried with back-off
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - by "a little time", the exact time depends on:
 
@@ -121,15 +112,12 @@ Writes in WT
 Introduction to the WiredTiger Cache
 ------------------------------------
 
-- The WT cache is separate from the filesystem cache 
-
-  - Their sum is limited by available RAM
-
+- The WT cache is separate from the filesystem cache
+- Their sum is limited by available RAM
 - Greater of either 1 GB, or 60% of RAM minus 1 GB
 - MongoDB writes to, and reads from, the WT cache
 - The filesystem cache routes data from WT to disk and back
-
-  - The FS cache *can* be an I/O bottleneck
+- The FS cache *can* be an I/O bottleneck
 
 .. include:: /includes/student-notes.rst
 
@@ -140,30 +128,27 @@ Introduction to the WiredTiger Cache
     - In 3.0, WT cache size was the greater of 50% of RAM or 2 GB
     - WT cache size is tunable
     - FS cache will have to thrash a lot when reading/writing if it's too small
-
-      - There's a reason why the default FS cache is about as big as the WT cache.
+    - There's a reason why the default FS cache is about as big as the WT cache.
 
 
 WT Data Structures - Pages
 --------------------------
 
-- Pages of documents are kept in b+tree structures 
+- Pages of documents are kept in b+tree structures
 
   - One tree per collection
   - Many pages per tree
 
 - Root page points to internal pages
 - Internal pages point to leaf pages
-
-  - Can also point to other internal pages
-
-- Leaf pages contain the data (i.e., documents)
+- Can also point to other internal pages
+- Leaf pages contain data (i.e., documents)
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - This isn't quite a simple b+tree:
     - All data is in the leaf nodes (like a b+tree)
@@ -177,22 +162,16 @@ WT Data Structures - Pages (Continued)
 --------------------------------------
 
 - Pages are ordered and grouped by recordId
-- RecordId is an internal identifier, *not* the _id!
-
-    - recordId is used for the MongoDB Storage Engine API 
-
-      - used by WiredTiger and MMAPv1
-
-    - _id is a MongoDB value
-
-  - In WT, it's a unique identifier (and is immutable)
-  - In MMAPv1, it was a file offset (and mutable)
+- recordId is an internal identifier, *not* the _id
+- recordId is used for the MongoDB Storage Engine API
+- In WT, it's a unique identifier (and is immutable)
+- In MMAPv1, it was a file offset (and mutable)
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - `cursor.showRecordId()` will display the recordId in documents
 
@@ -201,8 +180,7 @@ WT Data on Disk
 ---------------
 
 - Data is organized into pages, just like in the cache
-
-  - Root, internal, and leaf pages
+- Root, internal, and leaf pages
 
 - Each leaf page has:
 
@@ -219,14 +197,11 @@ WT Data on Disk
   .. note::
 
     - This section is to help them understand pages in the cache
-
-      - The cache is simpler
-
+    - The cache is simpler
     - Compression / encryption is determined when the mongod is launched
     - Encryption at rest is only for MongoDB Enterprise
-    
-      - Sometimes called the "Encrypted Storage Engine," but it's not a new storage engine, it's just WT with additional functionality
-     
+    - Sometimes called the "Encrypted Storage Engine," but it's not a new storage engine, it's just WT with additional functionality
+
 
 WT Cache - Pages
 ----------------
@@ -234,41 +209,29 @@ WT Cache - Pages
 - 3 parts:
 
   - Copy of the on-disk page (read only)
-  - A small index to find the keys on the page 
-  
-    - Built when the page is read from disk
-
+  - A small index to find the keys on the page built when the page is read from disk
   - A skip list for writes (this can grow quite large)
 
-- Writes do not cause pages to split (yet)
+- Writes do not cause pages to split
 
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
-
-  .. note::
-
-    - There is a picture of a tree on the next page.
-    - The on-disk page is decompressed (if compression is used)
-    
-      - and unencrypted (if encryption is used)
 
 WT Cache - Trees
 ----------------
 
-.. figure:: /figures/trees-in-cache.png
-   :align: center
-   :figwidth: 700px
+.. include:: trees-in-cache.txt
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Pages will split during reconciliation (it's the next slide)
-    - Internal pages are 2K
-    - Leaf (data bearing) pages are 32K, but can grow to accommodate large documents
-
+      - Pages will split during reconciliation (see next slide)
+      - Internal pages are 2K
+      - Leaf (data bearing) pages are 32K, but can grow to accommodate large documents
       - Max of 16 MB, imposed by MongoDB
+
+.. include:: /includes/student-notes.rst
 
 
 WT Cache -- Reconciliation
@@ -285,9 +248,7 @@ WT Cache -- Reconciliation
 WT Cache -- Reconciliation (Continued)
 --------------------------------------
 
-.. figure:: /figures/wt-page-reconciliation.png
-   :align: center
-   :figwidth: 650px
+.. include:: wt-page-reconciliation.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -298,13 +259,9 @@ Checkpoints
 - WT's primary method of writing data to disk
 - WT reconciles writes, makes clean pages
 - A consistent snapshot of the data gets created, stored
-- A new checkpoint does not delete the old 
-
-  - Old pages get freed up later, in the background
-
-- Starts 60 seconds after the end of the last checkpoint
-
-  - Or 2 GB of writes
+- A new checkpoint does not delete the old
+- Old pages get freed up later, in the background
+- Starts 60 seconds after the end of the last checkpoint or 2 GB of writes
 
 .. include:: /includes/student-notes.rst
 
@@ -322,15 +279,10 @@ Checkpoints
 Checkpoints and Performance
 ---------------------------
 
-- Checkpoints are non-blocking operations
-
-  -  Still quite resource intensive
-
+- Checkpoints are non-blocking operations but are resource intensive
 - Lots of I/O (compression mitigates this)
 - Lots of CPU cycles (compression adds to this)
-- Can see a performance hit during checkpoints
-
-  - Especially for very large WT caches
+- Can see a performance hit during checkpoints, especially for very large WT caches
 
 .. include:: /includes/student-notes.rst
 
@@ -339,7 +291,7 @@ Checkpoints and Performance
   .. note::
 
     - Very large WT caches means around 100 GB+
-    - Ironically, high write throughput between checkpoints can mean a bigger hit to performance during checkpoints
+    - High write throughput between checkpoints can mean a bigger hit to performance during checkpoints
 
 Checkpoints - Old and New Pages
 -------------------------------
@@ -380,7 +332,7 @@ WT and the Journal
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - A separate thread uses shared memory to do the writes, so log buffers will be consolidated onto a single I/O process.
 
@@ -422,7 +374,7 @@ Compression in WT
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - We currently cap compression with zlib at 10x in order to prevent the CPU from working too long at compression/decompression
     - zlib is basically the same algorithm as gzip
@@ -439,8 +391,8 @@ Encryption in WT
 
 - Encrypted only on-disk; not in RAM
 
-  - Data is not natively encrypted over the wire 
-  
+  - Data is not natively encrypted over the wire
+
     - Can use TLS/SSL (covered in another section)
 
 .. include:: /includes/student-notes.rst
@@ -462,7 +414,7 @@ Indexes in WT
   - Same compression on-disk
   - Smaller b/c just keys are stored
 
-- Updated only: 
+- Updated only:
 
   - A document gets inserted/deleted
   - When the indexed field is updated
@@ -491,7 +443,7 @@ Indexes in WT: Prefix Compression
     - Index prefix compression:
 
       - It's called "compression," but it's just about storing the common prefix once per page.
-      
+
         - often can end up using *fewer* cpu cycles
 
     - Students may ask about Log Structured Merge (LSM) trees.
