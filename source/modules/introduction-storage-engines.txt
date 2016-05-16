@@ -73,7 +73,7 @@ With the release of MongoDB 3.0, two storage engine options are available:
 Specifying a MongoDB Storage Engine
 -----------------------------------
 
-Use the ``storageEngine`` parameter to specify which storage engine MongoDB should use. E.g.,
+Use the ``--storageEngine`` parameter to specify which storage engine MongoDB should use. E.g.,
 
 .. code-block:: javascript
 
@@ -85,7 +85,8 @@ Use the ``storageEngine`` parameter to specify which storage engine MongoDB shou
 
    .. note::
 
-      - mmapv1 is used if storageEngine parameter isn't specified  
+      - In 3.0, mmapv1 is used by default
+      - Starting with 3.2, wiredTiger is used by default
 
 
 Specifying a Location to Store Data Files
