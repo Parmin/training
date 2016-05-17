@@ -25,7 +25,10 @@ Day 3
 -----
 
 - Applications and Drivers
-- Replication
+- Sharding
+
+  - Basics
+  - Advance
 
 .. include:: /includes/student-notes.rst
 
@@ -33,7 +36,7 @@ Day 4
 -----
 
 - :doc:`/modules/agenda-nhtt-security`
-- Replication
+- Internals and Storage Engines
 
 .. include:: /includes/student-notes.rst
 
