@@ -175,10 +175,54 @@ Naming Restrictions in MMAPv1
  
 - *Cannot rename db just by renaming files*
 
+.. include:: /includes/student-notes.rst
+
+Namespace File
+--------------
+
+- Giant hash table, fixed in size, 16MB by default (--nssize)
+
+  - Class NamespaceDetails (628 bytes):
+  - DiskLoc firstExtent, lastExtent, deletedList
+  - Stats; // fast count()
+  - Index data
+
+- DiskLoc is a pointer to a location on disk (8 bytes)
+
+  - int fileNum; // the ‘0’ in test.0
+  - int offset; // position in the file
+
+- * Limit of ~24K collections and indexes per database* 
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - What’s a namespace? At the logical level, it’s a collection or index. At the physical level, it’s a data structure in the namespace file.
+    - Char nsname (key for hash table) 123 chars max
+    - Is 24K a lot? When could this be an issue? Each user gets own collection, new collection every minute/hour…
+    - Upper bound on ns file is 2GB, why? 32-bit, max offset is 2^32 – 1  same as max file size
+    - The system keeps track of deleted records by chaining them together as a linked list. Each namespace, which can involve multiple extents on multiple files, keeps track of 19 different lists of deleted records. Each list contains a different range of delete record sizes*. For example, list number 0 contains deleted records of sizes between 0 and 31 inclusive. List number 1 goes between 32 and 63 inclusive, and so on. The last list contains records of size 8,388,608 bytes and greater. The linked lists are connected via DiskLocs, which are like memory address pointers but relative to the beginnings of the files (offsets), so they are suitable to store on disk.
+    - Note that with power-of-2 collections, all the deleted records will be quantized into powers of 2 sizes within the buckets.
+
+
+Internal File Format
+--------------------
+
+.. include:: /images/internal-file-format.png
+
 .. include:: /includes/student-notes.rst
-.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Files are divided up into extents. Extents are allocated within files as needed until space inside the file is fully consumed by extents, then another file is allocated.
+
+
+
 .. include:: /includes/student-notes.rst
 .. include:: /includes/student-notes.rst
 
