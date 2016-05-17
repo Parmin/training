@@ -56,6 +56,8 @@ Stale Reads on a Primary
   - Its writes will eventually get rolled back
   - Under no circumstances will they get acknowledged
 
+    - With ``{ w : "majority" }``
+
 - In cases like these, stale reads are possible
 
 .. include:: /includes/student-notes.rst
@@ -80,7 +82,7 @@ Background: Dirty Reads
   - ... but that view *may* not persist
   - ... even in the history (i.e., oplog)
 
-- These occur when non-replicated data is read
+- Occur when non-majority-replicated data is read
 
   - Because that data *could* get rolled back
 
@@ -122,10 +124,9 @@ Dirty Reads and Write Concern
 
 - Write concern alone can not prevent dirty reads
 
-  - You could read non-replicated data from the primary
-  - That data is vulnerable to rollback
+  - Data on primary may be vulnerable to rollback
 
-- Read concern was implemented to prevent dirty reads
+- Read concern was implemented to allow developers the option of preventing dirty reads
 
 .. include:: /includes/student-notes.rst
 
@@ -155,10 +156,13 @@ Introduction to Read Concern
     - This is the historical behavior
     - Exposes the application to dirty reads
 
-  - ``majority``: data is static until durable
+  - ``majority``: data updates only when majority acknowledged
 
     - A version of the data is retained pre-acknowledgment
     - Writes get committed after a majority has them
+
+      - Committed first on the Primary
+      - When the primary gets acknowledgment from majority
 
 .. include:: /includes/student-notes.rst
 
@@ -239,9 +243,7 @@ Read Concern and Read Preference
 
   - Primary, secondary, etc.
 
-- Read concern determines the view of the data you see 
-
-  - Depending on the durability of the write
+- Read concern determines the view of the data you see, and does not update its data the moment writes are received
 
 .. include:: /includes/student-notes.rst
 
@@ -253,7 +255,7 @@ Read Concern and Read Preference: Secondary
 
   - Secondaries learn which writes are committed from the primary
 
-- Data on Secondaries might be behind the primary
+- Data on secondaries might be behind the primary
 
   - But *never* ahead of the primary
 
@@ -367,8 +369,8 @@ Replication Protocol Version 1 (Continued)
 
 - Also adds ``electionTimeoutMillis`` as an option
 
-  - How long to wait before calling for an election when Secondaries can't see the primary
-  - How long to wait before stepping down
+  - For secondaries: How long to wait before calling for an election
+  - For primaries: How long to wait before stepping down
 
     - After losing contact with the majority
     - This applies to the primary only
