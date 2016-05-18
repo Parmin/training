@@ -58,7 +58,11 @@ Stale Reads on a Primary
 
     - With ``{ w : "majority" }``
 
+<<<<<<< HEAD
 - In cases like these, stale reads are possible
+=======
+.. include:: /images/stale-reads-and-dirty-reads.rst
+>>>>>>> 341bdc21f3465094391906398ee2b5fc54d4ee50
 
 .. include:: /includes/student-notes.rst
 
@@ -93,12 +97,10 @@ Background: Dirty Reads
   .. note::
 
     - There's no way to know, during a dirty read, if its view of the data includes a write that will be rolled back
-    - Here's it's a good time to ask when writes can get rolled back
-
-      - Answers:
-
-        - If a network partition isolates the primary, a new one will be elected
-        - If the primary crashes, a new one will be elected and the old primary's writes will be rolled back
+    - Here is a good time to ask when writes can get rolled back
+    - Answers:
+      - If a network partition isolates the primary, a new one will be elected
+      - If the primary crashes, a new one will be elected and the old primary's writes will be rolled back
 
 
 Stale and Dirty Reads
@@ -176,12 +178,15 @@ Introduction to Read Concern
 
       - What can happen if I use a write concern of ``{ w: 1 }`` and read concern level of ``majority``?
 
+<<<<<<< HEAD
         - Answer: You will not have dirty reads ... but you may be unable to read your own writes
 
 
 Example: Read Concern Level Majority
 ------------------------------------
 
+=======
+>>>>>>> 341bdc21f3465094391906398ee2b5fc54d4ee50
 .. include:: /images/read-concern.rst
 
 .. include:: /includes/student-notes.rst
@@ -260,13 +265,20 @@ Read Concern and Read Preference: Secondary
 .. include:: /includes/student-notes.rst
 
 
-Using Read Concern
-------------------
+Read Concern: Summary
+---------------------
+
+- readConcern: "majority" prevents dirty reads
+- Reading from the primary prevents stale reads
+
+  - Even without read concern: "majority"
+
+- New in MongoDB 3.2
 
 - To use read concern, you must:
 
   - Use WiredTiger on all members
-  - Launch all mongod's in the set with
+  - Launch all mongods in the set with
 
     - ``--enableMajorityReadConcern``
 
@@ -283,9 +295,8 @@ Using Read Concern
 
   .. note::
 
-    - If running with read concern level: "majority" but not Write concern ``{ w: "majority" }``, it would be possible to insert a document, get it acknowledged, and then try to read it back, but not see it.
-
-      - They shouldn't do this
+    - If running with read concern level: "majority" but not write concern ``{ w: "majority" }``, it would be possible to insert a document, get it acknowledged, and then try to read it back, but not see it.
+    - Obviously, users should not do this.
 
 
 Example: Using Read Concern
@@ -368,10 +379,7 @@ Replication Protocol Version 1 (Continued)
 - Also adds ``electionTimeoutMillis`` as an option
 
   - For secondaries: How long to wait before calling for an election
-  - For primaries: How long to wait before stepping down
-
-    - After losing contact with the majority
-    - This applies to the primary only
+  - For primaries: How long to wait before stepping down after losing contact with the majority
 
 - Required for read concern level ``majority``
 
@@ -383,8 +391,8 @@ Replication Protocol Version 1 (Continued)
 
     - Old replication protocol is now known as replication protocol 0
     - Previously, secondaries would acknowledge writes before those writes were journaled
-    - A short electionTimeoutMillis can result in lots of elections, especially with a flaky network
-    - A long electionTimeoutMillis can result in lower availability due to longer failover time
+    - A short ``electionTimeoutMillis`` can result in lots of elections, especially with a flaky network
+    - A long ``electionTimeoutMillis`` can result in lower availability due to longer failover time
 
 
 CSRS: Config Servers as Replica Sets
