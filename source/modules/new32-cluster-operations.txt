@@ -11,7 +11,7 @@ Upon completing this module, students will be able to:
 - Distinguish stale from dirty reads
 - Use read concern in MongoDB 3.2
 - Describe how read concern prevents dirty reads
-- List the features of Replication Protocol 1
+- List the features of Replication Protocol 1.0
 - List the benefits of using config servers as replica sets (CSRS)
 
 .. include:: /includes/student-notes.rst
@@ -352,17 +352,16 @@ What must you do in order to make the database return documents that have been r
         - Alternatively, use read concern level ``majority`` with a driver's connection pool
 
 
-Replication Protocol Version 1
-------------------------------
+Replication Protocol Version 1.0
+--------------------------------
 
-- MongoDB 3.2 introduces Protocol Version 1
-- Implies that secondaries journal before acknowledging writes
+- MongoDB 3.2 introduces Protocol Version 1.0
+- Secondaries now write to disk before acknowledging writes
 
-  - Regardless of j parameter on primary
+  - Regardless of ``j`` parameter on primary
 
 - ``{ w : "majority" }`` now implies ``{ j : true }``
 
-  - On the primary, regardless of j parameter
   - Remember, secondaries acknowledge after writing to the journal, too
 
 .. include:: /includes/student-notes.rst
