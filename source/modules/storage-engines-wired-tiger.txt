@@ -371,10 +371,10 @@ WT and the Journal
 ------------------
 
 - Journal is *on* by default
-- Without journaling, writes only go to disk at checkpoints
-- With it, writes get logged between checkpoints
+- A complete view of data is captured on disk at the last checkpoint 
+- Writes get logged to the journal between checkpoints
 - The journal is compressed (Snappy by default)
-- The journal in WT writes every 50 ms by default
+- The journal in WT writes to disk every 50 ms
 
 .. include:: /includes/student-notes.rst
 
@@ -394,16 +394,15 @@ WT and the Journal
     - Multiple threads writing to the journal can piggy back onto the same write to disk
 
 
-WT Without the Journal
-----------------------
+Pitfall: WT Without the Journal
+-------------------------------
 
-- Turning off the journal will degrade performance
+- Don't use WiredTiger without the journal
+- Turning off the journal will degrade performance with ``{ j : true }``
 
-  - If the server must write to server to acknowledge writes, it will begin a checkpoint
+  - If the server must write to disk to acknowledge writes, it will begin a checkpoint
   - The overhead of the frequent checkpoints will far exceed the gains you would get by running without journaling
-  - Remember, with replication protocol 1.0, secondaries will write to disk before acknowledging
-
-    - ... and ``{ w : "majority" }`` implies ``{ j : true }``
+  - Remember, with replication protocol 1, ``{ w : "majority" }`` implies ``{ j : true }``
 
 .. include:: /includes/student-notes.rst
 
