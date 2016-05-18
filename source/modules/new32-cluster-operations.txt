@@ -356,15 +356,19 @@ Replication Protocol Version 1
 ------------------------------
 
 - MongoDB 3.2 introduces Protocol Version 1
-- ``{ w : "majority" }`` now implies journaling before acknowledgment for all secondaries
-- Secondaries write to journal before acknowledging writes
+- Implies that secondaries journal before acknowledging writes
 
-  - "j" parameter still applies to the primary
+  - Regardless of j parameter on primary
+
+- ``{ w : "majority" }`` now implies ``{ j : true }``
+
+  - On the primary, regardless of j parameter
+  - Remember, secondaries acknowledge after writing to the journal, too
 
 .. include:: /includes/student-notes.rst
 
 
-Replication Protocol Version 1 (Continued)
+Replication Protocol Version 1 (continued)
 ------------------------------------------
 
 - Also adds ``electionTimeoutMillis`` as an option
