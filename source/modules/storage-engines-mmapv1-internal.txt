@@ -3,16 +3,14 @@ MMAPv1 Storage Engine
 =====================
 
 
-Learning Objectives
--------------------
-
-.. include:: /includes/student-notes.rst
+.. Learning Objectives
+.. -------------------
+.. 
+.. .. include:: /includes/student-notes.rst
 
 
 MMAPv1 in a Nutshell
 --------------------
-
-.. include:: /images/mmapv1-virtual-memory.png
 
 - Memory map all files to virtual memory
 
@@ -20,6 +18,8 @@ MMAPv1 in a Nutshell
   - MapViewOfFile in Windows
 
 - Let the OS handle *everything*
+
+.. image:: /images/memory-map-all-the-things.jpg
 
 .. include:: /includes/student-notes.rst
 
@@ -36,6 +36,13 @@ MMAPv1 in a Nutshell
       - *page fault!!!*
 
     - Every program using a shared library will see it at a different address space, though each points to the same physical spot in RAM
+
+Memory Mapping
+--------------
+
+.. image:: /images/mmapv1-virtual-memory.jpg
+  :width: 300px
+
 
 
 Pros and Cons
@@ -68,23 +75,22 @@ Pros and Cons (continued)
     - For a more built-from-the-ground-up storage engine, the engine would know where the bits are, and can manage them. For MMAPv1, we are at the mercy of the OS.
 
 
-Virtual Address Space
----------------------
-
-.. include:: /images/virtual-address-space.png
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - Virtual process size = total files size + overhead (connections, heap) x 2 for journal
-    - 32 bit: 2^32 = 4GB  2.5 GB
-    - 64 bit: 2^64 = 1.7x10^10GB! But we don’t get this (kernel and user space), really we get 48 bits
-    - Limitations for single mongod process; when you hit this, you can shard ;)
-    - The only significant user of 32 bits systems is the USA government, just don’t use them.
-    - Little endian only
+.. Virtual Address Space
+.. ---------------------
+.. 
+.. .. image:: /images/virtual-address-space.jpg
+.. 
+.. .. include:: /includes/student-notes.rst
+.. 
+.. .. only:: instructor
+.. 
+..   .. note::
+.. 
+..     - Virtual process size = total files size + overhead (connections, heap) x 2 for journal
+..     - 32 bit: 2^32 = 4GB  2.5 GB
+..     - 64 bit: 2^64 = 1.7x10^10GB! But we don’t get this (kernel and user space), really we get 48 bits
+..     - Limitations for single mongod process; when you hit this, you can shard ;)
+..     - The only significant user of 32 bits systems is the USA government, just don’t use them.
 
 
 How Much Data is in RAM?
@@ -110,6 +116,42 @@ How Much Data is in RAM?
     - Tuned down from Linux default of 10 MB.
 
 
+Concurrency
+-----------
+
+- We say we use locks, which scares DBAs as a lock is a heavyweight thing, but really we use latches.
+- In earlier versions, there was a single global latch. 
+
+  - Starting with 2.2, per database
+  - With 3.0, per collection
+ 
+- The latch is multiple-reader, single-writer, and is writer-greedy:
+
+  - Writers block readers; one writer max
+  - Unlimited readers (with no writer)
+  - "writer-greedy” means that once a write request comes in, all readers are blocked until the write completes
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Global isn’t really global, it’s at the mongod level
+    - To avoid page faults occurring during locks, keep a rolling history of calls to mincore. It tells us if a page is in memory and errors on the side of not giving a false positive. If the answer is 'no, the page is not there', then we release the lock. This operation is called 'yielding before page faults’.
+    - Our own algorithm about which pages are in memory, LRU on Linux (so writes don't wait on page faults); in the code it is described as:
+
+      -  // This is like the "L1 cache". If we're a miss then we fall through and check the
+      - // "L2 cache". If we're still a miss, then we defer to a system-specific system
+      - // call (or give up and return false if deferring to the system call is not enabled).
+
+    - W: big lock (instance lock), only used by few operations: fsync, lock
+    - R: used by journal. If someone use R, no one can take a ‘w’
+    - r/w: database locks
+    - There is no lock scheduler. While the journal commit is running (holding R), no write operations can run. The problem is that we prefer writers to readers, so a pending ‘write’ will hold ‘reads’
+    - most common operations that take a global lock: The most common are operations that explicitly or implicitly create/delete a collection or database, or rename a collection. Also, db.eval() takes the global write lock.
+
+
 Lifecycle of a Write
 --------------------
 
@@ -120,6 +162,7 @@ Lifecycle of a Write
   - Memory pressure from the OS
  
 - When do we call msync?
+
   - Once every 60 seconds (--syncdelay)
   - DataFileSync thread does background async flushes for each open file
 
@@ -140,18 +183,18 @@ Lifecycle of a Write
     - When we call msync on a file, it may not have all the change just described. The flushes are not atomic, it runs in the background. We don’t lock MongoDB when we flush.
 
 
-Exercise: Examine the Log Files
--------------------------------
-
-.. literalinclude:: /includes/storage-engines-mmapv1.sh
-   :language: shell
-   :lines: 6-14
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
+.. Exercise: Examine the Log Files
+.. -------------------------------
+.. 
+.. .. literalinclude:: /includes/storage-engines-mmapv1.sh
+..    :language: shell
+..    :lines: 6-14
+.. 
+.. .. include:: /includes/student-notes.rst
+.. 
+.. .. only:: instructor
+.. 
+..   .. note::
 
     - Where are we? We are in –dbpath. This directory must exist, we do not create it for you (why not? what could go wrong?)
     - There are two different ways to organize files; the default is to all reside in the same top level directory
@@ -167,7 +210,7 @@ Exercise: Examine the Log Files
 Naming Restrictions in MMAPv1
 -----------------------------
 
-- Db name in file name, so no OS forbidden characters, e.g. \0, /, \, .
+- Db name in file name, so no OS forbidden characters, e.g. \\0, /, \\, .
 
   - dbname.extension
  
@@ -177,22 +220,61 @@ Naming Restrictions in MMAPv1
 
 .. include:: /includes/student-notes.rst
 
-Namespace File
---------------
+.. Namespace File
+.. --------------
+.. 
+.. - Giant hash table, fixed in size, 16MB by default (--nssize)
+.. 
+..   - Class NamespaceDetails (628 bytes):
+..   - DiskLoc firstExtent, lastExtent, deletedList
+..   - Stats; // fast count()
+..   - Index data
+.. 
+.. - DiskLoc is a pointer to a location on disk (8 bytes)
+.. 
+..   - int fileNum; // the ‘0’ in test.0
+..   - int offset; // position in the file
+.. 
+.. - * Limit of ~24K collections and indexes per database* 
+.. 
+.. .. include:: /includes/student-notes.rst
+.. 
+.. .. only:: instructor
+.. 
+..   .. note::
+.. 
+..     - What’s a namespace? At the logical level, it’s a collection or index. At the physical level, it’s a data structure in the namespace file.
+..     - Char nsname (key for hash table) 123 chars max
+..     - Is 24K a lot? When could this be an issue? Each user gets own collection, new collection every minute/hour…
+..     - Upper bound on ns file is 2GB, why? 32-bit, max offset is 2^32 – 1  same as max file size
+..     - The system keeps track of deleted records by chaining them together as a linked list. Each namespace, which can involve multiple extents on multiple files, keeps track of 19 different lists of deleted records. Each list contains a different range of delete record sizes*. For example, list number 0 contains deleted records of sizes between 0 and 31 inclusive. List number 1 goes between 32 and 63 inclusive, and so on. The last list contains records of size 8,388,608 bytes and greater. The linked lists are connected via DiskLocs, which are like memory address pointers but relative to the beginnings of the files (offsets), so they are suitable to store on disk.
+..     - Note that with power-of-2 collections, all the deleted records will be quantized into powers of 2 sizes within the buckets.
 
-- Giant hash table, fixed in size, 16MB by default (--nssize)
 
-  - Class NamespaceDetails (628 bytes):
-  - DiskLoc firstExtent, lastExtent, deletedList
-  - Stats; // fast count()
-  - Index data
+.. Namespace Internal File Format
+.. ------------------------------
+.. 
+.. .. image:: /images/internal-file-format.jpg
+.. 
+.. .. include:: /includes/student-notes.rst
+.. 
+.. .. only:: instructor
+.. 
+..   .. note::
+.. 
+..     - Files are divided up into extents. Extents are allocated within files as needed until space inside the file is fully consumed by extents, then another file is allocated.
 
-- DiskLoc is a pointer to a location on disk (8 bytes)
+Corruption
+----------
 
-  - int fileNum; // the ‘0’ in test.0
-  - int offset; // position in the file
+- Is there a way to check data for corruption?
 
-- * Limit of ~24K collections and indexes per database* 
+  - Not easily as there are no checksums
+  - DiskLoc contains file number that doesn’t exist
+
+- ``mongodump --repair``
+
+  - Does not look for circular references
 
 .. include:: /includes/student-notes.rst
 
@@ -200,18 +282,16 @@ Namespace File
 
   .. note::
 
-    - What’s a namespace? At the logical level, it’s a collection or index. At the physical level, it’s a data structure in the namespace file.
-    - Char nsname (key for hash table) 123 chars max
-    - Is 24K a lot? When could this be an issue? Each user gets own collection, new collection every minute/hour…
-    - Upper bound on ns file is 2GB, why? 32-bit, max offset is 2^32 – 1  same as max file size
-    - The system keeps track of deleted records by chaining them together as a linked list. Each namespace, which can involve multiple extents on multiple files, keeps track of 19 different lists of deleted records. Each list contains a different range of delete record sizes*. For example, list number 0 contains deleted records of sizes between 0 and 31 inclusive. List number 1 goes between 32 and 63 inclusive, and so on. The last list contains records of size 8,388,608 bytes and greater. The linked lists are connected via DiskLocs, which are like memory address pointers but relative to the beginnings of the files (offsets), so they are suitable to store on disk.
-    - Note that with power-of-2 collections, all the deleted records will be quantized into powers of 2 sizes within the buckets.
+    - We don’t recall a single time where the corruption came from our code writing the wrong bits.
+    - If you have a cursor that should read 100 documents and there is an error after 5, it will simply close without reporting the error. Note that there should be an error/assertion in the log. Cursors have no idea how many documents they will match.
+    - Mongod could run for years with a corrupted file system if it never needs to read or write to these sections of the disk
 
 
-Internal File Format
---------------------
+Indexes
+-------
 
-.. include:: /images/internal-file-format.png
+- These are btree structures serialized to disk
+- Stored in the data files, but each record has an index node rather than a document
 
 .. include:: /includes/student-notes.rst
 
@@ -219,20 +299,182 @@ Internal File Format
 
   .. note::
 
-    - Files are divided up into extents. Extents are allocated within files as needed until space inside the file is fully consumed by extents, then another file is allocated.
+    - Want to add an image, here.
+    - Several items into single bucket/block -> not binary, n-ary
+    - Keeps in sorted order, multiple children in each node
+    - 8KB buckets <-- fixed size, variable length content
+    - fb optimization in 1.4 -> roughly cutting memory needs for index in half
+
+    - Bucket:
+      
+      - link to parent, root has link to null
+      - link to right most child, stats, the following 18 byte data structure for key nodes:
+
+        - pointer to left child, pointer to data record,  key offset (2 bytes)
+
+      - variable length data with fixed size references to it -> keep logarithmic access time
+      - think of array of key node data structures
+      - start at middle data structure, go half way in, look at key offset (tells you which of data objects you're looking at), and ask is key higher or lower than this value
+      - so traditional binary search algorithm with an extra layer of indirection to allow us to binary search with variable length data
 
 
+Preallocation
+-------------
+
+- We are aggressive, always create 1 spare file
+
+  - \(0\) 64MB, (1) 128MB, … , (5) 2GB, (6) 2GB, …
+ 
+- Can keep data files smaller with --smallfiles
+- Divide numbers by 4, i.e. double at 512MB
+- This does not actually make your data smaller
 
 .. include:: /includes/student-notes.rst
-.. include:: /includes/student-notes.rst
+
+.. only:: instrutor
+
+  .. note:: 
+
+    - Ask the students: Why do we always create a spare file?
+    - On Linux we automatically create the next numbered file as soon as we put a document in the current numbered file. (why?)
+    - Don’t want to do it when the file is needed, which could be slow if the OS does not support fallocate (OSX doesn’t)…
+    - Two spare files for journaling I think
+    - QUESTION: Why stop at 2GB? Support 32 bit systems, and every byte in file can be addressed by an integer that is no more than 32 bits in length, meaning can refer to offsets in file with standard soff_t type
+    - STORY: disks are expensive in some companies because they get sold by another department. A $100 disk may cost $500 due to the overhead. Some organizations may not be able to get the latest large size disk because they need to use some bought a long time ago, or “qualified”.
+
+Preallocation (continued)
+-------------------------
+
+- Namespace and numbered files allocated with OS specific implementation of posix_fallocate
+
+  - OS reserves the space, bytes may be zero’ed lazily
+
+.. - On Linux, fallocate only implemented in a few file drivers (ext4, xfs, ...)
+
+.. - On Windows, NTFS has equivalent, but not FAT
+.. - ZFS (used in Solaris, BSD...) not recommended in Linux due to inefficient preallocation
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - posix_fallocate(int fd, off_t offset, off_t len);
+    - QUESTION: Why “eagerly” allocate instead of relying on OS/FS to grow files on demand?
+
+      - Desire a contiguously allocated file
+      - Avoid checking running out of disk space in the code
+
+    - When customer asks for fs rec, whether or not it supports fallocate that is or isn’t buggy is relevant...
+    - CentOS5 has version of ext4 that does not have fallocate system call, so we have to recommend XFS in those cases
+    
+
+Fragmentation
+-------------
+
+- Files get fragmented over time from remove() and update() operations
+- Wastes disk space AND RAM
+- Makes writes scattered and slower
+
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Check fragmentation by comparing size to storageSize in the collection’s stats
+    - ``db.repairDatabase()``
+    - ``db.runCommand( { compact : "<collection name>" } )``
+    - NOTE TO SELF: add diagram
+
+
+Fragmentation (continued)
+-------------------------
+
+- 2.0: Added compact command
+
+  - Not automatically performed, maintenance op
+
+- 2.2: Added PowerOf2Sizes
+
+  - Makes deletedList buckets more reusable
+
+- 2.6: PowerOf2Sizes enabled by default
+
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - How else to fight fragmentation? At the developer level:
+    - Normalize schema more, design for in-place updates
+    - Pre-pad documents
+    - Use separate collections over time, then use collection.drop() instead of collection.remove(query)
+
+Stats
+-----
+
+Run the following:
+
+.. code-block:: javascript
+
+  db.stats()
+  db.collection.stats()
+
 .. include:: /includes/student-notes.rst
+
+Startup
+-------
+
+- First, check for mongod.lock
+
+  - If exists and has length > 0, then there is already a mongod running with this dbpath
+  - Contains PID of the running mongod, truncated to length 0 on clean shutdown
+
+- Check for write-ahead log in journal
+
+  - Before journaling (1.8), lock file was the only way to detect a clean shutdown.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - And if the shutdown is unclean? PID remains in lock file (What could go wrong? Problematic over NFS)
+    - If can't acquire lock, abort.
+    - No write-ahead log, i.e. journaling, before 1.8 (added early 2011?)
+
+The Problem that Lead to the Journal
+------------------------------------
+
+- Changes in memory mapped files are not applied in order and different parts of the file can be from different points in time
+- You want a consistent point-in-time snapshot when restarting after a crash
+- In Dec 2010 (version 1.8?), we wanted to introduce a 'writeAhead' mechanism like the RDBMS
+- We needed to build a pre-image of what we were going to write to the data file
+
 .. include:: /includes/student-notes.rst
 
 
+Solution:  The Journal
+----------------------
 
+- Data gets written to a journal before making it to the data files
+- Operations written to a journal buffer in RAM that gets flushed every 100ms by default or 100MB
+- Once the journal is written to disk, the data is safe
+- Journal prevents corruption and allows durability
+- Can be turned off, but don’t!
+- Writes every 100 ms if journal is on same disk as data files
 
+  - 30 ms if not
 
+.. include:: /includes/student-notes.rst
+
+.. Journal Format
+.. --------------
+.. 
+.. INCLUDE MANY IMAGES
+.. 
+.. .. include:: /includes/student-notes.rst
