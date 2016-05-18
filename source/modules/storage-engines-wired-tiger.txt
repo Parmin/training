@@ -511,3 +511,21 @@ Indexes in WT: Prefix Compression
       - LSM trees would allow updates to indexes to happen smoothly in the background during heavy write loads
 
         - Allows you to build additional tree structures to avoid requent rebalancing (during a bulk load, for example)
+
+
+Situations where WiredTiger Performs Poorly
+-------------------------------------------
+
+- Large number of collections being created/destroyed
+
+  - WT has to touch the disk to create files each time
+
+- Running without journaling but requiring acknowledgment of writes to disk
+
+  - Frequent checkpoints
+
+- Compression performs poorly with pre-compressed files
+
+  - e.g. image files
+
+.. include:: /includes/student-notes.rst
