@@ -10,10 +10,6 @@ file: /exercises/create-customrole
 description: |
   Lab on creating custom user roles
 ---
-file: /exercises/security-create-readwrite
-description: |
-  Lab on creating a read/write user
----
 file: /modules/security-authentication
 description: |
   Authentication in MongoDB
