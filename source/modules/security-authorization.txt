@@ -24,13 +24,15 @@ Authorization vs Authentication
 
 Authorization and Authentication are generally confused and misinterpreted concepts:
 
-- Authorization model defines the rules by which users can interact with a given system
-  - which operations can they perform
-  - over which resources
-- Authentication is the mechanism by with Users identify and are granted access to a system:
-  - validation of credentials and identities
-  - manages accounts
-  - allows access and operational interfaces
+- Authorization defines the rules by which users can interact with a given system:
+
+  - Which operations can they perform
+  - Over which resources
+
+- Authentication is the mechanism by which users identify and are granted access to a system:
+
+  - Validation of credentials and identities
+  - Controls access to the system and operational interfaces
 
 .. include:: /includes/student-notes.rst
 
@@ -38,13 +40,12 @@ Authorization and Authentication are generally confused and misinterpreted conce
 Authorization Basics
 --------------------
 
-MongoDB enforces a Role-Based Authorization Model.
-
-A user *is granted* roles that determine the user's access to database resources and operations.
+- MongoDB enforces a role-based authorization model.
+- A user *is granted* roles that determine the user's access to database resources and operations.
 
 The model determines:
   - Which roles are granted to users
-  - Which privileges compose roles
+  - Which privileges are associated with roles
   - Which actions can be performed over different resources
 
 .. include:: /includes/student-notes.rst
@@ -53,38 +54,35 @@ The model determines:
 
   .. note::
 
-    You can bring up the following open questions:
+    - You can bring up the following open questions:
+
       - What are privileges?
       - What kind of resources can be found on a typical database?
 
-    Have some open discussion about what defines an action and what defines an action.
+    - Have some open discussion about what defines an action.
+    - Also you can take the opportunity to give examples of different roles
+    in a company and how they are organized in terms of procedures and resources.
 
-    Also you can take the opportunity to give examples of different roles
-    in a company and how they are organized in terms of procedures and resources
 
+What is a resource?
+-------------------
 
-Authorization Resources
------------------------
-
-So what can be identified as a resource ?
-  - Databases ?
-  - Collections ?
-  - Documents ?
-  - Users ?
-  - Nodes ?
-  - Shard ?
-  - Replica Set ?
+- Databases?
+- Collections?
+- Documents?
+- Users?
+- Nodes?
+- Shard?
+- Replica Set?
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    These sets of questions are a precursor to the previous
-    small discussion around introduced concepts.
-
-    Don't spent more than 1 minute on this section.
+      - A resource is a database, collection, set of collections, or the cluster.
+      - If the resource is the cluster, the affiliated actions affect the state of the system rather than a specific database or collection.
 
 
 Authorization Resources
@@ -95,10 +93,8 @@ Authorization Resources
 - But that is not all. See next several slides.
 
 
-Authorization Resources
------------------------
-
-- Cluster
+Cluster Resources
+-----------------
 
 .. include:: /images/sharded-cluster-production-architecture.rst
 
@@ -108,28 +104,23 @@ Authorization Resources
 
   .. note::
 
-    Given the distributed nature of our database, MongoDB also represents
-    in the authorization module the cluster resource
-
-      - Replica Sets
-      - Shards
-
-    compose the Cluster domain.
+    - Given the distributed nature of our database, MongoDB includes the cluster resource in the authorization module.
+    - Replica sets and shards comprise the cluster domain.
 
 
-Authorization Actions
----------------------
+Types of Actions
+----------------
 
-Given a resource we will be able to perform **actions** over such resource:
+Given a resource, we can consider the available actions:
 
-- Query and Write Actions
-- Database Management Actions
-- Deployment Management Actions
-- Replication Actions
-- Sharding Actions
-- Server Administration Actions
-- Diagnostic Actions
-- Internal Actions
+- Query and write actions
+- Database management actions
+- Deployment management actions
+- Replication actions
+- Sharding actions
+- Server administration actions
+- Diagnostic actions
+- Internal actions
 
 .. include:: /includes/student-notes.rst
 
@@ -137,25 +128,24 @@ Given a resource we will be able to perform **actions** over such resource:
 
   .. note::
 
-    Actions are the verbs that one can perform on the database.
-    These verbs are organized in different types, although this organization
-    is logic one, not an operational one.
-
-    Here we can ask the students which common operations are they familiar
-    with while operating with a database and how does that
-    translate to MongoDB operations
+    - Actions are the operations that one can perform on database resources.
+    - The actions above are grouped by purpose.
+    - This organization is logical, not operational.
+    - Here we can ask the students which common operations they are familiar
+    with while operating with a database and how those translate to MongoDB operations.
 
 
-Authorization Actions
----------------------
+
+Specific Actions of Each Type
+-----------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: 50 50 50
 
-   * - Query & Write
+   * - Query and Write
      - Database Mgmt
-     - Deploy Mgmt
+     - Deployment Mgmt
    * - find
      - enableProfiler
      - planCacheRead
@@ -172,9 +162,7 @@ Authorization Actions
      - ...
      - ...
 
-You can check the `full list of privileges in MongoDB documentation <https://docs.mongodb.org/v3.0/reference/privilege-actions/#privilege-actions>`_.
-
-
+See the `complete list of actions <https://docs.mongodb.org/v3.0/reference/privilege-actions/#privilege-actions>`_  in the MongoDB documentation.
 
 .. include:: /includes/student-notes.rst
 
@@ -190,7 +178,7 @@ You can check the `full list of privileges in MongoDB documentation <https://doc
 Authorization Privileges
 ------------------------
 
-Privilege defines an action/operations that a user can perform on a resource
+A privilege defines a pairing between a resource as a set of permitted actions.
 
 Resource:
 
@@ -198,7 +186,7 @@ Resource:
 
   {"db": "yourdb", "collection": "mycollection"}
 
-Action: **find**
+Action: ``find``
 
 Privilege:
 
@@ -212,14 +200,13 @@ Privilege:
 
 .. include:: /includes/student-notes.rst
 
+
 .. only:: instructor
 
-.. note::
+   .. note::
 
-  On this section we want to explain that we can set a privilege that
-  spans across multiple different actions over a given resource.
-
-  Also important to highlight that we can set `loose` resources like *all databases* or *all collections*
+      - We want to explain that we can set a privilege that enables multiple actions on a given resource.
+      - Also important to highlight that we can set `loose` resources like ``all databases`` or ``all collections``
 
   .. code-block:: javascript
 
@@ -232,13 +219,11 @@ Privilege:
 Authorization Roles
 -------------------
 
-MongoDB grants access to data through a role-based authorization system
+MongoDB grants access to data through a role-based authorization system:
 
-Built-in roles:
-  - Pre-canned roles that cover the most common sets of privileges users may require
+  - Built-in roles: pre-canned roles that cover the most common sets of privileges users may require
 
-User-defined roles:
-  - If there’s a specific set of privileges not covered by the existing built-in your able to create your own roles
+  - User-defined roles: if there is a specific set of privileges not covered by the existing built-in roles you are able to create your own roles
 
 .. include:: /includes/student-notes.rst
 
@@ -295,13 +280,13 @@ Built-in Roles
     Built-in roles have been created given the generic users that interact
     with a database and their respective tasks.
 
-    - Database user roles: should be granted to application side users;
-    - Database administrators: roles conceived for system administrator, DBA’s and security officers
-    - Cluster Administrator roles: mostly for system administrators and DBA's; individuals that will deal with the overall administration of deployments
-    - Backup & Restore: for applications that perform only backup and restore operations – Cloud & Ops manager, for example
+    - Database user roles: should be granted to application-side users;
+    - Database administrators: roles conceived for system administrator, DBAs and security officers
+    - Cluster Administrator roles: mostly for system administrators and DBAs; individuals that will deal with the overall administration of deployments
+    - Backup and Restore: for applications that perform only backup and restore operations – Cloud and Ops manager, for example
     - All Database Roles: for global administrators of a deployment. If you want to avoid granting the same role for every single database
     - Superuser: root level operations. Generally the first user that you create on any give system should probably have a root role and then add other specific users.
-    - Internal: it’s documented, it’s public but don’t mention it too much. This a backdoor (if you want to called it like that) that only the cluster members (other replica set members, or a mongos) should have access to. Do not assign this role to user objects representing applications or human administrators.
+    - Internal: it’s documented, it’s public but don’t mention it too much. This a backdoor that only the cluster members (other replica set members, or a mongos) should have access to. Do not assign this role to user objects representing applications or human administrators.
 
 
 Built-in Roles
@@ -326,6 +311,7 @@ To `grant` roles while creating an user:
 
 .. include:: /includes/student-notes.rst
 
+
 Built-in Roles
 --------------
 
@@ -347,13 +333,13 @@ To `grant` roles to existing user:
 User-defined Roles
 ------------------
 
-For situations where we can't find a suitable built-in role that meets our user
+- For situations where we can't find a suitable built-in role that meets our user
 needs we can create our own role.
-To create a role we need to define:
+- To create a role we need to define:
 
-- name
-- set of privileges
-- list of inherit roles (optional)
+  - Role name
+  - Set of privileges
+  - List of inherit roles (optional)
 
 .. code-block:: javascript
 
@@ -371,12 +357,11 @@ To create a role we need to define:
 Role Privileges
 ---------------
 
-To check which the `privileges` of any particular `role` we can get that information using `getRole` method:
+To check the `privileges` of any particular `role` we can get that information using `getRole` method:
 
 .. code-block:: javascript
 
-  db.getRole("insertAndFindOnlyMyDB",
-    {showPrivileges: true} )
+  db.getRole("insertAndFindOnlyMyDB", {showPrivileges: true})
 
 
 .. include:: /includes/student-notes.rst
@@ -385,8 +370,7 @@ To check which the `privileges` of any particular `role` we can get that informa
 
   .. note::
 
-    There are many other authorization and user management commands and options that you should get your students acquainted with.
-    All of those can be found in the `security reference <https://docs.mongodb.org/manual/reference/security/>`_
+    There are many other authorization and user management commands and options that you should get your students acquainted with. All of those can be found in the `security reference <https://docs.mongodb.org/manual/reference/security/>`_
 
     The output of this slide command is should be similar to the following:
 
