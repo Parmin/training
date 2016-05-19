@@ -6,14 +6,15 @@ Authorization
 Learning Objectives
 -------------------
 
-Upon completing this module, students should understand:
+Upon completing this module, students should be able to:
 
-- Authorization Model
-- Different Resources and Actions available
-- How to create Privileges
-- How to create User-defined Roles
-- Different MongoDB Built-in Roles
-- How to grant Roles to Users
+- Outline MongoDB's authorization model
+- List authorization resources
+- Describe actions users can take in relation to resources
+- Create roles
+- Create privileges
+- Outline MongoDB built-in roles
+- Grant roles to users
 
 .. include:: /includes/student-notes.rst
 
