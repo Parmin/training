@@ -18,8 +18,7 @@ MongoDB Essentials Training
    /modules/nav/mongomart-fundamentals
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
-   /modules/nav/security-essentials
+   /modules/nav/security
+   /modules/nav/new-in-3-2
    /modules/nav/mms
    /modules/nav/mms-advanced
-   /modules/nav/new-in-3-2
-
