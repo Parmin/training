@@ -5,32 +5,23 @@ Encryption
 Learning Objectives
 -------------------
 
-Upon completing this module, you should understand:
+Upon completing this module, students should understand:
 
-- Encryption Capabilities of MongoDB
-- Network Encryption
-- Native Encryption
-- Third Party Integration
+- The encryption capabilities of MongoDB
+- Network encryption
+- Native encryption
+- Third party integrations
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - Simple set of slides that go through the configuration options of our auditing capabilities.
-
-    Account for 10 minutes or less for the delivery of this content.
 
 
 Encryption
 ----------
 
-Encryption capabilities are important features that a database should provide.
-
 MongoDB offers two levels of encryption
-- Transport Layer
-- Encryption at Rest (>=3.2)
+
+- Transport layer
+- Encryption at rest (MongoDB Enterprise >=3.2)
 
 .. include:: /includes/student-notes.rst
 
@@ -44,13 +35,12 @@ MongoDB offers two levels of encryption
 Network Encryption
 ------------------
 
-MongoDB enables TLS/SSL encryption for transport layer encryption of all MongoDB instances traffic.
+- MongoDB enables TLS/SSL for transport layer encryption of traffic between nodes in a cluster.
+- Three different network architecture options are available:
 
-There different network architecture options that can be configured:
-
-- Encryption Application traffic connections
-- Full encryption of all connections
-- Mixed encryption between nodes
+  - Encryption of application traffic connections
+  - Full encryption of all connections
+  - Mixed encryption between nodes
 
 .. include:: /includes/student-notes.rst
 
@@ -72,12 +62,11 @@ MongoDB Enterprise comes with a encrypted storage engine.
   - AES256-CBC: 256-bit Advanced Encryption Standard in Cipher Block Chaining mode (default)
 
     - symmetric key (same key to encrypt and decrypt)
+
   - AES256-GCM: 256-bit Advanced Encryption Standard in Galois/Counter Mode
-  - FIPS also available
+  - FIPS is also available
 
-
-
-- Enables integration with Key Management tools
+- Enables integration with key management tools
 
 .. include:: /includes/student-notes.rst
 
@@ -85,14 +74,15 @@ MongoDB Enterprise comes with a encrypted storage engine.
 Encryption and Replication
 --------------------------
 
-Encryption is not part of replication:
+- Encryption is not part of replication:
 
-- Master keys are not replicated
+  - Data is not natively encrypted on the wire
 
-  - Each node should have their own individual keys
-- Data is not natively encrypted on the wire
+    - Requires transport encryption to ensure secured transmission
 
-  - Requires transport encryption to ensure secured transmission
+  - Encryption keys are not replicated
+
+    - Each node should have their own individual keys
 
 .. include:: /includes/student-notes.rst
 
@@ -101,11 +91,11 @@ Encryption is not part of replication:
   .. note::
 
     - Important to raise awareness to this point
-    - many students might get the impression that configuring encryption in one of the nodes would be enough when that's not the case
-    - wire data needs to encrypted through TLS/SSL configuration
-
-      - Encrypted Storage Engine only provides encryption on data at rest
+    - Many students might get the impression that configuring encryption in one of the nodes would be enough when that's not the case
+    - Wire data needs to encrypted through TLS/SSL configuration
+    - Encrypted Storage Engine only provides encryption on data at rest
     - We should use different encryption keys for different nodes.
+
 
 Third Party Integration
 -----------------------
@@ -113,6 +103,7 @@ Third Party Integration
 - Key Management Interoperability Protocol (KMIP)
 
   - Integrates with Vormetric Data Security Manager (DSM) and SafeNet KeySecure
+
 - Storage Encryption
 
   - Linux Unified Key Setup (LUKS)
@@ -120,6 +111,7 @@ Third Party Integration
   - Vormetric Data Security Platform
 
     - Also enables Application Level Encryption on per-field or per-document
+
   - Bitlocker Drive Encryption
 
 .. include:: /includes/student-notes.rst
@@ -129,8 +121,6 @@ Third Party Integration
 
   .. note::
 
-    MongoDB offers some integration options for Key Management and Storage Encryption
-
+    - MongoDB offers some integration options for Key Management and Storage Encryption
     - Key managers are recommended for good security practices like key expiration and rotation
     - Key managers are important if we want to be complaint with HIPAA, PCI-DSS, and FERPA certifications
-    - Third Party encryption is considered legacy options for previous versions of MongoDB (<3.2) where Encrypted Storage Engine was not available
