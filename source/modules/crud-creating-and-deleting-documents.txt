@@ -138,8 +138,8 @@ Example: Inserts will fail if...
          db.movies.insertOne( { "Star Wars" } )
 
 
-insertMany
-----------
+``insertMany()``
+----------------
 
 - You may bulk insert using an array of documents.
 - Use ``insertMany()`` instead of ``insertOne()``
@@ -155,8 +155,8 @@ insertMany
 .. include:: /includes/student-notes.rst
 
 
-Ordered insertMany
-------------------
+Ordered ``insertMany()``
+------------------------
 
 - For ordered inserts MongoDB will stop processing inserts upon encountering an error.
 - Meaning that only inserts occurring before an error will complete.
@@ -166,10 +166,10 @@ Ordered insertMany
 .. include:: /includes/student-notes.rst
 
 
-Example: Ordered insertMany
----------------------------
+Example: Ordered ``insertMany()``
+---------------------------------
 
-Experiment with the following insertMany.
+Experiment with the following operation.
 
 .. code-block:: javascript
 
@@ -189,21 +189,21 @@ Experiment with the following insertMany.
       - Only the first 3 documents will be inserted.
 
 
-Unordered insertMany
---------------------
+Unordered ``insertMany()``
+--------------------------
 
-- Pass ``{ ordered : false }`` to insert to perform unordered inserts.
+- Pass ``{ ordered : false }`` to ``insertMany()`` to perform unordered inserts.
 - If any given insert fails, MongoDB will still attempt all of the others.
 - The inserts may be executed in a different order than you specified.
 - The next exercise is very similar to the previous one.
-- However, we are using ``{ ordered : false }``
+- However, we are using ``{ ordered : false }``.
 - One insert will fail, but all the rest will succeed.
 
 .. include:: /includes/student-notes.rst
 
 
-Example: Unordered insertMany
------------------------------
+Example: Unordered ``insertMany()``
+-----------------------------------
 
 Experiment with the following insert.
 
