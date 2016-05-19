@@ -91,20 +91,7 @@ Authorization Resources
 
 - Databases
 - Collections
-
-.. include:: /images/security-resources.rst
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    The resources available in MongoDB are:
-      - databases
-      - collections
-
-    But that is not all. See next slides.
+- But that is not all. See next several slides.
 
 
 Authorization Resources
