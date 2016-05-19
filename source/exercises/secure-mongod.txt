@@ -1,43 +1,39 @@
-============================
-Lab: My First Secured mongod
-============================
+==================
+Lab: Secure mongod
+==================
 
 Premise
 -------
 
-It's time for us to get start setting
-our first MongoDB instance with security enabled!
+It is time for us to get started setting up our first MongoDB instance with authentication enabled!
 
 .. only:: instructor
 
    .. note::
 
-      Expected time:
+      - Expected time: 5 minutes
+      - Prerequisites:
 
-      - 5 minutes
+        - Students should have installed MongoDB Enterprise or compiled MongoDB community with --ssl flags.
 
-      Prerequisites:
-
-      - Students should have installed MongoDB Enterprise version or compiled MongoDB community with --ssl flags.
 
 Launch ``mongod``
 -----------------
 
-1. Let's start by launching a ``mongod`` instance:
+Let's start by launching a ``mongod`` instance:
 
 .. code-block:: bash
 
   mkdir /data/secure_instance_dbpath
   mongod --dbpath /data/secure_instance_dbpath --port 28000
 
-At this moment there is nothing special about this setup.
-Just an ordinary `mongod` instance ready to receive connections.
+At this point there is nothing special about this setup. It is just an ordinary `mongod` instance ready to receive connections.
 
 
 Root level user
 -------------------
 
-2. Create ``root`` level user:
+Create a ``root`` level user:
 
 .. code-block:: bash
 
@@ -50,25 +46,22 @@ Root level user
     user: "maestro",
     pwd: "maestro+rules",
     customData: { information_field: "information value" },
-    roles: [
-      { role: "root", db: "admin" }
-      ]
-    } )
+    roles: [ {role: "root", db: "admin" } ]
+  } )
 
 .. only:: instructor
 
   .. note::
 
-    At this point is convenient to mention the different built-in roles.
-
-    `root` is superuser role so make sure you mention his privileges.
+    `root` is a superuser role so make sure you mention the privileges.
 
     https://docs.mongodb.org/manual/reference/built-in-roles/#superuser-roles
+
 
 Enable Authentication
 ---------------------
 
-3. Launch ``mongod`` with ``auth`` enabled
+Launch ``mongod`` with ``auth`` enabled
 
 .. code-block:: bash
 
@@ -82,9 +75,8 @@ Enable Authentication
     With these commands, you can mention that:
 
     - `mongo admin --eval 'db.shutdownServer()'` is a clean shutdown of the server
-    - ``timeoutSecs`` is parameter that should be used to control shutdown operation
-
-      - Especially w/ Replica Sets, which they'll be using, soon.
+    - ``timeoutSecs`` is parameter that can be used to control the shutdown operation
+    - Especially w/ Replica Sets, which they'll be using, soon.
 
 Connect using the recently created ``maestro`` user.
 
