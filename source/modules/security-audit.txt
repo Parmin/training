@@ -29,10 +29,10 @@ Audit Events
 
 Once enabled, the auditing system can record the following operations:
 
-- Schema (DDL)
+- Schema
 - Replica set and sharded cluster
 - Authentication and authorization
-- CRUD operations (off by default)
+- CRUD operations (DML, off by default)
 
 
 Auditing Configuration
