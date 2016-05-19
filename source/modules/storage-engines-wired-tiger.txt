@@ -312,7 +312,7 @@ Checkpoints
 
   .. note::
 
-    - The journal can be used to write to disk between checkpoints
+    - The journal should be used to write to disk between checkpoints
     - "Clean" pages in this context means that they have an empty update list
 
       - Everything gets incorporated into the "on disk" page
@@ -371,10 +371,10 @@ WT and the Journal
 ------------------
 
 - Journal is *on* by default
-- Without journaling, writes only go to disk at checkpoints
-- With it, writes get logged between checkpoints
+- A complete view of data is captured on disk at the last checkpoint 
+- Writes get logged to the journal between checkpoints
 - The journal is compressed (Snappy by default)
-- The journal in WT writes every 100 ms by default
+- The journal in WT writes to disk every 50 ms
 
 .. include:: /includes/student-notes.rst
 
@@ -382,6 +382,7 @@ WT and the Journal
 
   .. note:: 
 
+    - WT journal commit interval was 100 ms in 3.0
     - A separate thread uses shared memory to do the writes, so log buffers will be consolidated onto a single I/O process.
 
       - This is how multiple threads can all get their journal writes in at the same time
@@ -393,17 +394,26 @@ WT and the Journal
     - Multiple threads writing to the journal can piggy back onto the same write to disk
 
 
-WT Without the Journal
-----------------------
+Pitfall: WT Without the Journal
+-------------------------------
 
-- WT does not require the journal for consistency
+- Don't use WiredTiger without the journal
+- Turning off the journal will degrade performance with ``{ j : true }``
 
-  - Checkpoints *already* give consistent views of the data
-
-- Turning off the journal eliminates its overhead
-- Replication (without journal) is enough for many use cases
+  - If the server must write to disk to acknowledge writes, it will begin a checkpoint
+  - The overhead of the frequent checkpoints will far exceed the gains you would get by running without journaling
+  - Remember, with replication protocol 1, ``{ w : "majority" }`` implies ``{ j : true }``
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - It's probably a good idea to remind the students that the "j" parameter will work even if the journal is off
+
+      - It just means that you must flush to disk before acknowledging
+      - For WiredTiger, this means a checkpoint is forced
 
 
 Compression in WT
