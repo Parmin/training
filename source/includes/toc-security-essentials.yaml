@@ -1,4 +1,16 @@
-file: /modules/security
+file: /modules/security-authorization
 description: |
-  An overview of security options for MongoDB
+  Authorization in MongoDB
+---
+file: /modules/security-authentication
+description: |
+  Authentication in MongoDB
+---
+file: /modules/security-audit
+description: |
+  Auditing in MongoDB
+---
+file: /modules/security-encryption
+description: |
+  Encryption at rest in MongoDB
 ...

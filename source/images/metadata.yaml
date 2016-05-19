@@ -146,7 +146,7 @@ output:
    - type: 'offset'
      tag: 'offset'
      dpi: 300
-     width: 200
+     width: 350
 ---
 name: replica-set-trigger-election
 alt: "Diagram of an election of a new primary. In a three member replica set with two secondaries, the primary becomes unreachable. The loss of a primary triggers an election where one of the secondaries becomes the new primary"

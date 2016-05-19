@@ -58,8 +58,6 @@ Stale Reads on a Primary
 
     - With ``{ w : "majority" }``
 
-- In cases like these, stale reads are possible
-
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
@@ -99,22 +97,6 @@ Background: Dirty Reads
 
         - If a network partition isolates the primary, a new one will be elected
         - If the primary crashes, a new one will be elected and the old primary's writes will be rolled back
-
-
-Stale and Dirty Reads
----------------------
-
-.. include:: /images/stale-reads-and-dirty-reads.rst
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - This shows stale (top figure) and dirty (bottom figure) reads
-    - A stale read is a view of the data that was true at some point in the past, but no longer is.
-    - A dirty read is a view of data that may not persist
 
 
 Dirty Reads and Write Concern
@@ -293,9 +275,9 @@ Example: Using Read Concern
 
 - A script is in the `shell_scripts` directory of the USB drive.
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  ./launch_replset_for_majority_read_concern.sh
+    ./launch_replset_for_majority_read_concern.sh
 
 .. include:: /includes/student-notes.rst
 
