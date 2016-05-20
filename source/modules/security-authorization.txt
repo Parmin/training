@@ -41,7 +41,7 @@ Authorization Basics
 --------------------
 
 - MongoDB enforces a role-based authorization model.
-- A user *is granted* roles that determine the user's access to database resources and operations.
+- A user is granted roles that determine the user's access to database resources and operations.
 
 The model determines:
   - Which roles are granted to users
@@ -162,7 +162,7 @@ Specific Actions of Each Type
      - ...
      - ...
 
-See the `complete list of actions <https://docs.mongodb.org/v3.0/reference/privilege-actions/#privilege-actions>`_  in the MongoDB documentation.
+See the `complete list of actions <https://docs.mongodb.com/manual/reference/privilege-actions/>`_  in the MongoDB documentation.
 
 .. include:: /includes/student-notes.rst
 
