@@ -73,7 +73,11 @@ Exercise: Give a pass to "MONGODB"
 - Today MongoDB got a visit from the inspectors.
 - We passed, of course.
 - So go ahead and update "MongoDB" and set the ``result`` to "AWESOME"
-- MongoDB's address is {city: 'New York', zip: 10036, street: '43', number: 229}
+- MongoDB's address is
+
+  .. code-block:: javascript
+
+    {city: 'New York', zip: 10036, street: '43', number: 229}
 
 .. only:: instructor
 

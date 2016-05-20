@@ -132,8 +132,8 @@ The ``updateOne()`` Method
 .. include:: /includes/student-notes.rst
 
 
-Example: ``$set`` and ``$unset`` (Setup)
-----------------------------------------
+Example (Setup)
+---------------
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
@@ -414,8 +414,8 @@ Careful not to modify stale data when using ``save()``. Example:
 .. include:: /includes/student-notes.rst
 
 
-``findOneAndUpdate()``, ``findOneAndReplace()`` Options
--------------------------------------------------------
+``findOneAndUpdate()`` and ``findOneAndReplace()`` Options
+----------------------------------------------------------
 
 - The following are optional fields for the options document
 - ``projection: <document>`` - select the fields to see

@@ -1,17 +1,13 @@
-file: /modules/nav/agendas
-description: | 
-  Agendas for all trainings with links to included modules
----
 file: /modules/nav/introduction
-description: | 
+description: |
   An introduction to MongoDB concepts and background
 ---
 file: /modules/nav/crud
 description: |
   The MongoDB query language
---- 
+---
 file: /modules/nav/indexes
-description: | 
+description: |
   Indexes in MongoDB
 ---
 file: /modules/nav/storage
@@ -31,11 +27,11 @@ description: |
   Data modeling in MongoDB.
 ---
 file: /modules/nav/replica-sets
-description: | 
+description: |
   Replication in MongoDB
 ---
 file: /modules/nav/sharding
-description: | 
+description: |
   Sharding in MongoDB
 ---
 file: /modules/nav/schema-design-advanced
@@ -50,9 +46,9 @@ file: /modules/nav/security
 description: |
   An overview of security options for MongoDB
 ---
-file: /modules/nav/mms
+file: /modules/nav/new-in-3-2
 description: |
-  An overview of MongoDB Cloud & Ops Manager
+  Changes in MongoDB 3.2
 ---
 file: /modules/performance
 description: |
@@ -62,7 +58,11 @@ file: /modules/backup
 description: |
   MongoDB backup strategies
 ---
-file: /modules/nav/new-in-3-2
+file: /modules/nav/mms
 description: |
-  Changes in MongoDB 3.2
+  An overview of MongoDB Cloud Manager and Ops Manager
+---
+file: /modules/nav/mms-advanced
+description: |
+  A deeper dive on MongoDB Cloud Manager and Ops Manager
 ...
