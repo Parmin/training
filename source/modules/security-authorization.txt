@@ -144,7 +144,7 @@ Specific Actions of Each Type
    :header-rows: 1
    :widths: 50 50 50
 
-   * - Query and Write
+   * - Query / Write
      - Database Mgmt
      - Deployment Mgmt
    * - find
@@ -198,10 +198,6 @@ Privilege:
     actions: ["find"]
   }
 
-
-.. include:: /includes/student-notes.rst
-
-
 .. only:: instructor
 
    .. note::
@@ -209,12 +205,14 @@ Privilege:
       - We want to explain that we can set a privilege that enables multiple actions on a given resource.
       - Also important to highlight that we can set `loose` resources like ``all databases`` or ``all collections``
 
-  .. code-block:: javascript
+     .. code-block:: javascript
 
-    {
-      resource: {"db": "", "collection": ""},
-      actions: ["find", "insert"]
-    }
+       {
+         resource: {"db": "", "collection": ""},
+         actions: ["find", "insert"]
+       }
+
+.. include:: /includes/student-notes.rst
 
 
 Authorization Roles
@@ -293,7 +291,7 @@ Built-in Roles
 Built-in Roles
 --------------
 
-To `grant` roles while creating an user:
+To grant roles while creating an user:
 
 .. code-block:: javascript
 
@@ -316,7 +314,7 @@ To `grant` roles while creating an user:
 Built-in Roles
 --------------
 
-To `grant` roles to existing user:
+To grant roles to existing user:
 
 .. code-block:: javascript
 
@@ -334,9 +332,8 @@ To `grant` roles to existing user:
 User-defined Roles
 ------------------
 
-- For situations where we can't find a suitable built-in role that meets our user
-needs we can create our own role.
-- To create a role we need to define:
+- If no suitable built-in role exists, we can can create a role.
+- Define:
 
   - Role name
   - Set of privileges
@@ -350,15 +347,15 @@ needs we can create our own role.
     privileges: [
       {resource: { db: "myDB", collection: "" }, actions: ["insert", "find"]}
     ],
-    roles: []
-  })
+    roles: []})
 
 .. include:: /includes/student-notes.rst
+
 
 Role Privileges
 ---------------
 
-To check the `privileges` of any particular `role` we can get that information using `getRole` method:
+To check the privileges of any particular role we can get that information using the ``getRole`` method:
 
 .. code-block:: javascript
 

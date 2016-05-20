@@ -38,7 +38,9 @@ Once enabled, the auditing system can record the following operations:
 Auditing Configuration
 ----------------------
 
-The following are command-line parameters to ``mongod``/``mongos`` used to configure auditing. Enable auditing with ``--auditDestination``.
+The following are command-line parameters to ``mongod``/``mongos`` used to configure auditing.
+
+Enable auditing with ``--auditDestination``.
 
 - ``--auditDestination``: where to write the audit log
 
@@ -47,6 +49,10 @@ The following are command-line parameters to ``mongod``/``mongos`` used to confi
   - file
 
 - ``--auditPath``: audit log path in case we define "file" as the destination
+
+Auditing Configuration (cont'd)
+-------------------------------
+
 - ``--auditFormat``: the output format of the emitted event messages
 
   - BSON
