@@ -12,11 +12,9 @@ MongoDB Administrator Training
    /modules/nav/storage
    /modules/nav/replica-sets
    /modules/nav/sharding
+   /modules/nav/security
+   /modules/nav/new-in-3-2-admin
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
-   /modules/nav/security-essentials
    /modules/nav/mms
    /modules/nav/mms-advanced
-   /modules/nav/new-in-3-2
-
-
