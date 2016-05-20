@@ -82,7 +82,7 @@ Filter Conditions
 - Use these in combinations that are appropriate for your use case.
 - Your filter may stipulate conditions on multiple fields.
 
-  - equality expressions (i.e. field: value or using the ``$eq`` operator)
+  - equality expressions
   - ``$exists``: true expression
   - ``$gt``, ``$gte``, ``$lt``, ``$lte`` expressions
   - ``$type`` expressions
