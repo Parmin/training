@@ -147,11 +147,11 @@ Introduction to Read Concern
 
     Questions to ask:
 
-      - Can I avoid dirty reads if I write a document with write concern ``majority`` and read preference: ``primary``?
+      - Can I avoid dirty reads if I write a document with write concern "majority" and read preference: ``primary``?
 
         - Answer: No. Without using read concern level : "majority", reads will be dirty
 
-      - What can happen if I use a write concern of ``{ w: 1 }`` and read concern level of ``majority``?
+      - What can happen if I use a write concern of ``{ w: 1 }`` and read concern level of "majority"?
 
         - Answer: You will not have dirty reads ... but you may be unable to read your own writes
 
@@ -182,7 +182,7 @@ Example: Read Concern Level Majority
 
           - W1S2 is the acknowledgment of write 1 from the S2 server
 
-      - Green C's are the read commits from read concern majority.
+      - Green C's are the read commits from read concern "majority".
 
         - C1 marks the moment where W1 has been committed
         - C2 marks the moment where W2 has been committed
@@ -320,10 +320,10 @@ What must you do in order to make the database return documents that have been r
 
     Answer:
 
-      - Invoke the mongod with --enableMajorityReadConcern
+      - Invoke the mongod with ``--enableMajorityReadConcern``
       - Use cursor.readConcern("majority") on a read
 
-        - Alternatively, use read concern level ``majority`` with a driver's connection pool
+        - Alternatively, use read concern level "majority" with a driver's connection pool
 
 
 Replication Protocol Version 1
@@ -368,7 +368,7 @@ CSRS: Config Servers as Replica Sets
 - With MongoDB 3.2, config servers can be replica sets
 
   - Subject to all standard rules of a replica set
-  - Using read concern level ``majority``
+  - Using read concern level "majority"
 
 - Your config server replica set needs a primary
 
@@ -416,7 +416,7 @@ What are the advantages of replication protocol 1?
 
     - ``electionTimeoutMillis`` now tunable
     - Secondaries write to the journal before acknowledging
-    - Enables read concern majority
+    - Enables read concern "majority"
 
       - This enables config servers as replica sets
 
