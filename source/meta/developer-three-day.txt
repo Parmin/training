@@ -14,7 +14,6 @@ MongoDB Developer Training
    /modules/nav/schema-design-intro
    /modules/nav/replica-sets-dev
    /modules/nav/sharding-dev
+   /modules/nav/new-in-3-2
    /modules/nav/mongomart-fundamentals
    /modules/nav/mms-developer
-   /modules/nav/new-in-3-2
-

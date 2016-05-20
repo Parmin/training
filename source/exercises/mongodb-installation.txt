@@ -223,9 +223,9 @@ Import Exercise Data
 
 .. code-block:: bash
 
-   unzip sampledata.zip
+   unzip usb_drive.zip
 
-   cd sampledata
+   cd usb_drive
 
    mongoimport -d sample -c tweets twitter.json
 
