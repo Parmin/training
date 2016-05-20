@@ -33,9 +33,7 @@ Background: Stale Reads
 
   .. note::
 
-    - Stale reads see a view of the data that was in place at some point in the recent time
-
-      - The view will in some sense always have existed, in the history
+    - Stale reads see a view of the data that was in place at some point recently
 
 
 Stale Reads on a Primary
@@ -57,6 +55,8 @@ Stale Reads on a Primary
   - Under no circumstances will they get acknowledged
 
     - With ``{ w : "majority" }``
+
+- In cases like these, stale reads are possible
 
 .. include:: /includes/student-notes.rst
 
@@ -80,7 +80,7 @@ Background: Dirty Reads
   - ... but that view *may* not persist
   - ... even in the history (i.e., oplog)
 
-- Occur when non-majority-replicated data is read
+- Occur when data is read that has not been committed to a majority of the replica set
 
   - Because that data *could* get rolled back
 
@@ -90,7 +90,7 @@ Background: Dirty Reads
 
   .. note::
 
-    - There's no way to know, during a dirty read, if its view of the data includes a write that will be rolled back
+    - There is no way to know during a dirty read if its view of the data includes a write that will be rolled back
     - Here is a good time to ask when writes can get rolled back
     - Answers:
 
@@ -103,7 +103,7 @@ Dirty Reads and Write Concern
 
 - Write concern alone can not prevent dirty reads
 
-  - Data on primary may be vulnerable to rollback
+  - Data on the primary may be vulnerable to rollback
 
 - Read concern was implemented to allow developers the option of preventing dirty reads
 
@@ -133,11 +133,15 @@ Introduction to Read Concern
   - "local": read the most recent data on the server
 
     - This is the historical behavior.
+    - Exposes the application to dirty reads
 
   - "majority": data updates only when majority acknowledged
 
-    - An older version of the data is cached
-    - The older version is returned for reads until a majority of the set acknowledge the write
+    - A version of the data is retained pre-acknowledgment
+    - Writes get committed after a majority has them
+
+      - Committed first on the primary
+      - When a majority acknowledges the write
 
 .. include:: /includes/student-notes.rst
 
@@ -147,9 +151,9 @@ Introduction to Read Concern
 
     Questions to ask:
 
-      - Can I avoid dirty reads if I write a document with write concern "majority" and read preference: ``primary``?
+      - Can I avoid dirty reads if I write a document with write concern "majority" and read preference: "primary"?
 
-        - Answer: No. Without using read concern level : "majority", reads will be dirty
+        - Answer: No. Without using read concern level : "majority", reads can be dirty
 
       - What can happen if I use a write concern of ``{ w: 1 }`` and read concern level of "majority"?
 
@@ -232,7 +236,7 @@ Read Concern and Read Preference: Secondary
 
 - Data on secondaries might be behind the primary
 
-  - But never ahead of the Primary
+  - But never ahead of the primary
 
 .. include:: /includes/student-notes.rst
 
@@ -252,7 +256,7 @@ Using Read Concern
 - You should:
 
   - Use write concern ``{ w : "majority" }``
-  - Otherwise, an application may not "see" its own writes
+  - Otherwise, an application may not see its own writes
 
 .. include:: /includes/student-notes.rst
 
@@ -321,7 +325,7 @@ What must you do in order to make the database return documents that have been r
     Answer:
 
       - Invoke the mongod with ``--enableMajorityReadConcern``
-      - Use cursor.readConcern("majority") on a read
+      - Use ``cursor.readConcern("majority")`` on a read
 
         - Alternatively, use read concern level "majority" with a driver's connection pool
 
@@ -329,14 +333,15 @@ What must you do in order to make the database return documents that have been r
 Replication Protocol Version 1
 ------------------------------
 
-- MongoDB 3.2 introduces Protocol Version 1
-- Secondaries now write to disk before acknowledging writes
+- MongoDB 3.2 introduced a new replication protocol.
 
-  - Regardless of ``j`` parameter on primary
+  - Replication protocol version 1 is the new protocol.
+  - Replication protocol version 0 was used in earlier versions of MongoDB.
 
+- With version 1, secondaries now write to disk before acknowledging writes.
 - ``{ w : "majority" }`` now implies ``{ j : true }``
-
-  - Remember, secondaries acknowledge after writing to the journal, too
+- Set the replication protocol version using the ``protocolVersion`` parameter in your replica set configuration.
+- Version 1 is the default in MongoDB >=3.2.
 
 .. include:: /includes/student-notes.rst
 
@@ -346,7 +351,11 @@ Replication Protocol Version 1 (continued)
 
 - Also adds ``electionTimeoutMillis`` as an option
 
-  - How long to wait before calling for an election when secondaries can't see the primary
+  - For secondaries: How long to wait before calling for an election
+  - For primaries: How long to wait before stepping down
+
+    - After losing contact with the majority
+    - This applies to the primary only
 
 - Required for read concern level "majority"
 
@@ -356,7 +365,7 @@ Replication Protocol Version 1 (continued)
 
   .. note::
 
-    - Old replication protocol is now known as replication protocol 0
+    - The old replication protocol is now known as replication protocol 0
     - Previously, secondaries would acknowledge writes before those writes were journaled
     - A short ``electionTimeoutMillis`` can result in lots of elections, especially with a flaky network
     - A long ``electionTimeoutMillis`` can result in lower availability due to longer failover time
@@ -387,7 +396,7 @@ CSRS: Config Servers as Replica Sets
 
       - No arbiters
       - No delayed members
-      - requires replication protocol version 1
+      - Requires replication protocol version 1
 
 
 CSRS: Advantages
@@ -433,6 +442,4 @@ What are the advantages of config servers as replica sets (CSRS)?
   .. note::
 
     - You can get the same availability and durability guarantees as you have for your data
-    - You can tune the size of the replica set
-
-      - So you're not limited to 3 servers
+    - You can tune the size of the config server set
