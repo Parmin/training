@@ -68,10 +68,6 @@ Create DBA user
 
 DBAs are generally concerned with maintenance operations in the database.
 
-- Optimization of queries
-- System resources utilization
-- Statistics
-
 .. code-block:: javascript
 
   db.createUser(
@@ -85,7 +81,7 @@ DBAs are generally concerned with maintenance operations in the database.
   })
 
 If want to make sure this DBA can administer all databases of the system,
-which role(s) should he have? See the `MongoDB documentation <https://docs.mongodb.org/manual/reference/built-in-roles/#database-administration-roles>`_.
+which role(s) should he have? See the `MongoDB documentation <https://docs.mongodb.com/manual/reference/built-in-roles/>`_.
 
 .. only:: instructor
 

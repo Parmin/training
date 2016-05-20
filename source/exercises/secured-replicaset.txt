@@ -57,16 +57,17 @@ This is a rather simple operation that requires just a simple instruction:
   /data
   $ mkdir -p /data/secure_replset/{1,2,3}; cd secure_replset/1
 
-- Then go to `this yaml file <https://github.com/thatnerd/work-public/blob/master/mongodb_trainings/secure_replset_config.yaml>`_
-and copy it into your clipboard
+Then go to `this yaml file <https://github.com/thatnerd/work-public/blob/master/mongodb_trainings/secure_replset_config.yaml>`_ and copy it into your clipboard
+
+.. code-block:: bash
 
   $ pbpaste > mongod.conf; cat mongod.conf
 
 .. include:: /includes/student-notes.rst
 
 
-Instantiate mongod`` (Continued)
-----------------------------------
+Instantiate ``mongod`` (cont'd)
+-------------------------------
 
 .. code-block:: yaml
 
@@ -91,10 +92,10 @@ Instantiate mongod`` (Continued)
 .. include:: /includes/student-notes.rst
 
 
-Instantiate ``mongod`` (Continued)
-----------------------------------
+Instantiate ``mongod`` (cont'd)
+-------------------------------
 
-After defining the basic configuration we just need to call `mongod`` passing the configuration file.
+After defining the basic configuration we just need to call ``mongod`` passing the configuration file.
 
 .. code-block:: bash
 

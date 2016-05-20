@@ -27,7 +27,7 @@ Let's start by launching a ``mongod`` instance:
   mkdir /data/secure_instance_dbpath
   mongod --dbpath /data/secure_instance_dbpath --port 28000
 
-At this point there is nothing special about this setup. It is just an ordinary `mongod` instance ready to receive connections.
+At this point there is nothing special about this setup. It is just an ordinary ``mongod`` instance ready to receive connections.
 
 
 Root level user
