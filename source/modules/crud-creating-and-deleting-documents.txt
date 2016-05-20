@@ -306,7 +306,7 @@ Dropping a Collection
 
    .. note::
 
-      Mention that ``drop()`` is more performant than ``deleteMany()`` because of the costs associated with ``deleteMany()``, which pulls documents into memory and deletes them one at a time.
+      Mention that ``drop()`` is more performant than ``deleteMany()``.
 
 
 Example: Dropping a Collection

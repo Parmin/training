@@ -38,7 +38,7 @@ The ``replaceOne()`` Method
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - By "simplest," we mean that it's simple conceptually -- that replacing a document is a sort of basic idea of how an update happens.
     - We will later see update methods that will involve only changing some fields.
@@ -50,7 +50,7 @@ First Parameter to ``replaceOne()``
 - Required parameters for ``replaceOne()``
 
   - The query parameter:
-  
+
     - Use the same syntax as with ``find()``
     - Only the first document found is replaced
 
@@ -68,7 +68,7 @@ Second Parameter to ``replaceOne()``
 
 - The _id must stay the same
 - You must replace the entire document
-  
+
   - You cannot modify just one field
   - Except for the _id
 
@@ -76,7 +76,7 @@ Second Parameter to ``replaceOne()``
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - If they try to modify the _id, it will throw an error
 
@@ -86,7 +86,7 @@ Example: ``replaceOne()``
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
-    :lines: 5-15
+    :lines: 5-14
 
 .. include:: /includes/student-notes.rst
 
@@ -158,7 +158,7 @@ Update Operators
 - ``$inc``: Increment a field's value by the specified amount.
 - ``$mul``: Multiply a field's value by the specified amount.
 - ``$rename``: Rename a field.
-- ``$set``: Update one or more fields (already discussed). 
+- ``$set``: Update one or more fields (already discussed).
 - ``$unset`` Delete a field (already discussed).
 - ``$min``: Update only if value is smaller than specified quantity
 - ``$max``: Update only if value is larger than specified quantity
@@ -184,7 +184,7 @@ The ``updateMany()`` Method
 - Updates all documents that match
 
   - ``updateOne`` stops after the first match
-  - ``updatemany`` continues until it has matched all
+  - ``updateMany`` continues until it has matched all
 
 .. warning::
 
@@ -201,13 +201,6 @@ Example: ``updateMany()``
     :lines: 65-70
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - First query only updates one document.
-      - Second query updates four documents.
 
 
 Array Element Updates by Index
@@ -234,9 +227,9 @@ Example: Update Array Elements by Index
 
    .. note::
 
-      - Cool pattern for time series data
-      - Displaying charts is now trivial
-        
+      - Pattern for time series data
+      - Displaying charts is easy
+
         - Can change granularity to by the minute, hour, day, etc.
 
 
@@ -264,7 +257,7 @@ Example: Array Operators
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
-    :lines: 99-112
+    :lines: 99-113
 
 .. include:: /includes/student-notes.rst
 
@@ -272,7 +265,7 @@ Example: Array Operators
 .. only:: instructor
 
    .. note::
-   
+
       - Pass $pop a value of -1 to remove the first element of an array and 1 to remove the last element in an array.
 
 
@@ -297,7 +290,7 @@ Example: The Positional ``$`` Operator
 
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
-    :lines: 133-136
+    :lines: 133-135
 
 .. include:: /includes/student-notes.rst
 
@@ -395,11 +388,11 @@ Example: ``save()``
       - A lot of users prefer to use update/insert, to have more explicit control over the operation
 
 
-Be Careful with ``save()``
+Be careful with ``save()``
 --------------------------
 
 Careful not to modify stale data when using ``save()``. Example:
-        
+
 .. literalinclude:: /includes/crud-updating-documents.js
     :language: javascript
     :lines: 211-226
@@ -453,8 +446,6 @@ Example: ``findOneAndUpdate()``
 - Returns the document and deletes it.
 - Example:
 
-.. literalinclude:: /includes/crud-updating-documents.js
-    :language: javascript
-    :lines: 246-250
-
-
+  .. literalinclude:: /includes/crud-updating-documents.js
+      :language: javascript
+      :lines: 246-250
