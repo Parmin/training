@@ -30,29 +30,29 @@ Comparison Query Operators
 .. include:: /includes/student-notes.rst
 
 
-Example: Comparison Operators (Setup)
---------------------------------------
+Example (Setup)
+---------------
 
 .. code-block:: javascript
 
   // insert sample data
-  db.movies.insertOne( [ 
-    { 
-      "title" : "Batman", 
-      "category" : [ "action", "adventure" ], 
-      "imdb_rating" : 7.6, 
-      "budget" : 35 
+  db.movies.insertOne( [
+    {
+      "title" : "Batman",
+      "category" : [ "action", "adventure" ],
+      "imdb_rating" : 7.6,
+      "budget" : 35
     },
-    { 
-      "title" : "Godzilla", 
-      "category" : [ "action", 
-      "adventure", "sci-fi" ], 
-      "imdb_rating" : 6.6 
+    {
+      "title" : "Godzilla",
+      "category" : [ "action",
+      "adventure", "sci-fi" ],
+      "imdb_rating" : 6.6
     },
-    { 
+    {
       "title" : "Home Alone", 
-      "category" : [ "family", "comedy" ], 
-      "imdb_rating" : 7.4 
+      "category" : [ "family", "comedy" ],
+      "imdb_rating" : 7.4
     }
   ] )
 
@@ -66,13 +66,13 @@ Example: Comparison Operators
 
   db.movies.find()
 
-  db.movies.find( { "imdb_rating" : { $gte : 7 } } )         
+  db.movies.find( { "imdb_rating" : { $gte : 7 } } )
 
-  db.movies.find( { "category" : { $ne : "family" } } )          
+  db.movies.find( { "category" : { $ne : "family" } } )
 
-  db.movies.find( { "title" : { $in : [ "Batman", "Godzilla" ] } } )   
+  db.movies.find( { "title" : { $in : [ "Batman", "Godzilla" ] } } )
 
-  db.movies.find( { "title" : { $nin : [ "Batman", "Godzilla" ] } } )  
+  db.movies.find( { "title" : { $nin : [ "Batman", "Godzilla" ] } } )
 
 .. include:: /includes/student-notes.rst
 
@@ -83,7 +83,7 @@ Logical Query Operators
 - ``$or``: Match either of two or more values
 - ``$not``: Used with other operators
 - ``$nor``: Match neither of two or more values
-- ``$and``: Match both of two or more values 
+- ``$and``: Match both of two or more values
 
   - This is the default behavior for queries specifying more than one condition.
   - Use ``$and`` if you need to include the same operator more than once in a query.
@@ -96,18 +96,18 @@ Example: Logical Operators
 
 .. code-block:: javascript
 
-   db.movies.find( { $or : [ 
-      { "category" : "sci-fi" }, { "imdb_rating" : { $gte : 7 } } 
-    ] } )      
+   db.movies.find( { $or : [
+      { "category" : "sci-fi" }, { "imdb_rating" : { $gte : 7 } }
+    ] } )
 
    // more complex $or, really good sci-fi movie or medicore family movie
-   db.movies.find( { $or : [ 
-      { "category" : "sci-fi", "imdb_rating" : { $gte : 8 } }, 
-      { "category" : "family", "imdb_rating" : { $gte : 7 } } 
+   db.movies.find( { $or : [
+      { "category" : "sci-fi", "imdb_rating" : { $gte : 8 } },
+      { "category" : "family", "imdb_rating" : { $gte : 7 } }
     ] } )
 
    // find bad movies
-   db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )          
+   db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )
 
 .. include:: /includes/student-notes.rst
 
@@ -118,7 +118,7 @@ Example: Logical Operators
       - ``db.movies.find( { "imdb_rating" : { $not : { $gt : 7 } } } )`` also returns everything that doesnt have an "imdb_rating"
 
 
-Example: Logical Operators 
+Example: Logical Operators
 ---------------------------
 
 .. code-block:: javascript
@@ -127,14 +127,14 @@ Example: Logical Operators
    db.movies.find( { "imdb_rating" : { $gt : 5 , $lte : 7 } } )  // and is implicit
 
    // queries can be nested, why are there no results?
-   db.movies.find( { $and : [ 
-      { $or : [ 
-        { "category" : "sci-fi", "imdb_rating" : { $gte : 8 } }, 
-        { "category" : "family", "imdb_rating" : { $gte : 7 } } 
-      ] } , 
-      { $or : [ 
-        { "category" : "action", "imdb_rating" : { $gte : 6 } } 
-      ] } 
+   db.movies.find( { $and : [
+      { $or : [
+        { "category" : "sci-fi", "imdb_rating" : { $gte : 8 } },
+        { "category" : "family", "imdb_rating" : { $gte : 7 } }
+      ] } ,
+      { $or : [
+        { "category" : "action", "imdb_rating" : { $gte : 6 } }
+      ] }
     ] } )
 
 .. include:: /includes/student-notes.rst
@@ -156,13 +156,13 @@ Example: Element Operators
 
 .. code-block:: javascript
 
-   db.movies.find( { "budget" : { $exists : true } } )   
+   db.movies.find( { "budget" : { $exists : true } } )
 
    // type 1 is Double
-   db.movies.find( { "budget" : { $type : 1 } } )        
+   db.movies.find( { "budget" : { $type : 1 } } )
 
    // type 3 is Object (embedded document)
-   db.movies.find( { "budget" : { $type : 3 } } )        
+   db.movies.find( { "budget" : { $type : 3 } } )
 
 
 .. include:: /includes/student-notes.rst
@@ -184,9 +184,9 @@ Example: Array Operators
 
 .. code-block:: javascript
 
-   db.movies.find( { "category" : { $all : [ "sci-fi", "action" ] } } )  
+   db.movies.find( { "category" : { $all : [ "sci-fi", "action" ] } } )
 
-   db.movies.find( { "category" : { $size : 3 } } )  
+   db.movies.find( { "category" : { $size : 3 } } )
 
 .. include :: /includes/student-notes.rst
 
@@ -196,27 +196,27 @@ Example: $elemMatch
 
 .. code-block:: javascript
 
-  db.movies.insertOne( { 
+  db.movies.insertOne( {
       "title" : "Raiders of the Lost Ark",
-      "filming_locations" : [ 
+      "filming_locations" : [
         { "city" : "Los Angeles", "state" : "CA", "country" : "USA" },
         { "city" : "Rome", "state" : "Lazio", "country" : "Italy" },
         { "city" : "Florence", "state" : "SC", "country" : "USA" }
       ] } )
 
   // This query is incorrect, it won't return what we want
-  db.movies.find( { 
-      "filming_locations.city" : "Florence", 
-      "filming_locations.country" : "Italy" 
+  db.movies.find( {
+      "filming_locations.city" : "Florence",
+      "filming_locations.country" : "Italy"
     } )
 
   // $elemMatch is needed, now there are no results, this is expected
-  db.movies.find( { 
-      "filming_locations" : { 
-        $elemMatch : { 
-          "city" : "Florence", 
+  db.movies.find( {
+      "filming_locations" : {
+        $elemMatch : {
+          "city" : "Florence",
           "country" : "Italy"
-         } } } )  
+         } } } )
 
 .. include:: /includes/student-notes.rst
 
@@ -225,13 +225,7 @@ Example: $elemMatch
    .. note::
 
       - Comparing the last two queries demonstrates ``$elemMatch``.
-      
+
 .. raw:: latex
 
    \newpage
-
-
-
-
-
-
