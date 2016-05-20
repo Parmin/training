@@ -91,12 +91,11 @@ Background: Dirty Reads
   .. note::
 
     - There's no way to know, during a dirty read, if its view of the data includes a write that will be rolled back
-    - Here's it's a good time to ask when writes can get rolled back
+    - Here is a good time to ask when writes can get rolled back
+    - Answers:
 
-      - Answers:
-
-        - If a network partition isolates the primary, a new one will be elected
-        - If the primary crashes, a new one will be elected and the old primary's writes will be rolled back
+      - If a network partition isolates the primary, a new one will be elected
+      - If the primary crashes, a new one will be elected and the old primary's writes will be rolled back
 
 
 Dirty Reads and Write Concern
@@ -261,9 +260,8 @@ Using Read Concern
 
   .. note::
 
-    - If running with read concern level: "majority" but not Write concern ``{ w: "majority" }``, it would be possible to insert a document, get it acknowledged, and then try to read it back, but not see it.
-
-      - They shouldn't do this
+    - If running with read concern level: "majority" but not write concern ``{ w: "majority" }``, it would be possible to insert a document, get it acknowledged, and then try to read it back, but not see it.
+    - Obviously, users should not do this.
 
 
 Example: Using Read Concern
