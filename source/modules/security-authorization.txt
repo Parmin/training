@@ -54,7 +54,7 @@ The model determines:
 
   .. note::
 
-    - You can bring up the following open questions:
+    - You can bring up the following questions:
 
       - What are privileges?
       - What kind of resources can be found on a typical database?
