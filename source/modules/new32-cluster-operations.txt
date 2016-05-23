@@ -51,12 +51,6 @@ Stale Reads on a Primary
 
 - In this state, the other primary will serve stale reads
 
-  - Its writes will eventually get rolled back
-  - Under no circumstances will they get acknowledged
-
-    - With ``{ w : "majority" }``
-
-- In cases like these, stale reads are possible
 
 .. include:: /includes/student-notes.rst
 
