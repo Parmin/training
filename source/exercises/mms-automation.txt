@@ -13,14 +13,6 @@ Upon completing this exercise students should understand:
 .. include:: /includes/student-notes.rst
 
 
-Cloud Manager Automation Support
---------------------------------
-
-Windows machines are not supported at this time. You may use either your personal computer or Linux instances we have provided in order to complete this lab. Your instructor will provide you with instructions for access.
-
-.. include:: /includes/student-notes.rst
-
-
 Exercise #1
 -----------
 
