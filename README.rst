@@ -33,12 +33,12 @@ Objectives
 Using Instructor Materials
 --------------------------
 
-Instructor materials are provided in `presentation-3.2/instructor-package.tar.gz`_. As an instructor you will primarily use:
+Instructor materials are provided in `<presentation-3.2/instructor-package.tar.gz>`_. As an instructor you will primarily use:
 
 - The Instructor Guide
 - Slides
 - The Presenter Console
-- Datasets (see `presentation-3.2/usb_drive.zip`_)
+- Datasets (see `<presentation-3.2/usb_drive.zip>`_)
 
 See below for examples of each.
 
@@ -85,7 +85,3 @@ These materials are updated for MongoDB 3.0 and used for MongoDB instructor-led 
 -  Cloud & Ops Manager
 -  Performance Troubleshooting
 -  Backup and Recovery
-
-.. _presentation : presentation
-
-.. _presentation/instructor-package.tar.gz : presentation/instructor-package.tar.gz
