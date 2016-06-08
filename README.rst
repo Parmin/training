@@ -33,11 +33,12 @@ Objectives
 Using Instructor Materials
 --------------------------
 
-Instructor materials are provided in `presentation/instructor-package.tar.gz`_. As an instructor you will primarily use:
+Instructor materials are provided in `presentation-3.2/instructor-package.tar.gz`_. As an instructor you will primarily use:
 
 - The Instructor Guide
 - Slides
 - The Presenter Console
+- Datasets (see `presentation-3.2/usb_drive.zip`_)
 
 See below for examples of each.
 
