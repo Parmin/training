@@ -10,9 +10,9 @@ The source for the curriculum in this repository is found in the `source`_ subdi
 
 - modules (e.g., compound indexes)
 - examples
-- exercises
-- figures or images
 - instructors notes
+- labs
+- figures or images
 - datasets
 
 Modules are the glue that brings the rest of the content together. Within each module file, we define a series of slides. Slides may contain text (i.e. bullets), figures, examples, and instructor notes. Exercises are similar in that they too are also composed of slides; however, since exercises are typically only a relatively small set of instructions to students, the bulk of the content in this repository is in modules.
@@ -30,7 +30,7 @@ You may find all modules for MongoDB training in the `<source/modules>`_ subdire
 - `<source/modules/indexes-geo.txt>`_
 - `<source/modules/indexes-text.txt>`_
 
-For each module we define a title and one or more (usually many more) slides. The first slide must contain a list of learning objectives for the module. The following snippet from the indexes-fundamentals.txt module provides an example. Please follow the syntax conventions this example illustrates when writing curriculum. In particular please note how the title and slide headers are delimited. Please also note the syntax for creating bullets and including figures. You will also see several examples of defining instructor notes. *Instructor notes are an important part of the curriculum. They help instructors, most of whom deliver training only infrequently, to prepare and play a very important role in helping new instructors ramp.*
+For each module we define a title and one or more (usually many more) slides. The first slide must contain a list of learning objectives for the module. Please write active learning objectives. You should describe what students will be able to do upon completing the module. The following snippet from the indexes-fundamentals.txt module provides an example. Please follow the syntax conventions this example illustrates when writing curriculum. In particular please note how the title and slide headers are delimited. Please also note the syntax for creating bullets and including figures. You will also see several examples of defining instructor notes.
 
 .. code::
 
@@ -41,12 +41,12 @@ For each module we define a title and one or more (usually many more) slides. Th
     Learning Objectives
     -------------------
 
-    Upon completing this module students should understand:
+    Upon completing this module students should be able to:
 
-    - The impact of indexing on read performance
-    - The impact of indexing on write performance
-    - How to choose effective indexes
-    - The utility of specific indexes for particular query patterns
+    - Describe the impact of indexing on read performance
+    - Describe the impact of indexing on write performance
+    - Define effective single-key indexes for simple data-access patterns
+    - Assess the utility of a given index for specific query patterns
 
     .. only:: instructor
 
@@ -118,4 +118,55 @@ For each module we define a title and one or more (usually many more) slides. Th
 
           - Make sure the students are using the sample database.
           - Review the structure of documents in the tweets collection by doing a find().
-          - We'll be looking at the user subdocument for documents in this collection.
+          - We will be looking at the user subdocument for documents in this collection.
+
+
+Instructor Notes
+----------------
+
+Instructor notes are an important part of the curriculum. They help instructors, most of whom deliver training only infrequently, to prepare and play a very important role in helping new instructors ramp. Instructor notes are visible only to instructors and available in the instructor versions of the training manuals, the html version of the curriculum, and in the slides through the presenter console. Please write instructor notes that will enable consulting engineers and others who deliver training ramp, prep, and deliver training more effectively.
+
+
+Examples
+--------
+
+In most cases, examples illustrating code and data are embedded in the content for a module. We did this originally to make examples easier to code review. In the near future we will be moving all examples into standalone files so that they can be more easily tested.
+
+As you write new content, please use the directive `literalinclude <http://www.sphinx-doc.org/en/stable/markup/code.html#includes`_ and the options ``start-after`` and ``end-before``. For example, you might have a
+
+.. code::
+
+    Sample Dataset
+    --------------
+
+    Mongoimport the ``companies.json`` file:
+
+    .. literalinclude:: /includes/aggregation_scripts.sh
+        :language: bash
+        :start-after: # import companies.json
+        :end-before: # end import companies.json
+
+    - You now have a dataset of companies on your server.
+    - We will use these for our examples.
+
+In the included file you would then have a section something like the following.
+
+.. code::
+
+    #!/usr/bin/env bash
+    # Contains bash scripts for aggregation
+
+    # import companies.json
+    mongoimport -d training -c companies --drop companies.json
+    # end import companies.json
+
+Figures
+-------
+
+You will find figures used in training in both the `<source/figures>`_ and `<source/images>`_ subdirectories. `<source/images>`_ contains a subset of the ``.svg`` images maintained by the documentation team for the MongoDB manual and other docs. the ``metadata.yaml`` file define which images we use for training and at what sizes they should be generated for the different targets (i.e. pdf, HTML, slides). We also contribute ``.svg`` files to this repository that we need to create for training. `<source/figures>`_ contains ``.png`` files and other images that we use (in a pinch) in training. There are not many of these files and, in general, if you are going to create a figure, you should create an ``.svg`` and place it in `<source/images>`_.
+
+
+Labs
+----
+
+You will find labs in the `<source/exercises>`_ subdirectory. The above discussion on creating slides, including examples, and writing instructors notes applies to labs as well. Labs are simply modules that require active participation from students. Labs should have especially well defined learning objectives. You should be very clear about what students should be able to do after having completed a lab and the lab should fulfill that contract with the student. Labs are learning by doing and students should walk away from a lab being able to apply what they've learned to their own use cases.
