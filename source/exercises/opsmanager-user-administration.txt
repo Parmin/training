@@ -1,0 +1,125 @@
+====================================
+Lab: Ops Manager User Administration
+====================================
+
+Learning Objectives
+-------------------
+
+Upon completing this lab, students will be able to:
+
+- Administer Ops Manager groups
+- Identify the differences between Ops Manager user roles
+- Create and define Ops Manager users
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Create Group
+----------------------
+
+Connect to your Ops Manager instance and create the following ``group``:
+
+- **CIRCUS_MAXIMUS**
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    This is a very simple exercise.
+
+    Take the time to explore the ``admin`` menu with students.
+
+Exercise: Create Users
+----------------------
+
+Using the `Ops Manager API`_ , create the following users:
+
+- **aediles@localhost.com** :
+
+  - password: "123ABCabc!"
+  - role: Owner_
+
+- **patrician@localhost.com** :
+
+  - password: "123ABCabc!"
+  - role: `Monitoring Admin`_
+
+- **consus@localhost.com** :
+
+  - password: "&o7chac0v3r3d"
+  - role: `Backup Admin`_
+
+.. only:: instructor
+
+  .. note::
+
+    To accomplish this task, the users will have to do the following steps:
+
+    - `enable the api`_
+    - enable the public api on the group
+    - create different users using the HTTP Rest API
+
+    e.g.: **Owner**
+
+    .. code-block:: bash
+
+      curl -u "admin@localhost.com:$APIKEY" -H "Content-Type: application/json" --digest -i -X POST "http://opsmgr.training/api/public/v1.0/users" --data '
+      {
+      "username": "aediles@localhost.com",
+      "emailAddress": "aediles@localhost.com",
+      "firstName": "This",
+      "lastName": "Mine",
+      "password": "aLLm1n3$3cr3t",
+      "roles": [{
+        "groupId": "$GROUPID",
+        "roleName": "GROUP_OWNER"
+        }]
+      }'
+
+
+Exercise: Create Global Users
+-----------------------------
+In various different situations, we will need users with global roles.
+Please create, either through the API or web console, the following users:
+
+- First user with `Global Automation Admin`_ role : `automater@localhost.com`
+
+- Second user granted `Global User Admin`_ user : `masterchef@localhost.com`
+
+After creating these users, connect with the most appropriate user to change the password of the **CIRCUS_MAXIMUS** _`Owner` user.
+The new password should be *"$uperC00l"*
+
+This last operation should be accomplished using the HTTP Rest API interface.
+
+.. only:: instructor
+
+  .. note::
+
+    Make sure that students understand which user to log in with and how to change the user password of `thisismine@localhost.com` user.
+
+    For the operation students will have to do the following steps:
+
+    - enable Public API for user `masterchef@localhost.com`
+    - change user `aediles@localhost.com` password through the API
+
+    .. code-block:: bash
+
+      // get the user
+      curl -u "masterchef@localhost.com:$APIKEY" --digest -i "http://opsmgr.training/api/public/v1.0/users/byName/aediles@localhost.com"
+      curl -u "masterchef@localhost.com:$APIKEY" -H "Content-Type: application/json" --digest -i -X PATCH "http://opsmgr.training/api/public/v1.0/users/$USERID" --data '
+
+      {
+      "password": "$uperC00lpa22"
+      }'
+
+
+.. _`Global User Admin`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#global-user-admin
+.. _`Ops Manager API`: https://docs.opsmanager.mongodb.com/current/api/
+.. _`enable the api`: https://docs.opsmanager.mongodb.com/current/tutorial/enable-public-api/
+.. _`Owner` : https://docs.opsmanager.mongodb.com/current/reference/user-roles/#owner
+.. _`User Admin`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#user-admin
+.. _`Backup Admin`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#backup-admin
+.. _`Monitoring Admin`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#monitoring-admin
+.. _`Global Automation Admin`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#global-automation-admin
