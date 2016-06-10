@@ -2,6 +2,47 @@
 Contributers Guide
 ==================
 
+Contributions
+-------------
+
+Before start editing the content you should fork the `education training repo`_ to your own personal github account.
+
+For each bug/new feature/improvement there should be an associated `EDU JIRA`_ ticket reporting the intended work. If there is non please create one reporting the intented action.
+
+With that jira ticket one should create a branch with the following format **initials_jira-ticket-id**:
+
+  EDU-2775 - https://jira.mongodb.org/browse/EDU-2775
+
+  Norberto Leite - nl
+
+.. code-block:: bash
+
+  > git checkout -b nl-EDU-2775
+
+Once you done with code/content you should submit a pull request.
+
+* If you have `push` permits on the `education training repo`_ you should push of your branch and then peform a pull request.
+
+.. code-block:: bash
+
+  > git remote -v
+  origin	git@github.com:10gen/training.git (fetch)
+  origin	git@github.com:10gen/training.git (push)
+  > git push origin nl-EDU-2775
+
+* If you don't then you need to push your branch to your forked version of the `education training repo`_ and then perform a pull request
+
+.. code-block:: bash
+
+  > git remote -v                                                                                                                                                                                                 [10:39:19]
+  nleite	git@github.com:nleite/docs-training.git (fetch)
+  nleite	git@github.com:nleite/docs-training.git (push)
+  > git push origin nl-EDU-2775
+
+After you created the pull request you should move the ticket from in-progress to Code Review and notify your team mates asking for a Code Review.
+
+There isn't a strict number of LGTM's but you should only merge once all the subject matters and at least one team member reviewed your material.
+
 
 Source
 ------
@@ -170,3 +211,19 @@ Labs
 ----
 
 You will find labs in the `<source/exercises>`_ subdirectory. The above discussion on creating slides, including examples, and writing instructors notes applies to labs as well. Labs are simply modules that require active participation from students. Labs should have especially well defined learning objectives. You should be very clear about what students should be able to do after having completed a lab and the lab should fulfill that contract with the student. Labs are learning by doing and students should walk away from a lab being able to apply what they've learned to their own use cases.
+
+Editors
+-------
+
+There's a plenitude of different good editors out there for rST editing.
+
+* `Atom`_
+
+Atom is a very nice editor that allows a great deal of customization along side with a vast ammount of plugins.
+One of the recommended plugings is `restructured text preview Pandoc`_ which gives us a quick preview of our edits.
+
+
+.. _`education training repo`: https://github.com/10gen/training
+.. _`EDU JIRA`: https://jira.mongodb.org/browse/EDU
+.. _`Atom`: https://atom.io/
+.. _`restructured text preview Pandoc`: https://github.com/tohosokawa/rst-preview-pandoc
