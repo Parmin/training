@@ -212,8 +212,8 @@ Labs
 
 You will find labs in the `<source/exercises>`_ subdirectory. The above discussion on creating slides, including examples, and writing instructors notes applies to labs as well. Labs are simply modules that require active participation from students. Labs should have especially well defined learning objectives. You should be very clear about what students should be able to do after having completed a lab and the lab should fulfill that contract with the student. Labs are learning by doing and students should walk away from a lab being able to apply what they've learned to their own use cases.
 
-Editors
--------
+Tools and Editors
+-----------------
 
 There's a plenitude of different good editors out there for rST editing.
 
