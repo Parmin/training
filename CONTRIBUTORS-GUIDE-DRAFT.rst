@@ -5,9 +5,9 @@ Contributers Guide
 Contributions
 -------------
 
-Before start editing the content you should fork the `education training repo`_ to your own personal github account.
+Before you start editing the content you should fork the `education training repo`_ to your own personal github account.
 
-For each bug/new feature/improvement there should be an associated `EDU JIRA`_ ticket reporting the intended work. If there is non please create one reporting the intented action.
+For each bug/new feature/improvement there should be an associated `EDU JIRA`_ ticket reporting the intended work. If there is not, please create one reporting the intended action.
 
 With that jira ticket one should create a branch with the following format **initials_jira-ticket-id**:
 
@@ -19,9 +19,9 @@ With that jira ticket one should create a branch with the following format **ini
 
   > git checkout -b nl-EDU-2775
 
-Once you done with code/content you should submit a pull request.
+Once you are done with code/content you should submit a pull request.
 
-* If you have `push` permits on the `education training repo`_ you should push of your branch and then peform a pull request.
+* If you have `push` permits on the `education training repo`_ you should push of your branch and then perform a pull request.
 
 .. code-block:: bash
 
@@ -219,8 +219,8 @@ There's a plenitude of different good editors out there for rST editing.
 
 * `Atom`_
 
-Atom is a very nice editor that allows a great deal of customization along side with a vast ammount of plugins.
-One of the recommended plugings is `restructured text preview Pandoc`_ which gives us a quick preview of our edits.
+Atom is a very nice editor that allows a great deal of customization and with a vast amount of plugins.
+One of the recommended plugins is `restructured text preview Pandoc`_ which gives us a quick preview of our edits.
 
 
 .. _`education training repo`: https://github.com/10gen/training
