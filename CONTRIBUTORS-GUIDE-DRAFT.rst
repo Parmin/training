@@ -9,7 +9,9 @@ Before you start editing the content you should fork the `education training rep
 
 For each bug/new feature/improvement there should be an associated `EDU JIRA`_ ticket reporting the intended work. If there is not, please create one reporting the intended action.
 
-With that jira ticket one should create a branch with the following format **initials_jira-ticket-id**:
+
+With that jira ticket one should create a branch with the following format **initials-jira_ticket_id**:
+
 
   EDU-2775 - https://jira.mongodb.org/browse/EDU-2775
 
@@ -21,7 +23,8 @@ With that jira ticket one should create a branch with the following format **ini
 
 Once you are done with code/content you should submit a pull request.
 
-* If you have `push` permits on the `education training repo`_ you should push of your branch and then perform a pull request.
+
+* If you have `push` permissions on the `education training repo`_ you should push of your branch and then perform a pull request.
 
 .. code-block:: bash
 
@@ -39,9 +42,10 @@ Once you are done with code/content you should submit a pull request.
   nleite	git@github.com:nleite/docs-training.git (push)
   > git push origin nl-EDU-2775
 
-After you created the pull request you should move the ticket from in-progress to Code Review and notify your team mates asking for a Code Review.
 
-There isn't a strict number of LGTM's but you should only merge once all the subject matters and at least one team member reviewed your material.
+After you create the pull request, you should move the ticket from "In Progress" to "In Code Review" and notify your team mates asking for a code review.
+
+There isn't a strict number of LGTMs but you should only merge once all the subject matter is complete and at least one team member reviewed your material.
 
 
 Source
@@ -219,7 +223,8 @@ There's a plenitude of different good editors out there for rST editing.
 
 * `Atom`_
 
-Atom is a very nice editor that allows a great deal of customization and with a vast amount of plugins.
+Atom is a very nice editor that allows a great deal of customization and with a vast number of plugins.
+
 One of the recommended plugins is `restructured text preview Pandoc`_ which gives us a quick preview of our edits.
 
 
