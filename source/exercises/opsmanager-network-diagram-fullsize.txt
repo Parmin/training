@@ -1,0 +1,37 @@
+
+    .. only:: latex and not offset
+
+       .. figure:: /images/opsmanager-network-diagram-fullsize.jpg
+          :alt: Osp Manager Diagram
+          :align: center
+          :figwidth: 1600px
+
+    .. only:: website and slides
+
+       .. figure:: /images/opsmanager-network-diagram-fullsize.jpg
+          :alt: opsmanager-network-diagram-fullsize
+          :align: center
+          :figwidth: 600px
+
+    .. only:: website and html
+
+       .. figure:: /images/opsmanager-network-diagram-fullsize.jpg
+          :alt: opsmanager-network-diagram-fullsize
+          :align: center
+          :figwidth: 400px
+
+    .. only:: website and not (html or slides)
+
+       .. raw:: html
+
+          <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_images/opsmanager-network-diagram-fullsize.jpg" alt="Osp Manager Diagram"></img><p>opsmanager-network-diagram-fullsize</p></div>
+
+
+    .. only:: latex and offset
+
+       .. raw:: latex
+
+          \begin{figure}[h!]
+          \centering
+          \includegraphics[width=400px]opsmanager-network-diagram-fullsize.eps
+          \end{figure}

@@ -19,7 +19,7 @@ and the differences around the users that require these roles.
 
 
 User Administration user
------------------------
+------------------------
 
 Generally, in complex systems, we need someone to administer users.
 This function should be different from ``root`` level user for a few reasons:

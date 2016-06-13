@@ -1,0 +1,226 @@
+=============================
+Lab: Ops Manager Installation
+=============================
+
+Permise
+-------
+
+Ops Manager is a solution for on-prem MongoDB cluster operational management.
+
+Enables features like:
+
+- Automation
+- Backup and Recovery
+- Monitoring
+
+Over the course of this lab we will be installing Ops Manager with high availability and scalability in mind.
+
+.. only:: instructor
+
+  .. note::
+
+    For this lab we will group students into teams.
+
+    - There will be a maximum of 5 teams!
+    - Each team will have at their disposal a set of virtual machines
+    - Verify that all students have successfully pinged their designated VMs
+    - These VMs will be properly tagged (dns or ip) with their intended purpose
+
+
+.. include:: /includes/student-notes.rst
+
+
+Ops Manager HA
+--------------
+
+Ops Manager requires a number of servers for high availability.
+
+- Monitoring and backup/recovery are essential for production operations.
+- Therefore, it's important to assure high availability for Ops Manager.
+- For this we need to follow a specific deployment topology.
+
+.. include:: /includes/student-notes.rst
+
+
+Ops Manager Scalability
+-----------------------
+
+**Why do we need our operations tool to be scalable?**
+
+- The main reason is backup and recovery requirements
+- The amount of data individual applications generate will grow
+- The number of applications your Ops Manager deployment supports will grow
+- Plan to accommodate both forms of growth
+
+.. include:: /includes/student-notes.rst
+
+Ops Manager Architecture Review
+-------------------------------
+
+Let's review `Ops Manager architecture`_:
+
+.. include:: opsmanager-network-diagram-fullsize.txt
+
+.. only:: instructor
+
+  .. note::
+
+    For this diagram raise students attention to the following:
+
+    - Ops Manager is composed out of two main services
+
+      - HTTP Service: Ops Manager Application
+      - Backup daemon
+
+    - Ops Manager will collect data from the different agents
+
+      - backup
+      - monitoring
+      - automation
+
+    - Has three main datastores
+
+      - Application Replica Set (MongoDB Cluster)
+
+        - user info
+        - monitoring data
+        - group data
+        - backup job queries
+        - backup metadata
+
+      - Snapshot Storage (MongoDB Cluster)
+
+        - Blockstore: MongoDB Instance
+        - or Filestore: File snapshots
+
+      - Head Database
+
+        - Keeps track of oplog and initial syncs
+        - There's one file per database being backed up
+
+
+
+.. include:: /includes/student-notes.rst
+
+Launch Ops Manager MongoDB Instances
+------------------------------------
+
+It's time to set up the virtual machines that will support Ops Manager Deployment.
+
+We will need the following instances:
+
+- Two Replica Set Clusters
+
+  - Application Replica Set
+  - BlockStore Replica Set
+
+- Two instances to run redundant services of Ops Manager Application
+- Load Balancer
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Ask students to make a deployment and configuration plan.
+    Use the following questions as guide:
+
+    - Where do we start ?
+
+      - Boot up Ops Manager Application Replica Set
+
+    - Do we need a Replica Set for the Backup Daemon?
+
+      - Yes, we will be using Blockstore
+
+        - we can use Filestore as alternative but for the exercise let's privilege Blockstore
+
+    All instances should already be pre-provisioned or running on local virtualbox
+
+1. Configure Ops Manager Application Database
+---------------------------------------------
+
+Ops Manager needs to store data:
+
+- Configuration of nodes, groups, users
+- Metrics for monitoring
+- Backup metdata and job queries
+
+Also consider relevant `security settings`_ for this database.
+
+From the available machines go ahead and set up a Replica Set to support the *Application Database*.
+
+.. only:: instructor
+
+  .. note::
+
+    - Students should be assembling a 3 node Replica Set to allow the HA.
+    - Extra "points" for students that setup their replica set under SSL
+    - To validate their deployment you should ask students to run validation script
+
+
+2. Configure and Launch OpsManager Service
+------------------------------------------
+
+**Habemus Replica Set!**
+
+Now it's time to launch **Ops Manager** service. For this you will need to:
+
+- Configure Ops Manager into two separate Virtual Machines
+- Point these to the previously configured Replica Set
+- Allow `offline binary access`_
+- Configure Load Balancer
+- Launch Ops Manager services
+
+.. only:: instructor
+
+  .. note::
+
+    We are striving for an Highly Available Ops Manager deployment therefore:
+
+    - Before mentioning *again* the HA requirement you may ask students why we need 2 VM's?
+    - Make sure students use machines that are tagged with OpsManager
+
+    You may want to point to the following documentation page:
+
+    - `configure HA app`_
+
+    For the Load Balancer we will have two options:
+
+    - AWS: students should use Elastic Load Balancer
+    - Vagrant: students should use HAproxy instance
+
+    To validate this exercise the students should be able to:
+
+    - Login through Load Balancer ip address
+    - Register admin user credentials and Ops Manager group
+
+
+
+3. Install OpsManager Automation Agents
+---------------------------------------
+
+At this point **Ops Manager** should be up and running
+Now it's time to install our `Automation Agents`_:
+
+- In the remaining VM, install the automation agent
+- Make sure that all nodes are discoverable on the servers dashboard
+- Validate that all agents are reporting pings correctly
+
+.. only:: instructor
+
+  .. note::
+
+    You should ask the students to install the agents on the remaining VMs
+
+    - Validate that all nodes are discoverable
+    - All agents are reporting data without errors
+
+
+
+.. _Ops Manager architecture : https://docs.opsmanager.mongodb.com/current/core/system-overview/
+.. _security settings : https://docs.mongodb.com/manual/administration/security-checklist/
+.. _configure HA app : https://docs.opsmanager.mongodb.com/current/tutorial/configure-application-high-availability/
+.. _offline binary access : https://docs.opsmanager.mongodb.com/current/tutorial/configure-local-mode/
+.. _Automation Agents : https://docs.opsmanager.mongodb.com/current/tutorial/nav/install-automation-agent/
