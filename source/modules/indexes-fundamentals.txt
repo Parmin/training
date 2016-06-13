@@ -238,7 +238,7 @@ In addition to ``find()``, we often want to use ``explain()`` to understand how 
 
     - Has not yet been implemented for the new CRUD API.
 
-      - No ``updateOne()``, ``replaceOne()``, ``updateMany()``, ``deleteOne()``, ``deleteMany()``, ``findOneAndUpdate()``, ``findOneAndDelete()``, ``findOneAndReplace()``,``findOneAndUpdate()``, ``insertMany()``
+      - No ``updateOne()``, ``replaceOne()``, ``updateMany()``, ``deleteOne()``, ``deleteMany()``, ``findOneAndUpdate()``, ``findOneAndDelete()``, ``findOneAndReplace()``, ``insertMany()``
 
 
 ``db.<COLLECTION>.explain()``

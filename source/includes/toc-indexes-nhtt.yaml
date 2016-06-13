@@ -1,0 +1,52 @@
+file: /modules/indexes-internal
+description: |
+  Internal discussion of indexes
+---
+file: /modules/new32-partial-indexes
+description: |
+  Partial Indexes (New in 3.2)
+---
+file: /modules/indexes-fundamentals
+description: |
+  Fundamentals (for reference)
+---
+file: /modules/indexes-compound
+description: |
+  Compound (for reference)
+---
+file: /modules/indexes-multikey
+description: |
+  Multikey (for reference)
+---
+file: /modules/indexes-hashed
+description: |
+  Hashed indexes (for reference)
+---
+file: /modules/indexes-text
+description: |
+  Text indexes (for reference)
+---
+file: /modules/indexes-geo-introduction
+description: |
+  Introduction to geo indexes (for reference)
+---
+file: /modules/indexes-geo
+description: |
+  Geoindexes (for reference)
+---
+file: /modules/indexes-geo-2dsphere
+description: |
+  2dsphere indexes (for reference)
+---
+file: /modules/indexes-filters
+description: |
+  Index filters (for reference)
+---
+file: /modules/indexes-aggregation
+description: |
+  Indexes and aggregation (for reference)
+---
+file: /modules/indexes-TTL
+description: |
+  TTL Indexes (for reference)
+...

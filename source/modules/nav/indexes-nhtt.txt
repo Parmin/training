@@ -1,0 +1,9 @@
+=======
+Indexes
+=======
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-indexes-nhtt.rst
+
+.. include:: /includes/toc/indexes-nhtt.rst

@@ -1,0 +1,37 @@
+=============
+NHTT: Indexes
+=============
+
+Internal Discussion of Indexes
+------------------------------
+
+- :doc:`/modules/indexes-internal`
+
+  - Discussion of indexing topics of interest to new employees
+
+- :doc:`/modules/new32-partial-indexes`
+
+  - New in MongoDB 3.2; wasn't in the courseware
+
+- :doc:`/modules/indexes-compound`
+
+  - For optimal ordering of indexes for a query
+
+.. include:: /includes/student-notes.rst
+
+
+Indexes, Reference
+------------------
+
+- :doc:`/modules/indexes-fundamentals`
+- :doc:`/modules/indexes-multikey`
+- :doc:`/modules/indexes-filters`
+- :doc:`/modules/indexes-text`
+- :doc:`/modules/indexes-hashed`
+- :doc:`/modules/indexes-geo-introduction`
+- :doc:`/modules/indexes-geo`
+- :doc:`/modules/indexes-geo-2dsphere`
+- :doc:`/modules/indexes-aggregation`
+- :doc:`/modules/indexes-TTL`
+
+.. include:: /includes/student-notes.rst

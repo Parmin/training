@@ -1,0 +1,292 @@
+==================
+Indexes - Internal
+==================
+
+
+Why Indexes are Important
+-------------------------
+
+- Common misconceptions *not* found among MongoDB employees
+
+  - MongoDB magically indexes everything
+  - MongoDB is so fast it doesn't need indexes
+
+- Most customer problems can be resolved by adding an index
+
+  - Because they have no indexes
+  - Because they are missing an index
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Depending on whom you ask, 60-75% of consulting and/or support issues are index related
+
+
+Index Key Limitations
+---------------------
+
+- Self imposed
+- Index keys must be smaller than 1024 bytes
+
+  - Before 2.0, it was 819 bytes
+  - Remember, "keys" are BSON values in the documents
+  - Compound keys are a concatenation of field values
+
+    - Easy to approach 1024 bytes
+
+  - With long strings, for example
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Q: Why was this limit self-imposed?
+    - A: To help keep indexes smaller
+
+
+Other Index Limitations
+-----------------------
+
+- Index namespace must be less than 123 bytes
+
+  - ``<db name>.<collection name>.$<index name>``
+  - Default index names are a concatenation of the fields
+
+    - Can approach this limit with compound indexes
+    - Can get around this by using custom names
+
+- Compound indexes must have 31 or fewer fields
+
+.. include:: /includes/student-notes.rst
+
+
+Other Index Limitations (continued)
+-----------------------------------
+
+- Queries can't use both text and geospatial indexes
+- Remember, ``2dsphere`` indexes can only hold:
+
+  - Coordinate pairs 
+  - GeoJSON
+
+- WT covered queries with ``NaN`` values are of type ``double``
+- Multikey indexes *cannot* cover a query
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Show them https://docs.mongodb.org/manual/reference/limits/#indexes
+
+
+Story about Index Keys
+----------------------
+
+- Since 2.6, inserting a document with an index string value > 1024 bytes (UTF-8) throws an exception
+- Before 2.6, we accepted the document, but didn't create an index entry for it
+
+  - Oops! But at least we logged it when it happened!
+
+.. include:: /includes/student-notes.rst
+
+Story about Index Keys (Continued)
+----------------------------------
+
+- When upgrading to 2.6, docs and indexes were left in place
+
+  - When rebuilding indexes (a common practice):
+  
+    - The builds failed 
+    - Users learned of the issue
+
+- Some customers saw pathological errors
+
+  - Caused by different replica set members having *slightly* different indexes
+
+.. include:: /includes/student-notes.rst
+
+
+Limitation: Floating Point Numbers
+----------------------------------
+
+- Hashed indexes truncate floating point numbers
+
+  - First to 64-bit integers, then hash
+
+  - Don't use a hashed index for floating point numbers 
+  
+    - Unless it can be reliably converted to 64-bit integers
+
+- Hashed indexes don't support floating point values larger than 2 :superscript:`53`
+
+.. include:: /includes/student-notes.rst
+
+
+Index Key Hypothetical
+----------------------
+
+- How might we work around the 1024 byte limit on index keys?
+
+.. only:: instructor
+
+  .. note::
+
+    - Possible answer: we could truncate long values, then look at the document when queries match
+    
+      - Valid idea, but can't be done with existing code
+      - Future release?
+
+    - Possible answer: let our index keys get bigger
+
+      - Would make our indexes bigger; probably not a good idea
+      - Remember, our limit was *self-imposed*
+
+.. include:: /includes/student-notes.rst
+
+
+Query Optimizer
+---------------
+
+- Works empirically
+
+  - First time the mongod sees a query but doesn't know what to do, it runs an experiment!
+
+    - Does the query in multiple plausible ways
+    - Doesn't do the full query, just part of it
+
+  - Can sometimes be wrong
+  - Use ``cursor.hint()`` when this occurs
+
+- Caches the query shape
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Q: What is a "plausible" method of fulfilling the query?
+
+      - A: Any method that uses an index
+      - A: Doesn't check a collection scan
+      - A: Avoids partial indexes
+
+    - This is in contrast with the heuristics used in planning queries in relational DB's
+
+      - They can't run experiments; there are just too many possible paths when you have JOINs.
+
+        - Each table could be your starting point
+        - You could order joins in any of a number of ways
+
+      - So they have to use rules/heuristics that get built into the query planning code
+
+
+Query Planner Logic
+-------------------
+
+.. figure:: /figures/query-planner-diagram.png
+   :figwidth: 250px
+   :align: center
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - "Evaluate Plan Performance" looks at how many "work cycles" required to originally build the index plan.
+    - If the query burns through 10x as many work cycles, it hits the "no match" path on the diagram.
+    - `Work cycles defined here <https://docs.mongodb.com/manual/reference/explain-results/#explain.executionStats.executionStages.works>`_
+
+Plan Caches
+-----------
+
+.. literalinclude:: /includes/indexes-internal.js
+   :language: javascript
+   :lines: 2
+
+- Object with data about query plans
+- Allows you to list the plans, clear plan caches, list filters
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - `Index filters <https://docs.mongodb.com/manual/core/query-plans/#index-filters>`_ are methods of limiting which indexes the optimizer evalutes for a query shape.
+    - It's pretty straightforward, but not a common use case.
+    - Students can see the documentation if they're curious.
+
+
+Example: Plan Caches
+--------------------
+
+.. literalinclude:: /includes/indexes-internal.js
+   :language: javascript
+   :lines: 13-24
+
+- How does the score get assigned?
+
+  - `Link here <https://wiki.mongodb.com/display/HGTC/How+Plan+Ranking+Works>`_ .
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - You will see one query plan
+    - You can then examine it with ``pc.getPlansByQuery({ "query" : { "a" : { "$lte" : 5 } }, "sort" : { "c" : 1 }, "projection" : {  } } )``
+    - Compares one plan (index scan) on ``{ c : 1, b : 1, a : 1 }`` with the other plan, using ``{ a : 1 }`` followed by an in-memory sort.
+
+      - Index scan gets a higher score
+      - Index scan becomes the preferred solution
+
+    - Link is https://wiki.mongodb.com/display/HGTC/How+Plan+Ranking+Works
+
+
+Index Intersection
+------------------
+
+- Doesn't occur often
+- Optimizer is rarely sure that it would be faster
+
+  - So it doesn't choose index intersection
+  - Goes with best single index, then filters
+
+- More likely to be selected if:
+
+  - Most documents are not in memory and
+  - All predicates return many documents
+  - And the intersection is small
+
+.. include:: /includes/student-notes.rst
+
+
+Index Intersection (Continued)
+------------------------------
+
+- To use one index for the ``find()`` clause 
+
+  - And one for the ``sort()`` ...
+    
+    - The sort fields must be in the query
+
+.. include:: /includes/student-notes.rst
+
+  .. only:: instructor
+
+    .. note::
+
+      - Index intersection doesn't come up often in the wild.
+      - Even for the platonic ideal of an implementation, compound indexes are usually way more efficient than index intersection.
+
+        - We should favor compound indexes instead

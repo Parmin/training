@@ -9,7 +9,7 @@ Day 1
 - Welcome
 - :doc:`/modules/internal-company`
 - :doc:`/modules/introduction-overview`
-- Indexing
+- :doc:`/modules/agenda-nhtt-indexes`
 
 .. include:: /includes/student-notes.rst
 
