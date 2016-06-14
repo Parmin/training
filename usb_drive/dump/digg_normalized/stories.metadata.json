@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"digg_normalized.stories"},{"v":1,"key":{"diggs":1},"name":"diggs_1","ns":"digg_normalized.stories"}]}

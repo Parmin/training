@@ -1,0 +1,203 @@
+=======================
+Lab: Aggregation Lookup
+=======================
+
+
+Data Set
+--------
+
+We have a normalized data set of digg ``users`` and their corresponding ``stories``
+linked by ``user._id``
+
+.. code-block:: javascript
+
+  > db.users.findOne()
+  {
+  "_id": ObjectId("575f1b138cc929dbcb20954e"),
+  "name": "babychen",
+  "registered": 1141570067,
+  "fullname": "Babychen Mathew",
+  "icon": "http://digg.com/users/babychen/l.png",
+  "profileviews": 24749
+  }
+
+  > db.stories.find({user: ObjectId("575f1b138cc929dbcb20954e")})
+  {
+  "_id": ObjectId("4ba267dc238d3ba3ca000001"),
+  "user": ObjectId("575f1b138cc929dbcb20954e"),
+  "href": "http://digg.com/people/Jedi_believer_who_refused_to_remove_hood_gets_an_apology",
+  "title": "'Jedi' believer who refused to remove hood gets an apology!",
+  ...
+
+
+.. include:: /includes/student-notes.rst
+
+.. only::instructor
+
+  .. note::
+
+    For this lab we will be using dataset ``dump/digg_normalized``
+
+    Make sure that students load this data before running the exercises!
+
+
+Exercise: Get Stories Users
+---------------------------
+
+- Get all user names, story title and link that have topic **people**.
+
+- Make sure you use only one request to the database to accomplish this task.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    A possible solution could be the following:
+
+    .. code-block:: js
+
+      db.stories.aggregate([
+          {$match: { "topic.name": "People" }},
+          {$lookup: {from:"users", localField: "user", foreignField: "_id", as: "user"}},
+          {$unwind: "$user"},
+          {$project: {title:1, link:1, "username":"$user.name"} }])
+
+    - we need to ``$match`` the topic
+    - ``$lookup`` for the users name
+    - ``$unwind`` because the output of the ``$lookup`` is a array field
+    - ``$project`` only the link, title and username fields.
+
+
+Exercise: Get Users Stories
+---------------------------
+
+- For every user, get all stories that have 100 comments or more.
+
+- Again, perform this using only one request to the database.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    For this exercise a possible solution would be:
+
+    .. code-block:: js
+
+      db.users.aggregate( [
+        {$lookup: { from: "stories", foreignField: "user", localField: "_id", as: "stories"}},
+        {$project: { stories: {$filter: {input: "$stories", as:"s", cond:{ $gte: ["$$s.comments", 100]}}}}}
+      ]
+
+
+    - Make sure the students start aggregating from ``users``
+    - They may ask whether starting with stories would have better performance.
+
+      - Get them to think about indexes and filter operations.
+
+    - Ask the question:
+
+      - Could we get the same info if we would start from stories ?
+
+    - Make sure you highlight the fact that we are using `$filter`_
+
+
+Exercise: Sample Users
+----------------------
+
+Get a random sample of five users, and their corresponding stories,
+where the user name starts with char ``n``.
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    The objective is to have the students look for the sample operator.
+
+    Students might come up with the following solution:
+
+    .. code-block:: js
+
+      db.users.aggregate([ {$sample:{size:5}},{$match:{ name: /^n/  }}])
+
+    Note that this is incorrect. It does not select a sample of students whose
+    username begins with 'n'. Rather it selects a sample of the entire collection
+    and then filters out any students whose username does not begin with 'n'.
+
+    An accurate answer should be:
+
+    .. code-block:: js
+
+      db.users.aggregate([ {$match:{ name: /^n/  }}, {$sample:{size:5}}])
+
+    We should also `$lookup` for the digg stories
+
+    .. code-block:: js
+
+      db.users.aggregate([
+        {$match:{ name: /^n/  }},
+        {$sample:{size:5}},
+        {$lookup: { from: "stories", foreignField: "user", localField: "_id", as: "stories"}},
+      ])
+
+
+Exercise: Slice Users Stories
+-----------------------------
+
+For each user that has four stories published, get the user's name and the last two stories!
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    In this exercise we want students to explore the `$slice`_ operator
+
+    .. code-block:: js
+
+      db.users.aggregate([
+        {$lookup: { from: "stories", foreignField: "user", localField: "_id", as: "stories"}},
+        {$match: { stories: {$size: 4} }},
+        {$project: { name:1, last_2_stories: {$slice: [ "$stories", -1, 2 ]}  }}
+      ])
+
+    - $lookup for the left outer join
+    - $match will filter all users that have only 4 stories published
+    - $slice to project just the last 2 stories in the array
+
+
+Exercise: Users Stories
+-----------------------------
+
+From all users that have more than 100000 profile views, get their third story.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    In this exercise we want students to explore the `$arrayElemAt`_ operator
+
+    .. code-block:: js
+
+      db.users.aggregate([
+        {$match: {profileviews: {$gt: 100000}}},
+        {$lookup: { from: "stories", foreignField: "user", localField: "_id", as: "stories"}},
+        {$project: { name: 1, third_story: { $arrayElemAt: ["$stories", 3]}  }}
+      ])
+
+
+
+.. _`$lookup docs`: https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/
+.. _`ObjectId`: https://docs.mongodb.com/manual/reference/method/ObjectId/
+.. _`$filter`: https://docs.mongodb.com/manual/reference/operator/aggregation/filter/
+.. _`$slice`: https://docs.mongodb.com/manual/reference/operator/aggregation/slice/
+.. _`$arrayElemAt`: https://docs.mongodb.com/manual/reference/operator/aggregation/arrayElemAt/
