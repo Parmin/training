@@ -244,7 +244,16 @@ class Provisioner(object):
         return ig
 
     def load_security_group(self, group_name):
-        pass
+        self._logger.info("Getting security group {0}".format(group_name) )
+        filters = [{
+            'Name': 'group-name',
+            'Values': [group_name]
+        }]
+        response = self.client.describe_security_groups( Filters=filters)
+        security_group_id = response["SecurityGroups"][0]["GroupId"]
+        return self.ec2.SecurityGroup(security_group_id)
+
+
 
     def create_security_group(self, build_id, vpc_id, group_name):
         desc = "Security Group {0} for VPC {1}".format(group_name, vpc_id)
