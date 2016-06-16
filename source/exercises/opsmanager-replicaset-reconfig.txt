@@ -5,10 +5,10 @@ Lab: Reconfig Replica Set
 Learning Objectives
 -------------------
 
-Upon completing this lab, we expect students to:
+Upon completing this lab, students should be able to:
 
-- Understand how to reconfigure a replica set.
-- Understand the different stages of deployments.
+- Reconfigure a replica set
+- Outline the different stages of deployments
 
 .. include:: /includes/student-notes.rst
 
@@ -16,10 +16,9 @@ Upon completing this lab, we expect students to:
 Dependencies
 ------------
 
-In order to complete all purposed exercises we need to first enable the Public API.
-
-- Go to your group settings and enable the Public API
-- Do not forget to set an appropriate CIDR block for the IP whitelist and Generate the API Key
+- In order to complete all purposed exercises we need to first enable the Public API.
+- Go to your group settings and enable the Public API.
+- Do not forget to set an appropriate CIDR block for the IP whitelist and Generate the API Key.
 
 .. include:: /includes/student-notes.rst
 
@@ -32,19 +31,18 @@ In order to complete all purposed exercises we need to first enable the Public A
 Exercise: Initial Replica Set
 -----------------------------
 
-Using the Ops Manager UI go ahead and create a 3 node replica set:
+- Using the Ops Manager UI go ahead and create a 3 node replica set:
 
-- Replica set name ``METAMORPHOSIS``
-- Two data bearing nodes
-- One arbiter
+  - Replica set name ``METAMORPHOSIS``
+  - Two data bearing nodes
+  - One arbiter
 
-*All instances should be installed using MongoDB 3.2.1*
+- *All instances should be installed using MongoDB 3.2.1*
 
 Exercise: Add Replica Set Members
 ---------------------------------
 
-Let's assume that we require highler level of High Availability (HA).
-
+- Let's assume that we require highler level of High Availability (HA).
 - Add 2 new data bearing nodes
 
   - First node should have priority 0
@@ -54,8 +52,7 @@ Let's assume that we require highler level of High Availability (HA).
 Exercise: Decomission Replica Member
 ------------------------------------
 
-One of your nodes is not making the cut.
-
+- One of your nodes is not making the cut.
 - Change your replica set by "decommissioning" one of the instances
 - Make sure that your replica set keeps up majority and previous level of node failure resilience
 
@@ -63,37 +60,32 @@ One of your nodes is not making the cut.
 
   .. note::
 
-    Make sure students are aware of the fact that removing one of nodes might require adding an extra one.
-    - Not totally true in this case since there's an ``arbiter`` member
+    Make sure students are aware that removing one of nodes might require adding an extra one.
 
-      - They will keep the same availability by just removing a node
-      - We can also remove the ``arbiter`` to keep an odd number of nodes
+    - Not totally true in this case since there's an ``arbiter`` member
+    - They will keep the same availability by just removing a node
+    - We can also remove the ``arbiter`` to keep an odd number of nodes
 
 
 
 Exercise: Upgrade MongoDB Version
 ---------------------------------
 
-Our CTO, for compliance reasons, demands that all of our nodes should be on the latest version of MongoDB.
-
+- Our CTO, for compliance reasons, demands that all of our nodes should be on the latest version of MongoDB.
 - Upgrade all nodes in your replica set without downtime.
-
 
 .. only:: instructor
 
   .. note::
 
-      Students should be instructed to just change the version of MongoDB to the most recent version of MongoDB
+      - Please instruct students to change the version of MongoDB to the most recent version of MongoDB
       - Make sure they know how to make the required version available in their Ops Manager deployment.
-      - Update the Version Manifest
-
-        - Deployment -> Version Manager -> Update MongoDB Version Manifest
+      - Update the Version Manifest: Deployment -> Version Manager -> Update MongoDB Version Manifest
 
 Exercise: Upgrade Replica Set Name
 ----------------------------------
 
-We decided that we are not going to change our cluster going forward.
-
+- We decided that we are not going to change our cluster going forward.
 - Using Ops Manager API, update the replica set name to "PRODUCTION"
 
 .. only:: instructor
@@ -103,32 +95,34 @@ We decided that we are not going to change our cluster going forward.
       - Get the group Id and add it to an environment variable
       - Settings -> Group Settings (group id)
 
-      .. code-block:: bash
+        .. code-block:: bash
 
-        export GROUPID=YOURGROUPID
+          export GROUPID=YOURGROUPID
 
       - Create a new API key
       - Settings -> Public API Key -> Generate
 
-      .. code-block:: bash
+        .. code-block:: bash
 
-          export apiKey=YOURAPIKEY
+            export apiKey=YOURAPIKEY
 
       - Get your Cluster ID
 
-      .. code-block:: bash
+        .. code-block:: bash
 
-        // this will higlight your clusterid
-        curl -u "$username:$apiKey" -H "Content-Type: application/json" --digest -i "http://opsmgr.training/api/public/v1.0/groups/$GROUPID/clusters/" | grep "id"
+          // this will higlight your clusterid
+          curl -u "$username:$apiKey" -H "Content-Type: application/json" --digest -i
+          "http://opsmgr.training/api/public/v1.0/groups/$GROUPID/clusters/" | grep "id"
 
-        export CLUSTERID=YOURCLUSTERSID
+          export CLUSTERID=YOURCLUSTERSID
 
       - Update the replica set name
 
-      .. code-block:: bash
+        .. code-block:: bash
 
-        export username=yourusername
-        curl -u "$username:$apiKey" -H "Content-Type: application/json" --digest -i -X PATCH "https://opsmgr.training/api/public/v1.0/groups/$GROUPID/clusters/$CLUSTERID" --data '
-        {
-        "clusterName": "PRODUCTION"
-        }'
+          export username=yourusername
+          curl -u "$username:$apiKey" -H "Content-Type: application/json" --digest -i -X PATCH
+          "https://opsmgr.training/api/public/v1.0/groups/$GROUPID/clusters/$CLUSTERID" --data '
+          {
+            "clusterName": "PRODUCTION"
+          }'

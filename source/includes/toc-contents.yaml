@@ -1,17 +1,13 @@
-file: /modules/nav/agendas
-description: | 
-  Agendas for all trainings with links to included modules
----
 file: /modules/nav/introduction
-description: | 
+description: |
   An introduction to MongoDB concepts and background
 ---
 file: /modules/nav/crud
 description: |
   The MongoDB query language
---- 
+---
 file: /modules/nav/indexes
-description: | 
+description: |
   Indexes in MongoDB
 ---
 file: /modules/nav/storage
@@ -31,12 +27,28 @@ description: |
   Data modeling in MongoDB.
 ---
 file: /modules/nav/replica-sets
-description: | 
+description: |
   Replication in MongoDB
 ---
 file: /modules/nav/sharding
-description: | 
+description: |
   Sharding in MongoDB
+---
+file: /modules/nav/security
+description: |
+  An overview of security options for MongoDB
+---
+file: /modules/performance
+description: |
+  An introduction to MongoDB tools for performance troubleshooting
+---
+file: /modules/nav/opsmanager
+description: |
+  An overview and series of labs on Ops Manager
+---
+file: /modules/nav/new-in-3-2
+description: |
+  Changes in MongoDB 3.2
 ---
 file: /modules/nav/schema-design-advanced
 description: |
@@ -45,24 +57,4 @@ description: |
 file: /modules/nav/mongomart
 description: |
   MongoMart
----
-file: /modules/nav/security
-description: |
-  An overview of security options for MongoDB
----
-file: /modules/nav/mms
-description: |
-  An overview of MongoDB Cloud & Ops Manager
----
-file: /modules/performance
-description: |
-  An introduction to MongoDB tools for performance troubleshooting
----
-file: /modules/backup
-description: |
-  MongoDB backup strategies
----
-file: /modules/nav/new-in-3-2
-description: |
-  Changes in MongoDB 3.2
 ...

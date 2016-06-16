@@ -50,7 +50,7 @@ To build secured MongoDB deployments you first need to `enable Auth and SSL`_ on
 
 All VMs have a set of certificates that you will be using to configure your secured deployment.
 
-In folder ``/shared/etc/ssl`` you will find:
+In folder `/shared/etc/ssl` you will find:
 
 - ``ca.pem``: SSL CA certificate
 - ``automation.pem``: Automation agent certificate
@@ -66,7 +66,7 @@ In folder ``/shared/etc/ssl`` you will find:
 
   .. note::
 
-    Ask students to list files under ``/shared/etc/ssl`` on instances to validate that their installation process is correct.
+    Ask students to list files under `/shared/etc/ssl` on instances to validate that their installation process is correct.
 
     Make sure to highlight that:
 
@@ -124,7 +124,7 @@ Create a replica set named **SECURE** with the following configuration:
 - 3 Nodes: port range {27000 -> 27002}
 - **clusterAuthMechanism**: x509
 - **sslMode**: requiredSSL
-- **sslPEMKeyFile**: ``/shared/etc/ssl/nodeX.pem``
+- **sslPEMKeyFile**: `/shared/etc/ssl/nodeX.pem`
 
 .. include:: /includes/student-notes.rst
 
@@ -146,7 +146,7 @@ Create a replica set named **SECURE** with the following configuration:
 
     - Once we have applied we now need to **Modify** the individual node members with the corresponding server **sslPEMKeyFile**
 
-      - node1: ``/shared/etc/ssl/node1.pem``
+      - node1: `/shared/etc/ssl/node1.pem`
 
 
     - ``nodeX.pem``: there should be a certificate file per each node.
@@ -170,35 +170,34 @@ Time to create users that will authenticate using an X.509 certificate.
 
   .. note::
 
-    Students might not be familiar with this mechanism so point them to the following:
+    - Students might not be familiar with this mechanism so point them to `Certificate Subject as user`_.
+    - Students will have to extract the certificate ``subject`` info
 
-    - `Certificate Subject as user`_
+      .. code-block:: bash
 
-    Students will have to extract the certificate ``subject`` info
+        openssl x509 -in /share/etc/ssl/dbadmin.pem -inform PEM -subject -nameopt RFC2253
+        subject= C=US,ST=New York,L=New York City,O=MongoDB,OU=TRAINING,CN=client
+        -----BEGIN CERTIFICATE-----
+        MIIDezCCAmOgAwIBAgIDBZc1MA0GCSqGSIb3DQEBBQUAMGUxCzAJBgNVBAMTAkNB
 
-    .. code-block:: bash
+      and use that subject info to create the required user.
 
-      > openssl x509 -in /share/etc/ssl/dbadmin.pem -inform PEM -subject -nameopt RFC2253
-      subject= C=US,ST=New York,L=New York City,O=MongoDB,OU=TRAINING,CN=client
-      -----BEGIN CERTIFICATE-----
-      MIIDezCCAmOgAwIBAgIDBZc1MA0GCSqGSIb3DQEBBQUAMGUxCzAJBgNVBAMTAkNB
-
-    And use that subject info to create the required user.
-
-    We can create this user using the Ops Manager UI or we can connect to the replica set and perform the following operations:
-
+    - We can create this user using the Ops Manager UI or we can connect to the replica set and perform the following operations:
     - Authenticate to primary node using automation agent certificate
 
-    .. code-block:: bash
+      .. code-block:: bash
 
-      mongo --host PRIMARY_NODE  --ssl --sslPEMKeyFile /share/etc/ssl/automation.pem --sslCAFile /share/etc/ssl/ca.pem
-      > db.getSiblingDB("$external").auth( {mechanism: "MONGODB-X509", user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=EDU,CN=automation"})
+        mongo --host PRIMARY_NODE --ssl --sslPEMKeyFile /share/etc/ssl/automation.pem --sslCAFile /share/etc/ssl/ca.pem
+        > db.getSiblingDB("$external").auth({
+          mechanism: "MONGODB-X509",
+          user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=EDU,CN=automation"
+          })
 
     - Create the new ``dbAdminAnyDatabase`` user with the ``dbadmin.pem`` certificate
 
-    .. code-block:: javascript
+      .. code-block:: javascript
 
-      db.getSiblingDB("$external").runCommand({
+        db.getSiblingDB("$external").runCommand({
           createUser: "C=US,ST=New York,L=New York City,O=MongoDB,OU=TRAINING,CN=dbadmin",
           roles: [
             { role: 'dbAdminAnyDatabase', db: 'admin' }
@@ -208,17 +207,21 @@ Time to create users that will authenticate using an X.509 certificate.
 
     - Connect to primary using ``dbadmin.pem``:
 
-    .. code-block:: bash
+      .. code-block:: bash
 
-      mongo --host PRIMARY_NODE  --ssl --sslPEMKeyFile /share/etc/ssl/dbadmin.pem --sslCAFile /share/etc/ssl/ca.pem
+        mongo --host PRIMARY_NODE  --ssl --sslPEMKeyFile /share/etc/ssl/dbadmin.pem
+        --sslCAFile /share/etc/ssl/ca.pem
 
     - Authenticate and create new database ``allgood``
 
-    .. code-block:: javascript
+      .. code-block:: javascript
 
-      db.getSiblingDB("$external").auth( {mechanism: "MONGODB-X509", user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=TRAINING,CN=dbadmin"})
+        db.getSiblingDB("$external").auth({
+          mechanism: "MONGODB-X509",
+          user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=TRAINING,CN=dbadmin"
+        })
 
-      db.createDatabase("allgood")
+        db.createDatabase("allgood")
 
 
 

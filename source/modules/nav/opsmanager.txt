@@ -1,0 +1,9 @@
+===================
+MongoDB Ops Manager
+===================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-opsmanager.rst
+
+.. include:: /includes/toc/opsmanager.rst
