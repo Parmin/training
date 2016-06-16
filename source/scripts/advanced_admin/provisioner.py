@@ -10,9 +10,16 @@ FORMAT = '%(asctime)-15s %(message)s'
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
 logging.basicConfig(format=FORMAT)
-module_logger = logging.getLogger(__name__)
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
 
 class Team(object):
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    logging.basicConfig(format=FORMAT)
+    log.setLevel(logging.DEBUG)
+    log = logging.getLogger(__name__)
 
     def __init__(self, team_id, cidr_block):
         """
@@ -63,7 +70,7 @@ class Provisioner(object):
         self._session = None
         self._client = None
         self._ec2 = None
-        self._logger = logging.getLogger("Provisioner")
+        #log = logging.getLogger("Provisioner")
         self.cidr_block = '27.0.17.0/24'
         self._subnet_cidrblocks = [
             "27.0.17.0/27",
@@ -73,7 +80,7 @@ class Provisioner(object):
             "27.0.17.128/27"]
         self.teams = []
         self._basedir = "."
-        self.number_of_instances = 16
+        self.number_of_instances = 3
         self.instance_type = 'm3.xlarge'
         self.image_id = "ami-d63cccbb"
 
@@ -123,7 +130,7 @@ class Provisioner(object):
 
     @property
     def training_run(self):
-        self._logger.debug("get training_run: %s", self._training_run)
+        log.debug("get training_run: %s", self._training_run)
         return self._training_run
 
     @training_run.setter
@@ -151,7 +158,7 @@ class Provisioner(object):
 
     @property
     def end_date(self):
-        self._logger.debug("get end_date: %s", self.training_run)
+        log.debug("get end_date: %s", self.training_run)
         return self._edate
 
     @end_date.setter
@@ -162,7 +169,7 @@ class Provisioner(object):
     @property
     def session(self):
         if not self._session: raise Exception("Session cannot be None")
-        self._logger.debug("get session: %s", self.training_run)
+        log.debug("get session: %s", self.training_run)
         return self._session
 
     @session.setter
@@ -190,7 +197,7 @@ class Provisioner(object):
 
     def get_default_tags(self):
         return [
-            {'Key': 'Name', 'Value': self.training_run},
+            {'Key': 'Run', 'Value': self.training_run},
             {'Key': 'Owner', 'Value': 'Advanced Training'},
             {'Key': 'Expire', 'Value': self.end_date.strftime("%s")}
             ]
@@ -210,21 +217,23 @@ class Provisioner(object):
             "Value": build_id
          })
 
-        self._logger.info(
+        log.info(
         "Adding tags %s to resource %s " % (str(tags), resource.id ))
-        c = 5
+
         if statefull:
-            while resource.state != "available" or c > 0:
-                self._logger.info(
-                "Resource {0} not yet available - current state {1}".format(
-                resource.id, resource.state))
+            c = 5
+            while resource.state not in ["available", "running"] :
+                log.info(
+                    "Resource {0} not yet available - current state {1}".format(resource.id, resource.state))
                 time.sleep(1)
-                c=c-1
+                c=-1
+                if c < 1:
+                    break
                 resource.reload()
         resource.create_tags(Tags=tags)
 
     def create_internet_gateway(self, build_id, vpc_id):
-        self._logger.info(
+        log.info(
         "Creating Internet Gateway for {0} on vpc {1}".format(build_id, vpc_id))
         response = self.client.create_internet_gateway()
 
@@ -236,7 +245,7 @@ class Provisioner(object):
                 retries-=1
                 self.add_tags_resource(ig, build_id, [{'Key': 'VpcId', 'Value': vpc_id}], False)
             except botocore.exceptions.ClientError, e:
-                self._logger.warning(
+                log.warning(
                     "Problem tag resource: {0} let's wait a bit".format(str(e)))
                 time.sleep(1)
 
@@ -244,7 +253,7 @@ class Provisioner(object):
         return ig
 
     def load_security_group(self, group_name):
-        self._logger.info("Getting security group {0}".format(group_name) )
+        log.info("Getting security group {0}".format(group_name) )
         filters = [{
             'Name': 'group-name',
             'Values': [group_name]
@@ -257,7 +266,7 @@ class Provisioner(object):
 
     def create_security_group(self, build_id, vpc_id, group_name):
         desc = "Security Group {0} for VPC {1}".format(group_name, vpc_id)
-        self._logger.info("Creating {0}".format(desc))
+        log.info("Creating {0}".format(desc))
         try:
             sg = self.ec2.SecurityGroup(self.client.create_security_group(
                 GroupName=group_name,
@@ -270,17 +279,18 @@ class Provisioner(object):
             self.add_tags_resource(sg, build_id,[{'Key': 'VpcId', 'Value': vpc_id}], False)
             return sg
         except Exception, e:
-            self._logger.error("Could not create security group due to exceptio : ",e )
+            log.error("Could not create security group due to exceptio : ",e )
             return self.load_security_group()
 
 
-
     def create_vpc(self, build_id, dryrun=False):
-        self._logger.info("Start to create VPC for %s with cidr_block %s "
-        % (build_id, self.cidr_block))
+        log.info("Start to create VPC for {0} with cidr_block {1} ".format(build_id, self.cidr_block))
         vpc = self.ec2.Vpc(self.client.create_vpc(CidrBlock=self.cidr_block, DryRun=dryrun)['Vpc']['VpcId'])
-
-        self.add_tags_resource(vpc, build_id)
+        try:
+            self.add_tags_resource(vpc, build_id)
+        except Exception, e:
+            log.error("Could not create VPC {}".format(vpc))
+            log.warning("Current VPC state: {}".format(vpc.state))
         ig = self.create_internet_gateway(build_id, vpc.vpc_id)
         self.sg = self.create_security_group(build_id, vpc.vpc_id, self.training_run)
         self.vpc = vpc
@@ -289,12 +299,12 @@ class Provisioner(object):
 
     def get_availability_zone(self):
         response = self.client.describe_availability_zones()
-        self._logger.info("Got the following AZ: {AvailabilityZones} ".format(**response))
+        log.info("Got the following AZ: {AvailabilityZones} ".format(**response))
         for d in response["AvailabilityZones"]:
             if d['State'] == "available":
-                self._logger.info("Returning {}".format(d))
+                log.info("Returning {}".format(d))
                 return d
-        self._logger.error("No AvailabilityZone available!")
+        log.error("No AvailabilityZone available!")
         return None
 
 
@@ -313,22 +323,29 @@ class Provisioner(object):
         return subnet
 
     def save_keypair_file(self, filename, keypair_material):
-        self._logger.info('Storing Key Pair in {0}'.format(os.path.abspath(filename)))
-        kfile = open(filename, "w")
-        kfile.write("".join(keypair_material))
-        kfile.close()
+        log.info('Storing Key Pair in {0}'.format(os.path.abspath(filename)))
+        with open(filename, "w") as kfile:
+            kfile.write("".join(keypair_material))
 
 
     def create_keypair(self, name=None):
-        self._logger.info('Creating new Key Pair for {0}'.format(self.training_run))
+        log.info('Creating new Key Pair for {0}'.format(self.training_run))
         name = self.training_run if name is None else name
-        key = self.ec2.create_key_pair(KeyName=name)
-        filename = os.path.join(self._basedir, key.key_name + ".pem" )
-        self.save_keypair_file( filename, key.key_material  )
-        return key
+        filename = os.path.join(self._basedir, name + ".pem" )
+        try:
+            key = self.ec2.create_key_pair(KeyName=name)
+            self.save_keypair_file( filename, key.key_material  )
+            return key
+        except Exception, e:
+            import binascii
+            new_name = binascii.hexlify(os.urandom(10))
+            log.warning( "creating new random {0} key".format(new_name))
+            return self.create_keypair(new_name)
+
+
 
     def launch_team_instance(self, team_id, image_id, subnet_id, private_ip):
-        self._logger.info('Launching team {0} instances'.format(team_id))
+        log.info('Launching team {0} instances'.format(team_id))
 
         response = self.client.run_instances(
             ImageId=image_id,
@@ -339,16 +356,18 @@ class Provisioner(object):
             SubnetId=subnet_id,
             PrivateIpAddress=private_ip,
             InstanceInitiatedShutdownBehavior="terminate")
-
-        instance = self.ec2.Instance(response["Instances"][0]["InstanceId"])
-
-        self.add_tags_resource( instance, "", [{'Key': 'TeamId', 'Value': team_id}], False)
+        instance_id = response["Instances"][0]["InstanceId"]
+        instance = self.ec2.Instance(instance_id)
+        try:
+            self.add_tags_resource( instance, "", [{'Key': 'TeamId', 'Value': team_id}], True)
+        except Exception, e:
+            log.warning("Could not add tags to instance {0} - need to check manually".format(instance_id) )
 
         return instance
 
 
     def build_team(self, build_id, vpc, team_id):
-        self._logger.info('Creating {0} team'.format(team_id))
+        log.info('Creating {0} team'.format(team_id))
         subnet_cidrblock = self._subnet_cidrblocks.pop(0)
         subnet = self.create_subnet(build_id, vpc.vpc_id, subnet_cidrblock, team_id)
         team = Team(team_id, subnet_cidrblock)
@@ -365,7 +384,7 @@ class Provisioner(object):
 
 
     def build(self, build_id, dryrun=True):
-        if dryrun: self._logger.info("Running in dryrun mode ")
+        if dryrun: log.info("Running in dryrun mode ")
 
         vpc = self.create_vpc(build_id, dryrun)
 
@@ -376,13 +395,30 @@ class Provisioner(object):
             self.build_team(build_id,vpc,team_id)
 
 
+
             #step 3 - create elastic ip
-
-            #step 4 - create keypair
-
-            #step 5 - create instances
 
             #step 6 - create load balancer
 
-    def destroy(self, build_id):
-        pass
+    def destroy_vpc(self):
+        #deleting subnets
+        for sn in self.vpc.subnets.all():
+            log.info("Deleting {0} subnet".format(sn))
+            sn.delete()
+
+        for
+
+    def destroy(self):
+        filters = [{
+            'Name': 'tag:Name',
+            'Values': [self.training_run]
+        }]
+        #terminate instances
+        for i in self.ec2.instances.filter(Filters):
+            log.debug("Terminating {0} instance".format(i))
+            i.terminate()
+
+        #delete security group
+        for sg in self.ec2.security_groups.filter(Filters=filters):
+            log.debug("Deleting {0} security group".format(sg))
+            kp.delete()
