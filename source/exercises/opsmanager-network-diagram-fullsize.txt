@@ -2,7 +2,7 @@
     .. only:: latex and not offset
 
        .. figure:: /images/opsmanager-network-diagram-fullsize.jpg
-          :alt: Osp Manager Diagram
+          :alt: Ops Manager Diagram
           :align: center
           :figwidth: 1600px
 
@@ -18,7 +18,7 @@
        .. figure:: /images/opsmanager-network-diagram-fullsize.jpg
           :alt: opsmanager-network-diagram-fullsize
           :align: center
-          :figwidth: 400px
+          :figwidth: 600px
 
     .. only:: website and not (html or slides)
 
@@ -33,5 +33,5 @@
 
           \begin{figure}[h!]
           \centering
-          \includegraphics[width=400px]opsmanager-network-diagram-fullsize.eps
+          \includegraphics[width=400px]{opsmanager-network-diagram-fullsize.eps}
           \end{figure}

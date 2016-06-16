@@ -39,7 +39,7 @@ Using the `Ops Manager API`_ , create the following users:
 - **aediles@localhost.com** :
 
   - password: "123ABCabc!"
-  - role: Owner_
+  - role: `Owner`_
 
 - **patrician@localhost.com** :
 
@@ -65,7 +65,8 @@ Using the `Ops Manager API`_ , create the following users:
 
     .. code-block:: bash
 
-      curl -u "admin@localhost.com:$APIKEY" -H "Content-Type: application/json" --digest -i -X POST "http://opsmgr.training/api/public/v1.0/users" --data '
+      curl -u "admin@localhost.com:$APIKEY" -H "Content-Type: application/json"
+      --digest -i -X POST "http://opsmgr.training/api/public/v1.0/users" --data '
       {
       "username": "aediles@localhost.com",
       "emailAddress": "aediles@localhost.com",
@@ -88,7 +89,7 @@ Please create, either through the API or web console, the following users:
 
 - Second user granted `Global User Admin`_ user : `masterchef@localhost.com`
 
-After creating these users, connect with the most appropriate user to change the password of the **CIRCUS_MAXIMUS** _`Owner` user.
+After creating these users, connect with the most appropriate user to change the password of the **CIRCUS_MAXIMUS** `Owner` user.
 The new password should be *"$uperC00l"*
 
 This last operation should be accomplished using the HTTP Rest API interface.
@@ -107,9 +108,10 @@ This last operation should be accomplished using the HTTP Rest API interface.
     .. code-block:: bash
 
       // get the user
-      curl -u "masterchef@localhost.com:$APIKEY" --digest -i "http://opsmgr.training/api/public/v1.0/users/byName/aediles@localhost.com"
-      curl -u "masterchef@localhost.com:$APIKEY" -H "Content-Type: application/json" --digest -i -X PATCH "http://opsmgr.training/api/public/v1.0/users/$USERID" --data '
-
+      curl -u "masterchef@localhost.com:$APIKEY"
+      --digest -i "http://opsmgr.training/api/public/v1.0/users/byName/aediles@localhost.com"
+      curl -u "masterchef@localhost.com:$APIKEY" -H "Content-Type: application/json"
+      --digest -i -X PATCH "http://opsmgr.training/api/public/v1.0/users/$USERID" --data '
       {
       "password": "$uperC00lpa22"
       }'
@@ -118,7 +120,7 @@ This last operation should be accomplished using the HTTP Rest API interface.
 .. _`Global User Admin`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#global-user-admin
 .. _`Ops Manager API`: https://docs.opsmanager.mongodb.com/current/api/
 .. _`enable the api`: https://docs.opsmanager.mongodb.com/current/tutorial/enable-public-api/
-.. _`Owner` : https://docs.opsmanager.mongodb.com/current/reference/user-roles/#owner
+.. _`Owner`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#owner
 .. _`User Admin`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#user-admin
 .. _`Backup Admin`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#backup-admin
 .. _`Monitoring Admin`: https://docs.opsmanager.mongodb.com/current/reference/user-roles/#monitoring-admin

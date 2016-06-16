@@ -1,0 +1,20 @@
+file: /exercises/opsmanager-installation
+description: |
+  Introduction to Ops Manager and installation
+---
+file: /exercises/opsmanager-user-administration
+description: |
+  Managing groups and users in Ops Manager
+---
+file: /exercises/opsmanager-enabling-api
+description: |
+  Setting up API access in Ops Manager
+---
+file: /exercises/opsmanager-secure-replicaset
+description: |
+  Deploy a secure replica set using Ops Manager
+---
+file: /exercises/opsmanager-replicaset-reconfig
+description: |
+  Reconfigure a replica set using the Ops Manager API
+...

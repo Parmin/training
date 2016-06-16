@@ -1,0 +1,9 @@
+:orphan:
+
+============================
+MongoDB Ops Manager Workshop
+============================
+
+.. toctree::
+
+   /modules/nav/opsmanager
