@@ -92,7 +92,6 @@ Authorization Resources
 - Collections
 - But that is not all. See next several slides.
 
-.. include:: /includes/student-notes.rst
 
 Cluster Resources
 -----------------
