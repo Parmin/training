@@ -1,6 +1,6 @@
-==================================
-Lab: Secured Replica Set - KeyFile
-==================================
+=============================================
+Lab: Secured Replica Set - KeyFile (Optional)
+=============================================
 
 
 Premise
@@ -13,7 +13,7 @@ Production environments, since you probably don't want to have your production
 environment **Unsecured** and without **High Availability**!
 
 This lab is to get fully acquainted with all necessary steps to
-create a Secured Replica Set using ``keyfile`` for cluster authentication mode
+create a secured replica set using the ``keyfile`` for cluster authentication mode
 
 
 Setup Secured Replica Set
@@ -21,11 +21,11 @@ Setup Secured Replica Set
 
 A few steps are required to fully setup a secured Replica Set:
 
-#. Instantiate one `mongod` node with no `auth` enabled
-#. Create `root` level user
-#. Create `clusterAdmin` user
-#. Generate `keyfile` for internal node Authentication
-#. Re-instantiate `mongod` with `auth` enabled, `keyfile` defined and `replSet` name
+#. Instantiate one ``mongod`` node with no ``auth`` enabled
+#. Create a ``root`` level user
+#. Create a ``clusterAdmin`` user
+#. Generate a keyfile for internal node authentication
+#. Re-instantiate a ``mongod`` with ``auth`` enabled, ``keyfile`` defined and ``replSet`` name
 #. Add Replica Set nodes
 
 We will also be basing our setup using `MongoDB configuration files <https://docs.mongodb.org/manual/reference/configuration-options/>`_
@@ -36,17 +36,18 @@ We will also be basing our setup using `MongoDB configuration files <https://doc
 
   .. note::
 
-    This might be a good opportunity to group students together.
+    - This might be a good opportunity to have students work in groups.
 
-    If we can guarantee:
+    - If we can guarantee:
+
       - connectivity between all students workstations
       - administration rights over the workstations
 
-    Then we can go ahead and group students together to accomplish these tasks.
+    - Then we can go ahead and group students together to accomplish these tasks.
 
 
-Instantiate `mongod`
---------------------
+Instantiate ``mongod``
+----------------------
 
 This is a rather simple operation that requires just a simple instruction:
 
@@ -56,20 +57,17 @@ This is a rather simple operation that requires just a simple instruction:
   /data
   $ mkdir -p /data/secure_replset/{1,2,3}; cd secure_replset/1
 
-- Then go to `this yaml file<https://github.com/thatnerd/work-public/blob/master/mongodb_trainings/secure_replset_config.yaml>`_.
-- Copy it into your clipboard
+Then go to `this yaml file <https://github.com/thatnerd/work-public/blob/master/mongodb_trainings/secure_replset_config.yaml>`_ and copy it into your clipboard
+
+.. code-block:: bash
 
   $ pbpaste > mongod.conf; cat mongod.conf
 
 .. include:: /includes/student-notes.rst
 
 
-Instantiate `mongod` (Continued)
---------------------------------
-
-- The site should have the following
-
-  - it may not fit on this slide
+Instantiate ``mongod`` (cont'd)
+-------------------------------
 
 .. code-block:: yaml
 
@@ -94,10 +92,10 @@ Instantiate `mongod` (Continued)
 .. include:: /includes/student-notes.rst
 
 
-Instantiate `mongod` (Continued)
---------------------------------
+Instantiate ``mongod`` (cont'd)
+-------------------------------
 
-After defining the basic configuration we just need to call `mongod` passing the configuration file.
+After defining the basic configuration we just need to call ``mongod`` passing the configuration file.
 
 .. code-block:: bash
 
@@ -115,10 +113,10 @@ After defining the basic configuration we just need to call `mongod` passing the
     https://docs.mongodb.org/manual/reference/configuration-options/#security-options
 
 
-Create `root` level user
-------------------------
+Create root user
+----------------
 
-We start by creating our typical `root` level user:
+We start by creating our typical ``root`` user:
 
 .. code-block:: bash
 
@@ -137,10 +135,10 @@ We start by creating our typical `root` level user:
   })
 
 
-Create `clusterAdmin` user
---------------------------
+Create clusterAdmin user
+------------------------
 
-We need then to create `clusterAdmin` user to enable the management of our Replica Set:
+We then need to create a clusterAdmin user to enable management of our replica set.
 
 .. code-block:: bash
 
@@ -158,10 +156,10 @@ We need then to create `clusterAdmin` user to enable the management of our Repli
   })
 
 
-Generate a `keyfile`
---------------------
+Generate a keyfile
+------------------
 
-For internal Replica Set authentication we need to use a `keyfile`:
+For internal Replica Set authentication we need to use a keyfile.
 
 .. code-block:: javascript
 
@@ -169,11 +167,11 @@ For internal Replica Set authentication we need to use a `keyfile`:
   chmod 600 /data/secure_replset/1/mongodb-keyfile
 
 
-Add `keyfile` to the configuration file
----------------------------------------
+Add keyfile to the configuration file
+-------------------------------------
 
 Now that we have the `keyfile` generated it's time to add that
-information to our configuration file. Just un-comment the 
+information to our configuration file. Just un-comment the
 last few lines.
 
 .. code-block:: yaml
@@ -192,15 +190,15 @@ last few lines.
     enableLocalhostAuthBypass: false
   security:
     keyFile: /data/secure_replset/1/mongodb-keyfile
-  
+
 
 .. only:: instructor
 
   .. note::
 
-    On this configuration we are focussing on getting the internal authentication to work with `keyfile`.
-    There are other options that you may want to bring up with the students.
-    It's probably a good time to ask?
+    - On this configuration we are focusing on getting the internal authentication to work with a keyfile.
+    - There are other options that you may want to bring up with the students.
+    - It's probably a good time to ask?
 
       - If I want to use x509 certificates what other settings would I need to be adding?
       - Once I configured the system to use keyfile is that immutable?
@@ -209,12 +207,9 @@ last few lines.
 Configuring Replica Set
 -----------------------
 
-Now it's time to configure our Replica Set.
-
-The desired setup for this Replica Set should be named
-"VAULT" and consist of 3 data bearing nodes.
-
-Go ahead and make it happen!
+- Now it's time to configure our Replica Set
+- The desired setup for this Replica Set should be named "VAULT"
+- It should consist of 3 data bearing nodes
 
 .. only:: instructor
 
@@ -245,9 +240,9 @@ Go ahead and make it happen!
       }
 
     They will probably have something to add to their config files.
-    
-    `Here's the link<https://github.com/thatnerd/work-public/blob/master/mongodb_trainings/secure_replset_config_including_replset_options.yaml>`_
-    
+
+    `Here's the link <https://github.com/thatnerd/work-public/blob/master/mongodb_trainings/secure_replset_config_including_replset_options.yaml>`_
+
     and it looks like this:
 
     .. code-block:: yaml

@@ -6,71 +6,75 @@ Auditing
 Learning Objectives
 -------------------
 
-Upon completing this module, you should understand:
+Upon completing this module, you should be able to:
 
-- Auditing Capabilities of MongoDB
-- Enable Auditing
-- Configuration Options
+- Outline the auditing capabilities of MongoDB
+- Enable auditing
+- Summarize auditing configuration options
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - Simple set of slides that go through the configuration options of our auditing capabilities.
-
-    Account for 10 minutes or less for the delivery of this content.
 
 
 Auditing
 --------
 
-Auditing is the capability that a given system have to track system events.
-
-Logging and Auditing, while similar they serve a different purpose:
-
-- Logging are operation concerned events that are tracked for procedural reasons
-- Auditing is to capture system events that are relevant from a security perspective
-
-Auditing is available with MongoDB Enterprise!
+- MongoDB Enterprise includes an auditing capability for mongod and mongos instances.
+- The auditing facility allows administrators and users to track system activity
+- Important for deployments with multiple users and applications.
 
 .. include:: /includes/student-notes.rst
+
+Audit Events
+------------
+
+Once enabled, the auditing system can record the following operations:
+
+- Schema
+- Replica set and sharded cluster
+- Authentication and authorization
+- CRUD operations (DML, off by default)
 
 
 Auditing Configuration
 ----------------------
 
-- **Format**: the output format of the emitted event messages
+The following are command-line parameters to ``mongod``/``mongos`` used to configure auditing.
 
-  - BSON or JSON
-- **Destination**: Where to write the audit log
+Enable auditing with ``--auditDestination``.
 
-  - Syslog, console or file
-- **Path**: audit log path in case we define **file** as destination
+- ``--auditDestination``: where to write the audit log
 
-- **Filter**: Expression that will filter based on the audit message model
-- **Audit DML**: By default we only audit DDL operations but we can also enable DML
+  - syslog
+  - console
+  - file
 
-  - `auditAuthorizationSuccess`
+- ``--auditPath``: audit log path in case we define "file" as the destination
+
+Auditing Configuration (cont'd)
+-------------------------------
+
+- ``--auditFormat``: the output format of the emitted event messages
+
+  - BSON
+  - JSON
+
+- ``--auditFilter``: an expression that will filter the types of events the system records
+
+By default we only audit DDL operations but we can also enable DML (requires auditAuthorizationSuccess set to true)
 
 .. only:: instructor
 
   .. note::
 
-    - make sure to explain what DML and DDL operations are:
+    - Explain what DML and DDL operations are:
 
       - DML means data manipulation language (inserts, updates, removes, grant user role ...)
       - DDL means data definition language (create collection, index, drop database ...)
 
-    You can take the opportunity to ask:
-
-    - Q: Why do we not enable DML by default ?
-
-      - A: Due to the performance impact of logging all write operations that occurs on a given server.
-    - Q: In which circumstances do we need to enable DML?
-
-      - A: On highly sensitive namespaces or for given set of users.
+    - Q: Why do we not enable DML by default?
+    - A: Due to the performance impact of logging all write operations
+    - Q: In what circumstances might we want to enable DML?
+    - A: On highly sensitive namespaces or for given set of users.
 
 .. include:: /includes/student-notes.rst
 
@@ -78,7 +82,7 @@ Auditing Configuration
 Auditing Message
 ----------------
 
-The audit facility will launch a message every time and auditable event is occurs:
+The audit facility will launch a message every time an auditable event occurs:
 
 .. code-block:: json
 
@@ -124,7 +128,6 @@ To enable DML we need to set a specific parameter:
 
   .. note::
 
-    - we can define filters on any particular field of the audit message
-    - these will work has regular MongoDB query filter expressions, but not all operators will apply!
-
-    Be creative and ask students to set different filters based on roles or incoming connections.
+    - We can define filters on any particular field of the audit message
+    - These will work as regular MongoDB query filter expressions, but not all operators will apply.
+    - Be creative and ask students to set different filters based on roles or incoming connections.

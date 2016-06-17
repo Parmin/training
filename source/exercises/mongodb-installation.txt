@@ -32,7 +32,7 @@ Production Releases
 Installing MongoDB
 ------------------
 
-- Visit http://docs.mongodb.org/manual/installation/.
+- Visit https://docs.mongodb.com/manual/installation/.
 - Please install the Enterprise version of MongoDB.
 - Click on the appropriate link, such as "Install on Windows" or "Install on OS X" and follow the instructions.
 
@@ -223,11 +223,9 @@ Import Exercise Data
 
 .. code-block:: bash
 
+   unzip usb_drive.zip
+
    cd usb_drive
-
-   unzip sampledata.zip
-
-   cd sampledata
 
    mongoimport -d sample -c tweets twitter.json
 

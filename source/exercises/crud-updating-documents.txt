@@ -14,22 +14,12 @@ In the sample.inspections namespace, let's imagine that we want to do a little d
 
       .. code-block:: javascript
 
-        db.inspections.update({result: "Completed"},
-                              {$set: {result: "No Violation Issued"}},
-                              false,
-                              true )
-        WriteResult({
-          "nMatched": 37749,
-          "nUpserted": 0,
-          "nModified": 37749
-        })
-        //or
-        db.inspections.update({result: "Completed"},
-                              {$set: {result: "No Violation Issued"}})
+        db.inspections.updateMany({result: "Completed"},
+                                  {$set: {result: "No Violation Issued"}})
         {
           "acknowledged": true,
-          "matchedCount": 37749,
-          "modifiedCount": 37749
+          "matchedCount": 20,
+          "modifiedCount": 20
         }
 
 
@@ -47,21 +37,19 @@ For all inspections that failed, set a ``fine`` value of 100.
 
       .. code-block:: javascript
 
-        db.inspections.update({result: "Fail"},
-                              {$set: {fine: 100}},
-                              false,
-                              true)
-        WriteResult({
-          "nMatched": 1120,
-          "nUpserted": 0,
-          "nModified": 1120
-        })
+        db.inspections.updateMany({result: "Fail"},
+                                  {$set: {fine: 100}})
+        {
+          "acknowledged": true,
+          "matchedCount": 1120,
+          "modifiedCount": 1120
+        }
 
 Exercise: Increase ``fine`` in ROSEDALE
 ---------------------------------------
 
-- Update all inspections done in the city of **"ROSEDALE"**.
-- For failed inspections, raise the ``fine`` value by 150.
+- Update all inspections done in the city of "ROSEDALE".
+- For failed inspections, raise the "fine" value by 150.
 
 .. only:: instructor
 
@@ -69,16 +57,13 @@ Exercise: Increase ``fine`` in ROSEDALE
 
       .. code-block:: javascript
 
-        db.inspections.update({"address.city": "ROSEDALE", result: "Fail" },
-                              {$inc: {fine: 150}},
-                              false,
-                              true)
-        WriteResult({
-          "nMatched": 2,
-          "nUpserted": 0,
-          "nModified": 2
-        })
-
+        db.inspections.updateMany({"address.city": "ROSEDALE", result: "Fail" },
+                                  {$inc: {fine: 150}})
+        {
+          "acknowledged": true,
+          "matchedCount": 1120,
+          "modifiedCount": 1120
+        }
 .. include:: /includes/student-notes.rst
 
 
@@ -88,7 +73,11 @@ Exercise: Give a pass to "MONGODB"
 - Today MongoDB got a visit from the inspectors.
 - We passed, of course.
 - So go ahead and update "MongoDB" and set the ``result`` to "AWESOME"
-- MongoDB's address is {city: 'New York', zip: 10036, street: '43', number: 229}
+- MongoDB's address is
+
+  .. code-block:: javascript
+
+    {city: 'New York', zip: 10036, street: '43', number: 229}
 
 .. only:: instructor
 
@@ -96,8 +85,8 @@ Exercise: Give a pass to "MONGODB"
 
       .. code-block:: javascript
 
-        db.inspections.update({business_name: "MongoDB"},
-                              {$set: {
+        db.inspections.updateOne({business_name: "MongoDB"},
+                                 {$set: {
                                    address: {
                                        city: "New York",
                                        zip: 10036,
@@ -105,16 +94,15 @@ Exercise: Give a pass to "MONGODB"
                                        number: 229 },
                                    result: "AWESOME",
                                    id: "XXXXXXX",
-                                   certificate_number: 140021221} ,
-                               $currentDate: {date: { $type: "date" } } },
-                              true,
-                              false )
-          WriteResult({
-          "nMatched": 0,
-          "nUpserted": 1,
-          "nModified": 0,
-          "_id": ObjectId("XXXXXXXXX")
-        })
+                                   certificate_number: 140021221},
+                                  $currentDate: {date: {$type: "date"}}},
+                                  {upsert: true})
+        {
+        	"acknowledged" : true,
+        	"matchedCount" : 0,
+        	"modifiedCount" : 0,
+        	"upsertedId" : ObjectId("573f29d8dc8e6b0ba6e8f594")
+        }
 
     We can also add a variation to see if students can determine how to sort results so they can look at certificate numbers granted in sequence. Kudos to students that recognize the need to filter for certificate_number values that are integers and also do some form of projection.
 
@@ -134,7 +122,7 @@ Insert a document representing product metrics for a backpack:
 
 .. code-block:: javascript
 
-   db.product_metrics.insert(
+   db.product_metrics.insertOne(
       { name: "backpack",
         purchasesPast7Days: [ 0, 0, 0, 0, 0, 0, 0] })
 
@@ -150,7 +138,7 @@ Write an update statement to increment the number of backpacks sold on Friday by
 
         .. code-block:: javascript
 
-          db.product_metrics.update(
+          db.product_metrics.updateOne(
               {name: "backpack" },
               {$inc: { "purchases_past_7_days.4" : 200 } } )
 

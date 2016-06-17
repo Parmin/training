@@ -33,9 +33,7 @@ Background: Stale Reads
 
   .. note::
 
-    - Stale reads see a view of the data that was in place at some point in the recent time
-
-      - The view will in some sense always have existed, in the history
+    - Stale reads see a view of the data that was in place at some point recently
 
 
 Stale Reads on a Primary
@@ -53,12 +51,6 @@ Stale Reads on a Primary
 
 - In this state, the other primary will serve stale reads
 
-  - Its writes will eventually get rolled back
-  - Under no circumstances will they get acknowledged
-
-    - With ``{ w : "majority" }``
-
-- In cases like these, stale reads are possible
 
 .. include:: /includes/student-notes.rst
 
@@ -82,7 +74,7 @@ Background: Dirty Reads
   - ... but that view *may* not persist
   - ... even in the history (i.e., oplog)
 
-- Occur when non-majority-replicated data is read
+- Occur when data is read that has not been committed to a majority of the replica set
 
   - Because that data *could* get rolled back
 
@@ -92,31 +84,12 @@ Background: Dirty Reads
 
   .. note::
 
-    - There's no way to know, during a dirty read, if its view of the data includes a write that will be rolled back
-    - Here's it's a good time to ask when writes can get rolled back
+    - There is no way to know during a dirty read if its view of the data includes a write that will be rolled back
+    - Here is a good time to ask when writes can get rolled back
+    - Answers:
 
-      - Answers:
-
-        - If a network partition isolates the primary, a new one will be elected
-        - If the primary crashes, a new one will be elected and the old primary's writes will be rolled back
-
-
-Stale and Dirty Reads
----------------------
-
-.. figure:: /figures/stale-read-and-dirty-read.svg
-   :figwidth: 380px
-   :align: center
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - This shows stale (top figure) and dirty (bottom figure) reads
-    - A stale read is a view of the data that was true at some point in the past, but no longer is.
-    - A dirty read is a view of data that may not persist
+      - If a network partition isolates the primary, a new one will be elected
+      - If the primary crashes, a new one will be elected and the old primary's writes will be rolled back
 
 
 Dirty Reads and Write Concern
@@ -124,7 +97,7 @@ Dirty Reads and Write Concern
 
 - Write concern alone can not prevent dirty reads
 
-  - Data on primary may be vulnerable to rollback
+  - Data on the primary may be vulnerable to rollback
 
 - Read concern was implemented to allow developers the option of preventing dirty reads
 
@@ -134,12 +107,12 @@ Dirty Reads and Write Concern
 
   .. note::
 
-    - Might be a good time to ask how many ways dirty reads can cause inconsistencies
-    - Answers: 
+    - Might be a good time to ask how many ways dirty reads can happen.
+    - Answers:
 
       - Primary gets a write, but crashes before the oplog sends data to the secondary
       - Primary and one secondary both get the write, but both crash before it gets to disk on either
-      - Primary gets the write, but there is a network partition separating it from the seccondaries; they elect a new primary
+      - Primary gets the write, but there is a network partition separating it from the secondaries; they elect a new primary
 
         - Write gets rolled back, so it's not in your data set unless manually added
 
@@ -151,18 +124,18 @@ Introduction to Read Concern
 
 - Two settings
 
-  - ``local``: read the most current data on the server
-    
-    - This is the historical behavior
+  - "local": read the most recent data on the server
+
+    - This is the historical behavior.
     - Exposes the application to dirty reads
 
-  - ``majority``: data updates only when majority acknowledged
+  - "majority": data updates only when majority acknowledged
 
     - A version of the data is retained pre-acknowledgment
     - Writes get committed after a majority has them
 
-      - Committed first on the Primary
-      - When the primary gets acknowledgment from majority
+      - Committed first on the primary
+      - When a majority acknowledges the write
 
 .. include:: /includes/student-notes.rst
 
@@ -172,11 +145,11 @@ Introduction to Read Concern
 
     Questions to ask:
 
-      - Can I avoid dirty reads if I write a document with write concern ``majority`` and read preference: ``primary``?
+      - Can I avoid dirty reads if I write a document with write concern "majority" and read preference: "primary"?
 
-        - Answer: No. Without using read concern level : "majority", reads will be dirty
+        - Answer: No. Without using read concern level : "majority", reads can be dirty
 
-      - What can happen if I use a write concern of ``{ w: 1 }`` and read concern level of ``majority``?
+      - What can happen if I use a write concern of ``{ w: 1 }`` and read concern level of "majority"?
 
         - Answer: You will not have dirty reads ... but you may be unable to read your own writes
 
@@ -184,16 +157,16 @@ Introduction to Read Concern
 Example: Read Concern Level Majority
 ------------------------------------
 
-.. figure:: /figures/read-concern.svg
+.. include:: /images/read-concern.rst
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - This looks quite complicated, but all it's really showing is:
-    
+
       - Two writes, both from App 1, and the associated replication and responses (red and green)
       - Several reads at various times all from App 2 (blue)
 
@@ -202,12 +175,12 @@ Example: Read Concern Level Majority
     - Key:
 
       - Red W's are the writes: W1 and W2, as they propagate through
-  
+
         - Dashed red lines are acknowledgments of the writes
-  
+
           - W1S2 is the acknowledgment of write 1 from the S2 server
-  
-      - Green C's are the read commits from read concern majority. 
+
+      - Green C's are the read commits from read concern "majority".
 
         - C1 marks the moment where W1 has been committed
         - C2 marks the moment where W2 has been committed
@@ -230,7 +203,7 @@ What is the difference between a dirty read and a stale read?
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - Dirty read means you see a write that may not persist
     - Stale read means you don't see a write that has occurred
@@ -257,19 +230,19 @@ Read Concern and Read Preference: Secondary
 
 - Data on secondaries might be behind the primary
 
-  - But *never* ahead of the primary
+  - But never ahead of the primary
 
 .. include:: /includes/student-notes.rst
 
 
-Using Read Concern 
+Using Read Concern
 ------------------
 
 - To use read concern, you must:
 
   - Use WiredTiger on all members
-  - Launch all mongod's in the set with
-  
+  - Launch all mongods in the set with
+
     - ``--enableMajorityReadConcern``
 
   - Specify the read concern level to the driver
@@ -277,17 +250,16 @@ Using Read Concern
 - You should:
 
   - Use write concern ``{ w : "majority" }``
-  - Otherwise, an application may not "see" its own writes
+  - Otherwise, an application may not see its own writes
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
-    - If running with read concern level: "majority" but not Write concern ``{ w: "majority" }``, it would be possible to insert a document, get it acknowledged, and then try to read it back, but not see it.
-
-      - They shouldn't do this
+    - If running with read concern level: "majority" but not write concern ``{ w: "majority" }``, it would be possible to insert a document, get it acknowledged, and then try to read it back, but not see it.
+    - Obviously, users should not do this.
 
 
 Example: Using Read Concern
@@ -299,15 +271,15 @@ Example: Using Read Concern
 
 - A script is in the `shell_scripts` directory of the USB drive.
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  ./launch_replset_for_majority_read_concern.sh
+    ./launch_replset_for_majority_read_concern.sh
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - This will allow them to launch a replica set that can use majority read concern.
 
@@ -325,11 +297,11 @@ Example: Using Read Concern (Continued)
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - In this example, students can see that one document will propagate to the secondaries.
     - But the second document, while present on the primary, will not replicate.
-    - Encourage them to use their own example (with db.fsyncLock on secondaries).
+    - Encourage them to use their own example (with ``db.fsyncLock`` on secondaries).
 
       - They can use a driver, if they wish.
 
@@ -342,27 +314,28 @@ What must you do in order to make the database return documents that have been r
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     Answer:
 
-      - Invoke the mongod with --enableMajorityReadConcern 
-      - Use cursor.readConcern("majority") on a read
+      - Invoke the mongod with ``--enableMajorityReadConcern``
+      - Use ``cursor.readConcern("majority")`` on a read
 
-        - Alternatively, use read concern level ``majority`` with a driver's connection pool
+        - Alternatively, use read concern level "majority" with a driver's connection pool
 
 
 Replication Protocol Version 1
 ------------------------------
 
-- MongoDB 3.2 introduces Protocol Version 1
-- Secondaries now write to disk before acknowledging writes
+- MongoDB 3.2 introduced a new replication protocol.
 
-  - Regardless of ``j`` parameter on primary
+  - Replication protocol version 1 is the new protocol.
+  - Replication protocol version 0 was used in earlier versions of MongoDB.
 
+- With version 1, secondaries now write to disk before acknowledging writes.
 - ``{ w : "majority" }`` now implies ``{ j : true }``
-
-  - Remember, secondaries acknowledge after writing to the journal, too
+- Set the replication protocol version using the ``protocolVersion`` parameter in your replica set configuration.
+- Version 1 is the default in MongoDB >=3.2.
 
 .. include:: /includes/student-notes.rst
 
@@ -378,18 +351,18 @@ Replication Protocol Version 1 (continued)
     - After losing contact with the majority
     - This applies to the primary only
 
-- Required for read concern level ``majority``
+- Required for read concern level "majority"
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
-    - Old replication protocol is now known as replication protocol 0
+    - The old replication protocol is now known as replication protocol 0
     - Previously, secondaries would acknowledge writes before those writes were journaled
-    - A short electionTimeoutMillis can result in lots of elections, especially with a flaky network
-    - A long electionTimeoutMillis can result in lower availability due to longer failover time
+    - A short ``electionTimeoutMillis`` can result in lots of elections, especially with a flaky network
+    - A long ``electionTimeoutMillis`` can result in lower availability due to longer failover time
 
 
 CSRS: Config Servers as Replica Sets
@@ -398,7 +371,7 @@ CSRS: Config Servers as Replica Sets
 - With MongoDB 3.2, config servers can be replica sets
 
   - Subject to all standard rules of a replica set
-  - Using read concern level ``majority``
+  - Using read concern level "majority"
 
 - Your config server replica set needs a primary
 
@@ -417,7 +390,7 @@ CSRS: Config Servers as Replica Sets
 
       - No arbiters
       - No delayed members
-      - requires replication protocol version 1
+      - Requires replication protocol version 1
 
 
 CSRS: Advantages
@@ -442,11 +415,11 @@ What are the advantages of replication protocol 1?
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
-    - electionTimeoutMillis now tunable
+    - ``electionTimeoutMillis`` now tunable
     - Secondaries write to the journal before acknowledging
-    - Enables read concern majority
+    - Enables read concern "majority"
 
       - This enables config servers as replica sets
 
@@ -460,9 +433,7 @@ What are the advantages of config servers as replica sets (CSRS)?
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - You can get the same availability and durability guarantees as you have for your data
-    - You can tune the size of the replica set
-
-      - So you're not limited to 3 servers
+    - You can tune the size of the config server set

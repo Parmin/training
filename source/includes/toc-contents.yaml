@@ -38,6 +38,10 @@ file: /modules/nav/security
 description: |
   An overview of security options for MongoDB
 ---
+file: /modules/nav/new-in-3-2
+description: |
+  Changes in MongoDB 3.2
+---
 file: /modules/performance
 description: |
   An introduction to MongoDB tools for performance troubleshooting
@@ -46,9 +50,13 @@ file: /modules/nav/opsmanager
 description: |
   An overview and series of labs on Ops Manager
 ---
-file: /modules/nav/new-in-3-2
+file: /modules/nav/mms
 description: |
-  Changes in MongoDB 3.2
+  An overview of MongoDB Cloud Manager and Ops Manager
+---
+file: /modules/nav/mms-advanced
+description: |
+  A deeper dive on MongoDB Cloud Manager and Ops Manager
 ---
 file: /modules/nav/schema-design-advanced
 description: |
@@ -57,4 +65,5 @@ description: |
 file: /modules/nav/mongomart
 description: |
   MongoMart
+>>>>>>> master
 ...

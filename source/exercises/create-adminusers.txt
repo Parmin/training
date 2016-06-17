@@ -3,30 +3,28 @@ Lab: Administration Users
 =========================
 
 
-Permise
+Premise
 -------
 
 Security roles often span different levels:
 
 - Superuser roles
-- DBA Roles
-- System Admin Roles
-- User Administration Roles
-- Application Roles
+- DBA roles
+- System administration roles
+- User administration roles
+- Application roles
 
-Over this lab we will be looking into administration roles
-and the differences around the users that require these roles.
+In this lab we will look at several types of administration roles.
 
 
 User Administration user
 ------------------------
 
-Generally, in complex systems, we need someone to administer users.
-This function should be different from ``root`` level user for a few reasons:
+- Generally, in complex systems, we need someone to administer users.
+- This role should be different from a ``root`` level user for a few reasons.
 
 - ``root`` level users should be used has last resort user
 - Administration of users is generally related with security officers
-- This user should not have any operational function then managing other users
 
 
 Create User Admin user
@@ -58,7 +56,7 @@ Create a user that will administer other users:
 
       These are very specific operations.
       Also make note that we can be more granular if we want a
-      specific user to administrate only specific database users using role:
+      specific user to administer only specific database users using role:
 
       .. code-block:: javascript
 
@@ -68,13 +66,7 @@ Create a user that will administer other users:
 Create DBA user
 ---------------
 
-DBA's are generally concerned with the overall maintenance
-operations of the database.
-That means:
-
-- Optimization of queries
-- System resources utilization
-- Statistics
+DBAs are generally concerned with maintenance operations in the database.
 
 .. code-block:: javascript
 
@@ -82,14 +74,14 @@ That means:
   {
     user: "dba",
     pwd: "i+love+indexes",
-    customData: { notes: ["admin", "the person admins databases"] },
+    customData: { notes: ["admin", "the person that admins databases"] },
     roles: [
       { role: "dbAdmin", db: "X" }
       ]
   })
 
 If want to make sure this DBA can administer all databases of the system,
-which role(s) should he have?
+which role(s) should he have? See the `MongoDB documentation <https://docs.mongodb.com/manual/reference/built-in-roles/>`_.
 
 .. only:: instructor
 
@@ -97,36 +89,31 @@ which role(s) should he have?
 
       The answer for this question is `dbAdminAnyDatabase`
 
-      On this section we should explore the existing built-in roles for database adminstrator
-      https://docs.mongodb.org/manual/reference/built-in-roles/#database-administration-roles
-      You should raise the some of the following questions
+      In this section we should explore the existing built-in roles for database administrators. Raise the some of the following questions.
 
-      - Which differences exist between `dbAdmin` and `dbOwner` roles?
+      - What differences exist between ``dbAdmin`` and ``dbOwner`` roles?
       - When should we apply one or another?
 
 
-Create Cluster Admin user
--------------------------
+Create a Cluster Admin user
+---------------------------
 
 Cluster administration is generally an operational role that differs
 from DBA in the sense that is more focussed on the deployment and
-cluster node management of the underlying cluster.
+cluster node management.
 
-Let's assume that we require our system to scale so we need to have a
-particular individual or team managing our cluster nodes.
+For a team managing a cluster, what roles enable individuals to do the following?
 
-What would be the ideal role for a user that has to:
-
-- Add and remove replica nodes.
-- Manage shards.
-- Do backups.
-- Cannot read data from any application database.
+- Add and remove replica nodes
+- Manage shards
+- Do backups
+- Cannot read data from any application database
 
 .. only:: instructor
 
    .. note::
 
-      This is a tricky question since the correct answer actually requires two different roles:
+      This question requires a little more thought since the correct answer actually requires two different roles:
 
       .. code-block:: javascript
 
