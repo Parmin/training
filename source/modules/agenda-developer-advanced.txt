@@ -68,7 +68,7 @@ Day 2 (Morning)
 
 
 Day 2 (Afternoon)
----------------
+-----------------
 
 - |mm_lab_4| (2 hours)
 - |mm_lab_5| (1 hour)
