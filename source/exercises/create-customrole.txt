@@ -143,6 +143,6 @@ Revoke Role
       db.revokeRolesFromUser(
         "ilikecars",
         [
-          { role: "carlover", db: "voyeur" }
+          { role: "carlover", db: "brands" }
         ]
       )
