@@ -28,7 +28,7 @@ Day 1 (Morning)
 
 
 Day 1 (Afternoon)
----------------
+-----------------
 
 - |intro_mm| (.5 hours)
 - |mm_lab_1| (1 hour)
@@ -68,7 +68,7 @@ Day 2 (Morning)
 
 
 Day 2 (Afternoon)
----------------
+-----------------
 
 - |mm_lab_4| (2 hours)
 - |mm_lab_5| (1 hour)
@@ -86,7 +86,3 @@ Day 2 (Afternoon)
 .. |wrap_up| raw:: html
 
    <a href="mongomart-java.html">Wrap up and discussion</a>
-
-
-
-

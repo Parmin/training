@@ -43,11 +43,6 @@ Installing MongoDB
 
 .. include:: /includes/student-notes.rst
 
-.. only:: instructor
-
-   .. note::
-
-
 
 Linux Setup
 -----------

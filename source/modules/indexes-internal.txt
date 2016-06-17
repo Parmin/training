@@ -71,7 +71,7 @@ Other Index Limitations (continued)
 - Queries can't use both text and geospatial indexes
 - Remember, ``2dsphere`` indexes can only hold:
 
-  - Coordinate pairs 
+  - Coordinate pairs
   - GeoJSON
 
 - WT covered queries with ``NaN`` values are of type ``double``
@@ -102,8 +102,8 @@ Story about Index Keys (Continued)
 - When upgrading to 2.6, docs and indexes were left in place
 
   - When rebuilding indexes (a common practice):
-  
-    - The builds failed 
+
+    - The builds failed
     - Users learned of the issue
 
 - Some customers saw pathological errors
@@ -120,8 +120,8 @@ Limitation: Floating Point Numbers
 
   - First to 64-bit integers, then hash
 
-  - Don't use a hashed index for floating point numbers 
-  
+  - Don't use a hashed index for floating point numbers
+
     - Unless it can be reliably converted to 64-bit integers
 
 - Hashed indexes don't support floating point values larger than 2 :superscript:`53`
@@ -139,7 +139,7 @@ Index Key Hypothetical
   .. note::
 
     - Possible answer: we could truncate long values, then look at the document when queries match
-    
+
       - Valid idea, but can't be done with existing code
       - Future release?
 
@@ -274,19 +274,18 @@ Index Intersection
 Index Intersection (Continued)
 ------------------------------
 
-- To use one index for the ``find()`` clause 
+- To use one index for the ``find()`` clause
 
   - And one for the ``sort()`` ...
-    
+
     - The sort fields must be in the query
 
 .. include:: /includes/student-notes.rst
 
-  .. only:: instructor
+.. only:: instructor
 
-    .. note::
+  .. note::
 
-      - Index intersection doesn't come up often in the wild.
-      - Even for the platonic ideal of an implementation, compound indexes are usually way more efficient than index intersection.
-
-        - We should favor compound indexes instead
+    - Index intersection doesn't come up often in the wild.
+    - Even for the platonic ideal of an implementation, compound indexes are usually way more efficient than index intersection.
+    - We should favor compound indexes instead

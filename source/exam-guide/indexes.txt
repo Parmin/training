@@ -9,7 +9,7 @@ On the certification exam, we will verify that you:
   - Compound Indexes
   - Multikey Indexes
   - Special Indexes
-    
+
     - Geo Indexes
     - Text Indexes
 
@@ -210,7 +210,7 @@ For the exam, you will need to understand:
 - Why covered queries are good for performance
 - How to recognize that a covered query has happened in an explain plan
 
-- Video: 
+- Video:
 
   - `Covered Queries <https://university.mongodb.com/videos/y/npFBnPAkDUk>`_
 
@@ -230,7 +230,7 @@ For the exam, you should know:
 
 Resources:
 
-- Docs: 
+- Docs:
 
   - :manual:`Indexing Strategies</applications/indexes/>`
   - :manual:`Optimize Query Performance</tutorial/optimize-query-performance-with-indexes-and-projections/>`
@@ -344,7 +344,7 @@ For the exam, you will need to know:
 
 Resources:
 
-- Video: 
+- Video:
 
   - `Background Index Creation <https://university.mongodb.com/videos/y/rI2Hnqp8BN4>`_
 
@@ -382,7 +382,7 @@ Resources:
 
   - `Text Indexes in MongoDB <https://university.mongodb.com/videos/y/UlleLqZQYVo>`_
 
-- Docs: 
+- Docs:
 
   - :manual:`Text Indexes</core/index-text/>`
   - :manual:`Create a Text Index</tutorial/create-text-index-on-multiple-fields/>`
@@ -461,17 +461,17 @@ Sample Problems
 2. You perform the following query on the sayings collection, which has the index
 
    .. code-block:: javascript
-   
+
       { quote : "text" }:
 
-   Assuming the documents below are in the collection, which ones will the following query return? Check all that apply.   
+   Assuming the documents below are in the collection, which ones will the following query return? Check all that apply.
 
    .. code-block:: javascript
-   
+
       db.sayings.find( { $text : { $search : "fact find" } } )
 
 
-   a. { _id : 1, quote : “That’s a fact, Jack.” } 
+   a. { _id : 1, quote : “That’s a fact, Jack.” }
    b. { _id : 2, quote : “Find out if that fact is correct.” }
    c. { _id : 3, quote : “Nobody will ever catch me.” }
 
@@ -480,7 +480,7 @@ Sample Problems
 
    .. code-block:: javascript
 
-      { 
+      {
         "manufacturer" : 1,
         "name" : 1,
         "date" : -1
@@ -504,34 +504,34 @@ Sample Problems
 
    .. code-block:: javascript
 
-   [
-     {
-       "v" : 1,
-       "key" : {
-         "_id" : 1
-       },
-       "name" : "_id_",
-       "ns" : "test.things"
-     },
-     {
-       "v" : 1,
-       "key" : {
-         "a" : 1
-       },
-       "name" : "a_1",
-       "ns" : "test.things"
-     },
-     {
-       "v" : 1,
-       "key" : {
-         "c" : 1,
-         "b" : 1,
-         "a" : 1
-       },
-       "name" : "c_1_b_1_a_1",
-       "ns" : "test.things"
-     }
-   ]
+       [
+         {
+           "v" : 1,
+           "key" : {
+             "_id" : 1
+           },
+           "name" : "_id_",
+           "ns" : "test.things"
+         },
+         {
+           "v" : 1,
+           "key" : {
+             "a" : 1
+           },
+           "name" : "a_1",
+           "ns" : "test.things"
+         },
+         {
+           "v" : 1,
+           "key" : {
+             "c" : 1,
+             "b" : 1,
+             "a" : 1
+           },
+           "name" : "c_1_b_1_a_1",
+           "ns" : "test.things"
+         }
+       ]
 
    Which of the following queries will require that you load every document into RAM in order to fulfill the query? Assume that no data is being written during the query. Check all that apply.
 

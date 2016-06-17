@@ -3,7 +3,7 @@ Monitoring
 ==========
 
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this module students should understand:
@@ -15,7 +15,7 @@ Upon completing this module students should understand:
 
 
 Monitoring in Cloud / Ops Manager
--------------------------------
+---------------------------------
 
 - Identify cluster performance issues
 - Identify individual nodes in cluster with performance issues
@@ -33,7 +33,7 @@ Monitoring Use Cases
 - Historical performance analysis
 - Monitor cluster health
 - Capacity planning and scaling requirements
-  
+
 .. include:: /includes/student-notes.rst
 
 
@@ -44,17 +44,17 @@ Monitoring Agent
 - Sends those metrics to Cloud / Ops Manager server
 - Must be able to contact every host in the cluster (agent can live in a private network)
 - Must have access to contact Cloud / Ops Manager website with metrics from hosts
-  
+
 .. include:: /includes/student-notes.rst
 
-  
+
 Agent Configuration
 -------------------
 
 - Can use HTTP proxy
 - Can gather hardware statistics via munin-node
 - Agent can optionally gather database statistics, and record slow queries (sampled)
-  
+
 .. include:: /includes/student-notes.rst
 
 
@@ -81,7 +81,7 @@ Visit https://www.mongodb.com/cloud
 
       - The 10gen mongo-perf group may be interesting for demo'ing to the class
 
-  
+
 Navigating Cloud Manager Charts
 -------------------------------
 
@@ -98,7 +98,7 @@ Metrics
 - Minute-level metrics for 48 hours
 - Hourly metrics for about 3 months
 - Daily metrics for the life of the cluster
-  
+
 .. include:: /includes/student-notes.rst
 
 
