@@ -1,24 +1,8 @@
-file: /modules/crud-creating-and-deleting-documents
-description: | 
-  Inserting documents into collections, deleting documents, and dropping collections
---- 
-file: /modules/crud-reading-documents
-description: | 
-  The find() command, query documents, dot notation, and cursors
---- 
-file: /modules/crud-query-operators
-description: | 
-  MongoDB query operators including: comparison, logical, element, and array operators
---- 
-file: /exercises/crud-querying-documents
+file: /modules/new32-aggregation
 description: |
-  Exercises for querying documents in MongoDB
+  Additions to the aggregation framework in MongoDB 3.2
 ---
-file: /modules/crud-updating-documents
-description: | 
-  Using update methods and associated operators to mutate existing documents
---- 
-file: /exercises/crud-updating-documents
+file: /exercises/new32-aggregation
 description: |
-  Exercises for updating documents in MongoDB
+  Exercises on using MongoDB 3.2 aggregation features
 ...

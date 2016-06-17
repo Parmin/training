@@ -1,24 +1,20 @@
-file: /modules/crud-creating-and-deleting-documents
-description: | 
-  Inserting documents into collections, deleting documents, and dropping collections
---- 
-file: /modules/crud-reading-documents
-description: | 
-  The find() command, query documents, dot notation, and cursors
---- 
-file: /modules/crud-query-operators
-description: | 
-  MongoDB query operators including: comparison, logical, element, and array operators
---- 
-file: /exercises/crud-querying-documents
+file: /modules/security-authorization
 description: |
-  Exercises for querying documents in MongoDB
+  Authorization in MongoDB
 ---
-file: /modules/crud-updating-documents
-description: | 
-  Using update methods and associated operators to mutate existing documents
---- 
-file: /exercises/crud-updating-documents
+file: /modules/security-authentication
 description: |
-  Exercises for updating documents in MongoDB
+  Authentication in MongoDB
+---
+file: /exercises/secure-mongod
+description: |
+  Lab on standing up a mongod with authorization enabled
+---
+file: /modules/security-encryption
+description: |
+  Encryption at rest in MongoDB
+---
+file: /exercises/secured-replicaset
+description: |
+  Using keyfiles to secure a replica set
 ...

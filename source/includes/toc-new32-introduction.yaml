@@ -2,14 +2,6 @@ file: /modules/introduction-warmup
 description: |
   Activities to get the class started
 ---
-file: /modules/introduction-overview
-description: |
-  MongoDB philosophy and features
----
-file: /modules/introduction-mongodb-stores-documents
-description: |
-  The structure of data in MongoDB
----
 file: /exercises/mongodb-installation
 description: |
   Install MongoDB and experiment with a few operations.
