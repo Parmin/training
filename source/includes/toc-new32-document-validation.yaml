@@ -1,0 +1,8 @@
+file: /modules/new32-document-validation
+description: |
+   Document validation enables users to enforce schema constraints
+---
+file: /exercises/document-validation
+description: |
+   Exercises on using document validation
+...

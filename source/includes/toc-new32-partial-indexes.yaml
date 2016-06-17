@@ -1,0 +1,4 @@
+file: /modules/new32-partial-indexes
+description: |
+  Index only documents that meet certain criteria
+...

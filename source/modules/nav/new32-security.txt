@@ -1,0 +1,9 @@
+========
+Security
+========
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-new32-security.rst
+
+.. include:: /includes/toc/new32-security.rst
