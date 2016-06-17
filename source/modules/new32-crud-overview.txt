@@ -22,108 +22,108 @@ New CRUD API
 - They important differences are in the methods used for writes.
 
 
-`insert()` Operations
----------------------
+``insert()`` Operations
+-----------------------
 
-- The new CRUD API provides two methods to replace `insert()`.
+- The new CRUD API provides two methods to replace ``insert()``.
 
-  - `insertOne()`
-  - `insertMany()`
+  - ``insertOne()``
+  - ``insertMany()``
 
 - These provide more useful return values.
 
 
-`insertOne()`
--------------
+``insertOne()``
+---------------
 
-- `insertOne()` accepts one document to insert.
-- Returns a document containing the `_id` of the document inserted.
-- We will look at `insertOne()` in more detail in another section.
+- ``insertOne()`` accepts one document to insert.
+- Returns a document containing the ``_id`` of the document inserted.
+- We will look at ``insertOne()`` in more detail in another section.
 
 
-`insertMany()`
---------------
+``insertMany()``
+----------------
 
-- Use `insertMany()` to perform bulk inserts.
+- Use ``insertMany()`` to perform bulk inserts.
 - It accepts an array of the documents to be inserted.
-- It returns a document containing an array of the `_id` values for documents inserted.
-- We will look at `insertMany()` in detail in the next section.
+- It returns a document containing an array of the ``_id`` values for documents inserted.
+- We will look at ``insertMany()`` in detail in the next section.
 
 
-`remove()` Operations
----------------------
+``remove()`` Operations
+-----------------------
 
-- The CRUD API provides two methods to replace `remove()`
+- The CRUD API provides two methods to replace ``remove()``
 
-  - `deleteOne()`
-  - `deleteMany()`
+  - ``deleteOne()``
+  - ``deleteMany()``
 
-- `remove()` is prone to user error:
+- ``remove()`` is prone to user error:
 
   - By default, all documents matching the filter are removed.
   - To remove just one, users must pass a second parameter.
 
 - The new methods eliminate this problem.
-- We will look at `deleteOne()` and `deleteMany()` in detail in the next section.
+- We will look at ``deleteOne()`` and ``deleteMany()`` in detail in the next section.
 
 
-`update()` Operations
----------------------
+``update()`` Operations
+-----------------------
 
-- The following methods replace `update()` in the new API.
+- The following methods replace ``update()`` in the new API.
 
-  - `updateOne()`
-  - `updateMany()`
+  - ``updateOne()``
+  - ``updateMany()``
 
 
 Rationale
 ---------
 
-- The default for `update()` is to update just one document.
+- The default for ``update()`` is to update just one document.
 
   - Pass an optional Boolean parameter to update many documents.
-  - This is the opposite behavior of `remove()`.
+  - This is the opposite behavior of ``remove()``.
   - It is a source of confusion.
 
 Rationale, cont'd
 -----------------
 
-- `update()` also makes it easy to accidentally overwrite a document.
+- ``update()`` also makes it easy to accidentally overwrite a document.
 
-  - If we fail to use an update operator such as `$set` or `$inc`.
-  - `updateOne` and `updateMany` throw an exception on such calls.
+  - If we fail to use an update operator such as ``$set`` or ``$inc``.
+  - ``updateOne`` and ``updateMany`` throw an exception on such calls.
 
-- We will look at `updateOne()` and `updateMany()` in more detail in the next section.
+- We will look at ``updateOne()`` and ``updateMany()`` in more detail in the next section.
 
 
 Replacing Documents
 -------------------
 
-- If you do want to overwrite a document, use `replaceOne()`.
-- `replaceOne()` does not require the use of an update operator.
-- We will look at `replaceOne()` in more detail in the next section.
+- If you do want to overwrite a document, use ``replaceOne()``.
+- ``replaceOne()`` does not require the use of an update operator.
+- We will look at ``replaceOne()`` in more detail in the next section.
 
 
-`findAndModify()` Operations
-----------------------------
+``findAndModify()`` Operations
+------------------------------
 
 - For some use cases it is important to return the document modified.
-- In earlier versions of MongoDB, `findAndModify()` was the method of choice.
-- `findAndModify()` is a complex, combining the functionality of three operations:
+- In earlier versions of MongoDB, ``findAndModify()`` was the method of choice.
+- ``findAndModify()`` is a complex, combining the functionality of three operations:
 
   - delete
   - replace
   - update (including upserts)
 
 
-Simplifying `findAndModify()` Operations
-----------------------------------------
+Simplifying ``findAndModify()`` Operations
+------------------------------------------
 
-- In MongoDB 3.2 the shell accommodates the functionality of `findAndModify()` with:
+- In MongoDB 3.2 the shell accommodates the functionality of ``findAndModify()`` with:
 
-  - `findOneAndDelete()`
-  - `findOneAndReplace()`
-  - `findOneAndUpdate()`
+  - ``findOneAndDelete()``
+  - ``findOneAndReplace()``
+  - ``findOneAndUpdate()``
 
 - These methods enable you to get the value of a modified document.
 - We will discuss all three methods in another section.
