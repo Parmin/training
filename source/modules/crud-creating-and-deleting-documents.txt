@@ -258,7 +258,7 @@ Using ``deleteOne()``
 
 
 Using ``deleteMany()``
----------------------
+----------------------
 
 - Delete multiple documents from a collection using ``deleteMany()``.
 - This command has one required parameter, a query document.
