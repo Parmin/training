@@ -4,7 +4,7 @@ Shard Tags
 
 
 Learning Objectives
-------------------
+-------------------
 
 Upon completing this module students should understand:
 
@@ -28,7 +28,7 @@ Tags - Overview
 Example: DateTime
 -----------------
 
-- Documents older than one year need to be kept, but are rarely used. 
+- Documents older than one year need to be kept, but are rarely used.
 - You tag those ranges as "LTS" for Long Term Storage.
 - Tag specific shards to hold LTS documents.
 - These shards can be on cheaper, slower machines.
@@ -40,7 +40,7 @@ Example: DateTime
 Example: Location
 -----------------
 
-- You are required to keep certain data in its home country. 
+- You are required to keep certain data in its home country.
 - You include the country in the shard tag.
 - Maintain data centers within each country that house the appropriate shards.
 - Meets the country requirement but allows all servers to be part of the same system.
@@ -62,11 +62,11 @@ Example: Premium Tier
 
 .. only:: instructor
 
-   .. note:: 
+   .. note::
 
       - As customers move from one tier to another it will be necessary to execute commands that either add a given customer's shard key range to the premium tag or remove that range from those tagged as "premium".
       - During balancing rounds, if the balancer detects that any chunks are not on the correct shards per configured tags, the balancer migrates chunks in tagged ranges to shards associated with those tags.
-      - After re-configuring tags with a shard key range, and associating it with a shard or shards, the cluster may take some time to balance the data among the shards. 
+      - After re-configuring tags with a shard key range, and associating it with a shard or shards, the cluster may take some time to balance the data among the shards.
       See: `Tiered Storage Models in MongoDB: Optimizing Latency and Cost <http://blog.mongodb.org/post/85721044164/tiered-storage-models-in-mongodb-optimizing-latency>`_.
 
 

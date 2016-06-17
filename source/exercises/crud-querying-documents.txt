@@ -5,7 +5,7 @@ Lab: Finding Documents
 
 
 Exercise: student_id < 65
----------------------
+-------------------------
 
 In the sample database, how many documents in the grades collection have a student_id less than 65?
 

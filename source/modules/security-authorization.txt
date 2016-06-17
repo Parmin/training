@@ -60,8 +60,7 @@ The model determines:
       - What kind of resources can be found on a typical database?
 
     - Have some open discussion about what defines an action.
-    - Also you can take the opportunity to give examples of different roles
-    in a company and how they are organized in terms of procedures and resources.
+    - Also you can take the opportunity to give examples of different roles in a company and how they are organized in terms of procedures and resources.
 
 
 What is a resource?
@@ -131,8 +130,7 @@ Given a resource, we can consider the available actions:
     - Actions are the operations that one can perform on database resources.
     - The actions above are grouped by purpose.
     - This organization is logical, not operational.
-    - Here we can ask the students which common operations they are familiar
-    with while operating with a database and how those translate to MongoDB operations.
+    - Here we can ask the students which common operations they are familiar with while operating with a database and how those translate to MongoDB operations.
 
 
 

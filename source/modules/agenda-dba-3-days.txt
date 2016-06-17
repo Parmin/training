@@ -19,6 +19,7 @@ Introduction (30 minutes)
 
 Lab: Installing MongoDB (30 minutes)
 ------------------------------------
+
 - :doc:`/exercises/mongodb-installation`
 - Review setup
 
@@ -82,7 +83,7 @@ Lab: Using ``explain()`` (15 minutes)
 
 
 Day 2 (Morning)
------------------
+---------------
 
 - Replica Sets, Part 1 (2.5 hours)
 - Lab: Setting Up a Replica Set (30 minutes)
@@ -104,7 +105,7 @@ Lab: Working with the Oplog (30 minutes)
 
 
 Day 2 (Afternoon)
----------------
+-----------------
 
 - Replica Sets, Part 2 (1 hour)
 - Lab Setting up a Replica Set (30 minutes)
@@ -125,14 +126,14 @@ Lab: Setting Up a Replica Set (30 minutes)
 
 
 Sharding (2.5 hours)
-------------------
+--------------------
 
 - :doc:`/modules/sharding-intro`
 - :doc:`/modules/sharding-balancing`
 - :doc:`/modules/sharding-tags`
 
 
-Day 3 (Morning) 
+Day 3 (Morning)
 ---------------
 
 - Lab: Setting Up a Sharded Cluster (30 minutes)
@@ -151,7 +152,6 @@ Reporting Tools and Diagnostics (1 hour)
 
 - :doc:`/modules/performance`
 - `mtools <https://github.com/rueckstiess/mtools>`
-- |prod_notes|
 
 
 Backup and Recovery (1 hour)
@@ -162,7 +162,7 @@ Backup and Recovery (1 hour)
 
 
 
-Day 3 (Afternoon) 
+Day 3 (Afternoon)
 -----------------
 
 - Security (1 hour)
@@ -203,7 +203,7 @@ Cloud/Ops Manager (2 hours)
 
    <a href="../exercises/mms-automation.html">Lab: Cluster Automation</a>
 
-.. |mms_auto| raw:: html
+.. |mms_monitoring| raw:: html
 
    <a href="mms-monitoring.html">Monitoring</a>
 
@@ -213,14 +213,10 @@ Cloud/Ops Manager (2 hours)
 
 .. include:: /includes/student-notes.rst
 
+
 Additional Topics (time permitting)
 -----------------------------------
 
 - Additional topics, application specific topics from class
 
 .. include:: /includes/student-notes.rst
-
-
-
-
-
