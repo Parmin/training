@@ -173,7 +173,7 @@
 # class: 'howto'
 # tag: 'workbook'
 # edition: 'student'
-#---
+# ---
 # source: 'meta/essentials-four-day'
 # output: 'essentials-four-day-instructor.tex'
 # title: 'MongoDB Essentials Training'
@@ -182,13 +182,21 @@
 # tag: 'guide'
 # edition: 'instructor'
 # ---
-# source: 'meta/essentials-four-day'
-# output: 'essentials-four-day-student.tex'
-# title: 'MongoDB Essentials Training'
+# source: 'meta/opsmanager-workshop'
+# output: 'opsmanager-workshop.tex'
+# title: 'MongoDB Ops Manager Workshop'
 # author: 'MongoDB, Inc.'
 # class: 'howto'
 # tag: 'workbook'
 # edition: 'student'
+# ---
+# source: 'meta/opsmanager-workshop'
+# output: 'opsmanager-workshop.tex'
+# title: 'MongoDB Ops Manager Workshop'
+# author: 'MongoDB, Inc.'
+# class: 'howto'
+# tag: 'guide'
+# edition: 'instructor'
 # ---
 # source: 'meta/essentials-three-day'
 # output: 'essentials-three-day-instructor.tex'

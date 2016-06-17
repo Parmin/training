@@ -72,4 +72,5 @@ For this exercise go ahead and:
     .. code-block:: sh
 
       // set APIKEY with `generic` key value
-      curl -u "admin@localhost.com:$APIKEY" --digest -i "http://opsmgr.training/api/public/v1.0/groups"
+      curl -u "admin@localhost.com:$APIKEY" --digest
+      -i "http://opsmgr.training/api/public/v1.0/groups"

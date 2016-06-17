@@ -34,14 +34,6 @@ file: /modules/nav/sharding
 description: |
   Sharding in MongoDB
 ---
-file: /modules/nav/schema-design-advanced
-description: |
-  Data modeling case studies and hands-on labs.
----
-file: /modules/nav/mongomart
-description: |
-  MongoMart
----
 file: /modules/nav/security
 description: |
   An overview of security options for MongoDB
@@ -54,9 +46,9 @@ file: /modules/performance
 description: |
   An introduction to MongoDB tools for performance troubleshooting
 ---
-file: /modules/backup
+file: /modules/nav/opsmanager
 description: |
-  MongoDB backup strategies
+  An overview and series of labs on Ops Manager
 ---
 file: /modules/nav/mms
 description: |
@@ -65,4 +57,13 @@ description: |
 file: /modules/nav/mms-advanced
 description: |
   A deeper dive on MongoDB Cloud Manager and Ops Manager
+---
+file: /modules/nav/schema-design-advanced
+description: |
+  Data modeling case studies and hands-on labs.
+---
+file: /modules/nav/mongomart
+description: |
+  MongoMart
+>>>>>>> master
 ...
