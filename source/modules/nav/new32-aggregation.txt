@@ -1,9 +1,9 @@
-====
-CRUD
-====
+===========
+Aggregation
+===========
 
 .. default-domain:: mongodb
 
-.. include:: /includes/toc/dfn-list-crud.rst
+.. include:: /includes/toc/dfn-list-new32-aggregation.rst
 
-.. include:: /includes/toc/crud.rst             
+.. include:: /includes/toc/new32-aggregation.rst
