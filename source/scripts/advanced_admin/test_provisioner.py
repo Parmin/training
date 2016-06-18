@@ -225,7 +225,7 @@ class TestProvisioner(unittest.TestCase):
         sg = self.pr.load_security_group(security_group_name)
         assert sg
         assert sg.group_name == security_group_name
-        
+
 
 class TestTeam(unittest.TestCase):
 

@@ -4,6 +4,7 @@ import logging
 import argparse
 import sys
 from datetime import date,timedelta
+import time
 from provisioner import Provisioner
 FORMAT = '%(asctime)-15s %(message)s'
 
@@ -33,7 +34,7 @@ def main():
     parser.add_argument('--duration', dest='duration', default=3,
     type=int, help="Duration of the training run in days")
 
-    parser.add_argument('--output', dest='outdir', default=".",
+    parser.add_argument('--dir', dest='dir', default=".",
     type=str, help="Output build directory path")
 
     args = parser.parse_args()
@@ -46,13 +47,16 @@ def main():
 
     logger.debug("Training will finish {:%d, %b %Y}".format(end_date))
 
-    pr = Provisioner(training_run, end_date=end_date)
+    pr = Provisioner(training_run, end_date=end_date, aws_profile=awsprofile,
+        teams=args.teams)
 
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
     logger.debug("Building {0} stack".format(build_id))
-    pr.number_of_teams
+    pr.basedir = args.dir
     pr.build(build_id, False)
+    logger.debug("All teams:".format(pr.teams))
+
 
 
 if __name__ == "__main__":

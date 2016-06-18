@@ -1,5 +1,5 @@
 import boto3
-import botocore.exceptions
+from botocore.exceptions import *
 import logging
 import iptools
 import time
@@ -28,6 +28,50 @@ class Team(object):
         self.team_id = team_id
         self.cidr_block = cidr_block
         self._instances = []
+        self._public_instance = {}
+    @property
+    def public_instance(self):
+        if self._public_instance:
+            return self._public_instance
+        raise Exception("No Public Instance Set Yet!")
+
+    @public_instance.setter
+    def public_instance(self, instance):
+        if isinstance(instance, dict):
+            if instance.has_key("allocation_id") and instance.has_key("instance_id") and instance.has_key("public_ip"):
+                self._public_instance = instance
+            else:
+                raise Exception("{0} does not contain `allocation_id` or `instance_id` or `public_ip`".format(instance))
+        else:
+            raise Exception("public instance has to be `dict`")
+
+
+    @property
+    def instances(self):
+        return self._instances
+
+    def add_instance(self, instance):
+        if self._instances:
+            self._instances = []
+        self._instances.append(instance)
+
+    def __repr__(self):
+        return """
+        TEAMID - {0}
+        INSTANCES - {1}
+        KEYPAIR_FILEPATH - {2}
+        """.format(self.team_id, self._instances)
+
+    @property
+    def keypair_file(self):
+        return self._keypair_file
+
+    @keypair_file.setter
+    def keypair_file(self, filepath):
+        if not os.path.isfile(filepath):
+            raise Exception("Cannot set non-file path as keypair file: {0}".format(filepath))
+        self._keypair_file
+
 
     @property
     def team_id(self):
@@ -70,7 +114,6 @@ class Provisioner(object):
         self._session = None
         self._client = None
         self._ec2 = None
-        #log = logging.getLogger("Provisioner")
         self.cidr_block = '27.0.17.0/24'
         self._subnet_cidrblocks = [
             "27.0.17.0/27",
@@ -80,9 +123,20 @@ class Provisioner(object):
             "27.0.17.128/27"]
         self.teams = []
         self._basedir = "."
-        self.number_of_instances = 3
+        self.number_of_instances = 1
         self.instance_type = 'm3.xlarge'
         self.image_id = "ami-d63cccbb"
+
+    @property
+    def basedir(self):
+        return self._basedir
+
+    @basedir.setter
+    def basedir(self, dirpath):
+        if not os.path.isdir(dirpath):
+            raise Exception('Cannot set {0} as base dir. Not dir'.format(dirpath))
+        self._basedir = dirpath
+
 
     @property
     def instance_type(self):
@@ -99,6 +153,9 @@ class Provisioner(object):
     @teams.setter
     def teams(self, teams):
         self._teams = teams
+
+    def add_team(self, team):
+        self.teams.append(team)
 
     @property
     def vpc(self):
@@ -197,13 +254,14 @@ class Provisioner(object):
 
     def get_default_tags(self):
         return [
-            {'Key': 'Run', 'Value': self.training_run},
+            {'Key': 'BUILDID', 'Value': self.training_run},
+            {'Key': 'Name', 'Value': self.training_run},
             {'Key': 'Owner', 'Value': 'Advanced Training'},
             {'Key': 'Expire', 'Value': self.end_date.strftime("%s")}
             ]
 
 
-    def add_tags_resource(self, resource, build_id, tags=[], statefull=True):
+    def add_tags_resource(self, resource, name, tags=[], statefull=True):
         """
         Adds all required tags for AWS account management:
         - Name: training_run
@@ -212,11 +270,6 @@ class Provisioner(object):
 
         """
         tags += self.get_default_tags()
-        tags.append({
-            "Key": "BUILDID",
-            "Value": build_id
-         })
-
         log.info(
         "Adding tags %s to resource %s " % (str(tags), resource.id ))
 
@@ -240,16 +293,17 @@ class Provisioner(object):
         ig = self.ec2.InternetGateway(response['InternetGateway']['InternetGatewayId'])
 
         retries = 2
+        tags = [{'Key': 'VpcId', 'Value': vpc_id}]
         while retries > 0 :
             try:
                 retries-=1
-                self.add_tags_resource(ig, build_id, [{'Key': 'VpcId', 'Value': vpc_id}], False)
-            except botocore.exceptions.ClientError, e:
-                log.warning(
-                    "Problem tag resource: {0} let's wait a bit".format(str(e)))
+                self.add_tags_resource(ig, build_id, tags, False)
+            except ClientError, e:
+                log.warning("Problem tag resource: {0} let's wait a bit".format(str(e)))
                 time.sleep(1)
 
         ig.attach_to_vpc(VpcId=vpc_id)
+        self.ig = ig
         return ig
 
     def load_security_group(self, group_name):
@@ -263,38 +317,61 @@ class Provisioner(object):
         return self.ec2.SecurityGroup(security_group_id)
 
 
+    def define_vpc_routes(self, ig):
+        log.debug("Adding route to {0}".format(ig))
+        try:
+            for rt in self.vpc.route_tables.all():
+                rt.create_route(
+                    DestinationCidrBlock="0.0.0.0/0",
+                    GatewayId=ig.id
+                )
+        except Exception, e:
+            log.error("Could not define_vpc_routes: {0}".format(e))
+            log.error("Need to proceed w/ manual definition for ig {0} and subnet {1}".format(ig, subnet))
+
 
     def create_security_group(self, build_id, vpc_id, group_name):
         desc = "Security Group {0} for VPC {1}".format(group_name, vpc_id)
         log.info("Creating {0}".format(desc))
+        resp = self.client.create_security_group(
+            GroupName=group_name,
+            Description=desc,
+            VpcId=vpc_id
+        )
+        log.info("Got response {0}".format(resp))
+
+        if not resp.has_key('GroupId'):
+            log.error('Cannot create new security group.', resp)
+            return self.load_security_group(group_name)
+        sgid = resp['GroupId']
         try:
-            sg = self.ec2.SecurityGroup(self.client.create_security_group(
-                GroupName=group_name,
-                Description=desc,
-                VpcId=vpc_id
-            )['GroupId'])
+            sg = self.ec2.SecurityGroup(sgid)
             sg.authorize_ingress(IpProtocol='tcp', FromPort=0, ToPort=65535, CidrIp='0.0.0.0/0')
             sg.authorize_ingress(IpProtocol='udp', FromPort=0, ToPort=65535, CidrIp='0.0.0.0/0')
 
             self.add_tags_resource(sg, build_id,[{'Key': 'VpcId', 'Value': vpc_id}], False)
             return sg
         except Exception, e:
-            log.error("Could not create security group due to exceptio : ",e )
-            return self.load_security_group()
+            log.error("Could not create security group due to exception : {0} ".format(e) )
+            return self.load_security_group(group_name)
 
 
     def create_vpc(self, build_id, dryrun=False):
         log.info("Start to create VPC for {0} with cidr_block {1} ".format(build_id, self.cidr_block))
         vpc = self.ec2.Vpc(self.client.create_vpc(CidrBlock=self.cidr_block, DryRun=dryrun)['Vpc']['VpcId'])
-        try:
-            self.add_tags_resource(vpc, build_id)
-        except Exception, e:
-            log.error("Could not create VPC {}".format(vpc))
-            log.warning("Current VPC state: {}".format(vpc.state))
-        ig = self.create_internet_gateway(build_id, vpc.vpc_id)
+        retries = 3
+        while retries > 0:
+            retries=-1
+            try:
+                log.debug("Current VPC state: {}".format(vpc.state))
+                self.add_tags_resource(vpc, build_id)
+            except Exception, e:
+                log.error("Could not create VPC {}".format(vpc))
+
         self.sg = self.create_security_group(build_id, vpc.vpc_id, self.training_run)
         self.vpc = vpc
-
+        ig = self.create_internet_gateway(build_id, vpc.vpc_id)
+        self.define_vpc_routes(ig)
         return vpc
 
     def get_availability_zone(self):
@@ -355,6 +432,7 @@ class Provisioner(object):
             InstanceType=self.instance_type,
             SubnetId=subnet_id,
             PrivateIpAddress=private_ip,
+            SecurityGroupIds=[self.sg.id],
             InstanceInitiatedShutdownBehavior="terminate")
         instance_id = response["Instances"][0]["InstanceId"]
         instance = self.ec2.Instance(instance_id)
@@ -366,10 +444,43 @@ class Provisioner(object):
         return instance
 
 
+    def allocate_elastic_ip_instance(self,allocation_id, instance):
+        #retries = 5
+        while not instance.state['Name'] == 'running':
+            log.debug("Not there yet. Current state - {0} sleep a bit".format(instance.state))
+            time.sleep(2)
+            instance.reload()
+            #retries=-1
+
+        resp = self.client.associate_address(
+            InstanceId=instance.id,
+            AllocationId=allocation_id)
+
+        log.debug("Allocated elastic ip {0} to {1} instance".format(allocation_id,instance.id))
+
+
+    def allocate_elastic_ip(self, team):
+        try:
+            instance = team.instances[0]
+            resp = self.client.allocate_address(Domain='vpc')
+            self.allocate_elastic_ip_instance(resp['AllocationId'],instance)
+            team.public_instance = {
+                'allocation_id': resp['AllocationId'],
+                'public_ip': resp['PublicIp'],
+                'instance_id': instance.id,
+                }
+
+            log.debug("public_instance {0}".format(team.public_instance))
+
+        except Exception, e:
+            log.error('Could not allocate elastic ip due to exception: {0}'.format(e))
+
+
     def build_team(self, build_id, vpc, team_id):
         log.info('Creating {0} team'.format(team_id))
         subnet_cidrblock = self._subnet_cidrblocks.pop(0)
-        subnet = self.create_subnet(build_id, vpc.vpc_id, subnet_cidrblock, team_id)
+        subnet = self.create_subnet(build_id, vpc.vpc_id, subnet_cidrblock, team_id, )
+
         team = Team(team_id, subnet_cidrblock)
         kp = self.create_keypair()
         self.save_keypair_file(self.training_run, kp.key_material)
@@ -379,46 +490,91 @@ class Provisioner(object):
                 continue
             if i > self.number_of_instances+4:
                 break
-            instances.append(
-                self.launch_team_instance(team_id, self.image_id, subnet.subnet_id, ip))
+            team.add_instance(self.launch_team_instance(team_id, self.image_id,
+                subnet.subnet_id, ip))
 
+        self.allocate_elastic_ip(team)
+
+        self.add_team(team)
 
     def build(self, build_id, dryrun=True):
         if dryrun: log.info("Running in dryrun mode ")
 
         vpc = self.create_vpc(build_id, dryrun)
-
+        teams = []
         for i in xrange(self.number_of_teams):
 
             team_id = "{0}-{1}".format(self.training_run, i)
 
             self.build_team(build_id,vpc,team_id)
 
-
-
-            #step 3 - create elastic ip
-
             #step 6 - create load balancer
-
-    def destroy_vpc(self):
-        #deleting subnets
-        for sn in self.vpc.subnets.all():
-            log.info("Deleting {0} subnet".format(sn))
-            sn.delete()
-
-        for
 
     def destroy(self):
         filters = [{
-            'Name': 'tag:Name',
+            'Name': 'tag:BUILDID',
             'Values': [self.training_run]
         }]
         #terminate instances
-        for i in self.ec2.instances.filter(Filters):
+        for i in self.ec2.instances.filter(Filters=filters):
             log.debug("Terminating {0} instance".format(i))
             i.terminate()
 
-        #delete security group
-        for sg in self.ec2.security_groups.filter(Filters=filters):
-            log.debug("Deleting {0} security group".format(sg))
-            kp.delete()
+        for vpc in self.ec2.vpcs.filter(Filters=filters):
+            destroy_vpc(vpc)
+
+
+def delete_dependency(dep):
+    try:
+        log.info("Deleting {0} ".format(dep))
+        dep.delete()
+    except Exception, e:
+        log.warning("Could not delete {0} due to {1}".format(dep, e))
+
+def destroy_vpc(vpc):
+    filters = [{
+        'Name': 'tag:VpcId',
+        'Values': [vpc.id]
+    }]
+    log.debug("Deleting vpc {0} ".format(vpc))
+
+    #instances
+    for i in vpc.instances.all():
+        while i.state['Name'] != "terminated":
+            log.info("Instance {0} not yet terminated {1}. We will try again in a short while".format(i, i.state))
+            i.terminate()
+            i.reload()
+
+            time.sleep(2)
+    try:
+    #internet gateways
+        for ig in vpc.internet_gateways.all():
+            vpc.detach_internet_gateway(InternetGatewayId=ig.id)
+            delete_dependency(ig)
+
+        #subnets
+        for sn in vpc.subnets.all():
+            delete_dependency(sn)
+        #and routing tables
+        for rt in vpc.route_tables.all():
+            delete_dependency(rt)
+        #security groups
+        for sg in vpc.security_groups.filter(Filters=filters):
+            delete_dependency(sg)
+        #Networl ACLS
+        for nac in vpc.network_acls.all():
+            delete_dependency(nac)
+
+        #Networl Interfaces
+        for ni in vpc.network_interfaces.all():
+            delete_dependency(ni)
+
+        #requested_vpc_peering_connections
+        for n in vpc.requested_vpc_peering_connections.all():
+            delete_dependency(n)
+
+
+        vpc.delete()
+
+    except Exception, e:
+        log.error('Could not delete VPC {0} due to {0}'.format(vpc.id, e))
