@@ -403,6 +403,7 @@ class Provisioner(object):
         log.info('Storing Key Pair in {0}'.format(os.path.abspath(filename)))
         with open(filename, "w") as kfile:
             kfile.write("".join(keypair_material))
+        os.chmod(filename, 0400)
 
 
     def create_keypair(self, name=None):
@@ -414,9 +415,10 @@ class Provisioner(object):
             self.save_keypair_file( filename, key.key_material  )
             return key
         except Exception, e:
+            log.error("could not create keypair: {0}".format(e))
             import binascii
             new_name = binascii.hexlify(os.urandom(10))
-            log.warning( "creating new random {0} key".format(new_name))
+            log.warning( "creating new random {0} key".format(filename))
             return self.create_keypair(new_name)
 
 
@@ -483,7 +485,6 @@ class Provisioner(object):
 
         team = Team(team_id, subnet_cidrblock)
         kp = self.create_keypair()
-        self.save_keypair_file(self.training_run, kp.key_material)
         instances = []
         for i, ip in enumerate(team.generate_ip()):
             if i < 4:
