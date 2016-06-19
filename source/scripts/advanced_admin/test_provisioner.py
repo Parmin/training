@@ -3,7 +3,6 @@ import boto3
 import os
 from provisioner import Provisioner, Team
 from datetime import date, timedelta
-from mock import MagicMock
 import boto3
 from iptools import IpRange
 class TestProvisioner(unittest.TestCase):
@@ -234,11 +233,11 @@ class TestTeam(unittest.TestCase):
 
     def setUp(self):
         self.cidr_block = "27.0.17.64/27"
-        self.team = Team("superteam", self.cidr_block)
+        self.team = Team("superteam", 'sb213', self.cidr_block)
 
     def test_init(self):
         with self.assertRaises(Exception) as cmd:
-            team = Team("", 111)
+            team = Team("", "asda", 111)
 
         the_exception = cmd.exception
         assert 'team_id cannot be empty' == str(the_exception)
@@ -258,6 +257,15 @@ class TestTeam(unittest.TestCase):
         with self.assertRaises(Exception) as cmd :
             self.team.append_instance("")
         assert "Cannot append empty instance" == str(cmd.exception)
+
+    def test_loadblancername(self):
+        expected = "superteam"+"-lb"
+        assert self.team.load_balancer_name == expected
+
+    def test_set_subnetid(self):
+        with self.assertRaises(Exception) as cmd:
+            self.team.subnet_id = 1
+        assert "subnet is required to be `str` type not <type 'int'>" == str(cmd.exception)
 
 
 if __name__ == "__main__":
