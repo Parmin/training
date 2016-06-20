@@ -14,8 +14,8 @@ project:
     - name: student
       tag: training-student
 version:
-  release: '3.2'
-  branch: '3.2'
+  release: '2.0'
+  branch: '2.0'
 system:
   files:
     - 'pdfs.yaml'
