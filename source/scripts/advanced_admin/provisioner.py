@@ -21,7 +21,7 @@ class Team(object):
     log.setLevel(logging.DEBUG)
     log = logging.getLogger(__name__)
 
-    def __init__(self, team_id, cidr_block):
+    def __init__(self, team_id, subnet_id, cidr_block):
         """
         Class that manages created teams
         """
@@ -29,6 +29,31 @@ class Team(object):
         self.cidr_block = cidr_block
         self._instances = []
         self._public_instance = {}
+        self._n_opsmgr = 2
+        self._opsmgr_instances = []
+        self.subnet_id = subnet_id
+
+    @property
+    def opsmgr_instances(self):
+        return self._opsmgr_instances
+
+    @property
+    def load_balancer(self):
+        return self._load_balancer
+
+    @load_balancer.setter
+    def load_balancer(self, lb):
+        self._load_balancer=lb
+
+    @property
+    def subnet_id(self):
+        return self._subnet_id
+
+    @subnet_id.setter
+    def subnet_id(self, subnet):
+        self._subnet_id = subnet
+
+
     @property
     def public_instance(self):
         if self._public_instance:
@@ -45,7 +70,6 @@ class Team(object):
         else:
             raise Exception("public instance has to be `dict`")
 
-
     @property
     def instances(self):
         return self._instances
@@ -53,6 +77,8 @@ class Team(object):
     def add_instance(self, instance):
         if self._instances:
             self._instances = []
+        if len(self._opsmgr_instances) < self._n_opsmgr:
+            self._opsmgr_instances.append(instance)
         self._instances.append(instance)
 
     def __repr__(self):
@@ -72,7 +98,6 @@ class Team(object):
             raise Exception("Cannot set non-file path as keypair file: {0}".format(filepath))
         self._keypair_file
 
-
     @property
     def team_id(self):
         return self._id
@@ -85,6 +110,10 @@ class Team(object):
     @property
     def cidr_block(self):
         return self._cidr_block
+
+    @property
+    def load_balancer_name(self):
+        return self.team_id + "-lb"
 
     @cidr_block.setter
     def cidr_block(self, cidr_block):
@@ -251,6 +280,7 @@ class Provisioner(object):
         self.session = boto3.session.Session(profile_name=self.aws_profile) if self._aws_region is None else boto3.session(profile_name=self.aws_profile, aws_region=self._aws_region)
         self.ec2 = self.session.resource('ec2')
         self.client = self.session.client('ec2')
+        self.elb = self.session.client('elb')
 
     def get_default_tags(self):
         return [
@@ -463,7 +493,7 @@ class Provisioner(object):
 
     def allocate_elastic_ip(self, team):
         try:
-            instance = team.instances[0]
+            instance = team.instances[-1]
             resp = self.client.allocate_address(Domain='vpc')
             self.allocate_elastic_ip_instance(resp['AllocationId'],instance)
             team.public_instance = {
@@ -477,13 +507,49 @@ class Provisioner(object):
         except Exception, e:
             log.error('Could not allocate elastic ip due to exception: {0}'.format(e))
 
+    def create_loadblancer(self, team):
+        log.debug("Creating Load Balancer for {0}".format(team.team_id))
+        try:
+            team.load_balancer = self.elb.create_load_balancer(
+                LoadBalancerName=team.load_balancer_name,
+                Listeners=[
+                    {
+                    'Protocol': 'HTTP',
+                    'LoadBalancerPort': 80,
+                    'InstanceProtocol': 'HTTP',
+                    'InstancePort': 8080,
+                    }],
+                Subnets=[team.subnet_id],
+                SecurityGroups=[self.sg.id],
+                Tags=self.get_default_tags(),
+            )
+
+            log.debug("Load Balancer {0} created".format(team.load_balancer_name))
+
+        except Exception, e:
+            log.error("Could not create load balancer: {0}".format(e))
+
+    def register_instances(self, team):
+        try:
+            instance_ids = []
+            for n in team.opsmgr_instances:
+                instance_ids.append({"InstanceId": n.id})
+            resp = self.elb.register_instances_with_load_balancer(
+                LoadBalancerName=team.load_balancer_name,
+                Instances=instance_ids
+            )
+
+            log.debug( "registered {0} instances with load balancer {1}".format(
+                instance_ids, team.load_balancer_name))
+        except Exception, e:
+            log.error("Could not register instances with load balancer {0} due to {1}".format(team.load_balancer_name, e))
 
     def build_team(self, build_id, vpc, team_id):
         log.info('Creating {0} team'.format(team_id))
         subnet_cidrblock = self._subnet_cidrblocks.pop(0)
         subnet = self.create_subnet(build_id, vpc.vpc_id, subnet_cidrblock, team_id, )
 
-        team = Team(team_id, subnet_cidrblock)
+        team = Team(team_id, subnet.id, subnet_cidrblock)
         kp = self.create_keypair()
         instances = []
         for i, ip in enumerate(team.generate_ip()):
@@ -495,6 +561,9 @@ class Provisioner(object):
                 subnet.subnet_id, ip))
 
         self.allocate_elastic_ip(team)
+
+        self.create_loadblancer(team)
+        self.register_instances(team)
 
         self.add_team(team)
 
@@ -510,6 +579,16 @@ class Provisioner(object):
             self.build_team(build_id,vpc,team_id)
 
             #step 6 - create load balancer
+
+    def destroy_load_balancer(self, load_balancer_name, instance_ids):
+        try:
+            log.info(self.elb.deregister_instances_from_load_balancer(
+                LoadBalancerName=load_balancer_name,
+                Instances=[ {"InstanceId": x} for x in instance_ids]))
+
+            log.info(self.elb.delete_loadbalancer(LoadBalancerName=load_balancer_name))
+        except Exception, e:
+            log.error("could not delete load balancer {0}: {1}".format(load_balancer_name, e))
 
     def destroy(self):
         filters = [{
