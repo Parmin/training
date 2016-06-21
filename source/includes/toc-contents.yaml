@@ -1,3 +1,7 @@
+file: /modules/nav/agendas
+description: |
+  Training agendas
+---
 file: /modules/nav/introduction
 description: |
   An introduction to MongoDB concepts and background
