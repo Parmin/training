@@ -74,12 +74,15 @@ class Team(object):
     def instances(self):
         return self._instances
 
+    @property
+    def nodes(self):
+        return [item for item in self._instances if item not in self._opsmgr_instances]
+
     def add_instance(self, instance):
-        if self._instances:
-            self._instances = []
+        self._instances.append(instance)
         if len(self._opsmgr_instances) < self._n_opsmgr:
             self._opsmgr_instances.append(instance)
-        self._instances.append(instance)
+
 
     def __repr__(self):
         return """
@@ -346,17 +349,6 @@ class Provisioner(object):
         self.ig = ig
         return ig
 
-    def load_security_group(self, group_name):
-        log.info("Getting security group {0}".format(group_name) )
-        filters = [{
-            'Name': 'group-name',
-            'Values': [group_name]
-        }]
-        response = self.client.describe_security_groups( Filters=filters)
-        security_group_id = response["SecurityGroups"][0]["GroupId"]
-        return self.ec2.SecurityGroup(security_group_id)
-
-
     def define_vpc_routes(self, ig):
         log.debug("Adding route to {0}".format(ig))
         try:
@@ -369,6 +361,15 @@ class Provisioner(object):
             log.error("Could not define_vpc_routes: {0}".format(e))
             log.error("Need to proceed w/ manual definition for ig {0} and subnet {1}".format(ig, subnet))
 
+    def load_security_group(self, group_name):
+        log.info("Getting security group {0}".format(group_name) )
+        filters = [{
+            'Name': 'group-name',
+            'Values': [group_name]
+        }]
+        response = self.client.describe_security_groups( Filters=filters)
+        security_group_id = response["SecurityGroups"][0]["GroupId"]
+        return self.ec2.SecurityGroup(security_group_id)
 
     def create_security_group(self, build_id, vpc_id, group_name):
         desc = "Security Group {0} for VPC {1}".format(group_name, vpc_id)
@@ -574,7 +575,7 @@ class Provisioner(object):
 
         self.create_loadblancer(team)
         self.register_instances(team)
-
+        self.generate_hosts(team)
         self.add_team(team)
 
     def build(self, build_id, dryrun=True):
@@ -600,6 +601,31 @@ class Provisioner(object):
         except Exception, e:
             log.error("could not delete load balancer {0}: {1}".format(load_balancer_name, e))
 
+    def get_teamhosts_filepath(self, team_id):
+        log.info("create hosts file for team {0}".format(team_id))
+        return os.path.join(self.basedir, team_id+"_hosts")
+
+
+    def generate_hosts(self, team):
+        filepath = get_hostsfile(team.id)
+        lines = []
+        for i, instance in enumerate(team.opsmgr_instances):
+            lines.append("{0}\t{1}\t{2}".format(
+                instance.private_ip_address,
+                "opsmgr-"+i,
+                "opsmgr-"+i+".training"
+            ))
+
+        for i, instance in enumerate(team.nodes):
+            lines.append("{0}\t{1}\t{2}".format(
+                instance.private_ip_address,
+                "node-"+i,
+                "node-"+i+".training"))
+
+
+        with open(filepath, "w") as fd:
+            fd.writelines(lines)
+
     def destroy(self):
         filters = [{
             'Name': 'tag:BUILDID',
@@ -622,7 +648,7 @@ def delete_dependency(dep):
         log.warning("Could not delete {0} due to {1}".format(dep, e))
 
 def destroy_vpc(vpc):
-    
+
     log.debug("Deleting vpc {0} ".format(vpc))
 
     #instances

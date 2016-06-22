@@ -243,14 +243,26 @@ class TestProvisioner(unittest.TestCase):
 
         assert self.pr.number_of_instances == 16
 
+    def test_get_teamhosts_filepath(self):
+        t = TestTeam.dummy_team()
+        self.pr.add_team(t)
+        self.pr.basedir = "/tmp"
+
+        expected = "/tmp/superteam_hosts"
+
+        assert expected == self.pr.get_teamhosts_filepath(t.team_id)
+
 class TestTeam(unittest.TestCase):
+    @staticmethod
+    def dummy_team():
+        return Team("superteam", 'sb213', "27.0.17.64/27")
 
     def tearDown(self):
         pass
 
     def setUp(self):
         self.cidr_block = "27.0.17.64/27"
-        self.team = Team("superteam", 'sb213', self.cidr_block)
+        self.team = TestTeam.dummy_team()
 
     def test_init(self):
         with self.assertRaises(Exception) as cmd:
@@ -279,12 +291,16 @@ class TestTeam(unittest.TestCase):
         expected = "superteam"+"-lb"
         assert self.team.load_balancer_name == expected
 
-    def test_set_subnetid(self):
-        with self.assertRaises(Exception) as cmd:
-            self.team.subnet_id = 1
-        assert "subnet is required to be `str` type not <type 'int'>" == str(cmd.exception)
+    def test_nodes(self):
+        instances = ["a", "b", "c", "d"]
+        for i in instances:
+            self.team.add_instance(i)
+        assert set(["c", "d"]) == set(self.team.nodes)
 
+    def test_instances(self):
+        instances = ["a"]
 
+        assert set(self.team.opsmgr_instances) == set(self.team.instances)
 
 if __name__ == "__main__":
     unittest.main()
