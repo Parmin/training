@@ -152,9 +152,20 @@ class Provisioner(object):
             "27.0.17.128/27"]
         self.teams = []
         self._basedir = "."
-        self.number_of_instances = 1
+        self._number_of_instances = 1
         self.instance_type = 'm3.xlarge'
         self.image_id = "ami-d63cccbb"
+
+
+    @property
+    def number_of_instances(self):
+        return self._number_of_instances
+
+    @number_of_instances.setter
+    def number_of_instances(self, n):
+        if n < 1 or n > 16 :
+            raise Exception("Only allowed to set number of instances between 1 and 16")
+        self._number_of_instances = n
 
     @property
     def basedir(self):
@@ -165,7 +176,6 @@ class Provisioner(object):
         if not os.path.isdir(dirpath):
             raise Exception('Cannot set {0} as base dir. Not dir'.format(dirpath))
         self._basedir = dirpath
-
 
     @property
     def instance_type(self):
@@ -612,10 +622,7 @@ def delete_dependency(dep):
         log.warning("Could not delete {0} due to {1}".format(dep, e))
 
 def destroy_vpc(vpc):
-    filters = [{
-        'Name': 'tag:VpcId',
-        'Values': [vpc.id]
-    }]
+    
     log.debug("Deleting vpc {0} ".format(vpc))
 
     #instances

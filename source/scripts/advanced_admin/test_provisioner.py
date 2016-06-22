@@ -225,6 +225,23 @@ class TestProvisioner(unittest.TestCase):
         assert sg
         assert sg.group_name == security_group_name
 
+    def test_set_number_of_instances_lt_1(self):
+        with self.assertRaises(Exception) as cmd:
+            self.pr.number_of_instances = -1
+
+        assert "Only allowed to set number of instances between 1 and 16" == str(cmd.exception)
+
+    def test_set_number_of_instances_gt_16(self):
+        with self.assertRaises(Exception) as cmd:
+            self.pr.number_of_instances = 17
+
+        assert "Only allowed to set number of instances between 1 and 16" == str(cmd.exception)
+
+    def test_set_number_of_instances_16(self):
+
+        self.pr.number_of_instances = 16
+
+        assert self.pr.number_of_instances == 16
 
 class TestTeam(unittest.TestCase):
 
@@ -266,6 +283,7 @@ class TestTeam(unittest.TestCase):
         with self.assertRaises(Exception) as cmd:
             self.team.subnet_id = 1
         assert "subnet is required to be `str` type not <type 'int'>" == str(cmd.exception)
+
 
 
 if __name__ == "__main__":

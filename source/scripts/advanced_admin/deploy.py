@@ -37,7 +37,11 @@ def main():
     parser.add_argument('--dir', dest='dir', default=".",
     type=str, help="Output build directory path")
 
+    parser.add_argument('--instances', dest='instances', default=16, type=int,
+    help="Number of instances per team")
+
     args = parser.parse_args()
+    logger.info("Collected the following arguments {0}".format(args))
 
     training_run = args.training_run
     awsprofile = args.awsprofile
@@ -54,6 +58,7 @@ def main():
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
     logger.debug("Building {0} stack".format(build_id))
     pr.basedir = args.dir
+    pr.number_of_instances = args.instances
     pr.build(build_id, False)
     logger.debug("All teams:".format(pr.teams))
 
