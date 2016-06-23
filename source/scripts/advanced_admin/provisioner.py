@@ -86,7 +86,8 @@ class Team(object):
         if len(self._opsmgr_instances) < self._n_opsmgr:
             self._opsmgr_instances.append(instance)
 
-    def __repr__(self):
+
+    def to_json(self):
         d = {
             "public_ip": self.public_instance,
             "nodes": [x.id for x in self.nodes],
@@ -94,9 +95,10 @@ class Team(object):
             "instances": [x.id for x in self.instances],
             "keypair_file": self._keypair_file
         }
-        return json.dumps(d)
+        return
 
-
+    def __repr__(self):
+        return json.dumps(self.to_json())
 
 
     @property
@@ -144,7 +146,7 @@ class Provisioner(object):
     Class for provisioning management of Training Environment
     """
 
-    def __repr__(self):
+    def to_json(self):
         d = {}
         d["aws_region"] = self.aws_region
         d["teams"] = self.teams
@@ -152,8 +154,9 @@ class Provisioner(object):
         d["basedir"] = self.basedir
         d["vpc"] = None if not self.vpc else self.vpc.id
 
+    def __repr__(self):
 
-        return json.dumps(d)
+        return json.dumps(self.to_json())
 
 
 
@@ -646,8 +649,9 @@ class Provisioner(object):
         #write config
         filepath = os.path.join(self.basedir, "run.json")
         with open(filepath, "w") as fconfig:
-            #json.dump(json.loads(str(self), filepath))
+            #json.dump( self.to_json() , filepath))
             pass
+
 
         log.info("configuration file - {0}".format(filepath))
 
