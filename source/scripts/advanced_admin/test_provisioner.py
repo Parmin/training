@@ -252,6 +252,21 @@ class TestProvisioner(unittest.TestCase):
 
         assert expected == self.pr.get_teamhosts_filepath(t.team_id)
 
+    def test_image_id(self):
+        self.pr.aws_region = "eu-west-1"
+        ami = self.pr.image_id
+        expected = "ami-9d9800ee"
+
+        assert expected == ami
+
+
+        with self.assertRaises(Exception) as cmd:
+            self.pr.aws_region = "apac-west-1"
+            ami = self.pr.image_id
+
+        assert "no valid image for region apac-west-1" == str(cmd.exception)
+
+
 class TestTeam(unittest.TestCase):
     @staticmethod
     def dummy_team():

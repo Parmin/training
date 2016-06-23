@@ -157,8 +157,27 @@ class Provisioner(object):
         self._basedir = "."
         self._number_of_instances = 1
         self.instance_type = 'm3.xlarge'
-        self.image_id = "ami-d63cccbb"
+        self._image_id = {
+            "us-east-1": "ami-d2de1cbf",
+            "us-west-1": "ami-20612540",
+            "us-west-2": "ami-049b5c64",
+            "eu-central-1": "ami-020ae26d",
+            "eu-west-1": "ami-9d9800ee"
+            }
 
+    @property
+    def aws_region(self):
+        return self._aws_region
+
+    @aws_region.setter
+    def aws_region(self, aws_region):
+        self._aws_region = aws_region
+
+    @property
+    def image_id(self):
+        if not self._image_id.has_key(self._aws_region):
+            raise Exception("no valid image for region {0}".format(self._aws_region))
+        return self._image_id[self._aws_region]
 
     @property
     def number_of_instances(self):
@@ -367,9 +386,16 @@ class Provisioner(object):
             'Name': 'group-name',
             'Values': [group_name]
         }]
+        retry = 1;
+
+
         response = self.client.describe_security_groups( Filters=filters)
-        security_group_id = response["SecurityGroups"][0]["GroupId"]
-        return self.ec2.SecurityGroup(security_group_id)
+        if len(response["SecurityGroups"]) > 0:
+            security_group_id = response["SecurityGroups"][0]["GroupId"]
+            return self.ec2.SecurityGroup(security_group_id)
+        else:
+            log.warning("Could not load security that matches filter {0} - {1}".format(filters, response))
+            time.sleep(2)
 
     def create_security_group(self, build_id, vpc_id, group_name):
         desc = "Security Group {0} for VPC {1}".format(group_name, vpc_id)
@@ -389,6 +415,7 @@ class Provisioner(object):
             sg = self.ec2.SecurityGroup(sgid)
             sg.authorize_ingress(IpProtocol='tcp', FromPort=0, ToPort=65535, CidrIp='0.0.0.0/0')
             sg.authorize_ingress(IpProtocol='udp', FromPort=0, ToPort=65535, CidrIp='0.0.0.0/0')
+            sg.authorize_ingress(IpProtocol='icmp', FromPort=0, ToPort=65535, CidrIp='0.0.0.0/0')
 
             self.add_tags_resource(sg, build_id,[{'Key': 'VpcId', 'Value': vpc_id}], False)
             return sg
@@ -504,7 +531,7 @@ class Provisioner(object):
 
     def allocate_elastic_ip(self, team):
         try:
-            instance = team.instances[-1]
+            instance = team.opsmgr_instances[-1]
             resp = self.client.allocate_address(Domain='vpc')
             self.allocate_elastic_ip_instance(resp['AllocationId'],instance)
             team.public_instance = {
@@ -589,8 +616,6 @@ class Provisioner(object):
 
             self.build_team(build_id,vpc,team_id)
 
-            #step 6 - create load balancer
-
     def destroy_load_balancer(self, load_balancer_name, instance_ids):
         try:
             log.info(self.elb.deregister_instances_from_load_balancer(
@@ -607,24 +632,24 @@ class Provisioner(object):
 
 
     def generate_hosts(self, team):
-        filepath = get_hostsfile(team.id)
+        filepath = self.get_teamhosts_filepath(team.team_id)
         lines = []
         for i, instance in enumerate(team.opsmgr_instances):
             lines.append("{0}\t{1}\t{2}".format(
                 instance.private_ip_address,
-                "opsmgr-"+i,
-                "opsmgr-"+i+".training"
-            ))
+                "opsmgr-{0}".format(i),
+                "opsmgr-{0}.training".format(i)))
 
         for i, instance in enumerate(team.nodes):
-            lines.append("{0}\t{1}\t{2}".format(
+            lines.append("{0}\t{1}\t{2}\n".format(
                 instance.private_ip_address,
-                "node-"+i,
-                "node-"+i+".training"))
+                "node-{0}".format(i),
+                "node-{0}.training".format(i)))
 
 
         with open(filepath, "w") as fd:
-            fd.writelines(lines)
+            for line in lines:
+                fd.write(line)
 
     def destroy(self):
         filters = [{
@@ -635,6 +660,12 @@ class Provisioner(object):
         for i in self.ec2.instances.filter(Filters=filters):
             log.debug("Terminating {0} instance".format(i))
             i.terminate()
+
+        # delete loadbalancers
+        for i in xrange(5):
+            lbname = "{0}-{1}-LB".format(self.training_run, i)
+            log.debug("deleting load balancer {0}".format(lbname))
+            self.elb.delete_load_balancer(LoadBalancerName=lbname)
 
         for vpc in self.ec2.vpcs.filter(Filters=filters):
             destroy_vpc(vpc)
@@ -690,4 +721,4 @@ def destroy_vpc(vpc):
         vpc.delete()
 
     except Exception, e:
-        log.error('Could not delete VPC {0} due to {0}'.format(vpc.id, e))
+        log.error('Could not delete VPC {0} due to {0}. Try again in few minutes'.format(vpc.id, e))
