@@ -8,7 +8,7 @@ Exercise: Add validator to existing collection
 - Import the ``posts`` collection (from posts.json) and look at a few documents to understand the schema.
 - Insert the following document into the ``posts`` collection
 
-.. code-block:: js
+  .. code-block:: js
 
     {"Hi":"I'm not really a post, am I?"}
 
@@ -72,17 +72,19 @@ Exercise: Create collection with validator (expected results)
 
         // Valid documents
         {"name":"Jane Smith", "salary":45, "email":"js@example.com"}
-        {"name":"Tim R. Jones", "salary":30, "phone":"234-555-6789","email":"trj@example.com"}
+        {"name":"Tim R. Jones", "salary":30,
+         "phone":"234-555-6789","email":"trj@example.com"}
         {"name":"Cedric E. Oxford", "salary":600, "phone":"918-555-1234"}
 
         // Invalid documents
-        {"name":"Connor MacLeod", "salary":9001, "phone":"999-555-9999", "email":"thrcnbnly1"}
+        {"name":"Connor MacLeod", "salary":9001, "phone":"999-555-9999",
+         "email":"thrcnbnly1"}
         {"name":"Herman Hermit", "salary":9}
         {"name":"Betsy Bedford", "salary":50, "phone":"", "email":"bb@example.com"}
 
 .. include:: /includes/student-notes.rst
 
-... only:: instructor
+.. only:: instructor
 
     .. note::
 
@@ -219,8 +221,9 @@ Exercise: Change validation level
 
 Now that the ``employees`` validator has been updated, some of the already-inserted documents are not valid. This can be a problem when, for example, just updating an employee's salary.
 
-- Try to update TODO
-- Change the validation level of the ``employees`` collection to allow updates of existing invalid documents, but still enforce validation of inserted documents and existing valid documents.
+- Try to update the salary of "Cedric E. Oxford". You should get a validation error.
+
+- Now, change the validation level of the ``employees`` collection to allow updates of existing invalid documents, but still enforce validation of inserted documents and existing valid documents.
 
 .. include:: /includes/student-notes.rst
 
