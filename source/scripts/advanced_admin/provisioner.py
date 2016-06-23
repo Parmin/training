@@ -35,13 +35,6 @@ class Team(object):
         self.subnet_id = subnet_id
         self._keypair_file = ""
 
-    @property
-    def keypair_filepath(self):
-        return self._keypair_file
-
-    @keypair_filepath.setter
-    def keypair_filepath(self, filepath):
-        self._keypair_file = filepath
 
     @property
     def opsmgr_instances(self):
@@ -93,13 +86,18 @@ class Team(object):
         if len(self._opsmgr_instances) < self._n_opsmgr:
             self._opsmgr_instances.append(instance)
 
-
     def __repr__(self):
-        return """
-        TEAMID - {0}
-        INSTANCES - {1}
-        KEYPAIR_FILEPATH - {2}
-        """.format(self.team_id, self._instances, self._keypair_file)
+        d = {
+            "public_ip": self.public_instance,
+            "nodes": [x.id for x in self.nodes],
+            "opsmgrs": [x.id for x in self.opsmgr_instances],
+            "instances": [x.id for x in self.instances],
+            "keypair_file": self._keypair_file
+        }
+        return json.dumps(d)
+
+
+
 
     @property
     def keypair_file(self):
@@ -146,12 +144,17 @@ class Provisioner(object):
     Class for provisioning management of Training Environment
     """
 
-    def __iter__(self):
-        skip_list = ['_session', "_ec2", "elb", "_client"]
-        for attr, value in self.__dict__.iteritems():
-            if attr in skip_list:
-                continue
-            yield attr, value
+    def __repr__(self):
+        d = {}
+        d["aws_region"] = self.aws_region
+        d["teams"] = self.teams
+        d["training_run"] = self.training_run
+        d["basedir"] = self.basedir
+        d["vpc"] = None if not self.vpc else self.vpc.id
+
+
+        return json.dumps(d)
+
 
 
     def __init__(self, training_run, aws_profile="default", teams=1,
@@ -182,10 +185,14 @@ class Provisioner(object):
             "eu-central-1": "ami-020ae26d",
             "eu-west-1": "ami-9d9800ee"
             }
+        self._vpc = None
 
     @property
     def aws_region(self):
+        if not self._aws_region:
+            return self.session.region_name
         return self._aws_region
+
 
     @aws_region.setter
     def aws_region(self, aws_region):
@@ -193,9 +200,9 @@ class Provisioner(object):
 
     @property
     def image_id(self):
-        if not self._image_id.has_key(self._aws_region):
-            raise Exception("no valid image for region {0}".format(self._aws_region))
-        return self._image_id[self._aws_region]
+        if not self._image_id.has_key(self.aws_region):
+            raise Exception("no valid image for region {0}".format(self.aws_region))
+        return self._image_id[self.aws_region]
 
     @property
     def number_of_instances(self):
@@ -607,7 +614,8 @@ class Provisioner(object):
         subnet = self.create_subnet(build_id, vpc.vpc_id, subnet_cidrblock, team_id, )
 
         team = Team(team_id, subnet.id, subnet_cidrblock)
-        kp = self.create_keypair()
+        kp, kf = self.create_keypair()
+        team.keypair_file = kf
         instances = []
         for i, ip in enumerate(team.generate_ip()):
             if i < 4:
@@ -635,11 +643,13 @@ class Provisioner(object):
 
             self.build_team(build_id,vpc,team_id)
 
-
         #write config
         filepath = os.path.join(self.basedir, "run.json")
         with open(filepath, "w") as fconfig:
+            #json.dump(json.loads(str(self), filepath))
             pass
+
+        log.info("configuration file - {0}".format(filepath))
 
     def destroy_load_balancer(self, load_balancer_name, instance_ids):
         try:
@@ -693,7 +703,7 @@ class Provisioner(object):
             self.elb.delete_load_balancer(LoadBalancerName=lbname)
 
         for vpc in self.ec2.vpcs.filter(Filters=filters):
-            destroy_vpc(vpc)
+            destroy_vpc(vpc, self.training_run)
 
 
 def delete_dependency(dep):
@@ -703,7 +713,7 @@ def delete_dependency(dep):
     except Exception, e:
         log.warning("Could not delete {0} due to {1}".format(dep, e))
 
-def destroy_vpc(vpc):
+def destroy_vpc(vpc, training_run):
 
     log.debug("Deleting vpc {0} ".format(vpc))
 
@@ -716,7 +726,12 @@ def destroy_vpc(vpc):
 
             time.sleep(2)
     try:
-    #internet gateways
+        #Networl Interfaces
+        for ni in vpc.network_interfaces.all():
+            ni.detach(Force=True)
+            delete_dependency(ni)
+
+        #internet gateways
         for ig in vpc.internet_gateways.all():
             vpc.detach_internet_gateway(InternetGatewayId=ig.id)
             delete_dependency(ig)
@@ -728,15 +743,15 @@ def destroy_vpc(vpc):
         for rt in vpc.route_tables.all():
             delete_dependency(rt)
         #security groups
+        filters = [{
+            'Name': 'tag:Name',
+            'Values': [training_run]
+        }]
         for sg in vpc.security_groups.filter(Filters=filters):
             delete_dependency(sg)
         #Networl ACLS
         for nac in vpc.network_acls.all():
             delete_dependency(nac)
-
-        #Networl Interfaces
-        for ni in vpc.network_interfaces.all():
-            delete_dependency(ni)
 
         #requested_vpc_peering_connections
         for n in vpc.requested_vpc_peering_connections.all():
@@ -746,4 +761,4 @@ def destroy_vpc(vpc):
         vpc.delete()
 
     except Exception, e:
-        log.error('Could not delete VPC {0} due to {0}. Try again in few minutes'.format(vpc.id, e))
+        log.error('Could not delete VPC {0} due to {1}. Try again in few minutes'.format(vpc.id, e))
