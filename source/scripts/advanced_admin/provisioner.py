@@ -89,13 +89,14 @@ class Team(object):
 
     def to_json(self):
         d = {
-            "public_ip": self.public_instance,
+            "public_instance": self.public_instance,
             "nodes": [x.id for x in self.nodes],
             "opsmgrs": [x.id for x in self.opsmgr_instances],
             "instances": [x.id for x in self.instances],
-            "keypair_file": self._keypair_file
+            "keypair_file": self._keypair_file,
+            "team_id": self.team_id
         }
-        return
+        return d
 
     def __repr__(self):
         return json.dumps(self.to_json())
@@ -149,10 +150,11 @@ class Provisioner(object):
     def to_json(self):
         d = {}
         d["aws_region"] = self.aws_region
-        d["teams"] = self.teams
+        d["teams"] = [x.to_json() for x in self.teams]
         d["training_run"] = self.training_run
         d["basedir"] = self.basedir
         d["vpc"] = None if not self.vpc else self.vpc.id
+        return d
 
     def __repr__(self):
 
@@ -637,19 +639,17 @@ class Provisioner(object):
 
     def build(self, build_id, dryrun=True):
         if dryrun: log.info("Running in dryrun mode ")
-
         vpc = self.create_vpc(build_id, dryrun)
         teams = []
         for i in xrange(self.number_of_teams):
 
             team_id = "{0}-{1}".format(self.training_run, i)
-
             self.build_team(build_id,vpc,team_id)
 
         #write config
         filepath = os.path.join(self.basedir, "run.json")
         with open(filepath, "w") as fconfig:
-            #json.dump( self.to_json() , filepath))
+            json.dump(self.to_json(), fconfig)
             pass
 
 
@@ -685,7 +685,6 @@ class Provisioner(object):
                 "node-{0}".format(i),
                 "node-{0}.training".format(i)))
 
-
         with open(filepath, "w") as fd:
             for line in lines:
                 fd.write(line)
@@ -702,7 +701,7 @@ class Provisioner(object):
 
         # delete loadbalancers
         for i in xrange(5):
-            lbname = "{0}-{1}-LB".format(self.training_run, i)
+            lbname = "{0}-{1}-lb".format(self.training_run, i)
             log.debug("deleting load balancer {0}".format(lbname))
             self.elb.delete_load_balancer(LoadBalancerName=lbname)
 
