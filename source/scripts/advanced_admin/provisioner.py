@@ -5,6 +5,7 @@ import iptools
 import time
 import os
 import sys
+import simplejson as json
 from datetime import date, timedelta
 FORMAT = '%(asctime)-15s %(message)s'
 ch = logging.StreamHandler()
@@ -32,6 +33,15 @@ class Team(object):
         self._n_opsmgr = 2
         self._opsmgr_instances = []
         self.subnet_id = subnet_id
+        self._keypair_file = ""
+
+    @property
+    def keypair_filepath(self):
+        return self._keypair_file
+
+    @keypair_filepath.setter
+    def keypair_filepath(self, filepath):
+        self._keypair_file = filepath
 
     @property
     def opsmgr_instances(self):
@@ -89,7 +99,7 @@ class Team(object):
         TEAMID - {0}
         INSTANCES - {1}
         KEYPAIR_FILEPATH - {2}
-        """.format(self.team_id, self._instances)
+        """.format(self.team_id, self._instances, self._keypair_file)
 
     @property
     def keypair_file(self):
@@ -135,6 +145,14 @@ class Provisioner(object):
     """
     Class for provisioning management of Training Environment
     """
+
+    def __iter__(self):
+        skip_list = ['_session', "_ec2", "elb", "_client"]
+        for attr, value in self.__dict__.iteritems():
+            if attr in skip_list:
+                continue
+            yield attr, value
+
 
     def __init__(self, training_run, aws_profile="default", teams=1,
         end_date=date.today()+timedelta(days=7), aws_region=None):
@@ -478,16 +496,17 @@ class Provisioner(object):
         log.info('Creating new Key Pair for {0}'.format(self.training_run))
         name = self.training_run if name is None else name
         filename = os.path.join(self._basedir, name + ".pem" )
+        key = None
         try:
             key = self.ec2.create_key_pair(KeyName=name)
             self.save_keypair_file( filename, key.key_material  )
-            return key
         except Exception, e:
             log.error("could not create keypair: {0}".format(e))
             import binascii
             new_name = binascii.hexlify(os.urandom(10))
             log.warning( "creating new random {0} key".format(filename))
-            return self.create_keypair(new_name)
+            key = self.create_keypair(new_name)
+        return (key, filename)
 
 
 
@@ -615,6 +634,12 @@ class Provisioner(object):
             team_id = "{0}-{1}".format(self.training_run, i)
 
             self.build_team(build_id,vpc,team_id)
+
+
+        #write config
+        filepath = os.path.join(self.basedir, "run.json")
+        with open(filepath, "w") as fconfig:
+            pass
 
     def destroy_load_balancer(self, load_balancer_name, instance_ids):
         try:
