@@ -2,13 +2,13 @@
 Lab: Document Validation
 ========================
 
-
 Exercise: Add validator to existing collection
 ----------------------------------------------
+
 - Import the ``posts`` collection (from posts.json) and look at a few documents to understand the schema.
 - Insert the following document into the ``posts`` collection
 
-.. code-block:: js
+  .. code-block:: js
 
     {"Hi":"I'm not really a post, am I?"}
 
@@ -48,7 +48,9 @@ Exercise: Add validator to existing collection
 
 Exercise: Create collection with validator
 ------------------------------------------
-- Create a collection ``employees`` with a validator that enforces the following restrictions on documents:
+
+Create a collection ``employees`` with a validator that enforces the following restrictions on documents:
+
     - The ``name`` field must exist and be a string
     - The ``salary`` field must exist and be between 0 and 10,000 inclusive.
     - The ``email`` field is optional but must be an email address in a valid format if present.
@@ -65,21 +67,24 @@ Exercise: Create collection with validator
 
 Exercise: Create collection with validator (expected results)
 -------------------------------------------------------------
+
     .. code-block:: javascript
 
         // Valid documents
         {"name":"Jane Smith", "salary":45, "email":"js@example.com"}
-        {"name":"Tim R. Jones", "salary":30, "phone":"234-555-6789","email":"trj@example.com"}
+        {"name":"Tim R. Jones", "salary":30,
+         "phone":"234-555-6789","email":"trj@example.com"}
         {"name":"Cedric E. Oxford", "salary":600, "phone":"918-555-1234"}
 
         // Invalid documents
-        {"name":"Connor MacLeod", "salary":9001, "phone":"999-555-9999", "email":"thrcnbnly1"}
+        {"name":"Connor MacLeod", "salary":9001, "phone":"999-555-9999",
+         "email":"thrcnbnly1"}
         {"name":"Herman Hermit", "salary":9}
         {"name":"Betsy Bedford", "salary":50, "phone":"", "email":"bb@example.com"}
 
 .. include:: /includes/student-notes.rst
 
-... only:: instructor
+.. only:: instructor
 
     .. note::
 
@@ -114,15 +119,25 @@ Exercise: Create collection with validator (expected results)
             .. code-block:: js
 
                 // example of actual email validation regex
-                /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+                /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\
+                x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-
+                \x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a
+                -z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0
+                -4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1
+                f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
                 // example of actual phone validation regex
-                /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/
+                /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8
+                ][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)
+                ?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\
+                s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/
 
         - Ensure that students successfully insert the valid example documents; they are needed in a later exercise.
 
 Exercise: Change validator rules
 --------------------------------
-- Modify the validator for the ``employees`` collection to support the following additional restrictions:
+
+Modify the validator for the ``employees`` collection to support the following additional restrictions:
+
     - The ``status`` field must exist and must only be one of the following strings: "active", "on_vacation", "terminated"
     - The ``locked`` field must exist and be a boolean
 
@@ -136,16 +151,23 @@ Exercise: Change validator rules
 
 Exercise: Change validator rules (expected results)
 ---------------------------------------------------
+
     .. code-block:: javascript
 
         // Valid documents
-        {"name":"Jason Serivas", "salary":65, "email":"js@example.com", "status":"terminated", "locked":true}
-        {"name":"Logan Drizt", "salary":39, "phone":"234-555-6789","email":"ld@example.com", "status":"active", "locked":false}
-        {"name":"Mann Edger", "salary":100, "phone":"918-555-1234", "status":"on_vacation", "locked":false}
+        {"name":"Jason Serivas", "salary":65, "email":"js@example.com",
+         "status":"terminated", "locked":true}
+        {"name":"Logan Drizt", "salary":39,
+         "phone":"234-555-6789","email":"ld@example.com", "status":"active",
+         "locked":false}
+        {"name":"Mann Edger", "salary":100, "phone":"918-555-1234",
+         "status":"on_vacation", "locked":false}
 
         // Invalid documents
-        {"name":"Steven Cha", "salary":15, "email":"sc@example.com", "status":"alive", "locked":false}
-        {"name":"Julian Barriman", "salary":15, "email":"jb@example.com", "status":"on_vacation", "locked":"no"}
+        {"name":"Steven Cha", "salary":15, "email":"sc@example.com", "status":"alive",
+         "locked":false}
+        {"name":"Julian Barriman", "salary":15, "email":"jb@example.com",
+         "status":"on_vacation", "locked":"no"}
 
 .. include:: /includes/student-notes.rst
 
@@ -169,11 +191,23 @@ Exercise: Change validator rules (expected results)
                         },
                         {"$or":[
                             {"email":{"$exists": false}},
-                            {"email":{"$regex": /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/}}
+                            {"email":{"$regex":
+                            /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~
+                            -]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\
+                            \[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[
+                            a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2
+                            [0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?
+                            [0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\
+                            x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/}}
                         ]},
                         {"$or":[
                             {"phone":{"$exists": false}},
-                            {"phone":{"$regex": /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/}}
+                            {"phone":{"$regex":
+                            /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]
+                            1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-
+                            8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02
+                            -9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extensi
+                            on)\s*(\d+))?$/}}
                         ]},
                         {"$or":[
                             {"phone":{"$exists": true}},
@@ -184,10 +218,12 @@ Exercise: Change validator rules (expected results)
 
 Exercise: Change validation level
 ---------------------------------
+
 Now that the ``employees`` validator has been updated, some of the already-inserted documents are not valid. This can be a problem when, for example, just updating an employee's salary.
 
-- Try to update TODO
-- Change the validation level of the ``employees`` collection to allow updates of existing invalid documents, but still enforce validation of inserted documents and existing valid documents.
+- Try to update the salary of "Cedric E. Oxford". You should get a validation error.
+
+- Now, change the validation level of the ``employees`` collection to allow updates of existing invalid documents, but still enforce validation of inserted documents and existing valid documents.
 
 .. include:: /includes/student-notes.rst
 
@@ -212,6 +248,7 @@ Now that the ``employees`` validator has been updated, some of the already-inser
 
 Exercise: Bypass validation
 ---------------------------
+
 In some circumstances, it may be desirable to bypass validation to insert or update documents.
 
 - Use the ``bypassDocumentValidation`` option to insert the document ``{"hi":"there"}`` into the ``employees`` collection
@@ -227,17 +264,23 @@ In some circumstances, it may be desirable to bypass validation to insert or upd
 
         .. code-block:: js
 
-            db.runCommand({"insert":"employees","documents":[{"hi":"there"}],"bypassDocumentValidation":true})
-            db.runCommand({"update":"employees","updates":[{"q":{}, "u":{"$set":{"salary":999999}},"multi":true}],"bypassDocumentValidation":true})
+            db.runCommand({"insert":"employees","documents":[{"hi":"there"}],
+                           "bypassDocumentValidation":true})
+            db.runCommand({
+                "update":"employees",
+                "updates":[{
+                    "q":{},
+                    "u":{"$set":{"salary":999999}},
+                    "multi":true
+                }],
+                "bypassDocumentValidation":true})
 
-        Students may ask:
-
-        - Is it possible to bypass only part of the validation?
-
-            - No, there is no partial validation
+        - Students may ask, is it possible to bypass only part of the validation?
+        - No, there is no partial validation.
 
 Exercise: Change validation action
 ----------------------------------
+
 In some cases, it may be desirable to simply log invalid actions, rather than prevent them.
 
 - Change the validation action of the ``employees`` collection to reflect this behavior
