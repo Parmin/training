@@ -89,12 +89,13 @@ class Team(object):
 
     def to_json(self):
         d = {
+            "team_id": self.team_id,
             "public_instance": self.public_instance,
             "nodes": [x.id for x in self.nodes],
             "opsmgrs": [x.id for x in self.opsmgr_instances],
             "instances": [x.id for x in self.instances],
             "keypair_file": self._keypair_file,
-            "team_id": self.team_id
+            "load_balancer": self.load_balancer_name
         }
         return d
 
@@ -154,6 +155,7 @@ class Provisioner(object):
         d["training_run"] = self.training_run
         d["basedir"] = self.basedir
         d["vpc"] = None if not self.vpc else self.vpc.id
+        d["security_group"] = self.sg.id
         return d
 
     def __repr__(self):
@@ -181,7 +183,7 @@ class Provisioner(object):
             "27.0.17.128/27"]
         self.teams = []
         self._basedir = "."
-        self._number_of_instances = 1
+        self._number_of_instances = 16
         self.instance_type = 'm3.xlarge'
         self._image_id = {
             "us-east-1": "ami-d2de1cbf",
@@ -504,20 +506,11 @@ class Provisioner(object):
         os.chmod(filename, 0400)
 
 
-    def create_keypair(self, name=None):
-        log.info('Creating new Key Pair for {0}'.format(self.training_run))
-        name = self.training_run if name is None else name
-        filename = os.path.join(self._basedir, name + ".pem" )
-        key = None
-        try:
-            key = self.ec2.create_key_pair(KeyName=name)
-            self.save_keypair_file( filename, key.key_material  )
-        except Exception, e:
-            log.error("could not create keypair: {0}".format(e))
-            import binascii
-            new_name = binascii.hexlify(os.urandom(10))
-            log.warning( "creating new random {0} key".format(filename))
-            key = self.create_keypair(new_name)
+    def create_keypair(self, team_id):
+        log.info('Creating new Key Pair for {0}'.format(team_id))
+        filename = os.path.join(self._basedir, "{0}.pem".format(name) )
+        key = self.ec2.create_key_pair(KeyName=name)
+        self.save_keypair_file( filename, key.key_material  )
         return (key, filename)
 
 
@@ -619,7 +612,7 @@ class Provisioner(object):
         subnet = self.create_subnet(build_id, vpc.vpc_id, subnet_cidrblock, team_id, )
 
         team = Team(team_id, subnet.id, subnet_cidrblock)
-        kp, kf = self.create_keypair()
+        kp, kf = self.create_keypair(team_id)
         team.keypair_file = kf
         instances = []
         for i, ip in enumerate(team.generate_ip()):
@@ -674,7 +667,7 @@ class Provisioner(object):
         filepath = self.get_teamhosts_filepath(team.team_id)
         lines = []
         for i, instance in enumerate(team.opsmgr_instances):
-            lines.append("{0}\t{1}\t{2}".format(
+            lines.append("{0}\t{1}\t{2}\n".format(
                 instance.private_ip_address,
                 "opsmgr-{0}".format(i),
                 "opsmgr-{0}.training".format(i)))

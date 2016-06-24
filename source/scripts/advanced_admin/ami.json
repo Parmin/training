@@ -7,9 +7,10 @@
     "source_ami": "ami-d63cccbb",
     "instance_type": "m3.xlarge",
     "ssh_username": "centos",
-    "ami_name": "ami-advanced-training-v2"
+    "ami_name": "ami-advanced-training-v3"
   }],
-  "provisioners": [{
+  "provisioners": [
+    {
     "type": "shell",
     "inline": [
       "sudo mkdir /share",
@@ -19,7 +20,7 @@
   },
   {
     "type": "file",
-    "source": "etc",
+    "source": "shared",
     "destination": "/share",
     "direction": "upload"
   }]

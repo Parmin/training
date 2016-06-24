@@ -26,7 +26,7 @@ def main():
     help='environment training run identifier', type=str)
 
     parser.add_argument('--teams', dest='teams', required=True, type=int,
-    help='Number of teams for this training run', choices=range(1,5))
+    help='Number of teams for this training run', choices=range(1,6))
 
     parser.add_argument('--profile', dest='awsprofile', default='default',
     type=str, help='AWS profile that will launch the environment')
