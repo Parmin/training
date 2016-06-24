@@ -91,11 +91,12 @@ class Team(object):
         d = {
             "team_id": self.team_id,
             "public_instance": self.public_instance,
-            "nodes": [x.id for x in self.nodes],
-            "opsmgrs": [x.id for x in self.opsmgr_instances],
-            "instances": [x.id for x in self.instances],
+            "nodes": [{"id":x.id, "private_ip": x.private_ip_address} for x in self.nodes],
+            "opsmgrs": [{"id":x.id, "private_ip": x.private_ip_address} for x in self.opsmgr_instances],
+            "instances": [{"id":x.id, "private_ip": x.private_ip_address} for x in self.instances],
             "keypair_file": self._keypair_file,
-            "load_balancer": self.load_balancer_name
+            "load_balancer": { "name": self.load_balancer_name, "url": self.load_balancer["DNSName"]},
+            "cidr_block": self.cidr_block
         }
         return d
 
@@ -111,7 +112,7 @@ class Team(object):
     def keypair_file(self, filepath):
         if not os.path.isfile(filepath):
             raise Exception("Cannot set non-file path as keypair file: {0}".format(filepath))
-        self._keypair_file
+        self._keypair_file = filepath
 
     @property
     def team_id(self):
@@ -186,8 +187,8 @@ class Provisioner(object):
         self._number_of_instances = 16
         self.instance_type = 'm3.xlarge'
         self._image_id = {
-            "us-east-1": "ami-d2de1cbf",
-            "us-west-1": "ami-20612540",
+            "us-east-1": "ami-10569b7d",
+            "us-west-1": "ami-b8a5e1d8",
             "us-west-2": "ami-049b5c64",
             "eu-central-1": "ami-020ae26d",
             "eu-west-1": "ami-9d9800ee"
@@ -508,8 +509,8 @@ class Provisioner(object):
 
     def create_keypair(self, team_id):
         log.info('Creating new Key Pair for {0}'.format(team_id))
-        filename = os.path.join(self._basedir, "{0}.pem".format(name) )
-        key = self.ec2.create_key_pair(KeyName=name)
+        filename = os.path.join(self._basedir, "{0}.pem".format(team_id) )
+        key = self.ec2.create_key_pair(KeyName=team_id)
         self.save_keypair_file( filename, key.key_material  )
         return (key, filename)
 
@@ -522,7 +523,7 @@ class Provisioner(object):
             ImageId=image_id,
             MinCount=1,
             MaxCount=1,
-            KeyName=self.training_run,
+            KeyName=team_id,
             InstanceType=self.instance_type,
             SubnetId=subnet_id,
             PrivateIpAddress=private_ip,
@@ -585,7 +586,16 @@ class Provisioner(object):
                 SecurityGroups=[self.sg.id],
                 Tags=self.get_default_tags(),
             )
-
+            hc = self.elb.configure_health_check(
+                LoadBlancerName=team.load_balancer_name,
+                HealthCheck={
+                    "Target":"HTTP:8080/user/login",
+                    "Interval": 30,
+                    "Timeout": 10,
+                    "UnhealthyThreshold": 2,
+                    "HealthyThreshold": 10
+                })
+            log.debug("Created {0} with Health Check".format(team.load_balancer_name, hc))
             log.debug("Load Balancer {0} created".format(team.load_balancer_name))
 
         except Exception, e:
@@ -630,8 +640,18 @@ class Provisioner(object):
         self.generate_hosts(team)
         self.add_team(team)
 
+    def create_basedir(self, ):
+        log.debug("creating basedir")
+        try:
+            if not self._basedir:
+                os.mkdir(self.training_run)
+        except OSError, ex:
+            log.warn("basedir already exists: {0}".format(ex))
+        self.basedir = os.path(self.training_run)
+
     def build(self, build_id, dryrun=True):
         if dryrun: log.info("Running in dryrun mode ")
+        #self.create_basedir
         vpc = self.create_vpc(build_id, dryrun)
         teams = []
         for i in xrange(self.number_of_teams):
