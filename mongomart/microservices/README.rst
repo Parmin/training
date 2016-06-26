@@ -101,12 +101,72 @@ Regarding services, we will explore different implementation options:
 Microservices
 ~~~~~~~~~~~~~
 
+Within this workshop we also want you all to explore setting up a microservices architecture.
+
+To do that we will use a few examples, available on the `containers` folder, that explore how to set a microservice.
+
+The setup is as follows:
+
+- We need to create our docker instances. For that we either
+
+  - Use native `docker`_ available for Linux
+  - Or use `Docker Machine`_
+
+- If using `Docker Machine`_ we will need to create a vm
+
+.. code-block::
+
+    docker-machine create mdbworld --driver=virtualbox
+    eval $(docker-machine env mdbworld)
+
+Once we have our docker installation up and running we will need to buld apps.
+
+- Build the `search` docker image
+
+.. code-block::
+
+    cd search
+    docker build -t mongodbworkshop
+
+- Once we have the image built we can run a detached process
+
+.. code-block::
+
+    docker run -p 8086:8080 -d --name search_service mongodbworkshop
+
+- Then we can reach the service by invoking the service through the docker-machine ip address
+
+.. code-block::
+
+    curl http://yourdockermachineip:8086/
 
 
+Docker Compose
+~~~~~~~~~~~~~~
 
+Another good way to make deployments of microservices unified is to have *composed* setups.
+
+To do this Docker offers `docker-compose`_ to get stacks of different containers to run together.
+
+.. code-block::
+
+  cd containers/compose
+  docker-compose up
+
+Run the previous ``curl`` command to check that everything is similar
+
+.. code-block::
+
+    curl http://yourdockermachineip:8086/
+
+.. don't forget to create the indexes - db.item.createIndex( {'description': 'text', 'title': 'text', 'slogan': 'text'})
+.. don't forget to set the correct mongodb uri once you bring up compose -
+
+.. _`docker`: https://www.docker.com/
 .. _`Docker Machine`: https://docs.docker.com/machine/
 .. _`virtualenv`: https://virtualenv.pypa.io/en/stable/
 .. _`MongoDB 3.2`: https://www.mongodb.com/download-center#community
 .. _`Python`: https://www.python.org/
 .. _`pip`: https://pip.pypa.io/en/stable/installing/
 .. _`Eve`: http://python-eve.org/
+.. _`docker-compose`: https://docs.docker.com/compose/

@@ -1,3 +1,4 @@
+from bottle import response
 import bottle
 import pymongo
 
@@ -34,7 +35,7 @@ def new_review(data):
 def add_review(self ):
     try:
         data = request.json()
-        new_review(data)
+        return new_review(data)
 
     except ValueError:
     # if bad request data, return 400 Bad Request

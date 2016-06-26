@@ -1,4 +1,5 @@
 #!/usr/local/bin/python
+from bottle import response, request
 import bottle
 import pymongo
 

@@ -1,4 +1,5 @@
 #!/usr/local/bin/python
+from bottle import response, request
 import bottle
 import pymongo
 
@@ -8,6 +9,7 @@ _allow_headers = 'Authorization, Origin, Accept, Content-Type, X-Requested-With'
 
 @bootle.post("/cart/<userid>/<itemid>/<quantity>")
 def quantity(userid, itemid, quantity):
+    # try
     if quantity > 0:
         # db.cart.update( { "userid" : "558098a65133816958968d88", "items._id" : 3 }, { $set : { "items.$.quantity" : 5} } )
         db.cart.update_one({ 'userid': userid, 'items._id': itemid },
@@ -17,6 +19,10 @@ def quantity(userid, itemid, quantity):
         # db.cart.update({ "userid" : "558098a65133816958968d88"}, { $pull : { "items" : { "_id" : 1 } } } )
         db.cart.update_one({ 'userid': userid },
                              { '$pull' : { 'items' : { '_id' : itemid }}})
+    # catch exceptions ?
+    return
+
+
 
 db = pymongo.MongoClient().cart
 bottle.debug(True)

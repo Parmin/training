@@ -1,0 +1,17 @@
+version: '2'
+services:
+  search:
+    image: mongodbworkshop:latest
+    links:
+      - mongodb
+    ports:
+      - 8087:8080
+
+  mongodb:
+    image: mongo:3.2
+    container_name: mongosearch
+    hostname: mongosearch
+    expose: [27017]
+    ports:
+      - 27017:27017
+    entrypoint: ["/usr/bin/mongod", "--port" ,"27017"]
