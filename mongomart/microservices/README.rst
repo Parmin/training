@@ -88,6 +88,19 @@ To boot up our test appplication we need to do the following steps:
 ..        num_items = self.item.find( { '$text' : { '$search': query } }).count()
 
 
+Services
+~~~~~~~~
+
+Regarding services, we will explore different implementation options:
+
+- Async services with Tornado
+- Simple Rest interfaces using bottle
+- MongoDB Rest interfaces using `Eve`_
+
+
+Microservices
+~~~~~~~~~~~~~
+
 
 
 
@@ -96,3 +109,4 @@ To boot up our test appplication we need to do the following steps:
 .. _`MongoDB 3.2`: https://www.mongodb.com/download-center#community
 .. _`Python`: https://www.python.org/
 .. _`pip`: https://pip.pypa.io/en/stable/installing/
+.. _`Eve`: http://python-eve.org/

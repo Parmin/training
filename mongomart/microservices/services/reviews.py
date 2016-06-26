@@ -18,14 +18,28 @@ def get_stars(itemid):
     return json.dumps({'categories': categories})
 
 @bottle.get("/reviews/<itemid>/count")
-def get_stars(itemid):
+def get_item_review_count(itemid):
     pass
 
-def new_review():
+def new_review(data):
+    new_review_id = 0
+
+    #extract fields required for review
+    #raise ValueError in case of missing fields
+    #raise KeyError in case of duplicate key or unique key violation
+
+    return new_review_id
 
 @bottle.post("/reviews")
-def add_review(self, ):
+def add_review(self ):
     try:
+        data = request.json()
+        new_review(data)
+
+    except ValueError:
+    # if bad request data, return 400 Bad Request
+    response.status = 400
+    return
 
 
 
