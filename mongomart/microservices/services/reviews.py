@@ -42,8 +42,6 @@ def add_review(self ):
     return
 
 
-
-
 @hook('after_request')
 def enable_cors():
     '''Add headers to enable CORS'''

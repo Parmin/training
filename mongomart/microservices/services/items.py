@@ -7,7 +7,7 @@ _allow_methods = 'PUT, GET, POST, DELETE, OPTIONS'
 _allow_headers = 'Authorization, Origin, Accept, Content-Type, X-Requested-With'
 
 
-
+#your methods should go here
 
 
 db = pymongo.MongoClient().item
