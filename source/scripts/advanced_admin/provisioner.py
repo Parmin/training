@@ -184,14 +184,14 @@ class Provisioner(object):
             "27.0.17.128/27"]
         self.teams = []
         self._basedir = "."
-        self._number_of_instances = 16
+        self._number_of_instances = 10
         self.instance_type = 'm3.xlarge'
         self._image_id = {
-            "us-east-1": "ami-10569b7d",
-            "us-west-1": "ami-b8a5e1d8",
-            "us-west-2": "ami-049b5c64",
-            "eu-central-1": "ami-020ae26d",
-            "eu-west-1": "ami-9d9800ee"
+            "us-east-1": "ami-75aa6518",
+            "us-west-1": "ami-12cb8f72",
+            "us-west-2": "ami-919751f1",
+            "eu-central-1": "ami-78b25917",
+            "eu-west-1": "ami-aea53edd"
             }
         self._vpc = None
 

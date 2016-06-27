@@ -7,7 +7,7 @@
     "source_ami": "ami-d63cccbb",
     "instance_type": "m3.xlarge",
     "ssh_username": "centos",
-    "ami_name": "ami-advanced-training-v6"
+    "ami_name": "ami-advanced-training-v9"
   }],
   "provisioners": [
     {
