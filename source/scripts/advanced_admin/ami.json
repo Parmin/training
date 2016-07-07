@@ -1,0 +1,31 @@
+{
+  "builders":[{
+    "type": "amazon-ebs",
+    "access_key": "{env `AWS_ACCESS_KEY`}",
+    "secret_key": "{env `AWS_SECRET_KEY`}",
+    "region": "us-east-1",
+    "source_ami": "ami-d63cccbb",
+    "instance_type": "m3.xlarge",
+    "ssh_username": "centos",
+    "ami_name": "ami-advanced-training-v9"
+  }],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "share",
+      "destination": "/var/tmp",
+      "direction": "upload"
+    },
+    {
+    "type": "shell",
+    "inline": [
+      "sudo ln -s /var/tmp/share /share",
+      "sudo cp /share/mongodb-enterprise.repo /etc/yum.repos.d/",
+      "sudo yum update -y",
+      "sudo yum install -y deltarpm",
+      "sudo yum install -y cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs tcp_wrappers-libs",
+      "sudo yum install -y mongodb-enterprise",
+      "sudo sed -i -e 's/^SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config"
+    ]}
+  ]
+}
