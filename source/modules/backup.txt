@@ -61,7 +61,7 @@ Backup Options
   - ``mongodump``, ``mongorestore``
 
 - File system level
- 
+
   - Physical
   - Copy files
   - Volume/disk snapshots
@@ -93,10 +93,10 @@ Document Level: ``mongodump``
 
    options:
      --help                  produce help message
-     -v [ --verbose ]        be more verbose (include multiple times for 
+     -v [ --verbose ]        be more verbose (include multiple times for
                              more verbosity e.g. -vvvvv)
      --version               print the program's version and exit
-     -h [ --host ] arg       mongo host to connect to ( /s1,s2 for 
+     -h [ --host ] arg       mongo host to connect to ( /s1,s2 for
      --port arg              server port. Can also use --host hostname
      -u [ --username ] arg   username
      -p [ --password ] arg   password
@@ -120,7 +120,6 @@ File System Level
 
 .. include:: /includes/student-notes.rst
 
-
 Ensure Consistency
 ------------------
 
@@ -136,12 +135,18 @@ Flush RAM to disk and stop accepting writes:
 File System Backups: Pros and Cons
 ----------------------------------
 
-- Entire database
+- All databases together
 - Backup files will be large
 - Fastest way to create a backup
 - Fastest way to restore a backup
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+    .. note::
+
+        With mmapv1, individual databases' files actually *can* be backed up/restored independently, but not with wiredTiger
 
 
 Document Level: ``mongorestore``
@@ -157,7 +162,6 @@ File System Restores
 --------------------
 
 - All database files
-- Selected databases or collections
 - Replay Oplog
 
 .. include:: /includes/student-notes.rst
@@ -174,6 +178,11 @@ Backup Sharded Cluster
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+    .. note::
+
+        Stopping one config server is sufficient even with a CSRS
 
 Restore Sharded Cluster
 -----------------------
@@ -191,7 +200,7 @@ Tips and Tricks
 ---------------
 
 - ``mongodump/mongorestore``
- 
+
   - ``--oplog[Replay]``
   - ``--objcheck/--repair``
   - ``--dbpath``
@@ -218,8 +227,8 @@ Backup Options
 .. include:: /includes/student-notes.rst
 
 
-MMS Backup
-----------
+Ops Manager Backup
+------------------
 
 .. include:: mms-backup.txt
 
@@ -300,4 +309,3 @@ Getting Started
 - Go to https://mms.mongodb.com and sign up
 
 .. include:: /includes/student-notes.rst
-

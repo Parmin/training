@@ -66,7 +66,7 @@ Issue the following command to configure replication for these mongods. You will
 Status Check
 ------------
 
-- You should now have three mongods running on ports 31000, 31001, and 31002.
+- You should now have three mongods running on ports 20000, 20001, and 20002.
 - You will see log statements from all three printing in the current shell.
 - To complete the rest of the exercise, open a new shell.
 

@@ -24,7 +24,7 @@ Upon completing this module students should understand basic performance trouble
 - ``mongostat`` samples a server every second.
 
   - See current ops, pagefaults, network traffic, etc.
-  - Does not give a view into historic performance; use MMS for that.
+  - Does not give a view into historic performance; use Ops Manager for that.
 
 - ``mongotop`` looks at the time spent on reads/writes in each collection.
 
@@ -39,9 +39,9 @@ In one window, perform the following commands.
 .. code-block:: javascript
 
   db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
+  for (i=1; i<=10000; i++) {
       arr = [];
-      for (j=1; j<=1000; j++) { 
+      for (j=1; j<=1000; j++) {
           doc = { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j) };
           arr.push(doc)
       };
@@ -61,7 +61,7 @@ In one window, perform the following commands.
 Exercise: ``mongostat`` (run)
 -----------------------------
 
-- In another window/tab, run mongostat. 
+- In another window/tab, run mongostat.
 - You will see:
 
   - Inserts
@@ -80,8 +80,8 @@ Exercise: ``mongostat`` (create index)
 
      db.testcol.createIndex( { a : 1, b : 1 } )
 
-- Look at mongostat. 
-- Notice that things are going significantly faster. 
+- Look at mongostat.
+- Notice that things are going significantly faster.
 - Then, let's drop that and build another index.
 
   .. code-block:: javascript
@@ -100,9 +100,9 @@ Perform the following then, in another window, run ``mongotop``.
 .. code-block:: javascript
 
   db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
+  for (i=1; i<=10000; i++) {
       arr = [];
-      for (j=1; j<=1000; j++) { 
+      for (j=1; j<=1000; j++) {
           doc = {_id: (1000*(i-1)+j), a: i, b: j, c: (1000*(i-1)+j)};
           arr.push(doc)
       };
@@ -116,8 +116,8 @@ Perform the following then, in another window, run ``mongotop``.
 
 .. only:: instructor
 
-   .. note:: 
-   
+   .. note::
+
       Direct the students to the fact that you can see the activity on the server for reads/writes/total.
 
 .. include:: /includes/student-notes.rst
@@ -148,9 +148,9 @@ Do the following then, connect with a separate shell, and repeatedly run ``db.cu
 .. code-block:: javascript
 
   db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
+  for (i=1; i<=10000; i++) {
       arr = [];
-      for (j=1; j<=1000; j++) { 
+      for (j=1; j<=1000; j++) {
           doc = {_id: (1000*(i-1)+j), a: i, b: j, c: (1000*(i-1)+j)};
           arr.push(doc)
       };
@@ -189,7 +189,7 @@ Look at the output of the following:
 
 .. code-block:: javascript
 
-  db.testcol.drop()  
+  db.testcol.drop()
   db.testcol.insertOne( { a : 1 } )
   db.testcol.stats()
   var x = "asdf"
@@ -204,11 +204,11 @@ The Profiler
 ------------
 
 - Off by default.
-- To reset, ``db.setProfilerLevel(0)``
+- To reset, ``db.setProfilingLevel(0)``
 - At setting 1, it captures "slow" queries.
 - You may define what "slow" is.
-- Default is 100ms: ``db.setProfilerLevel(1)``
-- E.g., to capture 20 ms: ``db.setProfilerLevel(1, 20)``
+- Default is 100ms: ``db.setProfilingLevel(1)``
+- E.g., to capture 20 ms: ``db.setProfilingLevel(1, 20)``
 
 .. include:: /includes/student-notes.rst
 
@@ -254,7 +254,7 @@ Perform the following, then look in your db.system.profile.
 
       - op can be command, query, or update
       - ns is sometimes the db.<COLLECTION> namespace
-      
+
         - but sometimes db.$cmd for commands
 
       - key updates refers to index keys
@@ -278,14 +278,14 @@ Perform the following, then look in your db.system.profile.
 Exercise: Using ``db.serverStatus()``
 -------------------------------------
 
-- Open up two windows. In the first, type: 
+- Open up two windows. In the first, type:
 
   .. code-block:: javascript
 
      db.testcol.drop()
      var x = "asdf"
-     for (i=0; i<=10000000; i++) { 
-         db.testcol.insertOne( { a : x.pad(100000) } ) 
+     for (i=0; i<=10000000; i++) {
+         db.testcol.insertOne( { a : x.pad(100000) } )
      }
 
 - In the second window, type periodically:
@@ -358,8 +358,8 @@ Let's spin up a 3-member replica set:
           --dbpath /data/replset/3 --replSet mySet --port 27019 --fork
 
    echo "conf = {_id: 'mySet', members: [{_id: 0, host: 'localhost:27017'}, \
-        {_id: 1, host: 'localhost:27018'}, {_id: 2, host: 'localhost:27019'}]}; \ 
-        rs.initiate(conf)" | mongo 
+        {_id: 1, host: 'localhost:27018'}, {_id: 2, host: 'localhost:27019'}]}; \
+        rs.initiate(conf)" | mongo
 
 .. include:: /includes/student-notes.rst
 
@@ -394,11 +394,11 @@ Increase the write concern to 3 (safer but slower):
 .. code-block:: javascript
 
   db.testcol.drop()
-  for (i=1; i<=10000; i++) { 
-      for (j=1; j<=1000; j++) { 
+  for (i=1; i<=10000; i++) {
+      for (j=1; j<=1000; j++) {
           db.testcol.insertOne(
-	      { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j)}, 
-	      { writeConcern: { w: 3 } } 
+	      { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j)},
+	      { writeConcern: { w: 3 } }
           );
       };
       print(i);
@@ -418,12 +418,12 @@ Again, run mongostat.
 .. code-block:: javascript
 
    db.testcol.drop()
-   for (i=1; i<=10000; i++) { 
+   for (i=1; i<=10000; i++) {
        arr = []
-       for (j=1; j<=1000; j++) { 
-           arr.push( 
-	       { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j) } 
-           ); 
+       for (j=1; j<=1000; j++) {
+           arr.push(
+	       { _id: (1000 * (i-1) + j), a: i, b: j, c: (1000 * (i-1)+ j) }
+           );
        };
        db.testcol.insertMany( arr, { writeConcern : { w : 3 } } );
        print(i);
@@ -463,5 +463,5 @@ Indexes and Performance
   - Sort on a field that comes before any range used in the index.
   - You can't skip fields; they must be used in order.
   - Revisit the indexing section for more detail.
-      
+
 .. include:: /includes/student-notes.rst

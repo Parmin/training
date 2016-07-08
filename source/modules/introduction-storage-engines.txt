@@ -27,7 +27,7 @@ What is a Database Storage Engine?
 
    .. note::
 
-      - A database storage engine is the underlying software component that a database management system uses to create, read, update, and delete data from a database. 
+      - A database storage engine is the underlying software component that a database management system uses to create, read, update, and delete data from a database.
       - Talk through the diagram and how storage engines are used to abstract access to the data
 
 
@@ -62,10 +62,11 @@ Storage Engine Journaling
 MongoDB Storage Engines
 -----------------------
 
-With the release of MongoDB 3.0, two storage engine options are available:
+With the release of MongoDB 3.2, two storage engine options are available:
 
-- MMAPv1 (default)
-- WiredTiger
+- MMAPv1
+- WiredTiger (default)
+- In-memory storage (Enterprise only)
 
 .. include:: /includes/student-notes.rst
 
@@ -77,7 +78,7 @@ Use the ``storageEngine`` parameter to specify which storage engine MongoDB shou
 
 .. code-block:: javascript
 
-  mongod --storageEngine wiredTiger
+  mongod --storageEngine mmapv1
 
 .. include:: /includes/student-notes.rst
 
@@ -85,7 +86,7 @@ Use the ``storageEngine`` parameter to specify which storage engine MongoDB shou
 
    .. note::
 
-      - mmapv1 is used if storageEngine parameter isn't specified  
+      - wiredTiger is used if storageEngine parameter isn't specified
 
 
 Specifying a Location to Store Data Files
@@ -105,7 +106,7 @@ Specifying a Location to Store Data Files
 
 .. include:: /includes/student-notes.rst
 
-      
+
 
 MMAPv1 Storage Engine
 ---------------------
@@ -153,7 +154,7 @@ Power of 2 Sizes Allocation Strategy
 - With this strategy, records include the document plus extra space, or padding.
 - Each record has a size in bytes that is a power of 2 (e.g. 32, 64, 128, ... 2MB).
 - For documents larger than 2MB, allocation is rounded up to the nearest multiple of 2MB.
-- This strategy enables MongoDB to efficiently reuse freed records to reduce fragmentation. 
+- This strategy enables MongoDB to efficiently reuse freed records to reduce fragmentation.
 - In addition, the added padding gives a document room to grow without requiring a move.
 
   - Saves the cost of moving a document
@@ -176,7 +177,7 @@ Compression in MongoDB
 WiredTiger Storage Engine
 -------------------------
 
-- The WiredTiger storage engine excels at all workloads, especially write-heavy and update-heavy workloads.  
+- The WiredTiger storage engine excels at all workloads, especially write-heavy and update-heavy workloads.
 
 - Notable features of the WiredTiger storage engine that do not exist in the MMAPv1 storage engine include:
 
@@ -206,11 +207,11 @@ WiredTiger Compression Options
 Configuring Compression in WiredTiger
 -------------------------------------
 
-Use the ``wiredTigerCollectionBlockCompressor`` parameter. E.g., 
+Use the ``wiredTigerCollectionBlockCompressor`` parameter. E.g.,
 
 .. code-block:: javascript
 
-   mongod --storageEngine wiredTiger 
+   mongod --storageEngine wiredTiger
           --wiredTigerCollectionBlockCompressor zlib
 
 .. include:: /includes/student-notes.rst
@@ -230,7 +231,7 @@ Use the ``wiredTigerCacheSize`` parameter to designate the amount of RAM for the
 
    .. note::
 
-      - Unlike MMAPv1, WiredTiger can be configured to use a finite amount of RAM.  
+      - Unlike MMAPv1, WiredTiger can be configured to use a finite amount of RAM.
 
 
 Journaling in MMAPv1 vs. WiredTiger
@@ -266,7 +267,7 @@ WiredTiger Journaling Mechanics
 - WiredTiger will commit a checkpoint to disk every 60 seconds or when there are 2 gigabytes of data to write.
 - Between and during checkpoints the data files are always valid.
 - The WiredTiger journal persists all data modifications between checkpoints.
-- If MongoDB exits between checkpoints, it uses the journal to replay all data modified since the last checkpoint. 
+- If MongoDB exits between checkpoints, it uses the journal to replay all data modified since the last checkpoint.
 - By default, WiredTiger journal is compressed using snappy.
 
 
@@ -300,7 +301,7 @@ Conclusion
 
   - RocksDB
   - An HDFS storage engine
-  
+
 
 .. include:: /includes/student-notes.rst
 
@@ -309,7 +310,3 @@ Conclusion
    .. note::
 
       - Good time to draw what this replica set could look like on the board and talk through even more possibilities
-
-
-
-
