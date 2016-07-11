@@ -66,7 +66,7 @@ Launch ``mongod`` with ``auth`` enabled
 .. code-block:: bash
 
   mongo admin --port 28000 --eval 'db.shutdownServer()'
-  mongod --dbpath /data/secure_instance_dbpath --auth
+  mongod --port 28000 --dbpath /data/secure_instance_dbpath --auth
 
 .. only:: instructor
 

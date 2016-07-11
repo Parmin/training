@@ -296,9 +296,9 @@ To grant roles while creating an user:
   db.createUser(
     {
       user: "myUser",
-      pwd: "$up3r$3cr7"
+      pwd: "$up3r$3cr7",
       roles: [
-        {role: "readAnyDatabase", db: ""},
+        {role: "readAnyDatabase", db: "admin"},
         {role: "dbOwner", db: "superdb"},
         {role: "readWrite", db: "yourdb"}
       ]
