@@ -105,4 +105,5 @@ db.plants.drop()
 db.plants.insertMany( [
   { _id: "yellow plants", fruit: "banana", vegetable: "squash" },
   { _id: "red plants", fruit: "strawberry", vegetable: "radish" } ] )
-db.plants.aggregate( [ { $project: { plant_list: [ "$fruit", "$vegetable" ] } } ] )
+db.plants.aggregate( [
+  { $project: { plant_list: [ "$fruit", "$vegetable" ] } } ] )

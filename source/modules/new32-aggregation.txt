@@ -51,9 +51,20 @@ Introduction to ``$sample``
 - Useful for calculating statistics
 - ``$sample`` provides an efficient means of sampling a data set
 - Though if the sample size requested is larger than 5% of the collection ``$sample`` will perform a collection scan
+
+    - Also happens if collection has fewer than 100 documents
+
 - Can use ``$sample`` only as a first stage of the pipeline
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The exact method is in the documentation.
+
+      - `Link here <https://docs.mongodb.com/manual/reference/operator/aggregation/sample/>`_
 
 
 Example: ``$sample``
@@ -87,6 +98,14 @@ Introduction to ``$indexStats``
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - Doesn't include all internal operations
+
+      - TTL deletions or .explain() queries, for example
+
 
 Example: ``$indexStats``
 ------------------------
@@ -105,7 +124,7 @@ Issue each of the following commands in the mongo shell, one at a time.
     - Point out the "accesses" doc, with ops, is 0 for the new index initially.
     - Ops incremented to 2 from the two find() queries.
     - The ``.next()`` operations are to get the DB to actually execute the query.
-    - _id did not increment because we weren't using the index
+    - _id did not increment because we weren't using that index
     - Neither query changed its "since" field in the "accesses" doc
     - If using replication, the oplog will query on _id when replicating.
 
@@ -116,8 +135,20 @@ Introduction to ``$lookup``
 - Pulls documents from a second collection into the pipeline
 
   - In SQL terms, performs a left outer join
+
+    - If you ``$lookup`` then immediately ``$unwind`` the field, it becomes an inner join
+
   - The second collection must be in the same database
   - The second collection cannot be sharded
+
+- Documents based on a matching field in each collection
+- Previously, you could get this behavior with two separate queries
+
+.. include:: /includes/student-notes.rst
+
+
+Introduction to ``$lookup`` (continued)
+---------------------------------------
 
 - Documents based on a matching field in each collection
 - Previously, you could get this behavior with two separate queries
@@ -126,6 +157,10 @@ Introduction to ``$lookup``
   - The other to the collection containing the documents referenced
 
 .. include:: /includes/student-notes.rst
+
+  .. note::
+
+    - When following with ``$unwind``, if you use ``preserveNullAndEmptyArrays: true`` then it remains a left outer join.
 
 
 Example: Using ``$lookup``
@@ -136,7 +171,6 @@ Create a separate collection for ``$lookup``
 .. literalinclude:: /includes/aggregation_scripts.js
   :language: javascript
   :lines: 22-33
-
 
 
 .. include:: /includes/student-notes.rst
@@ -150,6 +184,7 @@ Example: Using ``$lookup`` (Continued)
   :lines: 34-44
 
 .. include:: /includes/student-notes.rst
+
 
 Reviewing the Output
 --------------------
@@ -194,8 +229,10 @@ New Accumulators
 
     - The standard deviation of a population means you're looking at every member.
     - The standard deviation of a sample means just a randomly selected subset of a larger population.
-    - It is not necessary to use the ``$sample`` stage.
-    - Don't go into the stats any deeper; this isn't a statistics class.
+    - It is not necessary to use the ``$sample`` stage
+    - Don't go into the stats any deeper; this isn't a statistics class
+
+      - We used this example just to show the syntax
 
 
 New Arithmetic Operators
@@ -294,6 +331,12 @@ Changes to ``$unwind`` Behavior
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - Nullish values are ``null``, ``undefined``, empty array, and missing fields
+    - the `preserveNullAndEmptyArrays` option (see next slide) can keep the nullish values around with the $unwind.
 
 ``$unwind`` with a Document Operand
 -----------------------------------
@@ -311,19 +354,23 @@ Changes to ``$unwind`` Behavior
        }
    }
 
+.. include:: /includes/student-notes.rst
+
 
 Document Operand Semantics
 --------------------------
 
 - ``path`` -- field path to an array field
-- ``includeArrayIndex``	-- the name of a new field to hold the array index of the element (optional)
+- ``includeArrayIndex`` -- the name of a new field to hold the array index of the element (optional)
 - ``preserveNullAndEmptyArrays`` -- output a document only if ``true`` and the path is null, missing, or an empty array
+
+.. include:: /includes/student-notes.rst
 
 
 Using Accumulators with ``$project``
 ------------------------------------
 
-For array fields, the following accumulators can be used in the project stage starting in 3.2:
+For array fields, the following accumulators can be used in the ``$project`` stage starting in 3.2:
 
 - ``$avg``: Averages over values
 - ``$sum``: Sums the values
@@ -369,6 +416,6 @@ You can now use ``$project`` to create arrays from existing non-array fields:
 
 .. literalinclude:: /includes/aggregation_scripts.js
   :language: javascript
-  :lines: 103-108
+  :lines: 104-110
 
 .. include:: /includes/student-notes.rst
