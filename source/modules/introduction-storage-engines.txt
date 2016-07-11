@@ -62,7 +62,7 @@ Storage Engine Journaling
 MongoDB Storage Engines
 -----------------------
 
-With the release of MongoDB 3.2, two storage engine options are available:
+With the release of MongoDB 3.2, three storage engine options are available:
 
 - MMAPv1
 - WiredTiger (default)
