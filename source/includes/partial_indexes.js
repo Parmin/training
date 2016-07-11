@@ -16,7 +16,7 @@ db.integers.createIndex(
 db.integers.createIndex(
     { importance : 1 },
     { partialFilterExpression : { importance : { $exists : true } } } 
-    )  // creates the equivalent of a sparse index
+    )  // similar to a sparse index
 
 
 // Quiz -- queries and Partial Indexes

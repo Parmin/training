@@ -19,8 +19,8 @@ Upon completing this module, students should be able to:
 What are Partial Indexes?
 -------------------------
 
-- Partial indexes only index the documents in a collection that match a filter expression.
-- Benefits include:
+- Indexes with keys only for the documents in a collection that match a filter expression.
+- Relative to standard indexes, benefits include:
 
   - Lower storage requirements
 
@@ -41,7 +41,7 @@ Creating Partial Indexes
   - Passing the ``partialFilterExpression`` option
 
 - You can specify a ``partialFilterExpression`` on any MongoDB index type.
-- The filter does not need to be on indexed fields, but it can be.
+- Filter does not need to be on indexed fields, but it can be.
 
 .. include:: /includes/student-notes.rst
 
@@ -98,8 +98,8 @@ Partial Indexes vs. Sparse Indexes
 ----------------------------------
 
 - Both sparse indexes and partial indexes include only a subset of documents in a collection.
-- Sparse indexes reference only documents for which a specified field exists.
-- Partial indexes provide a richer field of options than sparse indexes.
+- Sparse indexes reference only documents for which at least one of the indexed fields exist.
+- Partial indexes provide a richer way of specifying what documents to index than does sparse indexes.
 
 .. literalinclude:: /includes/partial_indexes.js
   :language: javascript
@@ -164,7 +164,7 @@ Partial Indexes Considerations
   - The indexed field is not in the query
   - A query goes outside of the filter range, even if no documents are out of range
 
-- You can .explain() queries to check index usage
+- You can ``.explain()`` queries to check index usage
 
 .. include:: /includes/student-notes.rst
 
