@@ -2,6 +2,7 @@
 Partial Indexes
 ===============
 
+
 Learning Objectives
 -------------------
 
@@ -18,10 +19,14 @@ Upon completing this module, students should be able to:
 What are Partial Indexes?
 -------------------------
 
-- Partial indexes only index the documents in a collection that match a filter expression.
-- Benefits include:
+- Indexes with keys only for the documents in a collection that match a filter expression.
+- Relative to standard indexes, benefits include:
 
   - Lower storage requirements
+
+    - On disk
+    - In memory
+
   - Reduced performance costs for index maintenance as writes occur
 
 .. include:: /includes/student-notes.rst
@@ -36,7 +41,7 @@ Creating Partial Indexes
   - Passing the ``partialFilterExpression`` option
 
 - You can specify a ``partialFilterExpression`` on any MongoDB index type.
-- The filter does not need to be on indexed fields, but it can be.
+- Filter does not need to be on indexed fields, but it can be.
 
 .. include:: /includes/student-notes.rst
 
@@ -88,18 +93,19 @@ Filter Conditions
   - ``$type`` expressions
   - ``$and`` operator at the top-level only
 
+.. include:: /includes/student-notes.rst
+
 
 Partial Indexes vs. Sparse Indexes
 ----------------------------------
 
 - Both sparse indexes and partial indexes include only a subset of documents in a collection.
-- Sparse indexes reference only documents for which a specified field exists.
-- The functionality of sparse indexes is subsumed by partial indexes.
+- Sparse indexes reference only documents for which at least one of the indexed fields exist.
+- Partial indexes provide a richer way of specifying what documents to index than does sparse indexes.
 
 .. literalinclude:: /includes/partial_indexes.js
   :language: javascript
   :lines: 16-19
-
 
 .. include:: /includes/student-notes.rst
 
@@ -107,7 +113,7 @@ Partial Indexes vs. Sparse Indexes
 
   .. note::
 
-    - Using { $exists: true } is how to create sparse index functionality using a partial index
+    - Using ``{ $exists: true }`` is how to create sparse index functionality for a single field using a partial index
     - Sparse indexes still work, but we now recommend people use partial indexes going forward
 
 
@@ -127,19 +133,6 @@ Which documents in a collection will be referenced by a partial index on that co
 
       - All documents. This is the case for standard indexes.
       - Only those documents where the field exists. This is the case for sparse indexes.
-
-
-Partial Indexes - Advantages
-----------------------------
-
-- Reduce storage requirements for indexes:
-
-  - Disk
-  - Memory
-
-- Can reduce the performance impact of indexes on writes to a collection
-
-.. include:: /includes/student-notes.rst
 
 
 Identifying Partial Indexes
@@ -173,10 +166,9 @@ Partial Indexes Considerations
   - The indexed field is not in the query
   - A query goes outside of the filter range, even if no documents are out of range
 
-- You can .explain() queries to check them
+- You can ``.explain()`` queries to check index usage
 
 .. include:: /includes/student-notes.rst
-
 
 
 Quiz
