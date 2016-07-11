@@ -44,8 +44,8 @@ def index():
     if item_count > ITEMS_PER_PAGE:
         num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
 
-    return bottle.template('home', dict(category_param=category, 
-                                        categories=categories, 
+    return bottle.template('home', dict(category_param=category,
+                                        categories=categories,
                                         useRangeBasedPagination=False,
                                         item_count=item_count,
                                         pages=num_pages,
@@ -77,18 +77,18 @@ def search():
 @bottle.route('/item')
 def item():
     itemid = request.query.id
-    
+
     item = items.get_item(int(itemid))
     stars = 0
     num_reviews = 0
 
     if 'reviews' in item:
         num_reviews = len(item['reviews'])
-    
+
         for review in item['reviews']:
             stars += review['stars']
 
-        if ( num_reviews > 0 ): 
+        if ( num_reviews > 0 ):
             stars = stars / num_reviews
 
     related_items = items.get_related_items()
@@ -114,9 +114,9 @@ def add_review():
 # View your shopping cart
 @bottle.route('/cart')
 def cart():
-    return cart_helper(False)   
+    return cart_helper(False)
 
-# Helper to display the shopping cart, and whether or nor it has been updated    
+# Helper to display the shopping cart, and whether or nor it has been updated
 def cart_helper(updated):
     user_cart = cart.get_cart(USERID)
     total = 0
@@ -126,7 +126,7 @@ def cart_helper(updated):
     return bottle.template('cart', dict(updated=updated,
                                         cart=user_cart,
                                         total=total
-                                        ))    
+                                        ))
 
 # Add an item to the cart
 @bottle.route('/cart/add')
@@ -135,7 +135,7 @@ def add_to_cart():
     item = items.get_item(int(itemid))
 
     cart.add_item(USERID, item)
-    
+
     return cart_helper(True)
 
 # Update the quantity of an item in the cart (updating quantity to 0 is the same as removing)
@@ -217,7 +217,7 @@ def locations():
 #         database to the database variable
 #
 
-database = {} 
+database = {}
 
 items = itemDAO.ItemDAO(database)
 cart = cartDAO.CartDAO(database)
@@ -225,5 +225,5 @@ stores = storeDAO.StoreDAO(database)
 
 bottle.debug(True)
 # Start the webserver running and wait for requests
-bottle.run(host='localhost', port=8080)         
+bottle.run(host='localhost', port=8080)
 

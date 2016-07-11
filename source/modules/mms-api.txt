@@ -3,7 +3,7 @@ API
 ===
 
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this module students should understand:
@@ -25,7 +25,7 @@ Allows users to programmatically:
 
 .. include:: /includes/student-notes.rst
 
-  
+
 API Documentation
 -----------------
 
@@ -47,7 +47,7 @@ Sample API Uses Cases
 
 .. include:: /includes/student-notes.rst
 
-  
+
 Ingest Monitoring Data
 ----------------------
 

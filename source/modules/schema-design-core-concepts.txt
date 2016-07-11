@@ -36,7 +36,7 @@ Example: Normalized Data Model
    - username      - title         - firstName
    - firstName     - isbn          - lastName
    - lastName      - language
-                   - createdBy    
+                   - createdBy
                    - author
 
 .. include:: /includes/student-notes.rst
@@ -47,9 +47,9 @@ Example: Denormalized Version
 
 ::
 
-   User:           Book:          
-   - username      - title        
-   - firstName     - isbn         
+   User:           Book:
+   - username      - title
+   - firstName     - isbn
    - lastName      - language
                    - createdBy
                    - author
@@ -208,7 +208,7 @@ Example: Embedded Documents
 ---------------------------
 
 .. code-block:: javascript
-  
+
    {   ...
        publisher: {
            name: "Everyman's Library",
@@ -267,7 +267,7 @@ Linked Documents: Pros and Cons
 
 - More, smaller documents
 - Can make queries by ID very simple
-- Accessing linked documents requires extra seeks + reads. 
+- Accessing linked documents requires extra seeks + reads.
 - What effect does this have on the system?
 
 .. include:: /includes/student-notes.rst
@@ -419,7 +419,7 @@ Store Binary Files in MongoDB with GridFS
 .. include:: /includes/student-notes.rst
 
 
-How GridFS Works 
+How GridFS Works
 ----------------
 
 - Files are split into chunks

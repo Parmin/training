@@ -15,7 +15,7 @@ Introduction
 
 The motiviations behind replication are high availability and durability. It is, generally speaking, not for scaling. Sharding is MongoDB's scalability solution.
 
-- Videos: 
+- Videos:
 
   - `Replication Concepts <https://university.mongodb.com/videos/y/AYBOd-tpdKo>`_
   - `Replication Overview <https://university.mongodb.com/videos/y/eNFWxRFIbcI>`_
@@ -32,7 +32,7 @@ Nodes
 For the exam, you will be expected to know:
 
 - The options to use when creating a node, such as:
- 
+
   - Arbiter
   - Delayed
   - votes
@@ -40,7 +40,7 @@ For the exam, you will be expected to know:
 
 Resources:
 
-- Docs: 
+- Docs:
 
   - :manual:`Replica Set Members</core/replica-set-members/>`
   - :manual:`Delayed Members</core/replica-set-delayed-member/>`
@@ -82,7 +82,7 @@ For the exam, you will need to know:
 
 Resources:
 
-- Docs: 
+- Docs:
 
   - :manual:`Elections</core/replica-set-elections/>`
   - :manual:`Non-voting members</tutorial/configure-a-non-voting-replica-set-member/>`
@@ -122,7 +122,7 @@ Resources:
 
   - `Recovery <https://university.mongodb.com/videos/y/TGsnu9RBjzA>`_
 
-- Docs: 
+- Docs:
 
   - :manual:`Rollbacks</core/replica-set-rollbacks/>`
 
@@ -156,7 +156,7 @@ For the certification exam, you will need to be able to:
 
 Resources:
 
-- Docs: 
+- Docs:
 
   - :manual:`rs.add()</reference/method/rs.add/>`
   - :manual:`rs.remove()</reference/method/rs.remove/>`
@@ -219,7 +219,7 @@ For the exam, you should know:
 - How to ensure writes get to the journal before acknowledgment
 - How to amortize write concern on insert using a bulk insert
 
-- Videos: 
+- Videos:
 
   - `Write Concern Principles <https://university.mongodb.com/videos/y/73Jl2woKhNo>`_
   - `Examining the 'w' parameter <https://university.mongodb.com/videos/y/K3N6psPZCD0>`_
@@ -256,7 +256,7 @@ c. primaryPreferred
 d. secondaryPreferred
 e. Secondary
 
-4. Using an arbiter allows one to easily ensure an odd number of voters in replica sets. Why is this important? 
+4. Using an arbiter allows one to easily ensure an odd number of voters in replica sets. Why is this important?
 
 a. To add greater redundancy
 b. For more efficient backup operations

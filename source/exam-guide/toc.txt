@@ -52,19 +52,19 @@ Table of Contents
 
 
 - Data Modeling (Dev only)
-  
+
   - Introduction
   - Document Structure
-  
+
     - Embedding
     - References
     - Denormalizing
-  
+
   - Relational Features and MongoDB Patterns
-  
+
     - Transactions
     - Atomic Writes
-  
+
   - One-to-many relationships
   - One-to-one relationships
   - Many-to-many relationships
@@ -72,7 +72,7 @@ Table of Contents
   - Schema Design Patterns
   - Bulk Operations
   - MongoDB BLOB options
-  
+
     - GridFS
     - Binary Data
 
@@ -81,16 +81,16 @@ Table of Contents
   - Introduction
   - Pipeline behavior
   - Stages
-  
+
     - Top-level operators
     - Query and accumulation operators
-  
+
   - Aggregation Mechanics
-  
+
     - Pipeline size (in documents)
-  
+
       - How some stages affect this number
-  
+
     - Memory limits in the aggregation pipeline
     - allowDiskUse flag
 
@@ -101,14 +101,14 @@ Table of Contents
   - Introduction
   - Nodes: Primary, Secondary, Arbiter, Delayed Secondaries, Hidden Secondaries
   - Initiating a Replica Set
-  
+
     - Initial Sync
-  
+
   - Elections: Votes, Criteria for Winning an Election
   - Failover
-  
+
     - Rollback (DBA only)
-  
+
   - rs.status()
   - Replica set reconfiguration
   - Oplog: Statement-based replication, Idempotence (DBA Only), Capped Collection (DBA only)
@@ -119,25 +119,25 @@ Table of Contents
 
   - Introduction
   - The Shard Key
-  
+
     - Other indexes in a sharded cluster
-  
+
   - Chunks
-  
+
     - Which chunk a document belongs to
     - Chunk ranges
     - Chunk "size"
     - Chunk Splits (DBA only)
     - Config Servers and Cluster Metadata (DBA only)
-  
+
   - Config Servers and Cluster Metadata
-  
+
     - The Config DB
     - Sharding Processes
-  
+
   - Pre-splitting data (DBA only)
   - Balancing
-  
+
     - Balancer
     - Chunk Migration
 
@@ -147,13 +147,13 @@ Table of Contents
   - Server Logs
   - The Profiler
   - MongoDB Security
-  
+
     - MongoDB CR
-  
+
       - User roles
-  
+
     - Security Features Available
-  
+
   - Cluster Architecture
   - Diagnostics and Debugging
   - Maintenance
@@ -164,28 +164,28 @@ Table of Contents
 
   - Introduction
   - Importing/exporting data
-  
+
     - Mongoimport
     - Mongoexport
-  
+
   - Basic Server Monitoring
-  
+
     - Mongostat
     - Mongotop
-  
+
   - Backing up and restoring data (DBA Only)
-  
+
     - Mongodump
     - Mongorestore
-  
+
   - Advanced MongoDB Diagnostics (DBA Only)
-  
+
     - Mongosniff
     - Bsondump
     - Mongoperf
-  
+
   - Manipulating BLOBs (DBA Only)
-  
+
     - Mongofiles
 
 
@@ -194,25 +194,25 @@ Table of Contents
   - Introduction
   - Summary of Major Differences between MMAPv1 and WiredTiger
   - MMAPv1
-  
+
     - Collection Level Locking
     - Data Files
     - Document Growth
     - Document Movement
     - Power of Two Sizes Allocation Strategy
-  
+
       - No Padding Option
-  
+
     - Updating indexes on document movement
-  
+
   - WiredTiger
-  
+
     - Block Compression
-  
+
       - Compression Algorithms
-  
+
     - Index Prefix Compression
     - Concurrency Protocols
-  
+
   - Concurrency in MongoDB 3.0
   - Data Files

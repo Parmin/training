@@ -3,7 +3,7 @@ Lab: Finding and Addressing Slow Operations
 ===========================================
 
 
-Exercise: Determine Indexes Needed 
+Exercise: Determine Indexes Needed
 ----------------------------------
 
 - In a mongo shell run ``performance.b()``. This will run in an infinite loop printing some output as it runs various statements against the server.
@@ -15,9 +15,9 @@ Exercise: Determine Indexes Needed
 .. only:: instructor
 
    .. note::
-   
+
       - Look at the logs to find queries over 100ms
-      - { "active": 1 } 
+      - { "active": 1 }
       - { "str": 1, "x": 1 }
 
 .. include:: /includes/student-notes.rst

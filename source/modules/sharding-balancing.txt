@@ -59,7 +59,7 @@ Chunk Splits
       - A chunk can only be split between two values of a shard key.
       - If every document on a chunk has the same shard key value, it cannot be split.
       - This is why the shard key's cardinality is important
-      - Chunk splitting is just a bookkeeping entry in the metadata. 
+      - Chunk splitting is just a bookkeeping entry in the metadata.
       - No data bearing documents are altered.
 
 .. include:: /includes/student-notes.rst
@@ -104,7 +104,7 @@ Balancing is Resource Intensive
 - Chunk migration requires copying all the data in the chunk from one shard to another.
 - MonogDB can migrate only a single chunk at a time.
 - MongoDB creates splits only after an insert operation.
-- For these reasons, it is possible to define a balancing window to ensure the balancer will only run during scheduled times. 
+- For these reasons, it is possible to define a balancing window to ensure the balancer will only run during scheduled times.
 
 .. include:: /includes/student-notes.rst
 
@@ -128,7 +128,7 @@ Concluding a Balancing Round
 
 - Each chunk will move:
 
-  - From the shard with the most chunks 
+  - From the shard with the most chunks
   - To the shard with the fewest
 
 - A balancing round ends when all shards differ by at most one chunk.

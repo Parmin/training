@@ -57,7 +57,7 @@ Potential tables
 .. only:: instructor
 
    .. note::
-      
+
       Great time to whiteboard how a CMS would look in an RDBMS, then MongoDB. E.g.:
       - Article:
 
@@ -91,7 +91,7 @@ Potential tables
 	- username
 	- user_email
 	- user_password
-	
+
       - Tag
 
         - id
@@ -140,7 +140,7 @@ Building a CMS in MongoDB
       "title" : "Lead Business Editor"
     },
     "copy" : "Apple beat Wall St expectations by reporting ...",
-    "tags" : [ 
+    "tags" : [
       "AAPL", "Earnings", "Cupertino"
     ],
     "comments" : [
@@ -155,7 +155,7 @@ Building a CMS in MongoDB
 .. only:: instructor
 
    .. note::
-      
+
       - Spend a lot of time on the pros/cons of these two designs (RDBMS vs Mongo)
       - One design optimized for reads, another design optimized for writes
 
@@ -168,7 +168,7 @@ With Normalized Data:
 
 - Updates to author information are inexpensive
 - Updates to tag names are inexpensive
-  
+
 
 .. include:: /includes/student-notes.rst
 
@@ -219,8 +219,8 @@ Optimizing Comments Option 1
     ...
     "last_10_comments" : [
       { "name" : "Frank", "comment" : "Great Story", "date" : ISODate() },
-      { "name" : "Wendy", 
-        "comment" : "When can I buy an Apple Watch?",  
+      { "name" : "Wendy",
+        "comment" : "When can I buy an Apple Watch?",
         "date" : ISODate() }
     ]
   }
@@ -233,24 +233,24 @@ Optimizing Comments Option 1
 
 - Adding a new comment requires writing to two collections
 - Write may fail in-between first and second operation
-  
+
 .. code-block:: javascript
 
   > db.blog.updateOne(
    { "_id" : 334456 },
      { $push: {
          "comments": {
-            $each: [ { 
-              "name" : "Frank", 
-              "comment" : "Great Story", 
-              "date" : ISODate() 
+            $each: [ {
+              "name" : "Frank",
+              "comment" : "Great Story",
+              "date" : ISODate()
             } ],
             $sort: { date: -1 },
             $slice: 10 } } } )
 
 .. code-block:: javascript
 
-  > db.comments.insertOne( { "article_id" : 334456, name" : "Frank", 
+  > db.comments.insertOne( { "article_id" : 334456, name" : "Frank",
     "comment" : "Great Story", "date" : ISODate() })
 
 .. include:: /includes/student-notes.rst
@@ -265,9 +265,9 @@ Optimizing Comments Option 2
 
 .. code-block:: javascript
 
-  > db.comments.insertOne( { "article_id" : 334456, name" : "Frank", 
+  > db.comments.insertOne( { "article_id" : 334456, name" : "Frank",
     "comment" : "Great Story", "date" : ISODate() })
-   
+
 
 .. include:: /includes/student-notes.rst
 
@@ -280,7 +280,7 @@ Include More Information With Each Tag
   {
     "_id" : "/apple-reports-second-quarter-revenue",
     ...
-    "tags" : [ 
+    "tags" : [
       { "type" : "ticker", "label" : "AAPL" },
       { "type" : "section", "label" : "Earnings" },
       { "type" : "location", "label" : "Cupertino" }
@@ -296,13 +296,13 @@ Include More Information With Each Tag
 
 .. code-block:: javascript
 
-  > db.article.find( { 
-    "tags" : { 
-      "$elemMatch" : { 
-        "type" : "financials", 
-        "label" : "Earnings" 
-      } 
-    } 
+  > db.article.find( {
+    "tags" : {
+      "$elemMatch" : {
+        "type" : "financials",
+        "label" : "Earnings"
+      }
+    }
   } )
 
 
@@ -328,7 +328,7 @@ Fields specific to an article may be added to the document.
   {
     "_id" : 334456,
     ...
-    "executive_profile" : { 
+    "executive_profile" : {
       "name" : "Tim Cook",
       "age" : 54,
       "hometown" : {
@@ -346,7 +346,7 @@ Fields specific to an article may be added to the document.
 .. only:: instructor
 
    .. note::
-     
+
       - As long as the fields aren't part of the query.
       - Ideally, every field in the query should be indexed.
       - Wikipedia also provides many examples of article-specific fields.
@@ -372,9 +372,9 @@ Design a CMS (similar to above) with the following additional requirements:
 .. only:: instructor
 
    .. note::
-     
+
      - There are a lot of solutions to this problem, one approach is to only insert new documents and remove update functionality:
-     
+
      .. code-block:: javascript
 
       {
@@ -397,7 +397,7 @@ Design a CMS (similar to above) with the following additional requirements:
 Class Exercise 2
 ----------------
 
-- Consult NYTimes, CNN, and huff post for some ideas about other types of views we might want to support. 
+- Consult NYTimes, CNN, and huff post for some ideas about other types of views we might want to support.
 - How would we support these views?
 - Would we require other document types?
 

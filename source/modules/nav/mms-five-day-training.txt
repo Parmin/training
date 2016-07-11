@@ -6,4 +6,4 @@ MongoDB Cloud & Ops Manager
 
 .. include:: /includes/toc/dfn-list-mms-five-day-training.rst
 
-.. include:: /includes/toc/mms-five-day-training.rst             
+.. include:: /includes/toc/mms-five-day-training.rst

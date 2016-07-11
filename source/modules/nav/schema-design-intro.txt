@@ -6,4 +6,4 @@ Introduction to Schema Design
 
 .. include:: /includes/toc/dfn-list-schema-design-intro.rst
 
-.. include:: /includes/toc/schema-design-intro.rst             
+.. include:: /includes/toc/schema-design-intro.rst

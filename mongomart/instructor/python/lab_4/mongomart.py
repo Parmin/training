@@ -56,8 +56,8 @@ def index():
     if item_count > ITEMS_PER_PAGE:
         num_pages = int(math.ceil(item_count / ITEMS_PER_PAGE))
 
-    return bottle.template('home', dict(category_param=category, 
-                                        categories=categories, 
+    return bottle.template('home', dict(category_param=category,
+                                        categories=categories,
                                         useRangeBasedPagination=False,
                                         item_count=item_count,
                                         pages=num_pages,
@@ -87,20 +87,20 @@ def search():
 @bottle.route('/item')
 def item():
     itemid = request.query.id
-    
+
     item = items.get_item(int(itemid))
     stars = reviews.get_avg_stars(int(itemid))
     num_reviews = reviews.get_num_reviews(int(itemid))
 
     # Solution for Lab 2 (calculating total reviews and avg stars)
-    # 
+    #
     # if 'reviews' in item:
     #   num_reviews = len(item['reviews'])
     #
     #    for review in item['reviews']:
     #        stars += review['stars']
     #
-    #    if ( num_reviews > 0 ): 
+    #    if ( num_reviews > 0 ):
     #        stars = stars / num_reviews
 
     related_items = items.get_related_items()
@@ -125,8 +125,8 @@ def add_review():
 
 @bottle.route('/cart')
 def cart():
-    return cart_helper(False)   
-    
+    return cart_helper(False)
+
 def cart_helper(updated):
     user_cart = cart.get_cart(USERID)
     total = 0
@@ -136,7 +136,7 @@ def cart_helper(updated):
     return bottle.template('cart', dict(updated=updated,
                                         cart=user_cart,
                                         total=total
-                                        ))    
+                                        ))
 
 @bottle.route('/cart/add')
 def cart():
@@ -144,7 +144,7 @@ def cart():
     item = items.get_item(int(itemid))
 
     cart.add_item(USERID, item)
-    
+
     return cart_helper(True)
 
 @bottle.route('/cart/update')

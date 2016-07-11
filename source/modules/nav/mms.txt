@@ -6,4 +6,4 @@ MongoDB Cloud & Ops Manager Fundamentals
 
 .. include:: /includes/toc/dfn-list-mms.rst
 
-.. include:: /includes/toc/mms.rst             
+.. include:: /includes/toc/mms.rst

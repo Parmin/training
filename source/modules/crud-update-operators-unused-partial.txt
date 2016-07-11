@@ -42,15 +42,15 @@ Exercise: Using Update Operators
 
 .. code-block:: javascript
 
-    for (i=1; i<=5; i++) { db.updateOperators.insert( { _id : i, 
-                                                        a : i, 
+    for (i=1; i<=5; i++) { db.updateOperators.insert( { _id : i,
+                                                        a : i,
                                                         b : i } ) }
     db.updateOperators.find()
     db.updateOperators.update( { _id : 1 }, { $inc : { a : 1 } } )  // a += 1
     db.updateOperators.find()
     db.updateOperators.update( { _id : 2 }, { $inc : { a : -3 } } )  // a -= 3
     db.updateOperators.find()
-    db.updateOperators.update( { _id : 1 }, { $inc : { q : 1 } } )  
+    db.updateOperators.update( { _id : 1 }, { $inc : { q : 1 } } )
     // Created a new field, "q", with a value of 1
     db.updateOperators.find()
     db.updateOperators.update( { _id : 3 }, { $mul : { a : 4 } } )  // a *= 4
@@ -93,38 +93,38 @@ Exercise: Using Array Operators
 
 .. code-block:: javascript
 
-    for (i=1; i<=5; i++) { 
-        db.arrayOperators.insert( { _id : i, 
-                                    a : i, 
-                                    b: [ 1, 2, 3, 3, "hello", 6 ] } ) } 
+    for (i=1; i<=5; i++) {
+        db.arrayOperators.insert( { _id : i,
+                                    a : i,
+                                    b: [ 1, 2, 3, 3, "hello", 6 ] } ) }
     db.arrayOperators.find()
     db.arrayOperators.update( { _id : 1 }, { $push : { b : 3 } } )  // 3 goes on end
     db.arrayOperators.find()
-    db.arrayOperators.update( { _id : 1 }, { $push : { b : [ 3, 12 ] } } )  
+    db.arrayOperators.update( { _id : 1 }, { $push : { b : [ 3, 12 ] } } )
     // Be careful when pushing arrays!
     db.arrayOperators.find()
     db.arrayOperators.update( { _id : 2 }, { $pushAll : { b : [ 1, 2, 3 ] } } )
     // 1, 2, and 3 are appended
     db.arrayOperators.find()
-    db.arrayOperators.update( { _id : 2 }, { $pop : { b : 1 } } )  
+    db.arrayOperators.update( { _id : 2 }, { $pop : { b : 1 } } )
     // pops last element off
-    db.arrayOperators.update( { _id : 2 }, { $pop : { b : "" } } )  
+    db.arrayOperators.update( { _id : 2 }, { $pop : { b : "" } } )
     // Notice that there is a placeholder; most values will work fine
     db.arrayOperators.update( { _id : 3 }, { $pull : { b : 2 } } )  // 2 is pulled
     db.arrayOperators.find()
-    db.arrayOperators.update( { _id : 3 }, { $pull : { b : 3 } } )  
+    db.arrayOperators.update( { _id : 3 }, { $pull : { b : 3 } } )
     // both 3's are pulled
-    db.arrayOperators.update( { _id : 4 }, 
-                              { $pullAll : { b : [ 1, 2, "hello", 4 ] } } )  
+    db.arrayOperators.update( { _id : 4 },
+                              { $pullAll : { b : [ 1, 2, "hello", 4 ] } } )
     // The array elements are pulled; the 4 doesn't matter
     db.arrayOperators.find()
-    db.arrayOperators.update( { _id : 5 }, { $addToSet : { b : 2 } } )  
+    db.arrayOperators.update( { _id : 5 }, { $addToSet : { b : 2 } } )
     // no effect; element already present
     db.arrayOperators.find()
-    db.arrayOperators.update( { _id : 5 }, { $addToSet : { b : 3 } } )  
+    db.arrayOperators.update( { _id : 5 }, { $addToSet : { b : 3 } } )
     // no effect; element already present twice
     db.arrayOperators.find()
-    db.arrayOperators.update( { _id : 5 }, { $addToSet : { b : 4 } } )  
+    db.arrayOperators.update( { _id : 5 }, { $addToSet : { b : 4 } } )
     // 4 gets pushed
     db.arrayOperators.find()
 
@@ -132,7 +132,7 @@ Modifier Operators
 ------------------
 
     - Used to modify other operators
-    - $each: Turns $push into $pushAll, and does something similar for 
+    - $each: Turns $push into $pushAll, and does something similar for
       $addToSet
     - $slice: Modifies $push : { $each ... } to limit the size of updated arrays
     - $sort: Modifies $push to order the updated arrays
@@ -140,35 +140,35 @@ Modifier Operators
 
 Exercise: Using Modifier Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
 .. code-block:: javascript
 
-    for (i=1; i<=5; i++) { 
-        db.modifierOperators.insert( { _id : i, 
-                                       a : i, 
+    for (i=1; i<=5; i++) {
+        db.modifierOperators.insert( { _id : i,
+                                       a : i,
                                        b: [ 1, 2, 3, 3, "hello", 6 ] } ) }
     db.modifierOperators.find()
-    db.modifierOperators.update( { _id : 1 }, 
+    db.modifierOperators.update( { _id : 1 },
                                  { $addToSet : { b : { $each : [ 2, 3, 4 ] } } } )
     // Only pushes the 4
     db.modifierOperators.find()
     db.modifierOperators.update( { _id : 2 },
-                                 { $push : { b : { $each : [ 7, 12, 13 ], 
+                                 { $push : { b : { $each : [ 7, 12, 13 ],
                                                    $slice : 8 } } } )
     // Final array is chopped off at the beginning so it is only 8 elements
     db.modifierOperators.find()
     db.modifierOperators.update( { _id : 3 },
-                                 { $push : { b : { $each : [ 7, 12, 13 ], 
+                                 { $push : { b : { $each : [ 7, 12, 13 ],
                                                    $slice : -8 } } } )
     // Final array is chopped off at the end so it is only 8 elements
     db.modifierOperators.find()
     db.modifierOperators.update( { _id : 4 },
-                                 { $push : { b : { $each : [ -5, -7, -12 ], 
+                                 { $push : { b : { $each : [ -5, -7, -12 ],
                                                    $sort : 1 } } } )
     // The "b" array is now sorted ascending
     db.modifierOperators.find()
     db.modifierOperators.update( { _id : 5 },
-                                 { $push : { b : { $each : [ -5, -7, -12 ], 
+                                 { $push : { b : { $each : [ -5, -7, -12 ],
                                                    $sort : -1 } } } )
     // The "b" array is now sorted descending
     db.modifierOperators.find()

@@ -6,4 +6,4 @@ New in 3.2
 
 .. include:: /includes/toc/dfn-list-new-in-3-2.rst
 
-.. include:: /includes/toc/new-in-3-2.rst             
+.. include:: /includes/toc/new-in-3-2.rst

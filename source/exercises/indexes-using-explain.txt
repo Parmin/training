@@ -12,11 +12,11 @@ Drop all indexes from previous exercises:
 
    mongo performance
    > db.sensor_readings.dropIndexes()
-      
+
 Create an index for the "active" field:
 
 .. code-block:: javascript
-   
+
    db.sensor_readings.createIndex({ "active" : 1 } )
 
 How many index entries and documents are examined for the following query? How many results are returned?

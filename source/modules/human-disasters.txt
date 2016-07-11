@@ -25,14 +25,14 @@
 .. only:: website and not (html or slides)
 
    .. raw:: html
-   
+
       <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_figures/human_disasters.jpg" alt="Index on x."></img><p>Disasters happen.</p></div>
 
 
 .. only:: latex and offset
 
    .. raw:: latex
-   
+
       \begin{figure}[h!]
       \centering
       \includegraphics[width=400px]{human_disasters.eps}

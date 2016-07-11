@@ -40,9 +40,9 @@ class CartDAO:
     def add_item(self, userid, item):
         if (self.exists_in_cart(userid, item['_id'])):
             self.cart.update_one({ 'userid': userid, 'items._id': item['_id'] },
-                                 { '$inc' : { 'items.$.quantity' : 1 } } )    
+                                 { '$inc' : { 'items.$.quantity' : 1 } } )
         else:
-            self.cart.update_one({ 'userid': userid }, 
+            self.cart.update_one({ 'userid': userid },
                                  { '$push' : { "items" : {
                                         '_id' : item['_id'],
                                         'title' : item['title'],
@@ -63,7 +63,7 @@ class CartDAO:
             # db.cart.update({ "userid" : "558098a65133816958968d88"}, { $pull : { "items" : { "_id" : 1 } } } )
             self.cart.update_one({ 'userid': userid },
                                  { '$pull' : { 'items' : { '_id' : itemid }}})
-            
+
     def exists_in_cart(self, userid, itemid):
         count = self.cart.find( { 'userid' : userid, 'items._id' : itemid }).count()
 

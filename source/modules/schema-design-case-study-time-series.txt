@@ -36,7 +36,7 @@ Time Series Use Cases
 .. only:: instructor
 
    .. note::
-      
+
       - Mention there are a lot of MongoDB customers using MongoDB for time series data
 
 
@@ -53,7 +53,7 @@ Building a Database Monitoring Tool
 .. only:: instructor
 
    .. note::
-      
+
       - Similar to MongoDB Cloud Manager
 
 
@@ -67,8 +67,8 @@ RDBMS row for client "1234", recording 50k database operations, at 2015-05-29 (2
   "clientid" (integer): 1234
   "metric (varchar): "op_counter"
   "value" (double): 50000
-  "timestamp" (datetime): 2015-05-29T23:06:37.000Z 
-   
+  "timestamp" (datetime): 2015-05-29T23:06:37.000Z
+
 
 .. include:: /includes/student-notes.rst
 
@@ -85,7 +85,7 @@ RDBMS Row for client "1234", recording 50k database operations, at 2015-05-29 (2
     "value": 50000,
     "timestamp": ISODate("2015-05-29T23:06:37.000Z")
   }
-   
+
 
 .. include:: /includes/student-notes.rst
 
@@ -102,7 +102,7 @@ Problems With This Design
 .. only:: instructor
 
    .. note::
-      
+
       - If you use Hadoop, or some other process to aggregate data, charts are as real-time as how often the process runs
       - "Other MongoDB data types", such as arrays
 
@@ -119,9 +119,9 @@ Storing one document per hour (1 minute granularity):
     "metric": "op_counter",
     "values": {
       0: 0,
-      …  
+      …
       37: 50000,
-      … 
+      …
       59: 2000000
     }
   }
@@ -131,7 +131,7 @@ Storing one document per hour (1 minute granularity):
 .. only:: instructor
 
    .. note::
-      
+
       - 0,1,2,3 in the values sub-document represent the minute in the hour
 
 Performing Updates
@@ -141,10 +141,10 @@ Update the exact minute in the hour where the op_counter was recorded:
 
 ::
 
-  > db.metrics_by_minute.updateOne( { 
+  > db.metrics_by_minute.updateOne( {
     "clientid" : 1234,
     "timestamp": ISODate("2015-05-29T23:06:00.000Z"),
-    "metric": "op_counter"}, 
+    "metric": "op_counter"},
     { $set : { "values.37" : 50000 } })
 
 
@@ -158,10 +158,10 @@ Increment the counter for the exact minute in the hour where the op_counter metr
 
 ::
 
-  > db.metrics_by_minute.updateOne( { 
+  > db.metrics_by_minute.updateOne( {
     "clientid" : 1234,
     "timestamp": ISODate("2015-05-29T23:06:00.000Z"),
-    "metric": "insert"}, 
+    "metric": "insert"},
     { $inc : { "values.37" : 50000 } })
 
 
@@ -175,7 +175,7 @@ Metrics with 1 minute granularity for the past 24 hours (24 documents):
 
 ::
 
-  > db.metrics_by_minute.find( { 
+  > db.metrics_by_minute.find( {
     "clientid" : 1234,
     "metric": "insert"})
     .sort ({ "timestamp" : -1 })
@@ -191,13 +191,13 @@ With one minute granularity, we can record a day's worth of data and update it e
 
 .. code-block:: javascript
 
-   {		
+   {
       "clientid" : 1234,
       "timestamp": ISODate("2015-05-29T00:00:00.000Z"),
       "metric": "insert",
       "values": {
         "0": { 0: 123, 1: 345, ..., 59: 123},
-        …  
+        …
         "23": { 0: 123, 1: 345, ..., 59: 123}
       }
   }
@@ -209,7 +209,7 @@ Considerations
 --------------
 
 - Document structure depends on the use case
-- Arrays can be used in place of embedded documents 
+- Arrays can be used in place of embedded documents
 - Avoid growing documents (and document moves) by pre-allocating blank values
 
 .. include:: /includes/student-notes.rst
@@ -224,7 +224,7 @@ Look through some charts in MongoDB's Cloud Manager, how would you represent the
 - 1 hour granularity for 2 months
 - 1 day granularity forever
 - Expiring data
-- Rolling up data 
+- Rolling up data
 - Queries for charts
 
 .. include:: /includes/student-notes.rst
@@ -272,7 +272,7 @@ Look through some charts in MongoDB's Cloud Manager, how would you represent the
     - Use background process to roll up data into 1 day granularity forever.
 
       .. code-block:: javascript
-    
+
           // document to represent one hour, values.MINUTE.SECOND
           {
             day: ISODate("2013-10-10T00:00:00.000Z"),
@@ -300,6 +300,6 @@ Look through some charts in MongoDB's Cloud Manager, how would you represent the
 
          // 1 minute granularity for 48 hours
          db.metrics.aggregate({ match: {})
-      
+
 
 

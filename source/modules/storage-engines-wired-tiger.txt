@@ -323,7 +323,7 @@ WT and the Journal
 ------------------
 
 - Journal is *on* by default
-- A complete view of data is captured on disk at the last checkpoint 
+- A complete view of data is captured on disk at the last checkpoint
 - Writes get logged to the journal between checkpoints
 - The journal is compressed (Snappy by default)
 - The journal in WT writes to disk every 50 ms

@@ -12,7 +12,7 @@ sudo sudo -u mongod $MONGOPATH/mongod --replSet rs0 --logpath /tmp/replset/1.log
 sudo sudo -u mongod $MONGOPATH/mongod --replSet rs0 --logpath /tmp/replset/2.log --dbpath /data/rs2 --port 27018 --oplogSize 2 --fork --nojournal --smallfiles
 sudo sudo -u mongod $MONGOPATH/mongod --replSet rs0 --logpath /tmp/replset/3.log --dbpath /data/rs3 --port 27019 --oplogSize 2 --fork --nojournal --smallfiles
 
-sleep 3 
+sleep 3
 
 sleep 30
 $MONGOPATH/mongo --eval "rs.initiate({ '_id': 'rs0', 'members' : [{ '_id' : 0, 'host' : 'localhost:27017' },{ '_id' : 1, 'host' : 'localhost:27018' },{ '_id' : 2, 'host' : 'localhost:27019' } ]})"

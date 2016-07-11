@@ -23,7 +23,7 @@ The method above will build a sample data set in the "sensor_readings" collectio
 .. code-block:: javascript
 
    db.sensor_readings.find( { tstamp: { $gte: ISODate("2012-08-01"),
-                                       $lte: ISODate("2012-09-01") },  
+                                       $lte: ISODate("2012-09-01") },
                               active: true } ).limit(3)
 
 .. only:: instructor
@@ -32,7 +32,7 @@ The method above will build a sample data set in the "sensor_readings" collectio
 
       - Work through method of explaining query with .explain("executionStats")
       - Look at differences between (timestamp, active) and (active, timestamp)
-        
+
 
 .. include:: /includes/student-notes.rst
 
@@ -41,11 +41,11 @@ Exercise: Avoiding an In-Memory Sort
 ------------------------------------
 
 What index is needed for the following query to avoid an in-memory sort?
-   
+
 .. code-block:: javascript
 
    db.sensor_readings.find( { active: true } ).sort( { tstamp : -1 } )
-   
+
 .. only:: instructor
 
    .. note::
@@ -59,13 +59,13 @@ Exercise: Avoiding an In-Memory Sort, 2
 ---------------------------------------
 
 What index is needed for the following query to avoid an in-memory sort?
-   
+
 .. code-block:: javascript
 
    db.sensor_readings.find(
        { x : { $in : [100, 200, 300, 400] } }
    ).sort( { tstamp : -1 })
-   
+
 .. only:: instructor
 
    .. note::
@@ -76,4 +76,4 @@ What index is needed for the following query to avoid an in-memory sort?
 .. include:: /includes/student-notes.rst
 
 
-        
+

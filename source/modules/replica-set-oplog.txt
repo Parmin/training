@@ -76,7 +76,7 @@ This will be represented in the oplog with records such as the following:
 
 .. code-block:: javascript
 
-   { "ts" : Timestamp(1407159845, 5), "h" : NumberLong("-704612487691926908"), 
+   { "ts" : Timestamp(1407159845, 5), "h" : NumberLong("-704612487691926908"),
      "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 65 } }
    { "ts" : Timestamp(1407159845, 1), "h" : NumberLong("6014126345225019794"),
      "v" : 2, "op" : "d", "ns" : "bar.foo", "b" : true, "o" : { "_id" : 333 } }
@@ -105,7 +105,7 @@ Replication Based on the Oplog
 .. only:: instructor
 
    .. note::
-      
+
       - Can do maintenance without bringing the set down because statement-based replication does not depend on all nodes running the same version of MongoDB or other restrictions that may be imposed by binary replication.
       - In the next exercise, we will see that the oplog is designed so that each statement is idempotent.
       - This feature has several benefits for independent operation of nodes in replica sets.

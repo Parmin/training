@@ -19,7 +19,7 @@ CRUD (1:30)
 - Updating Documents (30 minutes)
 - Lab: Updating Products (15 minutes)
 
-  
+
 Indexes (2:00)
 --------------
 
@@ -35,7 +35,7 @@ Indexes (2:00)
 Aggregation (1:00)
 ------------------
 - Aggregation Overview (30 minutes)
-- Lab: Working with Array Fields (15 minutes) 
+- Lab: Working with Array Fields (15 minutes)
 - Lab: Repeated Aggregation Stages (15 minutes)
 
 

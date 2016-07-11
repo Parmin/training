@@ -16,7 +16,7 @@ Exercise: Creating a ``readWrite`` User, Part 1
 
       .. code-block:: bash
 
-         mongo -u roland admin -p 
+         mongo -u roland admin -p
 
       .. code-block:: javascript
 
@@ -36,7 +36,7 @@ Exercise: Creating a ``readWrite`` User, Part 1
 Exercise: Creating a ``readWrite`` User, Part 2
 -----------------------------------------------
 
-Log in with the user you just created. 
+Log in with the user you just created.
 
 .. only:: instructor
 

@@ -38,7 +38,7 @@ The ``replaceOne()`` Method
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - By "simplest," we mean that it's simple conceptually -- that replacing a document is a sort of basic idea of how an update happens.
     - We will later see update methods that will involve only changing some fields.
@@ -50,7 +50,7 @@ First Parameter to ``replaceOne()``
 - Required parameters for ``replaceOne()``
 
   - The query parameter:
-  
+
     - Use the same syntax as with ``find()``
     - Only the first document found is replaced
 
@@ -68,7 +68,7 @@ Second Parameter to ``replaceOne()``
 
 - The _id must stay the same
 - You must replace the entire document
-  
+
   - You cannot modify just one field
   - Except for the _id
 
@@ -76,7 +76,7 @@ Second Parameter to ``replaceOne()``
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - If they try to modify the _id, it will throw an error
 
@@ -141,7 +141,7 @@ Update Operators
 - ``$inc``: Increment a field's value by the specified amount.
 - ``$mul``: Multiply a field's value by the specified amount.
 - ``$rename``: Rename a field.
-- ``$set``: Update one or more fields (already discussed). 
+- ``$set``: Update one or more fields (already discussed).
 - ``$unset`` Delete a field (already discussed).
 - ``$min``: Update only if value is smaller than specified quantity
 - ``$max``: Update only if value is larger than specified quantity
@@ -225,7 +225,7 @@ Example: Array Operators
 .. only:: instructor
 
    .. note::
-   
+
       - Pass $pop a value of -1 to remove the first element of an array and 1 to remove the last element in an array.
 
 

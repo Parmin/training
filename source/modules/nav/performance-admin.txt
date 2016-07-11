@@ -6,4 +6,4 @@ Performance Troubleshooting
 
 .. include:: /includes/toc/dfn-list-performance-admin.rst
 
-.. include:: /includes/toc/performance-admin.rst             
+.. include:: /includes/toc/performance-admin.rst

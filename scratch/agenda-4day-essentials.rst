@@ -21,7 +21,7 @@ CRUD (2:30)
 - Updating Documents (30 minutes)
 - Lab: Updating Products (15 minutes)
 
-  
+
 Indexes (3:20)
 --------------
 
@@ -37,7 +37,7 @@ Indexes (3:20)
 - Lab: Using explain() (15 minutes)
 - Aggregation (2:30)
 - Aggregation Tutorial (60 minutes)
-- Lab: Working with Array Fields (25 minutes) 
+- Lab: Working with Array Fields (25 minutes)
 - Aggregation Optimizations (15 minutes)
 - Lab: Repeated Aggregation Stages (25 minutes)
 - Lab: Analyzing Student Records (25 minutes)
@@ -106,6 +106,6 @@ Backup and Recovery (30 minutes)
 --------------------------------
 - File System Backups (15 minutes)
 - Backup and Restore of Sharded Clusters (15 minutes)
-  
+
 
 Q and A, Additional Topics, and Labs (Time Permitting)

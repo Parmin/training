@@ -3,9 +3,9 @@ Exercise: Creating a 2d Index
 
 Create a 2d index on the collection ``testcol`` with:
 
-- A min value of -20 
+- A min value of -20
 - A max value of 20
-- 10 bits of precision 
+- 10 bits of precision
 - The field indexed should be ``xy``.
 
 .. include:: /includes/student-notes.rst

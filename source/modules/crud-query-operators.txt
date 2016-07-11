@@ -50,7 +50,7 @@ Example (Setup)
       "imdb_rating" : 6.6
     },
     {
-      "title" : "Home Alone", 
+      "title" : "Home Alone",
       "category" : [ "family", "comedy" ],
       "imdb_rating" : 7.4
     }

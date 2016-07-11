@@ -52,7 +52,7 @@ The "validator" option for a collection can be seen in the output of db.getColle
 
 > db.getCollectionInfos()
 
-Or to zero in on an exact collection (db.getCollectionInfos() returns information on all collections) 
+Or to zero in on an exact collection (db.getCollectionInfos() returns information on all collections)
 
 > db.getCollectionInfos({ "name" : "profile" })
 
@@ -76,7 +76,7 @@ Here is our complex validator
 validator_var =  {"$and" : [
 		{
 "username" : {
-"$regex" : /^[a-zA-Z]{7}$/ 
+"$regex" : /^[a-zA-Z]{7}$/
 }
 },
 		{	"age" : {
@@ -85,8 +85,8 @@ validator_var =  {"$and" : [
 			}
 		},
 		{
-			"location.city" : { 
-"$type" : "string" 
+			"location.city" : {
+"$type" : "string"
 }
 		},
 {
@@ -155,7 +155,7 @@ Now that we’ve seen a very basic example for document validation, let’s get 
 
 It is important to know about two options for document validation: validationLevel and validationAction.
 
-For validationLevel, the options are "off", “moderate”, and “strict”.  
+For validationLevel, the options are "off", “moderate”, and “strict”.
 
 "off" is straightforward, this may be helpful when you would like to temporarily stop performing document validations for a collection
 
@@ -196,7 +196,7 @@ For validationLevel=moderate, mongodb will apply validation rules to inserts and
 Let’s pretend we found some usernames that are longer than 16 characters, which looks bad in some of our webpages pages, but it luckily it doesn’t break anything in our application.
 
 Going forward, we want to ensure every username is less than 16 characters, but we don’t want to stop existing users with long usernames from updating their profile (and getting an invalid error that their username is too long)
-Let’s use the "moderate" value for the "validationLevel" option. 
+Let’s use the "moderate" value for the "validationLevel" option.
 
 Inserting a document with a long username works fine
 

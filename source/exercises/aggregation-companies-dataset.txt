@@ -28,7 +28,7 @@ Here are some interesting fields in the data set:
 
 Additional fields of potential interest:
 
--  "tag_list", "alias_list", "description", "overview", "products", "relationships", "competitions", "providerships", "total_money_raised", "funding_rounds", "investments", "acquisition", "acquisitions", "offices", "milestones",  "partners" 
+-  "tag_list", "alias_list", "description", "overview", "products", "relationships", "competitions", "providerships", "total_money_raised", "funding_rounds", "investments", "acquisition", "acquisitions", "offices", "milestones",  "partners"
 
 .. include:: /includes/student-notes.rst
 

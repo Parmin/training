@@ -36,7 +36,7 @@ class ItemDAO:
         categories.append(category)
 
         # TODO-lab2 Replace all code above
-        
+
         return categories
 
     def get_items(self, category, page, items_per_page):
@@ -47,7 +47,7 @@ class ItemDAO:
         # LAB #2: Return a list of items from the "item" collection, limit by ITEMS_PER_PAGE and
         #         skip by (page_str * ITEMS_PER_PAGE)
         #
-        
+
         item = self.create_dummy_item()
 
         items = []
@@ -56,7 +56,7 @@ class ItemDAO:
         items.append(item)
         items.append(item)
         items.append(item)
-        
+
         # TODO-lab2 Replace all code above
 
         return items
@@ -70,7 +70,7 @@ class ItemDAO:
         # LAB #2: Count the items in the "item" collection, used for pagination, include the category
         #         in the query if it is passed in
         #
-        
+
         return num_items
 
     def search_items(self, query, page, items_per_page):
@@ -105,7 +105,7 @@ class ItemDAO:
         #
         # LAB #2: Query the "item" collection by _id and return an item document
         #
-        
+
         item = self.create_dummy_item()
 
         # TODO-lab2 Replace all code above
@@ -120,11 +120,11 @@ class ItemDAO:
         #
         # LAB #2: Query and return 4 items from the item collection
         #
-        
+
         return items
 
     def add_review(self, itemid, review, name, stars):
-        
+
         #
         # TODO-lab2
         #

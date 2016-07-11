@@ -1,33 +1,33 @@
 file: /modules/schema-design-core-concepts
-description: | 
+description: |
   An introduction to schema design in MongoDB
 ---
 file: /modules/schema-design-application-lifetime
-description: | 
+description: |
   Considerations for evolving a MongoDB schema design over an application's lifetime
 ---
 file: /modules/schema-design-common-design-patterns
-description: | 
+description: |
   Common design patterns for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB
 ---
 file: /modules/schema-design-case-study-time-series
-description: | 
+description: |
   Case Study: Time Series Data
 ---
 file: /modules/schema-design-case-study-cms
-description: | 
+description: |
   Case Study: CMS
 ---
 file: /modules/schema-design-case-study-social-network
-description: | 
+description: |
   Case Study: Social Network
 ---
 file: /modules/schema-design-case-study-shopping-cart
-description: | 
+description: |
   Case Study: Shopping Cart
 ---
 file: /exercises/schema-group-exercise
-description: | 
+description: |
   Schema design group exercise
 ...
 

@@ -6,4 +6,4 @@ Advanced Schema Design
 
 .. include:: /includes/toc/dfn-list-schema-design-advanced-cap1-three-day.rst
 
-.. include:: /includes/toc/schema-design-advanced-cap1-three-day.rst             
+.. include:: /includes/toc/schema-design-advanced-cap1-three-day.rst

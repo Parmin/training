@@ -6,7 +6,7 @@ United Health advanced ops training schedule
 
 cd /Users/jason/dev/training2/advanced-operations-training/instance-launch
 ./repl.sh 12 "Jason"
-./getReplIPs.sh 
+./getReplIPs.sh
 
 team0 - ec2-54-198-4-27.compute-1.amazonaws.com
 team1 - ec2-54-87-100-130.compute-1.amazonaws.com
@@ -25,7 +25,7 @@ ssh -v -i ~/Downloads/AdvancedOpsTraining.pem ec2-user@ec2-54-82-187-170.compute
 
 2. Connect to each instance and setup first exercise
 
-chmod 600 AdvancedOpsTraining.pem 
+chmod 600 AdvancedOpsTraining.pem
 ssh -v -i AdvancedOpsTraining.pem ec2-user@ec2-54-204-168-108.compute-1.amazonaws.com
 
 cd scripts/Replication
@@ -40,7 +40,7 @@ cd scripts/Replication
 
 1. Send details on how to connect to each team, include:
 
-chmod 600 AdvancedOpsTraining.pem 
+chmod 600 AdvancedOpsTraining.pem
 ssh -v -i AdvancedOpsTraining.pem ec2-user@ec2-54-204-168-108.compute-1.amazonaws.com
 
 
@@ -53,7 +53,7 @@ ssh -v -i AdvancedOpsTraining.pem ec2-user@ec2-54-204-168-108.compute-1.amazonaw
 PREP: ~/scripts/Replication/premise-1-2.sh
 
 
--- 7AM (10AM EST) 
+-- 7AM (10AM EST)
 
 3. Fix recovering secondary
 
@@ -66,7 +66,7 @@ PREP: ~/scripts/Replication/premise-3.sh
 
 4. The system is slow, there are exactly 5 things wrong, identify and fix them (3 can be fixed from the server, 2 from the developer)
 
-PREP: 
+PREP:
 
 /home/ec2-user/new/bin/mongoimport -d twitter -c tweets /home/ec2-user/scripts/Perf/twitter.json
 

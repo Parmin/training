@@ -20,7 +20,7 @@ Aggregation Options
 -------------------
 
 - You may pass an options document to ``aggregate()``.
-- Syntax: 
+- Syntax:
 
   .. code-block:: javascript
 
@@ -53,7 +53,7 @@ Aggregation Limits
 Limits Prior to MongoDB 2.6
 ---------------------------
 
-- ``aggregate()`` returned results in a single document up to 16 MB in size. 
+- ``aggregate()`` returned results in a single document up to 16 MB in size.
 - The upper limit on pipeline memory usage was 10% of RAM.
 
 .. include:: /includes/student-notes.rst
@@ -66,7 +66,7 @@ Optimization: Reducing Documents in the Pipeline
 
   - $match
   - $skip
-  - $limit: 
+  - $limit:
 
 - They should be used as early as possible in the pipeline.
 
@@ -74,7 +74,7 @@ Optimization: Reducing Documents in the Pipeline
 
 
 Optimization: Sorting
---------------------- 
+---------------------
 
 - ``$sort`` can take advantages of indexes.
 - Must be used before any of the following to do this:

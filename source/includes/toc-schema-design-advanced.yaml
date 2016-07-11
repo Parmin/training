@@ -1,21 +1,21 @@
 file: /modules/schema-design-case-study-time-series
-description: | 
+description: |
   Case Study: Time Series Data
 ---
 file: /modules/schema-design-case-study-cms
-description: | 
+description: |
   Case Study: CMS
 ---
 file: /modules/schema-design-case-study-social-network
-description: | 
+description: |
   Case Study: Social Network
 ---
 file: /modules/schema-design-case-study-shopping-cart
-description: | 
+description: |
   Case Study: Shopping Cart
 ---
 file: /exercises/schema-group-exercise
-description: | 
+description: |
   Schema design group exercise
 ...
 

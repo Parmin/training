@@ -5,7 +5,7 @@ Lab: Improve How Reviews are Stored and Queried
 -------------------------------------------------
 
 - Currently, all reviews are stored in an "item" document, within a "reviews" array.  This is problematic for the cases when the number of reviews for a product becomes extremely large.
-- Create a new collection called "review" and modify the "reviews" array within the "item" collection to only contain the last 10 reviews (sorted by date).  
+- Create a new collection called "review" and modify the "reviews" array within the "item" collection to only contain the last 10 reviews (sorted by date).
 - Modify the application to update the last 10 reviews for an item, the average number of stars (based on reviews) for an item, and insert the review into the new "review" collection
 
 .. include:: /includes/student-notes.rst

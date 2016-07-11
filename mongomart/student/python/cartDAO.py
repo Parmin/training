@@ -63,4 +63,3 @@ class CartDAO:
         # HINT: You may want to create a helper method for determining if an item already exists in a cart
         #
         print "Quantity in cart updated"
-    

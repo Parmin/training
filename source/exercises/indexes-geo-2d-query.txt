@@ -4,7 +4,7 @@ Example: Find Based on 2d Coords
 Write a query to find all documents in the testcol collection that have an xy field value that falls entirely within the circle with center at [ -2.5, -0.5 ] and a radius of 3.
 
 .. code-block:: javascript
-    
-   db.testcol.find( { xy : { $geoWithin : { $center : [ [ -2.5, -0.5 ], 3 ] } } } 
+
+   db.testcol.find( { xy : { $geoWithin : { $center : [ [ -2.5, -0.5 ], 3 ] } } }
 
 .. include:: /includes/student-notes.rst

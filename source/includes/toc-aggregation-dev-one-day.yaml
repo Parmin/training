@@ -1,8 +1,8 @@
 file: /modules/aggregation
-description: | 
+description: |
   An introduction to the the aggregation framework, pipeline concept, and stages
---- 
+---
 file: /exercises/aggregation-exercises
-description: | 
+description: |
   Aggregation labs
 ...

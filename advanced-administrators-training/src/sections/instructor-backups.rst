@@ -58,7 +58,7 @@ Obtain the backup
 2. Find the timestamp of the most recent good operation::
 
      db.oplog.rs.find({ ts: { $lt: badOp.ts } }).sort({ ts: -1 }).next()
-    
+
 3. In the MMS console, go to "Backup", your group's replica set, "Restore", "Use
    Exact Oplog Timestamp", and enter the two numeric values from the
    ``Timestamp`` value you found in the oplog.

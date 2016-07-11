@@ -16,7 +16,7 @@ function populateSeconds(metric, min, max) {
 	    db.metrics.insertOne(minuteDocument);
 	    nowInt -= 60000;
 	}
-	
+
     }
 
 }

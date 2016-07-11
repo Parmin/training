@@ -2,7 +2,7 @@
 Lab: Cloud Manager API
 ======================
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this exercise students should understand:
@@ -35,7 +35,7 @@ Navigate the Cloud Manager interface to perform the following:
    .. note::
 
       - Admin -> API Keys and Whitelists
-  
+
 Exercise #2
 -----------
 
@@ -43,7 +43,7 @@ Modify and run the following curl command to return alerts for your Cloud Manage
 
 .. code-block:: javascript
 
-	curl -u "username:apiKey" --digest -i 
+	curl -u "username:apiKey" --digest -i
 	"https://mms.mongodb.com/api/public/v1.0/groups/<GROUP-ID>/alerts"
 
 .. include:: /includes/student-notes.rst
@@ -69,7 +69,7 @@ How would you find metrics for a given host within your Cloud Manager account?  
    .. note::
 
       - First, query the API for a list of hosts: https://docs.mms.mongodb.com/reference/api/hosts/
-      - Next, query the metrics API call with the host is and name of the metric (or for all metrics): https://docs.mms.mongodb.com/reference/api/hosts/  
+      - Next, query the metrics API call with the host is and name of the metric (or for all metrics): https://docs.mms.mongodb.com/reference/api/hosts/
 
 
 

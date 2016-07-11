@@ -25,11 +25,11 @@ class ReviewDAO:
 
     def get_num_reviews(self, itemid):
         num_reviews = self.review.find( { 'itemid' : itemid }).count()
-        
+
         return num_reviews
 
     def add_review(self, itemid, review, name, stars):
-        
+
         self.review.insert( { 'itemid' : int(itemid), 'name' : name, 'comment' : review, 'stars' : stars, 'date' : datetime.datetime.now() } )
 
 

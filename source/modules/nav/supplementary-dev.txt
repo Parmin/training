@@ -6,5 +6,5 @@ Supplementary Material (Time Permitting)
 
 .. include:: /includes/toc/dfn-list-supplementary-dev.rst
 
-.. include:: /includes/toc/supplementary-dev.rst             
-   
+.. include:: /includes/toc/supplementary-dev.rst
+

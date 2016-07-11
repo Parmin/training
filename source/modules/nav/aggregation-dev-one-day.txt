@@ -6,4 +6,4 @@ Aggregation
 
 .. include:: /includes/toc/dfn-list-aggregation-dev-one-day.rst
 
-.. include:: /includes/toc/aggregation-dev-one-day.rst             
+.. include:: /includes/toc/aggregation-dev-one-day.rst

@@ -7,7 +7,7 @@ Exercise: Create an Admin User, Part 1
 --------------------------------------
 
 - Launch a mongo shell.
-- Create a user with the role, ``userAdminAnyDatabase`` 
+- Create a user with the role, ``userAdminAnyDatabase``
 - Use name "roland" and password "12345".
 - Enable this user to login on the admin database.
 
@@ -49,8 +49,8 @@ Exercise: Create an Admin User, Part 2
          mongo -u roland admin -p
 
       Remember:
-      
+
       - Once a user is created, the localhost exception no longer applies.
-      - If that first user can't create other users, you will be extremely limited in your ability 
+      - If that first user can't create other users, you will be extremely limited in your ability
 
 .. include:: /includes/student-notes.rst

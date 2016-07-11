@@ -135,7 +135,7 @@ public class StoreDao {
             document.getString("address"), document.getString("address2"),
             document.getString("city"), document.getString("state"),
             document.getString("zip"), document.getString("country"));
-        
+
         double distanceFromPoint = document.containsKey("distanceFromPoint") ?
                 document.getDouble("distanceFromPoint") : 0.0;
 

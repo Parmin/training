@@ -47,7 +47,7 @@ do
 
     # TODO(dpercy): it looks like there is a race condition where the instances
     # may not have started when we try to tag them:
-	# 
+	#
 	# A client error (InvalidInstanceID.NotFound) occurred when calling the CreateTags operation:
 	# The instance ID 'i-922e5468' does not exist
     #

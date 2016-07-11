@@ -97,7 +97,7 @@ Example: ``{ w : 1 }``
 
 .. code-block:: javascript
 
-   db.edges.insertOne( { from : "tom185", to : "mary_p" }, 
+   db.edges.insertOne( { from : "tom185", to : "mary_p" },
                        { writeConcern : { w : 1 } } )
 
 .. include:: /includes/student-notes.rst
@@ -126,7 +126,7 @@ Example: ``{ w : 2 }``
 
    db.customer.updateOne( { user : "mary_p" },
                           { $push : { shoppingCart:
-                            { _id : 335443, name : "Brew-a-cup", 
+                            { _id : 335443, name : "Brew-a-cup",
                             price : 45.79 } } },
                           { writeConcern : { w : 2 } } )
 

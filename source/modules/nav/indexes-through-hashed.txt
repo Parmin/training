@@ -6,4 +6,4 @@ Indexes
 
 .. include:: /includes/toc/dfn-list-indexes-through-hashed.rst
 
-.. include:: /includes/toc/indexes-through-hashed.rst             
+.. include:: /includes/toc/indexes-through-hashed.rst

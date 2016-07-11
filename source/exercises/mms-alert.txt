@@ -2,7 +2,7 @@
 Lab: Create an Alert
 ====================
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this exercise students should understand:
@@ -23,7 +23,7 @@ After the alert has been created, stop a node within your cluster to verify the 
 
    .. note::
 
-      - This alert can be created by going to Activity -> Alert Settings -> Create 
+      - This alert can be created by going to Activity -> Alert Settings -> Create
 
 
 

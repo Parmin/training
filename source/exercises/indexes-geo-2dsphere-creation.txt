@@ -6,11 +6,11 @@ Exercise: Creating a 2dsphere Index
 
   - ``origin``
   - ``destination``
-  - ``flightNumber`` 
+  - ``flightNumber``
 
 - Specify 2dsphere indexes on both ``origin`` and ``destination``.
-- Specify a simple index on ``name``. 
-- Make the second index just a 2dsphere index on destination. 
+- Specify a simple index on ``name``.
+- Make the second index just a 2dsphere index on destination.
 
 .. include:: /includes/student-notes.rst
 
@@ -20,8 +20,8 @@ Exercise: Creating a 2dsphere Index
 
       .. code-block:: javascript
 
-         db.flights.createIndex( { origin : "2dsphere", 
-                                   destination : "2dsphere", 
+         db.flights.createIndex( { origin : "2dsphere",
+                                   destination : "2dsphere",
                                    flightNumber : 1 } )
 
          db.flights.createIndex( { destination : "2dsphere" } )

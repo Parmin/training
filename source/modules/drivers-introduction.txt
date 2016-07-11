@@ -63,9 +63,9 @@ Driver Settings (Per Connection)
 --------------------------------
 
 - Connection timeout
-- Connections per host 
+- Connections per host
 - Time that a thread will block waiting for a connection (maxWaitTime)
-- Socket keep alive 
+- Socket keep alive
 - Sets the multiplier for number of threads allowed to block waiting for a connection
 - Etc.
 

@@ -6,4 +6,4 @@ Backup and Recovery
 
 .. include:: /includes/toc/dfn-list-backup-essentials.rst
 
-.. include:: /includes/toc/backup-essentials.rst             
+.. include:: /includes/toc/backup-essentials.rst

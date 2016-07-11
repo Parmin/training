@@ -6,4 +6,4 @@ MongoDB Cloud & Ops Manager
 
 .. include:: /includes/toc/dfn-list-mms-developer.rst
 
-.. include:: /includes/toc/mms-developer.rst             
+.. include:: /includes/toc/mms-developer.rst

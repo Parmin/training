@@ -44,9 +44,9 @@ Let's create a TTL index on the ``ttl`` collection that will delete documents ol
 per second.
 
 .. code-block:: javascript
-    
+
    db.sessions.drop()
-   db.sessions.createIndex( { "last_user_action" : 1 }, 
+   db.sessions.createIndex( { "last_user_action" : 1 },
                             { "expireAfterSeconds" : 30 } )
 
    i = 0
@@ -65,13 +65,13 @@ Exercise: Check the Collection
 Then, leaving that window open, open up a new terminal and connect to the database with the mongo shell. This will allow us to verify the TTL behavior.
 
 .. code-block:: javascript
-    
+
    // look at the output and wait. After a ramp-up of up to a minute or so,
    // count() will be reset to 30 once/minute.
    while (true) {
        print(db.sessions.count());
        sleep(100);
-   } 
+   }
 
 .. include:: /includes/student-notes.rst
 

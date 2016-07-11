@@ -25,14 +25,14 @@ def main():
 
 	# Bind/authenticate with a user with apropriate rights to add objects
 	l.simple_bind_s("cn=Manager,dc=10gen,dc=me","password")
-	
-	for uname in open(options.fname, 'r'):	
+
+	for uname in open(options.fname, 'r'):
 		try:
 			# The dn of our new entry/object
 			print "adding ", uname
 			dn= 'uid=' + uname.lower() + ',ou=Users,dc=10gen,dc=me'
-	
-			ldif = configUser(uname.rstrip('\r\n')) 
+
+			ldif = configUser(uname.rstrip('\r\n'))
 
 			# Do the actual synchronous add-operation to the ldapserver
 			l.add_s(dn,ldif)

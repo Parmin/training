@@ -14,7 +14,7 @@ Introduction
 
 An aggregation pipeline allows you to combine data from multiple documents in a collection and perform basic grouping, arithmetic, and statistical operations on them.
 
-The aggregation framework in MongoDB is based on the idea of UNIX pipelining. Each stage done job. A stage accepts a list of documents as input, manipulates the data in some way, and emits output documents, passing them to the next stage. 
+The aggregation framework in MongoDB is based on the idea of UNIX pipelining. Each stage done job. A stage accepts a list of documents as input, manipulates the data in some way, and emits output documents, passing them to the next stage.
 
 The Aggregation section of the exam is emphasized much more heavily in Developer exams than in DBA exams, but you should be familiar with the basic concepts and format of aggregation queries even for the DBA exam.
 
@@ -56,7 +56,7 @@ Resources:
 - Docs:
 
   - :manual:`Aggregation Pipeline Quick Reference</meta/aggregation-quick-reference/>`
-    
+
 
 Aggregation Operators
 ---------------------
@@ -153,7 +153,7 @@ Resources:
   - `Compound Grouping <https://university.mongodb.com/videos/y/qTbtax_cKcc>`_
   - `Double Unwind <https://university.mongodb.com/videos/y/YXGL27217B8>`_
 
-- Docs: 
+- Docs:
 
   - :manual:`Single Purpose Aggregation Operations</core/single-purpose-aggregation/>`
   - :manual:`Aggregation with Zip Code Data</tutorial/aggregation-zip-code-data-set/>`
@@ -178,7 +178,7 @@ Sample Aggregation Problems
       { "_id" : "oranges", "traits" : [ "sweet" , "orange" , "juicy" ] }
 
    If you run an aggregation query and use { $unwind : "$traits" } as the first stage, how many documents will be passed to the next stage of the aggregation pipeline?
-   
+
    - 1
    - 2
    - 3

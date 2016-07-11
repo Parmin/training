@@ -17,9 +17,9 @@ Solution SSL
 
 2. Look in /home/ubuntu/ssl_certs: ::
 
-    ca.pem  
-    client.pem  
-    crl.pem  
+    ca.pem
+    client.pem
+    crl.pem
     server.pem
 
 3. Rolling restart of each node with the following parameters: ::
@@ -38,7 +38,7 @@ Solution SSL
     sslCAFile = /home/ubuntu/ssl_certs/ca.pem
 
 5. Update each config file again, or run the following command on each: ::
- 
+
     db.getSiblingDB('admin').runCommand( { setParameter: 1, sslMode: "requireSSL" } )
 
     sslMode = requireSSL
@@ -47,11 +47,11 @@ Solution SSL
 
 6. Checkpoint, to verify SSL is running correctly, connect to each node: ::
 
-    /usr/bin/mongo --ssl --sslCAFile ~/ssl_certs/ca.pem 
+    /usr/bin/mongo --ssl --sslCAFile ~/ssl_certs/ca.pem
         --sslPEMKeyFile ~/ssl_certs/client.pem --port 27017
-    /usr/bin/mongo --ssl --sslCAFile ~/ssl_certs/ca.pem 
+    /usr/bin/mongo --ssl --sslCAFile ~/ssl_certs/ca.pem
         --sslPEMKeyFile ~/ssl_certs/client.pem --port 27018
-    /usr/bin/mongo --ssl --sslCAFile ~/ssl_certs/ca.pem 
+    /usr/bin/mongo --ssl --sslCAFile ~/ssl_certs/ca.pem
         --sslPEMKeyFile ~/ssl_certs/client.pem --port 27019
 
 
@@ -81,14 +81,14 @@ Solution LDAP
     setParameter=authenticationMechanisms=PLAIN,MONGODB-CR
     keyFile=/home/ubuntu/mongodb-keyfile
 
-    Note: auth=true is not needed when a keyFile is specified, 
+    Note: auth=true is not needed when a keyFile is specified,
     also combination of PLAIN/MONGODB-CR can be modified
 
 4. Restart all the nodes
 
 5. Authenticate with superuser: ::
 
-    /usr/bin/mongo admin --ssl --sslCAFile ~/ssl_certs/ca.pem 
+    /usr/bin/mongo admin --ssl --sslCAFile ~/ssl_certs/ca.pem
         --sslPEMKeyFile ~/ssl_certs/client.pem --port 27017 -u superuser -p mongo
 
 6. Add ldap user: ::
@@ -102,7 +102,7 @@ Solution LDAP
 
 7. Log back in with new ldap user ro verify: ::
 
-    /usr/bin/mongo admin --ssl --sslCAFile ~/ssl_certs/ca.pem 
+    /usr/bin/mongo admin --ssl --sslCAFile ~/ssl_certs/ca.pem
         --sslPEMKeyFile ~/ssl_certs/client.pem --port 27017
 
     > db.getSiblingDB("$external").auth(

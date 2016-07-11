@@ -249,7 +249,7 @@ Finally, let's add the sort and run the query
                      } ).sort( { rating : -1 } ).explain("executionStats");
 
 - Note that the ``winningPlan`` includes a ``SORT`` stage
-- This means that MongoDB had to perform a sort in memory  
+- This means that MongoDB had to perform a sort in memory
 - In memory sorts on can degrade performance significantly
 
   - Especially if used frequently

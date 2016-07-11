@@ -6,4 +6,4 @@ Advanced Schema Design
 
 .. include:: /includes/toc/dfn-list-schema-design-advanced.rst
 
-.. include:: /includes/toc/schema-design-advanced.rst             
+.. include:: /includes/toc/schema-design-advanced.rst

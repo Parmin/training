@@ -6,4 +6,4 @@ Application Engineering
 
 .. include:: /includes/toc/dfn-list-mongomart.rst
 
-.. include:: /includes/toc/mongomart.rst             
+.. include:: /includes/toc/mongomart.rst

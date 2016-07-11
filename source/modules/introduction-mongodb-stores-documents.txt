@@ -32,7 +32,7 @@ A Simple JSON Object
 
 .. code-block:: javascript
 
-      { 
+      {
           "firstname" : "Thomas",
           "lastname" : "Smith",
           "age" : 29
@@ -76,8 +76,8 @@ Example Field Values
       "name" : "Bob Walker",
       "title" : "Lead Business Editor"
     },
-    "tags" : [ 
-      "AAPL", 
+    "tags" : [
+      "AAPL",
       23,
       { "name" : "city", "value" : "Cupertino" },
       [ "Electronics", "Computers" ]
@@ -103,7 +103,7 @@ BSON
 
    .. note::
 
-      E.g., a BSON object will be mapped to a dictionary in Python.      
+      E.g., a BSON object will be mapped to a dictionary in Python.
 
 .. include:: /includes/student-notes.rst
 
@@ -117,7 +117,7 @@ BSON Hello World
    { "hello" : "world" }
 
    // BSON
-   "\x16\x00\x00\x00\x02hello\x00 
+   "\x16\x00\x00\x00\x02hello\x00
     \x06\x00\x00\x00world\x00\x00"
 
 .. include:: /includes/student-notes.rst
@@ -126,11 +126,11 @@ BSON Hello World
 
    .. note::
 
-      - \\x16\\x00\\x00\\x00 (document size) 
+      - \\x16\\x00\\x00\\x00 (document size)
       - \\x02 = string (data type of field value)
       - hello\\x00 (key/field name, \\x00 is null and delimits the end of the name)
       - \\x06\\x00\\x00\\x00 (size of field value including end null)
-      - world\\x00 (field value) 
+      - world\\x00 (field value)
       - \\x00 (end of the document)
 
 
@@ -143,10 +143,10 @@ A More Complex BSON Example
    { "BSON" : [ "awesome", 5.05, 1986 ] }
 
    // BSON
-   "\x3b\x00\x00\x00\x04BSON\x00\x26\x00 
-    \x00\x00\x020\x00\x08\x00\x00 
-    \x00awesome\x00\x011\x00\x33\x33\x33\x33\x33\x33 
-    \x14\x40\x102\x00\xc2\x07\x00\x00 
+   "\x3b\x00\x00\x00\x04BSON\x00\x26\x00
+    \x00\x00\x020\x00\x08\x00\x00
+    \x00awesome\x00\x011\x00\x33\x33\x33\x33\x33\x33
+    \x14\x40\x102\x00\xc2\x07\x00\x00
     \x00\x00"
 
 .. include:: /includes/student-notes.rst
@@ -156,7 +156,7 @@ Documents, Collections, and Databases
 -------------------------------------
 
 - Documents are stored in collections.
-- Collections are contained in a database. 
+- Collections are contained in a database.
 - Example:
 
   - Database: products
@@ -164,7 +164,7 @@ Documents, Collections, and Databases
 
 - Each database-collection combination defines a namespace.
 
-  - products.books 
+  - products.books
   - products.movies
   - products.music
 
@@ -190,16 +190,16 @@ ObjectIds
 .. include:: /images/objectId.rst
 
 .. include:: /includes/student-notes.rst
-   
+
 
 .. only:: instructor
 
    .. note::
 
-      - An ObjectId is a 12-byte value. 
-      - The first 4 bytes are a datetime reflecting when the ObjectID was created. 
+      - An ObjectId is a 12-byte value.
+      - The first 4 bytes are a datetime reflecting when the ObjectID was created.
       - The next 3 bytes are the MAC address of the server.
       - Then a 2-byte process ID
-      - Finally, 3 bytes that are monotonically increasing for each new ObjectId created within a collection. 
+      - Finally, 3 bytes that are monotonically increasing for each new ObjectId created within a collection.
 
 

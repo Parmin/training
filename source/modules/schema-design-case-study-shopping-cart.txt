@@ -75,7 +75,7 @@ Add an Item to a User's Cart
 
 .. code-block:: javascript
 
-  db.cart.updateOne( { 
+  db.cart.updateOne( {
       "_id": ObjectId("55932ef370c32e23e6552ced")
     }, {
       $push : {
@@ -102,13 +102,13 @@ Updating an Item in a Cart
 
 .. code-block:: javascript
 
-  db.cart.updateOne( { 
-      "_id": ObjectId("55932ef370c32e23e6552ced"), 
-      "items.itemid" : 4567 
-    }, { 
-      $set : { 
+  db.cart.updateOne( {
+      "_id": ObjectId("55932ef370c32e23e6552ced"),
+      "items.itemid" : 4567
+    }, {
+      $set : {
         "items.$.quantity" : 5,
-        "last_activity" : ISODate() 
+        "last_activity" : ISODate()
     } } )
 
 .. include:: /includes/student-notes.rst
@@ -118,14 +118,14 @@ Remove an Item from a User's Cart
 
 .. code-block:: javascript
 
-  db.cart.updateOne({ 
+  db.cart.updateOne({
       "_id": ObjectId("55932ef370c32e23e6552ced")
-    }, { 
-      $pull : { 
-        "items" : { "itemid" : 4567 } 
+    }, {
+      $pull : {
+        "items" : { "itemid" : 4567 }
       },
-      $set : { 
-        "last_activity" : ISODate() 
+      $set : {
+        "last_activity" : ISODate()
     } } )
 
 .. include:: /includes/student-notes.rst
@@ -158,7 +158,7 @@ Increment "quantity_in_carts"
 .. code-block:: javascript
 
   db.item.updateOne(
-    { "_id": 8910 }, 
+    { "_id": 8910 },
     { $inc : { "quantity_in_carts" : 1 } } )
 
 Decrement "quantity_in_carts"
@@ -166,7 +166,7 @@ Decrement "quantity_in_carts"
 .. code-block:: javascript
 
   db.item.updateOne(
-    { "_id": 8910 }, 
+    { "_id": 8910 },
     { $inc : { "quantity_in_carts" : -1 } } )
 
 .. include:: /includes/student-notes.rst
@@ -184,20 +184,20 @@ Using aggregate() to Determine Number of Items Across User Carts
   db.cart.aggregate(
     { $match : { "items.itemid" : 8910 } },
     { $unwind : "$items" },
-    { $group : { 
-        "_id" : "$items.itemid", 
+    { $group : {
+        "_id" : "$items.itemid",
         "amount" : { "$sum" : "$items.quantity" }
       } }
-  )  
+  )
 
 .. include:: /includes/student-notes.rst
 
 Expiring the Shopping Cart
 --------------------------
 
-Three options: 
+Three options:
 
-- Use a background process to expire items in the cart collection and update the "quantity_in_carts" field. 
+- Use a background process to expire items in the cart collection and update the "quantity_in_carts" field.
 - Create a TTL index on "last_activity" field in "cart" collection.  Remove the "quantity_in_carts" field from the item document and create a query for determining the number of items currently allocated to user carts
 - Create a background process to change the "status" field of expired carts to "inactive"
 
@@ -216,7 +216,7 @@ Efficiently Storing Large Shopping Carts
 
 - The array used for the "items" field will lead to performance degradation as the array becomes very large
 - Split cart into "cart" and "cart_item" collections
-  
+
 .. include:: /includes/student-notes.rst
 
 Efficiently Storing Large Shopping Carts: "cart" Collection
@@ -260,7 +260,7 @@ Expire Items Individually
 -------------------------
 
 - Add a TTL index to the "cart_item" document for the "date_added" field
-- Expiration would occur after a certain amount of time from when the item was added to the cart, similar to a ticketing site, or flash sale site 
+- Expiration would occur after a certain amount of time from when the item was added to the cart, similar to a ticketing site, or flash sale site
 
 .. include:: /includes/student-notes.rst
 

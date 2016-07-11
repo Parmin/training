@@ -57,7 +57,7 @@ Lab 2: Populate All Necessary Database Queries
    		- This is a long exercise
    		- Don't hand out solution to students, type it in for them on the screen and ask them to help you
    		- Solution is in /instructor/java/lab_2
-   		
+
 
 
 Lab 3: Use Range Based Pagination
@@ -84,7 +84,7 @@ Lab 5: Improve How Reviews are Stored and Queried
 -------------------------------------------------
 
 - Currently, all reviews are stored in the "item" document, within a "reviews" array.  This is problematic for the cases when the number of reviews for a product become extremely large.
-- Create a new collection called "review" and modify the "reviews" array within the "item" collection to only contain the last 10 reviews.  
+- Create a new collection called "review" and modify the "reviews" array within the "item" collection to only contain the last 10 reviews.
 - Modify the application to update the last 10 reviews for an item, the average number of stars (based on reviews) for an item, and insert the review into the new "review" collection
 
 .. include:: /includes/student-notes.rst

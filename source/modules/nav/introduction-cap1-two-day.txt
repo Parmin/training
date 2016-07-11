@@ -6,4 +6,4 @@ Introduction
 
 .. include:: /includes/toc/dfn-list-introduction-cap1-two-day.rst
 
-.. include:: /includes/toc/introduction-cap1-two-day.rst             
+.. include:: /includes/toc/introduction-cap1-two-day.rst

@@ -35,7 +35,7 @@ Bulk Operations: Syntax
     - db.<COLLECTION>.initializeUnorderedBulkOp()
         - Unordered bulk operations are done in no particular order, and if one
           fails, all others will still be attempted
-- You then use the find() method to add the query portion, and 
+- You then use the find() method to add the query portion, and
   insert/update/remove to add a write portion.
 
 Exercise: Bulk Inserts
@@ -46,20 +46,20 @@ Exercise: Bulk Inserts
 
 .. code-block:: javascript
 
-    for (i=0; i<100; i++) { 
+    for (i=0; i<100; i++) {
             orderedBulk = db.ordered.initializeOrderedBulkOp()
             for (j=0; j<1000; j++) {
                 orderedBulk.insert( { _id : 1000 * i + j,
                                       a : 1000 * i + j,
-                                      b : 1000 * i + j, } ) }; 
+                                      b : 1000 * i + j, } ) };
             orderedBulk.execute(); }
     // execute 1000 at a time; 100 thousand total ordered inserts
-    for (i=0; i<100; i++) { 
+    for (i=0; i<100; i++) {
             unorderedBulk = db.unordered.initializeUnorderedBulkOp()
             for (j=0; j<1000; j++) {
                 unorderedBulk.insert( { _id : 1000 * i + j,
                                       a : 1000 * i + j,
-                                      b : 1000 * i + j, } ) }; 
+                                      b : 1000 * i + j, } ) };
             unorderedBulk.execute(); }
     // execute 1000 at a time; 100 thousand total unrdered inserts
     for (i=0; i<100; i++) { for (j=0; j<1000; j++) {
@@ -73,12 +73,12 @@ Exercise: Bulk Updates  -- DO NOT USE THIS YET, THE REMOVE() FUNCTION IS NOT WOR
 
 .. code-block:: javascript
 
-    for (i=0; i<100; i++) { 
+    for (i=0; i<100; i++) {
             orderedBulk = db.ordered.initializeOrderedBulkOp()
             for (j=0; j<1000; j++) {
                 orderedBulk.find( { _id : 1000 * i + j }).update( { $inc : { a : 1 } } ) }
             orderedBulk.execute(); }  // Happens fast
-    for (i=0; i<100; i++) { 
+    for (i=0; i<100; i++) {
             orderedBulk = db.interweave.initializeOrderedBulkOp()
             for (j=0; j<300; j++) {
                 orderedBulk.insert( { _id : 1000 * i + j,

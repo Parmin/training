@@ -2,14 +2,14 @@ Exercise: Using $set with multi
 -------------------------------
 
 .. code-block:: javascript
-    
+
    db.testcol.drop()
    for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i, b : i } ) }
 
    // Updates four of five documents.
-   db.testcol.update( { _id : { $lte : 4 } },    
+   db.testcol.update( { _id : { $lte : 4 } },
 
-                      { $set : { a : 1 } }, 
+                      { $set : { a : 1 } },
                       { multi : true } )
 
 .. include:: /includes/student-notes.rst

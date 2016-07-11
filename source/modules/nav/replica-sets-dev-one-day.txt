@@ -6,4 +6,4 @@ Replica Sets
 
 .. include:: /includes/toc/dfn-list-replica-sets-dev-one-day.rst
 
-.. include:: /includes/toc/replica-sets-dev-one-day.rst             
+.. include:: /includes/toc/replica-sets-dev-one-day.rst

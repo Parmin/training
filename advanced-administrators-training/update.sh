@@ -10,7 +10,7 @@ function install_mongodb() {
     mv mongodb-linux-x86_64-$VER $NEW_OR_OLD
 }
 
-rm $DOWNLOAD_DIR/* 
+rm $DOWNLOAD_DIR/*
 rm -rf {new,old}
 install_mongodb old 2.4.12
 install_mongodb new 2.6.7

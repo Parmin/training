@@ -6,4 +6,4 @@ MongoDB Cloud & Ops Manager Under the Hood
 
 .. include:: /includes/toc/dfn-list-mms-advanced.rst
 
-.. include:: /includes/toc/mms-advanced.rst             
+.. include:: /includes/toc/mms-advanced.rst

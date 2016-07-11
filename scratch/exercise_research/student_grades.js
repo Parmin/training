@@ -1,5 +1,5 @@
 /*
-Setup the exercise, load all relevant data and 
+Setup the exercise, load all relevant data and
 configure the cluster (if needed)
 */
 function setup() {
@@ -26,11 +26,11 @@ function getDescription() {
 }
 
 /*
-Solve the exercise, update any documents or configurations to 
+Solve the exercise, update any documents or configurations to
 pass the submit() function
 */
 function solve()  {
-	db.getSiblingDB("students").grades.update( { "grade" : { $gte : 90 } }, { $set : { "grade" : "A" } }, { "multi" : true });	
+	db.getSiblingDB("students").grades.update( { "grade" : { $gte : 90 } }, { $set : { "grade" : "A" } }, { "multi" : true });
 }
 
 /*

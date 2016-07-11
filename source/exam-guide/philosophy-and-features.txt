@@ -85,7 +85,7 @@ Shell Examples
 To assign a value to a variable, you use the '=' sign. Let's assign the value of 5 to the 'x' variable:
 
 .. code-block:: javascript
-  
+
   > var x = 5;
   > print(x)
   5
@@ -93,7 +93,7 @@ To assign a value to a variable, you use the '=' sign. Let's assign the value of
 JavaScript is lax about syntax so the following will also work. Note the lack of the `var` keyword and semicolons.
 
 .. code-block:: javascript
-  
+
   > x = 5
   5
   > print(x)
@@ -148,12 +148,12 @@ In the mongo shell (and drivers), you will work with database handles and collec
   > db.people.find()
   { "_id" : ObjectId("55afeb6a6daadd6baf25c63b"), "name" : "Dwight", "title" : "Chair of the Board" }
   { "_id" : ObjectId("55afeb7b6daadd6baf25c63c"), "name" : "Andrew", "title" : "VP of Developer Experience" }
-       
+
 
 Shell Exercises
 ---------------
 
-The following are exercises you may find useful in ensuring you understand the above. 
+The following are exercises you may find useful in ensuring you understand the above.
 
 - Write a for loop that inserts one million documents in the mongo shell.
 - Create one collection with a field that contains the _id of documents in second collection. Perform a series of find operations that use the results of a query against the first collection to identify the _ids of documents to retrieve from the second collection.

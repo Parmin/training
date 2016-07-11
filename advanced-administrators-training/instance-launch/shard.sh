@@ -194,7 +194,7 @@ name_instance() {
 create_cluster() {
     local team_id="$1"
     local requester="$2"
-    
+
 
     local ids_rs0=($(start_instances 3))
     local ids_rs1=($(start_instances 3))
