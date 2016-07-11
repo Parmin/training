@@ -6,4 +6,4 @@ CRUD
 
 .. include:: /includes/toc/dfn-list-crud-dev-one-day.rst
 
-.. include:: /includes/toc/crud-dev-one-day.rst             
+.. include:: /includes/toc/crud-dev-one-day.rst

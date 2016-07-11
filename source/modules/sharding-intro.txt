@@ -20,10 +20,10 @@ Contrast with Replication
 -------------------------
 
 - In an earlier module, we discussed Replication.
-- This should never be confused with sharding. 
+- This should never be confused with sharding.
 - Replication is about high availability and durability.
 
-  - Taking your data and constantly copying it 
+  - Taking your data and constantly copying it
   - Being ready to have another machine step in to field requests.
 
 .. include:: /includes/student-notes.rst
@@ -33,9 +33,9 @@ Sharding is Concerned with Scale
 --------------------------------
 
 - What happens when a system is unable to handle the application load?
-- It is time to consider scaling.  
+- It is time to consider scaling.
 - There are 2 types of scaling we want to consider:
-  
+
   - Vertical scaling
   - Horizontal scaling
 
@@ -45,9 +45,9 @@ Sharding is Concerned with Scale
 Vertical Scaling
 ----------------
 
-- Adding more RAM, faster disks, etc.  
-- When is this the solution?  
-- First, consider a concept called the ``working set``.  
+- Adding more RAM, faster disks, etc.
+- When is this the solution?
+- First, consider a concept called the ``working set``.
 
 .. include:: /includes/student-notes.rst
 
@@ -73,9 +73,9 @@ Limitations of Vertical Scaling
 -------------------------------
 
 - There is a limit to how much RAM one machine can support.
-- There are other bottlenecks such as I/O, disk access and network.  
+- There are other bottlenecks such as I/O, disk access and network.
 - Cost may limit our ability to scale up.
-- There may be requirements to have a large working set that no single machine could possible support.  
+- There may be requirements to have a large working set that no single machine could possible support.
 - This is when it is time to scale horizontally.
 
 .. include:: /includes/student-notes.rst
@@ -193,7 +193,7 @@ Sharded Cluster Architecture
       - This figure illustrates one possible architecture for a sharded cluster.
       - Each shard is a self-contained replica set.
       - Each replica set holds a partition of the data.
-      - As many new shards could be added to this sharded cluster as scale requires.  
+      - As many new shards could be added to this sharded cluster as scale requires.
       - At this point our cluster can handle a load approaching twice that of a single replica set using the same hardware.
       - As mentioned, read/write operations go through a router.
       - The server that routes requests is the mongos.
@@ -202,10 +202,10 @@ Sharded Cluster Architecture
 Mongos
 ------
 
-- A mongos is responsible for accepting requests and returning results to an application driver.  
-- In a sharded cluster, nearly all operations go through a mongos.  
-- A sharded cluster can have as many mongos routers as required.  
-- It is typical for each application server to have one mongos.  
+- A mongos is responsible for accepting requests and returning results to an application driver.
+- In a sharded cluster, nearly all operations go through a mongos.
+- A sharded cluster can have as many mongos routers as required.
+- It is typical for each application server to have one mongos.
 - Always use more than one mongos to avoid a single point of failure.
 
 .. include:: /includes/student-notes.rst
@@ -214,8 +214,8 @@ Mongos
 
    .. note::
 
-      - A mongos is typically deployed on an application server.  
-      - There should be one mongos per app server.  
+      - A mongos is typically deployed on an application server.
+      - There should be one mongos per app server.
       - Scale with your app server.
       - Very little latency between the application and the router.
 
@@ -248,9 +248,9 @@ Config Server Hardware Requirements
 -----------------------------------
 
 - Quality network interfaces
-- A small amount of disk space (typically a few GB) 
-- A small amount of RAM (typically a few GB) 
-- The larger the sharded cluster, the greater the config server hardware requirements.  
+- A small amount of disk space (typically a few GB)
+- A small amount of RAM (typically a few GB)
+- The larger the sharded cluster, the greater the config server hardware requirements.
 
 .. include:: /includes/student-notes.rst
 
@@ -258,7 +258,7 @@ Config Server Hardware Requirements
 Possible Imbalance?
 -------------------
 
-- Depending on how you configure sharding, data can become unbalanced on your sharded cluster. 
+- Depending on how you configure sharding, data can become unbalanced on your sharded cluster.
 
   - Some shards might receive more inserts than others.
   - Some shards might have documents that grow more than those in other shards.
@@ -267,7 +267,7 @@ Possible Imbalance?
 
   - Reads and writes
   - Disk activity
-  
+
 - This would defeat the purpose of sharding.
 
 .. include:: /includes/student-notes.rst
@@ -360,7 +360,7 @@ Non-Monotonic
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
- 
+
    .. note::
 
       - Documents will eventually move as chunks are balanced.

@@ -48,18 +48,18 @@ Types of 2dsphere Objects
 -------------------------
 
 - Point: A single point on the globe
-  
+
   - Format: { <field_name> : { type : "Point", coordinates : [ <longitude>, <latitude> ] } }
   - If you input a legacy coordinate pair, it will be treated as a Point type by the 2dsphere index
 
 - LineString: A geodesic line that is defined by its two end Points.
 
-  - Format: { <field_name> : { type : "LineString", coordinates : [ [ <longitude1>, <latitude1> ], [ <longitude2>, <latitude2> ] ] } } 
+  - Format: { <field_name> : { type : "LineString", coordinates : [ [ <longitude1>, <latitude1> ], [ <longitude2>, <latitude2> ] ] } }
 
 - Polygon: A shape defined by the line strings of its edges, and holes defined by other polygons
- 
-  - Simple Polygon Format: { <field_name> : { type : "Polygon", coordinates [ [ [ <Point1 coordinate pair> ], [ <Point2 coordinate pair> ], ... [ <Point1 coordinate pair again> ] ] ] } } 
-  - Polygon with One Hole: { <field_name> : { type : "Polygon", coordinates [ [ <Points that define outer polygon> ], [ <Points that define inner polygon> ] ] } } 
+
+  - Simple Polygon Format: { <field_name> : { type : "Polygon", coordinates [ [ [ <Point1 coordinate pair> ], [ <Point2 coordinate pair> ], ... [ <Point1 coordinate pair again> ] ] ] } }
+  - Polygon with One Hole: { <field_name> : { type : "Polygon", coordinates [ [ <Points that define outer polygon> ], [ <Points that define inner polygon> ] ] } }
 
 - MultiPoint: One or more Points in one document
 - MultiLine: One or more LineStrings in one document
@@ -71,15 +71,15 @@ Types of 2dsphere Objects
 Querying 2dsphere Objects
 -------------------------
 
-- $geoNear: Finds all points, orders them by distance from a position. 
+- $geoNear: Finds all points, orders them by distance from a position.
 
   - You can specify a min distance, and a max distance (both in meters, not degrees or kilometers)
-  - format is : { <field name> : { $near : { $geometry : { type : "Point", coordinates : [ lng, lat ] }, $maxDistance : <distance_in_meters> } } } 
+  - format is : { <field name> : { $near : { $geometry : { type : "Point", coordinates : [ lng, lat ] }, $maxDistance : <distance_in_meters> } } }
 
 - $near: Just like $geoNear, except in very edge cases; check the docs.
 
 - $geoWithin
-  
+
   - Only returns documents with a location completely contained within the query
 
 - $geoIntersects

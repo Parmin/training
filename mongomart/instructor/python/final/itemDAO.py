@@ -46,7 +46,7 @@ class ItemDAO:
             total += category['num']
 
         categories.insert(0,  {'_id': 'All', 'num': total } )
-        
+
         return categories
 
     def get_items(self, category, page, items_per_page):
@@ -55,7 +55,7 @@ class ItemDAO:
             items = list(self.item.find().skip(int(page*items_per_page)).limit(items_per_page))
         else:
             items = list(self.item.find( { 'category' : category }).skip(int(page*items_per_page)).limit(items_per_page))
-        
+
         return items
 
     def get_items_range_based(self, category, before, after, items_per_page):
@@ -64,7 +64,7 @@ class ItemDAO:
             if category == 'All':
                 items = list(self.item.find( { '_id' : { '$lt' : before } } ).sort( '_id' , pymongo.DESCENDING).limit(items_per_page + 1))
             else:
-                items = list(self.item.find( { 'category' : category, '_id' : { '$lt' : before } } ).sort( '_id' , pymongo.DESCENDING).limit(items_per_page + 1))                
+                items = list(self.item.find( { 'category' : category, '_id' : { '$lt' : before } } ).sort( '_id' , pymongo.DESCENDING).limit(items_per_page + 1))
             #reverse order of results
             items.reverse()
         else:
@@ -82,7 +82,7 @@ class ItemDAO:
             num_items = self.item.find().count()
         else:
             num_items = self.item.find( { 'category' : category }).count()
-        
+
         return num_items
 
     def search_items(self, query, page, items_per_page):
@@ -91,7 +91,7 @@ class ItemDAO:
             items = list(self.item.find().skip(int(page*items_per_page)).limit(items_per_page))
         else:
             items = list(self.item.find( { '$text' : { '$search': query } }).skip(int(page*items_per_page)).limit(items_per_page))
-        
+
         return items
 
     def get_num_search_items(self, query):
@@ -111,7 +111,7 @@ class ItemDAO:
 
     def get_related_items(self):
         items = list(self.item.find().limit(4))
-        
+
         return items
 
     def add_review(self, itemid, review, name, stars):
@@ -124,9 +124,9 @@ class ItemDAO:
         #       } } })
         #   }
 
-        self.item.update({ '_id' : int(itemid) }, 
-                         { '$push' : { 
-                            'reviews' : { 
+        self.item.update({ '_id' : int(itemid) },
+                         { '$push' : {
+                            'reviews' : {
                                 '$each': [ { 'name' : name, 'comment' : review, 'stars' : stars, 'date' : datetime.datetime.now() } ],
                                 '$sort': { "date" : -1 },
                                 '$slice': 10

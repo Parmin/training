@@ -46,7 +46,7 @@ class StoreDAO(object):
 
     def count_stores(self):
         return self.store.count()
-        
+
     def doc_to_store(self, document):
         coords = document['coords'];
         longitude = coords[0]

@@ -33,7 +33,7 @@ Application and Server Administration Topics
 Introduction
 ------------
 
-While the definitions are somewhat fluid, Application Administration deals with MongoDB's relationship to applications. Since MongoDB is a flexible data store, it's basically never used alone, except for training purposes. It's always hooked into an application, and this requires a certain set of features to assist with the interface, such as the wire protocol, over-the-wire encryption, and security. 
+While the definitions are somewhat fluid, Application Administration deals with MongoDB's relationship to applications. Since MongoDB is a flexible data store, it's basically never used alone, except for training purposes. It's always hooked into an application, and this requires a certain set of features to assist with the interface, such as the wire protocol, over-the-wire encryption, and security.
 
 Server administration deals with all other aspects of architecting, maintaining, or repairing the server system. While Sharding and Replication are big enough to merit their own sections in the exam, this should cover almost everything else.
 
@@ -161,7 +161,7 @@ Cluster Architecture
 For the exam, you should know:
 
 - Deployment patterns in:
-  
+
   - Replica sets
   - Sharded clusters
 

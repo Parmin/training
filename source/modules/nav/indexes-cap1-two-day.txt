@@ -6,4 +6,4 @@ Indexes
 
 .. include:: /includes/toc/dfn-list-indexes-cap1-two-day.rst
 
-.. include:: /includes/toc/indexes-cap1-two-day.rst             
+.. include:: /includes/toc/indexes-cap1-two-day.rst

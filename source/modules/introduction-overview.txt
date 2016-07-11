@@ -3,7 +3,7 @@ MongoDB Overview
 ================
 
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this module students should understand:
@@ -25,7 +25,7 @@ MongoDB is a Document Database
 Documents are associative arrays like:
 
 - Python dictionaries
-- Ruby hashes 
+- Ruby hashes
 - PHP arrays
 - JSON objects
 
@@ -48,7 +48,7 @@ A MongoDB document expressed using JSON syntax.
       "title" : "Lead Business Editor"
     },
     "copy" : "Apple beat Wall St expectations by reporting ...",
-    "tags" : [ 
+    "tags" : [
       "AAPL", "Earnings", "Cupertino"
     ],
     "comments" : [
@@ -82,14 +82,14 @@ Vertical Scaling
 
       Another difference is in terms of scalability. With an RDBMS:
 
-      - If you need to support a larger workload, you buy a bigger machine. 
-      - The problem is, machines are not priced linearly. 
-      - The largest machines cost much more than commodity hardware. 
-      - If your application is successful, you may find you simply cannot buy a large enough a machine to support your workload. 
+      - If you need to support a larger workload, you buy a bigger machine.
+      - The problem is, machines are not priced linearly.
+      - The largest machines cost much more than commodity hardware.
+      - If your application is successful, you may find you simply cannot buy a large enough a machine to support your workload.
 
 .. include:: /includes/student-notes.rst
 
-    
+
 
 Scaling with MongoDB
 --------------------
@@ -102,8 +102,8 @@ Scaling with MongoDB
 
       - MongoDB is designed to be horizontally scalable (linear).
       - MongoDB scales by enabling you to shard your data.
-      - When you need more performance, you just buy another machine and add it to your cluster. 
-      - MongoDB is highly performant on commodity hardware.	
+      - When you need more performance, you just buy another machine and add it to your cluster.
+      - MongoDB is highly performant on commodity hardware.
 
 .. include:: /includes/student-notes.rst
 
@@ -117,14 +117,14 @@ Database Landscape
 
    .. note::
 
-      - We've plotted each technology by scalability and functionality. 
-      - At the top left, are key/value stores like memcached. 
-      - These scale well, but lack features that make developers productive. 
-      - At the far right we have traditional RDBMS technologies. 
-      - These are full featured, but will not scale easily. 
+      - We've plotted each technology by scalability and functionality.
+      - At the top left, are key/value stores like memcached.
+      - These scale well, but lack features that make developers productive.
+      - At the far right we have traditional RDBMS technologies.
+      - These are full featured, but will not scale easily.
       - Joins and transactions are difficult to run in parallel.
       - MongoDB has nearly as much scalability as key-value stores.
-      - Gives up only the features that prevent scaling. 
+      - Gives up only the features that prevent scaling.
       - We have compensating features that mitigate the impact of that design decision.
 
 .. include:: /includes/student-notes.rst
@@ -143,11 +143,11 @@ MongoDB Deployment Models
 
    .. note::
 
-      - MongoDB supports high availability through automated failover. 
+      - MongoDB supports high availability through automated failover.
       - Do not use a single-server deployment in production.
       - Typical deployments use replica sets of 3 or more nodes.
 
-        - The primary node will accept all writes, and possibly all reads. 
+        - The primary node will accept all writes, and possibly all reads.
         - Each secondary will replicate from another node.
         - If the primary fails, a secondary will automatically step up.
         - Replica sets provide redundancy and high availability.
@@ -155,7 +155,7 @@ MongoDB Deployment Models
       - In production, you typically build a fully sharded cluster:
 
         - Your data is distributed across several shards.
-        - The shards are themselves replica sets. 
+        - The shards are themselves replica sets.
         - This provides high availability and redundancy at scale.
 
 .. include:: /includes/student-notes.rst

@@ -6,4 +6,4 @@ CRUD
 
 .. include:: /includes/toc/dfn-list-crud-admin.rst
 
-.. include:: /includes/toc/crud-admin.rst             
+.. include:: /includes/toc/crud-admin.rst

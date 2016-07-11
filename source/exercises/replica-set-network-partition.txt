@@ -89,7 +89,7 @@ The following is similar to Scenario C, but with the addition of an arbiter in D
 Scenario E: 3 Data Nodes in 3 DCs
 ---------------------------------
 
-- What happens here if any one of the nodes/DCs fail? 
+- What happens here if any one of the nodes/DCs fail?
 - What about recovery time?
 
 .. include:: /images/replica-set-3nodes-1-per-dc.rst
@@ -119,7 +119,7 @@ What happens here if any one of the nodes/DCs fail? What about recovery time?
 
    .. note::
 
-      - Adds another data node to each "main" DC to reduce typically slow and costly cross DC network traffic if an initial sync or similar recovery is needed, as the recovering node can pull from a local replica instead. 
+      - Adds another data node to each "main" DC to reduce typically slow and costly cross DC network traffic if an initial sync or similar recovery is needed, as the recovering node can pull from a local replica instead.
       - Depending on the data sizes, operational budget, and requirements, this can be overkill.
       - The data node in DC3 can be replaced by an arbiter to reduce costs.
 

@@ -6,4 +6,4 @@ Reporting Tools and Diagnostics
 
 .. include:: /includes/toc/dfn-list-performance-five-day-training.rst
 
-.. include:: /includes/toc/performance-five-day-training.rst             
+.. include:: /includes/toc/performance-five-day-training.rst

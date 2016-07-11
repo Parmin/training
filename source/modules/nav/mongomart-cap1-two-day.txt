@@ -6,4 +6,4 @@ Application Engineering
 
 .. include:: /includes/toc/dfn-list-mongomart-cap1-two-day.rst
 
-.. include:: /includes/toc/mongomart-cap1-two-day.rst             
+.. include:: /includes/toc/mongomart-cap1-two-day.rst

@@ -5,7 +5,7 @@ wget http://peak.telecommunity.com/dist/ez_setup.py
 python ez_setup.py
 easy_install pip
 
-yum -y install openldap-servers openldap-clients openldap-devel python-devel gcc cyrus-sasl-plain xfsprogs net-snmp ps-misc wget 
+yum -y install openldap-servers openldap-clients openldap-devel python-devel gcc cyrus-sasl-plain xfsprogs net-snmp ps-misc wget
 pip install python-ldap
 
 service slapd stop

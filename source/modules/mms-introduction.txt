@@ -3,12 +3,12 @@ MongoDB Cloud & Ops Manager
 ===========================
 
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this module students should understand:
 
-- Features of Cloud & Ops Manager 
+- Features of Cloud & Ops Manager
 - Available deployment options
 - The components of Cloud & Ops Manager
 
@@ -30,7 +30,7 @@ Deployment Options
 ------------------
 
 - Cloud Manager: Hosted, https://www.mongodb.com/cloud
-- Ops Manager: On-premises 
+- Ops Manager: On-premises
 
 .. include:: /includes/student-notes.rst
 
@@ -46,7 +46,7 @@ Cloud Manager
 
 - Manage MongoDB instances anywhere with a connection to Cloud Manager
 - Option to provision servers via AWS integration
-  
+
 Ops Manager
 -----------
 

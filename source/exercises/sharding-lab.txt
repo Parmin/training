@@ -11,7 +11,7 @@ Sharding Lab
 
         - Pre-split and import some data.
         - Create a shard key and shard one or more collections
-        - We should set up several queries that students can run .explain() on to view how the query was distributed: some targeted, some scatter/gather.  
-        - It might be of advantage to have them add a shard, see how the data is balanced, and then run the queries again to see how the "application layer" didn't change but the query is now routed differently.  
-        - Then have them knock that new server down and run the query again and see how it fails.  
+        - We should set up several queries that students can run .explain() on to view how the query was distributed: some targeted, some scatter/gather.
+        - It might be of advantage to have them add a shard, see how the data is balanced, and then run the queries again to see how the "application layer" didn't change but the query is now routed differently.
+        - Then have them knock that new server down and run the query again and see how it fails.
       - Maybe drain a shard?

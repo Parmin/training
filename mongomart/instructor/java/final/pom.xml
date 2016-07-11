@@ -43,13 +43,13 @@
             <artifactId>commons-codec</artifactId>
             <version>1.7</version>
         </dependency>
-        
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-       
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-http</artifactId>
@@ -75,7 +75,7 @@
             <artifactId>jetty-io</artifactId>
             <version>9.3.5.v20151012</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
@@ -89,7 +89,7 @@
                 <version>2.17</version>
                 <configuration>
                     <systemProperties>
-                        <property> 
+                        <property>
                             <name>java.util.logging.config.file</name>
                             <value>src/test/resources/test-logging.properties</value>
                         </property>
@@ -132,9 +132,9 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
         </plugins>
     </build>
-    
-    
+
+
 </project>

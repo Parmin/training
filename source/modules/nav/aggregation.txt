@@ -6,4 +6,4 @@ Aggregation
 
 .. include:: /includes/toc/dfn-list-aggregation.rst
 
-.. include:: /includes/toc/aggregation.rst             
+.. include:: /includes/toc/aggregation.rst

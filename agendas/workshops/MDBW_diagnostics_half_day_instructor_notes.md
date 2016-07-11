@@ -14,7 +14,7 @@ In this workshop, the instructor will introduce useful tools (both supported and
 
 * Warm Up and Introductions
 	- Ask the students their backgrounds and knowledge of MongoDB (e.g. have you had any performance issues, how did you fix them?)
-* MongoDB Overview 
+* MongoDB Overview
 	 - In case any students don't have an understanding of how MongoDB work (documents, collections, etc.)
 * MongoDB Stores Documents
 * Components to MongoDB Diagnostics: the MongoDB Server (indexes, operations), Application Settings (schema, driver settings), Hardware Settings (disk settings, ulimits, etc.)
@@ -42,7 +42,7 @@ In this workshop, the instructor will introduce useful tools (both supported and
 	- db.blog.find( { "headline" : 200 }).sort( { "date" : -1 }) - index?
 
 * Case Study: bad query with sort
-	
+
 You've created a blog comment system, it contains four comments (insert each to the database in front of the class)::
 
 	db.comment.insert({ timestamp: 1, anonymous: false, rating: 3 })
@@ -57,13 +57,13 @@ Create an index to optimize the following query::
 Add index {timestamp:1, anonymous:1} vs {anonymous:1, timestamp:1} ?
 
 Now optimize the query::
-	
+
 	db.comment.find({ timestamp: { $gte: 2, $lte: 4 }, anonymous: false }).sort( { rating: -1 } )
 
 What are the index choices? Experiment with each.
 
 After working through all the possibilities, the following index is the best for this (very contrived) example (this index isn't very intuitive to many users)::
-	
+
 	db.comments.ensureIndex({anonymous:1, rating:1, timestamp:1});
 
 * mongod settings (WT compression, smallfiles, etc.)
@@ -76,7 +76,7 @@ After working through all the possibilities, the following index is the best for
 
 ## 10:30AM Mid-morning Break
 
-## 10:45 
+## 10:45
 
 ### Application Diagnostics
 
@@ -94,7 +94,7 @@ After working through all the possibilities, the following index is the best for
 * Write concern
 * Connection settings
 
-## 11:30AM 
+## 11:30AM
 
 ### Hardware Settings
 

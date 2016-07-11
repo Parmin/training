@@ -6,4 +6,4 @@ Reporting Tools and Diagnostics
 
 .. include:: /includes/toc/dfn-list-performance-essentials.rst
 
-.. include:: /includes/toc/performance-essentials.rst             
+.. include:: /includes/toc/performance-essentials.rst

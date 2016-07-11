@@ -36,7 +36,7 @@ Choosing a Shard Key: An Optimization Opportunity
 -------------------------------------------------
 
 - Your shard key should try to match your query pattern.
-  
+
   - If your query is going to find only one document, then you only need good cardinality
   - If you plan to frequently query a set of documents at once, having the shard key apply to that query will ensure that those documents are all together on one server.
 
@@ -48,7 +48,7 @@ Properties of a Good Shard Key: Cardinality
 
   - This means that every document has a unique shard key (or nearly unique)
   - If you don't, then all documents with a given shard key will end up on the same server
-    
+
     - Adding more servers won't help this, because data is broken up by shard key, so data with the same shard key will be in the same place
 
   - Hashing the shard key will not help with this.
@@ -78,7 +78,7 @@ Hashed Indexes as Shard Keys
 
     - This is because the maximum range (last split point up to $maxKey) will always capture all new documents
     - This can make for a single "hot" server if your load is very document-creation heavy.
-  
+
   - Using a hashed index will solve this problem and distribute the writes
 
 - In some cases, it might be advantageous to use a different shard key rather than hashing a monotonically increasing one.
@@ -89,7 +89,7 @@ Disadvantage of Hashed Indexes
 
 - A hashed index cannot be used in a range query
 
-  - e.g. db.<COLLECTION>.find( { a : { $gte : 5 } } )  // needs to hit every server if the shard key is { a : "hashed" } 
+  - e.g. db.<COLLECTION>.find( { a : { $gte : 5 } } )  // needs to hit every server if the shard key is { a : "hashed" }
 
 
 Sharding and Replication

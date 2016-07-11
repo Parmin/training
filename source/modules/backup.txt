@@ -61,7 +61,7 @@ Backup Options
   - ``mongodump``, ``mongorestore``
 
 - File system level
- 
+
   - Physical
   - Copy files
   - Volume/disk snapshots
@@ -93,10 +93,10 @@ Document Level: ``mongodump``
 
    options:
      --help                  produce help message
-     -v [ --verbose ]        be more verbose (include multiple times for 
+     -v [ --verbose ]        be more verbose (include multiple times for
                              more verbosity e.g. -vvvvv)
      --version               print the program's version and exit
-     -h [ --host ] arg       mongo host to connect to ( /s1,s2 for 
+     -h [ --host ] arg       mongo host to connect to ( /s1,s2 for
      --port arg              server port. Can also use --host hostname
      -u [ --username ] arg   username
      -p [ --password ] arg   password
@@ -191,7 +191,7 @@ Tips and Tricks
 ---------------
 
 - ``mongodump/mongorestore``
- 
+
   - ``--oplog[Replay]``
   - ``--objcheck/--repair``
   - ``--dbpath``

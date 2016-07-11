@@ -6,7 +6,7 @@ Please type in solution with the class instead of distributing source code.
 Create a new reviewDao class
 ----------------------------
 
-Method for: 
+Method for:
 
 - Adding a review to the "review" collection
 - Count the number of reviews for an item

@@ -19,6 +19,6 @@ for (i=1; i<=10; i++) {
 }
 db.foo.createIndex( { a : 1 } )
 db.foo.createIndex( { c : 1, b : 1, a : 1 } )
-db.foo.find( { a : { $lte : 5 } } ).sort( { c : 1 } ) 
+db.foo.find( { a : { $lte : 5 } } ).sort( { c : 1 } )
 pc = db.foo.getPlanCache()
 pc.listQueryShapes()

@@ -1,10 +1,10 @@
 Exercise: Basic Queries using ``update()``
 ------------------------------------------
 
-Experiment with the following. Do a ``find()`` after each update to see the results. 
-   
+Experiment with the following. Do a ``find()`` after each update to see the results.
+
 .. code-block:: javascript
-    
+
    db.testcol.drop()
    for (i=1; i<=5; i++) { db.testcol.insert( { _id : i, a : i } ) }
    db.testcol.find()
@@ -28,9 +28,9 @@ Experiment with the following. Do a ``find()`` after each update to see the resu
 
         - { "_id" : 3, "a" : 6 }
 
-      - After the second update, we have: 
+      - After the second update, we have:
 
-        - { "_id" : 2, "b" : 2 }. 
+        - { "_id" : 2, "b" : 2 }.
         - The "a" field is gone
 
       - db.testcol.update( { _id : { $lt : 3 } } , { a : 7 } ):

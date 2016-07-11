@@ -43,7 +43,7 @@ This Administrator Fundamentals workshop is designed to teach operations staff a
 * Find documents
 * Updating documents
 
-## 11AM 
+## 11AM
 
 ### Indexes
 
@@ -68,7 +68,7 @@ This Administrator Fundamentals workshop is designed to teach operations staff a
 
 ## 2:30PM Afternoon break
 
-## 2:45PM 
+## 2:45PM
 
 ### Sharding
 
@@ -77,7 +77,7 @@ This Administrator Fundamentals workshop is designed to teach operations staff a
 * Shard Tags
 * If time: demo sharded cluster creation with MMS
 
-## 4:00PM 
+## 4:00PM
 
 ### Backup and Recovery
 
@@ -85,7 +85,7 @@ This Administrator Fundamentals workshop is designed to teach operations staff a
 * Sharded Clusters
 * MMS / Ops Manager Backup Overview
 
-## 4:30PM 
+## 4:30PM
 
 ### Performance Troubleshooting
 

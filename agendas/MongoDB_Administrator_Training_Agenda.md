@@ -59,7 +59,7 @@ This course teaches operations teams how to successfully deploy and maintain Mon
 
 ### MMS / Ops Manager
 
-* Monitoring Performance 
+* Monitoring Performance
 * Automating Cluster Upgrades and Provisioning
 * Architecture
 * Exercise: Cluster Automation

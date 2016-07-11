@@ -23,7 +23,7 @@ Aggregation Basics
 
 - Use the aggregation framework to transform and analyze data in MongoDB collections.
 - For those who are used to SQL, aggregation can be similar to ``GROUP BY``.
-- The aggregation framework is based on the concept of a pipeline. 
+- The aggregation framework is based on the concept of a pipeline.
 
 .. include:: /includes/student-notes.rst
 
@@ -55,7 +55,7 @@ Aggregation Stages
 - ``$project``: Shape documents
 - ``$sort``: Like the cursor method of the same name
 - ``$skip``: Like the cursor method of the same name
-- ``$limit``: Like the cursor method of the same name 
+- ``$limit``: Like the cursor method of the same name
 - ``$unwind``: Used for working with arrays
 - ``$group``: Used to aggregate field values from multiple documents
 - ``$out``: Creates a new collection from the output of an aggregation
@@ -78,12 +78,12 @@ The Match Stage
 The Project Stage
 -----------------
 
-- $project allows you to shape the documents into what you need for the next stage. 
+- $project allows you to shape the documents into what you need for the next stage.
 
   - The simplest form of shaping is using $project to select only the fields you are interested in.
   - $project can also create new fields from other fields in the input document.
 
-    - *E.g.*, you can pull a value out of an embedded document and put it at the top level.  
+    - *E.g.*, you can pull a value out of an embedded document and put it at the top level.
     - *E.g.*, you can create a ratio from the values of two fields as pass along as a single field.
 
 - $project produces 1 output document for every input document it sees.
@@ -134,8 +134,8 @@ Tweets Data Model
 Analyzing Tweets
 ----------------
 
-- Imagine the types of analyses one might want to do on tweets. 
-- It's common to analyze the behavior of users and the networks involved. 
+- Imagine the types of analyses one might want to do on tweets.
+- It's common to analyze the behavior of users and the networks involved.
 - Our examples will focus on this type of analysis
 
 .. only:: instructor
@@ -159,7 +159,7 @@ Friends and Followers
 - In our dataset:
 
   - ``friends`` are those a user follows.
-  - ``followers`` are others that follow a users. 
+  - ``followers`` are others that follow a users.
 
 - Using these operators we will write an aggregation pipeline that will:
 
@@ -216,7 +216,7 @@ Exercise: $match and $project
 
 .. only:: instructor
 
-   .. note:: 
+   .. note::
 
       .. code-block:: javascript
 
@@ -245,8 +245,8 @@ The Group Stage
 Tweet Source
 ------------
 
-- The tweets in our twitter collection have a field called ``source``. 
-- This field describes the application that was used to create the tweet. 
+- The tweets in our twitter collection have a field called ``source``.
+- This field describes the application that was used to create the tweet.
 - Let's write an aggregation pipeline that identifies the applications most frequently used to publish tweets.
 
 .. include:: /includes/student-notes.rst
@@ -260,7 +260,7 @@ Exercise: Tweet Source
    db.tweets.aggregate( [
        { "$group" : { "_id" : "$source",
 		      "count" : { "$sum" : 1 } } },
-       { "$sort" : { "count" : -1 } } 
+       { "$sort" : { "count" : -1 } }
    ] )
 
 .. include:: /includes/student-notes.rst
@@ -314,7 +314,7 @@ For each user, aggregate all their tweets into a single array.
                      "tweet_texts" : { "$push" : "$text" },
                      "count" : { "$sum" : 1 } } },
       { "$sort" : { "count" : -1 } },
-      { "$limit" : 3 } 
+      { "$limit" : 3 }
    ] )
 
 .. include:: /includes/student-notes.rst
@@ -327,7 +327,7 @@ For each user, aggregate all their tweets into a single array.
       - In this case, we group documents based on the user's screen name.
       - With $group, we aggregate values using arithmetic or array operators.
       - Here we are counting the number of documents for each screen name.
-      - We do that by using the $sum operator 
+      - We do that by using the $sum operator
       - This will add 1 to the count field for each document produced by the $group stage.
       - Note that there will be one document produced by $group for each screen name.
       - The $sort stage receives these documents as input and sorts them by the value of the count field
@@ -411,7 +411,7 @@ Data Processing Pipelines
   - What input that stage must receive
   - What output it should produce.
 
-- Many tasks require us to include more than one stage using a given operator. 
+- Many tasks require us to include more than one stage using a given operator.
 
 .. include:: /includes/student-notes.rst
 
@@ -421,7 +421,7 @@ Most Unique User Mentions
 
 - We frequently need multiple group stages to achieve our goal.
 - We just looked at a pipeline to find the tweeter that mentioned the most users.
-- Let's change this so that it is more of a question about a tweeter's active network. 
+- Let's change this so that it is more of a question about a tweeter's active network.
 - We might ask which tweeter has mentioned the most unique users in their tweets.
 
 .. include:: /includes/student-notes.rst
@@ -436,13 +436,13 @@ Which tweeter has mentioned the most unique users in their tweets?
 
    db.tweets.aggregate( [
        { $unwind: "$entities.user_mentions" },
-       { $group: { 
+       { $group: {
            _id: "$user.screen_name",
 	   mset: { $addToSet: "$entities.user_mentions.screen_name"  } } },
        { $unwind: "$mset"},
        { $group: { _id: "$_id", count: { $sum: 1 } } },
        { $sort: { count: -1 } },
-       { $limit: 1 } 
+       { $limit: 1 }
    ] )
 
 .. only:: instructor
@@ -453,7 +453,7 @@ Which tweeter has mentioned the most unique users in their tweets?
       - Instead of simple counting them, we aggregate using $addToSet.
       - This produces documents that include only unique user mentions.
       - We then do another unwind stage to produce a document for each unique user mention.
-      - And count these in a second $group stage. 
+      - And count these in a second $group stage.
 
 .. include:: /includes/student-notes.rst
 

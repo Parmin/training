@@ -5,14 +5,14 @@
       :alt: Write operation to a replica set with write concern level of ``w:2`` or write to the primary and at least one secondary.
       :align: center
       :figwidth: 2100px
-   
+
       Write operation to a replica set with write concern level of ``w:2`` or write to the primary and at least one secondary.
 
 
 .. only:: website and not html
 
    .. raw:: html
-   
+
       <div class="figure align-center" style="max-width:300px;"><img src="http://docs.mongodb.org/training/master/_images//images/crud-write-concern-w2.png" alt="Write operation to a replica set with write concern level of ``w:2`` or write to the primary and at least one secondary."></img><p>Write operation to a replica set with write concern level of <tt class="docutils literal">w:2</tt> or write to the primary and at least one secondary.</p></div>
 
 
@@ -22,6 +22,6 @@
       :alt: Write operation to a replica set with write concern level of ``w:2`` or write to the primary and at least one secondary.
       :align: center
       :figwidth: 600
-   
+
       Write operation to a replica set with write concern level of ``w:2`` or write to the primary and at least one secondary.
 

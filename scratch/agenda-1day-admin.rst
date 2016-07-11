@@ -20,7 +20,7 @@ CRUD (0:45)
 - Updating Documents (30 minutes)
 - Lab: Updating Products (15 minutes)
 
-  
+
 Indexes (2:15)
 --------------
 
@@ -80,6 +80,6 @@ Backup and Recovery (30 minutes)
 --------------------------------
 - File System Backups (15 minutes)
 - Backup and Restore of Sharded Clusters (15 minutes)
-  
+
 
 Q and A, Additional Topics, and Labs (Time Permitting)

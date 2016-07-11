@@ -28,11 +28,11 @@ Index Filters - Mechanics
   - Those outside the plan don’t get tried.
 
 - If an index filter exists, it has a higher priority than a hint().
-- Index filters exist until the server process dies, and do not persist. 
+- Index filters exist until the server process dies, and do not persist.
 
 Index Filters - Usage
 ---------------------
 
 - Since filters are accessed through db.runCommand, you won’t remember how to use them.
 - Look them up in the documentation if you need to put them in place.
-- Because they override .hint(), use index filters sparingly. 
+- Because they override .hint(), use index filters sparingly.

@@ -2,7 +2,7 @@
 The Mongo Shell
 ===============
 
-.. topic:: Learning objectives 
+.. topic:: Learning objectives
 
    Students should understand:
 
@@ -26,13 +26,13 @@ Cursors in MongoDB
     - A find() query returns a cursor
     - A cursor is a pointer that you can iterate over, one document at a time
     - The MongoDB shell automatically iterates over the first 20 documents
-    - You can avoid this auto-iteration by assigning the cursor to a variable  
+    - You can avoid this auto-iteration by assigning the cursor to a variable
 
 Exercise: Being Explicit about Cursors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
-    
+
     var x = db.moreStuff.find()
     x.hasNext()  // should be true
     x.next()
@@ -47,5 +47,5 @@ Cursors in the Drivers
 
     - In the drivers, each language handles cursors idiomatically
     - In the drivers, iteration does not happen automatically
-    - If your driver has a shell (like python does), you might want 
+    - If your driver has a shell (like python does), you might want
       to use that from time to time while learning.

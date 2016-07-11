@@ -9,13 +9,13 @@ while var == 1 :
 	for hostn in hosts:
 
 		print "HOST %s" % hostn
-		
+
 		conn = pymongo.Connection(hostn)
 		db = conn['twitter']
 
 		print "-- Bad query count"
 		cursor = db.tweets.find({"source" : "web", "user.name":"Jason"}).count()
-		
+
 		print "-- Bad sort"
 		cursor = db.tweets.find({"favorited":'false'}).sort("id").skip(10000).limit(10)
 		for doc in cursor:
@@ -29,9 +29,9 @@ while var == 1 :
 		print "-- $where"
 		cursor = db.tweets.find( { "$where" : "this.in_reply_to_user_id == 'Jason'" }).skip(1000).limit(10)
 		for doc in cursor:
-			print ('In the %s.' % (doc['_id']))	
+			print ('In the %s.' % (doc['_id']))
 
 		print "-- Bad update"
 		db.tweets.update({"user.lang":"es"}, { "$set": { "user.lang_string" : "spanish"} }, multi=True)
 
-		conn.close()	
+		conn.close()

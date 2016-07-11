@@ -3,7 +3,7 @@ Architecture (Ops Manager)
 ==========================
 
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this module students should understand:
@@ -21,7 +21,7 @@ MongoDB Ops Manager
 - Everything stays within private network
 
 .. include:: /includes/student-notes.rst
-  
+
 
 Components
 ----------
@@ -29,7 +29,7 @@ Components
 - Application server(s): web interface
 - Ops Manager application database: monitoring metrics, automation configuration, etc.
 - Backup infrastructure: cluster backups and restores
-  
+
 .. include:: /includes/student-notes.rst
 
 
@@ -53,7 +53,7 @@ Application Server
 
 - 15GB RAM, 50GB of disk space are required
 - Equivalent to a m3.xlarge AWS instance
-  
+
 .. include:: /includes/student-notes.rst
 
 
@@ -62,7 +62,7 @@ Application Database
 
 - All monitoring metrics, automation configurations, etc. stored here
 - Replica set, however, a standalone MongoDB node can also be used
-  
+
 .. include:: /includes/student-notes.rst
 
 

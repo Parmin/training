@@ -20,7 +20,7 @@ Create a coordinate pair for each the following airports. Create one variable pe
       .. code-block:: javascript
 
          laguardia = [ -73.8726, 40.7772 ]
-         jfk = [ -73.7789, 40.6397 ], 
+         jfk = [ -73.7789, 40.6397 ],
          newark = [ -74.1686, 40.6925 ]
          heathrow = [ -0.4614, 52.4775 ]
          gatwick = [ -0.1903, 51.1481 ]
@@ -28,7 +28,7 @@ Create a coordinate pair for each the following airports. Create one variable pe
          luton = [-0.4333, 51.9000 ]
 
       - Remember, we use [ latitude, longitude ].
-      - In this example, we have made North (latitude) and East (longitude) positive. 
+      - In this example, we have made North (latitude) and East (longitude) positive.
       - West and South are negative.
 
 

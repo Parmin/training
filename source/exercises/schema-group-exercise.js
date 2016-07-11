@@ -40,7 +40,7 @@
 }
 
 > db.variant.findOne()
-{ 
+{
 	_id: "730223104376", // the sku
 	itemId: "301671", // references item id
 	thumbnail: "http://cdn…/pump-red.jpg", // variant specific
@@ -50,7 +50,7 @@
 	width: "B",
 	heelHeight: 5.0,
 	lastUpdated: Date("2014/04/01"), // last update time
-	… 
+	…
 }
 
 
@@ -69,14 +69,14 @@
 	{ "sku": "sku2441",
 	  "thumbnail": "http://cdn…/pump-small-39.jpg.Blue",
 	  "image": "http://cdn…/pump-39.jpg.Blue",
-	  "attrs": [ { "size": 6.0 }, { "color": "Blue" }, …], 
+	  "attrs": [ { "size": 6.0 }, { "color": "Blue" }, …],
 	  "sattrs": [ { "width" : "B"} , { "heelHeight" : 5.0 }, …],
 	},
 	… Many more skus … ]
 }
 
 
-{ 
+{
     “_id”: “30671”,
     “title”: “Evening Platform Pumps”,
     “department”: “Shoes”,
@@ -104,14 +104,14 @@
 
 
 /**
- 
+
 Views
 
 - Category home
 - Item detail
 
   - Category breadcrumbs
-  - Reviews 
-  - 
+  - Reviews
+  -
 
 */

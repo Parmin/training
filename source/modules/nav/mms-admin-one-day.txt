@@ -6,4 +6,4 @@ MMS & Ops Manager
 
 .. include:: /includes/toc/dfn-list-mms-admin-one-day.rst
 
-.. include:: /includes/toc/mms-admin-one-day.rst             
+.. include:: /includes/toc/mms-admin-one-day.rst

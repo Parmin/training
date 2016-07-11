@@ -54,7 +54,7 @@ ami_id=ami-703b1c18 # Advanced Ops MMS 5
 ami_id=ami-94183ffc # Advanced Ops MMS 6
 ami_id=ami-0ef7d066 # Advanced Ops MMS 7  # trying to fix cloud init
 ami_id=ami-1237117a # Advanced Ops MMS 8  # fix team-select.sh permissions
-ami_id=ami-9c3214f4 # Advanced Ops MMS 9  # 
+ami_id=ami-9c3214f4 # Advanced Ops MMS 9  #
 ami_id=ami-5435143c # Advanced Ops MMS 10
 ami_id=ami-1080a178 # Advanced Ops MMS 11 # fix premise-3.sh
 ami_id=ami-8488a9ec # Advanced Ops MMS 12 # remove premise-4.sh
@@ -90,7 +90,7 @@ do
 
     # TODO(dpercy): it looks like there is a race condition where the instances
     # may not have started when we try to tag them:
-	# 
+	#
 	# A client error (InvalidInstanceID.NotFound) occurred when calling the CreateTags operation:
 	# The instance ID 'i-922e5468' does not exist
     #

@@ -27,11 +27,11 @@ Overview
 
     - You should only run MongoDB in a trusted environment.
     - However, MongoDB offers security features from several angles:
-    
+
       - Authentication: Is the client who they say they are?
       - Authorization: Is the client allowed to do this?
       - Network Exposure: Is this query or login coming from the place we expect?
-    
+
     - You are welcome to use any features you desire, or none.
     - All security is off by default.
 
@@ -100,14 +100,14 @@ Native MongoDB Auth
 - Sometimes called MongoDB-CR
 - Start a mongod instance with ``--auth`` to enable this feature
 - You can initially login using localhost
-  
+
   - Called the "localhost exception".
   - Stops working when you create a user.
 
 .. only:: instructor
 
   .. note::
-     
+
     - Be careful to create a user who can create other users.
     - Otherwise you'll be stuck with the users you initially create.
     - When upgrading a node to 3.0, it will still use the legacy challenge response mechanism until authSchemaUpgrade is run
@@ -137,7 +137,7 @@ Using MongoDB Roles
     - Users must specify the db when logging in.
     - Trying to log into another db won't work
     - Users may follow ``-p`` with the password
-    - They may also enter the password after hitting enter. 
+    - They may also enter the password after hitting enter.
     - The ``mongo`` command will prompt for the password before launching the shell.
 
 .. include:: /includes/student-notes.rst

@@ -1,31 +1,31 @@
 file: /modules/indexes-fundamentals
-description: | 
+description: |
   An introduction to MongoDB indexes
---- 
+---
 file: /modules/indexes-compound
-description: | 
+description: |
   Indexes on two or more fields
 ---
 file: /exercises/indexes-optimizing-an-index
-description: | 
+description: |
   Lab on optimizing a compound index
 ---
 file: /modules/indexes-multikey
-description: | 
+description: |
   Indexes on array fields
---- 
+---
 file: /modules/indexes-hashed
-description: | 
+description: |
   Hashed indexes
---- 
+---
 file: /modules/indexes-geo
-description: | 
-  Geospatial indexes: both those on legacy coordinate pairs and those supporting queries that calculate geometries on an earth-like sphere. 
---- 
+description: |
+  Geospatial indexes: both those on legacy coordinate pairs and those supporting queries that calculate geometries on an earth-like sphere.
+---
 file: /exercises/indexes-finding-slow-operations
 description: |
   Lab on finding and addressing slow queries
---- 
+---
 file: /exercises/indexes-using-explain
 description: |
   Lab on using the explain operation to review execution stats

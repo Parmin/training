@@ -1,12 +1,12 @@
 file: /modules/mongomart
-description: | 
+description: |
   MongoMart Introduction
 ---
 file: /modules/mongomart-java-fundamentals
-description: | 
+description: |
   Build an e-commerce site backed by MongoDB (Java)
 ---
 file: /modules/mongomart-python-fundamentals
-description: | 
+description: |
   Build an e-commerce site backed by MongoDB (Python)
 ...

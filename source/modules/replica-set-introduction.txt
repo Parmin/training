@@ -90,7 +90,7 @@ Functional segregation can be further exploited by using large replica sets.
 - 50 node replica set limit
 - Useful for deployments with a large number of data centers or offices
 - Read only workloads can position secondaries in data centers around the world (closer to application servers)
-  
+
 .. only:: instructor
 
    .. note::

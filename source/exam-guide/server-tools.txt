@@ -102,7 +102,7 @@ For the exam, you will need to know:
 - How to use mongotop to look at server activity on data
 - Know all fields for mongostat and mongotop
 
-Resources: 
+Resources:
 
 - Docs:
 
@@ -160,7 +160,7 @@ For the exam, you will need to:
 
 Resources:
 
-- Docs: 
+- Docs:
 
   - :manual:`mongofiles</reference/program/mongofiles/>`
 

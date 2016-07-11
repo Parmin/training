@@ -29,7 +29,7 @@ In this workshop, the instructor will introduce useful tools (both supported and
 
 ## 10:30AM Mid-morning Break
 
-## 10:45 
+## 10:45
 
 ### Application Diagnostics
 
@@ -40,7 +40,7 @@ In this workshop, the instructor will introduce useful tools (both supported and
 * Write concern
 * Connection settings
 
-## 11:30AM 
+## 11:30AM
 
 ### Hardware Settings
 

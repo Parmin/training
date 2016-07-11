@@ -3,7 +3,7 @@ Backups
 =======
 
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this module students should understand:
@@ -21,7 +21,7 @@ Methods for Backing Up MongoDB
 - Cloud / Ops Manager Backups
 
 .. include:: /includes/student-notes.rst
-  
+
 Comparing MongoDB Backup Methods
 --------------------------------
 
@@ -49,20 +49,20 @@ Cloud / Ops Manager Backups
 ---------------------------
 
 - Based off oplogs (even for the config servers)
-- Point-in-time recovery for replica sets, snapshots for sharded clusters 
+- Point-in-time recovery for replica sets, snapshots for sharded clusters
 - Oplog on config server for sharded cluster backup
 - Ability to exclude collections, databases (such as logs)
 - Retention rules can be defined
 
 .. include:: /includes/student-notes.rst
 
-  
+
 Restoring from Cloud / Ops Manager
 ----------------------------------
 
 - Specify which backup to restore
 - SCP push or HTTPS pull (one time use link) for data files
-  
+
 .. include:: /includes/student-notes.rst
 
 
@@ -87,7 +87,7 @@ Snapshotting
 - Oplog entries applied on top of local copy
 - Local copy is used for snapshotting
 - Very little impact to the cluster (equivalent to adding another secondary)
-  
+
 .. include:: /includes/student-notes.rst
 
 

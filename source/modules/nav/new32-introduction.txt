@@ -6,4 +6,4 @@ Introduction
 
 .. include:: /includes/toc/dfn-list-new32-introduction.rst
 
-.. include:: /includes/toc/new32-introduction.rst             
+.. include:: /includes/toc/new32-introduction.rst

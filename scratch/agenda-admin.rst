@@ -32,7 +32,7 @@ Indexes (1:45 - 2:40)
 - Hashed Indexes (15 minutes)
 - Geospatial Indexes (30 minutes, time permitting)
 - TTL Indexes (15 minutes)
-- Text Indexes (25 minutes, time permitting) 
+- Text Indexes (25 minutes, time permitting)
 
 
 Replication (2:50)

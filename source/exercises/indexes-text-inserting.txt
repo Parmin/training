@@ -5,16 +5,16 @@ Let's add some documents to our montyPython collection.
 
 .. code-block:: javascript
 
-   db.montyPython.insert( [ 
-   { _id : 1, 
+   db.montyPython.insert( [
+   { _id : 1,
      dialog : "What is the air-speed velocity of an unladen swallow?" },
-   { _id : 2, 
+   { _id : 2,
      dialog : "What do you mean? An African or a European swallow?" },
-   { _id : 3, 
+   { _id : 3,
      dialog : "Huh? I... I don’t know that." },
-   { _id : 45, 
+   { _id : 45,
      dialog : "You're using coconuts!" },
-   { _id : 55, 
+   { _id : 55,
      dialog : "What? A swallow carrying a coconut?" } ] )
 
 .. include:: /includes/student-notes.rst

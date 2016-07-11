@@ -8,7 +8,7 @@ In the CRUD section of the certification exam, we will verify that you:
 - Are famliar with commonly used CRUD operators and how to use them
 - Know what data types MongoDB supports
 
-In this section, we are not testing that you have the MongoDB query language syntax memorized. However, you should be able to distinguish correctly written queries from those that are not. You should also know which query parameters are necessary versus those that are optional and how to use query parameters. We will not expect you to have query operators memorized, but you should be able to recognize the correct operator for a task from a set of choices. 
+In this section, we are not testing that you have the MongoDB query language syntax memorized. However, you should be able to distinguish correctly written queries from those that are not. You should also know which query parameters are necessary versus those that are optional and how to use query parameters. We will not expect you to have query operators memorized, but you should be able to recognize the correct operator for a task from a set of choices.
 
 
 Create
@@ -57,18 +57,18 @@ Document creation can occur through a few commands:
 
   - Video:
 
-    - `Upsert lesson video <https://university.mongodb.com/videos/y/Dy2p8k3EZs4>`_ 
+    - `Upsert lesson video <https://university.mongodb.com/videos/y/Dy2p8k3EZs4>`_
 
-- db.collection.findAndModify() can result in an insert if updating and "upsert" is set to true. 
+- db.collection.findAndModify() can result in an insert if updating and "upsert" is set to true.
 
-  - Docs: 
-  
+  - Docs:
+
     - :manual:`db.collection.findAndModify() </reference/method/db.collection.findAndModify/>`
 
 
 Most questions about document creation will involve the db.collection.insert() command. Inserts are typically straightforward.
 
-Upserts can be more complicated. In the example below, assume the foo collection does not already contain a document with a=5 and b<=7. 
+Upserts can be more complicated. In the example below, assume the foo collection does not already contain a document with a=5 and b<=7.
 
 .. code-block:: javascript
 
@@ -87,11 +87,11 @@ In cases such as this, a new document is inserted. In this specific case, the ne
 You should also be familiar with the special properties of the _id field:
 
 - Docs:
-  
+
   - :manual:`The _id Field</core/document/#the-id-field>`
   - :manual:`The _id Field</reference/method/db.collection.insert/#id-field>`
 
-- Video: 
+- Video:
 
   - `Compound _id's <https://university.mongodb.com/videos/y/zoN4cj_XQzY>`_
 
@@ -114,7 +114,7 @@ In MongoDB, reading data is carried out with the following methods:
 db.collection.find()
 
 - Docs:
- 
+
   - :manual:`db.collection.find()</reference/method/db.collection.find/>`
   - :manual:`Find Tutorial</tutorial/query-documents/>`
 
@@ -139,7 +139,7 @@ db.collection.find()
 
 Keep in mind, a find() query will return a cursor:
 
-- Docs: 
+- Docs:
 
   - :manual:`Cursors</core/cursors/>`
   - :manual:`Cursor tutorial</tutorial/iterate-a-cursor/>`
@@ -373,7 +373,7 @@ Sample Problems
      > db.c.find()
      { "_id" : 12, b : [ 3, 5, 7, 2, 1, -4, 3, 12 ] }
 
-   Which of the following queries on the "c" collection will return only the first five elements of the array in the "b" field? E.g., 
+   Which of the following queries on the "c" collection will return only the first five elements of the array in the "b" field? E.g.,
 
    Document you want returned by your query:
 
@@ -383,7 +383,7 @@ Sample Problems
 
    a. db.c.find( { } , { b : [ 0, 1, 2, 3, 4, 5 ] } )
    b. db.c.find( { } , { b : [ 0 , 5 ] } )
-   c. db.c.find( { } , { b : { $slice : [ 0 , 5 ] } } ) 
+   c. db.c.find( { } , { b : { $slice : [ 0 , 5 ] } } )
    d. db.c.find( { } , { b : { $substr[ 0 , 5 ] } } )
    e. db.c.find( { b : [ 0 , 5 ] } )
 
@@ -393,7 +393,7 @@ Sample Problems
    .. code-block:: javascript
 
       {
-        "_id" : 3, 
+        "_id" : 3,
         "a" : 7,
         "b" : 4
       }
@@ -403,7 +403,7 @@ Sample Problems
    .. code-block:: javascript
 
       {
-        "_id" : 7, 
+        "_id" : 7,
         "c" : 4,
         "b" : 4
       }

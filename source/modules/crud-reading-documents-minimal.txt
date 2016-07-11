@@ -95,7 +95,7 @@ Example: Querying Arrays
 .. code-block:: javascript
 
   db.movies.drop()
-  db.movies.insertMany( 
+  db.movies.insertMany(
    [{ "title" : "Batman", "category" : [ "action", "adventure" ] },
     { "title" : "Godzilla", "category" : [ "action", "adventure", "sci-fi" ] },
     { "title" : "Home Alone", "category" : [ "family", "comedy" ] }
@@ -108,7 +108,7 @@ Example: Querying Arrays
   db.movies.find( { "category" : [ "action", "sci-fi" ] } )  // no documents
 
   // only the second document
-  db.movies.find( { "category" : [ "action", "adventure", "sci-fi" ] } )  
+  db.movies.find( { "category" : [ "action", "adventure", "sci-fi" ] } )
 
 .. include:: /includes/student-notes.rst
 
@@ -126,7 +126,7 @@ Querying with Dot Notation
 - Dot notation is used to query on fields in embedded documents.
 - The syntax is:
 
-  .. code-block:: javascript 
+  .. code-block:: javascript
 
      "field1.field2" : value
 
@@ -140,17 +140,17 @@ Example: Querying with Dot Notation
 
 .. code-block:: javascript
 
-   db.movies.insertMany( 
-       [ { 
-             "title" : "Avatar", 
-             "box_office" : { "gross" : 760, 
+   db.movies.insertMany(
+       [ {
+             "title" : "Avatar",
+             "box_office" : { "gross" : 760,
                               "budget" : 237,
                               "opening_weekend" : 77
                             }
          },
-         { 
-             "title" : "E.T.", 
-             "box_office" : { "gross" : 349, 
+         {
+             "title" : "E.T.",
+             "box_office" : { "gross" : 349,
                               "budget" : 10.5,
                               "opening_weekend" : 14
                             }
@@ -170,15 +170,15 @@ Example: Arrays and Dot Notation
 
 .. code-block:: javascript
 
-   db.movies.insertMany( [ 
-       { "title" : "E.T.", 
-         "filming_locations" : 
+   db.movies.insertMany( [
+       { "title" : "E.T.",
+         "filming_locations" :
             [ { "city" : "Culver City", "state" : "CA", "country" : "USA" },
               { "city" : "Los Angeles", "state" : "CA", "country" : "USA" },
               { "city" : "Cresecent City", "state" : "CA", "country" : "USA" }
             ] },
        { "title": "Star Wars",
-         "filming_locations" : 
+         "filming_locations" :
             [ { "city" : "Ajim", "state" : "Jerba", "country" : "Tunisia" },
               { "city" : "Yuma", "state" : "AZ", "country" : "USA" }
             ] } ] )
@@ -232,7 +232,7 @@ Projection: Example (Setup)
         "opening_weekend" : 24,
         "budget" : 55
       }
-    })    
+    })
 
 .. include:: /includes/student-notes.rst
 
@@ -242,26 +242,26 @@ Projection: Example
 
 .. code-block:: javascript
 
-   db.movies.findOne( { "title" : "Forrest Gump" }, 
+   db.movies.findOne( { "title" : "Forrest Gump" },
                       { "title" : 1, "imdb_rating" : 1 } )
    {
       "_id" : ObjectId("5515942d31117f52a5122353"),
       "title" : "Forrest Gump",
       "imdb_rating" : 8.8
-   }     
+   }
 
 .. include:: /includes/student-notes.rst
 
 
 Projection Documents
---------------------   
-  
+--------------------
+
 - Include fields with ``fieldName: 1``.
 
   - Any field not named will be excluded
   - except _id, which must be explicitly excluded.
 
-- Exclude fields with ``fieldName: 0``. 
+- Exclude fields with ``fieldName: 0``.
 
   - Any field not named will be included.
 
@@ -285,16 +285,16 @@ Example: Introducing Cursors
 .. code-block:: javascript
 
    db.testcol.drop()
-   for (i=1; i<=10000; i++) { 
+   for (i=1; i<=10000; i++) {
        db.testcol.insertOne(
            { a : Math.floor( Math.random() * 100 + 1 ),
-             b : Math.floor( Math.random() * 100 + 1 ) 
+             b : Math.floor( Math.random() * 100 + 1 )
              })
    }
-   db.testcol.find()  
-    
-   it  
-   it  
+   db.testcol.find()
+
+   it
+   it
 
 .. include:: /includes/student-notes.rst
 
@@ -303,7 +303,7 @@ Example: Introducing Cursors
 
    .. note::
 
-      - With the ``find()`` above, the shell iterates over the first 20 documents. 
+      - With the ``find()`` above, the shell iterates over the first 20 documents.
       - ``it`` causes the shell to iterate over the next 20 documents.
       - Can continue issuing ``it`` commands until all documents are seen.
 
@@ -352,14 +352,14 @@ Example: Using ``count()``
    db.testcol.drop()
    for (i=1; i<=100; i++) { db.testcol.insertOne( { a : i } ) }
 
-   // all 100 
-   db.testcol.count()   
+   // all 100
+   db.testcol.count()
 
    // just 41 docs
-   db.testcol.count( { a : { $lt : 42 } } )  
+   db.testcol.count( { a : { $lt : 42 } } )
 
    // Another way of writing the same query
-   db.testcol.find( { a : { $lt : 42 } } ).count(  )  
+   db.testcol.find( { a : { $lt : 42 } } ).count(  )
 
 .. include:: /includes/student-notes.rst
 
@@ -382,21 +382,21 @@ Experiment with the following sort commands.
 .. code-block:: javascript
 
    db.testcol.drop()
-   for (i=1; i<=20; i++) { 
-       db.testcol.insertOne( { a : Math.floor( Math.random() * 10 + 1 ), 
-                            b : Math.floor( Math.random() * 10 + 1 ) } ) 
+   for (i=1; i<=20; i++) {
+       db.testcol.insertOne( { a : Math.floor( Math.random() * 10 + 1 ),
+                            b : Math.floor( Math.random() * 10 + 1 ) } )
    }
 
-   db.testcol.find()                            
+   db.testcol.find()
 
    // sort descending; use 1 for ascending
-   db.testcol.find().sort( { a : -1 } )         
+   db.testcol.find().sort( { a : -1 } )
 
    // sort by b, then a
-   db.testcol.find().sort( { b : 1, a : 1 } )   
+   db.testcol.find().sort( { b : 1, a : 1 } )
 
    // $natural order is just the order on disk.
-   db.testcol.find().sort( { $natural : 1 } )  
+   db.testcol.find().sort( { $natural : 1 } )
 
 .. include:: /includes/student-notes.rst
 
@@ -408,7 +408,7 @@ Experiment with the following sort commands.
       - If you never delete any documents or change their size, this will be the same order in which you inserted them.
       - Sorting two or more fields breaks the convention of javascript objects that key / value pairs are unordered.
       - In some drivers you may need to take special care with this.
-      - For example, in Python, you would usually query with a dictionary. 
+      - For example, in Python, you would usually query with a dictionary.
       - But dictionaries are unordered in Python, so you would use an array of tuples instead.
 
 

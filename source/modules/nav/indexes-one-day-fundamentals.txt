@@ -6,4 +6,4 @@ Indexes
 
 .. include:: /includes/toc/dfn-list-indexes-one-day-fundamentals.rst
 
-.. include:: /includes/toc/indexes-one-day-fundamentals.rst             
+.. include:: /includes/toc/indexes-one-day-fundamentals.rst

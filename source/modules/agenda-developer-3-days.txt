@@ -9,7 +9,7 @@ Day 1 (Morning)
 - Introduction (30 minutes)
 - Lab: Installing and configuring MongoDB (30 minutes)
 - CRUD (2 hours)
-  
+
 .. include:: /includes/student-notes.rst
 
 Introduction (30 minutes)
@@ -157,7 +157,7 @@ Aggregation (1.5 hours)
 - |aggregation_tut|
 - |aggregation_opt|
 - |aggregation_lab_link|
- 
+
 
 .. |aggregation_tut| raw:: html
 
@@ -189,7 +189,7 @@ Schema Design (3 hours)
 - |schema_patterns|
 - |schema_lab_link|
 - Review class answers
-  
+
 .. |schema_link| raw:: html
 
    <a href="schema-design-core-concepts.html">Schema Design Core Concepts</a>
@@ -219,7 +219,7 @@ Day 2 (Afternoon)
 Replication (4 hours)
 ---------------------
 
-- |replication_link| 
+- |replication_link|
 - |replication_election|
 - |replication_roles|
 - |replication_oplog|
@@ -274,7 +274,7 @@ Sharding (3 hours)
 - |sharding_balance|
 - |sharding_tags|
 - |sharding_lab_link|
-  
+
 .. |sharding_link| raw:: html
 
    <a href="sharding-intro.html">Introduction to Sharding</a>
@@ -294,7 +294,7 @@ Sharding (3 hours)
 .. include:: /includes/student-notes.rst
 
 
-Day 3 (Afternoon) 
+Day 3 (Afternoon)
 -----------------
 
 - Drivers (2 hours)

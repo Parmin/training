@@ -28,14 +28,14 @@ This Developer Fundamentals workshop is designed to teach developers the basics 
 
 ## 10:30AM Mid-morning Break
 
-## 10:45 
+## 10:45
 
 ### CRUD Exercises
 
 * Find documents
 * Updating documents
 
-## 11AM 
+## 11AM
 
 ### Indexes
 

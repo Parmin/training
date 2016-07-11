@@ -3,7 +3,7 @@ Automation
 ==========
 
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this module students should understand:
@@ -22,9 +22,9 @@ Fully managed MongoDB deployment on your own servers:
 - Dynamically add capacity (e.g. add more shards or replica set nodes)
 - Upgrades
 - Admin tasks (e.g. change the size of the oplog)
-  
+
 .. include:: /includes/student-notes.rst
-  
+
 How Does Automation Work?
 -------------------------
 
@@ -33,7 +33,7 @@ How Does Automation Work?
 - Automation agents periodically check with Cloud / Ops Manager to get new design instructions
 - Agents create and follow a plan for implementing cluster design
 - Minutes later, cluster design is complete, cluster is in goal state
-  
+
 .. include:: /includes/student-notes.rst
 
 Automation Agents
@@ -42,7 +42,7 @@ Automation Agents
 .. include:: /images/mms-automation.rst
 
 .. include:: /includes/student-notes.rst
-  
+
 Sample Use Case
 ---------------
 
@@ -51,16 +51,16 @@ Administrator wants to create a 100 shard cluster, with each shard comprised of 
 - Administrator installs automation agent on 300 servers
 - Cluster design is created in Cloud / Ops Manager, then deployed to agents
 - Agents execute instructions until 100 shard cluster is complete (usually several minutes)
-  
+
 .. include:: /includes/student-notes.rst
-  
+
 Upgrades Using Automation
 -------------------------
 
 - Upgrades without automation can be a manually intensive process (e.g. 300 servers)
 - A lot of edge cases when scripting (e.g. 1 shard has problems, or one replica set is a mixed version)
 - One click upgrade with Cloud / Ops Manager Automation for the entire cluster
-  
+
 .. include:: /includes/student-notes.rst
 
 
@@ -79,7 +79,7 @@ Automation: Behind the Scenes
 	    "state": "PUBLISHED",
 	    "version": 4,
 	    "cluster": { ...
-  
+
 .. include:: /includes/student-notes.rst
 
 

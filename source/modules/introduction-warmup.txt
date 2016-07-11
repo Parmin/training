@@ -42,7 +42,7 @@ Getting to Know You
 
       - Ask students to go around the room and introduce themselves.
       - Make sure the names match the roster of attendees.
-      - Ask about what roles the students play in their organization and note on attendance sheet. 
+      - Ask about what roles the students play in their organization and note on attendance sheet.
       - Ask what software stacks students are using.
 
         - With MongoDB and in general.
@@ -68,8 +68,8 @@ MongoDB Experience
 
 - MongoDB was initially created in 2008 as part of a hosted application stack.
 - The company was originally called 10gen.
-- As part of their overarching plan to create the 10gen platform, the company built a database. 
-- Suddenly everybody said: "I like that! Give me that database!" 
+- As part of their overarching plan to create the 10gen platform, the company built a database.
+- Suddenly everybody said: "I like that! Give me that database!"
 
 .. include:: /includes/student-notes.rst
 

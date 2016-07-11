@@ -28,7 +28,7 @@ Design Considerations
 
 - User relationships (followers, followees)
 - Newsfeed requirements
-   
+
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
@@ -50,7 +50,7 @@ What are the problems with the following approach?
     "followers" : [ "oscar", "elmo"],
     "following" : [ "elmo", "bert"]
   }
-   
+
 .. include:: /includes/student-notes.rst
 
 User Relationships
@@ -82,7 +82,7 @@ User Relationships
   { "_id" : ObjectId(), "user" : "bigbird", "following" : "bert" }
   { "_id" : ObjectId(), "user" : "oscar", "following" : "bigbird" }
   { "_id" : ObjectId(), "user" : "elmo”", "following" : "bigbird" }
-   
+
 .. include:: /includes/student-notes.rst
 
 
@@ -94,21 +94,21 @@ Now meta-data about the relationship can be added:
 .. code-block:: javascript
 
   > db.followers.find()
-  { 
-    "_id" : ObjectId(), 
-    "user" : "bigbird", 
-    "following" : "elmo", 
+  {
+    "_id" : ObjectId(),
+    "user" : "bigbird",
+    "following" : "elmo",
     "group" : "work",
     "follow_start_date" : ISODate("2015-05-19T06:01:17.171Z")
   }
-   
+
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
    .. note::
 
-    - Expand further on relationship meta-data, such as how they created the connection, the group the relationship falls into, etc. 
+    - Expand further on relationship meta-data, such as how they created the connection, the group the relationship falls into, etc.
     - Specific fields can be added per group, e.g. if the group is "school", fields for "graduated" (true/false) and "graduate_school" (true/false) can be easily added
 
 
@@ -116,9 +116,9 @@ Counting User Relationships
 ---------------------------
 
 - Counts across a large number of documents may be slow
-- May want to maintain an active count in the user profile 
+- May want to maintain an active count in the user profile
 - An active count of followers and folowees will be more expensive for creating relationships
-  
+
 .. include:: /includes/student-notes.rst
 
 Counting User Relationships
@@ -133,7 +133,7 @@ Counting User Relationships
     "following" : 2
   }
 
-  
+
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
@@ -149,14 +149,14 @@ User Relationship Traversal
 - For reverse lookups, index needed on (followers.following, followers.user)
 - Covered queries should be used in graph lookups (via projection)
 - May also want to maintain two separate collections: followers, followees
-  
+
 .. include:: /includes/student-notes.rst
 
 User Relationships
 ------------------
 
 - We've created a simple, scalable model for storing user relationships
-  
+
 .. include:: /includes/student-notes.rst
 
 Building a Feed Service
@@ -165,7 +165,7 @@ Building a Feed Service
 - Newsfeed similar to Facebook
 - Show latest posts by followed users
 - Newsfeed queries must be extremely fast
-  
+
 .. include:: /includes/student-notes.rst
 
 
@@ -174,7 +174,7 @@ Feed Service Design Considerations
 
 - Fanout on Read
 - Fanout on Write
-  
+
 .. include:: /includes/student-notes.rst
 
 
@@ -185,7 +185,7 @@ Fanout on Read
 - Simple to implement
 - Space efficient
 - Reads can be very expensive (e.g. if you follow 1 million users)
-  
+
 .. include:: /includes/student-notes.rst
 
 When to Use Fanout on Read
@@ -194,7 +194,7 @@ When to Use Fanout on Read
 - Newsfeed is viewed less often than posts are made
 - Small scale system, users follow few people
 - Historic timeline information is commonly viewed
- 
+
 .. include:: /includes/student-notes.rst
 
 Fanout on Write
@@ -204,7 +204,7 @@ Fanout on Write
 - Extremely fast page loads
 - Optimized for case where there are far less posts than feed views
 - Scales better for large systems than fanout on read
-- Feed updates can be performed asynchronously 
+- Feed updates can be performed asynchronously
 
 .. include:: /includes/student-notes.rst
 
@@ -298,12 +298,12 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
 .. only:: instructor
 
    .. note::
-     
+
      - First consideration is what to optimize for: reads of the user's profile vs writes
      - Storing a count of the user's followers removes the need to count followers for each pageload
      - Working through the various pages in the MongoDB Twitter profile should follow a similar theme, design the schema for reads and perform more work in the background every time a new tweet occurs
      - The @MongoDB profile may have the following form
-     
+
 
        .. code-block:: javascript
 
@@ -321,7 +321,7 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
           }
 
     - Tweets from @MongoDB may have the following form (used to construct the @MongoDB profile page)
-      
+
       .. code-block:: javascript
 
         {
@@ -333,7 +333,7 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
         }
 
     - Each user's feed may have the following form (tweets they see when they log in)
-    
+
       .. code-block:: javascript
 
         {
@@ -344,7 +344,7 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
           "date" : ISODate(),
 	  // can duplicate info or refer to the original tweet directly,
 	  // which would require another query
-          "tweet_id" : 1234, 
+          "tweet_id" : 1234,
           "retweet" : false,
           "retweet_tweetid" : null // used for displaying retweet status
           ...

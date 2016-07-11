@@ -6,4 +6,4 @@ Backup and Recovery
 
 .. include:: /includes/toc/dfn-list-backup-admin.rst
 
-.. include:: /includes/toc/backup-admin.rst             
+.. include:: /includes/toc/backup-admin.rst

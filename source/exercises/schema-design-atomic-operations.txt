@@ -1,4 +1,4 @@
-Student Exercise: 
+Student Exercise:
 -----------------
 
 .. only:: instructor
@@ -30,17 +30,17 @@ For each game there are many moves players make - they are dealt cards, they mak
 How to model the game?
 
   - Possibility #1: There is a ``game`` collection which has meta data about the game and then a document for every action a player in the game makes.
-  
+
     - However, this creates a game which is not atomic and will possibly have lots of IO.
 
   - Possibility #2: Model it atomicly
-  
-    - Create an array of player actions. 
+
+    - Create an array of player actions.
     - Each action is an embedded document.
-    - Certain player information is denormalized: 
-    
+    - Certain player information is denormalized:
+
       - Their name
-      - _id 
+      - _id
       - other useful information to the game.
 
 We end up with 2 collections - players and games.
@@ -51,8 +51,8 @@ We end up with 2 collections - players and games.
 
 - A game:
 
-  - All the actions that pertain to that game 
-  - Certain player information is denormalized 
-  
-    - In the game, just one document needs to be accessed during gameplay 
+  - All the actions that pertain to that game
+  - Certain player information is denormalized
+
+    - In the game, just one document needs to be accessed during gameplay
     - This takes advantage of atomic ops.

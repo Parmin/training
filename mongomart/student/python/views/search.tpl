@@ -80,7 +80,7 @@
             <div class="row text-center">
                 <div class="col-lg-12">
                     <ul class="pagination">
-                    
+
                         %for i in xrange(pages):
                             <li class={{'active' if page == i else 'inactive'}}>
                                 <a href="/search?page={{i}}&query={{query_string}}">{{i + 1}}</a>

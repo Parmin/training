@@ -1,13 +1,13 @@
 file: /modules/indexes-fundamentals
-description: | 
+description: |
   An introduction to MongoDB indexes
---- 
+---
 file: /modules/indexes-compound
-description: | 
+description: |
   Indexes on two or more fields
---- 
+---
 file: /modules/indexes-multikey
-description: | 
+description: |
   Indexes on array fields
 ...
 

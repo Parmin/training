@@ -6,4 +6,4 @@ Schema Design
 
 .. include:: /includes/toc/dfn-list-schema-design-essentials.rst
 
-.. include:: /includes/toc/schema-design-essentials.rst             
+.. include:: /includes/toc/schema-design-essentials.rst

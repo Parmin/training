@@ -40,7 +40,7 @@ Flat Geospatial Index
 
 - This is a cartesian treatment of coordinate-pairs.
 - Is naive to the fact that you are probably describing the surface of a sphere.
-  
+
   - E.g., would NOT know that the shortest path from Canada to Siberia is over the North Pole (if units are degrees).
   - Can actually be used to describe any flat surface, not just the earth.
 

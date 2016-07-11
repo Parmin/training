@@ -6,4 +6,4 @@ CRUD Refresher
 
 .. include:: /includes/toc/dfn-list-crud-cap1-three-day.rst
 
-.. include:: /includes/toc/crud-cap1-three-day.rst             
+.. include:: /includes/toc/crud-cap1-three-day.rst

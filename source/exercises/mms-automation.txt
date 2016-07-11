@@ -3,7 +3,7 @@ Lab: Cluster Automation
 =======================
 
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this exercise students should understand:

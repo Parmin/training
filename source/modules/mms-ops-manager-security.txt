@@ -3,7 +3,7 @@ Security (Ops Manager)
 ======================
 
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this module students should understand:
@@ -20,7 +20,7 @@ Ops Manager User Authentication
 - LDAP authentication option
 
 .. include:: /includes/student-notes.rst
-  
+
 
 Authentication for the Backing Ops Manager Databases
 ----------------------------------------------------
@@ -38,7 +38,7 @@ Authenticating Between an Ops Manager Agent and Cluster
 -------------------------------------------------------
 
 - LDAP
-- MongoDB-CR 
+- MongoDB-CR
 - Kerberos (Linux only)
 
 .. include:: /includes/student-notes.rst
@@ -55,7 +55,7 @@ Encrypting Communications
 
 - All communications can be encrypted over SSL.
 - However, currently, if you are using Automation to manage a cluster, that cluster cannot use SSL or advanced auth.
-  
+
 
 
 Ops Manager Groups
@@ -63,7 +63,7 @@ Ops Manager Groups
 
 - Users can belong to many different groups
 - Users have different levels of access per group
-  
+
 .. include:: /includes/student-notes.rst
 
 
@@ -76,7 +76,7 @@ User Roles By Group
 - Backup Admin
 - Automation Admin
 - Owner
-  
+
 .. include:: /includes/student-notes.rst
 
 

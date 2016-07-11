@@ -71,7 +71,7 @@
                     <p>
 
                         % # Display stars
-                        
+
                         %for num in range(1,6):
                             <span class="glyphicon {{'glyphicon-star' if stars >= num else 'glyphicon-star-empty'}}"></span>
                         %end
@@ -101,7 +101,7 @@
 
                 % if 'reviews' in item:
                     %for review in item['reviews']:
-                    
+
                         <!-- Comment -->
                         <div>
                             <div>
@@ -122,7 +122,7 @@
 
                         <hr />
 
-                    %end 
+                    %end
                 %end
             </div>
 

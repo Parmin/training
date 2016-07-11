@@ -6,4 +6,4 @@ CRUD
 
 .. include:: /includes/toc/dfn-list-crud-admin-one-day.rst
 
-.. include:: /includes/toc/crud-admin-one-day.rst             
+.. include:: /includes/toc/crud-admin-one-day.rst

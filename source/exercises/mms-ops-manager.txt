@@ -2,7 +2,7 @@
 Lab: Install Ops Manager
 ========================
 
-Learning Objectives 
+Learning Objectives
 -------------------
 
 Upon completing this exercise students should understand:
@@ -47,7 +47,7 @@ Prepare your environment for running all Ops Manager components: Monitoring, Aut
    .. note::
 
       - This is sometimes the hardest part of setting up Ops Manager for users, ensuring everything has been set up correctly behind the scenes
-  
+
 
 Exercise #2
 -----------
@@ -84,7 +84,7 @@ Install the Ops Manager Backup Daemon
    .. note::
 
       - Users sometimes get caught on permissions issues, especially for the HEAD directory
-        
+
 
 Exercise #4
 -----------

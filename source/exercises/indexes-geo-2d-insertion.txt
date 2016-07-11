@@ -1,6 +1,6 @@
 Exercise: Inserting Documents with 2d Fields
 --------------------------------------------
- 
+
 - Insert 2 documents into the 'twoD' collection.
 - Assign 2d coordinate values to the ``xy`` field of each document.
 - Longitude values should be -3 and 3 respectively.
@@ -21,9 +21,9 @@ Exercise: Inserting Documents with 2d Fields
          db.twoD.find()  // both went in OK
          db.twoD.insert( { xy : 5 } )  // insert works fine
          // Keep in mind that the index doesn't apply to this document.
-         db.twoD.insert( { xy : [ 0, -500 ] } ) 
+         db.twoD.insert( { xy : [ 0, -500 ] } )
          // Generates an error because -500 isn't between +/-20.
          db.twoD.insert( { xy : [ 0, 0.00003 ] } )
-         db.twoD.find()  
+         db.twoD.find()
          // last insert worked fine, even though the position resolution is below
          // the resolution of the Geohash.
