@@ -336,6 +336,7 @@ Changes to ``$unwind`` Behavior
   .. note::
 
     - Nullish values are ``null``, ``undefined``, empty array, and missing fields
+    - the `preserveNullAndEmptyArrays` option (see next slide) can keep the nullish values around with the $unwind.
 
 
 ``$unwind`` with a Document Operand
