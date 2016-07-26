@@ -17,18 +17,17 @@ Day 2
 -----
 
 - :doc:`/modules/nav/schema-design-nhtt`
-- Replication
+- :doc:`/modules/nav/replica-sets-one-day-fundamentals`
+
+.. Replication
 
 .. include:: /includes/student-notes.rst
 
 Day 3
 -----
 
-- Applications and Drivers
-- Sharding
-
-  - Basics
-  - Advance
+- `Applications and Drivers`_
+- Sharding_
 
 .. include:: /includes/student-notes.rst
 
@@ -36,14 +35,18 @@ Day 4
 -----
 
 - :doc:`/modules/agenda-nhtt-security`
-- Internals and Storage Engines
+- `Internals and Storage Engines`_
 
 .. include:: /includes/student-notes.rst
 
 Day 5
 -----
 
-- Cloud & Ops Manager
+- :doc:`/modules/nav/opsmanager`
 - Misc
 
 .. include:: /includes/student-notes.rst
+
+.. _`Internals and Storage Engines`: https://drive.google.com/open?id=0B-_GyywmjjWBQnk2bng4a2hVRTg
+.. _Sharding: https://drive.google.com/a/10gen.com/file/d/0B-_GyywmjjWBa2hjWTF3X1ZTS1k/view?usp=sharing
+.. _`Applications and Drivers`: https://drive.google.com/a/10gen.com/file/d/0B-_GyywmjjWBMzJvYlVVblZOLTQ/view?usp=sharing
