@@ -1,7 +1,3 @@
-
-
-
-
 # mmap_test_start
 #!/usr/bin/env bash
 
@@ -19,6 +15,3 @@ ls -lah $DBPATH
 sleep 3
 ls -lah $DBPATH
 # mmap_test_end
-
-# TEST
-
