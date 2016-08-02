@@ -1,8 +1,8 @@
 :orphan:
 
-============================
-MongoDB Rapid Start Training
-============================
+======================================
+MongoDB Developer Rapid Start Training
+======================================
 
 .. toctree::
 
