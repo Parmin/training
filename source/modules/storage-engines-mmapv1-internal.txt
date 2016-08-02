@@ -1,0 +1,194 @@
+=====================
+MMAPv1 Storage Engine
+=====================
+
+
+Learning Objectives
+-------------------
+
+.. include:: /includes/student-notes.rst
+
+
+MMAPv1 in a Nutshell
+--------------------
+
+.. include:: /images/mmapv1-virtual-memory.png
+
+- Memory map all files to virtual memory
+
+  - mmap in Linux
+  - MapViewOfFile in Windows
+
+- Let the OS handle *everything*
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - OS handles caching layer, i.e. demand paging (lazy reads)
+      
+      -  MongoDB just reads/writes to RAM via the fs cache (virtual address space)
+    
+    - If you read a page from the virtual address space, the OS brings it in RAM (resident) so you can read it.
+
+      - *page fault!!!*
+
+    - Every program using a shared library will see it at a different address space, though each points to the same physical spot in RAM
+
+
+Pros and Cons
+-------------
+
+- Pros: 
+
+  - No complex memory / disk code in MongoDB, huge win!
+  - The OS is very good at caching for any type of storage
+  - Least Recently Used behavior
+  - Cache stays warm across MongoDB restarts
+
+.. include:: /includes/student-notes.rst
+
+
+Pros and Cons (continued)
+-------------------------
+
+- Cons
+
+  - RAM usage is affected by disk fragmentation
+  - RAM usage is affected by high read-ahead
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - For a more built-from-the-ground-up storage engine, the engine would know where the bits are, and can manage them. For MMAPv1, we are at the mercy of the OS.
+
+
+Virtual Address Space
+---------------------
+
+.. include:: /images/virtual-address-space.png
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Virtual process size = total files size + overhead (connections, heap) x 2 for journal
+    - 32 bit: 2^32 = 4GB  2.5 GB
+    - 64 bit: 2^64 = 1.7x10^10GB! But we don’t get this (kernel and user space), really we get 48 bits
+    - Limitations for single mongod process; when you hit this, you can shard ;)
+    - The only significant user of 32 bits systems is the USA government, just don’t use them.
+    - Little endian only
+
+
+How Much Data is in RAM?
+------------------------
+
+- Resident memory the best indicator of how much data in RAM
+- Resident is: 
+
+  - Process overhead (connections, heap) 
+  - Plus FS pages in RAM that were accessed
+
+- Resets to 0 upon restart even though data is still in RAM due to FS cache
+- Use free command to check on FS cache size
+- Can be affected by fragmentation and read-ahead
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - 1 MB per connection on stack 
+    - Tuned down from Linux default of 10 MB.
+
+
+Lifecycle of a Write
+--------------------
+
+- Changes are written to disk when:
+
+  - msync called
+  - File closed, process ends
+  - Memory pressure from the OS
+ 
+- When do we call msync?
+  - Once every 60 seconds (--syncdelay)
+  - DataFileSync thread does background async flushes for each open file
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:
+
+    - Re memory pressure, when the OS needs to recover pages from RAM: If the system gets overloaded and too many pages are dirty, the OS gets to run 'mongod' less often. This is in order to not break the 'contract’ between the OS and your program.
+    - Suppose we change a record:
+
+      - change the document
+      - change links in list
+      - change indexes
+      - change collection stats
+
+    - When we call msync on a file, it may not have all the change just described. The flushes are not atomic, it runs in the background. We don’t lock MongoDB when we flush.
+
+
+Exercise: Examine the Log Files
+-------------------------------
+
+.. literalinclude:: /includes/storage-engines-mmapv1.sh
+   :language: shell
+   :lines: 6-14
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Where are we? We are in –dbpath. This directory must exist, we do not create it for you (why not? what could go wrong?)
+    - There are two different ways to organize files; the default is to all reside in the same top level directory
+    - Use --directoryperdb to separate dbs into, wait for it, their own directories.
+    - QUESTION: Why would one want to do this? 1) Storage io  2) some fs have problems with dirs with large number of files
+    - Could move from one to the other by carefully moving files
+    - QUESTION: What happens when you do one and switch to the other? Chaos! Mongod doesn’t check dir structure…
+    - STORY: Summer of 2014, Amazon East-1 has an outage. Customer had modified the config files with “—directoryperdb” intending to move the files later but he never got around to it. When the reboot happened, they did not see any data in the databases. WE LOST ALL OUR DATA!
+    - QUESTION: How do you recover from this? You need to know what the application does. If it is purely insert without updates, you can merge the 2 set of databases.
+    - _tmp created when mongod needs to use disk to perform external sorts; gets cleaned up on next restart and when needed
+
+
+Naming Restrictions in MMAPv1
+-----------------------------
+
+- Db name in file name, so no OS forbidden characters, e.g. \0, /, \, .
+
+  - dbname.extension
+ 
+- Case insensitive
+ 
+- *Cannot rename db just by renaming files*
+
+
+.. include:: /includes/student-notes.rst
+.. include:: /includes/student-notes.rst
+.. include:: /includes/student-notes.rst
+.. include:: /includes/student-notes.rst
+.. include:: /includes/student-notes.rst
+
+.. include:: /includes/student-notes.rst
+.. include:: /includes/student-notes.rst
+.. include:: /includes/student-notes.rst
+.. include:: /includes/student-notes.rst
+.. include:: /includes/student-notes.rst
+
+
+
+
+
