@@ -74,7 +74,7 @@ With the release of MongoDB 3.2, three storage engine options are available:
 Specifying a MongoDB Storage Engine
 -----------------------------------
 
-Use the ``storageEngine`` parameter to specify which storage engine MongoDB should use. E.g.,
+Use the ``--storageEngine`` parameter to specify which storage engine MongoDB should use. E.g.,
 
 .. code-block:: javascript
 

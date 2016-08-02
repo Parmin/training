@@ -1,0 +1,705 @@
+=====================
+MMAPv1 Storage Engine
+=====================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- How the MMAPv1 storage engine pushes most of its work onto the OS
+- What operations read and write latches block
+- How btrees reference documents
+- How the journal prevents disk corruption 
+
+  - journaling mechanics
+
+
+.. include:: /includes/student-notes.rst
+
+
+MMAPv1 in a Nutshell
+--------------------
+
+- Memory map all files to virtual memory
+
+  - mmap in Linux
+  - MapViewOfFile in Windows
+
+- Let the OS handle *everything*
+
+.. image:: /images/memory-map-all-the-things.jpg
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - OS handles caching layer, i.e. demand paging (lazy reads)
+      
+      -  MongoDB just reads/writes to RAM via the fs cache (virtual address space)
+    
+    - If you read a page from the virtual address space, the OS brings it in RAM (resident) so you can read it.
+
+      - *page fault!!!*
+
+    - Every program using a shared library will see it at a different address space, though each points to the same physical spot in RAM
+
+
+Memory Mapping
+--------------
+
+.. image:: /images/mmapv1-virtual-memory.jpg
+  :width: 300px
+
+
+
+Pros and Cons
+-------------
+
+- Pros: 
+
+  - No complex memory / disk code in MongoDB, huge win!
+  - The OS is very good at caching for any type of storage
+  - Least Recently Used behavior
+  - Cache stays warm across MongoDB restarts
+
+.. include:: /includes/student-notes.rst
+
+
+Pros and Cons (continued)
+-------------------------
+
+- Cons
+
+  - RAM usage is affected by disk fragmentation
+  - RAM usage is affected by high read-ahead
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - For a more built-from-the-ground-up storage engine, the engine would know where the bits are, and can manage them. For MMAPv1, we are at the mercy of the OS.
+
+
+Virtual Address Space
+---------------------
+
+.. image:: /images/virtual-address-space.jpg
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Virtual process size = total files size + overhead (connections, heap) x 2 for journal
+    - 32 bit: 2^32 = 4GB  2.5 GB
+    - 64 bit: 2^64 = 1.7x10^10GB! But we don’t get this (kernel and user space), really we get 48 bits
+    - Limitations for single mongod process; when you hit this, you can shard ;)
+    - The only significant user of 32 bits systems is the USA government, just don’t use them.
+
+
+How Much Data is in RAM?
+------------------------
+
+- Resident memory the best indicator of how much data in RAM
+- Resident is: 
+
+  - Process overhead (connections, heap) 
+  - Plus FS pages in RAM that were accessed
+
+- Resets to 0 upon restart even though data is still in RAM due to FS cache
+- Use free command to check on FS cache size
+- Can be affected by fragmentation and read-ahead
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - 1 MB per connection on stack 
+    - Tuned down from Linux default of 10 MB.
+
+
+Concurrency
+-----------
+
+- We say we use locks, which scares DBAs as a lock is a heavyweight thing, but really we use latches.
+- In earlier versions, there was a single global latch. 
+
+  - Starting with 2.2, per database
+  - With 3.0, per collection
+ 
+- The latch is multiple-reader, single-writer, and is writer-greedy:
+
+  - Writers block readers; one writer max
+  - Unlimited readers (with no writer)
+  - "writer-greedy” means that once a write request comes in, all readers are blocked until the write completes
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Global isn’t really global, it’s at the mongod level
+    - To avoid page faults occurring during locks, keep a rolling history of calls to mincore. It tells us if a page is in memory and errors on the side of not giving a false positive. If the answer is 'no, the page is not there', then we release the lock. This operation is called 'yielding before page faults’.
+    - Our own algorithm about which pages are in memory, LRU on Linux (so writes don't wait on page faults); in the code it is described as:
+
+      -  // This is like the "L1 cache". If we're a miss then we fall through and check the
+      - // "L2 cache". If we're still a miss, then we defer to a system-specific system
+      - // call (or give up and return false if deferring to the system call is not enabled).
+
+    - W: big lock (instance lock), only used by few operations: fsync, lock
+    - R: used by journal. If someone use R, no one can take a ‘w’
+    - r/w: database locks
+    - There is no lock scheduler. While the journal commit is running (holding R), no write operations can run. The problem is that we prefer writers to readers, so a pending ‘write’ will hold ‘reads’
+    - most common operations that take a global lock: The most common are operations that explicitly or implicitly create/delete a collection or database, or rename a collection. Also, db.eval() takes the global write lock.
+
+
+Lifecycle of a Write
+--------------------
+
+- Changes are written to disk when:
+
+  - msync called
+  - File closed, process ends
+  - Memory pressure from the OS
+ 
+- When do we call msync?
+
+  - Once every 60 seconds (--syncdelay)
+  - DataFileSync thread does background async flushes for each open file
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:
+
+    - Re memory pressure, when the OS needs to recover pages from RAM: If the system gets overloaded and too many pages are dirty, the OS gets to run 'mongod' less often. This is in order to not break the 'contract’ between the OS and your program.
+    - Suppose we change a record:
+
+      - change the document
+      - change links in list
+      - change indexes
+      - change collection stats
+
+    - When we call msync on a file, it may not have all the change just described. The flushes are not atomic, it runs in the background. We don’t lock MongoDB when we flush.
+
+
+Exercise: Examine the Log Files
+-------------------------------
+
+.. literalinclude:: /includes/storage-engines-mmapv1.sh
+   :language: shell
+   :start-after: # mmap_test_start
+   :end-before: # mmap_test_end
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Where are we? We are in –dbpath. This directory must exist, we do not create it for you (why not? what could go wrong?)
+    - There are two different ways to organize files; the default is to all reside in the same top level directory
+    - Use --directoryperdb to separate dbs into, wait for it, their own directories.
+    - QUESTION: Why would one want to do this? 1) Storage io  2) some fs have problems with dirs with large number of files
+    - Could move from one to the other by carefully moving files
+    - QUESTION: What happens when you do one and switch to the other? Chaos! Mongod doesn’t check dir structure…
+    - STORY: Summer of 2014, Amazon East-1 has an outage. Customer had modified the config files with “—directoryperdb” intending to move the files later but he never got around to it. When the reboot happened, they did not see any data in the databases. WE LOST ALL OUR DATA!
+    - QUESTION: How do you recover from this? You need to know what the application does. If it is purely insert without updates, you can merge the 2 set of databases.
+    - _tmp created when mongod needs to use disk to perform external sorts; gets cleaned up on next restart and when needed
+
+
+Naming Restrictions in MMAPv1
+-----------------------------
+
+- Db name in file name, so no OS forbidden characters, e.g. \\0, /, \\, .
+
+  - dbname.extension
+ 
+- Case insensitive
+ 
+- *Cannot rename db just by renaming files*
+
+.. include:: /includes/student-notes.rst
+
+Namespace File
+--------------
+
+- Giant hash table, fixed in size, 16MB by default (``--nssize``)
+
+  - Class NamespaceDetails (628 bytes):
+  - DiskLoc firstExtent, lastExtent, deletedList
+  - Stats; // fast count()
+  - Index data
+
+- DiskLoc is a pointer to a location on disk (8 bytes)
+
+  - int fileNum; // the ‘0’ in test.0
+  - int offset; // position in the file
+
+- *Limit of ~24K collections and indexes per database*
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - What’s a namespace? At the logical level, it’s a collection or index. At the physical level, it’s a data structure in the namespace file.
+    - Char nsname (key for hash table) 123 chars max
+    - Is 24K a lot? When could this be an issue? Each user gets own collection, new collection every minute/hour…
+    - Upper bound on ns file is 2GB, why? 32-bit, max offset is 2^32 – 1  same as max file size
+    - The system keeps track of deleted records by chaining them together as a linked list. Each namespace, which can involve multiple extents on multiple files, keeps track of 19 different lists of deleted records. Each list contains a different range of delete record sizes*. For example, list number 0 contains deleted records of sizes between 0 and 31 inclusive. List number 1 goes between 32 and 63 inclusive, and so on. The last list contains records of size 8,388,608 bytes and greater. The linked lists are connected via DiskLocs, which are like memory address pointers but relative to the beginnings of the files (offsets), so they are suitable to store on disk.
+    - Note that with power-of-2 collections, all the deleted records will be quantized into powers of 2 sizes within the buckets.
+
+
+Namespace Internal File Format
+------------------------------
+
+.. image:: /images/internal-file-format.jpg
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Files are divided up into extents. Extents are allocated within files as needed until space inside the file is fully consumed by extents, then another file is allocated.
+
+
+Corruption
+----------
+
+- Is there a way to check data for corruption?
+
+  - Not easily as there are no checksums
+  - DiskLoc contains file number that doesn’t exist
+
+- ``mongodump --repair``
+
+  - Does not look for circular references
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - We don’t recall a single time where the corruption came from our code writing the wrong bits.
+    - If you have a cursor that should read 100 documents and there is an error after 5, it will simply close without reporting the error. Note that there should be an error/assertion in the log. Cursors have no idea how many documents they will match.
+    - Mongod could run for years with a corrupted file system if it never needs to read or write to these sections of the disk
+
+
+Indexes
+-------
+
+- These are btree structures serialized to disk
+- Stored in the data files, but each record has an index node rather than a document
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Want to add an image, here.
+    - Several items into single bucket/block -> not binary, n-ary
+    - Keeps in sorted order, multiple children in each node
+    - 8KB buckets <-- fixed size, variable length content
+    - fb optimization in 1.4 -> roughly cutting memory needs for index in half
+
+    - Bucket:
+      
+      - link to parent, root has link to null
+      - link to right most child, stats, the following 18 byte data structure for key nodes:
+
+        - pointer to left child, pointer to data record,  key offset (2 bytes)
+
+      - variable length data with fixed size references to it -> keep logarithmic access time
+      - think of array of key node data structures
+      - start at middle data structure, go half way in, look at key offset (tells you which of data objects you're looking at), and ask is key higher or lower than this value
+      - so traditional binary search algorithm with an extra layer of indirection to allow us to binary search with variable length data
+
+
+Preallocation
+-------------
+
+- We are aggressive, always create 1 spare file
+
+  - \(0\) 64MB, (1) 128MB, … , (5) 2GB, (6) 2GB, …
+ 
+- Can keep data files smaller with --smallfiles
+- Divide numbers by 4, i.e. double at 512MB
+- This does not actually make your data smaller
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instrutor
+
+  .. note:: 
+
+    - Ask the students: Why do we always create a spare file?
+    - On Linux we automatically create the next numbered file as soon as we put a document in the current numbered file. (why?)
+    - Don’t want to do it when the file is needed, which could be slow if the OS does not support fallocate (OSX doesn’t)…
+    - Two spare files for journaling I think
+    - QUESTION: Why stop at 2GB? Support 32 bit systems, and every byte in file can be addressed by an integer that is no more than 32 bits in length, meaning can refer to offsets in file with standard soff_t type
+    - STORY: disks are expensive in some companies because they get sold by another department. A $100 disk may cost $500 due to the overhead. Some organizations may not be able to get the latest large size disk because they need to use some bought a long time ago, or “qualified”.
+
+
+Preallocation (continued)
+-------------------------
+
+- Namespace and numbered files allocated with OS specific implementation of posix_fallocate
+
+  - OS reserves the space, bytes may be zero’ed lazily
+
+.. - On Linux, fallocate only implemented in a few file drivers (ext4, xfs, ...)
+
+.. - On Windows, NTFS has equivalent, but not FAT
+.. - ZFS (used in Solaris, BSD...) not recommended in Linux due to inefficient preallocation
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - posix_fallocate(int fd, off_t offset, off_t len);
+    - QUESTION: Why “eagerly” allocate instead of relying on OS/FS to grow files on demand?
+
+      - Desire a contiguously allocated file
+      - Avoid checking running out of disk space in the code
+
+    - When customer asks for fs rec, whether or not it supports fallocate that is or isn’t buggy is relevant...
+    - CentOS5 has version of ext4 that does not have fallocate system call, so we have to recommend XFS in those cases
+    
+
+Fragmentation
+-------------
+
+- Files get fragmented over time from remove() and update() operations
+- Wastes disk space AND RAM
+- Makes writes scattered and slower
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Check fragmentation by comparing size to storageSize in the collection’s stats
+    - ``db.repairDatabase()``
+    - ``db.runCommand( { compact : "<collection name>" } )``
+    - NOTE TO SELF: add diagram
+
+
+Fragmentation (continued)
+-------------------------
+
+- 2.0: Added compact command
+
+  - Not automatically performed, maintenance op
+
+- 2.2: Added PowerOf2Sizes
+
+  - Makes deletedList buckets more reusable
+
+- 2.6: PowerOf2Sizes enabled by default
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note:: 
+
+    - How else to fight fragmentation? At the developer level:
+    - Normalize schema more, design for in-place updates
+    - Pre-pad documents
+    - Use separate collections over time, then use collection.drop() instead of collection.remove(query)
+
+
+Stats
+-----
+
+Run the following:
+
+.. code-block:: javascript
+
+  db.stats()
+  db.collection.stats()
+
+.. include:: /includes/student-notes.rst
+
+
+Startup
+-------
+
+- First, check for mongod.lock
+
+  - If exists and has length > 0, then there is already a mongod running with this dbpath
+  - Contains PID of the running mongod, truncated to length 0 on clean shutdown
+
+- Check for write-ahead log in journal
+
+  - Before journaling (1.8), lock file was the only way to detect a clean shutdown.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - And if the shutdown is unclean? PID remains in lock file (What could go wrong? Problematic over NFS)
+    - If can't acquire lock, abort.
+    - No write-ahead log, i.e. journaling, before 1.8 (added early 2011?)
+
+
+The Problem that Lead to the Journal
+------------------------------------
+
+- Changes in memory mapped files are not applied in order and different parts of the file can be from different points in time
+- You want a consistent point-in-time snapshot when restarting after a crash
+- In Dec 2010 (version 1.8?), we wanted to introduce a 'writeAhead' mechanism like the RDBMS
+- We needed to build a pre-image of what we were going to write to the data file
+
+.. include:: /includes/student-notes.rst
+
+
+Solution:  The Journal
+----------------------
+
+- Data gets written to a journal before making it to the data files
+- Operations written to a journal buffer in RAM that gets flushed every 100ms by default or 100MB
+- Once the journal is written to disk, the data is safe
+- Journal prevents corruption and allows durability
+- Can be turned off, but don’t!
+- Writes every 100 ms if journal is on same disk as data files
+
+  - 30 ms if not
+
+.. include:: /includes/student-notes.rst
+
+
+Journal Format
+--------------
+
+.. image:: /images/journal-format.jpg
+
+.. include:: /includes/student-notes.rst
+
+
+How MongoDB's Journaling Works
+------------------------------
+
+.. image:: /images/journaling-1.jpg
+
+- http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - How does journaling work? Your disk has both data files, and joural files, which are a write-ahead log.
+    - https://docs.mongodb.org/manual/core/journaling/#journaling-record-write-operation
+
+
+How MongoDB's Journaling Works (Cont'd)
+---------------------------------------
+
+.. image:: /images/journaling-2.jpg
+
+- http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    When you start up mongod, it maps your data files to a shared view. Basically, the operating system says: “Okay, your data file is 2,000 bytes on disk. I’ll map that to memory address 1,000,000-1,002,000. So, if you read the memory at memory address 1,000,042, you’ll be getting the 42nd byte of the file.” (Also, the data won’t necessary be loaded until you actually access that memory.)
+
+
+How MongoDB's Journaling Works (Cont'd)
+---------------------------------------
+
+.. image:: /images/journaling-3.jpg
+
+- http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    This memory is still backed by the file: if you make changes in memory, the operating system will flush these changes to the underlying file. This is basically how mongod works without journaling: it asks the operating system to flush in-memory changes every 60 seconds.
+
+    However, with journaling, mongod makes a second mapping, this one to a private view. Incidentally, this is why enabling journaling doubles the amount of virtual memory mongod uses. CopyOnWrite on ‘shared view’ to create a second copy in ‘private view’  both views point to the same physical RAM
+
+    MAP PRIVATE
+    This specifies that writes to the region should never be written back to the attached file. Instead, a copy is made for the process, and the region will be swapped normally if memory runs low. No other process will see the changes. Since private mappings effectively revert to ordinary memory when written to, you must have enough virtual memory for a copy of the entire mmapped region if you use this mode with PROT_WRITE.
+
+    MAP_SHARED
+    This specifies that writes to the region will be written back to the file. Changes made will be shared immediately with other processes mmaping the same file. Note that actual writing may take place at any time. You need to use msync, described below, if it is important that other processes using conventional I/O get a consistent view of the file.
+
+
+How MongoDB's Journaling Works (Cont'd)
+---------------------------------------
+
+.. image:: /images/journaling-4.jpg
+
+- http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Note that the private view is not connected to the data file, so the operating system cannot flush any changes from the private view to disk.
+
+    Now, when you do a write, mongod writes to the private view.
+
+
+
+How MongoDB's Journaling Works (Cont'd)
+---------------------------------------
+
+.. image:: /images/journaling-5.jpg
+
+- http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Somewhere else in the heap, we build the 'ledger' data structure (we change mem A to put X, B to put Y, ...).
+
+    mongod will then write the change to the journal file, creating a little description of which bytes in which file changed
+
+    make all the changes - the pages in RAM are duplicated, then changes applied by the OS.
+
+
+
+How MongoDB's Journaling Works (Cont'd)
+---------------------------------------
+
+.. image:: /images/journaling-6.jpg
+
+- http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    The journal appends each change description it gets.
+
+    'journalSync' thread, every 100ms, combine the 'ledger' changes (removes unnecessary writes, e.g. 10 to A and 11 to A is just 11 to A), write and flush those changes to the journal file
+    You can replay the journal which is a byte by byte (file number, offset, byte)
+
+
+
+
+How MongoDB's Journaling Works (Cont'd)
+---------------------------------------
+
+.. image:: /images/journaling-7.jpg
+
+- http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    At this point, the write is safe. If mongod crashes, the journal can replay the change, even though it hasn’t made it to the data file yet.
+
+    The journal will then replay this change on the shared view (apply the ledger to the shared view)
+
+
+
+How MongoDB's Journaling Works (Cont'd)
+---------------------------------------
+
+.. image:: /images/journaling-8.jpg
+
+- http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Then mongod remaps the shared view to the private view. This prevents the private view from getting too “dirty” (having too many changes from the shared view it was mapped from).
+
+    Ask the OS to remap, which erases the second copy in RAM
+
+
+
+How MongoDB's Journaling Works (Cont'd)
+---------------------------------------
+
+.. image:: /images/journaling-9.jpg
+
+- http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Finally, at a glacial speed compared to everything else, the shared view will be flushed to disk. By default, mongod requests that the OS do this every 60 seconds.
+    Write to the “lsn” (file with ‘last segment n?’)  the last bits that were copied and flushed from the shared view.
+    Note that j:true and w:2 are not correlated (SERVER-5218)
+
+
+Journal FAQ
+-----------
+
+- Can I lose data on a hard drive crash?
+
+  - Max of 100ms worth (``--jounalCommitInterval``)
+
+- What are the performance impacts?
+
+  - No impact for read-heavy systems
+  - Reduced by 5-30% for writes
+  - *Use a separate drive for write-heavy apps*
+
+.. include:: /includes/student-notes.rst
+
+.. instructor-only::
+
+  .. note::
+
+    - For durability (data is on disk when ack’ed, not when flushed, up to 100ms later) use the JOURNAL_SAFE write concern (“j” option).
+    - Corresponds to readUncommitted
+    - With j=true, will not confirm until the next journal commit is done. Will also try to flush the journal every 33ms.
+    - The ack is not done, but other queries also see the data (it’s in RAM!)
+    - Typically replication within the same DC will be faster (2-3ms) before flushing the journal (100ms/2 on average)
+    - In Windows, we can't remap at the same address, so we have to move up in the memory. The limit is 4TB.
+
+
+    - Note that replication can reduce the data loss further. Use the REPLICAS_SAFE write concern (“w” option).
+    - As write guarantees increase, latency increases. To maintain performance, use more connections!
+    
+

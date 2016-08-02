@@ -35,7 +35,10 @@ Day 4
 -----
 
 - :doc:`/modules/agenda-nhtt-security`
-- `Internals and Storage Engines`_
+- Storage Engines and Internals
+
+  - :doc:`/modules/storage-engines-mmapv1-internal`
+  - :doc:`/modules/storage-engines-wired-tiger`
 
 .. include:: /includes/student-notes.rst
 
