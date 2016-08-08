@@ -1,0 +1,96 @@
+{
+  "Description" : "This is a stack that creates a single instance. You should have the proper resources like a VPC, Subnet and Security Group before calling this stack. Future work: 1) add a parameter to specify the SSH access",
+
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Metadata": {
+    "AWS::CloudFormation::Designer": {
+      "80e16656-ceb5-4d74-9331-ab0e1fb7560b": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 377,
+          "y": 188
+        },
+        "z": 0,
+        "embeds": []
+      }
+    }
+  },
+  "Parameters": {
+    "KeyPair": {
+      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "SSHandHTTPSecurityGroup": {
+      "Description": "SSH and HTTP security group associated to the VPC",
+      "Type": "AWS::EC2::SecurityGroup::Id"
+    },
+    "Subnet": {
+      "Description": "Subnet in which this instance is created",
+      "Type": "AWS::EC2::Subnet::Id"
+    }
+  },
+  "Resources": {
+    "Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": { "Fn::FindInMap" : [ "Constants", "InstanceValues", "medium" ] },
+        "ImageId": {
+          "Fn::FindInMap": [
+            "AWSRegion2AMI",
+            {
+              "Ref": "AWS::Region"
+            },
+            "v9"
+          ]
+        },
+        "KeyName": {
+          "Ref": "KeyPair"
+        },
+        "NetworkInterfaces": [
+          {
+            "AssociatePublicIpAddress": "true",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "GroupSet": [ {"Ref" : "SSHandHTTPSecurityGroup"} ],
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "80e16656-ceb5-4d74-9331-ab0e1fb7560b"
+        }
+      }
+    }
+  },
+  "Mappings": {
+    "Constants" : {
+      "InstanceValues" : {
+        "medium": "m3.medium",
+        "xlarge": "m3.xlarge"
+      }
+    },
+    "AWSRegion2AMI": {
+      "us-east-1": {
+        "v9": "ami-75aa6518"
+      },
+      "us-west-1": {
+        "v9": "ami-12cb8f72"
+      },
+      "us-west-2": {
+        "v9": "ami-919751f1"
+      },
+      "eu-central-1": {
+        "v9": "ami-78b25917"
+      },
+      "eu-west-1": {
+        "v9": "ami-aea53edd"
+      }
+    }
+  }
+}

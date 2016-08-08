@@ -17,5 +17,6 @@ pickleshare==0.7.2
 ptyprocess==0.5.1
 python-dateutil==2.5.3
 simplegeneric==0.8.1
+simplejson==3.8.2
 six==1.10.0
 traitlets==4.2.1

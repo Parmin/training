@@ -1,0 +1,119 @@
+{
+  "Description" : "This is a stack that creates the resources for one team. It will be calling a sub stack for each instance to be created.",
+
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "KeyPair": {
+      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "PublicRouteTable": {
+      "Description": "Route Table used by the VPC",
+      "Type": "String"
+    },
+    "VPC": {
+      "Description": "VPC ID",
+      "Type": "AWS::EC2::VPC::Id"
+    },
+    "SubnetMask": {
+      "Description": "The IP address range for the subnet. Must differ from other subnet in the VPC.",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "Default": "10.0.0.0/24",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+    },
+    "SSHandHTTPSecurityGroup": {
+      "Description": "SSH and HTTP security group associated to the VPC",
+      "Type": "AWS::EC2::SecurityGroup::Id"
+    }
+  },
+
+  "Resources": {
+    "Subnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "CidrBlock": {
+          "Ref": "SubnetMask"
+        }
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "77454457-112c-44b2-b52b-56d152ac7381"
+        }
+      }
+    },
+
+    "RouteTableAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": { "Ref": "Subnet" },
+        "RouteTableId": { "Ref": "PublicRouteTable" }
+      }
+    },
+
+    "Instance1": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "Parameters": {
+          "KeyPair": {"Ref": "KeyPair"},
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": {"Ref":"SSHandHTTPSecurityGroup"}
+        },
+        "TimeoutInMinutes": "10"
+      }
+    },
+
+    "Instance2": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "Parameters": {
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": {"Ref":"SSHandHTTPSecurityGroup"}
+        },
+        "TimeoutInMinutes": "10"
+      }
+    }
+
+  },
+
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Metadata": {
+    "AWS::CloudFormation::Designer": {
+      "77454457-112c-44b2-b52b-56d152ac7381": {
+        "size": {
+          "width": 590,
+          "height": 240
+        },
+        "position": {
+          "x": 50,
+          "y": 70
+        },
+        "z": 0,
+        "embeds": []
+      }
+    }
+  },
+
+  "Outputs": {
+    "VPC": {
+      "Value": {
+        "Ref": "VPC"
+      },
+      "Description": "Parent Group with VPN"
+    },
+    "SubnetMask": {
+      "Value": {
+        "Ref": "SubnetMask"
+      },
+      "Description": "Subnet"
+    }
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "Description" : "This is the top stack template to create a class. Create this stack, and it will give you a first 'team' which will use the 10.0.0.X subnet. Then create the 'advops-added_team' stack for each additional team. This stack creates: A) VPC 10.0.X.X, B) One subnet 10.0.0.X by calling 'advops-added_team'. Future work: 1) add a parameter to specify the SSH access",
+
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Metadata": {
+    "AWS::CloudFormation::Designer": {
+      "1f83700f-7dfd-4c10-88cc-8a6c7dc0eab0": {
+        "size": {
+          "width": 570,
+          "height": 270
+        },
+        "position": {
+          "x": 60,
+          "y": 60
+        },
+        "z": 1,
+        "embeds": []
+      },
+      "2fb0a0cc-04c3-4e08-9384-23dd4999a5e2": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 60,
+          "y": 360
+        },
+        "z": 1,
+        "embeds": [],
+        "isrelatedto": [
+          "1f83700f-7dfd-4c10-88cc-8a6c7dc0eab0"
+        ]
+      }
+    }
+  },
+
+  "Parameters": {
+    "KeyPair": {
+      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    }
+  },
+
+  "Mappings": {
+    "Constants" : {
+      "SubnetMasks" : {
+        "0": "10.0.0.0/24",
+        "1": "10.0.1.0/24"
+      }
+    }
+  },
+
+  "Resources": {
+    "VPC": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "true",
+        "CidrBlock": "10.0.0.0/16",
+        "Tags" : [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "1f83700f-7dfd-4c10-88cc-8a6c7dc0eab0"
+        }
+      }
+    },
+
+    "InternetGateway": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      }
+    },
+
+    "VPCGatewayAttachment": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": { "Ref": "VPC" },
+        "InternetGatewayId": { "Ref": "InternetGateway" }
+      }
+    },
+
+    "PublicRouteTable": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": { "Ref": "VPC" },
+        "Tags": [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      }
+    },
+
+    "PublicRoute": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": { "Ref": "PublicRouteTable" },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": { "Ref": "InternetGateway" }
+      }
+    },
+
+    "SSHandHTTPsecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "GroupDescription": "Allow access from HTTP and SSH traffic",
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "Tags": [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      }
+    },
+
+    "Subnet0": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "Parameters": {
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SubnetMask": { "Fn::FindInMap" : [ "Constants", "SubnetMasks", "0" ] },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Stack Name", "Value": { "Fn::Join" : [ "-", [ { "Ref": "AWS::StackName" }, "Subnet0" ] ] } }
+        ]
+      }
+    }
+  },
+
+  "Outputs": {
+    "KeyPair": { 
+      "Value": { "Ref": "KeyPair" },
+      "Description": "Key/Pair to access the hosts"
+    },
+    "VPC": {
+      "Value": { "Ref": "VPC" },
+      "Description": "Main VPC"
+    },
+    "Subnet0Mask": {
+      "Value": { "Fn::FindInMap" : [ "Constants", "SubnetMasks", "0" ] },
+      "Description": "Subnet"
+    },
+    "SSHandHTTPSecurityGroup": { 
+      "Value": { "Ref": "SSHandHTTPsecurityGroup" },
+      "Description": "VPC Security Group for HTTP/SSH access"
+    },
+    "PublicRouteTable": { 
+      "Value": { "Ref": "PublicRouteTable" },
+      "Description": "Route Table for the VPC"
+    }
+  }
+}

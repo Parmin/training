@@ -1,3 +1,7 @@
+#
+# TODO:
+#   - must destroy key/pair
+
 import boto3
 from botocore.exceptions import *
 import logging
@@ -15,6 +19,8 @@ logging.basicConfig(format=FORMAT)
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 log.addHandler(ch)
+
+MAX_GROUPS = 5
 
 class Team(object):
 
@@ -140,9 +146,9 @@ class Team(object):
         for ip in rl:
             yield ip
 
-class Provisioner(object):
+class Provisioner_aws_plain(object):
     """
-    Class for provisioning management of Training Environment
+    Class for provisioning management of Training Environment, using basic AWS artifacts
     """
 
     def to_json(self):
@@ -338,10 +344,15 @@ class Provisioner(object):
         """
         Establish the resources and client objects
         """
-        self.session = boto3.session.Session(profile_name=self.aws_profile) if self._aws_region is None else boto3.session(profile_name=self.aws_profile, aws_region=self._aws_region)
-        self.ec2 = self.session.resource('ec2')
-        self.client = self.session.client('ec2')
-        self.elb = self.session.client('elb')
+        try:
+            self.session = boto3.session.Session(profile_name=self.aws_profile) if self._aws_region is None else boto3.session(profile_name=self.aws_profile, aws_region=self._aws_region)
+            self.ec2 = self.session.resource('ec2')
+            self.client = self.session.client('ec2')
+            self.elb = self.session.client('elb')
+        except ProfileNotFound, e:
+            log.error("\nFATAL - Could not find the AWS profile '{0}'".format(self.aws_profile))
+            log.error("Check the ~/.aws/config file and/or configure with 'aws configure'")
+            sys.exit(1)
 
     def get_default_tags(self):
         return [
@@ -360,6 +371,7 @@ class Provisioner(object):
         - Owner: "Advanced Training"
 
         """
+        # TODO - Let's add who created the resources if a significant username is available
         tags += self.get_default_tags()
         log.info(
         "Adding tags %s to resource %s " % (str(tags), resource.id ))
@@ -699,24 +711,56 @@ class Provisioner(object):
                 fd.write(line)
 
     def destroy(self):
+        not_destroyed = []
+
         filters = [{
             'Name': 'tag:BUILDID',
             'Values': [self.training_run]
         }]
-        #terminate instances
+        # terminate instances
         for i in self.ec2.instances.filter(Filters=filters):
-            log.debug("Terminating {0} instance".format(i))
-            i.terminate()
+            try:
+                log.debug("Terminating instance {0}".format(i))
+                i.terminate()
+            except Exception, e:
+                log.error("Problem deleting instance {0}".format(i))
+                not_destroyed.append(("instance", i))
 
-        # delete loadbalancers
-        for i in xrange(5):
-            lbname = "{0}-{1}-lb".format(self.training_run, i)
-            log.debug("deleting load balancer {0}".format(lbname))
-            self.elb.delete_load_balancer(LoadBalancerName=lbname)
+        # delete key pair
+        for i in xrange(MAX_GROUPS):
+            try:
+                keyname = "{0}-{1}".format(self.training_run, i)
+                log.debug("deleting key/pair {0}".format(keyname))
+                self.ec2.KeyPair(keyname).delete()
+            except:
+                log.error("Problem deleting key/pair {0}".format(keyname))
+                not_destroyed.append(("key/pair", keyname))
 
+        # delete load balancers
+        for i in xrange(MAX_GROUPS):
+            try:
+                lbname = "{0}-{1}-lb".format(self.training_run, i)
+                log.debug("deleting load balancer {0}".format(lbname))
+                self.elb.delete_load_balancer(LoadBalancerName=lbname)
+            except:
+                log.error("Problem deleting load balancer {0}".format(i))
+                not_destroyed.append(("load balancer", lbname))
+
+        # TODO - need to wait a little while before deleting VPC, 1 minute?
+        # delete VPCs
         for vpc in self.ec2.vpcs.filter(Filters=filters):
-            destroy_vpc(vpc, self.training_run)
+            try:
+                destroy_vpc(vpc, self.training_run)
+            except:
+                log.error("Problem deleting VPC {0}".format(vpc))
+                not_destroyed.append(("VPC", lbname))
 
+        # Show what was not destroyed
+        if len(not_destroyed) > 0:
+            log.info("\n*** Some items were not deleted properly ***")
+            for item in not_destroyed:
+                log.info("  {0} not destroyed: {1}".format(item[0], item[1]))
+            log.info("\n")
 
 def delete_dependency(dep):
     try:
