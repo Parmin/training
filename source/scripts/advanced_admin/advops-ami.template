@@ -1,5 +1,26 @@
 {
-  "Description" : "This is a stack that creates a single instance. You should have the proper resources like a VPC, Subnet and Security Group before calling this stack. Future work: 1) add a parameter to specify the SSH access",
+  "Description" : "This is a stack that creates a single instance. You should have the proper resources like a VPC, Subnet and Security Group before calling this stack. See the 'Constants' section to see the instance types available. Future work: 1) add a parameter to specify the default login account, different one per team ",
+
+  "Parameters": {
+    "InstanceType": {
+      "Description": "Instance type, 'mongodb', 'opsmgr' or 'test'",
+      "Type": "String",
+      "AllowedValues": [ "mongodb", "opsmgr", "test" ],
+      "Default": "mongodb"
+    },
+    "KeyPair": {
+      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "SSHandHTTPSecurityGroup": {
+      "Description": "SSH and HTTP security group associated to the VPC",
+      "Type": "AWS::EC2::SecurityGroup::Id"
+    },
+    "Subnet": {
+      "Description": "Subnet in which this instance is created",
+      "Type": "AWS::EC2::Subnet::Id"
+    }
+  },
 
   "AWSTemplateFormatVersion": "2010-09-09",
   "Metadata": {
@@ -18,25 +39,42 @@
       }
     }
   },
-  "Parameters": {
-    "KeyPair": {
-      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
-      "Type": "AWS::EC2::KeyPair::KeyName"
+
+  "Mappings": {
+    "Constants" : {
+      "InstanceValues" : {
+        "test": "t2.small",
+        "mongodb": "m3.medium",
+        "opsmgr": "r3.large",
+        "test2": "t2.micro",
+        "mongodb2": "t2.micro",
+        "opsmgr2": "t2.micro"
+      }
     },
-    "SSHandHTTPSecurityGroup": {
-      "Description": "SSH and HTTP security group associated to the VPC",
-      "Type": "AWS::EC2::SecurityGroup::Id"
-    },
-    "Subnet": {
-      "Description": "Subnet in which this instance is created",
-      "Type": "AWS::EC2::Subnet::Id"
+    "AWSRegion2AMI": {
+      "us-east-1": {
+        "v9": "ami-75aa6518"
+      },
+      "us-west-1": {
+        "v9": "ami-12cb8f72"
+      },
+      "us-west-2": {
+        "v9": "ami-919751f1"
+      },
+      "eu-central-1": {
+        "v9": "ami-78b25917"
+      },
+      "eu-west-1": {
+        "v9": "ami-aea53edd"
+      }
     }
   },
+
   "Resources": {
     "Instance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": { "Fn::FindInMap" : [ "Constants", "InstanceValues", "medium" ] },
+        "InstanceType": { "Fn::FindInMap" : [ "Constants", "InstanceValues", { "Ref": "InstanceType" } ] },
         "ImageId": {
           "Fn::FindInMap": [
             "AWSRegion2AMI",
@@ -59,6 +97,9 @@
               "Ref": "Subnet"
             }
           }
+        ],
+        "Tags": [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
         ]
       },
       "Metadata": {
@@ -68,29 +109,14 @@
       }
     }
   },
-  "Mappings": {
-    "Constants" : {
-      "InstanceValues" : {
-        "medium": "m3.medium",
-        "xlarge": "m3.xlarge"
-      }
+
+  "Outputs": {
+    "InstanceID": { 
+      "Value": { "Ref": "Instance" },
+      "Description": "Instance ID"
     },
-    "AWSRegion2AMI": {
-      "us-east-1": {
-        "v9": "ami-75aa6518"
-      },
-      "us-west-1": {
-        "v9": "ami-12cb8f72"
-      },
-      "us-west-2": {
-        "v9": "ami-919751f1"
-      },
-      "eu-central-1": {
-        "v9": "ami-78b25917"
-      },
-      "eu-west-1": {
-        "v9": "ami-aea53edd"
-      }
+    "PublicIP": {
+      "Value": { "Fn::GetAtt": [ "Instance", "PublicIp" ] }
     }
   }
 }

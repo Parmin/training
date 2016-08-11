@@ -686,6 +686,10 @@ class Provisioner_aws_plain(object):
         except Exception, e:
             log.error("could not delete load balancer {0}: {1}".format(load_balancer_name, e))
 
+    def describe(self):
+        log.info("'describe' is not implemented with this provider, the info wa already put on your disk after the creation of the teams")
+
+
     def get_teamhosts_filepath(self, team_id):
         log.info("create hosts file for team {0}".format(team_id))
         return os.path.join(self.basedir, team_id+"_hosts")

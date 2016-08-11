@@ -11,6 +11,11 @@
 #   Missing required parameter in input: "LoadBalancerName" Unknown parameter in input: "LoadBlancerName", must be one of: LoadBalancerName, HealthCheck
 #
 #   Exception: No Public Instance Set Yet!
+#
+# TODOs:
+#   - better logging, it looks like everything is logged twice on the screen
+#   - check for return codes from creating the stacks
+#   - incorporate Ansible scripts
 
 import logging
 import argparse
@@ -39,7 +44,7 @@ def main():
     help='environment training run identifier', type=str)
 
     parser.add_argument('--teams', dest='teams', required=True, type=int,
-    help='Number of teams for this training run', choices=range(1,6))
+    help='Number of teams for this training run', choices=range(0,8))
 
     parser.add_argument('--profile', dest='awsprofile', default='default',
     type=str, help='AWS profile that will launch the environment')

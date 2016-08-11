@@ -1,6 +1,18 @@
 {
   "Description" : "This is the top stack template to create a class. Create this stack, and it will give you a first 'team' which will use the 10.0.0.X subnet. Then create the 'advops-added_team' stack for each additional team. This stack creates: A) VPC 10.0.X.X, B) One subnet 10.0.0.X by calling 'advops-added_team'. Future work: 1) add a parameter to specify the SSH access",
 
+  "Parameters": {
+    "NbTeams": {
+      "Description": "Number of Teams to initially create (max 8), you can add more later",
+      "Type": "String",
+      "AllowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8" ]
+    },
+    "KeyPair": {
+      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    }
+  },
+
   "AWSTemplateFormatVersion": "2010-09-09",
   "Metadata": {
     "AWS::CloudFormation::Designer": {
@@ -34,20 +46,15 @@
     }
   },
 
-  "Parameters": {
-    "KeyPair": {
-      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
-      "Type": "AWS::EC2::KeyPair::KeyName"
-    }
-  },
-
-  "Mappings": {
-    "Constants" : {
-      "SubnetMasks" : {
-        "0": "10.0.0.0/24",
-        "1": "10.0.1.0/24"
-      }
-    }
+  "Conditions" : {
+    "CreateTeam8" : {"Fn::Equals": [{"Ref": "NbTeams"}, "8"]},
+    "CreateTeam7" : {"Fn::Or": [ {"Condition": "CreateTeam8"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "7"]} ] },
+    "CreateTeam6" : {"Fn::Or": [ {"Condition": "CreateTeam7"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "6"]} ] },
+    "CreateTeam5" : {"Fn::Or": [ {"Condition": "CreateTeam6"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "5"]} ] },
+    "CreateTeam4" : {"Fn::Or": [ {"Condition": "CreateTeam5"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "4"]} ] },
+    "CreateTeam3" : {"Fn::Or": [ {"Condition": "CreateTeam4"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "3"]} ] },
+    "CreateTeam2" : {"Fn::Or": [ {"Condition": "CreateTeam3"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "2"]} ] },
+    "CreateTeam1" : {"Fn::Or": [ {"Condition": "CreateTeam2"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "1"]} ] }
   },
 
   "Resources": {
@@ -120,6 +127,12 @@
           },
           {
             "IpProtocol": "tcp",
+            "FromPort": "8080",
+            "ToPort": "8080",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
             "FromPort": "22",
             "ToPort": "22",
             "CidrIp": "0.0.0.0/0"
@@ -131,26 +144,192 @@
       }
     },
 
-    "Subnet0": {
+    "Team0": {
       "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
       "Properties": {
         "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
         "Parameters": {
+          "TeamNumber": "0",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
-          "SubnetMask": { "Fn::FindInMap" : [ "Constants", "SubnetMasks", "0" ] },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
           "VPC": { "Ref": "VPC" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
-          { "Key": "Stack Name", "Value": { "Fn::Join" : [ "-", [ { "Ref": "AWS::StackName" }, "Subnet0" ] ] } }
+          { "Key": "Team", "Value": "0" }
+        ]
+      }
+    },
+
+    "Team1": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam1",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "Parameters": {
+          "TeamNumber": "1",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "1" }
+        ]
+      }
+    },
+
+    "Team2": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam2",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "Parameters": {
+          "TeamNumber": "2",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "2" }
+        ]
+      }
+    },
+
+    "Team3": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam3",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "Parameters": {
+          "TeamNumber": "3",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "3" }
+        ]
+      }
+    },
+
+    "Team4": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam4",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "Parameters": {
+          "TeamNumber": "4",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "4" }
+        ]
+      }
+    },
+
+    "Team5": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam5",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "Parameters": {
+          "TeamNumber": "5",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "5" }
+        ]
+      }
+    },
+
+    "Team6": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam6",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "Parameters": {
+          "TeamNumber": "6",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "6" }
+        ]
+      }
+    },
+
+    "Team7": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam7",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "Parameters": {
+          "TeamNumber": "7",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "7" }
+        ]
+      }
+    },
+
+    "Team8": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam8",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "Parameters": {
+          "TeamNumber": "8",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "8" }
         ]
       }
     }
+
   },
 
   "Outputs": {
+    "NbTeams": { 
+      "Value": { "Ref": "NbTeams" },
+      "Description": "Number of Teams initially created by this top Stack"
+    },
     "KeyPair": { 
       "Value": { "Ref": "KeyPair" },
       "Description": "Key/Pair to access the hosts"
@@ -158,10 +337,6 @@
     "VPC": {
       "Value": { "Ref": "VPC" },
       "Description": "Main VPC"
-    },
-    "Subnet0Mask": {
-      "Value": { "Fn::FindInMap" : [ "Constants", "SubnetMasks", "0" ] },
-      "Description": "Subnet"
     },
     "SSHandHTTPSecurityGroup": { 
       "Value": { "Ref": "SSHandHTTPsecurityGroup" },
