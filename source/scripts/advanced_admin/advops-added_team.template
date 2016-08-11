@@ -22,6 +22,12 @@
     "SSHandHTTPSecurityGroup": {
       "Description": "SSH and HTTP security group associated to the VPC",
       "Type": "AWS::EC2::SecurityGroup::Id"
+    },
+    "TestMode": {
+      "Description": "Run in test mode, using less resources",
+      "Type": "String",
+      "AllowedValues": [ "true", "false" ],
+      "Default": "false"
     }
   },
 
@@ -43,9 +49,14 @@
     }
   },
 
+  "Conditions" : {
+    "IsNotTestMode": {"Fn::Equals": [{"Ref": "TestMode"}, "false"]}
+  },
+
   "Mappings": {
     "Constants" : {
       "SubnetMasks" : {
+        "desc": "Each team gets to have a different subnet in which all their instances are located",
         "0": "10.0.0.0/24",
         "1": "10.0.1.0/24",
         "2": "10.0.2.0/24",
@@ -55,6 +66,22 @@
         "6": "10.0.6.0/24",
         "7": "10.0.7.0/24",
         "8": "10.0.8.0/24"
+      }
+    },
+    "Params": {
+      "AMITemplate": {
+        "Description": "Use templates from the test area or not, based on 'TestMode'",
+        "true": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/devel-templates/advops-ami.template",
+        "false": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template"
+      },
+      "OpsMgrInstanceType": {
+        "Description": "Use smaller instance in 'TestMode'",
+        "true": "t2.micro",
+        "false": "r3.large"
+      },
+      "DataInstanceType": {
+        "true": "t2.micro",
+        "false": "m3.medium"
       }
     }
   },
@@ -91,9 +118,9 @@
     "OpsMgr1": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "opsmgr",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "OpsMgrInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": {"Ref": "KeyPair"},
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -109,9 +136,9 @@
     "OpsMgr2": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "opsmgr",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "OpsMgrInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -127,9 +154,9 @@
     "OpsMgr3": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "opsmgr",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "OpsMgrInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -145,9 +172,9 @@
     "Node1": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -162,10 +189,11 @@
 
     "Node2": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -180,10 +208,11 @@
 
     "Node3": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -198,10 +227,11 @@
 
     "Node4": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -216,10 +246,11 @@
 
     "Node5": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -234,10 +265,11 @@
 
     "Node6": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -252,10 +284,11 @@
 
     "Node7": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -270,10 +303,11 @@
 
     "Node8": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -288,10 +322,11 @@
 
     "Node9": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -306,10 +341,11 @@
 
     "Node10": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
@@ -324,10 +360,11 @@
 
     "Node11": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": "mongodb",
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }

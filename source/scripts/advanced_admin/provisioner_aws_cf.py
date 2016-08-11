@@ -33,13 +33,19 @@ class Provisioner_aws_cf(object):
         Build the initial VPC with the team '0' in it, this team can be used for administrative purposes.
         """
         me = getpass.getuser()
+        if dryrun:
+            testmode = "true"
+        else:
+            testmode = "false"
+
         with open("advops-base_team.template", 'r') as f:
             response = self.client.create_stack(
 	            StackName = self.training_run,
 	            TemplateBody = f.read(),
 	            Parameters = [
 	                { "ParameterKey": "NbTeams", "ParameterValue": str(self.number_of_teams) },
-	                { "ParameterKey": "KeyPair", "ParameterValue": "AdvancedOpsTraining" }
+	                { "ParameterKey": "KeyPair", "ParameterValue": "AdvancedOpsTraining" },
+	                { "ParameterKey": "TestMode", "ParameterValue": testmode}
 	            ],
 	            Tags = [
 	                { "Key": "Name", "Value": "AdvOps - " + self.training_run },
@@ -94,6 +100,7 @@ class Provisioner_aws_cf(object):
     	"""
         self.client.delete_stack(StackName = self.training_run)
         None
+
 
 class MyPrettyPrinter(pprint.PrettyPrinter):
     def format(self, object, context, maxlevels, level):

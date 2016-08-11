@@ -1,12 +1,10 @@
 {
-  "Description" : "This is a stack that creates a single instance. You should have the proper resources like a VPC, Subnet and Security Group before calling this stack. See the 'Constants' section to see the instance types available. Future work: 1) add a parameter to specify the default login account, different one per team ",
+  "Description" : "This is a stack that creates a single instance.",
 
   "Parameters": {
     "InstanceType": {
-      "Description": "Instance type, 'mongodb', 'opsmgr' or 'test'",
-      "Type": "String",
-      "AllowedValues": [ "mongodb", "opsmgr", "test" ],
-      "Default": "mongodb"
+      "Description": "Instance type, usually 'm3.medium' for data nodes and 'r3.large' for OpsMgr hosts",
+      "Type": "String"
     },
     "KeyPair": {
       "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
@@ -41,16 +39,6 @@
   },
 
   "Mappings": {
-    "Constants" : {
-      "InstanceValues" : {
-        "test": "t2.small",
-        "mongodb": "m3.medium",
-        "opsmgr": "r3.large",
-        "test2": "t2.micro",
-        "mongodb2": "t2.micro",
-        "opsmgr2": "t2.micro"
-      }
-    },
     "AWSRegion2AMI": {
       "us-east-1": {
         "v9": "ami-75aa6518"
@@ -74,7 +62,7 @@
     "Instance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": { "Fn::FindInMap" : [ "Constants", "InstanceValues", { "Ref": "InstanceType" } ] },
+        "InstanceType": { "Ref": "InstanceType" },
         "ImageId": {
           "Fn::FindInMap": [
             "AWSRegion2AMI",

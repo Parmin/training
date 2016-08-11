@@ -1,5 +1,5 @@
 {
-  "Description" : "This is the top stack template to create a class. Create this stack, and it will give you a first 'team' which will use the 10.0.0.X subnet. Then create the 'advops-added_team' stack for each additional team. This stack creates: A) VPC 10.0.X.X, B) One subnet 10.0.0.X by calling 'advops-added_team'. Future work: 1) add a parameter to specify the SSH access",
+  "Description" : "This is the top stack template to create a training class.",
 
   "Parameters": {
     "NbTeams": {
@@ -10,6 +10,12 @@
     "KeyPair": {
       "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
       "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "TestMode": {
+      "Description": "Run in test mode, using less resources",
+      "Type": "String",
+      "AllowedValues": [ "true", "false" ],
+      "Default": "false"
     }
   },
 
@@ -47,14 +53,24 @@
   },
 
   "Conditions" : {
-    "CreateTeam8" : {"Fn::Equals": [{"Ref": "NbTeams"}, "8"]},
-    "CreateTeam7" : {"Fn::Or": [ {"Condition": "CreateTeam8"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "7"]} ] },
-    "CreateTeam6" : {"Fn::Or": [ {"Condition": "CreateTeam7"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "6"]} ] },
-    "CreateTeam5" : {"Fn::Or": [ {"Condition": "CreateTeam6"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "5"]} ] },
-    "CreateTeam4" : {"Fn::Or": [ {"Condition": "CreateTeam5"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "4"]} ] },
-    "CreateTeam3" : {"Fn::Or": [ {"Condition": "CreateTeam4"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "3"]} ] },
-    "CreateTeam2" : {"Fn::Or": [ {"Condition": "CreateTeam3"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "2"]} ] },
-    "CreateTeam1" : {"Fn::Or": [ {"Condition": "CreateTeam2"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "1"]} ] }
+    "CreateTeam8" : { "Fn::Equals": [{"Ref": "NbTeams"}, "8"] },
+    "CreateTeam7" : { "Fn::Or": [ {"Condition": "CreateTeam8"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "7"]} ] },
+    "CreateTeam6" : { "Fn::Or": [ {"Condition": "CreateTeam7"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "6"]} ] },
+    "CreateTeam5" : { "Fn::Or": [ {"Condition": "CreateTeam6"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "5"]} ] },
+    "CreateTeam4" : { "Fn::Or": [ {"Condition": "CreateTeam5"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "4"]} ] },
+    "CreateTeam3" : { "Fn::Or": [ {"Condition": "CreateTeam4"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "3"]} ] },
+    "CreateTeam2" : { "Fn::Or": [ {"Condition": "CreateTeam3"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "2"]} ] },
+    "CreateTeam1" : { "Fn::Or": [ {"Condition": "CreateTeam2"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "1"]} ] }
+  },
+
+  "Mappings": {
+    "Params": {
+      "AddedTeamTemplate": {
+        "Description": "Use templates from the test area or not, based on 'TestMode'",
+        "true": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/devel-templates/advops-added_team.template",
+        "false": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template"
+      }
+    }
   },
 
   "Resources": {
@@ -148,13 +164,14 @@
       "Type": "AWS::CloudFormation::Stack",
       "DependsOn": "VPCGatewayAttachment",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
           "TeamNumber": "0",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
-          "VPC": { "Ref": "VPC" }
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -168,13 +185,14 @@
       "DependsOn": "VPCGatewayAttachment",
       "Condition": "CreateTeam1",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
           "TeamNumber": "1",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
-          "VPC": { "Ref": "VPC" }
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -188,13 +206,14 @@
       "DependsOn": "VPCGatewayAttachment",
       "Condition": "CreateTeam2",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
           "TeamNumber": "2",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
-          "VPC": { "Ref": "VPC" }
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -208,13 +227,14 @@
       "DependsOn": "VPCGatewayAttachment",
       "Condition": "CreateTeam3",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
           "TeamNumber": "3",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
-          "VPC": { "Ref": "VPC" }
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -228,13 +248,14 @@
       "DependsOn": "VPCGatewayAttachment",
       "Condition": "CreateTeam4",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
           "TeamNumber": "4",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
-          "VPC": { "Ref": "VPC" }
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -248,13 +269,14 @@
       "DependsOn": "VPCGatewayAttachment",
       "Condition": "CreateTeam5",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
           "TeamNumber": "5",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
-          "VPC": { "Ref": "VPC" }
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -268,13 +290,14 @@
       "DependsOn": "VPCGatewayAttachment",
       "Condition": "CreateTeam6",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
           "TeamNumber": "6",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
-          "VPC": { "Ref": "VPC" }
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -288,13 +311,14 @@
       "DependsOn": "VPCGatewayAttachment",
       "Condition": "CreateTeam7",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
           "TeamNumber": "7",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
-          "VPC": { "Ref": "VPC" }
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -308,13 +332,14 @@
       "DependsOn": "VPCGatewayAttachment",
       "Condition": "CreateTeam8",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template",
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
           "TeamNumber": "8",
           "KeyPair": { "Ref": "KeyPair" },
           "PublicRouteTable": { "Ref": "PublicRouteTable" },
           "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
-          "VPC": { "Ref": "VPC" }
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [

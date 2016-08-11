@@ -41,25 +41,28 @@ def main():
 
     parser = argparse.ArgumentParser(description='Deploy AWS training environment')
     parser.add_argument('--run', dest='training_run', required=True,
-    help='environment training run identifier', type=str)
+      help='environment training run identifier', type=str)
 
     parser.add_argument('--teams', dest='teams', required=True, type=int,
-    help='Number of teams for this training run', choices=range(0,8))
+      help='Number of teams for this training run', choices=range(0,8))
 
     parser.add_argument('--profile', dest='awsprofile', default='default',
-    type=str, help='AWS profile that will launch the environment')
+      type=str, help='AWS profile that will launch the environment')
 
     parser.add_argument('--duration', dest='duration', default=3,
-    type=int, help="Duration of the training run in days")
+      type=int, help="Duration of the training run in days")
 
     parser.add_argument('--dir', dest='dir', default=".",
-    type=str, help="Output build directory path")
+      type=str, help="Output build directory path")
 
     parser.add_argument('--instances', dest='instances', default=16, type=int,
-    help="Number of instances per team")
+      help="Number of instances per team")
 
     parser.add_argument('--provider', dest='provider', default="aws-cf", type=str,
-    help="Provider, one of 'aws-cf' or 'aws-plain'")
+      help="Provider, one of 'aws-cf' or 'aws-plain'")
+
+    parser.add_argument('--testmode', dest='testmode', action='store_true',
+      help="Run in test mode, using less and smaller instances")
 
     args = parser.parse_args()
     logger.info("Collected the following arguments {0}".format(args))
@@ -85,7 +88,7 @@ def main():
     logger.debug("Building {0} stack".format(build_id))
     pr.basedir = args.dir
     pr.number_of_instances = args.instances
-    pr.build(build_id, False)
+    pr.build(build_id, args.testmode)
     logger.debug("All teams:".format(pr.teams))
 
 
