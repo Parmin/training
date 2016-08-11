@@ -18,12 +18,16 @@ class Provisioner_aws_cf(object):
     - attach Elastic IP to LoadBalancer?
     """
 
-    def __init__(self, training_run, aws_profile="default", teams=1, end_date=date.today()+timedelta(days=7), aws_region=None):
+    # TODO - cleanup the arguments to the constructor, maybe just keeping 'args'
+    def __init__(self, args, training_run, aws_profile="default", teams=1, end_date=date.today()+timedelta(days=7), aws_region=None, keypair=None):
         self.training_run = training_run
         self.aws_profile = aws_profile
         self.number_of_teams = teams
         self.aws_region = aws_region
         self.end_date = end_date
+        self.keypair = keypair
+        self.args = args
+
         self.session = None
         self.client = None
         self.teams = []
@@ -44,13 +48,16 @@ class Provisioner_aws_cf(object):
 	            TemplateBody = f.read(),
 	            Parameters = [
 	                { "ParameterKey": "NbTeams", "ParameterValue": str(self.number_of_teams) },
-	                { "ParameterKey": "KeyPair", "ParameterValue": "AdvancedOpsTraining" },
-	                { "ParameterKey": "TestMode", "ParameterValue": testmode}
+	                { "ParameterKey": "KeyPair", "ParameterValue": self.keypair },
+	                { "ParameterKey": "TestMode", "ParameterValue": testmode }
 	            ],
+	            # Add 'Project' and 'Expire-on'
 	            Tags = [
 	                { "Key": "Name", "Value": "AdvOps - " + self.training_run },
-	                { "Key": "Run", "Value": self.training_run },
-	                { "Key": "Owner", "Value": me }
+	                { "Key": "Owner", "Value": me },
+	                { "Key": "Project", "Value": "AdvOps - " + self.training_run },
+	                { "Key": "Expire-on", "Value": str(self.end_date) },
+	                { "Key": "Run", "Value": self.training_run }
 	            ]
 	        )
         # Need to wait on the completion of the above to extract few parameters to create the other teams
@@ -78,30 +85,75 @@ class Provisioner_aws_cf(object):
     def describe(self):
 
         # TODO - check if the stack exists
-        response = self.client.describe_stacks(StackName=self.training_run)
-        #MyPrettyPrinter().pprint(response)
 
-        # Describe all sub stacks, starting with the top one for the 'run'
         run_resources = self.client.describe_stack_resources(StackName=self.training_run)
-        MyPrettyPrinter().pprint(run_resources)
+        runinfo = self._get_outputs_for_stack(self.training_run)
+        print "Run: %s\n" % (self.training_run)
+        print "  Key pair: %s" % (runinfo['KeyPair'])
+        print "  Number of Teams: %s" % (runinfo['NbTeams'])
+        print ""
+        print "  VPC: %s" % (runinfo['VPC'])
+        print "  Public Route Table: %s" % (runinfo['PublicRouteTable'])
+        print "  Security Group: %s" % (runinfo['SSHandHTTPSecurityGroup'])
+        # Describe all sub stacks, starting with the top one for the 'run'
+        #MyPrettyPrinter().pprint(run_resources)
         for one_run_resource in run_resources['StackResources']:
+            # Need VPC, key/pair, 
             if one_run_resource['ResourceType'] == 'AWS::CloudFormation::Stack':
                 # This is one team
-                print "  Team: " + one_run_resource['LogicalResourceId']
-                team_resources = self.client.describe_stack_resources(PhysicalResourceId=one_run_resource['PhysicalResourceId'])
-                MyPrettyPrinter().pprint(team_resources)
+                physicalId = one_run_resource['PhysicalResourceId']
+                teaminfo = self._get_outputs_for_stack(physicalId)
+                if self.args.verbose:
+                    print "\n  Team %s (%s)" % (one_run_resource['LogicalResourceId'], physicalId)
+                    print   "    Subnet - Id: %s  Mask: %s" % (teaminfo['Subnet'], teaminfo['SubnetMask'])
+                    print   "    LoadBalancer: %s" % (teaminfo['LoadBalancerHostName'])
+                else:
+                    print "\n  Team %s" % (teaminfo['TeamNumber'])
+                    print   "    Subnet - Mask: %s" % (teaminfo['SubnetMask'])
+                    print   "    LoadBalancer: %s" % (teaminfo['LoadBalancerHostName'])
+                print ""
+                # Getting all resources for the stack that created this team
+                team_resources = self.client.describe_stack_resources(StackName=physicalId)
                 for one_team_resource in team_resources['StackResources']:
+                    # Need Instances, Load Balancer, subnet, team number
                     if one_team_resource['ResourceType'] == 'AWS::CloudFormation::Stack':
-                        print "    Host:"
+                        # Need Instance ID, IP, Role
+                        physicalId = one_team_resource['PhysicalResourceId']
+                        hostinfo = self._get_outputs_for_stack(physicalId)
+                        hosttags = self._get_tags_for_stack(physicalId)
+                        print "    Host - Id: %-11s  Role: %-10s  IP: %s" % (hostinfo['InstanceID'], hosttags['Role'], hostinfo['PublicIP'])
+        print ""
 
     def destroy(self):
-    	"""
-    	TODO: verify that the stack exists before trying to delete it
-    	"""
+        """
+        TODO: verify that the stack exists before trying to delete it
+        """
         self.client.delete_stack(StackName = self.training_run)
         None
 
+    def _get_outputs_for_stack(self, stackId):
+        """
+        Return a dictionary with all the 'outputs' for a given stack
+        """
+        stack_description = self.client.describe_stacks(StackName=stackId)
+        outputs = stack_description['Stacks'][0]['Outputs']
+        info = dict()
+        for output in outputs:
+            info[output['OutputKey']] = output['OutputValue']
+        return info
 
+    def _get_tags_for_stack(self, stackId):
+        """
+        Return a dictionary with all the 'outputs' for a given stack
+        """
+        stack_description = self.client.describe_stacks(StackName=stackId)
+        outputs = stack_description['Stacks'][0]['Tags']
+        info = dict()
+        for output in outputs:
+            info[output['Key']] = output['Value']
+        return info
+
+# Imported code
 class MyPrettyPrinter(pprint.PrettyPrinter):
     def format(self, object, context, maxlevels, level):
         if isinstance(object, unicode):

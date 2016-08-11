@@ -40,26 +40,30 @@ def main():
     setup_logging(logger)
 
     parser = argparse.ArgumentParser(description='Deploy AWS training environment')
-    parser.add_argument('--run', dest='training_run', required=True,
-      help='environment training run identifier', type=str)
-
-    parser.add_argument('--teams', dest='teams', required=True, type=int,
-      help='Number of teams for this training run', choices=range(0,8))
-
-    parser.add_argument('--profile', dest='awsprofile', default='default',
-      type=str, help='AWS profile that will launch the environment')
-
-    parser.add_argument('--duration', dest='duration', default=3,
-      type=int, help="Duration of the training run in days")
 
     parser.add_argument('--dir', dest='dir', default=".",
       type=str, help="Output build directory path")
 
+    parser.add_argument('--duration', dest='duration', default=3,
+      type=int, help="Duration of the training run in days")
+
+    parser.add_argument('--keypair', dest='keypair', default="AdvancedOpsTraining", type=str,
+      help="SSH keys to use. It defaults to 'AdvancedOpsTraining'. You can provide another string, but the keys must exist under your account")
+
     parser.add_argument('--instances', dest='instances', default=16, type=int,
       help="Number of instances per team")
 
+    parser.add_argument('--profile', dest='awsprofile', default='default',
+      type=str, help='AWS profile that will launch the environment')
+
     parser.add_argument('--provider', dest='provider', default="aws-cf", type=str,
       help="Provider, one of 'aws-cf' or 'aws-plain'")
+
+    parser.add_argument('--run', dest='training_run', required=True, type=str,
+      help='environment training run identifier')
+
+    parser.add_argument('--teams', dest='teams', required=True, type=int, choices=range(0,8),
+      help='Number of teams for this training run')
 
     parser.add_argument('--testmode', dest='testmode', action='store_true',
       help="Run in test mode, using less and smaller instances")
@@ -76,7 +80,7 @@ def main():
     logger.debug("Training will finish {:%d, %b %Y}".format(end_date))
 
     if args.provider == "aws-cf":
-        pr = Provisioner_aws_cf(training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams)
+        pr = Provisioner_aws_cf(args, training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams, keypair=args.keypair)
     elif args.provider == "aws-plain":
         pr = Provisioner_aws_plain(training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams)
     else:
