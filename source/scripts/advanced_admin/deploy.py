@@ -15,7 +15,11 @@
 # TODOs:
 #   - better logging, it looks like everything is logged twice on the screen
 #   - check for return codes from creating the stacks
+#   - run mdiags on instances
 #   - incorporate Ansible scripts
+#   - consider terraform as an additional provider, or even replacement for CF
+#   - Stacks:
+#     - provision 2 disks per instance, for few data nodes
 
 import logging
 import argparse

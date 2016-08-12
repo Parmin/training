@@ -12,7 +12,9 @@ class Provisioner_aws_cf(object):
     Class for provisioning management of Training Environment, using basic AWS artifacts
 
     TODO
-    - add expiration date on artifacts
+    - nice error message if we run over the limit of instances
+    - check if the run exists
+    - check if run is 'completed' in order to report info?
     - name the Load Balancer, however we are limited to 32 chars. Right solution would be "LB-<run>-<team>"
     - name the stacks without the generated part from CF. Right solution would be "<run>-<team>-<host>"
     - attach Elastic IP to LoadBalancer?
