@@ -1,0 +1,443 @@
+{
+  "Description" : "This is a stack that creates the resources for one team. It will be calling a sub stack for each instance to be created.",
+
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "TeamNumber": {
+      "Description": "Team number, 1 to 16. Subnet for this team will be 10.0.X.0",
+      "Type": "String"
+    },
+    "KeyPair": {
+      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "PublicRouteTable": {
+      "Description": "Route Table used by the VPC",
+      "Type": "String"
+    },
+    "VPC": {
+      "Description": "VPC ID",
+      "Type": "AWS::EC2::VPC::Id"
+    },
+    "SSHandHTTPSecurityGroup": {
+      "Description": "SSH and HTTP security group associated to the VPC",
+      "Type": "AWS::EC2::SecurityGroup::Id"
+    },
+    "TestMode": {
+      "Description": "Run in test mode, using less resources",
+      "Type": "String",
+      "AllowedValues": [ "true", "false" ],
+      "Default": "false"
+    }
+  },
+
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Metadata": {
+    "AWS::CloudFormation::Designer": {
+      "77454457-112c-44b2-b52b-56d152ac7381": {
+        "size": {
+          "width": 590,
+          "height": 240
+        },
+        "position": {
+          "x": 50,
+          "y": 70
+        },
+        "z": 0,
+        "embeds": []
+      }
+    }
+  },
+
+  "Conditions" : {
+    "IsNotTestMode": {"Fn::Equals": [{"Ref": "TestMode"}, "false"]}
+  },
+
+  "Mappings": {
+    "Constants" : {
+      "SubnetMasks" : {
+        "desc": "Each team gets to have a different subnet in which all their instances are located",
+        "0": "10.0.0.0/24",
+        "1": "10.0.1.0/24",
+        "2": "10.0.2.0/24",
+        "3": "10.0.3.0/24",
+        "4": "10.0.4.0/24",
+        "5": "10.0.5.0/24",
+        "6": "10.0.6.0/24",
+        "7": "10.0.7.0/24",
+        "8": "10.0.8.0/24"
+      }
+    },
+    "Params": {
+      "AMITemplate": {
+        "Description": "Use templates from the test area or not, based on 'TestMode'",
+        "true": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/devel-templates/advops-ami.template",
+        "false": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template"
+      },
+      "OpsMgrInstanceType": {
+        "Description": "Use smaller instance in 'TestMode'",
+        "true": "t2.micro",
+        "false": "r3.large"
+      },
+      "DataInstanceType": {
+        "true": "t2.micro",
+        "false": "m3.medium"
+      }
+    }
+  },
+
+  "Resources": {
+    "Subnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "CidrBlock": { 
+          "Fn::FindInMap" : [ "Constants", "SubnetMasks", { "Ref": "TeamNumber" } ]
+        },
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "77454457-112c-44b2-b52b-56d152ac7381"
+        }
+      }
+    },
+
+    "RouteTableAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": { "Ref": "Subnet" },
+        "RouteTableId": { "Ref": "PublicRouteTable" }
+      }
+    },
+
+    "OpsMgr1": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "OpsMgrInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": {"Ref": "KeyPair"},
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "OpsMgr1" }
+        ]
+      }
+    },
+
+    "OpsMgr2": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "OpsMgrInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "OpsMgr2" }
+        ]
+      }
+    },
+
+    "OpsMgr3": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "OpsMgrInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "OpsMgr3" }
+        ]
+      }
+    },
+
+    "Node1": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node1" }
+        ]
+      }
+    },
+
+    "Node2": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node2" }
+        ]
+      }
+    },
+
+    "Node3": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node3" }
+        ]
+      }
+    },
+
+    "Node4": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node4" }
+        ]
+      }
+    },
+
+    "Node5": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node5" }
+        ]
+      }
+    },
+
+    "Node6": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node6" }
+        ]
+      }
+    },
+
+    "Node7": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node7" }
+        ]
+      }
+    },
+
+    "Node8": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node8" }
+        ]
+      }
+    },
+
+    "Node9": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node9" }
+        ]
+      }
+    },
+
+    "Node10": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node10" }
+        ]
+      }
+    },
+
+    "Node11": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "Node11" }
+        ]
+      }
+    },
+
+    "OpsMgrLB": {
+      "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+      "Properties": {
+        "Instances": [
+          { "Fn::GetAtt": [ "OpsMgr1", "Outputs.InstanceID" ] },
+          { "Fn::GetAtt": [ "OpsMgr2", "Outputs.InstanceID" ] },
+          { "Fn::GetAtt": [ "OpsMgr3", "Outputs.InstanceID" ] }
+        ],
+        "HealthCheck": {
+          "HealthyThreshold": "4",
+          "UnhealthyThreshold": "4",
+          "Interval": "30",
+          "Target": "HTTP:8080/",
+          "Timeout": "10"
+        },
+        "Listeners": [{
+          "Protocol": "HTTP",
+          "LoadBalancerPort": "80",
+          "InstanceProtocol": "HTTP",
+          "InstancePort": "8080"
+        }],
+        "Scheme": "internet-facing",
+        "SecurityGroups" : [ { "Ref": "SSHandHTTPSecurityGroup" } ],
+        "Subnets": [ { "Ref": "Subnet" } ],
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      }
+    }
+
+  },
+
+  "Outputs": {
+    "TeamNumber" : {
+      "Value": { "Ref": "TeamNumber" },
+      "Description": "Team Number"
+    },
+    "LoadBalancerHostName": {
+      "Value": {
+        "Fn::GetAtt": [ "OpsMgrLB", "DNSName" ]
+      },
+      "Description": "Load Balancer Public Name"
+    },
+    "Subnet": {
+      "Value": {
+        "Ref": "Subnet"
+      },
+      "Description": "Subnet"
+    },
+    "SubnetMask": {
+      "Value": {
+        "Fn::FindInMap" : [ "Constants", "SubnetMasks", { "Ref": "TeamNumber" } ]
+      },
+      "Description": "Subnet Mask"
+    },
+    "VPC": {
+      "Value": {
+        "Ref": "VPC"
+      },
+      "Description": "Parent Group with VPN"
+    }
+  }
+}

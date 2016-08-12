@@ -1,0 +1,111 @@
+{
+  "Description" : "This is a stack that creates a single instance.",
+
+  "Parameters": {
+    "InstanceType": {
+      "Description": "Instance type, usually 'm3.medium' for data nodes and 'r3.large' for OpsMgr hosts",
+      "Type": "String"
+    },
+    "KeyPair": {
+      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "SSHandHTTPSecurityGroup": {
+      "Description": "SSH and HTTP security group associated to the VPC",
+      "Type": "AWS::EC2::SecurityGroup::Id"
+    },
+    "Subnet": {
+      "Description": "Subnet in which this instance is created",
+      "Type": "AWS::EC2::Subnet::Id"
+    }
+  },
+
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Metadata": {
+    "AWS::CloudFormation::Designer": {
+      "80e16656-ceb5-4d74-9331-ab0e1fb7560b": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 377,
+          "y": 188
+        },
+        "z": 0,
+        "embeds": []
+      }
+    }
+  },
+
+  "Mappings": {
+    "AWSRegion2AMI": {
+      "us-east-1": {
+        "v9": "ami-75aa6518"
+      },
+      "us-west-1": {
+        "v9": "ami-12cb8f72"
+      },
+      "us-west-2": {
+        "v9": "ami-919751f1"
+      },
+      "eu-central-1": {
+        "v9": "ami-78b25917"
+      },
+      "eu-west-1": {
+        "v9": "ami-aea53edd"
+      }
+    }
+  },
+
+  "Resources": {
+    "Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": { "Ref": "InstanceType" },
+        "ImageId": {
+          "Fn::FindInMap": [
+            "AWSRegion2AMI",
+            {
+              "Ref": "AWS::Region"
+            },
+            "v9"
+          ]
+        },
+        "KeyName": {
+          "Ref": "KeyPair"
+        },
+        "NetworkInterfaces": [
+          {
+            "AssociatePublicIpAddress": "true",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "GroupSet": [ {"Ref" : "SSHandHTTPSecurityGroup"} ],
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "Tags": [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "80e16656-ceb5-4d74-9331-ab0e1fb7560b"
+        }
+      }
+    }
+  },
+
+  "Outputs": {
+    "InstanceID": { 
+      "Value": { "Ref": "Instance" },
+      "Description": "Instance ID"
+    },
+    "PublicIP": {
+      "Value": { "Fn::GetAtt": [ "Instance", "PublicIp" ] },
+      "Description": "Public IP"
+    }
+  }
+}

@@ -2,7 +2,7 @@
 Advanced Administration Training - Environment Instructions
 ===========================================================
 
-Hi  there, welcome to Advanced Administration Training Setup and Installation Instructions.
+Hi there, welcome to Advanced Administration Training Setup and Installation Instructions.
 These instructions are to be carried out by our instructors to set up the training environment so
 students can run the labs for the Advanced Administration.
 

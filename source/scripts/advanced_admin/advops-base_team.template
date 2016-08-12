@@ -1,0 +1,375 @@
+{
+  "Description" : "This is the top stack template to create a training class.",
+
+  "Parameters": {
+    "NbTeams": {
+      "Description": "Number of Teams to initially create (max 8), you can add more later",
+      "Type": "String",
+      "AllowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8" ]
+    },
+    "KeyPair": {
+      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "TestMode": {
+      "Description": "Run in test mode, using less resources",
+      "Type": "String",
+      "AllowedValues": [ "true", "false" ],
+      "Default": "false"
+    }
+  },
+
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Metadata": {
+    "AWS::CloudFormation::Designer": {
+      "1f83700f-7dfd-4c10-88cc-8a6c7dc0eab0": {
+        "size": {
+          "width": 570,
+          "height": 270
+        },
+        "position": {
+          "x": 60,
+          "y": 60
+        },
+        "z": 1,
+        "embeds": []
+      },
+      "2fb0a0cc-04c3-4e08-9384-23dd4999a5e2": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 60,
+          "y": 360
+        },
+        "z": 1,
+        "embeds": [],
+        "isrelatedto": [
+          "1f83700f-7dfd-4c10-88cc-8a6c7dc0eab0"
+        ]
+      }
+    }
+  },
+
+  "Conditions" : {
+    "CreateTeam8" : { "Fn::Equals": [{"Ref": "NbTeams"}, "8"] },
+    "CreateTeam7" : { "Fn::Or": [ {"Condition": "CreateTeam8"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "7"]} ] },
+    "CreateTeam6" : { "Fn::Or": [ {"Condition": "CreateTeam7"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "6"]} ] },
+    "CreateTeam5" : { "Fn::Or": [ {"Condition": "CreateTeam6"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "5"]} ] },
+    "CreateTeam4" : { "Fn::Or": [ {"Condition": "CreateTeam5"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "4"]} ] },
+    "CreateTeam3" : { "Fn::Or": [ {"Condition": "CreateTeam4"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "3"]} ] },
+    "CreateTeam2" : { "Fn::Or": [ {"Condition": "CreateTeam3"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "2"]} ] },
+    "CreateTeam1" : { "Fn::Or": [ {"Condition": "CreateTeam2"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "1"]} ] }
+  },
+
+  "Mappings": {
+    "Params": {
+      "AddedTeamTemplate": {
+        "Description": "Use templates from the test area or not, based on 'TestMode'",
+        "true": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/devel-templates/advops-added_team.template",
+        "false": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template"
+      }
+    }
+  },
+
+  "Resources": {
+    "VPC": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "true",
+        "CidrBlock": "10.0.0.0/16",
+        "Tags" : [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "1f83700f-7dfd-4c10-88cc-8a6c7dc0eab0"
+        }
+      }
+    },
+
+    "InternetGateway": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      }
+    },
+
+    "VPCGatewayAttachment": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": { "Ref": "VPC" },
+        "InternetGatewayId": { "Ref": "InternetGateway" }
+      }
+    },
+
+    "PublicRouteTable": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": { "Ref": "VPC" },
+        "Tags": [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      }
+    },
+
+    "PublicRoute": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": { "Ref": "PublicRouteTable" },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": { "Ref": "InternetGateway" }
+      }
+    },
+
+    "SSHandHTTPsecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "GroupDescription": "Allow access from HTTP and SSH traffic",
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "8080",
+            "ToPort": "8080",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "Tags": [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      }
+    },
+
+    "Team0": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "TeamNumber": "0",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "0" }
+        ]
+      }
+    },
+
+    "Team1": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam1",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "TeamNumber": "1",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "1" }
+        ]
+      }
+    },
+
+    "Team2": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam2",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "TeamNumber": "2",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "2" }
+        ]
+      }
+    },
+
+    "Team3": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam3",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "TeamNumber": "3",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "3" }
+        ]
+      }
+    },
+
+    "Team4": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam4",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "TeamNumber": "4",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "4" }
+        ]
+      }
+    },
+
+    "Team5": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam5",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "TeamNumber": "5",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "5" }
+        ]
+      }
+    },
+
+    "Team6": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam6",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "TeamNumber": "6",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "6" }
+        ]
+      }
+    },
+
+    "Team7": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam7",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "TeamNumber": "7",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "7" }
+        ]
+      }
+    },
+
+    "Team8": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": "VPCGatewayAttachment",
+      "Condition": "CreateTeam8",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "TeamNumber": "8",
+          "KeyPair": { "Ref": "KeyPair" },
+          "PublicRouteTable": { "Ref": "PublicRouteTable" },
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPsecurityGroup" },
+          "VPC": { "Ref": "VPC" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "8" }
+        ]
+      }
+    }
+
+  },
+
+  "Outputs": {
+    "NbTeams": { 
+      "Value": { "Ref": "NbTeams" },
+      "Description": "Number of Teams initially created by this top Stack"
+    },
+    "KeyPair": { 
+      "Value": { "Ref": "KeyPair" },
+      "Description": "Key/Pair to access the hosts"
+    },
+    "VPC": {
+      "Value": { "Ref": "VPC" },
+      "Description": "Main VPC"
+    },
+    "SSHandHTTPSecurityGroup": { 
+      "Value": { "Ref": "SSHandHTTPsecurityGroup" },
+      "Description": "VPC Security Group for HTTP/SSH access"
+    },
+    "PublicRouteTable": { 
+      "Value": { "Ref": "PublicRouteTable" },
+      "Description": "Route Table for the VPC"
+    }
+  }
+}
