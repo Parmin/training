@@ -687,7 +687,7 @@ Journal FAQ
 
 .. include:: /includes/student-notes.rst
 
-.. instructor-only::
+.. only:: instructor
 
   .. note::
 
