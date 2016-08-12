@@ -1,5 +1,5 @@
 ==================
-Indexes - Internal
+Internal - Indexes
 ==================
 
 
@@ -208,7 +208,7 @@ Query Planner Logic
 Plan Caches
 -----------
 
-.. literalinclude:: /includes/indexes-internal.js
+.. literalinclude:: /includes/internal-indexes.js
    :language: javascript
    :lines: 2
 
@@ -229,7 +229,7 @@ Plan Caches
 Example: Plan Caches
 --------------------
 
-.. literalinclude:: /includes/indexes-internal.js
+.. literalinclude:: /includes/internal-indexes.js
    :language: javascript
    :lines: 13-24
 

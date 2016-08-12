@@ -427,7 +427,7 @@ Sparse Indexes in MongoDB
   .. note::
 
     - Partial indexes are now preferred to sparse.
-    - You can create the functional equivalent of a sparce index with ``{ field : { $exists : true } } `` for your partialFilterExpression.
+    - You can create the functional equivalent of a sparce index with ``{ field : { $exists : true } }`` for your partialFilterExpression.
 
 
 Defining Unique Indexes

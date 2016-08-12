@@ -1,6 +1,6 @@
 project: 'mongodb-training'
 master_doc: 'contents'
-logo: ".static/logo-mongodb.png"
+logo: "themes/training/static/mongodb_logo.png"
 paths:
   static: ['source/.static']
 theme:

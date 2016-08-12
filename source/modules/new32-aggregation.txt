@@ -158,6 +158,8 @@ Introduction to ``$lookup`` (continued)
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
   .. note::
 
     - When following with ``$unwind``, if you use ``preserveNullAndEmptyArrays: true`` then it remains a left outer join.
