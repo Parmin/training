@@ -2,6 +2,9 @@
 
 # Issues:
 
+# TODO
+#   - add a 'format=json' mode, for other scripts to query the file to modify/terminate instances.
+
 import logging
 import argparse
 import sys
