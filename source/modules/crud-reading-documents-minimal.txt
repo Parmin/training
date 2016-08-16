@@ -46,7 +46,7 @@ Example: Querying by Example
 .. code-block:: javascript
 
   db.movies.drop()
-  db.movies.insertOne([ { "title" : "Jaws", "year" : 1975, "imdb_rating" : 8.1 },
+  db.movies.insertMany([ { "title" : "Jaws", "year" : 1975, "imdb_rating" : 8.1 },
                         { "title" : "Batman", "year" : 1989, "imdb_rating" : 7.6 },
                       ] )
   db.movies.find()
