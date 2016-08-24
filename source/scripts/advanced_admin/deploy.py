@@ -20,6 +20,7 @@
 #   - consider terraform as an additional provider, or even replacement for CF
 #   - Stacks:
 #     - provision 2 disks per instance, for few data nodes
+#   - validate names, can't have a '_' in them, use a '-'
 
 import logging
 import argparse
@@ -28,6 +29,8 @@ from datetime import date,timedelta
 import time
 from provisioner_aws_cf import Provisioner_aws_cf
 from provisioner_aws_plain import Provisioner_aws_plain
+
+from provider_utils import *
 
 FORMAT = '%(asctime)-15s %(message)s'
 

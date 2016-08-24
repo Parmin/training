@@ -103,6 +103,10 @@
       "Value": { "Ref": "Instance" },
       "Description": "Instance ID"
     },
+    "PrivateIP": {
+      "Value": { "Fn::GetAtt": [ "Instance", "PrivateIp" ] },
+      "Description": "Private IP"
+    },
     "PublicIP": {
       "Value": { "Fn::GetAtt": [ "Instance", "PublicIp" ] },
       "Description": "Public IP"
