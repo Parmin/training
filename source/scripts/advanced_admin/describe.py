@@ -63,8 +63,8 @@ def main():
     setup_logging(logger)
 
     parser = argparse.ArgumentParser(description='Deploy AWS training environment')
-    parser.add_argument('--run', dest='training_run', required=True, type=str,
-      help="environment training run identifier")
+    parser.add_argument('--run', dest='training_run', type=str,
+      help="environment training run identifier, or none to see all the runs")
 
     parser.add_argument('--format', dest='format', default='text', type=str,
       help="Format of the output 'text' (default) or 'json'")

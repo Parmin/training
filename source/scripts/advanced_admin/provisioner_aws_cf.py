@@ -4,10 +4,13 @@ import boto3
 from botocore.exceptions import *
 from datetime import date, timedelta
 import getpass
+import re
 import simplejson as json
 import sys
 
 from provider_utils import *
+
+TOP_STACK_DESC = "This is the top stack template to create a training class"
 
 class Provisioner_aws_cf(object):
     """
@@ -88,7 +91,18 @@ class Provisioner_aws_cf(object):
             sys.exit(1)
 
     def describe(self):
+        if self.training_run is None:
+            # No run specified, list all of them
+            stack_list  = self.client.list_stacks()
+            print("")
+            print("{:20} {:20} {}".format('Stack Name', 'Stack Status', 'Creation Time'))
+            for one_stack in stack_list['StackSummaries']:
+                if re.match(TOP_STACK_DESC, one_stack['TemplateDescription']) and one_stack['StackStatus'] not in ['DELETE_COMPLETE']:
+                    print("{:20} {:20} {}".format(one_stack['StackName'], one_stack['StackStatus'], one_stack['CreationTime']))
+        else:
+            self.describe_one()
 
+    def describe_one(self):
         printer = Printer(self.format)
         # TODO - check if the stack exists
 
