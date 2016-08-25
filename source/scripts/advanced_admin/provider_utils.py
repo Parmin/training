@@ -8,7 +8,7 @@ import simplejson as json
 import sys
 
 # Class to construct a dictionary
-class Printer():
+class BuildAndPrintDict():
     # TODO - could check format, but we do it earlier
     #      - may not work for:
     #        - arrays of arrays
@@ -25,8 +25,8 @@ class Printer():
     #    Team: 0
     #      Attribute: value
 
-    def __init__(self, format):
-        self.format = format
+    def __init__(self, printit=False):
+        self.printit = printit
         self.indent_string = '  '
         self.current_indent = 0
         self.dict = dict()
@@ -34,25 +34,27 @@ class Printer():
         self.current_obj = self.dict
 
     def comment(self, message):
-        if self.format == 'text':
+        if self.printit:
             print(message)
+
+    def get_dict(self):
+        return self.dict
 
     def start_object(self, key):
         self.obj_stack.append(self.current_obj)
         self.current_obj[key] = dict()
         self.current_obj = self.current_obj[key]
 
-        if self.format == "text":
+        if self.printit:
             print('{}{}:'.format(self.indent_string * self.current_indent, key))
-        elif self.format == "json":
-            None
         self.current_indent += 1
 
     def end_object(self, key):
         self.current_obj = self.obj_stack.pop()
         self.current_indent -= 1
         if self.current_indent <= 0:
-            self.end()
+            #self.end()
+            None
 
     def start_list(self, key):
         self.obj_stack.append(self.current_obj)     # adding the 
@@ -60,10 +62,8 @@ class Printer():
         self.current_obj = self.current_obj[key]
         self.obj_stack.append(self.current_obj)     # adding also the array on the stack
 
-        if self.format == "text":
+        if self.printit:
             print('{}{}:'.format(self.indent_string * self.current_indent, key))
-        elif self.format == "json":
-            None
         self.current_indent += 1
 
     def end_list(self, key):
@@ -71,7 +71,8 @@ class Printer():
         self.current_obj = self.obj_stack.pop()     # pop the object containing the list
         self.current_indent -= 1
         if self.current_indent <= 0:
-            self.end()
+            #self.end()
+            None
 
     def new_list_obj(self):
         new_obj = dict()
@@ -79,11 +80,8 @@ class Printer():
         parent_list.append(new_obj)
         self.current_obj = new_obj
 
-        if self.format == "json":
-            None
-
     def key_values(self, *keyvalueformat):
-        if self.format == "text":
+        if self.printit:
             indent = '{}'.format(self.indent_string * self.current_indent)
             sys.stdout.write(indent)
             for oneitem in keyvalueformat:
@@ -93,16 +91,15 @@ class Printer():
                 else:
                     print( '{}: {}'.format(oneitem[0], oneitem[1]) ),
             print('')
-        elif self.format == "json":
-            for oneitem in keyvalueformat:
-                self.current_obj[oneitem[0]] = oneitem[1]
+        for oneitem in keyvalueformat:
+            self.current_obj[oneitem[0]] = oneitem[1]
 
+    # TODO - not used anymore, may want to remove
     def end(self):
-        if self.format == "json":
-            # we are done, let's print the structure
-            print(json.dumps(self.dict, indent=2))
-            self.dict = ()
-            self.obj_stack = []
+        # we are done, let's print the structure
+        print(json.dumps(self.dict, indent=2))
+        self.dict = ()
+        self.obj_stack = []
 
 
 # Misc functions

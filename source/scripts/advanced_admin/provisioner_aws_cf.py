@@ -26,14 +26,13 @@ class Provisioner_aws_cf(object):
     """
 
     # TODO - cleanup the arguments to the constructor, maybe just keeping 'args'
-    def __init__(self, args, training_run, format="text", aws_profile="default", teams=1, end_date=date.today()+timedelta(days=7), aws_region=None, keypair=None):
+    def __init__(self, args, training_run, aws_profile="default", teams=1, end_date=date.today()+timedelta(days=7), aws_region=None, keypair=None):
         self.training_run = training_run
         self.aws_profile = aws_profile
         self.number_of_teams = teams
         self.aws_region = aws_region
         self.end_date = end_date
         self.keypair = keypair
-        self.format = format
         self.args = args
 
         self.session = None
@@ -100,24 +99,32 @@ class Provisioner_aws_cf(object):
                 if re.match(TOP_STACK_DESC, one_stack['TemplateDescription']) and one_stack['StackStatus'] not in ['DELETE_COMPLETE']:
                     print("{:20} {:20} {}".format(one_stack['StackName'], one_stack['StackStatus'], one_stack['CreationTime']))
         else:
-            self.describe_one()
+            run_info = self.get_run_info(printit=True)
+            if self.args.out:
+                try:
+                    f = open(self.args.out, 'w')
+                    contents = json.dumps(run_info, indent=2)
+                    f.write(contents + "\n")
+                    f.close()
+                except Exception, e:
+                    fatal(1, e.__str__())
+                print("\nJSON file for the above has been saved in: {}".format(self.args.out))
 
-    def describe_one(self):
-        printer = Printer(self.format)
-        # TODO - check if the stack exists
+    def get_run_info(self, printit):
+        run_info = BuildAndPrintDict(printit)
 
         run_description = self._describe_stack(self.training_run)
         run_resources = self._describe_stack_resources(self.training_run)
         runinfo = self._get_outputs_for_stack(self.training_run)
-        printer.comment("")
-        printer.key_values(("Name", self.training_run))
-        printer.key_values(("KeyPair", runinfo['KeyPair']))
-        printer.key_values(("NumberOfTeams", runinfo['NbTeams']))
-        printer.comment("")
-        printer.key_values(("VPC", runinfo['VPC']))
-        printer.key_values(("PublicRouteTable", runinfo['PublicRouteTable']))
-        printer.key_values(("SecurityGroup", runinfo['SSHandHTTPSecurityGroup']))
-        printer.start_list("Teams")
+        run_info.comment("")
+        run_info.key_values(("Name", self.training_run))
+        run_info.key_values(("KeyPair", runinfo['KeyPair']))
+        run_info.key_values(("NumberOfTeams", runinfo['NbTeams']))
+        run_info.comment("")
+        run_info.key_values(("VPC", runinfo['VPC']))
+        run_info.key_values(("PublicRouteTable", runinfo['PublicRouteTable']))
+        run_info.key_values(("SecurityGroup", runinfo['SSHandHTTPSecurityGroup']))
+        run_info.start_list("Teams")
         # Describe all sub stacks, starting with the top one for the 'run'
         for one_run_resource in run_resources['StackResources']:
             # Need VPC, key/pair, 
@@ -125,26 +132,27 @@ class Provisioner_aws_cf(object):
                 # This is one team
                 physicalId = one_run_resource['PhysicalResourceId']
                 teaminfo = self._get_outputs_for_stack(physicalId)
-                printer.comment("")
-                printer.new_list_obj()
-                printer.key_values(("Id", teaminfo['TeamNumber']))
-                printer.key_values(("SubnetMask", teaminfo['SubnetMask']))
-                printer.key_values(("LoadBalancer", teaminfo['LoadBalancerHostName']))
+                run_info.comment("")
+                run_info.new_list_obj()
+                run_info.key_values(("Id", teaminfo['TeamNumber']))
+                run_info.key_values(("SubnetMask", teaminfo['SubnetMask']))
+                run_info.key_values(("LoadBalancer", teaminfo['LoadBalancerHostName']))
                 # Getting all resources for the stack that created this team
                 team_resources = self._describe_stack_resources(physicalId)
-                printer.start_list("Hosts")
+                run_info.start_list("Hosts")
                 for one_team_resource in team_resources['StackResources']:
                     # Need Instances, Load Balancer, subnet, team number
                     if one_team_resource['ResourceType'] == 'AWS::CloudFormation::Stack':
                         # Need Instance ID, IP, Role
-                        printer.new_list_obj()
+                        run_info.new_list_obj()
                         physicalId = one_team_resource['PhysicalResourceId']
                         hostinfo = self._get_outputs_for_stack(physicalId)
                         hosttags = self._get_tags_for_stack(physicalId)
-                        printer.key_values( ("Id", hostinfo['InstanceID'], "{:10}"), ("Role", hosttags['Role'], "{:8}"), ("IP", hostinfo['PublicIP'], "{:14}"), ("PrivateIP", hostinfo['PrivateIP'], "{:14}") )
-                printer.end_list("Hosts")
-        printer.end_list("Teams")
-        printer.comment("")
+                        run_info.key_values( ("Id", hostinfo['InstanceID'], "{:10}"), ("Role", hosttags['Role'], "{:8}"), ("IP", hostinfo['PublicIP'], "{:14}"), ("PrivateIP", hostinfo['PrivateIP'], "{:14}") )
+                run_info.end_list("Hosts")
+        run_info.end_list("Teams")
+        run_info.comment("")
+        return run_info.get_dict()
 
     def destroy(self):
         """

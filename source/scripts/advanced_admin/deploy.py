@@ -14,7 +14,7 @@
 #
 # TODOs:
 #   - better logging, it looks like everything is logged twice on the screen
-#   - check for return codes from creating the stacks
+#   - would like to check for return codes from creating the stacks, however the call is not blocking on the execution
 #   - run mdiags on instances
 #   - incorporate Ansible scripts
 #   - consider terraform as an additional provider, or even replacement for CF
@@ -40,7 +40,6 @@ def setup_logging(logger):
     consoleHandler.setFormatter(logging.Formatter(FORMAT))
 
     logger.addHandler(consoleHandler)
-    logger.setLevel(logging.DEBUG)
 
 def main():
     logger = logging.getLogger(__name__)
@@ -89,6 +88,7 @@ def main():
     if args.provider == "aws-cf":
         pr = Provisioner_aws_cf(args, training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams, keypair=args.keypair)
     elif args.provider == "aws-plain":
+        logger.setLevel(logging.DEBUG)
         pr = Provisioner_aws_plain(training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams)
     else:
         print("FATAL - invalid provider, must be 'aws-plain' or 'aws-cf' " % args.provider)

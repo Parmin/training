@@ -3,11 +3,13 @@
 # Issues:
 
 # TODO
-#   - add a 'format=json' mode, for other scripts to query the file to modify/terminate instances.
-#   - if no run name provided, list all of the top stacks
+#   - have a test mode where we can recover the info from a set of files, instead of a live cluster in order to run unit tests
 
 
 '''
+Example of a run:
+  ./describe --profile training-eu-west --run dcoupal-test --out /tmp/cluster.out
+
 Example of an output:
 
 Name: dcoupal-test 
@@ -56,7 +58,6 @@ def setup_logging(logger):
     consoleHandler.setFormatter(logging.Formatter(FORMAT))
 
     logger.addHandler(consoleHandler)
-    logger.setLevel(logging.DEBUG)
 
 def main():
     logger = logging.getLogger(__name__)
@@ -66,8 +67,12 @@ def main():
     parser.add_argument('--run', dest='training_run', type=str,
       help="environment training run identifier, or none to see all the runs")
 
-    parser.add_argument('--format', dest='format', default='text', type=str,
-      help="Format of the output 'text' (default) or 'json'")
+    # Replaced by --out to save the JSON file, and the output is always shown
+    #parser.add_argument('--format', dest='format', default='text', type=str,
+    #  help="Format of the output 'text' (default) or 'json'")
+
+    parser.add_argument('--out', dest='out', type=str,
+      help="File in which to store the output")
 
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
       help="AWS profile that will launch the environment")
@@ -84,14 +89,12 @@ def main():
     training_run = args.training_run
     awsprofile = args.awsprofile
 
-    format_values = ["json", "text"]
     provisioner_values = ["aws-plain", "aws-cf"]
-    if args.format not in format_values:
-        fatal(1, "Values for '--format' must be one of {}".format(format_values))
 
     if args.provider == "aws-cf":
-        pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile, format=args.format)
+        pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
     elif args.provider == "aws-plain":
+        logger.setLevel(logging.DEBUG)
         pr = Provisioner_aws_plain(training_run, aws_profile=awsprofile)
     else:
         fatal(1, "Invalid provider, must be one of {}".format(provisioner_values))

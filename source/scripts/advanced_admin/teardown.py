@@ -22,15 +22,17 @@ import sys
 from provider_utils import *
 
 FORMAT = '%(asctime)-15s %(message)s'
-consoleHandler = logging.StreamHandler(sys.stdout)
-consoleHandler.setLevel(logging.DEBUG)
-consoleHandler.setFormatter(logging.Formatter(FORMAT))
-logger = logging.getLogger(__name__)
-logger.addHandler(consoleHandler)
-logger.setLevel(logging.DEBUG)
+
+def setup_logging(logger):
+    consoleHandler = logging.StreamHandler(sys.stdout)
+    consoleHandler.setLevel(logging.DEBUG)
+    consoleHandler.setFormatter(logging.Formatter(FORMAT))
+
+    logger.addHandler(consoleHandler)
 
 def main():
-    logger.info('Tearing Down Environment')
+    logger = logging.getLogger(__name__)
+    setup_logging(logger)
 
     parser = argparse.ArgumentParser(description='Deploy AWS training environment')
     parser.add_argument('--run', dest='training_run', required=True,
@@ -49,6 +51,8 @@ def main():
     if args.provider == "aws-cf":
         pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
     elif args.provider == "aws-plain":
+        logger.setLevel(logging.DEBUG)
+        logger.info('Tearing Down Environment')
         pr = Provisioner_aws_plain(training_run, aws_profile=awsprofile)
     else:
         print("FATAL - invalid provider, must be 'aws-plain' or 'aws-cf' " % args.provider)
