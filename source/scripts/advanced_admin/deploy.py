@@ -21,6 +21,11 @@
 #   - Stacks:
 #     - provision 2 disks per instance, for few data nodes
 #   - validate names, can't have a '_' in them, use a '-'
+#   - new command "manage" to run commands on different hosts
+#   - document disabling rollbacks for debugging
+#   - running out of instances?
+#     - under 'events' for the instance stack, you will see: "Your quota allows for 0 more running instance(s). You requested at least 1"
+#     - describe-stack-resources => "StackResources" => "ResourceStatus": "CREATE_FAILED" and "ResourceStatusReason": "Your quota allows for 0 more running instance(s). You requested at least 1"
 
 import logging
 import argparse

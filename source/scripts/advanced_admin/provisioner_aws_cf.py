@@ -91,13 +91,24 @@ class Provisioner_aws_cf(object):
 
     def describe(self):
         if self.training_run is None:
-            # No run specified, list all of them
-            stack_list  = self.client.list_stacks()
+            # No run specified, list all of them.
+            # Beware that AWS does page the results
+            more_results = True
+            next_token = None
             print("")
             print("{:20} {:20} {}".format('Stack Name', 'Stack Status', 'Creation Time'))
-            for one_stack in stack_list['StackSummaries']:
-                if re.match(TOP_STACK_DESC, one_stack['TemplateDescription']) and one_stack['StackStatus'] not in ['DELETE_COMPLETE']:
-                    print("{:20} {:20} {}".format(one_stack['StackName'], one_stack['StackStatus'], one_stack['CreationTime']))
+            while more_results:
+                if next_token:
+                    stack_list  = self.client.list_stacks(NextToken=next_token)
+                else:
+                    stack_list  = self.client.list_stacks()
+                for one_stack in stack_list['StackSummaries']:
+                    if self.args.verbose or (re.match(TOP_STACK_DESC, one_stack['TemplateDescription']) and one_stack['StackStatus'] not in ['DELETE_COMPLETE']):
+                        print("{:20} {:20} {}".format(one_stack['StackName'], one_stack['StackStatus'], one_stack['CreationTime']))
+                if stack_list.has_key('NextToken'):
+                    next_token = stack_list['NextToken']
+                else:
+                    more_results = False
         else:
             run_info = self.get_run_info(printit=True)
             if self.args.out:

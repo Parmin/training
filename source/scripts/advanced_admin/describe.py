@@ -63,7 +63,7 @@ def main():
     logger = logging.getLogger(__name__)
     setup_logging(logger)
 
-    parser = argparse.ArgumentParser(description='Deploy AWS training environment')
+    parser = argparse.ArgumentParser(description='Describe the resources used by a training class')
     parser.add_argument('--run', dest='training_run', type=str,
       help="environment training run identifier, or none to see all the runs")
 
