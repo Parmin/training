@@ -354,6 +354,20 @@ class Provisioner_aws_plain(object):
             log.error("Check the ~/.aws/config file and/or configure with 'aws configure'")
             sys.exit(1)
 
+    def describe(self):
+        """
+        Execute something on a bunch of hosts
+        """
+        log.error("\nFATAL - 'describe' is not implemented for the 'aws-plain' provider")
+        sys.exit(1)
+
+    def manage(self):
+        """
+        Execute something on a bunch of hosts
+        """
+        log.error("\nFATAL - 'manage' is not implemented for the 'aws-plain' provider")
+        sys.exit(1)
+
     def get_default_tags(self):
         return [
             {'Key': 'BUILDID', 'Value': self.training_run},

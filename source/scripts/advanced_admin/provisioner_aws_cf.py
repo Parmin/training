@@ -4,8 +4,11 @@ import boto3
 from botocore.exceptions import *
 from datetime import date, timedelta
 import getpass
+import os
+import os.path
 import re
 import simplejson as json
+import subprocess
 import sys
 
 from provider_utils import *
@@ -103,7 +106,7 @@ class Provisioner_aws_cf(object):
                 else:
                     stack_list  = self.client.list_stacks()
                 for one_stack in stack_list['StackSummaries']:
-                    if self.args.verbose or (re.match(TOP_STACK_DESC, one_stack['TemplateDescription']) and one_stack['StackStatus'] not in ['DELETE_COMPLETE']):
+                    if self.args.verbose or (one_stack.has_key('TemplateDescription') and re.match(TOP_STACK_DESC, one_stack['TemplateDescription']) and one_stack['StackStatus'] not in ['DELETE_COMPLETE']):
                         print("{:20} {:20} {}".format(one_stack['StackName'], one_stack['StackStatus'], one_stack['CreationTime']))
                 if stack_list.has_key('NextToken'):
                     next_token = stack_list['NextToken']
@@ -120,6 +123,13 @@ class Provisioner_aws_cf(object):
                 except Exception, e:
                     fatal(1, e.__str__())
                 print("\nJSON file for the above has been saved in: {}".format(self.args.out))
+
+    def destroy(self):
+        """
+        TODO: verify that the stack exists before trying to delete it
+        """
+        self.client.delete_stack(StackName = self.training_run)
+        None
 
     def get_run_info(self, printit):
         run_info = BuildAndPrintDict(printit)
@@ -165,12 +175,20 @@ class Provisioner_aws_cf(object):
         run_info.comment("")
         return run_info.get_dict()
 
-    def destroy(self):
+    def manage(self, cmd):
         """
-        TODO: verify that the stack exists before trying to delete it
+        Execute something on a bunch of hosts
         """
-        self.client.delete_stack(StackName = self.training_run)
-        None
+        # Get the list of hosts from the deployment
+        run_info = self.get_run_info(printit=False)
+        keypair = run_info['KeyPair']
+        for team in run_info['Teams']:
+            if self.args.teams == "all" or team['Id'] in self.args.teams:
+                print("Team {}".format(team['Id']))
+                for host in team['Hosts']:
+                    if self.args.roles == "all" or host['Role'] in self.args.roles:
+                        print("  {:14}  {}".format(host['IP'], host['Role']))
+                        self._run_cmd_on_host(host['IP'], cmd, keypair)
 
     def _get_outputs_for_stack(self, stackId):
         """
@@ -218,6 +236,32 @@ class Provisioner_aws_cf(object):
         for output in outputs:
             info[output['Key']] = output['Value']
         return info
+
+    def _run_cmd_on_host(self, host, cmd, pemfilename):
+        """
+        Run a command or script on a given host
+        TODO - do not hardcode the user account 'centos'
+               if file instead of command, upload the file on the host, then run it
+        """
+        # Is this a script to upload?
+        if os.path.isfile(cmd):
+            fatal(1, "'manage' only supports commands at this point, not scripts")
+
+        ssh = subprocess.Popen(["ssh", "-i", os.environ['HOME'] + "/.ssh/" + pemfilename + ".pem", "-l", "centos", host, cmd],
+                       shell=False,
+                       stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+        result = ssh.stdout.readlines()
+        error = ssh.stderr.readlines()
+        if error:
+            print("ERROR running the provide 'cmd'")
+            for line in error:
+                print line
+        else:
+            for line in result:
+                print line
+
+
 
 
 
