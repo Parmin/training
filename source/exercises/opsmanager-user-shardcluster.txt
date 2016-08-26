@@ -1,0 +1,441 @@
+==================
+Lab: Shard Cluster
+==================
+
+Learning Objectives
+-------------------
+
+Upon completing this lab, students will be able to:
+
+- Create a sharded cluster using Ops Manager.
+- Identify the necessary steps to configure the cluster.
+- Create the correct shard key for a given dataset.
+- Understand Zone sharding.
+- Detect balancing issues.
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Create Shard Cluster
+------------------------------
+
+Using the Ops Manager UI, let's create a MongoDB sharded cluster with the
+following configuration:
+
+- Two shards cluster, with three nodes per shard, distributing the process like
+  that:
+
+  - **shard001**: Node1, Node2 and Node3
+  - **shard002**: Node4, Node5 and Node6
+  - **config servers**: 3 processes on Node9
+  - **mongos**: OpsMgr1, Node10 and Node11
+
+  - Each ``mongod`` should be running on different hosts
+  - All `config servers`_ should be running on a single host
+
+    - These should be placed on host *Node10*
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+      The idea behind this exercise is to have students setup the cluster
+      using the regex rules, on server name selection, that ops manager allows.
+
+      We also want the students to change the configuration in following labs:
+
+      - point out that this configuration is there to be changed
+      - should **not** be followed in production
+
+      To validate the students implementation check the following:
+
+      - after running ``describe.py`` on this training run get all the private
+        and public ips to validate that the defined clusters follow the expected
+        recipe
+
+
+Exercise: Correct Config Servers Distribution
+---------------------------------------------
+
+Like Britney Spears used to say *"Oops, I did it again"*, we made a mistake on
+our previous setup and installed all our `config servers`_ on a single host.
+
+So now we need to fix our deployment by doing a configuration change:
+
+- Edit the cluster configuration by setting the `config servers`_ into separate
+  instances
+
+  - They should be placed on *Node9*, *Node8* and *Node7*
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+      In this exercise we want the students to understand that these operations
+      will happen with no down time.
+
+      To validate this exercise, after the reconfiguration is complete, ask the
+      students to connect to the defined hosts and verify that the running
+      instance is infact a config server node.
+
+
+Exercise: Detect Node Down
+--------------------------
+
+Our shard cluster is composed by several different nodes (mongods) running on
+several different hosts.
+
+It's critical that we keep an eye on our cluster. Using the tools available to
+you, create the necessary mechanisms to be notified in the event of a node
+failure.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+      In this exercise we want students to create a set of alerts:
+
+      - for host failure
+      - for process failure
+
+      The instruct will be responsible of injecting failures in the teams
+      environment
+
+      To *inject process failure* we need to connect to a designated host
+      (instructor should pick one) and kill the process(es) running on that
+      host.
+
+      For *host failure* to be triggered, the instructor should connect to
+      `aws console`_ and stop the execution of a given host.
+
+      These can also be OpsMgr instances, where students should be monitoring
+      the running Application DB replica set.
+
+
+Exercise: Configure Shard
+-------------------------
+
+Time to use our distributed database in it's full power.
+
+We will be using a dataset of US consumer complaints. These are records of
+complaints, on several sectors/states/companies, filed by US consumers.
+
+The dataset should be imported as collection *"complaints"* in the database
+*"consumer"*, which can also be referred as the **"complaints.consumer"**
+namespace.
+
+We also want you to configure a few settings:
+
+- set the `chunksize`_ to 1MB (the smallest allowed)
+- set the primary shard to max `shard size`_ of 500MB (512)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+      The idea behind these configuration options are:
+      - a) to get user administrators acquainted with them
+      - b) create the conditions to simulate `jumbo chunks`_ situation
+
+      Make sure to note that using the smallest size allowed or setting such a
+      low shard max size will have implications. Mostlikely, other values should
+      be considered for production environments
+
+      For the exercise students should do the following:
+      - set chunk size and `primary shard`_ max size
+
+      .. code-block:: js
+
+        use config
+        db.settings.save( { _id:"chunksize", value: 1 } )
+        db.runCommand({
+          addShard: "<replica_set>/<hostname><:port>",
+          maxSize: 512 })
+
+Exercise: Configure Shard (continued)
+-------------------------------------
+
+Let's go ahead and import dataset **consumer** that is available in *OpsMgr*
+instances in the folder ``/dataset/consumer``:
+
+- import/restore this dataset into *consumer.complaints* namespace
+
+- Once data is imported let's shard the ``complaints`` collection using the
+  following shard key:
+
+.. code-block:: js
+
+  sh.enableSharding('consumer')
+  sh.shardCollection('consumer.complaints', {company:1, state: 1})
+
+.. note::
+
+  The above set of instructions are incomplete. We need a prior step, before
+  running ``db.shardCollection`` command!
+
+  Which command is it ?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    To select a correct shard key this should have a few properties:
+
+    - query isolation
+    - write distribution
+    - high cardinality
+    - non-monotonically growing
+    - key value frequency
+    - key immutable
+    - key values are also immutable
+
+    **Make sure you higlight these with the students**
+
+    For this exercise we will not take all of them in consideration, and just
+    use **company** and **state** to attend the expected
+    distribution.
+
+    The missing command is the creation of an index on the selected shard key
+    fields:
+
+    .. code-block:: js
+
+      use consumer
+      db.complaints.createIndex({company:1, state: 1})
+
+    There are several aspects of the selected shard key that are not optimal:
+
+    - Frequency is inappropriate. If we run the following aggregation query we
+      can see that standard deviation is quite of
+
+    .. code-block:: js
+
+      db.complaints.aggregate( [
+        {$group: { _id: { c: '$company',  st: '$state'}, count: {$sum:1}}},
+        {$group: { _id: '', std: {$stdDevPop: '$count'}, avg: {$avg: "$count"}}}
+      ])
+
+    - There is no indication that **query isolation** will be assured
+
+      - can only be guaranteed on cases where **company** field is used.
+
+    Apart from all of this points we will be using this shard key for several
+    other operations.
+
+
+Exercise: Zone Sharding
+-----------------------
+
+We want to isolate subsets of data into a particular shard.
+
+Let's create a `zone shard`_ that assigns all data from the company
+**Bank of America** to one particular shard, **shard002**, and all other data on
+the remaining shard.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+      We want students to understand the benefits of zone sharding and also
+      it's limitations.
+
+      - Ask the students to create the necessary shard ranges and tag the shards
+        accordingly
+      - Ask the students if it's possible to isolate all data of a particuar
+        company, in this case **"Bank Of America"** into a single shard.
+
+        - Ask if we could do the same by **zip_code**: Answer should be *no*
+
+          - **zip_code** does not make part of the shardkey!
+
+      - Ask students if the order of the shard key would affect their ability to
+        isolate subsets of data
+
+          - It will, because the order of the shard key definition will
+            inevitabily affect the shard ranges and therefore the chunk
+            distribution
+
+      - Ranges to be created
+
+      .. code-block:: js
+
+        sh.addTagRange("consumer.complaints",
+          {company: MinKey, state: MinKey },
+          {company: 'Bank of America', state: MinKey },
+          "BeforeBankOfAmerica")
+
+        sh.addTagRange("consumer.complaints",
+          {company: 'Bank of America', state: MinKey },
+          {company: 'Bank of America_', state: MinKey },
+          "BankOfAmerica")
+
+        sh.addTagRange("consumer.complaints",
+          {company: "Bank of America_", state: MinKey },
+          {company: MaxKey, state: MaxKey },
+          "AfterBankOfAmerica")
+
+      - Then apply these to the appropriate shards
+
+      .. code-block:: js
+
+        use config
+        sh.addShardTag("shard001", "BeforeBankOfAmerica")
+        sh.addShardTag("shard002", "BankOfAmerica")
+        sh.addShardTag("shard003", "AfterBankOfAmerica")
+
+      - If students insert the following documents
+
+      .. code-block:: js
+
+        db.complaints.insert({"company":"Bank", "state":"CA"})
+        db.complaints.insert({"company":"Bank of America", "state":"CA"})
+        db.complaints.insert({"company":"Bank of Canada", "state":"CA"})
+
+      - And then run the following queries
+
+      .. code-block:: js
+
+        db.complaints.find({"company":"Bank"}).explain()
+        db.complaints.find({"company":"Bank of America"}).explain()
+        db.complaints.find({"company":"Bank of Canada"}).explain()
+
+      - These commands should respectively hit only one shard: shard001,
+        shard002 and shard003
+
+Exercise: Detect Balancing Issues
+---------------------------------
+
+To avoid having unbalanced shards we should look for some metrics on the
+sharded collection:
+
+- Which command should we use to detect possible inbalances?
+
+- What's the procedure to solve unbalanced distribution of data accross shards?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    The first reaction of students will be to look for number of chunks per shard.
+    You should also mention that inbalances might be cause by existence of
+    *hot shards* - despite having a balanced distribution of chunks they are not
+    balanced in terms of traffic on the different shards.
+
+    - Students should use one of 2 things:
+
+      - Query the **config.chunks** collection
+
+      .. code-block:: js
+
+        use config
+        db.chunks.aggregate([
+          {$match: {"ns" : "consumer.complaints"},
+          {$group: {_id: "$shard", nchunks: {$sum:1}}}
+        ])
+
+
+      - Run ``sh.status()`` command and look for the shard number of chunks per
+        shard
+
+Exercise: Move Primary Shard
+----------------------------
+
+All `sharding enabled`_ databases will have a primary shard. The primary shard
+will host/hold all non-sharded collections.
+
+We can check each database primary shard using the ``sh.status()`` command.
+
+For this exercise we are going to do the following:
+
+- add two more shard nodes
+
+  - three data bearing *mongod* each
+  - each mongod a separate host
+  - these should be named **shard003** and **shard004**
+
+- `move primary`_ shard of ``consumer`` database to **shard003**
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    To perform this task students should run the following:
+
+    - add new shards
+      - use Ops Manager UI to add the new shards
+
+    - `move primary`_
+
+    .. code-block:: js
+
+      db.adminCommand( { movePrimary : "consumer", to : "shard003" } )
+
+
+    While approaching this topic make sure you clarify with students the
+    `considerations around primary move`_
+
+Exercise: Drain Shard
+---------------------
+
+So aparently our application can survive with only two shards.
+
+Given the elastic nature of MongoDB we can change the sharding configuration and
+consequent server footprint.
+
+Go ahead and remove one of the shards from your sharded cluster.
+
+The procedure should be:
+- make sure we have ready backup
+- remove it from the cluster
+
+
+.. only:: instructor
+
+  .. note::
+
+    In this exercise we want students to be acquainted with MongoDB elastic
+    nature where we can remove and add shards with some agility.
+
+    To accomplish this task students should do the following:
+
+    - generate a backup dump from Ops Manager
+    - change the shard ranges and tags so we can maintian the pre-defined
+      dataset isolation
+
+    .. code-block:: js
+
+      use config
+      sh.addShardTag("shard0004", "BeforeBankOfAmerica")
+      sh.addShardTag("shard0004", "AfterBankOfAmerica")
+      sh.addShardTag("shard0003", "BankOfAmerica")
+
+    - remove shard
+      - run this operation through Ops Manager UI
+
+.. _`config servers`: https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/
+.. _`mongos`: https://docs.mongodb.com/manual/core/sharded-cluster-query-router/
+.. _`aws console`: https://console.aws.amazon.com/console/home
+.. _`chunksize`: https://docs.mongodb.com/manual/tutorial/modify-chunk-size-in-sharded-cluster/
+.. _`shard size`: https://docs.mongodb.com/manual/tutorial/manage-sharded-cluster-balancer/#sharded-cluster-config-max-shard-size
+.. _`jumbo chunks`: https://docs.mongodb.com/manual/core/sharding-data-partitioning/#jumbo-chunk
+.. _`primary shard`: https://docs.mongodb.com/manual/core/sharded-cluster-shards/#primary-shard
+.. _`sharding enabled`: https://docs.mongodb.com/manual/reference/method/sh.enableSharding/#sh.enableSharding
+.. _`zone shard`: https://docs.mongodb.com/manual/release-notes/3.3-dev-series/#sharded-cluster
+.. _`move primary`: https://docs.mongodb.com/manual/reference/command/movePrimary/
+.. _`considerations around primary move`https://docs.mongodb.com/manual/reference/command/movePrimary/#considerations
