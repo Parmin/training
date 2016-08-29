@@ -1,0 +1,12 @@
+file: /exercises/opsmanager-user-shardcluster
+description: |
+  Deploy sharded cluster
+---
+file: /exercises/adv-ops-agg
+description: |
+  Cluster performance analysis using profiler and monitoring dashboards
+---
+file: /exercises/adv-ops-backup
+description: |
+  Perform point-in-time backup restores using Ops Manager backup
+...

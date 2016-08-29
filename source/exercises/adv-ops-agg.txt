@@ -16,7 +16,8 @@ profiler and write some aggregation queries to analyze the profiling data.*"
 
       Prerequisites:
 
-      - Run the Advanced Ops ``~/scripts/Aggregation/premise-1-2.sh`` script. This will set up an empty 3 node replica set.
+      - Run the Advanced Ops ``~/scripts/Aggregation/premise-1-2.sh`` script.
+        This will set up an empty 3 node replica set.
 
 
 Setup
@@ -71,7 +72,8 @@ Your aggregation query should return documents of the following form:
      "max response time" : <NUMBER>,
      "avg response time" : <NUMBER>
    }
-   ... for every operation in the system.profile.op field
+
+   // ... for every operation in the system.profile.op field
 
 
 .. only:: instructor
@@ -87,6 +89,5 @@ Your aggregation query should return documents of the following form:
            _id :"$op",
            count:{$sum:1},
            "max response time":{$max:"$millis"},
-	   "avg response time":{$avg:"$millis"}
+	         "avg response time":{$avg:"$millis"}
          }});
-

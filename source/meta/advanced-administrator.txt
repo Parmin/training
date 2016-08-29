@@ -1,0 +1,9 @@
+:orphan:
+
+=======================================
+MongoDB Advanced Administrator Training
+=======================================
+
+.. toctree::
+
+   /modules/nav/advanced-administrator

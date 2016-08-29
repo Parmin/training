@@ -13,7 +13,8 @@ Enables features like:
 - Backup and Recovery
 - Monitoring
 
-Over the course of this lab we will be installing Ops Manager with high availability and scalability in mind.
+Over the course of this lab we will be installing Ops Manager with high
+availability and scalability in mind.
 
 .. only:: instructor
 
@@ -57,7 +58,7 @@ Ops Manager Scalability
 Ops Manager Architecture Review
 -------------------------------
 
-Let's review `Ops Manager architecture`_:
+Let's review the `Ops Manager architecture`_ :
 
 .. include:: opsmanager-network-diagram-fullsize.txt
 
@@ -80,7 +81,7 @@ Let's review `Ops Manager architecture`_:
 
     - Has three main datastores
 
-      - Application Replica Set (MongoDB Cluster)
+      - Application DB (MongoDB Cluster)
 
         - user info
         - monitoring data
@@ -90,13 +91,14 @@ Let's review `Ops Manager architecture`_:
 
       - Snapshot Storage (MongoDB Cluster)
 
-        - Blockstore: MongoDB Instance
-        - or Filestore: File snapshots
+        - Blockstore: data snapshots, divided in small chunks being compressed
+          and de-deduplicated
+        - or Filestore: data snapshots as files
 
       - Head Database
 
         - Keeps track of oplog and initial syncs
-        - There's one file per database being backed up
+        - There's one head database for each backed-up replica set
 
 
 
@@ -130,13 +132,15 @@ We will need the following instances:
 
       - Boot up Ops Manager Application Replica Set
 
-    - Do we need a Replica Set for the Backup Daemon?
+    - Do we need a Replica Set to support the Backup Daemon?
 
       - Yes, we will be using Blockstore
 
-        - we can use Filestore as alternative but for the exercise let's privilege Blockstore
+        - we can use Filestore as alternative but for the exercise let's
+          privilege Blockstore
 
-    All instances should already be pre-provisioned or running on local virtualbox
+    All instances should already be pre-provisioned or running on local
+    virtualbox
 
 1. Configure Ops Manager Application Database
 ---------------------------------------------
@@ -149,7 +153,8 @@ Ops Manager needs to store data:
 
 Also consider relevant `security settings`_ for this database.
 
-From the available machines go ahead and set up a Replica Set to support the *Application Database*.
+From the available machines go ahead and set up a Replica Set to support the
+*Application Database*.
 
 .. only:: instructor
 
@@ -157,7 +162,8 @@ From the available machines go ahead and set up a Replica Set to support the *Ap
 
     - Students should be assembling a 3 node Replica Set to allow the HA.
     - Extra "points" for students that setup their replica set under SSL
-    - To validate their deployment you should ask students to run validation script
+    - To validate their deployment you should ask students to run validation
+      script
 
 
 2. Configure and Launch OpsManager Service
@@ -179,7 +185,8 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
 
     We are striving for an Highly Available Ops Manager deployment therefore:
 
-    - Before mentioning *again* the HA requirement you may ask students why we need 2 VM's?
+    - Before mentioning *again* the HA requirement you may ask students why we
+      need 2 VM's?
     - Make sure students use machines that are tagged with OpsManager
 
     You may want to point to the following documentation page:
@@ -197,11 +204,10 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
     - Register admin user credentials and Ops Manager group
 
 
-
 3. Install OpsManager Automation Agents
 ---------------------------------------
 
-At this point **Ops Manager** should be up and running
+At this point **Ops Manager** should be up and running.
 Now it's time to install our `Automation Agents`_:
 
 - In the remaining VM, install the automation agent
