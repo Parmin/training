@@ -4,15 +4,25 @@ import boto3
 from botocore.exceptions import *
 from datetime import date, timedelta
 import getpass
-import pprint
+import os
+import os.path
+import re
 import simplejson as json
+import subprocess
+import sys
+
+from provider_utils import *
+
+TOP_STACK_DESC = "This is the top stack template to create a training class"
 
 class Provisioner_aws_cf(object):
     """
     Class for provisioning management of Training Environment, using basic AWS artifacts
 
     TODO
-    - add expiration date on artifacts
+    - nice error message if we run over the limit of instances
+    - check if the run exists (done for describe, needed for deploy and teardown)
+    - check if run is 'completed' in order to report info?
     - name the Load Balancer, however we are limited to 32 chars. Right solution would be "LB-<run>-<team>"
     - name the stacks without the generated part from CF. Right solution would be "<run>-<team>-<host>"
     - attach Elastic IP to LoadBalancer?
@@ -83,46 +93,36 @@ class Provisioner_aws_cf(object):
             sys.exit(1)
 
     def describe(self):
-
-        # TODO - check if the stack exists
-
-        run_resources = self.client.describe_stack_resources(StackName=self.training_run)
-        runinfo = self._get_outputs_for_stack(self.training_run)
-        print "Run: %s\n" % (self.training_run)
-        print "  Key pair: %s" % (runinfo['KeyPair'])
-        print "  Number of Teams: %s" % (runinfo['NbTeams'])
-        print ""
-        print "  VPC: %s" % (runinfo['VPC'])
-        print "  Public Route Table: %s" % (runinfo['PublicRouteTable'])
-        print "  Security Group: %s" % (runinfo['SSHandHTTPSecurityGroup'])
-        # Describe all sub stacks, starting with the top one for the 'run'
-        #MyPrettyPrinter().pprint(run_resources)
-        for one_run_resource in run_resources['StackResources']:
-            # Need VPC, key/pair, 
-            if one_run_resource['ResourceType'] == 'AWS::CloudFormation::Stack':
-                # This is one team
-                physicalId = one_run_resource['PhysicalResourceId']
-                teaminfo = self._get_outputs_for_stack(physicalId)
-                if self.args.verbose:
-                    print "\n  Team %s (%s)" % (one_run_resource['LogicalResourceId'], physicalId)
-                    print   "    Subnet - Id: %s  Mask: %s" % (teaminfo['Subnet'], teaminfo['SubnetMask'])
-                    print   "    LoadBalancer: %s" % (teaminfo['LoadBalancerHostName'])
+        if self.training_run is None:
+            # No run specified, list all of them.
+            # Beware that AWS does page the results
+            more_results = True
+            next_token = None
+            print("")
+            print("{:20} {:20} {}".format('Stack Name', 'Stack Status', 'Creation Time'))
+            while more_results:
+                if next_token:
+                    stack_list  = self.client.list_stacks(NextToken=next_token)
                 else:
-                    print "\n  Team %s" % (teaminfo['TeamNumber'])
-                    print   "    Subnet - Mask: %s" % (teaminfo['SubnetMask'])
-                    print   "    LoadBalancer: %s" % (teaminfo['LoadBalancerHostName'])
-                print ""
-                # Getting all resources for the stack that created this team
-                team_resources = self.client.describe_stack_resources(StackName=physicalId)
-                for one_team_resource in team_resources['StackResources']:
-                    # Need Instances, Load Balancer, subnet, team number
-                    if one_team_resource['ResourceType'] == 'AWS::CloudFormation::Stack':
-                        # Need Instance ID, IP, Role
-                        physicalId = one_team_resource['PhysicalResourceId']
-                        hostinfo = self._get_outputs_for_stack(physicalId)
-                        hosttags = self._get_tags_for_stack(physicalId)
-                        print "    Host - Id: %-11s  Role: %-10s  IP: %s" % (hostinfo['InstanceID'], hosttags['Role'], hostinfo['PublicIP'])
-        print ""
+                    stack_list  = self.client.list_stacks()
+                for one_stack in stack_list['StackSummaries']:
+                    if self.args.verbose or (one_stack.has_key('TemplateDescription') and re.match(TOP_STACK_DESC, one_stack['TemplateDescription']) and one_stack['StackStatus'] not in ['DELETE_COMPLETE']):
+                        print("{:20} {:20} {}".format(one_stack['StackName'], one_stack['StackStatus'], one_stack['CreationTime']))
+                if stack_list.has_key('NextToken'):
+                    next_token = stack_list['NextToken']
+                else:
+                    more_results = False
+        else:
+            run_info = self.get_run_info(printit=True)
+            if self.args.out:
+                try:
+                    f = open(self.args.out, 'w')
+                    contents = json.dumps(run_info, indent=2)
+                    f.write(contents + "\n")
+                    f.close()
+                except Exception, e:
+                    fatal(1, e.__str__())
+                print("\nJSON file for the above has been saved in: {}".format(self.args.out))
 
     def destroy(self):
         """
@@ -131,31 +131,138 @@ class Provisioner_aws_cf(object):
         self.client.delete_stack(StackName = self.training_run)
         None
 
+    def get_run_info(self, printit):
+        run_info = BuildAndPrintDict(printit)
+
+        run_description = self._describe_stack(self.training_run)
+        run_resources = self._describe_stack_resources(self.training_run)
+        runinfo = self._get_outputs_for_stack(self.training_run)
+        run_info.comment("")
+        run_info.key_values(("Name", self.training_run))
+        run_info.key_values(("KeyPair", runinfo['KeyPair']))
+        run_info.key_values(("NumberOfTeams", runinfo['NbTeams']))
+        run_info.comment("")
+        run_info.key_values(("VPC", runinfo['VPC']))
+        run_info.key_values(("PublicRouteTable", runinfo['PublicRouteTable']))
+        run_info.key_values(("SecurityGroup", runinfo['SSHandHTTPSecurityGroup']))
+        run_info.start_list("Teams")
+        # Describe all sub stacks, starting with the top one for the 'run'
+        for one_run_resource in run_resources['StackResources']:
+            # Need VPC, key/pair, 
+            if one_run_resource['ResourceType'] == 'AWS::CloudFormation::Stack':
+                # This is one team
+                physicalId = one_run_resource['PhysicalResourceId']
+                teaminfo = self._get_outputs_for_stack(physicalId)
+                run_info.comment("")
+                run_info.new_list_obj()
+                run_info.key_values(("Id", teaminfo['TeamNumber']))
+                run_info.key_values(("SubnetMask", teaminfo['SubnetMask']))
+                run_info.key_values(("LoadBalancer", teaminfo['LoadBalancerHostName']))
+                # Getting all resources for the stack that created this team
+                team_resources = self._describe_stack_resources(physicalId)
+                run_info.start_list("Hosts")
+                for one_team_resource in team_resources['StackResources']:
+                    # Need Instances, Load Balancer, subnet, team number
+                    if one_team_resource['ResourceType'] == 'AWS::CloudFormation::Stack':
+                        # Need Instance ID, IP, Role
+                        run_info.new_list_obj()
+                        physicalId = one_team_resource['PhysicalResourceId']
+                        hostinfo = self._get_outputs_for_stack(physicalId)
+                        hosttags = self._get_tags_for_stack(physicalId)
+                        run_info.key_values( ("Id", hostinfo['InstanceID'], "{:10}"), ("Role", hosttags['Role'], "{:8}"), ("IP", hostinfo['PublicIP'], "{:14}"), ("PrivateIP", hostinfo['PrivateIP'], "{:14}") )
+                run_info.end_list("Hosts")
+        run_info.end_list("Teams")
+        run_info.comment("")
+        return run_info.get_dict()
+
+    def manage(self, cmd):
+        """
+        Execute something on a bunch of hosts
+        """
+        # Get the list of hosts from the deployment
+        run_info = self.get_run_info(printit=False)
+        keypair = run_info['KeyPair']
+        for team in run_info['Teams']:
+            if self.args.teams == "all" or team['Id'] in self.args.teams:
+                print("Team {}".format(team['Id']))
+                for host in team['Hosts']:
+                    if self.args.roles == "all" or host['Role'] in self.args.roles:
+                        print("  {:14}  {}".format(host['IP'], host['Role']))
+                        self._run_cmd_on_host(host['IP'], cmd, keypair)
+
     def _get_outputs_for_stack(self, stackId):
         """
         Return a dictionary with all the 'outputs' for a given stack
         """
-        stack_description = self.client.describe_stacks(StackName=stackId)
-        outputs = stack_description['Stacks'][0]['Outputs']
         info = dict()
-        for output in outputs:
-            info[output['OutputKey']] = output['OutputValue']
+        stack_description = self._describe_stack(stackId)
+        if stack_description.has_key('Outputs'):
+            outputs = stack_description['Outputs']
+            for output in outputs:
+                info[output['OutputKey']] = output['OutputValue']
+        elif stack_description['StackStatus'] == 'ROLLBACK_COMPLETE':
+            fatal(1, "The stack {} has errors or is not ready, the status is: {}".format(stackId, stack_description['StackStatus']))
         return info
+
+    def _describe_stack(self, stackname):
+        got_stack = False
+        stack_description = {}
+        try:
+            stack_descriptions  = self.client.describe_stacks(StackName=stackname)
+            for one_stack_description in stack_descriptions['Stacks']:
+                if one_stack_description['StackName'] == stackname or one_stack_description['StackId'] == stackname:
+                    got_stack = True
+                    stack_description = one_stack_description
+                    if self.args.verbose:
+                        MyPrettyPrinter().pprint(one_stack_description)
+                    break
+        except ClientError, e:
+            fatal(1, "ERROR - can't find the stack: {}".format(stackname))
+        return stack_description
+
+    def _describe_stack_resources(self, stackname):
+        stack_resources  = self.client.describe_stack_resources(StackName=stackname)
+        if self.args.verbose:
+            MyPrettyPrinter().pprint(stack_resources)
+        return stack_resources
 
     def _get_tags_for_stack(self, stackId):
         """
         Return a dictionary with all the 'outputs' for a given stack
         """
-        stack_description = self.client.describe_stacks(StackName=stackId)
-        outputs = stack_description['Stacks'][0]['Tags']
+        stack_description = self._describe_stack(stackId)
+        outputs = stack_description['Tags']
         info = dict()
         for output in outputs:
             info[output['Key']] = output['Value']
         return info
 
-# Imported code
-class MyPrettyPrinter(pprint.PrettyPrinter):
-    def format(self, object, context, maxlevels, level):
-        if isinstance(object, unicode):
-            return (object.encode('utf8'), True, False)
-        return pprint.PrettyPrinter.format(self, object, context, maxlevels, level)
+    def _run_cmd_on_host(self, host, cmd, pemfilename):
+        """
+        Run a command or script on a given host
+        TODO - do not hardcode the user account 'centos'
+               if file instead of command, upload the file on the host, then run it
+        """
+        # Is this a script to upload?
+        if os.path.isfile(cmd):
+            fatal(1, "'manage' only supports commands at this point, not scripts")
+
+        ssh = subprocess.Popen(["ssh", "-i", os.environ['HOME'] + "/.ssh/" + pemfilename + ".pem", "-l", "centos", host, cmd],
+                       shell=False,
+                       stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+        result = ssh.stdout.readlines()
+        error = ssh.stderr.readlines()
+        if error:
+            print("ERROR running the provide 'cmd'")
+            for line in error:
+                print line
+        else:
+            for line in result:
+                print line
+
+
+
+
+
+

@@ -14,8 +14,18 @@
 #
 # TODOs:
 #   - better logging, it looks like everything is logged twice on the screen
-#   - check for return codes from creating the stacks
+#   - would like to check for return codes from creating the stacks, however the call is not blocking on the execution
+#   - run mdiags on instances
 #   - incorporate Ansible scripts
+#   - consider terraform as an additional provider, or even replacement for CF
+#   - Stacks:
+#     - provision 2 disks per instance, for few data nodes
+#   - validate names, can't have a '_' in them, use a '-'
+#   - new command "manage" to run commands on different hosts
+#   - document disabling rollbacks for debugging
+#   - running out of instances?
+#     - under 'events' for the instance stack, you will see: "Your quota allows for 0 more running instance(s). You requested at least 1"
+#     - describe-stack-resources => "StackResources" => "ResourceStatus": "CREATE_FAILED" and "ResourceStatusReason": "Your quota allows for 0 more running instance(s). You requested at least 1"
 
 import logging
 import argparse
@@ -25,6 +35,8 @@ import time
 from provisioner_aws_cf import Provisioner_aws_cf
 from provisioner_aws_plain import Provisioner_aws_plain
 
+from provider_utils import *
+
 FORMAT = '%(asctime)-15s %(message)s'
 
 def setup_logging(logger):
@@ -33,7 +45,6 @@ def setup_logging(logger):
     consoleHandler.setFormatter(logging.Formatter(FORMAT))
 
     logger.addHandler(consoleHandler)
-    logger.setLevel(logging.DEBUG)
 
 def main():
     logger = logging.getLogger(__name__)
@@ -82,6 +93,7 @@ def main():
     if args.provider == "aws-cf":
         pr = Provisioner_aws_cf(args, training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams, keypair=args.keypair)
     elif args.provider == "aws-plain":
+        logger.setLevel(logging.DEBUG)
         pr = Provisioner_aws_plain(training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams)
     else:
         print("FATAL - invalid provider, must be 'aws-plain' or 'aws-cf' " % args.provider)

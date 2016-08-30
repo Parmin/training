@@ -1,44 +1,29 @@
 #! /usr/bin/env python
 
 # Issues:
+#   - should we run the commands/scripts in parallel with workers, or sequentially, or have it as an option?
 
 # TODO
-#   - have a test mode where we can recover the info from a set of files, instead of a live cluster in order to run unit tests
 
+"""
+Example:
 
-'''
-Example of a run:
-  ./describe --profile training-eu-west --run dcoupal-test --out /tmp/cluster.out
+$ ./manage.py --profile training-west --run dcoupal-test --teams 0,1 --roles OpsMgr1,OpsMgr2 --cmd "/bin/hostname -f"
 
-Example of an output:
+Team 0
+  54.183.172.229  OpsMgr1
+ip-10-0-0-47.us-west-1.compute.internal
 
-Name: dcoupal-test 
-KeyPair: AdvancedOpsTraining 
-NumberOfTeams: 1 
+  54.67.126.74    OpsMgr2
+ip-10-0-0-10.us-west-1.compute.internal
 
-VPC: vpc-b97272dc 
-PublicRouteTable: rtb-c8c526ac 
-SecurityGroup: sg-adf2b9c9 
-Teams:
+Team 1
+  54.183.194.222  OpsMgr1
+ip-10-0-1-161.us-west-1.compute.internal
 
-  Id: 0 
-  SubnetMask: 10.0.0.0/24 
-  LoadBalancer: dcoupal-t-OpsMgrLB-187Y2BIZ8ETKG-394908656.us-west-1.elb.amazonaws.com 
-  Hosts:
-    Id: i-ce0e4a8b  Role: Node1     IP: 54.193.69.25    PrivateIP: 10.0.0.142      
-    Id: i-ab0c48ee  Role: OpsMgr1   IP: 54.67.73.218    PrivateIP: 10.0.0.145      
-    Id: i-cd0e4a88  Role: OpsMgr2   IP: 54.183.174.92   PrivateIP: 10.0.0.151      
-    Id: i-b40c48f1  Role: OpsMgr3   IP: 54.193.73.93    PrivateIP: 10.0.0.133      
-
-  Id: 1 
-  SubnetMask: 10.0.1.0/24 
-  LoadBalancer: dcoupal-t-OpsMgrLB-10CR1BLJEC2CK-3078954.us-west-1.elb.amazonaws.com 
-  Hosts:
-    Id: i-6a0d492f  Role: Node1     IP: 52.53.244.51    PrivateIP: 10.0.1.211      
-    Id: i-6b0d492e  Role: OpsMgr1   IP: 54.193.40.211   PrivateIP: 10.0.1.238      
-    Id: i-690d492c  Role: OpsMgr2   IP: 54.183.192.16   PrivateIP: 10.0.1.9        
-    Id: i-690c482c  Role: OpsMgr3   IP: 54.193.59.211   PrivateIP: 10.0.1.202      
-'''
+  52.53.252.177   OpsMgr2
+ip-10-0-1-160.us-west-1.compute.internal
+"""
 
 import logging
 import argparse
@@ -63,8 +48,11 @@ def main():
     logger = logging.getLogger(__name__)
     setup_logging(logger)
 
-    parser = argparse.ArgumentParser(description='Describe the resources used by a training class')
-    parser.add_argument('--run', dest='training_run', type=str,
+    parser = argparse.ArgumentParser(description='Helper to manage a set of hosts and run commands on them')
+    parser.add_argument('--cmd', dest='cmd', type=str, required=True,
+      help="cmd or script to execute on the selected hosts")
+
+    parser.add_argument('--run', dest='training_run', type=str, required=True,
       help="environment training run identifier, or none to see all the runs")
 
     parser.add_argument('--out', dest='out', type=str,
@@ -75,6 +63,12 @@ def main():
 
     parser.add_argument('--provider', dest='provider', default="aws-cf", type=str,
       help="Provider, one of 'aws-cf' or 'aws-plain'")
+
+    parser.add_argument('--roles', dest='roles', type=str, required=True,
+      help="List of roles (or regexes) to match the hosts to manage")
+
+    parser.add_argument('--teams', dest='teams', type=str, required=True,
+      help="List of teams for which the instances are considered (0,1,...). Use 'all' for all of them")
 
     parser.add_argument('--verbose', dest='verbose', action='store_true',
       help="Show more details in the output")
@@ -98,7 +92,7 @@ def main():
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
     logger.debug("Describing run: {0}".format(training_run))
-    pr.describe()
+    pr.manage(args.cmd)
 
 
 if __name__ == "__main__":
