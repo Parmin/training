@@ -16,9 +16,11 @@ Upon completing this lab, students should be able to:
 Dependencies
 ------------
 
-- In order to complete all purposed exercises we need to first enable the Public API.
+- In order to complete all purposed exercises we need to first enable the Public
+  API.
 - Go to your group settings and enable the Public API.
-- Do not forget to set an appropriate CIDR block for the IP whitelist and Generate the API Key.
+- Do not forget to set an appropriate CIDR block for the IP whitelist and
+  Generate the API Key.
 
 .. include:: /includes/student-notes.rst
 
@@ -33,11 +35,20 @@ Exercise: Initial Replica Set
 
 - Using the Ops Manager UI go ahead and create a 3 node replica set:
 
-  - Replica set name ``METAMORPHOSIS``
+  - Replica set name ``META``
   - Two data bearing nodes
+
+    - use hosts: **Node3** and **Node4**
+
   - One arbiter
 
-- *All instances should be installed using MongoDB 3.2.1*
+    - use host: **Node5**
+
+  - All nodes should be set to use port **27000**
+
+.. note::
+
+  All instances should be installed using MongoDB 3.2.1 enterprise
 
 Exercise: Add Replica Set Members
 ---------------------------------
@@ -46,83 +57,363 @@ Exercise: Add Replica Set Members
 - Add 2 new data bearing nodes
 
   - First node should have priority 0
+
+    - use **Node6**
+
   - Second node should be an hidden replica.
+
+    - use **Node8**
 
 
 Exercise: Decomission Replica Member
 ------------------------------------
 
 - One of your nodes is not making the cut.
-- Change your replica set by "decommissioning" one of the instances
-- Make sure that your replica set keeps up majority and previous level of node failure resilience
+  - Not poiting fingers but ... **Node3** is *acting up*
+
+- Change your replica set by *"decommissioning"* one of the instances
+- Make sure that your replica set keeps up majority and previous level of node
+  failure resilience
 
 .. only:: instructor
 
   .. note::
 
-    Make sure students are aware that removing one of nodes might require adding an extra one.
+    Make sure students are aware that removing one of nodes might require adding
+    an extra one.
 
-    - Not totally true in this case since there's an ``arbiter`` member
-    - They will keep the same availability by just removing a node
+    - Make sure that the they will need to chang the Replica Set configuration
+      priroities if they don't want to just remove the problematic node
+
+      - In this case **Node3**
+
+    - Changing the priorty of **Node6** to 1 will keep the same availabilty
+
     - We can also remove the ``arbiter`` to keep an odd number of nodes
+
+    Questions to ask:
+
+    - Q: What happens if we just remove the problematic node and the arbiter?
+
+      - A: This is not enough to guarantee the same availability. The remaining
+        nodes are not capable of becoming **primary** nodes
 
 
 
 Exercise: Upgrade MongoDB Version
 ---------------------------------
 
-- Our CTO, for compliance reasons, demands that all of our nodes should be on the latest version of MongoDB.
+- Our CTO, for compliance reasons, demands that all of our nodes should be on
+  the lattest version of MongoDB.
 - Upgrade all nodes in your replica set without downtime.
 
 .. only:: instructor
 
   .. note::
 
-      - Please instruct students to change the version of MongoDB to the most recent version of MongoDB
-      - Make sure they know how to make the required version available in their Ops Manager deployment.
-      - Update the Version Manifest: Deployment -> Version Manager -> Update MongoDB Version Manifest
+      - Please instruct students to change the version of MongoDB to the most
+        recent version of MongoDB
+      - Make sure they know how to make the required version available in their
+        Ops Manager deployment.
+      - Update the Version Manifest: Deployment -> Version Manager -> Update
+        MongoDB Version Manifest
 
-Exercise: Upgrade Replica Set Name
-----------------------------------
+Exercise: Update Node Priority
+------------------------------
 
-- We decided that we are not going to change our cluster going forward.
-- Using Ops Manager API, update the replica set name to "PRODUCTION"
+Our initial setup is not in line with the expectations of the CTO in terms of
+hierarchy *(talking about micromanagement!)*.
+
+- Update the priorities of nodes to the following configuration:
+
+  - **Node4**: 10
+  - **Node6**: 7
+  - **Node5**: Arbiter
+  - **Node8**: 0 and slave delayed by 10hours
+
+- All of these changes should be done using the Ops Manager API!
 
 .. only:: instructor
 
   .. note::
 
+      This is the most challenging exercise of this lab.
+      Walk the students through the exercise.
+      Students will have to dig into the `API Documentation`_ to retrive the
+      necessary instructions.
+
+      Students will also have to enabled the public api and generate a public
+      API key.
+
+      Here's the set of instructions they will need to accomplish:
+
+      - set a variable containing ops manager admin username
+
+      .. code-block:: bash
+
+          export username=admin@localhost.com
+
       - Get the group Id and add it to an environment variable
       - Settings -> Group Settings (group id)
 
-        .. code-block:: bash
+      .. code-block:: bash
 
-          export GROUPID=YOURGROUPID
+        export GROUPID=YOURGROUPID
 
       - Create a new API key
       - Settings -> Public API Key -> Generate
 
-        .. code-block:: bash
+      .. code-block:: bash
 
-            export apiKey=YOURAPIKEY
+          export apiKey=YOURAPIKEY
 
-      - Get your Cluster ID
+      - Get current automation configuration
 
-        .. code-block:: bash
+      .. code-block:: bash
 
-          // this will higlight your clusterid
-          curl -u "$username:$apiKey" -H "Content-Type: application/json" --digest -i
-          "http://opsmgr.training/api/public/v1.0/groups/$GROUPID/clusters/" | grep "id"
+        curl -u "$username:$apiKey" -H "Content-Type: application/json" --digest -i
+        "/api/public/v1.0/groups/$GROUPID/automationConfig"
 
-          export CLUSTERID=YOURCLUSTERSID
+      - Save the json content payload into a file ``automation.json``
 
-      - Update the replica set name
+      - Edit that file to reflect the requested priorities changes
 
-        .. code-block:: bash
+      .. code-block:: json
 
-          export username=yourusername
-          curl -u "$username:$apiKey" -H "Content-Type: application/json" --digest -i -X PATCH
-          "https://opsmgr.training/api/public/v1.0/groups/$GROUPID/clusters/$CLUSTERID" --data '
-          {
-            "clusterName": "PRODUCTION"
-          }'
+        {
+          "auth": {
+              "disabled": true,
+              "usersDeleted": [],
+              "usersWanted": []
+          },
+          "backupVersions": [],
+          "indexConfigs": [],
+          "mongoDbVersions": [
+              {
+                  "builds": [
+                      {
+                          "bits": 64,
+                          "gitVersion": "ed70e33130c977bda0024c125b56d159573dbaf0",
+                          "platform": "linux",
+                          "url": "http://opsmgr.vagrant.dev:8080/automation/mongodb-releases/linux/mongodb-linux-x86_64-3.2.1.tgz"
+                      }
+                  ],
+                  "name": "3.2.1"
+              }
+          ],
+          "monitoringVersions": [
+              {
+                  "baseUrl": null,
+                  "directoryUrl": null,
+                  "hostname": "N",
+                  "name": "3.9.1.238-1"
+              }
+          ],
+          "options": {
+              "downloadBase": "/var/lib/mongodb-mms-automation",
+              "downloadBaseWindows": "%SystemDrive%\\MMSAutomation\\versions"
+          },
+          "processes": [
+              {
+                  "args2_6": {
+                      "net": {
+                          "port": 27000
+                      },
+                      "operationProfiling": {},
+                      "replication": {
+                          "replSetName": "META"
+                      },
+                      "storage": {
+                          "dbPath": "/data/META_0"
+                      },
+                      "systemLog": {
+                          "destination": "file",
+                          "path": "/data/META_0/mongodb.log"
+                      }
+                  },
+                  "authSchemaVersion": 5,
+                  "hostname": "Node4",
+                  "logRotate": {
+                      "sizeThresholdMB": 1000.0,
+                      "timeThresholdHrs": 24
+                  },
+                  "name": "META_0",
+                  "processType": "mongod",
+                  "version": "3.2.1"
+              },
+              {
+                  "args2_6": {
+                      "net": {
+                          "port": 27000
+                      },
+                      "operationProfiling": {},
+                      "replication": {
+                          "replSetName": "META"
+                      },
+                      "storage": {
+                          "dbPath": "/data/META_1"
+                      },
+                      "systemLog": {
+                          "destination": "file",
+                          "path": "/data/META_1/mongodb.log"
+                      }
+                  },
+                  "authSchemaVersion": 5,
+                  "hostname": "Node6",
+                  "logRotate": {
+                      "sizeThresholdMB": 1000.0,
+                      "timeThresholdHrs": 24
+                  },
+                  "name": "META_1",
+                  "processType": "mongod",
+                  "version": "3.2.1"
+              },
+              {
+                  "args2_6": {
+                      "net": {
+                          "port": 27000
+                      },
+                      "operationProfiling": {},
+                      "replication": {
+                          "replSetName": "META"
+                      },
+                      "storage": {
+                          "dbPath": "/data/META_2"
+                      },
+                      "systemLog": {
+                          "destination": "file",
+                          "path": "/data/META_2/mongodb.log"
+                      }
+                  },
+                  "authSchemaVersion": 5,
+                  "hostname": "Node5",
+                  "logRotate": {
+                      "sizeThresholdMB": 1000.0,
+                      "timeThresholdHrs": 24
+                  },
+                  "name": "META_2",
+                  "processType": "mongod",
+                  "version": "3.2.1"
+              },
+              {
+                  "args2_6": {
+                      "net": {
+                          "port": 27000
+                      },
+                      "operationProfiling": {},
+                      "replication": {
+                          "replSetName": "META"
+                      },
+                      "storage": {
+                          "dbPath": "/data/META_3"
+                      },
+                      "systemLog": {
+                          "destination": "file",
+                          "path": "/data/META_3/mongodb.log"
+                      }
+                  },
+                  "authSchemaVersion": 5,
+                  "hostname": "Node3",
+                  "logRotate": {
+                      "sizeThresholdMB": 1000.0,
+                      "timeThresholdHrs": 24
+                  },
+                  "name": "META_3",
+                  "processType": "mongod",
+                  "version": "3.2.1"
+              },
+              {
+                  "args2_6": {
+                      "net": {
+                          "port": 27000
+                      },
+                      "operationProfiling": {},
+                      "replication": {
+                          "replSetName": "META"
+                      },
+                      "storage": {
+                          "dbPath": "/data/META_4"
+                      },
+                      "systemLog": {
+                          "destination": "file",
+                          "path": "/data/META_4/mongodb.log"
+                      }
+                  },
+                  "authSchemaVersion": 5,
+                  "hostname": "Node8",
+                  "logRotate": {
+                      "sizeThresholdMB": 1000.0,
+                      "timeThresholdHrs": 24
+                  },
+                  "name": "META_4",
+                  "processType": "mongod",
+                  "version": "3.2.1"
+              }
+          ],
+          "replicaSets": [
+              {
+                  "_id": "META",
+                  "members": [
+                      {
+                          "_id": 0,
+                          "arbiterOnly": false,
+                          "hidden": false,
+                          "host": "META_0",
+                          "priority": 10.0,
+                          "slaveDelay": 0,
+                          "votes": 1
+                      },
+                      {
+                          "_id": 1,
+                          "arbiterOnly": false,
+                          "hidden": false,
+                          "host": "META_1",
+                          "priority": 7.0,
+                          "slaveDelay": 0,
+                          "votes": 1
+                      },
+                      {
+                          "_id": 2,
+                          "arbiterOnly": true,
+                          "hidden": false,
+                          "host": "META_2",
+                          "priority": 0,
+                          "slaveDelay": 0,
+                          "votes": 1
+                      },
+                      {
+                          "_id": 3,
+                          "arbiterOnly": true,
+                          "hidden": false,
+                          "host": "META_3",
+                          "priority": 0,
+                          "slaveDelay": 0,
+                          "votes": 1
+                      },
+                      {
+                          "_id": 4,
+                          "arbiterOnly": false,
+                          "hidden": true,
+                          "host": "META_4",
+                          "priority": 0,
+                          "slaveDelay": 36000,
+                          "votes": 1
+                      }
+                  ]
+              }
+          ],
+          "roles": [],
+          "sharding": [],
+          "uiBaseUrl": null,
+          "version": 2
+        }
+
+      - Update the automation configuration
+
+      .. code-block:: bash
+
+        export username=yourusername
+        curl -u "$username:$apiKey" -H "Content-Type: application/json" --digest -i -X PUT
+        "https://opsmgr.training/api/public/v1.0/groups/$GROUPID/automationConfig" --data @automation.json
+
+.. _`API Documentation`: https://docs.opsmanager.mongodb.com/current/reference/api/automation-config/#update-automation-configuration-via-api
