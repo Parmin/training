@@ -19,19 +19,32 @@ Upon completing this module, students should be able to:
 Introduction
 ------------
 
+- Prevents or warns when the following occurs:
+
+  - Inserts/updates that result in documents that don't match a schema
+
 - Prevents or warns when inserts/updates do not match schema constraints
 - Can be implemented for a new or existing collection
 - Can be bypassed, if necessary
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - We'll get to updates later; it's a little ambiguous for now
+    - Document validation does not affect deletion at all
+    - Document validation applies to non-CRUD operations that act like inserts
+
+      - e.g. Aggregation's ``$out`` stage
 
 Example
 -------
 
 .. code-block:: javascript
 
-  db.createCollection("products",
+  db.createCollection( "products",
      {
         validator: {
             price : { $exists : true }
@@ -70,6 +83,25 @@ Another use case:
 - You want to ensure that any write will also map the old schema to the new schema
 - Document validation is a simple way of enforcing the new schema after migrating
 
+  - You will still want to enforce this with the application
+  - Document validation gives you another layer of protection
+
+.. include:: /includes/student-notes.rst
+
+
+Anti-Patterns
+-------------
+
+- Using document validation at the database level without writing it into your application
+
+  - This would result in unexpected behavior in your application
+
+- Allowing uncaught exceptions from the DB to leak into the end user's view
+
+  - Catch it and give them a message they can parse
+
+.. include:: /includes/student-notes.rst
+
 
 ``validationAction`` and ``validationLevel``
 --------------------------------------------
@@ -78,6 +110,7 @@ Another use case:
 - ``validationLevel`` -- determines how strictly MongoDB applies validation rules
 - ``validationAction`` -- determines whether MongoDB should error or warn on invalid documents
 
+.. include:: /includes/student-notes.rst
 
 Details
 -------
@@ -87,21 +120,6 @@ Details
 .. include:: /includes/student-notes.rst
 
 
-Quiz
-----
-
-- What are the uses for the two validationLevels?
-- What are the uses for the two validationActions?
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - After the next two slides, you can come back and review their answers
-
-
 ``validationLevel``: "strict"
 -----------------------------
 
@@ -109,11 +127,19 @@ Quiz
 
   - Creating a new collection
   - Validating writes to an existing collection already in compliance
+  - Insert only workloads
   - Changing schema and updates should map documents to the new schema
 
 - This will impose validation on update even to invalid documents
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The application will still need to perform validation
+    - This is more of a backstop for the application
 
 
 ``validationLevel``: "moderate"
@@ -123,6 +149,7 @@ Quiz
 
   - Changing a schema and you have not migrated fully
   - Changing schema but the application can't map the old schema to the new in just one update
+  - Changing a schema for new documents but leaving old documents with the old schema
 
 .. include:: /includes/student-notes.rst
 
@@ -148,13 +175,9 @@ Quiz
   - Your application can handle multiple versions of the schema
   - Tracking schema-related issues is important
 
+    - For example, if you think your application is probably inserting compliant documents, but you want to be sure
+
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - You can compare their answers to what you've discussed in this slide and the previous ones
 
 
 Creating a Collection with Document Validation
@@ -162,7 +185,7 @@ Creating a Collection with Document Validation
 
 .. code-block:: javascript
 
-  db.createCollection("products",
+  db.createCollection( "products",
      {
         validator: {
             price: { $exists: true }
@@ -235,13 +258,15 @@ Bypassing Document Validation
 -----------------------------
 
 - You can bypass document validation using the ``bypassDocumentValidation`` option
-- CRUD and aggregation methods support this option
+
+  - On a per-operation basis
+  - Might be useful when:
+  
+    - Restoring a backup
+    - Re-inserting an accidentally deleted document
+
 - For deployments with access control enabled, this is subject to user roles restrictions
 - See the MongoDB server documentation for details
-- Security roles:
-
-  - ``dbAdmin`` and ``restore`` can bypass validation
-  - ``bypassDocumentValidation`` action can be set
 
 .. include:: /includes/student-notes.rst
 
@@ -278,7 +303,9 @@ Document Validation and Performance
 -----------------------------------
 
 - Validation adds an expression-matching evaluation to every insert and update
-- Testing shows negligible impact on performance
+- Performance load depends on the complexity of the validation document
+
+  - Many workloads will see negligible differences
 
 .. include:: /includes/student-notes.rst
 
@@ -303,7 +330,7 @@ What are the validation levels available and what are the differences?
       - New documents must be validated
       - Updates to valid documents must pass validation
 
-    - None - disables document validation
+    - Off - disables document validation
 
 
 Quiz
