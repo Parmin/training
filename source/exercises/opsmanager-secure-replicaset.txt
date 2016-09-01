@@ -7,7 +7,8 @@ Premise
 
 - Setting up a MongoDB Replica set is quite easy and fast.
 - Setting up a Secured MongoDB replica set requires a few extra steps.
-- In this lab we will be exploring how to setup a secured Replica Set through Ops Manager.
+- In this lab we will be exploring how to setup a secured Replica Set through
+  Ops Manager.
 
 .. include:: /includes/student-notes.rst
 
@@ -15,13 +16,16 @@ Premise
 
   .. note::
 
-    Security is an important topic of production deployments and we want students to be fully  acquainted with the different options of MongoDB Security.
+    Security is an important topic of production deployments and we want the
+    students to be fully acquainted with the different options of MongoDB
+    Security.
 
 
 X.509 Authentication Mechanism
 ------------------------------
 
-We will be using `X.509 certificates`_ for authentication and TLS/SSL network encryption.
+We will be using `X.509 certificates`_ for authentication and TLS/SSL network
+encryption.
 
 
 .. include:: /includes/student-notes.rst
@@ -46,9 +50,11 @@ We will be using `X.509 certificates`_ for authentication and TLS/SSL network en
 Ops Manager Group SSL and Auth
 ------------------------------
 
-To build secured MongoDB deployments you first need to `enable Auth and SSL`_ on your group.
+To build secured MongoDB deployments you first need to `enable Auth and SSL`_ on
+your group.
 
-All VMs have a set of certificates that you will be using to configure your secured deployment.
+All VMs have a set of certificates that you will be using to configure your
+secured deployment.
 
 In folder `/shared/etc/ssl` you will find:
 
@@ -66,11 +72,13 @@ In folder `/shared/etc/ssl` you will find:
 
   .. note::
 
-    Ask students to list files under `/shared/etc/ssl` on instances to validate that their installation process is correct.
+    Ask students to list the files under `/shared/etc/ssl` on instances to validate
+    that their installation process is correct.
 
     Make sure to highlight that:
 
-    - The enabling of auth and ssl on a group level is to ensure correct communicate between all instances
+    - The enabling of auth and ssl on a group level is to ensure correct
+      communicate between all instances
     - Ensuring the same Certificate Authority (CA) certificate
     - Enabling agents to perform their normal operations
     - Create the required agent users
@@ -97,14 +105,18 @@ Let's start by creating a group called ``VERYSAFE`` that has SSL enabled.
 
   .. note::
 
-    This might be a bit hard for students that are not experienced with Ops / Cloud Manager
+    This might be a bit hard for students that are not experienced with Ops /
+    Cloud Manager
 
     - Take the time to navigate users through the UI to configure these settings
-    - Make sure that students do not provide a decypher password for the certificates
+    - Make sure that students do not provide a decypher password for the
+      certificates
 
-    Once the group is created you will need to reconfigure your existing agents to use the new group
+    Once the group is created you will need to reconfigure your existing agents
+    to use the new group
 
-    - Either you install new agents or just stop the service and reconfigure the agents configuration file
+    - Either you install new agents or just stop the service and reconfigure the
+      agents configuration file
 
     .. code-block:: bash
 
@@ -112,16 +124,22 @@ Let's start by creating a group called ``VERYSAFE`` that has SSL enabled.
       #edit /etc/mongodb-mms/automation-agent.config and add new APIKey and GroupId
       sudo service mongodb-mms-automation-agent start
 
-    - students will find the corresponding instructions on `Settings -> Agents -> Host Version Agent`
+    - students will find the corresponding instructions on
+      `Settings -> Agents -> Host Version Agent`
 
 Secure Replica Set Deploy
 -------------------------
 
-Once the automation agent has been reconfigured and servers are detected on your deployment, it's then time to deploy our secure replica set.
+Once the automation agent has been reconfigured and servers are detected on your
+deployment, it's then time to deploy our secure replica set.
 
 Create a replica set named **SECURE** with the following configuration:
 
-- 3 Nodes: port range {27000 -> 27002}
+- 3 Nodes:
+
+  - **Node1**, **Node2** and **Node3**
+  - Port `27000`
+
 - **clusterAuthMechanism**: x509
 - **sslMode**: requiredSSL
 - **sslPEMKeyFile**: `/shared/etc/ssl/nodeX.pem`
@@ -132,19 +150,21 @@ Create a replica set named **SECURE** with the following configuration:
 
   .. note::
 
-    Students should create a replica set from Ops Manager UI that will reflect the wanted configuration:
+    Students should create a replica set from Ops Manager UI that will reflect
+    the wanted configuration:
 
-    - Once the ``VERYSAFE`` group has been create we need to **Add** -> **New Replica Set**
+    - Once the ``VERYSAFE`` group has been create we need to **Add** ->
+      **New Replica Set**
 
       - Name: SECURE
-      - Eligible Server Regex: ``.*``
-      - Port Range: **27000** **27002**
+      - Port Range: **27000**
       - DB Path Prefix: ``/data``
       - clusterAuthMechanism: **x509**
       - sslMode: ``requiredSSL``
       - Apply
 
-    - Once we have applied we now need to **Modify** the individual node members with the corresponding server **sslPEMKeyFile**
+    - Once we have applied we now need to **Modify** the individual node members
+      with the corresponding server **sslPEMKeyFile**
 
       - node1: `/shared/etc/ssl/node1.pem`
 
@@ -158,11 +178,14 @@ X509 Users
 
 Time to create users that will authenticate using an X.509 certificate.
 
-- Go ahead and create a `dbAdminAnyDatabase`_ user that authenticates using ``dbadmin.pem`` certificate.
+- Go ahead and create a `dbAdminAnyDatabase`_ user that authenticates using
+  ``dbadmin.pem`` certificate.
 
-- To create users that authenticate using X509 certificates you should check `Certificate Subject as user`_ docs
+- To create users that authenticate using X509 certificates you should check
+  `Certificate Subject as user`_ docs
 
-- After the user has been created, connect to the *Primary* node of the replica set and create database "``allgood``".
+- After the user has been created, connect to the *Primary* node of the replica
+  set and create database "``allgood``".
 
 .. include:: /includes/student-notes.rst
 
@@ -170,7 +193,8 @@ Time to create users that will authenticate using an X.509 certificate.
 
   .. note::
 
-    - Students might not be familiar with this mechanism so point them to `Certificate Subject as user`_.
+    - Students might not be familiar with this mechanism so point them to
+      `Certificate Subject as user`_.
     - Students will have to extract the certificate ``subject`` info
 
       .. code-block:: bash
@@ -182,7 +206,8 @@ Time to create users that will authenticate using an X.509 certificate.
 
       and use that subject info to create the required user.
 
-    - We can create this user using the Ops Manager UI or we can connect to the replica set and perform the following operations:
+    - We can create this user using the Ops Manager UI or we can connect to the
+      replica set and perform the following operations:
     - Authenticate to primary node using automation agent certificate
 
       .. code-block:: bash
@@ -193,7 +218,8 @@ Time to create users that will authenticate using an X.509 certificate.
           user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=EDU,CN=automation"
           })
 
-    - Create the new ``dbAdminAnyDatabase`` user with the ``dbadmin.pem`` certificate
+    - Create the new ``dbAdminAnyDatabase`` user with the ``dbadmin.pem``
+      certificate
 
       .. code-block:: javascript
 
