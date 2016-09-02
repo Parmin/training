@@ -183,7 +183,7 @@ From the available machines go ahead and set up a Replica Set to support the
 
       mongod -f /share/etc/appdb.conf
 
-    - The ``/share/etc/appdb.conf`` file should have the following settings:
+    - The `/share/etc/appdb.conf` file should have the following settings:
 
     .. code-block:: bash
 
@@ -222,9 +222,11 @@ From the available machines go ahead and set up a Replica Set to support the
 
 Now it's time to launch **Ops Manager** service. For this you will need to:
 
-- Point these to the previously configured Replica Set
-- Allow `offline binary access`_
-- Configure Load Balancer
+- Edit Ops Manager configuration ``conf-mms.properties``:
+
+  - Point these to the previously configured Replica Set: **APPDB**
+  - Allow `offline binary access`_
+
 - Launch Ops Manager services
 
 .. only:: instructor
@@ -234,16 +236,49 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
     We are striving for an Highly Available Ops Manager deployment therefore:
 
     - Before mentioning *again* the HA requirement you may ask students why we
-      need 2 VM's?
+      need 2 OpsMgr nodes?
     - Make sure students use machines that are tagged with OpsManager
 
     You may want to point to the following documentation page:
 
-    - `configure HA app`_
+    `configure HA app`_
+
+    - Generate ``gen.key``
+
+    .. code-block:: bash
+
+      ssh -A centos@OpsMgr1
+      #generate a gen.key file
+      openssl rand 24 > /share/gen.key
+      cp /share/gen.key /etc/mongodb-mms/
+      #copy this generated file to all OpsMgr hosts
+      scp /share/gen.key centos@OpsMgr2:/etc/mongodb-mms/opsmgr.key
+      scp /share/gen.key centos@OpsMgr3:/etc/mongodb-mms/opsmgr.key
+      #make sure you use replace OpsMgr* for the host ip
+
+
+    - Edit Ops Manager configuration file `/etc/mongodb-mms/conf-mms.properties`
+
+    .. code-block:: bash
+
+      #replace mongo.mongoUri with APPDB replica set connection string
+      # mongodb://OpsMgr1:30000,OpsMgr2:30000,OpsMgr3:30000/?replicaSet=APPDB
+      sed -i.bak 's/^\(mongo.mongoUri=\).*/\1mongodb:\/\/OpsMgr1\:30000,OpsMgr2\:30000,OpsMgr3\:30000\/\?replicaSet=APPDB/' /etc/mongodb-mms/conf-mms.properties
+      #or just use vi
+
+      #repeat the operation on all OpsMgr hosts
+
+
+    - Launch Ops Manager on all OpsMgr hosts
+
+    .. code-block:: bash
+
+      ssh -A centos@OpsMgr1 'service mongodb-mms start'
+      ssh -A centos@OpsMgr2 'service mongodb-mms start'
+      ssh -A centos@OpsMgr3 'service mongodb-mms start'
 
     To validate this exercise the students should be able to:
 
-    - Login through Load Balancer ip address
     - Register admin user credentials and Ops Manager group
 
 

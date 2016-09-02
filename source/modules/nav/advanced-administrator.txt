@@ -2,19 +2,11 @@
 Advanced Administrator
 ======================
 
-Environment Setup
------------------
-
 .. default-domain:: mongodb
 
 .. include:: /includes/toc/dfn-list-advanced-administrator-opsmanager.rst
 
 .. include:: /includes/toc/advanced-administrator-opsmanager.rst
-
-Cluster Administration
-----------------------
-
-.. default-domain:: mongodb
 
 .. include:: /includes/toc/dfn-list-advanced-administrator-clusteradmin.rst
 
