@@ -8,7 +8,7 @@
       "AllowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8" ]
     },
     "KeyPair": {
-      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Description": "Amazon EC2 Key Pair, either AdvancedAdministrator or another one to distribute to the teams",
       "Type": "AWS::EC2::KeyPair::KeyName"
     },
     "TestMode": {
@@ -351,11 +351,11 @@
   },
 
   "Outputs": {
-    "NbTeams": { 
+    "NbTeams": {
       "Value": { "Ref": "NbTeams" },
       "Description": "Number of Teams initially created by this top Stack"
     },
-    "KeyPair": { 
+    "KeyPair": {
       "Value": { "Ref": "KeyPair" },
       "Description": "Key/Pair to access the hosts"
     },
@@ -363,11 +363,11 @@
       "Value": { "Ref": "VPC" },
       "Description": "Main VPC"
     },
-    "SSHandHTTPSecurityGroup": { 
+    "SSHandHTTPSecurityGroup": {
       "Value": { "Ref": "SSHandHTTPsecurityGroup" },
       "Description": "VPC Security Group for HTTP/SSH access"
     },
-    "PublicRouteTable": { 
+    "PublicRouteTable": {
       "Value": { "Ref": "PublicRouteTable" },
       "Description": "Route Table for the VPC"
     }
