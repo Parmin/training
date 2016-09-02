@@ -58,8 +58,8 @@ def main():
     parser.add_argument('--duration', dest='duration', default=3,
       type=int, help="Duration of the training run in days")
 
-    parser.add_argument('--keypair', dest='keypair', default="AdvancedOpsTraining", type=str,
-      help="SSH keys to use. It defaults to 'AdvancedOpsTraining'. You can provide another string, but the keys must exist under your account")
+    parser.add_argument('--keypair', dest='keypair', default="AdvancedAdministrator", type=str,
+      help="SSH keys to use. It defaults to 'AdvancedAdministrator'. You can provide another string, but the keys must exist under your account")
 
     parser.add_argument('--instances', dest='instances', default=16, type=int,
       help="Number of instances per team")
