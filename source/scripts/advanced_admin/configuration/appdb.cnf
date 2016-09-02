@@ -1,0 +1,10 @@
+replication:
+  replSetName: "APPDB"
+  oplogSizeMB: 100
+storage:
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 2
+      journalCompressor: zlib
+net:
+  port: 30000
