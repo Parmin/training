@@ -14,10 +14,13 @@ profiler and write some aggregation queries to analyze the profiling data.*"
 
    .. note::
 
-      Prerequisites:
+      Ask students to students to set up a replica set with the following config:
+      - **Replica Set Name** : AFK
+      - **Node10** : priority 10
+      - **Node9** : priority 9
+      - **Node11** : hidden
 
-      - Run the Advanced Ops ``~/scripts/Aggregation/premise-1-2.sh`` script.
-        This will set up an empty 3 node replica set.
+
 
 
 Setup
@@ -48,7 +51,8 @@ Setup
 Exercise
 --------
 
-Find the maximum response time and average response time for each type of operation in the ``system.profile`` collection.
+Find the maximum response time and average response time for each type of
+operation in the ``system.profile`` collection.
 
 Hint: group on the ``op`` field.
 
