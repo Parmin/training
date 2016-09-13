@@ -1,0 +1,10 @@
+replication:
+  replSetName: "BLOCKSTORE"
+  oplogSizeMB: 100
+storage:
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 2
+      journalCompressor: snappy
+net:
+  port: 40000

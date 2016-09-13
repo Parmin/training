@@ -7,7 +7,7 @@
       "Type": "String"
     },
     "KeyPair": {
-      "Description": "Amazon EC2 Key Pair, either AdvancedOps or another one to distribute to the teams",
+      "Description": "Amazon EC2 Key Pair, either AdvancedAdministrator or another one to distribute to the teams",
       "Type": "AWS::EC2::KeyPair::KeyName"
     },
     "SSHandHTTPSecurityGroup": {
@@ -99,7 +99,7 @@
   },
 
   "Outputs": {
-    "InstanceID": { 
+    "InstanceID": {
       "Value": { "Ref": "Instance" },
       "Description": "Instance ID"
     },

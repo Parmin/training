@@ -69,4 +69,8 @@ description: |
 file: /modules/nav/mongomart
 description: |
   MongoMart
+---
+file: /modules/nav/advanced-administrator
+description: |
+  Advanced Administrator Training Material
 ...

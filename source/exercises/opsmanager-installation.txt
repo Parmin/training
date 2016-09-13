@@ -22,10 +22,14 @@ availability and scalability in mind.
 
     For this lab we will group students into teams.
 
-    - There will be a maximum of 5 teams!
-    - Each team will have at their disposal a set of virtual machines
-    - Verify that all students have successfully pinged their designated VMs
-    - These VMs will be properly tagged (dns or ip) with their intended purpose
+    - There will be a maximum of 8 teams!
+    - Each team will have at their disposal 14 virtual machines
+
+      - 3 Ops Manager hosts
+      - 11 Node hosts
+
+    - Verify that all students have successfully pinged their designated hosts
+    - These hosts will be properly tagged (dns or ip) with their intended purpose
 
 
 .. include:: /includes/student-notes.rst
@@ -107,7 +111,7 @@ Let's review the `Ops Manager architecture`_ :
 Launch Ops Manager MongoDB Instances
 ------------------------------------
 
-It's time to set up the virtual machines that will support Ops Manager Deployment.
+It's time to set up the our hosts that will support Ops Manager Deployment.
 
 We will need the following instances:
 
@@ -116,8 +120,16 @@ We will need the following instances:
   - Application Replica Set
   - BlockStore Replica Set
 
-- Two instances to run redundant services of Ops Manager Application
+- Three instances to run redundant services of Ops Manager Application
+
+- The *hosts* that will be supporting this deployment:
+
+  - **OpsMgr1** **OpsMgr2** and **OpsMgr3**
+
 - Load Balancer
+
+  - The load balancer is already set up and should be included in your team
+    definition file.
 
 .. include:: /includes/student-notes.rst
 
@@ -139,8 +151,6 @@ We will need the following instances:
         - we can use Filestore as alternative but for the exercise let's
           privilege Blockstore
 
-    All instances should already be pre-provisioned or running on local
-    virtualbox
 
 1. Configure Ops Manager Application Database
 ---------------------------------------------
@@ -161,9 +171,48 @@ From the available machines go ahead and set up a Replica Set to support the
   .. note::
 
     - Students should be assembling a 3 node Replica Set to allow the HA.
-    - Extra "points" for students that setup their replica set under SSL
     - To validate their deployment you should ask students to run validation
       script
+
+      - ``validate_appdb.py``
+
+    Instruction set:
+    - Connect to each OpsMgr instance and perform and launch a mongod
+
+    .. code-block:: bash
+
+      mongod -f /share/etc/appdb.conf
+
+    - The `/share/etc/appdb.conf` file should have the following settings:
+
+    .. code-block:: bash
+
+      cat /share/etc/appdb.conf
+      replication:
+        replSetName: "APPDB"
+        oplogSizeMB: 100
+      storage:
+        wiredTiger:
+          engineConfig:
+            cacheSizeGB: 2
+            journalCompressor: zlib
+      net:
+        port: 30000
+
+    - Once all instances ``mongod`` instances are up initiate the replica set
+
+    .. code-block:: bash
+
+      # replace OpsMgr{1,2,3} with corresponding internal ip addresses
+      mongo --host OpsMgr1
+      > rs.initiate(
+        _id: 'APPDB',
+        members: [
+        {_id: 1, host:'OpsMgr1'},
+        {_id: 1, host:'OpsMgr2'},
+        {_id: 1, host:'OpsMgr3'},
+        ]
+      )
 
 
 2. Configure and Launch OpsManager Service
@@ -173,10 +222,11 @@ From the available machines go ahead and set up a Replica Set to support the
 
 Now it's time to launch **Ops Manager** service. For this you will need to:
 
-- Configure Ops Manager into two separate Virtual Machines
-- Point these to the previously configured Replica Set
-- Allow `offline binary access`_
-- Configure Load Balancer
+- Edit Ops Manager configuration ``conf-mms.properties``:
+
+  - Point these to the previously configured Replica Set: **APPDB**
+  - Allow `offline binary access`_
+
 - Launch Ops Manager services
 
 .. only:: instructor
@@ -186,21 +236,49 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
     We are striving for an Highly Available Ops Manager deployment therefore:
 
     - Before mentioning *again* the HA requirement you may ask students why we
-      need 2 VM's?
+      need 2 OpsMgr nodes?
     - Make sure students use machines that are tagged with OpsManager
 
     You may want to point to the following documentation page:
 
-    - `configure HA app`_
+    `configure HA app`_
 
-    For the Load Balancer we will have two options:
+    - Generate ``gen.key``
 
-    - AWS: students should use Elastic Load Balancer
-    - Vagrant: students should use HAproxy instance
+    .. code-block:: bash
+
+      ssh -A centos@OpsMgr1
+      #generate a gen.key file
+      openssl rand 24 > /share/gen.key
+      cp /share/gen.key /etc/mongodb-mms/
+      #copy this generated file to all OpsMgr hosts
+      scp /share/gen.key centos@OpsMgr2:/etc/mongodb-mms/opsmgr.key
+      scp /share/gen.key centos@OpsMgr3:/etc/mongodb-mms/opsmgr.key
+      #make sure you use replace OpsMgr* for the host ip
+
+
+    - Edit Ops Manager configuration file `/etc/mongodb-mms/conf-mms.properties`
+
+    .. code-block:: bash
+
+      #replace mongo.mongoUri with APPDB replica set connection string
+      # mongodb://OpsMgr1:30000,OpsMgr2:30000,OpsMgr3:30000/?replicaSet=APPDB
+      sed -i.bak 's/^\(mongo.mongoUri=\).*/\1mongodb:\/\/OpsMgr1\:30000,OpsMgr2\:30000,OpsMgr3\:30000\/\?replicaSet=APPDB/' /etc/mongodb-mms/conf-mms.properties
+      #or just use vi
+
+      #repeat the operation on all OpsMgr hosts
+
+
+    - Launch Ops Manager on all OpsMgr hosts
+
+    .. code-block:: bash
+
+      ssh -A centos@OpsMgr1 'service mongodb-mms start'
+      ssh -A centos@OpsMgr2 'service mongodb-mms start'
+      ssh -A centos@OpsMgr3 'service mongodb-mms start'
 
     To validate this exercise the students should be able to:
 
-    - Login through Load Balancer ip address
     - Register admin user credentials and Ops Manager group
 
 

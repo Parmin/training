@@ -378,7 +378,7 @@ For this exercise we are going to do the following:
     To perform this task students should run the following:
 
     - add new shards
-      - use Ops Manager UI to add the new shards
+      - use the Ops Manager UI to add the new shards
 
     - `move primary`_
 
@@ -386,9 +386,8 @@ For this exercise we are going to do the following:
 
       db.adminCommand( { movePrimary : "consumer", to : "shard003" } )
 
-
-    While approaching this topic make sure you clarify with students the
-    `considerations around primary move`_
+    - While approaching this topic, make sure you clarify with students the
+      considerations around primary move
 
 Exercise: Drain Shard
 ---------------------
@@ -438,4 +437,3 @@ The procedure should be:
 .. _`sharding enabled`: https://docs.mongodb.com/manual/reference/method/sh.enableSharding/#sh.enableSharding
 .. _`zone shard`: https://docs.mongodb.com/manual/release-notes/3.3-dev-series/#sharded-cluster
 .. _`move primary`: https://docs.mongodb.com/manual/reference/command/movePrimary/
-.. _`considerations around primary move`https://docs.mongodb.com/manual/reference/command/movePrimary/#considerations

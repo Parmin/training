@@ -8,15 +8,32 @@ Exercise: Point-in-Time Backup
 ------------------------------
 
 Premise:
-"*I thought I was on my development machine and I've accidentally dropped a
-collection in production.*"
+"*Suppose someone introduced an incorrect code path that randomly drops the database from our production environment.*"
 
-Your data is backed up in Cloud Manager, so you can recover all the data that
+Your data is backed up in Ops Manager, so you can recover all the data that
 existed immediately before the drop. You'll need to request a point-in-time
 backup and then restore it.
 
-The collection is ``test.users`` and the total number of documents
-prior to the drop was 20,000.
+The collection is ``injector.data`` and the total number of documents,
+regardless of the drop, should be 20,000.
 
-*Note: The instructor will provide instructions for ssh into Amazon EC2 for this
-exercise.*
+.. only:: instructor
+
+  .. note::
+
+    In the ``/shared/`` folder students can find a script called ``inject20k``.
+    This is an executable that will insert 20K documents and will drop the
+    datbase at a random point in time.
+
+    Students will have to:
+    - Determine the which data was lost
+    - Request a PITR from Ops Manager
+    - Reinsert any data post drop
+
+    Ask the students to set up a 3 node replica set with the following config:
+    - **Replica Set Name**: DROP_OUT
+    - **Node1**: Priority 10
+    - **Node2**: Priority 3
+    - **Node3**: Priority 0
+
+    The replica set should be set up using the Ops Manager UI.
