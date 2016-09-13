@@ -23,7 +23,7 @@ availability and scalability in mind.
     For this lab we will group students into teams.
 
     - There will be a maximum of 8 teams!
-    - Each team will have at their disposal a 14 of virtual machines
+    - Each team will have at their disposal 14 virtual machines
 
       - 3 Ops Manager hosts
       - 11 Node hosts
@@ -128,8 +128,8 @@ We will need the following instances:
 
 - Load Balancer
 
-  - this load balancer is already set up and should included in your team
-    definition file
+  - The load balancer is already set up and should be included in your team
+    definition file.
 
 .. include:: /includes/student-notes.rst
 

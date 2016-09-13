@@ -378,7 +378,7 @@ For this exercise we are going to do the following:
     To perform this task students should run the following:
 
     - add new shards
-      - use Ops Manager UI to add the new shards
+      - use the Ops Manager UI to add the new shards
 
     - `move primary`_
 
@@ -386,7 +386,7 @@ For this exercise we are going to do the following:
 
       db.adminCommand( { movePrimary : "consumer", to : "shard003" } )
 
-    - While approaching this topic make sure you clarify with students the
+    - While approaching this topic, make sure you clarify with students the
       considerations around primary move
 
 Exercise: Drain Shard

@@ -8,8 +8,7 @@ Exercise: Point-in-Time Backup
 ------------------------------
 
 Premise:
-"*The intern introduced an incorrect code path that randomly drops the database
-from our production environment.*"
+"*Suppose someone introduced an incorrect code path that randomly drops the database from our production environment.*"
 
 Your data is backed up in Ops Manager, so you can recover all the data that
 existed immediately before the drop. You'll need to request a point-in-time
@@ -37,4 +36,4 @@ regardless of the drop, should be 20,000.
     - **Node2**: Priority 3
     - **Node3**: Priority 0
 
-    The replica set should be set using Ops Manager UI.
+    The replica set should be set up using the Ops Manager UI.
