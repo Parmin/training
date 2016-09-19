@@ -34,7 +34,8 @@ Installing MongoDB
 
 - Visit https://docs.mongodb.com/manual/installation/.
 - Please install the Enterprise version of MongoDB.
-- Click on the appropriate link, such as "Install on Windows" or "Install on OS X" and follow the instructions.
+- Click on the appropriate link, such as "Install on Windows" or "Install on OS
+  X" and follow the instructions.
 
 - Versions:
 
@@ -91,7 +92,8 @@ Install on Windows
      C:\Program Files\MongoDB\Server\<VERSION>\bin
 
 - It is helpful to add the location of the MongoDB binaries to your path.
-- To do this, from "System Properties" select "Advanced" then "Environment Variables"
+- To do this, from "System Properties" select "Advanced" then "Environment
+  Variables"
 
 .. include:: /includes/student-notes.rst
 
@@ -99,7 +101,8 @@ Install on Windows
 
    .. note::
 
-      Can also install Windows as a service, but not recommended since we need multiple mongod processes for future exercises
+      Can also install Windows as a service, but not recommended since we need
+      multiple mongod processes for future exercises
 
 
 Create a Data Directory on Windows
@@ -119,7 +122,8 @@ Create a Data Directory on Windows
 
    .. note::
 
-      Optionally, talk about the --dbpath variable and specifying a different location for the data files
+      Optionally, talk about the --dbpath variable and specifying a different
+      location for the data files
 
 
 
@@ -136,20 +140,20 @@ Launch a ``mongod`` with the MMAPv1 storage engine:
 
 .. code-block:: bash
 
-   <path to mongodb>/bin/mongod
+   <path to mongodb>/bin/mongod --storageEngine mmapv1
 
-Alternatively, launch with the WiredTiger storage engine.
+Alternatively, launch with the WiredTiger storage engine (default).
 
 .. code-block:: bash
 
-   <path to mongodb>/bin/mongod --storageEngine wiredTiger
+   <path to mongodb>/bin/mongod
 
-Specify an alternate path for data files using the ``--dbpath`` option. (Make sure the directory already exists.) E.g.,
+Specify an alternate path for data files using the ``--dbpath`` option.
+(Make sure the directory already exists.) E.g.,
 
 .. code-block:: none
 
-   <path to mongodb>/bin/mongod --storageEngine wiredTiger
-                                --dbpath /test/mongodb/data/wt
+   <path to mongodb>/bin/mongod --dbpath /test/mongodb/data/wt
 
 
 .. include:: /includes/student-notes.rst
@@ -171,9 +175,11 @@ The MMAPv1 Data Directory
 
 - The mongod.lock file
 
-  - This prevents multiple mongods from using the same data directory simultaneously.
+  - This prevents multiple mongods from using the same data directory
+    simultaneously.
   - Each MongoDB database directory has one .lock.
-  - The lock file contains the process id of the mongod that is using the directory.
+  - The lock file contains the process id of the mongod that is using the
+    directory.
 
 - Data files
 
@@ -234,7 +240,8 @@ Import Exercise Data
 
    mongorestore -d sample digg
 
-**Note:** If there is an error importing data directly from a USB drive, please copy the sampledata.zip file to your local computer first.
+**Note:** If there is an error importing data directly from a USB drive, please
+copy the sampledata.zip file to your local computer first.
 
 .. include:: /includes/student-notes.rst
 
@@ -303,8 +310,10 @@ To use a particular database we can type the following.
 
    .. note::
 
-      - This assigns the variable :js:data:`db` to a connection object for the selected database.
-      - We can display the name of the database we are currently using by evaluating :js:data:`db` in the mongo shell.
+      - This assigns the variable :js:data:`db` to a connection object for the
+        selected database.
+      - We can display the name of the database we are currently using by
+        evaluating :js:data:`db` in the mongo shell.
       - Highlight the power of the Mongo shell here.
       - It is a fully programmable JavaScript environment.
 
@@ -343,8 +352,10 @@ Admin Commands
 --------------
 
 - There are also a number of admin commands at our disposal.
-- The following will shut down the mongod we are connected to through the Mongo shell.
-- You can also just kill with Ctrl-C in the shell window from which you launched the mongod.
+- The following will shut down the mongod we are connected to through the Mongo
+  shell.
+- You can also just kill with Ctrl-C in the shell window from which you launched
+  the mongod.
 
   .. code-block:: bash
 
