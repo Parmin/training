@@ -198,14 +198,14 @@
 # tag: 'guide'
 # edition: 'instructor'
 # ---
-# source: 'meta/essentials-three-day'
-# output: 'essentials-three-day-instructor.tex'
-# title: 'MongoDB Essentials Training'
-# author: 'MongoDB, Inc.'
-# class: 'howto'
-# tag: 'guide'
-# edition: 'instructor'
-# ---
+source: 'meta/essentials-three-day'
+output: 'essentials-three-day-instructor.tex'
+title: 'MongoDB Essentials Training'
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'guide'
+edition: 'instructor'
+---
 # source: 'meta/essentials-three-day'
 # output: 'essentials-three-day-student.tex'
 # title: 'MongoDB Essentials Training'
