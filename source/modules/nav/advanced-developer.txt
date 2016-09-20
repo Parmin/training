@@ -1,0 +1,9 @@
+==================
+Advanced Developer
+==================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-advanced-developer.rst
+
+.. include:: /includes/toc/advanced-developer.rst

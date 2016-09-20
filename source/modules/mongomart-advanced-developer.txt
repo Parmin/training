@@ -1,0 +1,108 @@
+======================
+MongoMart Introduction
+======================
+
+What is MongoMart
+-----------------
+
+MongoMart is an on-line store for buying MongoDB merchandise.  We'll use this application to learn more about interacting with MongoDB through the driver.
+
+.. include:: /includes/student-notes.rst
+
+
+MongoMart Demo of Fully Implemented Version
+-------------------------------------------
+
+- View Items
+- View Items by Category
+- Text Search
+- View Item Details
+- Shopping Cart
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Mongomart is in the training repo in the /mongomart directory. Distribute the materials in the /mongomart/student subdirectory to students.
+      - Ensure you have a fully running version of the instructor MongoMart implementation: /instructor/java/final
+      - The instructor version requires a three node replica set (uses MAJORITY writes)
+      - Ensure you've loaded the dataset from /mongomart/student/data and create a text index (as described in the /mongomart/student/data/README.md file)
+      - DO NOT WALK THROUGH THIS VERSION OF THE SOURCE CODE WITH THE STUDENTS, ONLY THE STUDENT VERSION
+
+View Items
+----------
+
+- http://localhost:8080
+- Pagination and page numbers
+- Click on a category
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Click around the site to show them how it works, click through various pages and categories (into next slide)
+
+
+View Items by Category
+----------------------
+
+- http://localhost:8080/?category=Apparel
+- Pagination and page numbers
+- "All" is listed as a category, to return to all items listing
+
+.. include:: /includes/student-notes.rst
+
+
+Text Search
+-----------
+
+- http://localhost:8080/search?query=shirt
+- Search for any word or phrase in item title, description or slogan
+- Pagination
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Search for a few strings, such as "shirt", "mug", "mongodb", etc.
+
+
+View Item Details
+-----------------
+
+- http://localhost:8080/item?id=1
+- Star rating based on reviews
+- Add a review
+- Related items
+- Add item to cart
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Add reviews, show how stars change, etc.
+
+
+Shopping Cart
+-------------
+
+- http://localhost:8080/cart
+- Adding an item multiple times increments quantity by 1
+- Change quantity of any item
+- Changing quantity to 0 removes item
+
+.. only:: instructor
+
+   .. note::
+
+      - Add an item to your cart
+      - Update the quantity in the cart
+      - Checkout doesn't work, we are only interested in the cart functionality
