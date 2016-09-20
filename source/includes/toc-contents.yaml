@@ -1,7 +1,3 @@
-file: /modules/nav/agendas
-description: |
-  Training agendas
----
 file: /modules/nav/introduction
 description: |
   An introduction to MongoDB concepts and background
@@ -38,6 +34,10 @@ file: /modules/nav/sharding
 description: |
   Sharding in MongoDB
 ---
+file: /modules/nav/mongomart-fundamentals
+description: |
+  Build an e-commerce application backed by MongoDB
+---
 file: /modules/nav/security
 description: |
   An overview of security options for MongoDB
@@ -46,13 +46,13 @@ file: /modules/nav/new-in-3-2
 description: |
   Changes in MongoDB 3.2
 ---
-file: /modules/performance
+file: /modules/nav/performance-essentials
 description: |
   An introduction to MongoDB tools for performance troubleshooting
 ---
-file: /modules/nav/opsmanager
+file: /modules/nav/backup-essentials
 description: |
-  An overview and series of labs on Ops Manager
+  An overview of backup options for MongoDB
 ---
 file: /modules/nav/mms
 description: |
@@ -62,15 +62,11 @@ file: /modules/nav/mms-advanced
 description: |
   A deeper dive on MongoDB Cloud Manager and Ops Manager
 ---
-file: /modules/nav/schema-design-advanced
-description: |
-  Data modeling case studies and hands-on labs.
----
-file: /modules/nav/mongomart
-description: |
-  MongoMart
----
 file: /modules/nav/advanced-administrator
 description: |
-  Advanced Administrator Training Material
+  Advanced cluster deployment, administration, and diagnostics
+---
+file: /modules/nav/advanced-developer
+description: |
+  Advanced data modeling and application engineering labs
 ...

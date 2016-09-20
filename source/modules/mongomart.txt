@@ -1,6 +1,6 @@
-============
-Introduction
-============
+======================
+MongoMart Introduction
+======================
 
 What is MongoMart
 -----------------
