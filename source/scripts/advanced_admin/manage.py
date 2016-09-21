@@ -4,6 +4,8 @@
 #   - should we run the commands/scripts in parallel with workers, or sequentially, or have it as an option?
 
 # TODO
+#   - allow to run commands on a list of IPs instead of roles/teams
+#   - once we support commands, we may want to support passing options to them
 
 """
 Example:
@@ -50,7 +52,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='Helper to manage a set of hosts and run commands on them')
     parser.add_argument('--cmd', dest='cmd', type=str, required=True,
-      help="cmd or script to execute on the selected hosts")
+      help="cmd or script to execute on the selected hosts. May need to quote the command")
 
     parser.add_argument('--run', dest='training_run', type=str, required=True,
       help="environment training run identifier, or none to see all the runs")
@@ -91,7 +93,7 @@ def main():
 
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
-    logger.debug("Describing run: {0}".format(training_run))
+    logger.debug("Managing run: {0}".format(training_run))
     pr.manage(args.cmd)
 
 

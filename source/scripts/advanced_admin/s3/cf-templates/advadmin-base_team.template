@@ -67,8 +67,8 @@
     "Params": {
       "AddedTeamTemplate": {
         "Description": "Use templates from the test area or not, based on 'TestMode'",
-        "true": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/devel-templates/advops-added_team.template",
-        "false": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-added_team.template"
+        "true":  "https://s3.amazonaws.com/mongodb-training/advadmin-devel/cf-templates/advadmin-added_team.template",
+        "false": "https://s3.amazonaws.com/mongodb-training/advadmin/cf-templates/advadmin-added_team.template"
       }
     }
   },

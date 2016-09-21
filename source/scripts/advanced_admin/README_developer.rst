@@ -6,9 +6,13 @@ Simple workflow
 ---------------
 
 - Make changes to templates
-  - verify that the changes are syntaxily correct by validating on the command line, for example:
+  - verify that the changes are syntaxily correct by validating on the command line, 
 
-      aws --profile training-west cloudformation validate-template --template-body file://./advops-added_team.template
+      make validate-cf
+
+      OR run it for a single template with something like:
+
+      aws --profile training-west cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-added_team.template
 
  - unless the template is the top stack, you will need to upload the modified template to S3.
    For development, put your templates in 'https://console.aws.amazon.com/s3/home?region=us-west-1#&bucket=mongodb-training&prefix=cloud-formation-templates/devel-templates/'
@@ -65,7 +69,14 @@ Also, look for the 'Output' tab under a stack to see the important information a
 
 Additional notes
 ----------------
+1) Uploading new version of files in 'ami' or 'datasets' requires that you make those files 'public'
+   again in S3, even if the property shows it is downloadable by 'everyone'
 
-You can create a stack from the command line by running something like:
-  aws --profile training-west cloudformation create-stack --stack-name PaloAlto --parameters ParameterKey=KeyPair,ParameterValue=AdvancedOpsTraining --template-body file://./advops-base_team.template
+2) You can create a stack from the command line by running something like:
+  aws --profile training-west cloudformation create-stack --stack-name PaloAlto --parameters ParameterKey=KeyPair,ParameterValue=AdvancedAdministrator ParameterKey=NbTeams,ParameterValue=0 --template-body file://./s3/cf-templates/advadmin-base_team.template
 
+3) sync with S3:
+   cd source/scripts/advanced_admin
+   make s3-prod
+   OR
+   make s3-devel

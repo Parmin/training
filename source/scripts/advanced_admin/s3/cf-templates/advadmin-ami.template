@@ -17,6 +17,12 @@
     "Subnet": {
       "Description": "Subnet in which this instance is created",
       "Type": "AWS::EC2::Subnet::Id"
+    },
+    "TestMode": {
+      "Description": "Run in test mode, using less resources",
+      "Type": "String",
+      "AllowedValues": [ "true", "false" ],
+      "Default": "false"
     }
   },
 
@@ -55,10 +61,27 @@
       "eu-west-1": {
         "v9": "ami-aea53edd"
       }
+    },
+    "Params": {
+      "AMIScript": {
+        "Description": "Script to download and run in the AMI, based on 'TestMode'",
+        "true":  "/bin/curl https://s3.amazonaws.com/mongodb-training/advadmin-devel/ami/opsmgr.sh -o opsmgr.sh >> /tmp/install.txt 2>&1",
+        "false": "/bin/curl https://s3.amazonaws.com/mongodb-training/advadmin/ami/opsmgr.sh -o opsmgr.sh >> /tmp/install.txt 2>&1"
+      }
     }
   },
 
   "Resources": {
+    "Disk": {
+      "Type":"AWS::EC2::Volume",
+      "Properties" : {
+        "AvailabilityZone" : { "Fn::GetAtt" : [ "Instance", "AvailabilityZone" ] },
+        "Size" : "80",
+        "Tags": [
+          { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
+        ]
+      }
+    },
     "Instance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
@@ -86,6 +109,20 @@
             }
           }
         ],
+        "UserData": { "Fn::Base64" : { "Fn::Join" : ["\n", [
+          "#!/bin/bash",
+          "cd /tmp",
+          "echo Starting installation of host > /tmp/install.txt 2>&1",
+          "while [ ! -e /dev/xvdh ]; do echo waiting for /dev/sdh1 to attach; sleep 10; done",
+          "mkfs -t xfs /dev/xvdh >> /tmp/install.txt 2>&1",
+          "mkdir /data >> /tmp/install.txt 2>&1",
+          "mount /dev/xvdh /data >> /tmp/install.txt 2>&1",
+          "chmod 777 /data",
+          "echo \"/dev/xvdh /data xfs defaults,nofail,noatime 0 2\" >> /etc/fstab",
+          { "Fn::FindInMap" : [ "Params", "AMIScript", { "Ref": "TestMode" } ] },
+          "/bin/bash opsmgr.sh >> /tmp/install.txt 2>&1",
+          "echo Done installing host >> /tmp/install.txt 2>&1"
+        ]]}},
         "Tags": [
           { "Key": "Application", "Value": { "Ref": "AWS::StackName" } }
         ]
@@ -94,6 +131,14 @@
         "AWS::CloudFormation::Designer": {
           "id": "80e16656-ceb5-4d74-9331-ab0e1fb7560b"
         }
+      }
+    },
+    "MountPoint" : {
+      "Type" : "AWS::EC2::VolumeAttachment",
+      "Properties" : {
+        "InstanceId": { "Ref" : "Instance" },
+        "VolumeId": { "Ref" : "Disk" },
+        "Device": "/dev/xvdh"
       }
     }
   },
