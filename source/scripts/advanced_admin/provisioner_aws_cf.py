@@ -184,15 +184,15 @@ class Provisioner_aws_cf(object):
         keypair = run_info['KeyPair']
         for team in run_info['Teams']:
             if self.args.teams == "all" or team['Id'] in self.args.teams:
-                print("Team {}".format(team['Id']))
+                print("\nTeam {}".format(team['Id']))
                 for host in team['Hosts']:
                     if self.args.roles == "all" or host['Role'] in self.args.roles:
-                        print("  {:14}  {}".format(host['IP'], host['Role']))
+                        print("\n  {:14}  {}".format(host['IP'], host['Role']))
                         # Is this a script to upload?
                         if os.path.isfile(cmd):
-                            print("'manage' only supports commands at this point, not scripts")
                             # upload the file
-                            cmd = ""
+                            remote_script = self._transfer_file_to_host(host['IP'], cmd, keypair)
+                            self._run_cmd_on_host(host['IP'], "bash " + remote_script, keypair)
                         else:
                             self._run_cmd_on_host(host['IP'], cmd, keypair)
 
@@ -256,15 +256,34 @@ class Provisioner_aws_cf(object):
         result = ssh.stdout.readlines()
         error = ssh.stderr.readlines()
         if error:
-            print("ERROR running the provided 'cmd'")
+            print("ERROR running the provided 'cmd': {}".format(cmd))
             for line in error:
-                print line
+                print line,
         else:
             for line in result:
-                print line
+                print line,
 
     def _transfer_file_to_host(self, host, file, pemfilename):
-        None
+        """
+        Upload a file on a given host
+        TODO - do not hardcode the user account 'centos'
+               if file instead of command, upload the file on the host, then run it
+        """
+        target_filename = os.path.join("/tmp", os.path.basename(file))
+        ssh = subprocess.Popen(["scp", "-i", os.environ['HOME'] + "/.ssh/" + pemfilename + ".pem", file, "centos@" + host + ":" + target_filename],
+                       shell=False,
+                       stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+        result = ssh.stdout.readlines()
+        error = ssh.stderr.readlines()
+        if error:
+            print("ERROR transfering the script to {}".format(host))
+            for line in error:
+                print line,
+        else:
+            for line in result:
+                print line,
+        return target_filename
 
 
 

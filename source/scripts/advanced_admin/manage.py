@@ -52,13 +52,13 @@ def main():
 
     parser = argparse.ArgumentParser(description='Helper to manage a set of hosts and run commands on them')
     parser.add_argument('--cmd', dest='cmd', type=str, required=True,
-      help="cmd or script to execute on the selected hosts. May need to quote the command")
+      help="remote cmd or local script to execute on the selected hosts. May need to quote the command")
 
     parser.add_argument('--run', dest='training_run', type=str, required=True,
-      help="environment training run identifier, or none to see all the runs")
+      help="environment training run identifier")
 
     parser.add_argument('--out', dest='out', type=str,
-      help="File in which to store the output")
+      help="File in which to store the output, NOT IMPLEMENTED YET")
 
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
       help="AWS profile that will launch the environment")
