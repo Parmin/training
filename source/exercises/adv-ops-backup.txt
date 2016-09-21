@@ -31,9 +31,10 @@ regardless of the drop, should be 20,000.
     - Reinsert any data post drop
 
     Ask the students to set up a 3 node replica set with the following config:
-    - **Replica Set Name**: DROP_OUT
-    - **Node1**: Priority 10
-    - **Node2**: Priority 3
-    - **Node3**: Priority 0
+
+    - **Replica Set Name** : DROP_OUT
+    - **Node1** : Priority 10
+    - **Node2** : Priority 3
+    - **Node3** : Priority 0
 
     The replica set should be set up using the Ops Manager UI.
