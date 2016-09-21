@@ -2,6 +2,7 @@
 
 ### TODO
 # - ability to download the 'datasets' and 'validation' scripts from a test location
+# - test for error codes in running commands and return them to the caller!?
 
 ### Machine Role: OpsMgr and Node
 
@@ -48,6 +49,10 @@ done
 echo 0 > /sys/fs/selinux/enforce
 # unzip the data file
 /bin/unzip usb_drive.zip
+# create additional directories, links, ...
+mkdir -p /data/etc
+rm /share
+ln -s /data /share
 # stop the already installed mongod on the old AMI
 service mongod stop
 

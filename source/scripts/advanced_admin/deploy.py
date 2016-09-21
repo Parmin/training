@@ -106,6 +106,9 @@ def main():
     pr.number_of_instances = args.instances
     pr.build(build_id, args.testmode)
     logger.debug("All teams:".format(pr.teams))
+    print("It takes about 10 minutes to create the instances")
+    print("You can get the overall status by running 'describe.py --profile <AWS_training_profile>'")
+    print("OR using the 'CloudFormation' UI in AWS to see the progression of each stack and sub-stack")
 
 
 
