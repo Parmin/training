@@ -47,19 +47,23 @@
   "Mappings": {
     "AWSRegion2AMI": {
       "us-east-1": {
-        "v9": "ami-75aa6518"
+        "v9": "ami-75aa6518",
+        "v10": "ami-990c648e"
       },
       "us-west-1": {
-        "v9": "ami-12cb8f72"
+        "v9": "ami-12cb8f72",
+        "v10": "ami-ebe3ae8b"
       },
       "us-west-2": {
-        "v9": "ami-919751f1"
+        "v9": "ami-919751f1",
+        "v10": "ami-cdd100ad"
       },
       "eu-central-1": {
         "v9": "ami-78b25917"
       },
       "eu-west-1": {
-        "v9": "ami-aea53edd"
+        "v9": "ami-aea53edd",
+        "v10": "ami-6f72001c"
       }
     },
     "Params": {
@@ -92,7 +96,7 @@
             {
               "Ref": "AWS::Region"
             },
-            "v9"
+            "v10"
           ]
         },
         "KeyName": {

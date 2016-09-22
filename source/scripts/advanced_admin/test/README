@@ -1,0 +1,23 @@
+Instructions:
+=============
+1) Put the list of profiles you work with in 'profiles.txt'.
+   Put the region on which you want to run the majority of your tests as the first entry.
+     Some tests will be run only against this one
+   I suggest you create profiles matching those names for simplicity.
+
+tests
+=====
+
+all_regions
+  create a minimum cluster in a list of regions
+    - test that the key/pairs are working in each region
+    - test that the AMIs are available in each supported region
+
+manage_cmd
+
+manage_script
+
+describe_all
+
+describe_one
+

@@ -1,6 +1,11 @@
 #! /usr/bin/env python
 
 # Issues:
+#   - when running command the first time you may:
+#     a) be asked to add the host to 'known_host'
+#     b) not a) because you have the setting 'StrictHostKeyChecking no' in your '/etc/ssh/ssh_config'
+#        however, you will have an error if the first time is trying to run a local script, as 'scp'
+#        will not add the host, but the second run will work, or a first pass with a cmd will also set things right
 #   - should we run the commands/scripts in parallel with workers, or sequentially, or have it as an option?
 
 # TODO

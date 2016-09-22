@@ -13,6 +13,8 @@
 #   Exception: No Public Instance Set Yet!
 #
 # TODOs:
+#   - simpler error message when trying to create a run that already exists
+#   - flag to not rollback the Stacks upon errors --debug
 #   - better logging, it looks like everything is logged twice on the screen
 #   - would like to check for return codes from creating the stacks, however the call is not blocking on the execution
 #   - run mdiags on instances
