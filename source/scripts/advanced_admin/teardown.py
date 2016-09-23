@@ -4,6 +4,7 @@
 #   botocore.exceptions.ClientError: An error occurred (ValidationError) when calling the DeleteLoadBalancer operation: LoadBalancer name cannot contain characters that are not letters, or digits or the dash.
 
 # TODO:
+#   - warn if the run to delete does not exists in that region
 #   - verify it deletes
 #       - instances
 #       - interfaces

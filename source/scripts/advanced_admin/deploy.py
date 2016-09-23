@@ -13,6 +13,9 @@
 #   Exception: No Public Instance Set Yet!
 #
 # TODOs:
+#   - simpler error message when trying to create a run that already exists
+#   - may want to push a '/etc/hosts' file on hosts to make it easier to go between each other?
+#   - flag to not rollback the Stacks upon errors --debug
 #   - better logging, it looks like everything is logged twice on the screen
 #   - would like to check for return codes from creating the stacks, however the call is not blocking on the execution
 #   - run mdiags on instances
@@ -106,6 +109,9 @@ def main():
     pr.number_of_instances = args.instances
     pr.build(build_id, args.testmode)
     logger.debug("All teams:".format(pr.teams))
+    print("It takes about 10 minutes to create the instances")
+    print("You can get the overall status by running 'describe.py --profile <AWS_training_profile>'")
+    print("OR using the 'CloudFormation' UI in AWS to see the progression of each stack and sub-stack")
 
 
 

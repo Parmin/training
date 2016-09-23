@@ -1,0 +1,60 @@
+### In this section, we create the dirs for the APPDB and BACKUPDB,
+### then start the 6 mongod processes
+### You can follow the instructions below or run:
+###
+### > cd <script/advanced_admin>
+### > ./manage.py --profile <myregion> --teams <team1,2,...> --roles OpsMgr1,OpsMgr2,OpsMgr3 --run <myclass> --cmd solution/1a-config_mms_dbs.txt
+###
+### Then move to part "1b...txt" to initialize and complete the 2 replica sets
+
+### on OpsMrg1, OpsMgr2 and OpsMgr3
+
+cd /data
+tar -xf downloads/mongodb-linux-x86_64-enterprise-rhel70-3.2.*.tgz
+mv mongodb-linux-x86_64-enterprise-rhel70-3.2.*/ mongodb
+
+# For the APPDB
+mkdir /data/appdb
+cat <<EOFAPP > etc/appdb.conf
+net:
+  port: 30000
+processManagement:
+  fork: true
+replication:
+  replSetName: "APPDB"
+  oplogSizeMB: 100
+storage:
+  dbPath: /data/appdb
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 2
+      journalCompressor: zlib
+systemLog:
+  destination: file
+  path: /data/appdb/mongod.log
+  logAppend: true
+EOFAPP
+mongodb/bin/mongod --config etc/appdb.conf
+
+# For the BACKUPDB
+mkdir /data/backupdb
+cat <<EOFBACKUP > etc/backupdb.conf
+net:
+  port: 30001
+processManagement:
+  fork: true
+replication:
+  replSetName: "BACKUPDB"
+  oplogSizeMB: 100
+storage:
+  dbPath: /data/backupdb
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 2
+      journalCompressor: zlib
+systemLog:
+  destination: file
+  path: /data/backupdb/mongod.log
+  logAppend: true
+EOFBACKUP
+mongodb/bin/mongod --config etc/backupdb.conf

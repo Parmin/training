@@ -1,0 +1,34 @@
+### In this section, we install and configure OpsMgr
+###
+
+### on OpsMrg1, OpsMgr2 and OpsMgr3
+
+cd /data/downloads
+sudo rpm -ivh mongodb-mms-2.0.*.x86_64.rpm
+
+# construct the mongoUri, for example:
+mongo.mongoUri=mongodb://10.0.0.53:30000,10.0.0.140:30000,10.0.0.115:30000/?replicaSet=APPDB&maxPoolSize=150
+
+# put the above URI in the config file
+sudo vi /opt/mongodb/mms/conf/conf-mms.properties
+
+### on OpsMgr1
+
+# start the OpsMgr service
+sudo service mongodb-mms start
+
+# copy the gen.key file to OpsMgr2 and OpsMgr3, owned by mongodb-mms
+$ ls -al /etc/mongodb-mms/gen.key
+-rw------- 1 mongodb-mms mongodb-mms 24 Sep 23 17:29 /etc/mongodb-mms/gen.key
+
+# TODO - should we generate one locally and upload to servers?
+sudo /opt/mongodb/mms/bin/mms-gen-key
+sudo chown mongodb-mms:mongodb-mms /etc/mongodb-mms/gen.key
+
+# copy with:
+sudo base64 /etc/mongodb-mms/gen.key > /tmp/key.txt
+base64 -d /tmp/key.txt > /tmp/gen.key
+sudo diff /tmp/gen.key gen.key
+
+
+

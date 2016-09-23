@@ -1,9 +1,16 @@
 #! /usr/bin/env python
 
 # Issues:
+#   - when running command the first time you may:
+#     a) be asked to add the host to 'known_host'
+#     b) not a) because you have the setting 'StrictHostKeyChecking no' in your '/etc/ssh/ssh_config'
+#        however, you will have an error if the first time is trying to run a local script, as 'scp'
+#        will not add the host, but the second run will work, or a first pass with a cmd will also set things right
 #   - should we run the commands/scripts in parallel with workers, or sequentially, or have it as an option?
 
 # TODO
+#   - allow to run commands on a list of IPs instead of roles/teams
+#   - once we support commands, we may want to support passing options to them
 
 """
 Example:
@@ -50,13 +57,13 @@ def main():
 
     parser = argparse.ArgumentParser(description='Helper to manage a set of hosts and run commands on them')
     parser.add_argument('--cmd', dest='cmd', type=str, required=True,
-      help="cmd or script to execute on the selected hosts")
+      help="remote cmd or local script to execute on the selected hosts. May need to quote the command")
 
     parser.add_argument('--run', dest='training_run', type=str, required=True,
-      help="environment training run identifier, or none to see all the runs")
+      help="environment training run identifier")
 
     parser.add_argument('--out', dest='out', type=str,
-      help="File in which to store the output")
+      help="File in which to store the output, NOT IMPLEMENTED YET")
 
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
       help="AWS profile that will launch the environment")
@@ -91,7 +98,7 @@ def main():
 
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
-    logger.debug("Describing run: {0}".format(training_run))
+    logger.debug("Managing run: {0}".format(training_run))
     pr.manage(args.cmd)
 
 

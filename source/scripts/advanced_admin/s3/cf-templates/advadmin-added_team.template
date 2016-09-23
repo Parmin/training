@@ -71,8 +71,8 @@
     "Params": {
       "AMITemplate": {
         "Description": "Use templates from the test area or not, based on 'TestMode'",
-        "true": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/devel-templates/advops-ami.template",
-        "false": "https://s3.amazonaws.com/mongodb-training/cloud-formation-templates/advops-ami.template"
+        "true":  "https://s3.amazonaws.com/mongodb-training/advadmin-devel/cf-templates/advadmin-ami.template",
+        "false": "https://s3.amazonaws.com/mongodb-training/advadmin/cf-templates/advadmin-ami.template"
       },
       "OpsMgrInstanceType": {
         "Description": "Use smaller instance in 'TestMode'",
@@ -123,7 +123,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "OpsMgrInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": {"Ref": "KeyPair"},
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -141,7 +142,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "OpsMgrInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -159,7 +161,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "OpsMgrInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -177,7 +180,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -196,7 +200,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -215,7 +220,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -234,7 +240,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -253,7 +260,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -272,7 +280,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -291,7 +300,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -310,7 +320,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -329,7 +340,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -348,7 +360,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [
@@ -367,7 +380,8 @@
           "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" }
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
         "Tags": [

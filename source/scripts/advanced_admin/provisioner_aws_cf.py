@@ -52,25 +52,27 @@ class Provisioner_aws_cf(object):
         else:
             testmode = "false"
 
-        with open("advops-base_team.template", 'r') as f:
+        # http://boto3.readthedocs.io/en/latest/reference/services/cloudformation.html#CloudFormation.Client.create_stack
+        with open("s3/cf-templates/advadmin-base_team.template", 'r') as f:
             response = self.client.create_stack(
-	            StackName = self.training_run,
-	            TemplateBody = f.read(),
-	            Parameters = [
-	                { "ParameterKey": "NbTeams", "ParameterValue": str(self.number_of_teams) },
-	                { "ParameterKey": "KeyPair", "ParameterValue": self.keypair },
-	                { "ParameterKey": "TestMode", "ParameterValue": testmode }
-	            ],
-	            # Add 'Project' and 'Expire-on'
-	            Tags = [
-	                { "Key": "Name", "Value": "AdvOps - " + self.training_run },
-	                { "Key": "Owner", "Value": me },
-	                { "Key": "Project", "Value": "AdvOps - " + self.training_run },
-	                { "Key": "Expire-on", "Value": str(self.end_date) },
-	                { "Key": "Run", "Value": self.training_run }
-	            ]
-	        )
-        # Need to wait on the completion of the above to extract few parameters to create the other teams
+                StackName = self.training_run,
+                TemplateBody = f.read(),
+                OnFailure = 'DO_NOTHING',
+                Parameters = [
+                    { "ParameterKey": "NbTeams", "ParameterValue": str(self.number_of_teams) },
+                    { "ParameterKey": "KeyPair", "ParameterValue": self.keypair },
+                    { "ParameterKey": "TestMode", "ParameterValue": testmode }
+                ],
+                # Add 'Project' and 'Expire-on'
+                Tags = [
+                    { "Key": "Name", "Value": "AdvOps - " + self.training_run },
+                    { "Key": "Owner", "Value": me },
+                    { "Key": "Project", "Value": "AdvOps - " + self.training_run },
+                    { "Key": "Expire-on", "Value": str(self.end_date) },
+                    { "Key": "Run", "Value": self.training_run }
+                ]
+            )
+        # Need to wait on the completion of the above to extract few parameters to create the other teams?
 
 
     def build_team(self, build_id, vpc, team_id):
@@ -184,11 +186,17 @@ class Provisioner_aws_cf(object):
         keypair = run_info['KeyPair']
         for team in run_info['Teams']:
             if self.args.teams == "all" or team['Id'] in self.args.teams:
-                print("Team {}".format(team['Id']))
+                print("\nTeam {}".format(team['Id']))
                 for host in team['Hosts']:
                     if self.args.roles == "all" or host['Role'] in self.args.roles:
-                        print("  {:14}  {}".format(host['IP'], host['Role']))
-                        self._run_cmd_on_host(host['IP'], cmd, keypair)
+                        print("\n  {:14}  {}".format(host['IP'], host['Role']))
+                        # Is this a script to upload?
+                        if os.path.isfile(cmd):
+                            # upload the file
+                            remote_script = self._transfer_file_to_host(host['IP'], cmd, keypair)
+                            self._run_cmd_on_host(host['IP'], "bash " + remote_script, keypair)
+                        else:
+                            self._run_cmd_on_host(host['IP'], cmd, keypair)
 
     def _get_outputs_for_stack(self, stackId):
         """
@@ -243,10 +251,6 @@ class Provisioner_aws_cf(object):
         TODO - do not hardcode the user account 'centos'
                if file instead of command, upload the file on the host, then run it
         """
-        # Is this a script to upload?
-        if os.path.isfile(cmd):
-            fatal(1, "'manage' only supports commands at this point, not scripts")
-
         ssh = subprocess.Popen(["ssh", "-i", os.environ['HOME'] + "/.ssh/" + pemfilename + ".pem", "-l", "centos", host, cmd],
                        shell=False,
                        stdout=subprocess.PIPE,
@@ -254,12 +258,34 @@ class Provisioner_aws_cf(object):
         result = ssh.stdout.readlines()
         error = ssh.stderr.readlines()
         if error:
-            print("ERROR running the provide 'cmd'")
+            print("ERROR running the provided 'cmd': {}".format(cmd))
             for line in error:
-                print line
+                print line,
         else:
             for line in result:
-                print line
+                print line,
+
+    def _transfer_file_to_host(self, host, file, pemfilename):
+        """
+        Upload a file on a given host
+        TODO - do not hardcode the user account 'centos'
+               if file instead of command, upload the file on the host, then run it
+        """
+        target_filename = os.path.join("/tmp", os.path.basename(file))
+        ssh = subprocess.Popen(["scp", "-i", os.environ['HOME'] + "/.ssh/" + pemfilename + ".pem", file, "centos@" + host + ":" + target_filename],
+                       shell=False,
+                       stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+        result = ssh.stdout.readlines()
+        error = ssh.stderr.readlines()
+        if error:
+            print("ERROR transfering the script to {}".format(host))
+            for line in error:
+                print line,
+        else:
+            for line in result:
+                print line,
+        return target_filename
 
 
 

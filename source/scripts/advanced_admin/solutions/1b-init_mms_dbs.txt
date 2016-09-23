@@ -1,0 +1,17 @@
+### In this section, we initiate the replica sets
+### At the end of this section, you should have 2 PSS replica sets as APPDB and BACKUPDB
+### TODO - automate this part
+
+### on OpsMgr1 for a given team, or any 10.0.X.X host
+
+# Note that the <opsmgrN> must be replaced with the AWS internal IP addresses.
+
+mongodb/bin/mongo --port <opsmgr1>:30000
+rs.initiate()
+rs.add("<opsmgr2>:30000")
+rs.add("<opsmgr3>:30000")
+
+mongodb/bin/mongo --port <opsmgr1>:30001
+rs.initiate()
+rs.add("<opsmgr2>:30000")
+rs.add("<opsmgr3>:30000")
