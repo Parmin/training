@@ -400,10 +400,10 @@
           { "Fn::GetAtt": [ "OpsMgr3", "Outputs.InstanceID" ] }
         ],
         "HealthCheck": {
-          "HealthyThreshold": "4",
+          "HealthyThreshold": "2",
           "UnhealthyThreshold": "4",
-          "Interval": "30",
-          "Target": "HTTP:8080/",
+          "Interval": "15",
+          "Target": "HTTP:8080/user/login",
           "Timeout": "10"
         },
         "Listeners": [{
