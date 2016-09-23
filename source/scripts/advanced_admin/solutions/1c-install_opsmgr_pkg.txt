@@ -30,5 +30,19 @@ sudo base64 /etc/mongodb-mms/gen.key > /tmp/key.txt
 base64 -d /tmp/key.txt > /tmp/gen.key
 sudo diff /tmp/gen.key gen.key
 
+# Connect to the Ops Manager server at:
+http://52.211.184.123:8080/
 
+### Create a new user and fill up the settings form
+# URL to Access Ops Manager: need to put the load balancer IP
+http://dcoupal-t-OpsMgrLB-1OIOOKXYXWPB-356712150.eu-west-1.elb.amazonaws.com:8080
+
+# Load Balancer Remote IP Header  
+X-Forwarded-For
+
+# email addresses
+TODO - still not clear which SMTP server the students can use
+
+### restart the services on the 3 hosts
+sudo service mongodb-mms restart
 
