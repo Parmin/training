@@ -52,25 +52,27 @@ class Provisioner_aws_cf(object):
         else:
             testmode = "false"
 
+        # http://boto3.readthedocs.io/en/latest/reference/services/cloudformation.html#CloudFormation.Client.create_stack
         with open("s3/cf-templates/advadmin-base_team.template", 'r') as f:
             response = self.client.create_stack(
-	            StackName = self.training_run,
-	            TemplateBody = f.read(),
-	            Parameters = [
-	                { "ParameterKey": "NbTeams", "ParameterValue": str(self.number_of_teams) },
-	                { "ParameterKey": "KeyPair", "ParameterValue": self.keypair },
-	                { "ParameterKey": "TestMode", "ParameterValue": testmode }
-	            ],
-	            # Add 'Project' and 'Expire-on'
-	            Tags = [
-	                { "Key": "Name", "Value": "AdvOps - " + self.training_run },
-	                { "Key": "Owner", "Value": me },
-	                { "Key": "Project", "Value": "AdvOps - " + self.training_run },
-	                { "Key": "Expire-on", "Value": str(self.end_date) },
-	                { "Key": "Run", "Value": self.training_run }
-	            ]
-	        )
-        # Need to wait on the completion of the above to extract few parameters to create the other teams
+                StackName = self.training_run,
+                TemplateBody = f.read(),
+                OnFailure = 'DO_NOTHING',
+                Parameters = [
+                    { "ParameterKey": "NbTeams", "ParameterValue": str(self.number_of_teams) },
+                    { "ParameterKey": "KeyPair", "ParameterValue": self.keypair },
+                    { "ParameterKey": "TestMode", "ParameterValue": testmode }
+                ],
+                # Add 'Project' and 'Expire-on'
+                Tags = [
+                    { "Key": "Name", "Value": "AdvOps - " + self.training_run },
+                    { "Key": "Owner", "Value": me },
+                    { "Key": "Project", "Value": "AdvOps - " + self.training_run },
+                    { "Key": "Expire-on", "Value": str(self.end_date) },
+                    { "Key": "Run", "Value": self.training_run }
+                ]
+            )
+        # Need to wait on the completion of the above to extract few parameters to create the other teams?
 
 
     def build_team(self, build_id, vpc, team_id):

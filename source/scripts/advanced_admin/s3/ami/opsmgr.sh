@@ -51,6 +51,7 @@ echo 0 > /sys/fs/selinux/enforce
 /bin/unzip usb_drive.zip
 # create additional directories, links, ...
 mkdir -p /data/etc
+chmod 777 /data/etc
 rm /share
 ln -s /data /share
 # stop the already installed mongod on the old AMI
