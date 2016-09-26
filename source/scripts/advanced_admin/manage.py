@@ -11,6 +11,12 @@
 # TODO
 #   - allow to run commands on a list of IPs instead of roles/teams
 #   - once we support commands, we may want to support passing options to them
+#   - support uploading a file in a given location
+#   - support file names with spaces in them?
+#   - allow to use a cached .json file (from describe) to avoid describing the stacks again, which is slow
+#   - split "--cmd" into "cmd/script" to avoid situations like "--cmd /bin/hostname" which would try to upload
+#     the local /bin/hostname to the hosts
+#   - support regex in list of hosts to run cmd/script on
 
 """
 Example:
