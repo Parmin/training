@@ -16,13 +16,15 @@ FILES=(
     https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_replicasetreconfig.py
     https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_securedreplicaset.py
     https://s3.amazonaws.com/mongodb-training/advadmin/datasets/usb_drive.zip
+    https://s3.amazonaws.com/mongodb-training/advadmin/config/appdb.cnf
+    https://s3.amazonaws.com/mongodb-training/advadmin/config/blockdb.cnf
 )
 PACKAGES=(
     unzip
 )
 # MongoDB enterprise dependencies
-# cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs 
-#            lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs 
+# cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs
+#            lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs
 #            tcp_wrappers-libs
 
 ### Setup
@@ -52,8 +54,21 @@ echo 0 > /sys/fs/selinux/enforce
 # create additional directories, links, ...
 mkdir -p /data/etc
 chmod 777 /data/etc
+# create cache dir
+mkdir -p /data/cache
+chmod 777 /data/cache
 rm /share
 ln -s /data /share
 # stop the already installed mongod on the old AMI
 service mongod stop
 
+# move config files to /share/etc
+cp /share/downloads/appdb.cnf /share/etc/appdb.conf
+cp /share/downloads/blockdb.cnf /share/etc/blockdb.conf
+
+# adding write permissions to /var/log/mongodb
+chmod 777 -R /var/log/mongodb
+
+# adding datapaths
+mkdir -p /mongod-data/{appdb,blockstore}/data
+chmod 777 -R /mongod-data

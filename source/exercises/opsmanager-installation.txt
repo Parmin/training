@@ -224,6 +224,10 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
 
 - Edit Ops Manager configuration ``conf-mms.properties``:
 
+  - Follow instructions to `install from rpm`_
+
+    - ``/share/downloads/mongodb-mms-XXXXX-X.x86_64.rpm/``
+
   - Point these to the previously configured Replica Set: **APPDB**
   - Allow `offline binary access`_
 
@@ -248,9 +252,14 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
     .. code-block:: bash
 
       ssh -A centos@OpsMgr1
+      #install opsmanager server
+      yum install -y /share/downloads/mongodb-mms-2.0.6.363-1.x86_64.rpm
+      #edit the configuration options
+      vi /opt/mongodb/mms/conf/conf-mms.properties
       #generate a gen.key file
       openssl rand 24 > /share/gen.key
       cp /share/gen.key /etc/mongodb-mms/
+
       #copy this generated file to all OpsMgr hosts
       scp /share/gen.key centos@OpsMgr2:/etc/mongodb-mms/opsmgr.key
       scp /share/gen.key centos@OpsMgr3:/etc/mongodb-mms/opsmgr.key
@@ -308,3 +317,4 @@ Now it's time to install our `Automation Agents`_:
 .. _configure HA app : https://docs.opsmanager.mongodb.com/current/tutorial/configure-application-high-availability/
 .. _offline binary access : https://docs.opsmanager.mongodb.com/current/tutorial/configure-local-mode/
 .. _Automation Agents : https://docs.opsmanager.mongodb.com/current/tutorial/nav/install-automation-agent/
+.. _install from rpm : https://docs.opsmanager.mongodb.com/current/tutorial/install-on-prem-with-rpm-packages/#install-the-onprem-package-on-each-server-being-used-for-onprem

@@ -1,0 +1,269 @@
+#!/usr/bin/env bash
+#
+# Bash script for installing and configuring Ops Manager. Executed by Vagrant
+# during provisioning. Do not run directly.
+
+set -e
+. /share/downloads/utils.sh
+
+# The following version numbers should be updated by running update-versions.sh
+# and not manually.
+MONGODB_VER=3.2.6
+OPS_MGR_VER=2.0.6.363
+
+OPS_MGR_USERNAME=admin@localhost.com
+OPS_MGR_PASSWORD=ABCabc1!
+
+OPS_MGR_FQDN="REPLACE_ME"
+OPS_MGR_GROUP=Demo
+OPS_MGR_APP_DB_PORT=37017
+OPS_MGR_BLOCKSTORE_DB_PORT=37018
+OPS_MGR_LOG=/opt/mongodb/mms/logs/mms0.log
+
+
+TMP_DIR=/tmp
+COOKIE=$TMP_DIR/cookie
+email=noreply@$OPS_MGR_FQDN
+
+conf_webserver=`echo "{
+   \"mms.adminEmailAddr\"   : {\"value\": \"$email\"                                   , \"isHashed\": false} ,
+   \"mms.centralUrl\"       : {\"value\": \"http://$OPS_MGR_FQDN:8080\"                , \"isHashed\": false} ,
+   \"mms.emailDaoClass\"    : {\"value\": \"com.xgen.svc.core.dao.email.JavaEmailDao\" , \"isHashed\": false} ,
+   \"mms.fromEmailAddr\"    : {\"value\": \"$email\"                                   , \"isHashed\": false} ,
+   \"mms.mail.hostname\"    : {\"value\": \"$OPS_MGR_FQDN\"                            , \"isHashed\": false} ,
+   \"mms.mail.port\"        : {\"value\": \"25\"                                       , \"isHashed\": false} ,
+   \"mms.mail.transport\"   : {\"value\": \"smtp\"                                     , \"isHashed\": false} ,
+   \"mms.replyToEmailAddr\" : {\"value\": \"$email\"                                   , \"isHashed\": false}
+ }" | tr -d '\040\011\012\015'`
+
+conf_auth=`echo "{
+  \"mms.userSvcClass\"               : {\"value\":\"com.xgen.svc.mms.svc.user.UserSvcDb\" , \"isHashed\":false} ,
+  \"reCaptcha.enabled\"              : {\"value\":\"false\"                               , \"isHashed\":false} ,
+  \"mms.multiFactorAuth.level\"      : {\"value\":\"OPTIONAL\"                            , \"isHashed\":false} ,
+  \"mms.multiFactorAuth.allowReset\" : {\"value\":\"false\"                               , \"isHashed\":false} ,
+  \"mms.session.maxHours\"           : {\"value\": \"1440\"                               , \"isHashed\":false}
+}" | tr -d '\040\011\012\015'`
+
+conf_ldap_auth=`echo "{
+  \"mms.userSvcClass\"               : { \"value\": \"com.xgen.svc.mms.svc.user.UserSvcLdap\"           , \"isHashed\":false } ,
+  \"mms.ldap.url\"                   : { \"value\": \"ldap://localhost:1389\"                           , \"isHashed\":false } ,
+  \"mms.ldap.bindDn\"                : { \"value\": \"cn=DirectoryManager\"                             , \"isHashed\":false } ,
+  \"mms.ldap.bindPassword\"          : { \"value\": \"password\"                                        , \"isHashed\":false } ,
+  \"mms.ldap.user.baseDn\"           : { \"value\": \"dc=example,dc=com\"                               , \"isHashed\":false } ,
+  \"mms.ldap.user.searchAttribute\"  : { \"value\": \"mail\"                                            , \"isHashed\":false } ,
+  \"mms.ldap.user.group\"            : { \"value\": \"isMemberOf\"                                      , \"isHashed\":false } ,
+  \"mms.ldap.global.role.owner\"     : { \"value\": \"cn=MMSGlobalAdmin,ou=Groups,dc=example,dc=com\" , \"isHashed\":false } ,
+  \"reCaptcha.enabled\"              : { \"value\": \"false\"                                           , \"isHashed\":false} ,
+  \"mms.multiFactorAuth.level\"      : { \"value\": \"OPTIONAL\"                                        , \"isHashed\":false} ,
+  \"mms.multiFactorAuth.allowReset\" : { \"value\": \"false\"                                           , \"isHashed\":false} ,
+  \"mms.session.maxHours\"           : { \"value\": \"1440\"                                            , \"isHashed\":false}
+}" | tr -d '\040\011\012\015'`
+
+conf_misc=`echo "{
+  \"automation.versions.source\"    : {\"value\":\"local\"                              , \"isHashed\":false} ,
+  \"automation.versions.directory\" : {\"value\":\"/opt/mongodb/mms/mongodb-releases/\" , \"isHashed\":false} ,
+  \"mongodb.release.autoDownload\"  : {\"value\":\"true\"                               , \"isHashed\":false}
+}" | tr -d '\040\011\012\015'`
+
+
+
+function opsmgr_install_packages() {
+    local base_url=https://downloads.mongodb.com/on-prem-mms/rpm
+    local mms_server=mongodb-mms-$OPS_MGR_VER-1.x86_64.rpm
+
+    log "** opsmgr_install_packages()"
+    echo $base_url/$mms_server
+    download $mms_server $base_url/$mms_server
+    install_package $CACHE_DIR/$mms_server
+}
+
+function install_package() {
+    if [ -z "$YUM_OPTS" ]; then
+        if [ `has_internet` -eq 0 ]; then
+            YUM_OPTS=' '
+        else
+            log "** No Internet connection detected, using yum cache"
+            YUM_OPTS='-C'
+        fi
+    fi
+    yum install -y -q $YUM_OPTS $*
+}
+
+function opsmgr_config_hacks() {
+    log "** opsmgr_config_hacks()"
+
+    log "Registering admin user (username: $OPS_MGR_USERNAME, password: $OPS_MGR_PASSWORD)"
+    http_post_json http://localhost:8080/user/v2/registerCall \
+        "{\"username\":\"$OPS_MGR_USERNAME\",\"password\":\"$OPS_MGR_PASSWORD\",\"groupName\":\"$OPS_MGR_GROUP\",\"firstName\":\"Admin\",\"lastName\":\"Admin\",\"optIn\":\"false\",\"newGroup\":true}"
+
+    log "Logging into web UI for auth cookie"
+    http_post_json http://localhost:8080/user/v1/auth "{\"username\":\"$OPS_MGR_USERNAME\",\"password\":\"$OPS_MGR_PASSWORD\"}" -c $COOKIE
+
+    log "Get X-CSRF token for configuration"
+    get_token http://localhost:8080/v2/admin
+
+    log "Configuring OpsManager Web Server & Email"
+    http_patch_json http://localhost:8080/admin/appSettings?patchStage=WEB_SERVER_AND_EMAIL $conf_webserver
+
+    log "Configuring OpsManager Authentication"
+    if [ "$LDAP" == true ]; then
+      log "Configuring LDAP auth"
+      http_patch_json http://localhost:8080/admin/appSettings?patchStage=USER_AUTHENTICATION $conf_ldap_auth
+      sleep 3
+
+      patterns="getLdapUser
+ensureRoles"
+      count=`tail -n4 $OPS_MGR_LOG | grep -F "${patterns}" $OPS_MGR_LOG | wc -l`
+      if [[ $count -eq 3 ]]; then
+        log "LDAP settings verified successfully"
+      else
+        log "Could not verify LDAP settings. Check $OPS_MGR_LOG"
+      fi
+
+    else
+      log "Configuring username/password auth"
+      http_patch_json http://localhost:8080/admin/appSettings?patchStage=USER_AUTHENTICATION $conf_auth
+    fi
+
+    log "Finish configuring OpsManager"
+    http_patch_json "http://localhost:8080/admin/appSettings?patchStage=MISCELLANEOUS&lastStage=true" $conf_misc
+
+    local GROUP_ID=`mongo_eval $OPS_MGR_APP_DB_PORT "print(db.getSiblingDB('mmsdbconfig').config.customers.findOne()._id.str)"`
+    log "Group ID is $GROUP_ID"
+    echo $GROUP_ID > /vagrant/.GROUP_ID
+
+    local API_KEY=`mongo_eval $OPS_MGR_APP_DB_PORT "print(db.getSiblingDB('mmsdbconfig').config.customers.findOne().k)"`
+    log "Internal Ops Manager API key is $API_KEY (for agents)"
+    echo $API_KEY > /vagrant/.API_KEY
+
+    local MANIJS=/vagrant/etc/version_manifest.js
+    log "Automation: Importing version manifest..."
+
+    # Write version manifest to tmp Javascript file for execution, as it's too
+    # long to be run with mongo_eval
+    echo "res = db.getSiblingDB('cloudconf').getCollection('config.appState').update({_id: 'automationVersionManifest' }, { \$set: { value: `cat /vagrant/etc/mongodb_version_manifest.json`}}); printjson(res);" > $MANIJS
+    echo "res = db.getSiblingDB('cloudconf').getCollection('config.appState').update({_id: 'automationVersionManifest' }, { \$set: { 'value.updated': 1450569600000, 'value.requested': 1452865435145, 'value.source': 'admin@localhost.com'} }); printjson(res);" >> $MANIJS
+    mongo --quiet --port $OPS_MGR_APP_DB_PORT $MANIJS
+}
+
+function opsmgr_setup() {
+    log "** opsmgr_setup()"
+
+    # Store Automation agent manager version for provison-node
+    local auto_agent_rpm=/opt/mongodb/mms/agent/automation/mongodb-mms-automation-agent-manager-*.x86_64.rhel7.rpm
+    basename $auto_agent_rpm | \
+        cut -d'-' -f6-7 | cut -d'.' -f1-4 > /vagrant/.AUTOMATION_AGENT_MANAGER_VERSION
+
+    log "Installing Ops Manager Automation agent"
+    local cluster_conf=/etc/mongodb-mms/automation-agent-cluster-conf.json
+    local auto_agent_conf=/etc/mongodb-mms/automation-agent.config
+    local opsmgr_conf=/opt/mongodb/mms/conf/conf-mms.properties
+    install_package $auto_agent_rpm
+    cp -f /vagrant/etc/automation-agent-cluster-conf.json /etc/mongodb-mms
+    mkdir -p /mongod-data/{mms,blockstore}/data
+    chown mongod: $cluster_conf /mongod-data -R
+    sed -e "s/^mmsApiKey=/#mmsApiKey=/" \
+        -e "s/^mmsGroupId=/#mmsGroupId=/" \
+        -e "s/^mmsBaseUrl=/#mmsBaseUrl=/" \
+        -i $auto_agent_conf
+    echo -e "\ncluster=$cluster_conf" >> $auto_agent_conf
+
+    if [ "$SSL" == true ]; then
+        log "** Using SSL for backing DBs"
+        ln -s /vagrant/etc/pki /opt/mongodb/
+        sed -e "s|^        \"net\"       : { \"port\": 37017 },|        \"net\"       : { \"port\": 37017, \"ssl\": { \"mode\": \"preferSSL\", \"PEMKeyFile\": \"/opt/mongodb/pki/$OPS_MGR_FQDN.pem\", \"PEMKeyPassword\": \"<password>\", \"CAFile\": \"/opt/mongodb/pki/ca.crt\" } },|" \
+            -e "s|^        \"net\"       : { \"port\": 37018 },|        \"net\"       : { \"port\": 37018, \"ssl\": { \"mode\": \"preferSSL\", \"PEMKeyFile\": \"/opt/mongodb/pki/$OPS_MGR_FQDN.pem\", \"PEMKeyPassword\": \"<password>\", \"CAFile\": \"/opt/mongodb/pki/ca.crt\" } },|" \
+            -i $cluster_conf
+
+        local files=($opsmgr_conf $daemon_conf)
+        for conf in ${files[@]}; do
+            sed -e "s|^mongo.ssl=false|mongo.ssl=true|" \
+                -e "s|^mongodb.ssl.CAFile=|mongodb.ssl.CAFile=/opt/mongodb/pki/ca.crt|" \
+                -e "s|^mongodb.ssl.PEMKeyFile=|mongodb.ssl.PEMKeyFile=/opt/mongodb/pki/client$OPS_MGR_FQDN.pem|" \
+                -e "s|^mongodb.ssl.PEMKeyFilePassword=|mongodb.ssl.PEMKeyFilePassword=rootroot|" \
+                -i $conf
+        done
+
+        # Add our custom CA stored in a Java keystore to JVM parameters
+        cat >> /opt/mongodb/mms/conf/mms.conf <<EOF
+
+JAVA_MMS_UI_OPTS="${JAVA_MMS_UI_OPTS} -Djavax.net.ssl.trustStore=/opt/mongodb/pki/truststore.keystore -Djavax.net.ssl.trustStorePassword=rootroot"
+JAVA_MMS_UI_OPTS="${JAVA_MMS_UI_OPTS} -Djavax.net.ssl.keyStore=/opt/mongodb/pki/truststore.keystore   -Djavax.net.ssl.keyStorePassword=rootroot"
+EOF
+
+    fi
+
+    log "Starting Ops Manager Automation agent (for Application and Blockstore DBs)"
+    service mongodb-mms-automation-agent start
+
+    wait_mongod $OPS_MGR_APP_DB_PORT
+    wait_mongod $OPS_MGR_BLOCKSTORE_DB_PORT
+
+    log "Starting Ops Manager web service"
+    rmdir /opt/mongodb/mms/mongodb-releases/
+    ln -s /share/downloads/mongodb-releases/ /opt/mongodb/mms/
+    local email=noreply@$OPS_MGR_FQDN
+    sed -e "s|^mms.centralUrl=|mms.centralUrl=http://$OPS_MGR_FQDN:8080|" \
+        -e "s|^mms.backupCentralUrl=|mms.backupCentralUrl=http://$OPS_MGR_FQDN:8081|" \
+        -e "s|^mms.fromEmailAddr=|mms.fromEmailAddr=$email|" \
+        -e "s|^mms.replyToEmailAddr=|mms.replyToEmailAddr=$email|" \
+        -e "s|^mms.adminFromEmailAddr=|mms.adminFromEmailAddr=$email|" \
+        -e "s|^mms.adminEmailAddr=|mms.adminEmailAddr=$email|" \
+        -e "s|^mms.bounceEmailAddr=|mms.bounceEmailAddr=$email|" \
+        -e "s|^mongo.mongoUri=mongodb://127.0.0.1:27017/|mongo.mongoUri=mongodb://$OPS_MGR_FQDN:$OPS_MGR_APP_DB_PORT/|" \
+        -e "s|^automation.versions.source=mongodb|automation.versions.source=local|" \
+        -i $opsmgr_conf
+    cat >> $opsmgr_conf <<EOF
+
+# https://jira.mongodb.org/browse/MMS-2374
+mms.backup.minimumOplogWindowHours=0.01
+EOF
+    service mongodb-mms start
+
+    # Get OpsMgr to automatically start on reboot, which must be done with
+    # `vagrant reload [opsmgr]` in order to have the host mounted `/vagrant/`
+    # directory.
+    # The automation agent starts automatically, which then starts the OpsMgr
+    # Application and Blockstore DBs. This takes a few seconds, so let's wait
+    # before starting OpsMgr and the Backup daemon (otherwise they will fail).
+    chmod +x /etc/rc.local
+    cat   >> /etc/rc.local <<EOF
+
+while [ ! -f /vagrant/utils.sh ]; do
+    sleep 1
+done
+. /vagrant/utils.sh
+wait_mongod $OPS_MGR_APP_DB_PORT
+wait_mongod $OPS_MGR_BLOCKSTORE_DB_PORT
+service mongodb-mms start
+EOF
+}
+
+function opsmgr_done() {
+    log "** opsmgr_done()"
+    rm -rf $TMP_DIR
+    log "-------------------------------------------------------"
+    log "Go to http://$OPS_MGR_FQDN:8080 and login with:"
+    if [ "$LDAP" == true ]; then
+        log "GLOBAL_OWNER LDAP admin user is:"
+        log "$OPS_MGR_USERNAME"
+        log "password: password"
+    else
+        log "Username: $OPS_MGR_USERNAME"
+        log "Password: $OPS_MGR_PASSWORD"
+    fi
+    log "-------------------------------------------------------"
+}
+
+mkdir -p $CACHE_DIR $TMP_DIR
+
+echo "Starting Ops Manager box provisioning"
+parse_opts $*
+base_setup
+run_plugins opsmgr
+base_setup_post_plugins
+
+opsmgr_install_packages
+opsmgr_setup
+opsmgr_config_hacks
+opsmgr_done

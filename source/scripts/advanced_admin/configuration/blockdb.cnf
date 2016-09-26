@@ -1,7 +1,13 @@
+processManagement:
+  fork: true
+systemLog:
+  destination: file
+  path: '/var/log/mongodb/blockdb.log'
 replication:
   replSetName: "BLOCKSTORE"
   oplogSizeMB: 100
 storage:
+  dbPath: '/mongod-data/blockstore/data'
   wiredTiger:
     engineConfig:
       cacheSizeGB: 2

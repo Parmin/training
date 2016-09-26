@@ -1,7 +1,13 @@
+processManagement:
+  fork: true
+systemLog:
+  destination: file
+  path: '/var/log/mongodb/appdb.log'
 replication:
   replSetName: "APPDB"
   oplogSizeMB: 100
 storage:
+  dbPath: '/mongod-data/appdb/data'
   wiredTiger:
     engineConfig:
       cacheSizeGB: 2
