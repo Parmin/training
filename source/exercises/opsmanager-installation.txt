@@ -226,7 +226,7 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
 
   - Follow instructions to `install from rpm`_
 
-    - ``/share/downloads/mongodb-mms-XXXXX-X.x86_64.rpm/``
+  - The file can be found at */share/downloads/mongodb-mms-XXX-X.x86_64.rpm*
 
   - Point these to the previously configured Replica Set: **APPDB**
   - Allow `offline binary access`_
