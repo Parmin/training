@@ -3,7 +3,7 @@
 ### You can follow the instructions below or run:
 ###
 ### > cd <script/advanced_admin>
-### > ./manage.py --profile <myregion> --teams <team1,2,...> --roles OpsMgr1,OpsMgr2,OpsMgr3 --run <myclass> --cmd solutions/1a-config_mms_dbs.txt
+### > ./manage.py --profile <myregion> --teams <team1,2,...> --roles OpsMgr1,OpsMgr2,OpsMgr3 --run <myclass> --script solutions/1a-config_mms_dbs.txt
 ###
 ### Then move to part "1b...txt" to initialize and complete the 2 replica sets
 
@@ -15,7 +15,7 @@ mv mongodb-linux-x86_64-enterprise-rhel70-3.2.*/ mongodb
 
 # For the APPDB
 mkdir -p /mongod-data/appdb/data
-cat <<EOFAPP > etc/appdb.conf
+cat <<EOFAPPCONF > etc/appdb.conf
 net:
   port: 27001
 processManagement:
@@ -33,12 +33,12 @@ systemLog:
   destination: file
   path: /var/log/mongodb/appdb.log
   logAppend: true
-EOFAPP
+EOFAPPCONF
 mongodb/bin/mongod --config etc/appdb.conf
 
 # For the BACKUPDB
 mkdir /mongod-data/backupdb/data
-cat <<EOFBACKUP > etc/backupdb.conf
+cat <<EOFBACKUPCONF > etc/backupdb.conf
 net:
   port: 27002
 processManagement:
@@ -56,5 +56,5 @@ systemLog:
   destination: file
   path: /var/log/mongodb/backupdb.log
   logAppend: true
-EOFBACKUP
+EOFBACKUPCONF
 mongodb/bin/mongod --config etc/backupdb.conf
