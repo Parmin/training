@@ -4,6 +4,7 @@
 
 # TODO
 #   - have a test mode where we can recover the info from a set of files, instead of a live cluster in order to run unit tests
+#   - if a machine is restarted it would have a different external name and IP
 #   - test if the run is completely created before reporting on it
 
 '''

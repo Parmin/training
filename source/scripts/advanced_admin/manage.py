@@ -11,11 +11,8 @@
 # TODO
 #   - allow to run commands on a list of IPs instead of roles/teams
 #   - once we support commands, we may want to support passing options to them
-#   - support uploading a file in a given location
 #   - support file names with spaces in them?
 #   - allow to use a cached .json file (from describe) to avoid describing the stacks again, which is slow
-#   - split "--cmd" into "cmd/script" to avoid situations like "--cmd /bin/hostname" which would try to upload
-#     the local /bin/hostname to the hosts
 #   - support regex in list of hosts to run cmd/script on
 
 """
@@ -62,8 +59,11 @@ def main():
     setup_logging(logger)
 
     parser = argparse.ArgumentParser(description='Helper to manage a set of hosts and run commands on them')
-    parser.add_argument('--cmd', dest='cmd', type=str, required=True,
-      help="remote cmd or local script to execute on the selected hosts. May need to quote the command")
+    parser.add_argument('--cmd', dest='cmd', type=str,
+      help="remote cmd to execute on the selected hosts. May need to quote the command")
+
+    parser.add_argument('--script', dest='script', type=str,
+      help="local script to execute on the selected hosts. May need to quote the script")
 
     parser.add_argument('--run', dest='training_run', type=str, required=True,
       help="environment training run identifier")
@@ -77,11 +77,14 @@ def main():
     parser.add_argument('--provider', dest='provider', default="aws-cf", type=str,
       help="Provider, one of 'aws-cf' or 'aws-plain'")
 
-    parser.add_argument('--roles', dest='roles', type=str, required=True,
+    parser.add_argument('--roles', dest='roles', type=str,
       help="List of roles (or regexes) to match the hosts to manage")
 
-    parser.add_argument('--teams', dest='teams', type=str, required=True,
+    parser.add_argument('--teams', dest='teams', type=str,
       help="List of teams for which the instances are considered (0,1,...). Use 'all' for all of them")
+
+    parser.add_argument('--ips', dest='ips', type=str,
+      help="List of IPs for which the instances are considered")
 
     parser.add_argument('--verbose', dest='verbose', action='store_true',
       help="Show more details in the output")
@@ -102,10 +105,16 @@ def main():
     else:
         fatal(1, "Invalid provider, must be one of {}".format(provisioner_values))
 
+    if args.cmd is None and args.script is None:
+      fatal(1, "You must provide a --cmd or a --script to execute on the remote hosts")
+
+    if (args.teams is None or args.roles is None) and args.ips is None:
+      fatal(1, "You must provide either --teams/--roles or --ips to specify the hosts to consider")
+
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
     logger.debug("Managing run: {0}".format(training_run))
-    pr.manage(args.cmd)
+    pr.manage(args.cmd, args.script)
 
 
 if __name__ == "__main__":

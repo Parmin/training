@@ -40,6 +40,7 @@ class Provisioner_aws_cf(object):
 
         self.session = None
         self.client = None
+        self.ec2 = None
         self.teams = []
 
     def build(self, build_id, dryrun=True):
@@ -89,6 +90,7 @@ class Provisioner_aws_cf(object):
             else:
                 self.session = boto3.session(profile_name=self.aws_profile, aws_region=self.aws_region)
             self.client = self.session.client('cloudformation')
+            self.ec2 = boto3.resource('ec2')
         except ProfileNotFound, e:
             log.error("\nFATAL - Could not find the AWS profile '{0}'".format(self.aws_profile))
             log.error("Check the ~/.aws/config file and/or configure with 'aws configure'")
@@ -171,13 +173,21 @@ class Provisioner_aws_cf(object):
                         physicalId = one_team_resource['PhysicalResourceId']
                         hostinfo = self._get_outputs_for_stack(physicalId)
                         hosttags = self._get_tags_for_stack(physicalId)
-                        run_info.key_values( ("Id", hostinfo['InstanceID'], "{:10}"), ("Role", hosttags['Role'], "{:8}"), ("IP", hostinfo['PublicIP'], "{:14}"), ("PrivateIP", hostinfo['PrivateIP'], "{:14}") )
+                        run_info.key_values( ("Id", hostinfo['InstanceID'], "{:10}"), ("Role", hosttags['Role'], "{:8}") )
+                        # If the machine rebooted, it would have a new public name and public IP
+                        #run_info.key_values( ("PrivateIP", hostinfo['PrivateIP'], "{:15}"), ("PrivateName", hostinfo['PrivateDnsName'], "{:50}") )
+                        #run_info.key_values( ("PublicIP ", hostinfo['PublicIP'], "{:15}"), ("PublicName ", hostinfo['PublicDnsName'], "{:50}") )
+                        # ... so get the current info by querying the instance info directly
+                        instanceinfo = self._get_instance_info(hostinfo['InstanceID'])
+                        run_info.key_values( ("PrivateIP", instanceinfo['PrivateIP'], "{:15}"), ("PrivateName", instanceinfo['PrivateDnsName'], "{:50}") )
+                        run_info.key_values( ("PublicIP", instanceinfo['PublicIP'], "{:15}"), ("PublicName", instanceinfo['PublicDnsName'], "{:50}") )
+                        run_info.comment("")
                 run_info.end_list("Hosts")
         run_info.end_list("Teams")
         run_info.comment("")
         return run_info.get_dict()
 
-    def manage(self, cmd):
+    def manage(self, cmd, script):
         """
         Execute something on a bunch of hosts
         """
@@ -185,18 +195,31 @@ class Provisioner_aws_cf(object):
         run_info = self.get_run_info(printit=False)
         keypair = run_info['KeyPair']
         for team in run_info['Teams']:
-            if self.args.teams == "all" or team['Id'] in self.args.teams:
+            if self.args.ips is not None or self.args.teams == "all" or (self.args.teams is not None and team['Id'] in self.args.teams):
                 print("\nTeam {}".format(team['Id']))
                 for host in team['Hosts']:
-                    if self.args.roles == "all" or host['Role'] in self.args.roles:
-                        print("\n  {:14}  {}".format(host['IP'], host['Role']))
+                    if (self.args.ips is not None and host['PublicIP'] in self.args.ips ) or self.args.roles == "all" or (self.args.roles is not None and host['Role'] in self.args.roles):
+                        print("\n  {:14}  {}".format(host['PublicIP'], host['Role']))
                         # Is this a script to upload?
-                        if os.path.isfile(cmd):
-                            # upload the file
-                            remote_script = self._transfer_file_to_host(host['IP'], cmd, keypair)
-                            self._run_cmd_on_host(host['IP'], "bash " + remote_script, keypair)
-                        else:
-                            self._run_cmd_on_host(host['IP'], cmd, keypair)
+                        if cmd is not None:
+                            # Run the remote command
+                            self._run_cmd_on_host(host['PublicIP'], cmd, keypair)
+                        elif script is not None:
+                            # Upload the script ant run it
+                            remote_script = self._transfer_file_to_host(host['PublicIP'], script, keypair)
+                            self._run_cmd_on_host(host['PublicIP'], "bash " + remote_script, keypair)
+
+    def _get_instance_info(self, instanceId):
+        """
+        Return a dictionary with some of the 'instance attributes' for a given EC2 instance
+        """
+        info = dict()
+        instance = self.ec2.Instance(instanceId)
+        info['PublicIP'] = instance.public_ip_address
+        info['PublicDnsName'] = instance.public_dns_name
+        info['PrivateIP'] = instance.private_ip_address
+        info['PrivateDnsName'] = instance.private_dns_name
+        return info
 
     def _get_outputs_for_stack(self, stackId):
         """
