@@ -159,6 +159,14 @@
     "PublicIP": {
       "Value": { "Fn::GetAtt": [ "Instance", "PublicIp" ] },
       "Description": "Public IP"
+    },
+    "PrivateDnsName": {
+      "Value": { "Fn::GetAtt": [ "Instance", "PrivateDnsName" ] },
+      "Description": "Private DNS Name"
+    },
+    "PublicDnsName": {
+      "Value": { "Fn::GetAtt": [ "Instance", "PublicDnsName" ] },
+      "Description": "Public Dns Name"
     }
   }
 }

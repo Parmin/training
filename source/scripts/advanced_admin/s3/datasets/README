@@ -1,0 +1,9 @@
+README
+
+Datasets are not stored in Git to avoid making the repository larger than it should.
+However, you can find then in S3.
+
+Datasets, sizes and sums:
+37782 51913 usb_drive.zip
+
+

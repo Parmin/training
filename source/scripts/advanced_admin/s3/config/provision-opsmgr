@@ -17,7 +17,7 @@ OPS_MGR_PASSWORD=ABCabc1!
 OPS_MGR_FQDN="REPLACE_ME"
 OPS_MGR_GROUP=Demo
 OPS_MGR_APP_DB_PORT=37017
-OPS_MGR_BACKUP_DB_PORT=37018
+OPS_MGR_BLOCKSTORE_DB_PORT=37018
 OPS_MGR_LOG=/opt/mongodb/mms/logs/mms0.log
 
 
@@ -160,7 +160,7 @@ function opsmgr_setup() {
     local opsmgr_conf=/opt/mongodb/mms/conf/conf-mms.properties
     install_package $auto_agent_rpm
     cp -f /vagrant/etc/automation-agent-cluster-conf.json /etc/mongodb-mms
-    mkdir -p /mongod-data/{appdb,backupdb}/data
+    mkdir -p /mongod-data/{mms,blockstore}/data
     chown mongod: $cluster_conf /mongod-data -R
     sed -e "s/^mmsApiKey=/#mmsApiKey=/" \
         -e "s/^mmsGroupId=/#mmsGroupId=/" \
@@ -193,11 +193,11 @@ EOF
 
     fi
 
-    log "Starting Ops Manager Automation agent (for Application and Backup DBs)"
+    log "Starting Ops Manager Automation agent (for Application and Blockstore DBs)"
     service mongodb-mms-automation-agent start
 
     wait_mongod $OPS_MGR_APP_DB_PORT
-    wait_mongod $OPS_MGR_BACKUP_DB_PORT
+    wait_mongod $OPS_MGR_BLOCKSTORE_DB_PORT
 
     log "Starting Ops Manager web service"
     rmdir /opt/mongodb/mms/mongodb-releases/
@@ -224,7 +224,7 @@ EOF
     # `vagrant reload [opsmgr]` in order to have the host mounted `/vagrant/`
     # directory.
     # The automation agent starts automatically, which then starts the OpsMgr
-    # Application and Backup DBs. This takes a few seconds, so let's wait
+    # Application and Blockstore DBs. This takes a few seconds, so let's wait
     # before starting OpsMgr and the Backup daemon (otherwise they will fail).
     chmod +x /etc/rc.local
     cat   >> /etc/rc.local <<EOF
@@ -234,7 +234,7 @@ while [ ! -f /vagrant/utils.sh ]; do
 done
 . /vagrant/utils.sh
 wait_mongod $OPS_MGR_APP_DB_PORT
-wait_mongod $OPS_MGR_BACKUP_DB_PORT
+wait_mongod $OPS_MGR_BLOCKSTORE_DB_PORT
 service mongodb-mms start
 EOF
 }
