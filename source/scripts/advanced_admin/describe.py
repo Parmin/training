@@ -26,19 +26,19 @@ Teams:
   SubnetMask: 10.0.0.0/24
   LoadBalancer: dcoupal-t-OpsMgrLB-187Y2BIZ8ETKG-394908656.us-west-1.elb.amazonaws.com
   Hosts:
-    Id: i-ce0e4a8b  Role: Node1     IP: 54.193.69.25    PrivateIP: 10.0.0.142
-    Id: i-ab0c48ee  Role: OpsMgr1   IP: 54.67.73.218    PrivateIP: 10.0.0.145
-    Id: i-cd0e4a88  Role: OpsMgr2   IP: 54.183.174.92   PrivateIP: 10.0.0.151
-    Id: i-b40c48f1  Role: OpsMgr3   IP: 54.193.73.93    PrivateIP: 10.0.0.133
+    Id: i-ce0e4a8b  Role: node1     IP: 54.193.69.25    PrivateIP: 10.0.0.142
+    Id: i-ab0c48ee  Role: opsmgr1   IP: 54.67.73.218    PrivateIP: 10.0.0.145
+    Id: i-cd0e4a88  Role: opsmgr2   IP: 54.183.174.92   PrivateIP: 10.0.0.151
+    Id: i-b40c48f1  Role: opsmgr3   IP: 54.193.73.93    PrivateIP: 10.0.0.133
 
   Id: 1
   SubnetMask: 10.0.1.0/24
   LoadBalancer: dcoupal-t-OpsMgrLB-10CR1BLJEC2CK-3078954.us-west-1.elb.amazonaws.com
   Hosts:
-    Id: i-6a0d492f  Role: Node1     IP: 52.53.244.51    PrivateIP: 10.0.1.211
-    Id: i-6b0d492e  Role: OpsMgr1   IP: 54.193.40.211   PrivateIP: 10.0.1.238
-    Id: i-690d492c  Role: OpsMgr2   IP: 54.183.192.16   PrivateIP: 10.0.1.9
-    Id: i-690c482c  Role: OpsMgr3   IP: 54.193.59.211   PrivateIP: 10.0.1.202
+    Id: i-6a0d492f  Role: node1     IP: 52.53.244.51    PrivateIP: 10.0.1.211
+    Id: i-6b0d492e  Role: opsmgr1   IP: 54.193.40.211   PrivateIP: 10.0.1.238
+    Id: i-690d492c  Role: opsmgr2   IP: 54.183.192.16   PrivateIP: 10.0.1.9
+    Id: i-690c482c  Role: opsmgr3   IP: 54.193.59.211   PrivateIP: 10.0.1.202
 '''
 
 import logging

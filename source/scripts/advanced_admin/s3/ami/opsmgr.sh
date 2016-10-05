@@ -4,7 +4,7 @@
 # - ability to download the 'datasets' and 'validation' scripts from a test location
 # - test for error codes in running commands and return them to the caller!?
 
-### Machine Role: OpsMgr and Node
+### Machine Role: opsmgr and node
 
 ### Files to download
 DIR=/data/downloads

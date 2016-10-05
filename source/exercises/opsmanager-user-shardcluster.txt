@@ -25,15 +25,15 @@ following configuration:
 - Two shards cluster, with three nodes per shard, distributing the process like
   that:
 
-  - **shard001**: Node1, Node2 and Node3
-  - **shard002**: Node4, Node5 and Node6
-  - **config servers**: 3 processes on Node9
-  - **mongos**: OpsMgr1, Node10 and Node11
+  - **shard001**: node1, node2 and node3
+  - **shard002**: node4, node5 and node6
+  - **config servers**: 3 processes on node9
+  - **mongos**: opsmgr1, node10 and node11
 
   - Each ``mongod`` should be running on different hosts
   - All `config servers`_ should be running on a single host
 
-    - These should be placed on host *Node10*
+    - These should be placed on host **node10**
 
 .. include:: /includes/student-notes.rst
 
@@ -67,7 +67,7 @@ So now we need to fix our deployment by doing a configuration change:
 - Edit the cluster configuration by setting the `config servers`_ into separate
   instances
 
-  - They should be placed on *Node9*, *Node8* and *Node7*
+  - They should be placed on **node9**, **node8** and **node7**
 
 .. include:: /includes/student-notes.rst
 
@@ -114,7 +114,7 @@ failure.
       For *host failure* to be triggered, the instructor should connect to
       `aws console`_ and stop the execution of a given host.
 
-      These can also be OpsMgr instances, where students should be monitoring
+      These can also be **opsmgr** instances, where students should be monitoring
       the running Application DB replica set.
 
 
@@ -163,7 +163,7 @@ We also want you to configure a few settings:
 Exercise: Configure Shard (continued)
 -------------------------------------
 
-Let's go ahead and import dataset **consumer** that is available in *OpsMgr*
+Let's go ahead and import dataset **consumer** that is available in **opsmgr**
 instances in the folder ``/dataset/consumer``:
 
 - import/restore this dataset into *consumer.complaints* namespace

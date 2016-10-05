@@ -16,8 +16,8 @@ s3-diff-devel:
 	rm -rf /tmp/s3
 	mkdir /tmp/s3
 	aws $(profile) s3 cp s3://mongodb-training/advadmin-devel /tmp/s3 --recursive
-	echo *** Showing differences with files in S3 ***
-	diff -r /tmp/s3 s3
+	$(info *** Showing differences with files in S3 ***)
+	diff -r -x "usb_drive.zip" /tmp/s3 s3
 
 s3-prod:
 	aws $(profile) s3 sync s3 s3://mongodb-training/advadmin --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
@@ -26,8 +26,8 @@ s3-diff-prod:
 	rm -rf /tmp/s3
 	mkdir /tmp/s3
 	aws $(profile) s3 cp s3://mongodb-training/advadmin /tmp/s3 --recursive
-	echo *** Showing differences with files in S3 ***
-	diff -r /tmp/s3 s3
+	$(info *** Showing differences with files in S3 ***)
+	diff -r -x "usb_drive.zip" /tmp/s3 s3
 
 test:
 	echo "No automated tests yet"

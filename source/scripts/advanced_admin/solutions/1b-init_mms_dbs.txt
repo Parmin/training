@@ -2,7 +2,7 @@
 ### At the end of this section, you should have 2 PSS replica sets as APPDB and BACKUPDB
 ### TODO - automate this part
 
-### on OpsMgr1 for a given team, or any 10.0.X.X host
+### on opsmgr1 for a given team, or any 10.0.X.X host
 
 # Note that the <opsmgrN> must be replaced with the AWS internal IP addresses.
 

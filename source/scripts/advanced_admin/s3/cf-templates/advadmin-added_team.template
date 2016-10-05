@@ -115,7 +115,7 @@
       }
     },
 
-    "OpsMgr1": {
+    "opsmgr1": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
@@ -129,12 +129,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "OpsMgr1" }
+          { "Key": "Role", "Value": "opsmgr1" }
         ]
       }
     },
 
-    "OpsMgr2": {
+    "opsmgr2": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
@@ -148,12 +148,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "OpsMgr2" }
+          { "Key": "Role", "Value": "opsmgr2" }
         ]
       }
     },
 
-    "OpsMgr3": {
+    "opsmgr3": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
@@ -167,12 +167,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "OpsMgr3" }
+          { "Key": "Role", "Value": "opsmgr3" }
         ]
       }
     },
 
-    "Node1": {
+    "node1": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
@@ -186,32 +186,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node1" }
+          { "Key": "Role", "Value": "node1" }
         ]
       }
     },
 
-    "Node2": {
-      "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
-      "Properties": {
-        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
-        "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
-          "KeyPair": { "Ref": "KeyPair" },
-          "Subnet": {"Ref" : "Subnet"},
-          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
-          "TestMode": { "Ref": "TestMode" }
-        },
-        "TimeoutInMinutes": "10",
-        "Tags": [
-          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node2" }
-        ]
-      }
-    },
-
-    "Node3": {
+    "node2": {
       "Type": "AWS::CloudFormation::Stack",
       "Condition": "IsNotTestMode",
       "Properties": {
@@ -226,12 +206,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node3" }
+          { "Key": "Role", "Value": "node2" }
         ]
       }
     },
 
-    "Node4": {
+    "node3": {
       "Type": "AWS::CloudFormation::Stack",
       "Condition": "IsNotTestMode",
       "Properties": {
@@ -246,12 +226,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node4" }
+          { "Key": "Role", "Value": "node3" }
         ]
       }
     },
 
-    "Node5": {
+    "node4": {
       "Type": "AWS::CloudFormation::Stack",
       "Condition": "IsNotTestMode",
       "Properties": {
@@ -266,12 +246,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node5" }
+          { "Key": "Role", "Value": "node4" }
         ]
       }
     },
 
-    "Node6": {
+    "node5": {
       "Type": "AWS::CloudFormation::Stack",
       "Condition": "IsNotTestMode",
       "Properties": {
@@ -286,12 +266,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node6" }
+          { "Key": "Role", "Value": "node5" }
         ]
       }
     },
 
-    "Node7": {
+    "node6": {
       "Type": "AWS::CloudFormation::Stack",
       "Condition": "IsNotTestMode",
       "Properties": {
@@ -306,12 +286,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node7" }
+          { "Key": "Role", "Value": "node6" }
         ]
       }
     },
 
-    "Node8": {
+    "node7": {
       "Type": "AWS::CloudFormation::Stack",
       "Condition": "IsNotTestMode",
       "Properties": {
@@ -326,12 +306,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node8" }
+          { "Key": "Role", "Value": "node7" }
         ]
       }
     },
 
-    "Node9": {
+    "node8": {
       "Type": "AWS::CloudFormation::Stack",
       "Condition": "IsNotTestMode",
       "Properties": {
@@ -346,12 +326,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node9" }
+          { "Key": "Role", "Value": "node8" }
         ]
       }
     },
 
-    "Node10": {
+    "node9": {
       "Type": "AWS::CloudFormation::Stack",
       "Condition": "IsNotTestMode",
       "Properties": {
@@ -366,12 +346,12 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node10" }
+          { "Key": "Role", "Value": "node9" }
         ]
       }
     },
 
-    "Node11": {
+    "node10": {
       "Type": "AWS::CloudFormation::Stack",
       "Condition": "IsNotTestMode",
       "Properties": {
@@ -386,7 +366,27 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
-          { "Key": "Role", "Value": "Node11" }
+          { "Key": "Role", "Value": "node10" }
+        ]
+      }
+    },
+
+    "node11": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "IsNotTestMode",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "KeyPair": { "Ref": "KeyPair" },
+          "Subnet": {"Ref" : "Subnet"},
+          "SSHandHTTPSecurityGroup": { "Ref": "SSHandHTTPSecurityGroup" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": { "Ref": "TeamNumber" } },
+          { "Key": "Role", "Value": "node11" }
         ]
       }
     },
@@ -395,9 +395,9 @@
       "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
       "Properties": {
         "Instances": [
-          { "Fn::GetAtt": [ "OpsMgr1", "Outputs.InstanceID" ] },
-          { "Fn::GetAtt": [ "OpsMgr2", "Outputs.InstanceID" ] },
-          { "Fn::GetAtt": [ "OpsMgr3", "Outputs.InstanceID" ] }
+          { "Fn::GetAtt": [ "opsmgr1", "Outputs.InstanceID" ] },
+          { "Fn::GetAtt": [ "opsmgr2", "Outputs.InstanceID" ] },
+          { "Fn::GetAtt": [ "opsmgr3", "Outputs.InstanceID" ] }
         ],
         "HealthCheck": {
           "HealthyThreshold": "2",

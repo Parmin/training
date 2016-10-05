@@ -16,9 +16,9 @@ profiler and write some aggregation queries to analyze the profiling data.*"
 
       Ask students to students to set up a replica set with the following config:
       - **Replica Set Name** : AFK
-      - **Node10** : priority 10
-      - **Node9** : priority 9
-      - **Node11** : hidden
+      - **node10** : priority 10
+      - **node9** : priority 9
+      - **node11** : hidden
 
 
 

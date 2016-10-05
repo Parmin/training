@@ -1,7 +1,7 @@
-### In this section, we install and configure OpsMgr
+### In this section, we install and configure Ops Manager
 ###
 
-### on OpsMrg1, OpsMgr2 and OpsMgr3
+### on opsmrg1, opsmgr2 and opsmgr3
 
 cd /data/downloads
 sudo rpm -ivh mongodb-mms-2.0.*.x86_64.rpm
@@ -12,12 +12,12 @@ mongo.mongoUri=mongodb://10.0.0.53:30000,10.0.0.140:30000,10.0.0.115:30000/?repl
 # put the above URI in the config file
 sudo vi /opt/mongodb/mms/conf/conf-mms.properties
 
-### on OpsMgr1
+### on opsmgr1
 
-# start the OpsMgr service
+# start the Ops Manager service
 sudo service mongodb-mms start
 
-# copy the gen.key file to OpsMgr2 and OpsMgr3, owned by mongodb-mms
+# copy the gen.key file to opsmgr2 and opsmgr3, with ownership to mongodb-mms
 $ ls -al /etc/mongodb-mms/gen.key
 -rw------- 1 mongodb-mms mongodb-mms 24 Sep 23 17:29 /etc/mongodb-mms/gen.key
 

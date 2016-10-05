@@ -17,20 +17,20 @@
 """
 Example:
 
-$ ./manage.py --profile training-west --run dcoupal-test --teams 0,1 --roles OpsMgr1,OpsMgr2 --cmd "/bin/hostname -f"
+$ ./manage.py --profile training-west --run dcoupal-test --teams 0,1 --roles opsmgr1,opsmgr2 --cmd "/bin/hostname -f"
 
 Team 0
-  54.183.172.229  OpsMgr1
+  54.183.172.229  opsmgr1
 ip-10-0-0-47.us-west-1.compute.internal
 
-  54.67.126.74    OpsMgr2
+  54.67.126.74    opsmgr2
 ip-10-0-0-10.us-west-1.compute.internal
 
 Team 1
-  54.183.194.222  OpsMgr1
+  54.183.194.222  opsmgr1
 ip-10-0-1-161.us-west-1.compute.internal
 
-  52.53.252.177   OpsMgr2
+  52.53.252.177   opsmgr2
 ip-10-0-1-160.us-west-1.compute.internal
 """
 
