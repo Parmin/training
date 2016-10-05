@@ -9,7 +9,6 @@
 #   - should we run the commands/scripts in parallel with workers, or sequentially, or have it as an option?
 
 # TODO
-#   - allow to run commands on a list of IPs instead of roles/teams
 #   - once we support commands, we may want to support passing options to them
 #   - support file names with spaces in them?
 #   - allow to use a cached .json file (from describe) to avoid describing the stacks again, which is slow
@@ -62,11 +61,11 @@ def main():
     parser.add_argument('--cmd', dest='cmd', type=str,
       help="remote cmd to execute on the selected hosts. May need to quote the command")
 
-    parser.add_argument('--script', dest='script', type=str,
-      help="local script to execute on the selected hosts. May need to quote the script")
+    parser.add_argument('--etchosts', dest='etchosts', action='store_true',
+      help="Create a 'hosts' file for each team and upload them into /tmp. You still need to add the info in '/etc/hosts'")
 
-    parser.add_argument('--run', dest='training_run', type=str, required=True,
-      help="environment training run identifier")
+    parser.add_argument('--ips', dest='ips', type=str,
+      help="List of IPs for which the instances are considered")
 
     parser.add_argument('--out', dest='out', type=str,
       help="File in which to store the output, NOT IMPLEMENTED YET")
@@ -80,11 +79,14 @@ def main():
     parser.add_argument('--roles', dest='roles', type=str,
       help="List of roles (or regexes) to match the hosts to manage")
 
+    parser.add_argument('--run', dest='training_run', type=str, required=True,
+      help="environment training run identifier")
+
+    parser.add_argument('--script', dest='script', type=str,
+      help="local script to execute on the selected hosts. May need to quote the script")
+
     parser.add_argument('--teams', dest='teams', type=str,
       help="List of teams for which the instances are considered (0,1,...). Use 'all' for all of them")
-
-    parser.add_argument('--ips', dest='ips', type=str,
-      help="List of IPs for which the instances are considered")
 
     parser.add_argument('--verbose', dest='verbose', action='store_true',
       help="Show more details in the output")
@@ -105,8 +107,8 @@ def main():
     else:
         fatal(1, "Invalid provider, must be one of {}".format(provisioner_values))
 
-    if args.cmd is None and args.script is None:
-      fatal(1, "You must provide a --cmd or a --script to execute on the remote hosts")
+    if args.cmd is None and args.script is None and args.etchosts is None:
+      fatal(1, "You must provide a --cmd or a --script to execute on the remote hosts, or --etchosts")
 
     if (args.teams is None or args.roles is None) and args.ips is None:
       fatal(1, "You must provide either --teams/--roles or --ips to specify the hosts to consider")

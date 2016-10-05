@@ -191,12 +191,15 @@ class Provisioner_aws_cf(object):
         """
         Execute something on a bunch of hosts
         """
+        etchosts_filename = "/tmp/hosts"
         # Get the list of hosts from the deployment
         run_info = self.get_run_info(printit=False)
         keypair = run_info['KeyPair']
         for team in run_info['Teams']:
             if self.args.ips is not None or self.args.teams == "all" or (self.args.teams is not None and team['Id'] in self.args.teams):
                 print("\nTeam {}".format(team['Id']))
+                if self.args.etchosts is not None:
+                    etchosts_file = open(etchosts_filename, 'w')
                 for host in team['Hosts']:
                     if (self.args.ips is not None and host['PublicIP'] in self.args.ips ) or self.args.roles == "all" or (self.args.roles is not None and host['Role'] in self.args.roles):
                         print("\n  {:14}  {}".format(host['PublicIP'], host['Role']))
@@ -208,6 +211,11 @@ class Provisioner_aws_cf(object):
                             # Upload the script ant run it
                             remote_script = self._transfer_file_to_host(host['PublicIP'], script, keypair)
                             self._run_cmd_on_host(host['PublicIP'], "bash " + remote_script, keypair)
+                    if self.args.etchosts is not None:
+                        etchosts_file.write("{:14}   {}\n".format(host['PrivateIP'], host['Role']))
+                if self.args.etchosts is not None:
+                    etchosts_file.close()
+                    self._transfer_file_to_host(host['PublicIP'], etchosts_filename, keypair)
 
     def _get_instance_info(self, instanceId):
         """
