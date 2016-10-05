@@ -7,7 +7,7 @@ cd /data/downloads
 sudo rpm -ivh mongodb-mms-2.0.*.x86_64.rpm
 
 # construct the mongoUri, for example:
-mongo.mongoUri=mongodb://10.0.0.53:30000,10.0.0.140:30000,10.0.0.115:30000/?replicaSet=APPDB&maxPoolSize=150
+mongo.mongoUri=mongodb://10.0.0.53:27001,10.0.0.140:27001,10.0.0.115:27001/?replicaSet=APPDB&maxPoolSize=150
 
 # put the above URI in the config file
 sudo vi /opt/mongodb/mms/conf/conf-mms.properties

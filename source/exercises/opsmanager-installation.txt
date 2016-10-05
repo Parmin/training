@@ -197,7 +197,7 @@ From the available machines go ahead and set up a Replica Set to support the
             cacheSizeGB: 2
             journalCompressor: zlib
       net:
-        port: 30000
+        port: 27001
 
     - Once all instances ``mongod`` instances are up initiate the replica set
 
@@ -271,8 +271,8 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
     .. code-block:: bash
 
       #replace mongo.mongoUri with APPDB replica set connection string
-      # mongodb://opsmgr1:30000,opsmgr2:30000,opsmgr3:30000/?replicaSet=APPDB
-      sed -i.bak 's/^\(mongo.mongoUri=\).*/\1mongodb:\/\/opsmgr1\:30000,opsmgr2\:30000,opsmgr3\:30000\/\?replicaSet=APPDB/' /etc/mongodb-mms/conf-mms.properties
+      # mongodb://opsmgr1:27001,opsmgr2:27001,opsmgr3:27001/?replicaSet=APPDB
+      sed -i.bak 's/^\(mongo.mongoUri=\).*/\1mongodb:\/\/opsmgr1\:27001,opsmgr2\:27001,opsmgr3\:27001\/\?replicaSet=APPDB/' /etc/mongodb-mms/conf-mms.properties
       #or just use vi
 
       #repeat the operation on all **opsmgr** hosts

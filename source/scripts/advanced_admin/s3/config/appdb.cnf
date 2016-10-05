@@ -13,4 +13,4 @@ storage:
       cacheSizeGB: 2
       journalCompressor: zlib
 net:
-  port: 30000
+  port: 27001
