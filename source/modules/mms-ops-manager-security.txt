@@ -25,7 +25,7 @@ Ops Manager User Authentication
 Authentication for the Backing Ops Manager Databases
 ----------------------------------------------------
 
-Ops Manager application database and blockstore database:
+Ops Manager application database and backup database:
 
 - MongoDB-CR (SCRAM-SHA1)
 - LDAP

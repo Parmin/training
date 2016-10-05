@@ -13,11 +13,11 @@ FILES=(
     https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.2.9.tgz
     https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-rhel70-3.2.9.tgz
     https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/3.2/x86_64/RPMS/mongodb-enterprise-server-3.2.9-1.el7.x86_64.rpm
+    https://s3.amazonaws.com/mongodb-training/advadmin/config/appdb.cnf
+    https://s3.amazonaws.com/mongodb-training/advadmin/config/backupdb.cnf
     https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_replicasetreconfig.py
     https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_securedreplicaset.py
     https://s3.amazonaws.com/mongodb-training/advadmin/datasets/usb_drive.zip
-    https://s3.amazonaws.com/mongodb-training/advadmin/config/appdb.cnf
-    https://s3.amazonaws.com/mongodb-training/advadmin/config/blockdb.cnf
 )
 PACKAGES=(
     unzip
@@ -64,11 +64,11 @@ service mongod stop
 
 # move config files to /share/etc
 cp /share/downloads/appdb.cnf /share/etc/appdb.conf
-cp /share/downloads/blockdb.cnf /share/etc/blockdb.conf
+cp /share/downloads/backupdb.cnf /share/etc/backupdb.conf
 
 # adding write permissions to /var/log/mongodb
 chmod 777 -R /var/log/mongodb
 
 # adding datapaths
-mkdir -p /mongod-data/{appdb,blockstore}/data
+mkdir -p /mongod-data/{appdb,backupdb}/data
 chmod 777 -R /mongod-data

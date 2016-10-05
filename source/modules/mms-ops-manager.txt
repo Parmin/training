@@ -45,7 +45,7 @@ Architecture
    .. note::
 
       - These deployments can get complex, talk about all the pieces
-      - Multiple backup daemons/blockstores for large clusters
+      - Multiple backup daemons/backup DBs for large clusters
 
 
 Application Server
@@ -69,15 +69,19 @@ Application Database
 Backup Infrastructure
 ---------------------
 
-- Blockstore database
+- Backup database (blockstore, oplog, sync)
 - Backup daemon process (manages applying oplog entries, creating snapshots, etc.)
 
 .. include:: /includes/student-notes.rst
 
 
-Blockstore Database
--------------------
+Backup Database
+---------------
 
+- 3 sections:
+  - blockstore for blocks
+  - oplog
+  - sync for initial sync slices
 - Replica set, a standalone MongoDB node can also be used
 - Must be sized carefully
 - All snapshots are stored here
@@ -92,6 +96,6 @@ Backup Daemon Process
 - The "workhorse" of the backup infrastructure
 - Creates a local copy of the database it is backing up (references "HEAD" database)
 - Requires 2-3X data space (of the database it is backing up)
-- Can run multiple daemons, pointing to multiple blockstores (for large clusters)
+- Can run multiple daemons, pointing to multiple backup databases (for large clusters)
 
 .. include:: /includes/student-notes.rst

@@ -6,12 +6,14 @@
 
 # Note that the <opsmgrN> must be replaced with the AWS internal IP addresses.
 
-mongodb/bin/mongo --port <opsmgr1>:30000
+# AppDB replica set
+mongodb/bin/mongo --port <opsmgr1>:27001
 rs.initiate()
-rs.add("<opsmgr2>:30000")
-rs.add("<opsmgr3>:30000")
+rs.add("<opsmgr2>:27001")
+rs.add("<opsmgr3>:27001")
 
-mongodb/bin/mongo --port <opsmgr1>:30001
+# BackupDB replica set
+mongodb/bin/mongo --port <opsmgr1>:27002
 rs.initiate()
-rs.add("<opsmgr2>:30000")
-rs.add("<opsmgr3>:30000")
+rs.add("<opsmgr2>:27002")
+rs.add("<opsmgr3>:27002")

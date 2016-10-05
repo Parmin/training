@@ -77,7 +77,7 @@ Architecture
 
    .. note::
 
-      - Can talk about the daemon process, HEAD database, and blockstore with this diagram
+      - Can talk about the daemon process, HEAD database, and backup database with this diagram
 
 
 Snapshotting
