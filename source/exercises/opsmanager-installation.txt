@@ -117,8 +117,8 @@ We will need the following instances:
 
 - Two Replica Set Clusters
 
-  - Application Replica Set
-  - BlockStore Replica Set
+  - Application Database Replica Set
+  - Backup Database Replica Set
 
 - Three instances to run redundant services of Ops Manager Application
 
@@ -146,10 +146,10 @@ We will need the following instances:
 
     - Do we need a Replica Set to support the Backup Daemon?
 
-      - Yes, we will be using Blockstore
+      - Yes, you always need one, and we will be using the 'blockstore' part of it
 
-        - we can use Filestore as alternative but for the exercise let's
-          privilege Blockstore
+        - we can use a Filestore as an alternative but for the exercise let's
+          use the Blockstore
 
 
 1. Configure Ops Manager Application Database

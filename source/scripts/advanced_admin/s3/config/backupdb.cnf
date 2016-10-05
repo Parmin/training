@@ -2,12 +2,12 @@ processManagement:
   fork: true
 systemLog:
   destination: file
-  path: '/var/log/mongodb/blockdb.log'
+  path: '/var/log/mongodb/backupdb.log'
 replication:
-  replSetName: "BLOCKSTORE"
+  replSetName: "BACKUPDB"
   oplogSizeMB: 100
 storage:
-  dbPath: '/mongod-data/blockstore/data'
+  dbPath: '/mongod-data/backupdb/data'
   wiredTiger:
     engineConfig:
       cacheSizeGB: 2

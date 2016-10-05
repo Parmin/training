@@ -3,7 +3,7 @@
 ### You can follow the instructions below or run:
 ###
 ### > cd <script/advanced_admin>
-### > ./manage.py --profile <myregion> --teams <team1,2,...> --roles OpsMgr1,OpsMgr2,OpsMgr3 --run <myclass> --cmd solution/1a-config_mms_dbs.txt
+### > ./manage.py --profile <myregion> --teams <team1,2,...> --roles OpsMgr1,OpsMgr2,OpsMgr3 --run <myclass> --script solutions/1a-config_mms_dbs.txt
 ###
 ### Then move to part "1b...txt" to initialize and complete the 2 replica sets
 
@@ -14,47 +14,47 @@ tar -xf downloads/mongodb-linux-x86_64-enterprise-rhel70-3.2.*.tgz
 mv mongodb-linux-x86_64-enterprise-rhel70-3.2.*/ mongodb
 
 # For the APPDB
-mkdir /data/appdb
-cat <<EOFAPP > etc/appdb.conf
+mkdir -p /mongod-data/appdb/data
+cat <<EOFAPPCONF > etc/appdb.conf
 net:
-  port: 30000
+  port: 27001
 processManagement:
   fork: true
 replication:
   replSetName: "APPDB"
   oplogSizeMB: 100
 storage:
-  dbPath: /data/appdb
+  dbPath: /mongod-data/appdb/data
   wiredTiger:
     engineConfig:
       cacheSizeGB: 2
       journalCompressor: zlib
 systemLog:
   destination: file
-  path: /data/appdb/mongod.log
+  path: /var/log/mongodb/appdb.log
   logAppend: true
-EOFAPP
+EOFAPPCONF
 mongodb/bin/mongod --config etc/appdb.conf
 
 # For the BACKUPDB
-mkdir /data/backupdb
-cat <<EOFBACKUP > etc/backupdb.conf
+mkdir /mongod-data/backupdb/data
+cat <<EOFBACKUPCONF > etc/backupdb.conf
 net:
-  port: 30001
+  port: 27002
 processManagement:
   fork: true
 replication:
   replSetName: "BACKUPDB"
   oplogSizeMB: 100
 storage:
-  dbPath: /data/backupdb
+  dbPath: /mongod-data/backupdb/data
   wiredTiger:
     engineConfig:
       cacheSizeGB: 2
       journalCompressor: zlib
 systemLog:
   destination: file
-  path: /data/backupdb/mongod.log
+  path: /var/log/mongodb/backupdb.log
   logAppend: true
-EOFBACKUP
+EOFBACKUPCONF
 mongodb/bin/mongod --config etc/backupdb.conf

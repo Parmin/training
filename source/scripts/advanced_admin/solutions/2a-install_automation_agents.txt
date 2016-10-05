@@ -8,7 +8,7 @@ MMSGROUP=57e58c69e4b0a3d91751aef0
 MMSAPI=031981a508e2264117a987ee68eac96c
 
 # then run:
-# ./manage.py --profile training-eu-west-1 --run dcoupal-test2 --teams 0 --role Node1,Node2,Node3,Node4,Node5,Node6,Node7,Node8,Node9,Node10,Node11 --cmd solutions/2a-install_automation_agents.txt
+# ./manage.py --profile training-eu-west-1 --run dcoupal-test2 --teams 0 --role Node1,Node2,Node3,Node4,Node5,Node6,Node7,Node8,Node9,Node10,Node11 --script solutions/2a-install_automation_agents.txt
 
 if [ -z $MMSAUTAGENT ] || [ -z $MMSURL ] || [ -z $MMSGROUP ] || [ -z $MMSAPI ]; then
   echo some vars are not set in MMSAUTAGENT, MMSURL, MMSGROUP, MMSAPI
