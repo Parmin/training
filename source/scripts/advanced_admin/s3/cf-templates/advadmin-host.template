@@ -6,6 +6,10 @@
       "Description": "Instance type, usually 'm3.medium' for data nodes and 'r3.large' for OpsMgr hosts",
       "Type": "String"
     },
+    "IP": {
+      "Description": "IP for the host",
+      "Type": "String"
+    },
     "KeyPair": {
       "Description": "Amazon EC2 Key Pair, either AdvancedAdministrator or another one to distribute to the teams",
       "Type": "AWS::EC2::KeyPair::KeyName"
@@ -108,9 +112,8 @@
             "DeviceIndex": "0",
             "DeleteOnTermination": "true",
             "GroupSet": [ {"Ref" : "SSHandHTTPSecurityGroup"} ],
-            "SubnetId": {
-              "Ref": "Subnet"
-            }
+            "PrivateIpAddress": { "Ref": "IP" },
+            "SubnetId": { "Ref": "Subnet" }
           }
         ],
         "UserData": { "Fn::Base64" : { "Fn::Join" : ["\n", [

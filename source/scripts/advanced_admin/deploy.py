@@ -102,6 +102,9 @@ def main():
         print("FATAL - invalid provider, must be 'aws-plain' or 'aws-cf' " % args.provider)
         sys.exit(1)
 
+    if "_" in args.training_run:
+        fatal(1, "Can't use '_' in the training run name")
+
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
     logger.debug("Building {0} stack".format(build_id))

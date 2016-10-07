@@ -33,8 +33,8 @@ test:
 	echo "No automated tests yet"
 
 validate-cf:
-	aws $(profile) cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-added_team.template
-	aws $(profile) cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-ami.template
-	aws $(profile) cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-base_team.template
+	aws $(profile) cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-team.template
+	aws $(profile) cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-host.template
+	aws $(profile) cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-run.template
 
 

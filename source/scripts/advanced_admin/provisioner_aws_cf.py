@@ -54,7 +54,7 @@ class Provisioner_aws_cf(object):
             testmode = "false"
 
         # http://boto3.readthedocs.io/en/latest/reference/services/cloudformation.html#CloudFormation.Client.create_stack
-        with open("s3/cf-templates/advadmin-base_team.template", 'r') as f:
+        with open("s3/cf-templates/advadmin-run.template", 'r') as f:
             response = self.client.create_stack(
                 StackName = self.training_run,
                 TemplateBody = f.read(),
@@ -146,9 +146,6 @@ class Provisioner_aws_cf(object):
         run_info.key_values(("KeyPair", runinfo['KeyPair']))
         run_info.key_values(("NumberOfTeams", runinfo['NbTeams']))
         run_info.comment("")
-        run_info.key_values(("VPC", runinfo['VPC']))
-        run_info.key_values(("PublicRouteTable", runinfo['PublicRouteTable']))
-        run_info.key_values(("SecurityGroup", runinfo['SSHandHTTPSecurityGroup']))
         run_info.start_list("Teams")
         # Describe all sub stacks, starting with the top one for the 'run'
         for one_run_resource in run_resources['StackResources']:
@@ -160,8 +157,10 @@ class Provisioner_aws_cf(object):
                 run_info.comment("")
                 run_info.new_list_obj()
                 run_info.key_values(("Id", teaminfo['TeamNumber']))
-                run_info.key_values(("SubnetMask", teaminfo['SubnetMask']))
                 run_info.key_values(("LoadBalancer", teaminfo['LoadBalancerHostName']))
+                run_info.key_values(("SecurityGroup", teaminfo['SSHandHTTPSecurityGroup']))
+                run_info.key_values(("VPC", teaminfo['VPC']))
+                run_info.key_values(("SubnetMask", teaminfo['SubnetMask']))
                 # Getting all resources for the stack that created this team
                 team_resources = self._describe_stack_resources(physicalId)
                 run_info.start_list("Hosts")

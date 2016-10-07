@@ -6,6 +6,7 @@
 #   - have a test mode where we can recover the info from a set of files, instead of a live cluster in order to run unit tests
 #   - if a machine is restarted it would have a different external name and IP
 #   - test if the run is completely created before reporting on it
+#   - search for added teams after the initial top stack was created (tags?)
 
 '''
 Example of a run:
@@ -13,32 +14,47 @@ Example of a run:
 
 Example of an output:
 
-Name: dcoupal-test
+Name: dcoupal-test1
 KeyPair: AdvancedAdministrator
-NumberOfTeams: 1
+NumberOfTeams: 3
 
-VPC: vpc-b97272dc
-PublicRouteTable: rtb-c8c526ac
-SecurityGroup: sg-adf2b9c9
 Teams:
 
-  Id: 0
-  SubnetMask: 10.0.0.0/24
-  LoadBalancer: dcoupal-t-OpsMgrLB-187Y2BIZ8ETKG-394908656.us-west-1.elb.amazonaws.com
-  Hosts:
-    Id: i-ce0e4a8b  Role: node1     IP: 54.193.69.25    PrivateIP: 10.0.0.142
-    Id: i-ab0c48ee  Role: opsmgr1   IP: 54.67.73.218    PrivateIP: 10.0.0.145
-    Id: i-cd0e4a88  Role: opsmgr2   IP: 54.183.174.92   PrivateIP: 10.0.0.151
-    Id: i-b40c48f1  Role: opsmgr3   IP: 54.193.73.93    PrivateIP: 10.0.0.133
-
   Id: 1
-  SubnetMask: 10.0.1.0/24
-  LoadBalancer: dcoupal-t-OpsMgrLB-10CR1BLJEC2CK-3078954.us-west-1.elb.amazonaws.com
+  LoadBalancer: dcoupal-t-OpsMgrLB-19CM34ELUH5OH-628727658.us-west-1.elb.amazonaws.com
+  SecurityGroup: sg-3c0f3d58
+  VPC: vpc-a0998bc5
+  SubnetMask: 10.0.0.0/24
   Hosts:
-    Id: i-6a0d492f  Role: node1     IP: 52.53.244.51    PrivateIP: 10.0.1.211
-    Id: i-6b0d492e  Role: opsmgr1   IP: 54.193.40.211   PrivateIP: 10.0.1.238
-    Id: i-690d492c  Role: opsmgr2   IP: 54.183.192.16   PrivateIP: 10.0.1.9
-    Id: i-690c482c  Role: opsmgr3   IP: 54.193.59.211   PrivateIP: 10.0.1.202
+    Id: i-27945293  Role: node1
+    PrivateIP: 10.0.0.101       PrivateName: ip-10-0-0-101.us-west-1.compute.internal
+    PublicIP: 54.183.69.202    PublicName: ec2-54-183-69-202.us-west-1.compute.amazonaws.com
+
+...
+
+    Id: i-25945291  Role: opsmgr1
+    PrivateIP: 10.0.0.21        PrivateName: ip-10-0-0-21.us-west-1.compute.internal
+    PublicIP: 54.153.109.82    PublicName: ec2-54-153-109-82.us-west-1.compute.amazonaws.com
+
+    Id: i-b3925407  Role: opsmgr2
+    PrivateIP: 10.0.0.22        PrivateName: ip-10-0-0-22.us-west-1.compute.internal
+    PublicIP: 54.183.42.201    PublicName: ec2-54-183-42-201.us-west-1.compute.amazonaws.com
+
+    Id: i-f0955344  Role: opsmgr3
+    PrivateIP: 10.0.0.23        PrivateName: ip-10-0-0-23.us-west-1.compute.internal
+    PublicIP: 54.153.122.132   PublicName: ec2-54-153-122-132.us-west-1.compute.amazonaws.com
+
+
+  Id: 2
+  LoadBalancer: dcoupal-t-OpsMgrLB-COTFCKJD1ZP9-1737778154.us-west-1.elb.amazonaws.com
+  SecurityGroup: sg-3d0f3d59
+  VPC: vpc-a1998bc4
+  SubnetMask: 10.0.0.0/24
+  Hosts:
+    Id: i-f1955345  Role: node1
+    PrivateIP: 10.0.0.101       PrivateName: ip-10-0-0-101.us-west-1.compute.internal
+    PublicIP: 54.183.40.84     PublicName: ec2-54-183-40-84.us-west-1.compute.amazonaws.com
+...
 '''
 
 import logging
