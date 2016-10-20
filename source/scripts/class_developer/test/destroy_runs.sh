@@ -2,16 +2,17 @@
 
 # Destroy all test runs in all regions, then wait for them to be completed
 
-PROFILES=`cat profiles.txt`
-KEYPAIR=AdvancedAdministrator
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ADVADMINDIR="$SCRIPTDIR/../../advanced_admin"
 
-cd ..
+PROFILES=`cat $SCRIPTDIR/profiles.txt`
+KEYPAIR=AdvancedAdministrator
 
 for profile in ${PROFILES[@]}; do
   echo Destroying Run for Region: $profile
   # TODO - make the string unique
   RUN=systest-${USER}
-  ./teardown.py --profile ${profile} --run ${RUN}
+  ${ADVADMINDIR}/teardown.py --profile ${profile} --run ${RUN}
   echo ""
 done
 
@@ -20,10 +21,10 @@ for profile in ${PROFILES[@]}; do
   echo Waiting on Run deletion for Region: $profile
   DONE=false
   while [ $DONE == false ]; do
-    OUT=`./describe.py --profile ${profile} | grep DELETE_IN_PROGRESS`
+    OUT=`${ADVADMINDIR}/describe.py --profile ${profile} | grep DELETE_IN_PROGRESS`
     if [ -z "$OUT" ]; then
       DONE=true
-      ./describe.py --profile ${profile}
+      ${ADVADMINDIR}/describe.py --profile ${profile}
       echo ""
     else
       sleep 30

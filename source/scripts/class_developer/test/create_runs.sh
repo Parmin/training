@@ -2,16 +2,17 @@
 
 # Create a test run in all regions, then wait for them to be completed
 
-PROFILES=`cat profiles.txt`
-KEYPAIR=AdvancedAdministrator
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ADVADMINDIR="$SCRIPTDIR/../../advanced_admin"
 
-cd ..
+PROFILES=`cat $SCRIPTDIR/profiles.txt`
+KEYPAIR=AdvancedAdministrator
 
 for profile in ${PROFILES[@]}; do
   echo Creating Run for Region: $profile
   # TODO - make the string unique
   RUN=systest-${USER}
-  ./deploy.py --profile ${profile} --run ${RUN} --keypair ${KEYPAIR} --teams 1 --testmode
+  ${ADVADMINDIR}/deploy.py --profile ${profile} --run ${RUN} --keypair ${KEYPAIR} --teams 1 --testmode
   echo ""
 done
 
@@ -20,10 +21,10 @@ for profile in ${PROFILES[@]}; do
   echo Waiting on Run creation for Region: $profile
   DONE=false
   while [ $DONE == false ]; do
-    OUT=`./describe.py --profile ${profile} | grep CREATE_IN_PROGRESS`
+    OUT=`${ADVADMINDIR}/describe.py --profile ${profile} | grep CREATE_IN_PROGRESS`
     if [ -z "$OUT" ]; then
       DONE=true
-      ./describe.py --profile ${profile}
+      ${ADVADMINDIR}/describe.py --profile ${profile}
       echo ""
     else
       sleep 30

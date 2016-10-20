@@ -14,6 +14,7 @@ import sys
 from provider_utils import *
 
 TOP_STACK_DESC = "This is the top stack template to create a training class"
+S3_FILES_PATH = os.path.join(os.path.dirname(__file__), "s3")
 
 class Provisioner_aws_cf(object):
     """
@@ -54,7 +55,8 @@ class Provisioner_aws_cf(object):
             testmode = "false"
 
         # http://boto3.readthedocs.io/en/latest/reference/services/cloudformation.html#CloudFormation.Client.create_stack
-        with open("s3/cf-templates/advadmin-run.template", 'r') as f:
+        template_path = os.path.join(S3_FILES_PATH, "cf-templates/advadmin-run.template")
+        with open(template_path, 'r') as f:
             response = self.client.create_stack(
                 StackName = self.training_run,
                 TemplateBody = f.read(),
@@ -90,7 +92,7 @@ class Provisioner_aws_cf(object):
             else:
                 self.session = boto3.session(profile_name=self.aws_profile, aws_region=self.aws_region)
             self.client = self.session.client('cloudformation')
-            self.ec2 = boto3.resource('ec2')
+            self.ec2 = self.session.client('ec2')
         except ProfileNotFound, e:
             log.error("\nFATAL - Could not find the AWS profile '{0}'".format(self.aws_profile))
             log.error("Check the ~/.aws/config file and/or configure with 'aws configure'")
@@ -221,11 +223,12 @@ class Provisioner_aws_cf(object):
         Return a dictionary with some of the 'instance attributes' for a given EC2 instance
         """
         info = dict()
-        instance = self.ec2.Instance(instanceId)
-        info['PublicIP'] = instance.public_ip_address
-        info['PublicDnsName'] = instance.public_dns_name
-        info['PrivateIP'] = instance.private_ip_address
-        info['PrivateDnsName'] = instance.private_dns_name
+        instance = self.ec2.describe_instances(InstanceIds=[instanceId])
+        instance_info = instance['Reservations'][0]['Instances'][0]
+        info['PublicIP'] = instance_info['PublicIpAddress']
+        info['PublicDnsName'] = instance_info['PublicDnsName']
+        info['PrivateIP'] = instance_info['PrivateIpAddress']
+        info['PrivateDnsName'] = instance_info['PrivateDnsName']
         return info
 
     def _get_outputs_for_stack(self, stackId):

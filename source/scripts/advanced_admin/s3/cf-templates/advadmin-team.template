@@ -38,7 +38,8 @@
   },
 
   "Conditions" : {
-    "IsNotTestMode": {"Fn::Equals": [{"Ref": "TestMode"}, "false"]}
+    "IsNotTestMode": {"Fn::Equals": [{"Ref": "TestMode"}, "false"]},
+    "hasMissingInstanceTypes": {"Fn::Equals": [{"Ref": "AWS::Region" }, "ap-south-1"]}
   },
 
   "Mappings": {
@@ -69,8 +70,14 @@
         "false": "r3.large"
       },
       "DataInstanceType": {
+        "Description": "Use smaller instance in 'TestMode'",
         "true": "t2.micro",
         "false": "m3.medium"
+      },
+      "DataInstanceTypeWhenMissingTypes": {
+        "Description": "Use smaller instance in 'TestMode'",
+        "true": "t2.micro",
+        "false": "t2.medium"
       }
     }
   },
@@ -259,7 +266,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.101",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -280,7 +291,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.102",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -301,7 +316,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.103",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -322,7 +341,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.104",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -343,7 +366,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.105",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -364,7 +391,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.106",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -385,7 +416,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.107",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -406,7 +441,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.108",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -427,7 +466,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.109",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -448,7 +491,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.110",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -469,7 +516,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.111",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},
@@ -490,7 +541,11 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
-          "InstanceType": { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] },
+          "InstanceType": { "Fn::If": [
+            "hasMissingInstanceTypes",
+            { "Fn::FindInMap" : [ "Params", "DataInstanceTypeWhenMissingTypes", { "Ref": "TestMode" } ] },
+            { "Fn::FindInMap" : [ "Params", "DataInstanceType", { "Ref": "TestMode" } ] }
+          ]},
           "IP": "10.0.0.112",
           "KeyPair": { "Ref": "KeyPair" },
           "Subnet": {"Ref" : "Subnet"},

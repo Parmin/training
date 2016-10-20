@@ -1,4 +1,5 @@
 profile := $(shell if [ ! -z $(PROFILE) ]; then echo --profile $(PROFILE); fi)
+advadmindir := "../advanced_admin"
 
 noop:
 	$(info *** Some available targets: ***)
@@ -10,31 +11,31 @@ noop:
 	@true
 
 s3-devel:
-	aws $(profile) s3 sync s3 s3://mongodb-training/advadmin-devel --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+	aws $(profile) s3 sync $(advadmindir)/s3 s3://mongodb-training/advadmin-devel --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
 
 s3-diff-devel:
 	rm -rf /tmp/s3
 	mkdir /tmp/s3
 	aws $(profile) s3 cp s3://mongodb-training/advadmin-devel /tmp/s3 --recursive
 	$(info *** Showing differences with files in S3 ***)
-	diff -r -x "usb_drive.zip" /tmp/s3 s3
+	diff -r -x "usb_drive.zip" /tmp/s3 $(advadmindir)/s3
 
 s3-prod:
-	aws $(profile) s3 sync s3 s3://mongodb-training/advadmin --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+	aws $(profile) s3 sync $(advadmindir)/s3 s3://mongodb-training/advadmin --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
 
 s3-diff-prod:
 	rm -rf /tmp/s3
 	mkdir /tmp/s3
 	aws $(profile) s3 cp s3://mongodb-training/advadmin /tmp/s3 --recursive
 	$(info *** Showing differences with files in S3 ***)
-	diff -r -x "usb_drive.zip" /tmp/s3 s3
+	diff -r -x "usb_drive.zip" /tmp/s3 $(advadmindir)/s3
 
 test:
 	echo "No automated tests yet"
 
 validate-cf:
-	aws $(profile) cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-team.template
-	aws $(profile) cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-host.template
-	aws $(profile) cloudformation validate-template --template-body file://./s3/cf-templates/advadmin-run.template
+	aws $(profile) cloudformation validate-template --template-body file://$(advadmindir)/s3/cf-templates/advadmin-team.template
+	aws $(profile) cloudformation validate-template --template-body file://$(advadmindir)/s3/cf-templates/advadmin-host.template
+	aws $(profile) cloudformation validate-template --template-body file://$(advadmindir)/s3/cf-templates/advadmin-run.template
 
 
