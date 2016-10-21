@@ -137,7 +137,7 @@ Create a replica set named **SECURE** with the following configuration:
 
 - 3 Nodes:
 
-  - **Node1**, **Node2** and **Node3**
+  - **node1**, **node2** and **node3**
   - Port `27000`
 
 - **clusterAuthMechanism**: x509

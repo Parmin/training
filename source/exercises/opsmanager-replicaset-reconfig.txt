@@ -38,11 +38,11 @@ Exercise: Initial Replica Set
   - Replica set name ``META``
   - Two data bearing nodes
 
-    - use hosts: **Node3** and **Node4**
+    - use hosts: **node3** and **node4**
 
   - One arbiter
 
-    - use host: **Node5**
+    - use host: **node5**
 
   - All nodes should be set to use port **27000**
 
@@ -58,18 +58,18 @@ Exercise: Add Replica Set Members
 
   - First node should have priority 0
 
-    - use **Node6**
+    - use **node6**
 
   - Second node should be an hidden replica.
 
-    - use **Node8**
+    - use **node8**
 
 
 Exercise: Decomission Replica Member
 ------------------------------------
 
 - One of your nodes is not making the cut.
-  - Not poiting fingers but ... **Node3** is *acting up*
+  - Not poiting fingers but ... **node3** is *acting up*
 
 - Change your replica set by *"decommissioning"* one of the instances
 - Make sure that your replica set keeps up majority and previous level of node
@@ -85,9 +85,9 @@ Exercise: Decomission Replica Member
     - Make sure that the they will need to chang the Replica Set configuration
       priroities if they don't want to just remove the problematic node
 
-      - In this case **Node3**
+      - In this case **node3**
 
-    - Changing the priorty of **Node6** to 1 will keep the same availabilty
+    - Changing the priorty of **node6** to 1 will keep the same availabilty
 
     - We can also remove the ``arbiter`` to keep an odd number of nodes
 
@@ -126,10 +126,10 @@ hierarchy *(talking about micromanagement!)*.
 
 - Update the priorities of nodes to the following configuration:
 
-  - **Node4**: 10
-  - **Node6**: 7
-  - **Node5**: Arbiter
-  - **Node8**: 0 and slave delayed by 10hours
+  - **node4**: 10
+  - **node6**: 7
+  - **node5**: Arbiter
+  - **node8**: 0 and slave delayed by 10hours
 
 - All of these changes should be done using the Ops Manager API!
 
@@ -232,7 +232,7 @@ hierarchy *(talking about micromanagement!)*.
                       }
                   },
                   "authSchemaVersion": 5,
-                  "hostname": "Node4",
+                  "hostname": "node4",
                   "logRotate": {
                       "sizeThresholdMB": 1000.0,
                       "timeThresholdHrs": 24
@@ -259,7 +259,7 @@ hierarchy *(talking about micromanagement!)*.
                       }
                   },
                   "authSchemaVersion": 5,
-                  "hostname": "Node6",
+                  "hostname": "node6",
                   "logRotate": {
                       "sizeThresholdMB": 1000.0,
                       "timeThresholdHrs": 24
@@ -286,7 +286,7 @@ hierarchy *(talking about micromanagement!)*.
                       }
                   },
                   "authSchemaVersion": 5,
-                  "hostname": "Node5",
+                  "hostname": "node5",
                   "logRotate": {
                       "sizeThresholdMB": 1000.0,
                       "timeThresholdHrs": 24
@@ -313,7 +313,7 @@ hierarchy *(talking about micromanagement!)*.
                       }
                   },
                   "authSchemaVersion": 5,
-                  "hostname": "Node3",
+                  "hostname": "node3",
                   "logRotate": {
                       "sizeThresholdMB": 1000.0,
                       "timeThresholdHrs": 24
@@ -340,7 +340,7 @@ hierarchy *(talking about micromanagement!)*.
                       }
                   },
                   "authSchemaVersion": 5,
-                  "hostname": "Node8",
+                  "hostname": "node8",
                   "logRotate": {
                       "sizeThresholdMB": 1000.0,
                       "timeThresholdHrs": 24

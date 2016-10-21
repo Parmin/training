@@ -124,7 +124,7 @@ We will need the following instances:
 
 - The *hosts* that will be supporting this deployment:
 
-  - **OpsMgr1** **OpsMgr2** and **OpsMgr3**
+  - **opsmgr1** **opsmgr2** and **opsmgr3**
 
 - Load Balancer
 
@@ -177,7 +177,7 @@ From the available machines go ahead and set up a Replica Set to support the
       - ``validate_appdb.py``
 
     Instruction set:
-    - Connect to each OpsMgr instance and perform and launch a mongod
+    - Connect to each **opsmgr** instance and launch a mongod
 
     .. code-block:: bash
 
@@ -197,20 +197,20 @@ From the available machines go ahead and set up a Replica Set to support the
             cacheSizeGB: 2
             journalCompressor: zlib
       net:
-        port: 30000
+        port: 27001
 
     - Once all instances ``mongod`` instances are up initiate the replica set
 
     .. code-block:: bash
 
-      # replace OpsMgr{1,2,3} with corresponding internal ip addresses
-      mongo --host OpsMgr1
+      # replace opsmgr{1,2,3} with corresponding internal ip addresses
+      mongo --host opsmgr1
       > rs.initiate(
         _id: 'APPDB',
         members: [
-        {_id: 1, host:'OpsMgr1'},
-        {_id: 1, host:'OpsMgr2'},
-        {_id: 1, host:'OpsMgr3'},
+        {_id: 1, host:'opsmgr1'},
+        {_id: 1, host:'opsmgr2'},
+        {_id: 1, host:'opsmgr3'},
         ]
       )
 
@@ -240,7 +240,7 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
     We are striving for an Highly Available Ops Manager deployment therefore:
 
     - Before mentioning *again* the HA requirement you may ask students why we
-      need 2 OpsMgr nodes?
+      need 2 Ops Manager nodes?
     - Make sure students use machines that are tagged with OpsManager
 
     You may want to point to the following documentation page:
@@ -251,7 +251,7 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
 
     .. code-block:: bash
 
-      ssh -A centos@OpsMgr1
+      ssh -A centos@opsmgr1
       #install opsmanager server
       yum install -y /share/downloads/mongodb-mms-2.0.6.363-1.x86_64.rpm
       #edit the configuration options
@@ -260,10 +260,10 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
       openssl rand 24 > /share/gen.key
       cp /share/gen.key /etc/mongodb-mms/
 
-      #copy this generated file to all OpsMgr hosts
-      scp /share/gen.key centos@OpsMgr2:/etc/mongodb-mms/opsmgr.key
-      scp /share/gen.key centos@OpsMgr3:/etc/mongodb-mms/opsmgr.key
-      #make sure you use replace OpsMgr* for the host ip
+      #copy this generated file to all **opsmgr** hosts
+      scp /share/gen.key centos@opsmgr2:/etc/mongodb-mms/opsmgr.key
+      scp /share/gen.key centos@opsmgr3:/etc/mongodb-mms/opsmgr.key
+      #make sure you use replace *opsmgr* for the host ip
 
 
     - Edit Ops Manager configuration file `/etc/mongodb-mms/conf-mms.properties`
@@ -271,20 +271,20 @@ Now it's time to launch **Ops Manager** service. For this you will need to:
     .. code-block:: bash
 
       #replace mongo.mongoUri with APPDB replica set connection string
-      # mongodb://OpsMgr1:30000,OpsMgr2:30000,OpsMgr3:30000/?replicaSet=APPDB
-      sed -i.bak 's/^\(mongo.mongoUri=\).*/\1mongodb:\/\/OpsMgr1\:30000,OpsMgr2\:30000,OpsMgr3\:30000\/\?replicaSet=APPDB/' /etc/mongodb-mms/conf-mms.properties
+      # mongodb://opsmgr1:27001,opsmgr2:27001,opsmgr3:27001/?replicaSet=APPDB
+      sed -i.bak 's/^\(mongo.mongoUri=\).*/\1mongodb:\/\/opsmgr1\:27001,opsmgr2\:27001,opsmgr3\:27001\/\?replicaSet=APPDB/' /etc/mongodb-mms/conf-mms.properties
       #or just use vi
 
-      #repeat the operation on all OpsMgr hosts
+      #repeat the operation on all **opsmgr** hosts
 
 
-    - Launch Ops Manager on all OpsMgr hosts
+    - Launch Ops Manager on all **opsmgr** hosts
 
     .. code-block:: bash
 
-      ssh -A centos@OpsMgr1 'service mongodb-mms start'
-      ssh -A centos@OpsMgr2 'service mongodb-mms start'
-      ssh -A centos@OpsMgr3 'service mongodb-mms start'
+      ssh -A centos@opsmgr1 'service mongodb-mms start'
+      ssh -A centos@opsmgr2 'service mongodb-mms start'
+      ssh -A centos@opsmgr3 'service mongodb-mms start'
 
     To validate this exercise the students should be able to:
 

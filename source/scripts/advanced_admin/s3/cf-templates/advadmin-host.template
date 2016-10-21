@@ -6,6 +6,10 @@
       "Description": "Instance type, usually 'm3.medium' for data nodes and 'r3.large' for OpsMgr hosts",
       "Type": "String"
     },
+    "IP": {
+      "Description": "IP for the host",
+      "Type": "String"
+    },
     "KeyPair": {
       "Description": "Amazon EC2 Key Pair, either AdvancedAdministrator or another one to distribute to the teams",
       "Type": "AWS::EC2::KeyPair::KeyName"
@@ -52,18 +56,25 @@
       },
       "us-west-1": {
         "v9": "ami-12cb8f72",
-        "v10": "ami-ebe3ae8b"
+        "v10": "ami-a1dc94c1"
       },
       "us-west-2": {
         "v9": "ami-919751f1",
-        "v10": "ami-cdd100ad"
+        "v10": "ami-5665c036"
       },
       "eu-central-1": {
-        "v9": "ami-78b25917"
+        "v9": "ami-78b25917",
+        "v10": "ami-5fd82130"
       },
       "eu-west-1": {
         "v9": "ami-aea53edd",
-        "v10": "ami-6f72001c"
+        "v10": "ami-01672872"
+      },
+      "ap-south-1": {
+        "v10": "ami-1360147c"
+      },
+      "ap-southeast-2": {
+        "v10": "ami-37754854"
       }
     },
     "Params": {
@@ -108,9 +119,8 @@
             "DeviceIndex": "0",
             "DeleteOnTermination": "true",
             "GroupSet": [ {"Ref" : "SSHandHTTPSecurityGroup"} ],
-            "SubnetId": {
-              "Ref": "Subnet"
-            }
+            "PrivateIpAddress": { "Ref": "IP" },
+            "SubnetId": { "Ref": "Subnet" }
           }
         ],
         "UserData": { "Fn::Base64" : { "Fn::Join" : ["\n", [

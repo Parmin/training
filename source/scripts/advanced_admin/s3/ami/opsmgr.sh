@@ -4,7 +4,7 @@
 # - ability to download the 'datasets' and 'validation' scripts from a test location
 # - test for error codes in running commands and return them to the caller!?
 
-### Machine Role: OpsMgr and Node
+### Machine Role: opsmgr and node
 
 ### Files to download
 DIR=/data/downloads
@@ -15,6 +15,7 @@ FILES=(
     https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/3.2/x86_64/RPMS/mongodb-enterprise-server-3.2.9-1.el7.x86_64.rpm
     https://s3.amazonaws.com/mongodb-training/advadmin/config/appdb.cnf
     https://s3.amazonaws.com/mongodb-training/advadmin/config/backupdb.cnf
+    https://s3.amazonaws.com/mongodb-training/advadmin/config/etchosts
     https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_replicasetreconfig.py
     https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_securedreplicaset.py
     https://s3.amazonaws.com/mongodb-training/advadmin/datasets/usb_drive.zip
@@ -65,6 +66,9 @@ service mongod stop
 # move config files to /share/etc
 cp /share/downloads/appdb.cnf /share/etc/appdb.conf
 cp /share/downloads/backupdb.cnf /share/etc/backupdb.conf
+
+# add all the role names and their corresponding IPs to the /etc/hosts file
+cat /share/downloads/etchosts >> /etc/hosts
 
 # adding write permissions to /var/log/mongodb
 chmod 777 -R /var/log/mongodb

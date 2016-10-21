@@ -6,6 +6,9 @@ Hi there, welcome to Advanced Administration Training Setup and Installation Ins
 These instructions are to be carried out by our instructors to set up the training environment so
 students can run the labs for the Advanced Administration.
 
+Detailed instructions are available at:
+  https://docs.google.com/document/d/1vhA6NvlTsPe1rw_fb7N5NrYzJ78odiHWBd5yf9vPd64
+  
 Requirements
 ------------
 

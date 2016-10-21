@@ -14,6 +14,7 @@ import sys
 from provider_utils import *
 
 TOP_STACK_DESC = "This is the top stack template to create a training class"
+S3_FILES_PATH = os.path.join(os.path.dirname(__file__), "s3")
 
 class Provisioner_aws_cf(object):
     """
@@ -40,6 +41,7 @@ class Provisioner_aws_cf(object):
 
         self.session = None
         self.client = None
+        self.ec2 = None
         self.teams = []
 
     def build(self, build_id, dryrun=True):
@@ -53,7 +55,8 @@ class Provisioner_aws_cf(object):
             testmode = "false"
 
         # http://boto3.readthedocs.io/en/latest/reference/services/cloudformation.html#CloudFormation.Client.create_stack
-        with open("s3/cf-templates/advadmin-base_team.template", 'r') as f:
+        template_path = os.path.join(S3_FILES_PATH, "cf-templates", "advadmin-run.template")
+        with open(template_path, 'r') as f:
             response = self.client.create_stack(
                 StackName = self.training_run,
                 TemplateBody = f.read(),
@@ -89,6 +92,7 @@ class Provisioner_aws_cf(object):
             else:
                 self.session = boto3.session(profile_name=self.aws_profile, aws_region=self.aws_region)
             self.client = self.session.client('cloudformation')
+            self.ec2 = self.session.client('ec2')
         except ProfileNotFound, e:
             log.error("\nFATAL - Could not find the AWS profile '{0}'".format(self.aws_profile))
             log.error("Check the ~/.aws/config file and/or configure with 'aws configure'")
@@ -144,9 +148,6 @@ class Provisioner_aws_cf(object):
         run_info.key_values(("KeyPair", runinfo['KeyPair']))
         run_info.key_values(("NumberOfTeams", runinfo['NbTeams']))
         run_info.comment("")
-        run_info.key_values(("VPC", runinfo['VPC']))
-        run_info.key_values(("PublicRouteTable", runinfo['PublicRouteTable']))
-        run_info.key_values(("SecurityGroup", runinfo['SSHandHTTPSecurityGroup']))
         run_info.start_list("Teams")
         # Describe all sub stacks, starting with the top one for the 'run'
         for one_run_resource in run_resources['StackResources']:
@@ -158,8 +159,10 @@ class Provisioner_aws_cf(object):
                 run_info.comment("")
                 run_info.new_list_obj()
                 run_info.key_values(("Id", teaminfo['TeamNumber']))
-                run_info.key_values(("SubnetMask", teaminfo['SubnetMask']))
                 run_info.key_values(("LoadBalancer", teaminfo['LoadBalancerHostName']))
+                run_info.key_values(("SecurityGroup", teaminfo['SSHandHTTPSecurityGroup']))
+                run_info.key_values(("VPC", teaminfo['VPC']))
+                run_info.key_values(("SubnetMask", teaminfo['SubnetMask']))
                 # Getting all resources for the stack that created this team
                 team_resources = self._describe_stack_resources(physicalId)
                 run_info.start_list("Hosts")
@@ -171,32 +174,62 @@ class Provisioner_aws_cf(object):
                         physicalId = one_team_resource['PhysicalResourceId']
                         hostinfo = self._get_outputs_for_stack(physicalId)
                         hosttags = self._get_tags_for_stack(physicalId)
-                        run_info.key_values( ("Id", hostinfo['InstanceID'], "{:10}"), ("Role", hosttags['Role'], "{:8}"), ("IP", hostinfo['PublicIP'], "{:14}"), ("PrivateIP", hostinfo['PrivateIP'], "{:14}") )
+                        run_info.key_values( ("Id", hostinfo['InstanceID'], "{:10}"), ("Role", hosttags['Role'], "{:8}") )
+                        # If the machine rebooted, it would have a new public name and public IP
+                        #run_info.key_values( ("PrivateIP", hostinfo['PrivateIP'], "{:15}"), ("PrivateName", hostinfo['PrivateDnsName'], "{:50}") )
+                        #run_info.key_values( ("PublicIP ", hostinfo['PublicIP'], "{:15}"), ("PublicName ", hostinfo['PublicDnsName'], "{:50}") )
+                        # ... so get the current info by querying the instance info directly
+                        instanceinfo = self._get_instance_info(hostinfo['InstanceID'])
+                        run_info.key_values( ("PrivateIP", instanceinfo['PrivateIP'], "{:15}"), ("PrivateName", instanceinfo['PrivateDnsName'], "{:50}") )
+                        run_info.key_values( ("PublicIP", instanceinfo['PublicIP'], "{:15}"), ("PublicName", instanceinfo['PublicDnsName'], "{:50}") )
+                        run_info.comment("")
                 run_info.end_list("Hosts")
         run_info.end_list("Teams")
         run_info.comment("")
         return run_info.get_dict()
 
-    def manage(self, cmd):
+    def manage(self, cmd, script):
         """
         Execute something on a bunch of hosts
         """
+        etchosts_filename = "/tmp/hosts"
         # Get the list of hosts from the deployment
         run_info = self.get_run_info(printit=False)
         keypair = run_info['KeyPair']
         for team in run_info['Teams']:
-            if self.args.teams == "all" or team['Id'] in self.args.teams:
+            if (self.args.ips is not None) or (self.args.teams == "all") or (self.args.teams is not None and team['Id'] in self.args.teams):
                 print("\nTeam {}".format(team['Id']))
+                if self.args.etchosts is not None:
+                    etchosts_file = open(etchosts_filename, 'w')
                 for host in team['Hosts']:
-                    if self.args.roles == "all" or host['Role'] in self.args.roles:
-                        print("\n  {:14}  {}".format(host['IP'], host['Role']))
+                    if (self.args.ips is not None and host['PublicIP'] in self.args.ips) or (self.args.roles == "all") or (self.args.roles is not None and host['Role'] in self.args.roles):
+                        print("\n  {:14}  {}".format(host['PublicIP'], host['Role']))
                         # Is this a script to upload?
-                        if os.path.isfile(cmd):
-                            # upload the file
-                            remote_script = self._transfer_file_to_host(host['IP'], cmd, keypair)
-                            self._run_cmd_on_host(host['IP'], "bash " + remote_script, keypair)
-                        else:
-                            self._run_cmd_on_host(host['IP'], cmd, keypair)
+                        if cmd is not None:
+                            # Run the remote command
+                            self._run_cmd_on_host(host['PublicIP'], cmd, keypair)
+                        elif script is not None:
+                            # Upload the script ant run it
+                            remote_script = self._transfer_file_to_host(host['PublicIP'], script, keypair)
+                            self._run_cmd_on_host(host['PublicIP'], "bash " + remote_script, keypair)
+                    if self.args.etchosts is not None:
+                        etchosts_file.write("{:14}   {}\n".format(host['PrivateIP'], host['Role']))
+                if self.args.etchosts is not None:
+                    etchosts_file.close()
+                    self._transfer_file_to_host(host['PublicIP'], etchosts_filename, keypair)
+
+    def _get_instance_info(self, instanceId):
+        """
+        Return a dictionary with some of the 'instance attributes' for a given EC2 instance
+        """
+        info = dict()
+        instance = self.ec2.describe_instances(InstanceIds=[instanceId])
+        instance_info = instance['Reservations'][0]['Instances'][0]
+        info['PublicIP'] = instance_info['PublicIpAddress']
+        info['PublicDnsName'] = instance_info['PublicDnsName']
+        info['PrivateIP'] = instance_info['PrivateIpAddress']
+        info['PrivateDnsName'] = instance_info['PrivateDnsName']
+        return info
 
     def _get_outputs_for_stack(self, stackId):
         """

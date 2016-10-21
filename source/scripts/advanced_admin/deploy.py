@@ -76,7 +76,7 @@ def main():
     parser.add_argument('--run', dest='training_run', required=True, type=str,
       help='environment training run identifier')
 
-    parser.add_argument('--teams', dest='teams', required=True, type=int, choices=range(0,8),
+    parser.add_argument('--teams', dest='teams', required=True, type=int, choices=range(1,8),
       help='Number of teams for this training run')
 
     parser.add_argument('--testmode', dest='testmode', action='store_true',
@@ -102,6 +102,10 @@ def main():
         print("FATAL - invalid provider, must be 'aws-plain' or 'aws-cf' " % args.provider)
         sys.exit(1)
 
+    if "_" in args.training_run:
+        # since we use the name in the template name, it would not be accepted by AWS
+        fatal(1, "Can't use '_' in the training run name due to a restriction in AWS")
+
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
     logger.debug("Building {0} stack".format(build_id))
@@ -110,7 +114,8 @@ def main():
     pr.build(build_id, args.testmode)
     logger.debug("All teams:".format(pr.teams))
     print("It takes about 10 minutes to create the instances")
-    print("You can get the overall status by running 'describe.py --profile <AWS_training_profile>'")
+    print("You can get the overall status by running:")
+    print("   describe.py --profile <AWS_training_profile>  -run <myrun>")
     print("OR using the 'CloudFormation' UI in AWS to see the progression of each stack and sub-stack")
 
 

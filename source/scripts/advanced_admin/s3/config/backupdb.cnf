@@ -13,4 +13,4 @@ storage:
       cacheSizeGB: 2
       journalCompressor: snappy
 net:
-  port: 40000
+  port: 27002

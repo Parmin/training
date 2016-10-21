@@ -1,19 +1,23 @@
 ### In this section, we initiate the replica sets
 ### At the end of this section, you should have 2 PSS replica sets as APPDB and BACKUPDB
-### TODO - automate this part
+### 
+### > cd <script/advanced_admin>
+### > ./manage.py --profile <myregion> --teams <team1,2,...> --roles opsmgr1 --run <myclass> --script solutions/1b-init_mms_dbs.txt
 
-### on OpsMgr1 for a given team, or any 10.0.X.X host
-
-# Note that the <opsmgrN> must be replaced with the AWS internal IP addresses.
+cd /data
 
 # AppDB replica set
-mongodb/bin/mongo --port <opsmgr1>:27001
-rs.initiate()
-rs.add("<opsmgr2>:27001")
-rs.add("<opsmgr3>:27001")
+cat <<APPDBEOF > /tmp/appdb.js
+rs.initiate( { _id: "APPDB", members: [ { _id: 0, host: "opsmgr1:27001"} ] } )
+rs.add("opsmgr2:27001")
+rs.add("opsmgr3:27001")
+APPDBEOF
+mongodb/bin/mongo --port 27001 /tmp/appdb.js
 
 # BackupDB replica set
-mongodb/bin/mongo --port <opsmgr1>:27002
-rs.initiate()
-rs.add("<opsmgr2>:27002")
-rs.add("<opsmgr3>:27002")
+cat <<BACKUPDBEOF > /tmp/backukdb.js
+rs.initiate( { _id: "BACKUPDB", members: [ { _id: 0, host: "opsmgr1:27002"} ] } )
+rs.add("opsmgr2:27002")
+rs.add("opsmgr3:27002")
+BACKUPDBEOF
+mongodb/bin/mongo --port 27002 /tmp/backupdb.js
