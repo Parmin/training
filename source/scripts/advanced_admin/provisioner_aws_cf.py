@@ -55,7 +55,7 @@ class Provisioner_aws_cf(object):
             testmode = "false"
 
         # http://boto3.readthedocs.io/en/latest/reference/services/cloudformation.html#CloudFormation.Client.create_stack
-        template_path = os.path.join(S3_FILES_PATH, "cf-templates/advadmin-run.template")
+        template_path = os.path.join(S3_FILES_PATH, "cf-templates", "advadmin-run.template")
         with open(template_path, 'r') as f:
             response = self.client.create_stack(
                 StackName = self.training_run,
@@ -197,12 +197,12 @@ class Provisioner_aws_cf(object):
         run_info = self.get_run_info(printit=False)
         keypair = run_info['KeyPair']
         for team in run_info['Teams']:
-            if self.args.ips is not None or self.args.teams == "all" or (self.args.teams is not None and team['Id'] in self.args.teams):
+            if (self.args.ips is not None) or (self.args.teams == "all") or (self.args.teams is not None and team['Id'] in self.args.teams):
                 print("\nTeam {}".format(team['Id']))
                 if self.args.etchosts is not None:
                     etchosts_file = open(etchosts_filename, 'w')
                 for host in team['Hosts']:
-                    if (self.args.ips is not None and host['PublicIP'] in self.args.ips ) or self.args.roles == "all" or (self.args.roles is not None and host['Role'] in self.args.roles):
+                    if (self.args.ips is not None and host['PublicIP'] in self.args.ips) or (self.args.roles == "all") or (self.args.roles is not None and host['Role'] in self.args.roles):
                         print("\n  {:14}  {}".format(host['PublicIP'], host['Role']))
                         # Is this a script to upload?
                         if cmd is not None:

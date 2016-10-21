@@ -177,7 +177,7 @@ From the available machines go ahead and set up a Replica Set to support the
       - ``validate_appdb.py``
 
     Instruction set:
-    - Connect to each **opsmgr** instance and perform and launch a mongod
+    - Connect to each **opsmgr** instance and launch a mongod
 
     .. code-block:: bash
 

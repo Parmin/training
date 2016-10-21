@@ -103,7 +103,8 @@ def main():
         sys.exit(1)
 
     if "_" in args.training_run:
-        fatal(1, "Can't use '_' in the training run name")
+        # since we use the name in the template name, it would not be accepted by AWS
+        fatal(1, "Can't use '_' in the training run name due to a restriction in AWS")
 
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
