@@ -82,6 +82,7 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "1",
           "KeyPair": { "Ref": "KeyPair" },
           "TestMode": { "Ref": "TestMode" }
@@ -99,6 +100,7 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "2",
           "KeyPair": { "Ref": "KeyPair" },
           "TestMode": { "Ref": "TestMode" }
@@ -116,6 +118,7 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "3",
           "KeyPair": { "Ref": "KeyPair" },
           "TestMode": { "Ref": "TestMode" }
@@ -133,6 +136,7 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "4",
           "KeyPair": { "Ref": "KeyPair" },
           "TestMode": { "Ref": "TestMode" }
@@ -150,6 +154,7 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "5",
           "KeyPair": { "Ref": "KeyPair" },
           "TestMode": { "Ref": "TestMode" }
@@ -167,6 +172,7 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "6",
           "KeyPair": { "Ref": "KeyPair" },
           "TestMode": { "Ref": "TestMode" }
@@ -184,6 +190,7 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "7",
           "KeyPair": { "Ref": "KeyPair" },
           "TestMode": { "Ref": "TestMode" }
@@ -201,6 +208,7 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "8",
           "KeyPair": { "Ref": "KeyPair" },
           "TestMode": { "Ref": "TestMode" }
@@ -218,6 +226,7 @@
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "9",
           "KeyPair": { "Ref": "KeyPair" },
           "TestMode": { "Ref": "TestMode" }

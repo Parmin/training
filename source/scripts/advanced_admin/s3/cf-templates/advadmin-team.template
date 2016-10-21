@@ -3,6 +3,10 @@
 
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": {
+    "RunName": {
+      "Description": "Run or class name, used to name the Load Balancer",
+      "Type": "String"
+    },
     "TeamNumber": {
       "Description": "Team number, 1 to 16. Subnet for this team will be 10.0.X.0",
       "Type": "String"
@@ -581,6 +585,7 @@
           "InstanceProtocol": "HTTP",
           "InstancePort": "8080"
         }],
+        "LoadBalancerName": { "Fn::Join" : [ "-", [ { "Ref": "RunName" }, "team", { "Ref": "TeamNumber" } ]] },
         "Scheme": "internet-facing",
         "SecurityGroups" : [ { "Ref": "SSHandHTTPSecurityGroup" } ],
         "Subnets": [ { "Ref": "Subnet" } ],

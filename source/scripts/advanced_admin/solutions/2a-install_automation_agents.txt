@@ -1,4 +1,4 @@
-### In this section we will install the automation agent on all *nodeX* hosts.
+### In this section we will install the automation agent on all nodeX hosts.
 ### If you decide to use this script with ./manage.py, you will need to set few vars.
 
 # Example of vars to set. Those are for a given Ops Manager group
@@ -8,7 +8,7 @@ MMSGROUP=57e58c69e4b0a3d91751aef0
 MMSAPI=031981a508e2264117a987ee68eac96c
 
 # then run:
-# ./manage.py --profile training-eu-west-1 --run dcoupal-test2 --teams 0 --role node1,node2,node3,node4,node5,node6,node7,node8,node9,node10,node11 --script solutions/2a-install_automation_agents.txt
+# ./manage.py --profile training-eu-west-1 --run dcoupal-test --teams 0 --role node1,node2,node3,node4,node5,node6,node7,node8,node9,node10,node11,node12 --script solutions/2a-install_automation_agents.txt
 
 if [ -z $MMSAUTAGENT ] || [ -z $MMSURL ] || [ -z $MMSGROUP ] || [ -z $MMSAPI ]; then
   echo some vars are not set in MMSAUTAGENT, MMSURL, MMSGROUP, MMSAPI
