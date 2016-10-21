@@ -76,7 +76,7 @@ Launch ``mongod`` with ``auth`` enabled
 
     - `mongo admin --eval 'db.shutdownServer()'` is a clean shutdown of the server
     - ``timeoutSecs`` is parameter that can be used to control the shutdown operation
-    - Especially w/ Replica Sets, which they'll be using, soon.
+    - Especially w/ replica sets, which they'll be using, soon.
 
 Connect using the recently created ``maestro`` user.
 

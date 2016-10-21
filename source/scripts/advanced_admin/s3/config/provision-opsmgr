@@ -220,12 +220,12 @@ mms.backup.minimumOplogWindowHours=0.01
 EOF
     service mongodb-mms start
 
-    # Get OpsMgr to automatically start on reboot, which must be done with
+    # Get Ops Manager to automatically start on reboot, which must be done with
     # `vagrant reload [opsmgr]` in order to have the host mounted `/vagrant/`
     # directory.
     # The automation agent starts automatically, which then starts the OpsMgr
     # Application and Blockstore DBs. This takes a few seconds, so let's wait
-    # before starting OpsMgr and the Backup daemon (otherwise they will fail).
+    # before starting Ops Manager and the Backup daemon (otherwise they will fail).
     chmod +x /etc/rc.local
     cat   >> /etc/rc.local <<EOF
 

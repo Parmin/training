@@ -76,7 +76,7 @@ def main():
     parser.add_argument('--run', dest='training_run', required=True, type=str,
       help='environment training run identifier')
 
-    parser.add_argument('--teams', dest='teams', required=True, type=int, choices=range(1,8),
+    parser.add_argument('--teams', dest='teams', required=True, type=int, choices=range(1,9),
       help='Number of teams for this training run')
 
     parser.add_argument('--testmode', dest='testmode', action='store_true',

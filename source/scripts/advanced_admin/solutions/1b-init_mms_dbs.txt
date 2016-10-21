@@ -21,3 +21,4 @@ rs.add("opsmgr2:27002")
 rs.add("opsmgr3:27002")
 BACKUPDBEOF
 mongodb/bin/mongo --port 27002 /tmp/backupdb.js
+

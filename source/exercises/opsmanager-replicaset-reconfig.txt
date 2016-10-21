@@ -38,11 +38,11 @@ Exercise: Initial Replica Set
   - Replica set name ``META``
   - Two data bearing nodes
 
-    - use hosts: **node3** and **node4**
+    - use hosts: ``node3`` and ``node4``
 
   - One arbiter
 
-    - use host: **node5**
+    - use host: ``node5``
 
   - All nodes should be set to use port **27000**
 
@@ -58,18 +58,18 @@ Exercise: Add Replica Set Members
 
   - First node should have priority 0
 
-    - use **node6**
+    - use ``node6``
 
   - Second node should be an hidden replica.
 
-    - use **node8**
+    - use ``node8``
 
 
 Exercise: Decomission Replica Member
 ------------------------------------
 
 - One of your nodes is not making the cut.
-  - Not poiting fingers but ... **node3** is *acting up*
+  - Not pointing fingers but ... ``node3`` is *acting up*
 
 - Change your replica set by *"decommissioning"* one of the instances
 - Make sure that your replica set keeps up majority and previous level of node
@@ -85,9 +85,9 @@ Exercise: Decomission Replica Member
     - Make sure that the they will need to chang the Replica Set configuration
       priroities if they don't want to just remove the problematic node
 
-      - In this case **node3**
+      - In this case ``node3``
 
-    - Changing the priorty of **node6** to 1 will keep the same availabilty
+    - Changing the priorty of ``node6`` to 1 will keep the same availabilty
 
     - We can also remove the ``arbiter`` to keep an odd number of nodes
 
