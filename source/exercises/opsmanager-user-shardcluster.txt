@@ -7,11 +7,11 @@ Learning Objectives
 
 Upon completing this lab, students will be able to:
 
-- Create a sharded cluster using Ops Manager.
-- Identify the necessary steps to configure the cluster.
-- Create the correct shard key for a given dataset.
-- Understand Zone sharding.
-- Detect balancing issues.
+- Create a sharded cluster using Ops Manager
+- Identify the necessary steps to configure the cluster
+- Create the correct shard key for a given dataset
+- Understand Zone sharding
+- Detect balancing issues
 
 .. include:: /includes/student-notes.rst
 
@@ -114,7 +114,7 @@ failure.
       For *host failure* to be triggered, the instructor should connect to
       `aws console`_ and stop the execution of a given host.
 
-      These can also be ``opsmgr`` instances, where students should be monitoring
+      These can also be ``opsmgr`` instances where students should be monitoring
       the running Application DB replica set.
 
 
@@ -163,10 +163,10 @@ We also want you to configure a few settings:
 Exercise: Configure Shard (continued)
 -------------------------------------
 
-Let's go ahead and import dataset **consumer** that is available in ``opsmgr``
+Let's go ahead and import the **consumer** dataset that is available in the ``opsmgr``
 instances in the folder ``/dataset/consumer``:
 
-- import/restore this dataset into *consumer.complaints* namespace
+- import/restore this dataset into the *consumer.complaints* namespace
 
 - Once data is imported let's shard the ``complaints`` collection using the
   following shard key:
@@ -414,7 +414,7 @@ The procedure should be:
     To accomplish this task students should do the following:
 
     - generate a backup dump from Ops Manager
-    - change the shard ranges and tags so we can maintian the pre-defined
+    - change the shard ranges and tags so we can maintain the pre-defined
       dataset isolation
 
     .. code-block:: js

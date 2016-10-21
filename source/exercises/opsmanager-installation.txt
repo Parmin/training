@@ -116,17 +116,17 @@ Let's review the `Ops Manager architecture`_ :
 
 .. include:: /includes/student-notes.rst
 
-Launch Ops Manager MongoDB Instances
-------------------------------------
+Launch the Ops Manager MongoDB Instances
+----------------------------------------
 
 It's time to set up the our hosts that will support our Ops Manager Deployment.
 
 We will need the following instances:
 
-- Two Replica Set of 3 data nodes
+- Two replica sets of 3 data nodes
 
-  - Application Database Replica Set as **APPDB**
-  - Backup Database Replica Set as **BACKUPDB**
+  - Application Database replica set as **APPDB**
+  - Backup Database replica set as **BACKUPDB**
 
 - Three instances to run redundant services of Ops Manager Application
 
@@ -150,9 +150,9 @@ We will need the following instances:
 
     - Where do we start ?
 
-      - Boot up Ops Manager Application Replica Set
+      - Boot up Ops Manager Application replica set
 
-    - Do we need a Replica Set to support the Backup Daemon?
+    - Do we need a replica set to support the Backup Daemon?
 
       - Yes, you always need one, and we will be using the 'blockstore' part of it
 
@@ -171,14 +171,14 @@ Ops Manager needs to store data:
 
 Also consider relevant `security settings`_ for this database.
 
-From the available machines go ahead and set up a Replica Set to support the
+From the available machines go ahead and set up a replica set to support the
 *Application Database*.
 
 .. only:: instructor
 
   .. note::
 
-    - Students should be assembling a 3 node Replica Set to allow the HA.
+    - Students should be assembling a 3 node replica set to allow the HA.
     - To validate their deployment you should ask students to run validation
       script
 
@@ -223,8 +223,8 @@ From the available machines go ahead and set up a Replica Set to support the
       )
 
 
-2. Configure and Launch Ops Manager Service
--------------------------------------------
+2. Configure and Launch the Ops Manager Service
+-----------------------------------------------
 
 **Habemus Replica Set!**
 
@@ -236,10 +236,10 @@ Now it's time to launch the **Ops Manager** service. For this you will need to:
 
   - The file can be found at */share/downloads/mongodb-mms-XXX-X.x86_64.rpm*
 
-  - Point these to the previously configured Replica Set: **APPDB**
+  - Point these to the previously configured replica set: **APPDB**
   - Allow `offline binary access`_
 
-- Launch Ops Manager service
+- Launch the Ops Manager service
 
 .. only:: instructor
 

@@ -42,7 +42,7 @@ Artifacts created
   - 1 internet gateway
 - 1 stack per team, including a 'team0' for the trainer
   - 1 subnet 10.0.X.0/24
-  - 3 hosts for Ops Manager (oprmgr1, opsmgr2, opsmgr3)
+  - 3 hosts for Ops Manager (opsmgr1, opsmgr2, opsmgr3)
   - 12 hosts for data nodes (2 shards X 3 nodes per shard, 3 config servers, 2 mongos, all nodes named 'nodeX')
   - 1 load balancer
 - 1 stack per instance

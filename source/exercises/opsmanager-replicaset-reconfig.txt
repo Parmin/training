@@ -69,7 +69,7 @@ Exercise: Decomission Replica Member
 ------------------------------------
 
 - One of your nodes is not making the cut.
-  - Not poiting fingers but ... ``node3`` is *acting up*
+  - Not pointing fingers but ... ``node3`` is *acting up*
 
 - Change your replica set by *"decommissioning"* one of the instances
 - Make sure that your replica set keeps up majority and previous level of node

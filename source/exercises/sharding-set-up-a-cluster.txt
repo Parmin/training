@@ -10,7 +10,7 @@ Upon completing this module students should understand:
 
 - How to set up a sharded cluster including:
 
-  - Replica Sets as Shards
+  - Replica sets as shards
   - Config Servers
   - Mongos processes
 
