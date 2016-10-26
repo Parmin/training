@@ -1,0 +1,9 @@
+===============
+Storage Engines
+===============
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-internal-storage-engines.rst
+
+.. include:: /includes/toc/internal-storage-engines.rst

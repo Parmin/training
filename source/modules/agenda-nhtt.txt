@@ -38,7 +38,7 @@ Day 4
 - Storage Engines and Internals
 
   - :doc:`/modules/internal-storage-engines-mmapv1`
-  - :doc:`/modules/storage-engines-wired-tiger`
+  - :doc:`/modules/internal-storage-engines-wired-tiger`
 
 .. include:: /includes/student-notes.rst
 

@@ -232,3 +232,27 @@ One of the recommended plugins is `restructured text preview Pandoc`_ which give
 .. _`EDU JIRA`: https://jira.mongodb.org/browse/EDU
 .. _`Atom`: https://atom.io/
 .. _`restructured text preview Pandoc`: https://github.com/tohosokawa/rst-preview-pandoc
+
+Building the artifacts
+----------------------
+
+Build the slides with
+
+.. code::
+
+    make instructor-package
+
+In order to build the PDF, you will need to install 'LaTeXiT' and 'MacTex'. Then run:
+
+.. code::
+
+    make latex
+
+If you want to build a PDF, you will need to:
+
+- add the description of the PDF to the file "config/pdfs.yaml"
+- add a corresponding file in "source/meta", which should point to a section in "source/includes"
+
+
+
+
