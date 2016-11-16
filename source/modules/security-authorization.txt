@@ -141,8 +141,6 @@ Given a resource, we can consider the available actions:
     - Here we can ask the students which common operations they are familiar
       with while operating with a database and how those translate to MongoDB
       operations.
-    - __system user
-
 
 
 Specific Actions of Each Type

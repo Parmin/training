@@ -34,7 +34,7 @@ What is WiredTiger?
 
   .. note::
 
-    - [DRAW] WT as a subsystem of MongoDB
+    - [DRAW] WT as a subsystem of MongoDB (TODO provide the diagram for the instructor)
 
       - show that the feature of Wired Tiger transaction is used by MongoDB
         to commit changes to data and indexes together, not exposing 

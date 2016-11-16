@@ -127,11 +127,14 @@ Goal of the Training
     - the previous introduction training sometimes is not enough
     - tell students ask for deep technical questions
     - words of wisdom, from Richard...
+
       - “There is no fact about MongoDB that you absolutely need to know in order to do your job effectively and there is probably no fact that if you don’t know it that will be the end of the world”
       - “Don’t make guesses, there is a lot in MongoDB that may not behave the way you expect.”
       - “Don’t get caught saying MongoDB works like that, while it works differently. Once you lose their confidence and trust as a consultant or TSE, it is very difficult to gain back. They will stop listening to you about everything, even when you are right.”
       - It is OK to say: “I don’t know how it works, but let me find it out for you.”
+    
     - NHTT history
+
       - At the beginning of MongoDB, every technical person was involved in support
         Training started around 2012, running for 4 years
         Now, we are more specialized, support mainly done by Technical Support Engineers, consultation by Consulting Engineers, …
@@ -157,6 +160,7 @@ Company History
     - we started with a different idea - therefore the name 10gen (second gen)
     - we have several other products like Ops Manager or Cloud Manager.
     - notes on history:
+
       - Founded 9 years ago (2007), under the name 10gen by Dwight Merriman (Chairman of the board) and Elliott Horowitz (CTO), and Kevin Ryan.
       - Dwight has been the founder of Double Click before, where Elliot joined as an intern from college
       - Original intention was to develop a product: Software As A Service
@@ -266,7 +270,9 @@ Subscriptions
     ask questions like:
 
     - Do you guys know what a subscription stands for?
+
       - VM or host with 512GB RAM max
+
     - What does SLA mean?
     - What is Compass? BI Connector?
     - What's the difference between QA/Test and Development nodes?
@@ -291,9 +297,9 @@ Subscriptions (continued)
   .. note::
 
     - [ASK] What's the difference between Enterprise advanced and Professional?
-    - ASK] What version of MongoDB will we support with Professional Support?
-    - ASK] Can I have security?
-    - ASK] Can I have Ops Manager?
+    - [ASK] What version of MongoDB will we support with Professional Support?
+    - [ASK] Can I have security?
+    - [ASK] Can I have Ops Manager?
 
 
 Subscriptions (continued)
@@ -384,11 +390,13 @@ Open Source Model (continued)
     questions to ask:
 
     - What is AGPL? Affero General Public License
+
       - https://en.wikipedia.org/wiki/Affero_General_Public_License
 
     - What does it mean that third party can't distribute our binaries? What if they are included on their software?
 
     - If I embed MongoDB on a binary? is this a violation of our license?
+    
       - No, but they cannot sell support on that component of their product. Generally we will get a OEM license model for these situations
 
 .. include:: /includes/student-notes.rst
