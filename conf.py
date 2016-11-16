@@ -109,6 +109,8 @@ slide_theme = 'training'
 
 slide_theme_path = [ os.path.join(conf.paths.projectroot, 'themes') ]
 
+slide_numbers = True
+
 
 # -- Options for HTML output ---------------------------------------------------
 

@@ -143,7 +143,6 @@ Given a resource, we can consider the available actions:
       operations.
 
 
-
 Specific Actions of Each Type
 -----------------------------
 

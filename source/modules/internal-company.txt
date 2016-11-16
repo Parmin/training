@@ -16,6 +16,8 @@ Contents
 
   .. note::
 
+    - This is where you should start if you delivering the training for the first time:
+      https://docs.google.com/document/d/10nL--w_NaGZWEweKdYnEz_m36PhL12a-hC9u18vXhJg/edit#
     - first session of the day
     - there might be some people getting in late
     - some others will be with a considerable jetlag
@@ -50,27 +52,27 @@ Schedule
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 60 60
+   :widths: 30 80 80
    :stub-columns: 1
 
    * - Day
      - 09:00 - 13:00
      - 14:00 - 17:00
    * - Monday
-     - Introduction & Overview
-     - Indexing
+     - Introduction / Schema Design
+     - Application and Drivers
    * - Tuesday
-     - Schema Design
-     - Replication
+     - Storage Engines
+     - Indexes
    * - Wednesday
-     - Application & Drivers
+     - Replication
      - Sharding
    * - Thursday
-     - Security
-     - Internals & Storage Engine
+     - Cloud and Ops Manager
+     - Tools
    * - Friday
-     - Cloud & Ops Manager
-     - Fly Home
+     - Security
+     - Misc
 
 .. include:: /includes/student-notes.rst
 
@@ -86,7 +88,7 @@ Hi! I'm ...
 
 - Name
 - Location
-- Position (CE, SA, TSE, Dev, Docs ... )
+- Position (CE, SA, TSE, Dev, Docs, Ops, ... )
 - Relevant experience before MongoDB
 - Something funny or anecdote about you
 
@@ -112,8 +114,8 @@ Goal of the Training
 - Get to
 
   - Come to the mothership
-  - ask questions
-  - meet people
+  - Meet people
+  - Ask questions
 
 .. include:: /includes/student-notes.rst
 
@@ -124,18 +126,29 @@ Goal of the Training
     - make sure people do make a lot of questions
     - the previous introduction training sometimes is not enough
     - tell students ask for deep technical questions
+    - words of wisdom, from Richard...
+
+      - “There is no fact about MongoDB that you absolutely need to know in order to do your job effectively and there is probably no fact that if you don’t know it that will be the end of the world”
+      - “Don’t make guesses, there is a lot in MongoDB that may not behave the way you expect.”
+      - “Don’t get caught saying MongoDB works like that, while it works differently. Once you lose their confidence and trust as a consultant or TSE, it is very difficult to gain back. They will stop listening to you about everything, even when you are right.”
+      - It is OK to say: “I don’t know how it works, but let me find it out for you.”
+    
+    - NHTT history
+
+      - At the beginning of MongoDB, every technical person was involved in support
+        Training started around 2012, running for 4 years
+        Now, we are more specialized, support mainly done by Technical Support Engineers, consultation by Consulting Engineers, …
 
 
 Company History
 ---------------
-
 
 - 2007: 10gen is founded
 - 2008: Business model changed from full stack SAAS to focus on storage layer
 - 2009: MongoDB v1.0 is released (9 people)
 - 2013: 10gen renamed to MongoDB (250 people)
 - 2014: Acquired WiredTiger (425 people)
-- 2016: Atlas (you are soon to find out) (545 people)
+- 2016: Atlas (700 people)
 
 
 .. include:: /includes/student-notes.rst
@@ -145,8 +158,17 @@ Company History
   .. note::
 
     - we started with a different idea - therefore the name 10gen (second gen)
-    - we are about to release another product that will put us in a different business altogether
     - we have several other products like Ops Manager or Cloud Manager.
+    - notes on history:
+
+      - Founded 9 years ago (2007), under the name 10gen by Dwight Merriman (Chairman of the board) and Elliott Horowitz (CTO), and Kevin Ryan.
+      - Dwight has been the founder of Double Click before, where Elliot joined as an intern from college
+      - Original intention was to develop a product: Software As A Service
+      - Built storage layer (P), application layer and one programmatic language that resembles JavaScript (Babble?)
+      - Then came Google Apps Engine around the same time
+      - In late 2008, the company pivoted and just focused on the storage layer, and let most people go.
+      - MongoDB was called ‘P’ for “Persistence’. It was a key/value store, based on JSON which evolved in to BSON
+      - Turning the DB into a product required: adding indexes on other than primary keys, query language, reads and updates on more than one document. All those after thoughts reflect in the current architecture and behaviors of MongoDB as of today.
 
 MongoDB Company Overview
 ------------------------
@@ -209,29 +231,28 @@ Business Model (continued)
 
 - **Atlas**
 
-  - (shhhh! it's a secret!!!!)
-
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
   .. note::
 
-    - this tends to please investors
+    - Subscriptions tends to please investors
 
       - something you can sell and costs very little to produce
       - high margins
       - revenues that are not proportional to number of employees
 
+    - ... not so much *Support*, *Consulting* and *Training*
 
 Subscriptions
 -------------
 
 - **MongoDB Enterprise**
 
-  - Per server subscription
+  - Per server subscription 
   - MongoDB Enterprise Server (advanced security)
-  - Ops Manager
+  - Ops Manager or Cloud Manager Premium
   - Commercial Support: High SLA
   - On-Demand MongoDB University
   - MongoDB Compass & BI Connector
@@ -249,23 +270,49 @@ Subscriptions
     ask questions like:
 
     - Do you guys know what a subscription stands for?
+
+      - VM or host with 512GB RAM max
+
     - What does SLA mean?
     - What is Compass? BI Connector?
     - What's the difference between QA/Test and Development nodes?
     - Can I have a Production environment with Development nodes?
 
 
-Subscriptions(continued)
-------------------------
+Subscriptions (continued)
+-------------------------
+
+- **MongoDB Professional**
+
+  - Cloud Manager Premium
+    - Visual Query Profiler + Index suggestions + Managed Indexes ...
+
+  - Commercial Support: Medium SLA
+  - MongoDB Compass
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - [ASK] What's the difference between Enterprise advanced and Professional?
+    - [ASK] What version of MongoDB will we support with Professional Support?
+    - [ASK] Can I have security?
+    - [ASK] Can I have Ops Manager?
+
+
+Subscriptions (continued)
+-------------------------
 
 - **MongoDB Development Subscription**
 
   - Unlimited # of servers
   - MongoDB Enterprise Server (advanced security)
-  - Ops Manager
   - Development Support
   - MongoDB Compass
   - BI Connector
+  - On-Demand MongoDB University
   - https://www.mongodb.com/products/development-support
 
 .. include:: /includes/student-notes.rst
@@ -283,33 +330,8 @@ Subscriptions(continued)
       - 5*8 9h->18h (business hours) vs 24x7
 
 
-
-Subscriptions(continued)
-------------------------
-
-- **MongoDB Professional**
-
-  - Cloud Manager Premium
-    - Visual Query Profiler + Index suggestions + Managed Indexes ...
-
-  - Commercial Support: Medium SLA
-  - MongoDB Compass
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    things to ask:
-
-    - What's the difference between Enterprise advanced and Professional?
-    - What version of MongoDB will we support with Professional Support?
-    - Can I have security?
-    - Can I have Ops Manager?
-
-Subscriptions(continued)
-------------------------
+Subscriptions (continued)
+-------------------------
 
 - **MongoDB Cloud Manager**
 
@@ -318,16 +340,16 @@ Subscriptions(continued)
 
   - Support for Cloud Manager: No SLA
 
+- `Side by Side Comparaison <https://docs.google.com/spreadsheets/d/1tQzj43KsW6I1O9QJxcbhjol8plA3M8PLZLKDAbF9A-Y>`_
+
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
   .. note::
 
-    ask questions like:
-
-    - Can I have support on Cloud Manager Instances?
-    - What does it mean that we don't provide an SLA?
+    - [ASK] Can I have support on Cloud Manager Instances?
+    - [ASK] What does it mean that we don't provide an SLA?
 
 
 Open Source Model
@@ -349,8 +371,8 @@ Open Source Model
 .. include:: /includes/student-notes.rst
 
 
-Open Source Model(continued)
-----------------------------
+Open Source Model (continued)
+-----------------------------
 
 - `Open Source` is more to protect us and our customers than to accept contributions
 
@@ -368,11 +390,13 @@ Open Source Model(continued)
     questions to ask:
 
     - What is AGPL? Affero General Public License
+
       - https://en.wikipedia.org/wiki/Affero_General_Public_License
 
     - What does it mean that third party can't distribute our binaries? What if they are included on their software?
 
     - If I embed MongoDB on a binary? is this a violation of our license?
+    
       - No, but they cannot sell support on that component of their product. Generally we will get a OEM license model for these situations
 
 .. include:: /includes/student-notes.rst
@@ -431,8 +455,8 @@ How to work at MongoDB(continued)
 
 .. include:: /includes/student-notes.rst
 
-How to work at MongoDB(continued)
----------------------------------
+How to work at MongoDB (continued)
+----------------------------------
 
 - Confidentiality
 
