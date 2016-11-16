@@ -13,6 +13,7 @@ Upon completing this module, students should understand:
 - How WT uses checkpoints and the journal to write to disk
 - The basics of WT's compression and encryption
 - How WT implements indexes
+- Main issues with WT
 
 .. include:: /includes/student-notes.rst
 
@@ -21,7 +22,7 @@ What is WiredTiger?
 -------------------
 
 - An open source, high performance storage engine
-- From the team that created BerkeleyDB
+  - From the team that created BerkeleyDB
 - Built to minimize contention between threads/processes
 - Designed to minimize disk I/O, fully utilize CPU resources
 - Introduced as a MongoDB storage engine in 3.0
@@ -29,6 +30,15 @@ What is WiredTiger?
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - [DRAW] WT as a subsystem of MongoDB
+
+      - show that the feature of Wired Tiger transaction is used by MongoDB
+        to commit changes to data and indexes together, not exposing 
+        transactions to the MongoDB user.
 
 Features of WiredTiger
 ----------------------
@@ -76,6 +86,11 @@ Concurrency in WT
     - These statements apply not only to documents, but also to indexes
     - Because a "losing" write doesn't get committed, there is no need to "delete" it; you just start over fresh immediately
 
+.. only:: notprinted
+
+  .. todo::
+
+    - clarify "but cannot commit"
 
 Writes in WT
 ------------
@@ -108,15 +123,24 @@ Writes in WT
 
       - No practical way to predict which write will succeed in most cases
 
+    - Application must handle logic to avoid undesired parallel changes.
+      Can use a version number (or timestamp) that is passed back to the update
+      This is not specific to Wired Tiger, but the same for MMAPv1
+
 
 Introduction to the WiredTiger Cache
 ------------------------------------
 
 - The WT cache is separate from the filesystem cache
 - Their sum is limited by available RAM
-- Greater of either 1 GB, or 60% of RAM minus 1 GB
+- WT cache size:
+
+  - in 3.2, greater of either 1 GB, or 60% of RAM minus 1 GB
+  - in 3.0, was the greater of 50% of RAM or 2 GB
+
 - MongoDB writes to, and reads from, the WT cache
-- The filesystem cache routes data from WT to disk and back
+- MongoDB compress/uncompress pages from the WT cache to the file system cache
+- The filesystem cache routes data from the disk to the FS cache and back
 - The FS cache *can* be an I/O bottleneck
 
 .. include:: /includes/student-notes.rst
@@ -125,11 +149,14 @@ Introduction to the WiredTiger Cache
 
   .. note::
 
-    - In 3.0, WT cache size was the greater of 50% of RAM or 2 GB
     - WT cache size is tunable
+
+      - it is still not clear what is the optimal size for the cache
+      - show example of large WT cache, small FS cache vs small WT cache/large FS cache
+
     - FS cache will have to thrash a lot when reading/writing if it's too small
     - There's a reason why the default FS cache is about as big as the WT cache.
-
+    - One TSE opinion: if your uncompressed working set fits in memory, then make the WiredTiger Cache large (up to 60%); if your compressed working set fits in memory, then make the fscache large (up to 90%); 
 
 WT Data Structures - Pages
 --------------------------
@@ -161,9 +188,9 @@ WT Data Structures - Pages
 WT Data Structures - Pages (Continued)
 --------------------------------------
 
-- Pages are ordered and grouped by recordId
-- recordId is an internal identifier, *not* the _id
-- recordId is used for the MongoDB Storage Engine API
+- Pages are ordered and grouped by *recordId*
+- *recordId* is an internal identifier, *not* the _id
+- *recordId* is used for the MongoDB Storage Engine API
 - In WT, it's a unique identifier (and is immutable)
 - In MMAPv1, it was a file offset (and mutable)
 
@@ -172,6 +199,10 @@ WT Data Structures - Pages (Continued)
 .. only:: instructor
 
   .. note::
+
+    - [ASK] can you tell what is the problem with mutable values for MMAPv1
+
+      - should have been covered in the index section
 
     - `cursor.showRecordId()` will display the recordId in documents
 
@@ -224,12 +255,12 @@ WT Cache - Trees
 
 .. only:: instructor
 
-   .. note::
+  .. note::
 
-      - Pages will split during reconciliation (see next slide)
-      - Internal pages are 2K
-      - Leaf (data bearing) pages are 32K, but can grow to accommodate large documents
-      - Max of 16 MB, imposed by MongoDB
+    - Pages will split during reconciliation (see next slide)
+    - Internal pages are 2K
+    - Leaf (data bearing) pages are 32K, but can grow to accommodate large documents
+    - Max of 16 MB, imposed by MongoDB
 
 .. include:: /includes/student-notes.rst
 
@@ -244,6 +275,14 @@ WT Cache -- Reconciliation
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - WT will search for available space (closer larger page) in the former "old pages", that are now marked for re-use. It will not carve a block of 32KB out of a 1M page for example
+    - Compaction can happen concurrently with other operations, of course, but compaction
+      is a relatively heavy-weight operation, and can significantly increase I/O while
+      decreasing overall throughput in I/O bound workloads.
 
 WT Cache -- Reconciliation (Continued)
 --------------------------------------
@@ -259,7 +298,7 @@ Checkpoints
 - WT's primary method of writing data to disk
 - WT reconciles writes, makes clean pages
 - A consistent snapshot of the data gets created, stored
-- A new checkpoint does not delete the old
+- A new checkpoint does not delete the old one
 - Old pages get freed up later, in the background
 - Starts 60 seconds after the end of the last checkpoint or 2 GB of writes
 
@@ -326,7 +365,7 @@ WT and the Journal
 - A complete view of data is captured on disk at the last checkpoint
 - Writes get logged to the journal between checkpoints
 - The journal is compressed (Snappy by default)
-- The journal in WT writes to disk every 50 ms
+- The journal in WT writes to disk every 50 ms in 3.2 (100 ms in 3.0)
 
 .. include:: /includes/student-notes.rst
 
@@ -334,7 +373,6 @@ WT and the Journal
 
   .. note::
 
-    - WT journal commit interval was 100 ms in 3.0
     - A separate thread uses shared memory to do the writes, so log buffers will be consolidated onto a single I/O process.
 
       - This is how multiple threads can all get their journal writes in at the same time
@@ -367,6 +405,11 @@ Pitfall: WT Without the Journal
       - It just means that you must flush to disk before acknowledging
       - For WiredTiger, this means a checkpoint is forced
 
+.. only:: notprinted
+
+  .. todo::
+
+    - does WT reduce the interval of the journal with ``{ j : true }`` for an operation, like MMAPv1 does?
 
 Compression in WT
 -----------------
@@ -463,9 +506,20 @@ Indexes in WT: Prefix Compression
 
         - Allows you to build additional tree structures to avoid requent rebalancing (during a bulk load, for example)
 
+.. only:: notprinted
+
+  .. todo::
+
+    - screenshot showing a WiredTiger leaf page with index values, using prefix compression
 
 Situations where WiredTiger Performs Poorly
 -------------------------------------------
+
+- Frequent small updates on large documents
+
+  - Edge to MMAPv1
+
+- Capped collections in MongoDB 3.0
 
 - Large number of collections being created/destroyed
 
@@ -480,3 +534,80 @@ Situations where WiredTiger Performs Poorly
   - e.g. image files
 
 .. include:: /includes/student-notes.rst
+
+Main issues seen with WiredTiger
+--------------------------------
+
+- MongoDB 3.0 would exhibit stalls under high load. Main culprits were:
+
+  - sub optimal implementation for *capped collections*
+  - issues when creating checkpoints
+
+- MongoDB 3.2 also would have performance issues. Main culprit is:
+
+  - eviction of pages from the WT cache
+
+- Usually, should not colocate 2 WT process on the same machine
+
+- Should the *read ahead* setting be 0?
+
+.. only:: instructor
+
+  .. note::
+
+    - up to 80% cache fulled, no eviction is needed
+    - at 80%, eviction starts, by 4 thread
+    - at 95%, the application threads also evict data, not processing requests anymore
+
+Troubleshooting WiredTiger
+-------------------------
+
+- data collection:
+
+  - 3.0, scripts to run 'serverStatus' and 'iostats' for a period of time
+  - 3.2, ``diagnostic.data`` directory, located in the *dbpath*
+
+- data analysis
+
+  - `Bruce Lucas' life saving tool <https://github.com/10gen/support-tools/blob/master/timeseries/quickstart.md>`_
+
+.. only:: instructor
+
+  .. note::
+
+- number of tickets (128 available) go to zero
+
+  - increasing won't help, there is a hardware bottleneck
+
+.. only:: instructor
+
+  .. note::
+
+    - [ACTION] Go to Bruce's page and show some of the time series graph
+    - *tickets* can be seen as *threads*
+
+References on WiredTiger
+------------------------
+
+- `WiredTiger for Dummies by TSEs <https://docs.google.com/document/d/1LRjiYGLYTIIg7zX4U2GNezFLqplAplYfqYDR-1nVwvc/edit?ts=5810b121>`_, 11/2016
+
+  - There is a reference section at the end
+
+- Nasty WT bugs:
+
+  - SERVER-24580
+  - SERVER-20306
+  - SERVER-21275
+  - SERVER-23425
+
+.. only:: instructor
+
+  .. note::
+
+    [Ask] closing questions
+
+    - If you had a standalone WT instance, how much data can we lose if it crashes?
+
+      - how about for a replica set
+
+

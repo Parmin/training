@@ -8,48 +8,55 @@ Day 1
 
 - Welcome
 - :doc:`/modules/internal-company`
-- :doc:`/modules/introduction-overview`
-- :doc:`/modules/agenda-nhtt-indexes`
+- `Overview`_
+- :doc:`/modules/nav/schema-design-nhtt`
+- `Applications and Drivers`_
 
 .. include:: /includes/student-notes.rst
 
 Day 2
 -----
 
-- :doc:`/modules/nav/schema-design-nhtt`
-- :doc:`/modules/nav/replica-sets-one-day-fundamentals`
+- Storage Engines and Internals
 
-.. Replication
+  - :doc:`/modules/internal-storage-engines-mmapv1`
+  - :doc:`/modules/internal-storage-engines-wired-tiger`
+
+- :doc:`/modules/agenda-nhtt-indexes`
 
 .. include:: /includes/student-notes.rst
 
 Day 3
 -----
 
-- `Applications and Drivers`_
-- Sharding_
+- `Replication`_
+- `Sharding`_
 
 .. include:: /includes/student-notes.rst
 
 Day 4
 -----
 
-- :doc:`/modules/agenda-nhtt-security`
-- Storage Engines and Internals
-
-  - :doc:`/modules/internal-storage-engines-mmapv1`
-  - :doc:`/modules/internal-storage-engines-wired-tiger`
+- :doc:`/modules/nav/opsmanager`
+- Tools
 
 .. include:: /includes/student-notes.rst
 
 Day 5
 -----
 
-- :doc:`/modules/nav/opsmanager`
+- :doc:`/modules/agenda-nhtt-security`
+
 - Misc
 
 .. include:: /includes/student-notes.rst
 
-.. _`Internals and Storage Engines`: https://drive.google.com/open?id=0B-_GyywmjjWBQnk2bng4a2hVRTg
-.. _Sharding: https://drive.google.com/a/10gen.com/file/d/0B-_GyywmjjWBa2hjWTF3X1ZTS1k/view?usp=sharing
-.. _`Applications and Drivers`: https://drive.google.com/a/10gen.com/file/d/0B-_GyywmjjWBMzJvYlVVblZOLTQ/view?usp=sharing
+.. _`Applications and Drivers`: https://drive.google.com/file/d/0B-_GyywmjjWBMzJvYlVVblZOLTQ/view
+
+.. _`Overview`: https://drive.google.com/open?id=0B-_GyywmjjWBRlBtUElqVXhHVGs
+
+.. _`Replication`: https://drive.google.com/open?id=0B-_GyywmjjWBTlhsdXp6R3pxemM
+
+.. _`Sharding`: https://drive.google.com/open?id=0B-_GyywmjjWBa2hjWTF3X1ZTS1k
+
+

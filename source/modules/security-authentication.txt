@@ -92,7 +92,13 @@ For any connections to be established to this mongod instance, the system will r
 
     - Using the ``--auth`` parameter will only cause mongod to enable authentication.
     - You need to create users separately.
+    - the shell
     - You can take the opportunity to ask:
 
       - Q: What happens if we just launch a mongod without having any users created?
       - A: Nothing happens, we just can't access the instance.
+
+    - cover localhost exception
+    - create a first user with db.createUser({user:'admin',pwd:'pwd',roles:[{role:'userAdminAnyDatabase',db:'admin'}]}), not 'root'
+    - db.runCommand({connectionStatus:1})  to see who is authenticated
+
