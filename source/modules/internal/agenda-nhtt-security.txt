@@ -1,6 +1,6 @@
-==============
-NHTT: Security
-==============
+========
+Security
+========
 
 
 .. image:: /images/security.jpg

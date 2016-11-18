@@ -1,0 +1,51 @@
+============================
+New Hires Technical Training
+============================
+
+Day 1
+-----
+
+- Welcome
+- :doc:`/modules/internal/company`
+- :doc:`/modules/internal/advanced-schema-design`
+- :doc:`/modules/internal/applications-and-drivers`
+
+.. include:: /includes/student-notes.rst
+
+Day 2
+-----
+
+- Storage Engines
+
+  - :doc:`/modules/internal/storage-engines-mmapv1`
+  - :doc:`/modules/internal/storage-engines-wired-tiger`
+
+- :doc:`/modules/internal/query-system-and-indexes`
+
+.. include:: /includes/student-notes.rst
+
+Day 3
+-----
+
+- :doc:`/modules/internal/replication`
+- :doc:`/modules/internal/sharding`
+
+.. include:: /includes/student-notes.rst
+
+Day 4
+-----
+
+- :doc:`/modules/internal/atlas-cloudmanager-and-opsmanager`
+- :doc:`/modules/internal/agenda-nhtt-security`
+
+.. include:: /includes/student-notes.rst
+
+Day 5
+-----
+
+- :doc:`/modules/internal/tools`
+- :doc:`/modules/internal/diagnostics-and-debugging`
+
+.. include:: /includes/student-notes.rst
+
+
