@@ -251,7 +251,7 @@ WT Cache - Pages
 WT Cache - Trees
 ----------------
 
-.. include:: trees-in-cache.txt
+.. include:: /modules/trees-in-cache.txt
 
 .. only:: instructor
 
@@ -287,7 +287,7 @@ WT Cache -- Reconciliation
 WT Cache -- Reconciliation (Continued)
 --------------------------------------
 
-.. include:: wt-page-reconciliation.txt
+.. include:: /modules/wt-page-reconciliation.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -560,7 +560,7 @@ Main issues seen with WiredTiger
     - at 95%, the application threads also evict data, not processing requests anymore
 
 Troubleshooting WiredTiger
--------------------------
+--------------------------
 
 - data collection:
 
@@ -575,9 +575,9 @@ Troubleshooting WiredTiger
 
   .. note::
 
-- number of tickets (128 available) go to zero
+    - number of tickets (128 available) go to zero
 
-  - increasing won't help, there is a hardware bottleneck
+    - increasing won't help, there is a hardware bottleneck
 
 .. only:: instructor
 

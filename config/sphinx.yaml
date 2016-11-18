@@ -25,6 +25,7 @@ generated-source:
 editions:
   - 'instructor'
   - 'student'
+  - 'internal'
 ## --- ##
 dirhtml-student:
   inherit: student-web-base
@@ -68,14 +69,35 @@ gettext-instructor:
 json-instructor:
   inherit: instructor-web-base
 ## --- ##
+slides-internal:
+  inherit: internal-web-base
+dirhtml-internal:
+  inherit: internal-web-base
+html-internal:
+  inherit: internal-web-base
+latex-internal:
+  inherit: internal-print-base
+  tags:
+    - offset
+epub-internal:
+  inherit: internal-print-base
+singlehtml-internal:
+  inherit: internal-web-base
+linkcheck-internal:
+  inherit: internal-web-base
+gettext-internal:
+  inherit: internal-web-base
+json-internal:
+  inherit: internal-web-base
+## --- ##
 student-web-base:
   inherit: student-base
   tags:
     - web
     - website
     - student
-  excluded_files:
-    - 'meta/introduction.txt'
+  excluded:
+    - /meta/introduction.txt
 student-print-base:
   inherit: student-base
   tags:
@@ -87,18 +109,39 @@ instructor-web-base:
     - web
     - website
     - instructor
-  excluded_files:
-    - 'meta/one-day-fundamentals.txt'
+  excluded:
+    - /meta/one-day-fundamentals.txt
 instructor-print-base:
   inherit: instructor-base
   tags:
     - print
     - instructor
+internal-web-base:
+  inherit: internal-base
+  tags:
+    - web
+    - website
+    - instructor
+    - internal
+internal-print-base:
+  inherit: internal-base
+  tags:
+    - print
+    - instructor
+    - internal
 ## --- ##
 instructor-base:
   edition: 'instructor'
-  excluded_files: []
+  excluded:
+    - /modules/internal
+    - /scripts
 student-base:
   edition: 'student'
-  excluded_files: []
+  excluded:
+    - /modules/internal
+    - /scripts
+internal-base:
+  edition: 'internal'
+  excluded:
+    - /scripts
 ...

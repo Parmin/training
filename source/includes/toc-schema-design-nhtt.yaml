@@ -1,6 +1,6 @@
-file: /modules/internal-schema-design
+file: /modules/internal/schema-design
 description: |
-  Internal Reflections
+  Internal Reflections on Schema Design
 ---
 file: /modules/schema-design-common-design-patterns
 description: |

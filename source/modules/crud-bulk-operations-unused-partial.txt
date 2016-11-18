@@ -69,7 +69,7 @@ Exercise: Bulk Inserts
     // Pretty slow
 
 Exercise: Bulk Updates  -- DO NOT USE THIS YET, THE REMOVE() FUNCTION IS NOT WORKING
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 

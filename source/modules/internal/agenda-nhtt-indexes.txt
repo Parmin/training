@@ -5,7 +5,7 @@ NHTT: Indexes
 Internal Discussion of Indexes
 ------------------------------
 
-- :doc:`/modules/internal-indexes`
+- :doc:`/modules/internal/indexes`
 
   - Discussion of indexing topics of interest to new employees
 

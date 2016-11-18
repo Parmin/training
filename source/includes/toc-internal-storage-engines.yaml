@@ -1,4 +1,4 @@
-file: /modules/internal-storage-engines-wired-tiger
+file: /modules/internal/storage-engines-wired-tiger
 description: |
   The WiredTiger storage engine
 ...
