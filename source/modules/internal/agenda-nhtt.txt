@@ -2,12 +2,11 @@
 New Hires Technical Training
 ============================
 
-
 Day 1
 -----
 
 - Welcome
-- :doc:`/modules/internal-company`
+- :doc:`/modules/internal/company`
 - `Overview`_
 - :doc:`/modules/nav/schema-design-nhtt`
 - `Applications and Drivers`_
@@ -19,10 +18,10 @@ Day 2
 
 - Storage Engines and Internals
 
-  - :doc:`/modules/internal-storage-engines-mmapv1`
-  - :doc:`/modules/internal-storage-engines-wired-tiger`
+  - :doc:`/modules/internal/storage-engines-mmapv1`
+  - :doc:`/modules/internal/storage-engines-wired-tiger`
 
-- :doc:`/modules/agenda-nhtt-indexes`
+- :doc:`/modules/internal/agenda-nhtt-indexes`
 
 .. include:: /includes/student-notes.rst
 
@@ -45,7 +44,7 @@ Day 4
 Day 5
 -----
 
-- :doc:`/modules/agenda-nhtt-security`
+- :doc:`/modules/internal/agenda-nhtt-security`
 
 - Misc
 

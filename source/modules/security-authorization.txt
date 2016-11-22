@@ -358,7 +358,7 @@ To grant roles to existing user:
     ``grantRolesToUser`` also allows to specify a ``writeConcern`` to ensure the
     durability of the operation, as any of the remaining authz methods.
 
-    .. code-block::
+    .. code-block:: javascript
 
       db.grantRolesToUser(
         "reportsUser",

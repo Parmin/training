@@ -13,6 +13,8 @@ project:
       tag: training-instructor
     - name: student
       tag: training-student
+    - name: internal
+      tag: training-internal
 version:
   release: '3.2'
   branch: '3.2'
