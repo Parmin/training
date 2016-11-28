@@ -1,0 +1,32 @@
+file: /modules/introduction-warmup
+description: |
+  Authorization in MongoDB
+---
+file: /exercises/create-adminusers
+description: |
+  Lab on creating admin users
+---
+file: /exercises/create-customrole
+description: |
+  Lab on creating custom user roles
+---
+file: /modules/security-authentication
+description: |
+  Authentication in MongoDB
+---
+file: /exercises/secure-mongod
+description: |
+  Lab on standing up a mongod with authorization enabled
+---
+file: /modules/security-audit
+description: |
+  Auditing in MongoDB
+---
+file: /modules/security-encryption
+description: |
+  Encryption at rest in MongoDB
+---
+file: /exercises/secured-replicaset
+description: |
+  Using keyfiles to secure a replica set
+...

@@ -1,0 +1,9 @@
+======================================
+Academic MongoDB Introduction Workshop
+======================================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-academic-mongodb-introduction-workshop.rst
+
+.. include:: /includes/toc/academic-mongodb-introduction-workshop.rst

@@ -69,4 +69,8 @@ description: |
 file: /modules/nav/advanced-developer
 description: |
   Advanced data modeling and application engineering labs
+---
+file: /modules/nav/academic-mongodb-introduction-workshop
+description: |
+  Academic MongoDB Introduction Workshop
 ...
