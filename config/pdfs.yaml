@@ -277,6 +277,22 @@ edition: 'student'
 # tag: 'guide'
 # edition: 'instructor'
 # ---
+source: 'meta/academic-workshop'
+output: 'academic-workshop-instructor.tex'
+title: "MongoDB Academic Workshop"
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'guide'
+edition: 'instructor'
+---
+source: 'meta/academic-workshop'
+output: 'academic-workshop-student.tex'
+title: "MongoDB Academic Workshop"
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'workbook'
+edition: 'student'
+---
 source: 'meta/advanced-administrator'
 output: 'advanced-administrator-instructor.tex'
 title: "MongoDB Advanced Administrator Training"

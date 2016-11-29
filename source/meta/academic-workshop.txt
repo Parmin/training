@@ -1,0 +1,9 @@
+:orphan:
+
+=========================
+MongoDB Academic Workshop
+=========================
+
+.. toctree::
+
+   /modules/nav/academic-mongodb-introduction-workshop
