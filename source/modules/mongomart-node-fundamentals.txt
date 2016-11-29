@@ -1,0 +1,53 @@
+==============================
+NodeJS Driver Labs (MongoMart)
+==============================
+
+
+Introduction
+------------
+
+- In this lab, we'll set up and optimize an application called MongoMart.
+  MongoMart is an on-line store for buying MongoDB merchandise.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - the material is available within the university academic course
+
+
+Lab: Setup and Connect to the Database
+--------------------------------------
+
+- Import the "item" collection to a standalone MongoDB server (without
+  replication) of the /mongomart/data directory.
+- Become familiar with the structure of the NodeJS application in ``/mongomart/``
+- Modify the ``mongomart.js`` class to properly connect to your local database instance
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Solution in mongomart_node_solution handout
+
+
+Lab: Populate All Necessary Database Queries
+--------------------------------------------
+
+- After running the mongomart.js module, navigate to "localhost:3000" to view
+  the application
+- Initially, all data is static and the application does not query the database
+- Modify the items.js and cart.js classes to ensure all information comes from
+  the database (do not modify the method return types or parameters)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Solution in mongomart_node_solution handout

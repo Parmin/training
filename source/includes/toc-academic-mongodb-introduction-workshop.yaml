@@ -1,32 +1,40 @@
-file: /modules/introduction-warmup
+file: /modules/introduction-overview
 description: |
-  Authorization in MongoDB
+  MongoDB philosophy and features
 ---
-file: /exercises/create-adminusers
+file: /modules/introduction-mongodb-stores-documents
 description: |
-  Lab on creating admin users
+  The structure of data in MongoDB
 ---
-file: /exercises/create-customrole
+file: /exercises/mongodb-installation
 description: |
-  Lab on creating custom user roles
+  Install MongoDB and experiment with a few operations.
 ---
-file: /modules/security-authentication
+file: /modules/nav/crud
 description: |
-  Authentication in MongoDB
+  The MongoDB query language
 ---
-file: /exercises/secure-mongod
+file: /modules/aggregation
 description: |
-  Lab on standing up a mongod with authorization enabled
+  An introduction to the the aggregation framework, pipeline concept, and stages
 ---
-file: /modules/security-audit
+file: /modules/nav/drivers
 description: |
-  Auditing in MongoDB
+  An overview of the MongoDB drivers
 ---
-file: /modules/security-encryption
+file: /modules/replica-set-introduction
 description: |
-  Encryption at rest in MongoDB
+  An introduction to replication and replica sets
 ---
-file: /exercises/secured-replicaset
+file: /modules/sharding-intro
 description: |
-  Using keyfiles to secure a replica set
+  An introduction to sharding
+---
+file: /modules/mongomart
+description: |
+  MongoMart Introduction
+---
+file: /modules/mongomart-node
+description: |
+  Build an e-commerce site backed by MongoDB (NodeJS)
 ...
