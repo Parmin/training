@@ -25,7 +25,6 @@ Introductions
         - Prior experience
 
 
-
 What You Need To Get Started
 ----------------------------
 
@@ -33,15 +32,29 @@ What You Need To Get Started
 
   - You should have received an email with the instructions
 
-- STEP 1: Click the License Link:
+- STEP 1: Register (or Log In)
+
+  - Create your university login account
+  - You must enter a *valid* CUNY Tech email address
+
+- STEP 2: Click the License Link:
 
   - http://university.mongodb.com/license/activate?key=eef84f76-c7b5-4fe5-92a2-902ae1fecbe1
   - Or: http://bit.ly/2gFMsqm
 
-- STEP 2: Register (or Log In)
+.. include:: /includes/student-notes.rst
 
-  - Create your university login account
-  - You must enter a *valid* CUNY Tech email address
+.. only:: instructor
+
+   .. note::
+
+    - Make sure that all students register into university
+    - Make them aware that they need to use their CUNY Tech email address
+    - If they have a MongoDB university account they can just change their account email address
+
+
+What You Need To Get Started (continued)
+----------------------------------------
 
 - STEP 3: Enroll in the Course
 
