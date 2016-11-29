@@ -36,6 +36,7 @@ What You Need To Get Started
 - STEP 1: Click the License Link:
 
   - http://university.mongodb.com/license/activate?key=eef84f76-c7b5-4fe5-92a2-902ae1fecbe1
+  - Or: http://bit.ly/2gFMsqm
 
 - STEP 2: Register (or Log In)
 
