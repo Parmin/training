@@ -5,14 +5,14 @@
 Lab: Improve How Reviews are Stored and Queried
 -----------------------------------------------
 
-- Currently, all reviews are stored in an "item" document, within a "reviews"
-  array.  This is problematic for the cases when the number of reviews for a
-  product becomes extremely large.
+- Initially, all reviews are stored in an "item" document, within a "reviews"
+  array.  This is problematic for the cases where the number of reviews for a
+  product is large.
 - Create a new collection called "review" and modify the "reviews" array within
-  the "item" collection to only contain the last 10 reviews.
-- Modify the application to update the last 10 reviews for an item, the average
-  number of stars (based on reviews) for an item, and insert the review into the
-  new "review" collection
+  the "item" collection to contain *only* the last ten reviews.
+- Modify the application to update the last ten reviews for an item, the
+  average number of stars (based on reviews) for an item, and insert the review
+  into the new "review" collection
 
 .. include:: /includes/student-notes.rst
 
@@ -23,11 +23,12 @@ Lab: Improve How Reviews are Stored and Queried
       - Solution in mongomart_node_solution handout
 
 
-Lab: Use Range Based Pagination
+Lab: Use Range-Based Pagination
 -------------------------------
 
-- Pagination throughout MongoMart uses the inefficient sort() and limit() method
-- Optimize MongoMart to use range based pagination
+- Pagination throughout ``MongoMart`` uses the inefficient combined ``sort()``
+  and ``limit()`` methods
+- Optimize MongoMart to use range-based pagination
 - You may modify method names and return values for this lab
 
 .. include:: /includes/student-notes.rst
@@ -44,4 +45,4 @@ Lab: Related Items
 
 - Modify each item document to include an array of "related_items" (maximum is 4).
 - Related items should include other items within the same category
-- Randomized items can be used if there are less than 4.
+- Randomized items can be used if there are fewer than 4.

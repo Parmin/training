@@ -7,7 +7,7 @@ Introduction
 ------------
 
 - In this lab, we'll set up and optimize an application called MongoMart.
-  MongoMart is an on-line store for buying MongoDB merchandise.
+  MongoMart is an online store for buying MongoDB merchandise.
 
 .. include:: /includes/student-notes.rst
 
@@ -18,13 +18,12 @@ Introduction
       - the material is available within the university academic course
 
 
-Lab: Setup and Connect to the Database
---------------------------------------
+Lab: Set Up and Connect to the DB
+---------------------------------
 
-- Import the "item" collection to a standalone MongoDB server (without
-  replication) of the /mongomart/data directory.
+- Import the "item" collection to a standalone MongoDB server running with ``--dbpath /mongomart/data``.
 - Become familiar with the structure of the NodeJS application in ``/mongomart/``
-- Modify the ``mongomart.js`` class to properly connect to your local database instance
+- Modify the ``mongomart.js`` class to connect to the local ``mongod`` instance
 
 .. include:: /includes/student-notes.rst
 
@@ -40,9 +39,11 @@ Lab: Populate All Necessary Database Queries
 
 - After running the mongomart.js module, navigate to "localhost:3000" to view
   the application
-- Initially, all data is static and the application does not query the database
-- Modify the items.js and cart.js classes to ensure all information comes from
-  the database (do not modify the method return types or parameters)
+- Initially, all data will be static, and the application cannot query the database
+- Modify the ``items.js`` and ``cart.js`` classes to ensure all information comes from
+  the server 
+  
+  - Do not modify the method return types or parameters
 
 .. include:: /includes/student-notes.rst
 
