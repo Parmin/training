@@ -29,23 +29,23 @@ Introductions
 What You Need To Get Started
 ----------------------------
 
-- Register on MongoDB University
+- Register at MongoDB University
 
-  - You should have received an email with the instructions!
+  - You should have received an email with the instructions
 
-- STEP 1: Click the License Link
+- STEP 1: Click the License Link:
 
   - http://university.mongodb.com/license/activate?key=eef84f76-c7b5-4fe5-92a2-902ae1fecbe1
 
-- STEP 2: Register / Log In
+- STEP 2: Register (or Log In)
 
-  - Create your university login account.
-  - You must enter a valid CUNY Tech email address.
+  - Create your university login account
+  - You must enter a *valid* CUNY Tech email address
 
-- STEP 3: Enroll in Courses
+- STEP 3: Enroll in the Course
 
-  - Go to the main page of MongoDB University and find the “On-Demand” Catalog
-  - Click the course title and then the “Enroll” button.
+  - Go to the main page of MongoDB University and find the "On-Demand" Catalog
+  - Click the course title and then the "Enroll" button.
 
 .. include:: /includes/student-notes.rst
 
@@ -63,4 +63,4 @@ System Requirements
 
 - Latest version of MongoDB
 - Latest version of NodeJS
-- Download the handout material available on A101 online course
+- Download the handout material available in the A101 online course
