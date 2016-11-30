@@ -38,7 +38,7 @@ Day 3
 Day 4
 -----
 
-- :doc:`/modules/internal/atlas-cloudmanager-and-opsmanager`
+- :doc:`/modules/internal/atlas-cloudmanager-opsmanager`
 - :doc:`/modules/internal/agenda-nhtt-security`
 
 .. include:: /includes/student-notes.rst
@@ -50,5 +50,3 @@ Day 5
 - :doc:`/modules/internal/diagnostics-and-debugging`
 
 .. include:: /includes/student-notes.rst
-
-

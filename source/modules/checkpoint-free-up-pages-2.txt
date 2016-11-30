@@ -2,21 +2,21 @@
 
 .. only:: latex and not offset
 
-   .. figure:: /figures/checkpoint-free-up-pages.png
+   .. figure:: /figures/checkpoint-free-up-pages-2.png
       :alt: Checkpoints
       :align: center
       :figwidth: 1600px
 
 .. only:: website and slides
 
-   .. figure:: /figures/checkpoint-free-up-pages.png
+   .. figure:: /figures/checkpoint-free-up-pages-2.png
       :alt: Checkpoints
       :align: center
       :figwidth: 700px
 
 .. only:: website and html
 
-   .. figure:: /figures/checkpoint-free-up-pages.png
+   .. figure:: /figures/checkpoint-free-up-pages-2.png
       :alt: Checkpoints
       :align: center
       :figwidth: 700px
@@ -25,7 +25,7 @@
 
    .. raw:: html
 
-      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_figures/checkpoint-free-up-pages.png" alt="Checkpoints"></img><p>Checkpoints</p></div>
+      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_figures/checkpoint-free-up-pages-2.png" alt="Checkpoints"></img><p>Checkpoints</p></div>
 
 
 .. only:: latex and offset
@@ -34,5 +34,5 @@
 
       \begin{figure}[h!]
       \centering
-      \includegraphics[width=400px]{checkpoint-free-up-pages.eps}
+      \includegraphics[width=400px]{checkpoint-free-up-pages-2.eps}
       \end{figure}

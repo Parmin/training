@@ -1,3 +1,4 @@
+:orphan:
 
 .. only:: latex and not offset
 
@@ -5,8 +6,6 @@
       :alt: Disasters happen.
       :align: center
       :figwidth: 1600px
-
-
 
 .. only:: website and slides
 
@@ -37,4 +36,3 @@
       \centering
       \includegraphics[width=400px]{mms_backup.eps}
       \end{figure}
-

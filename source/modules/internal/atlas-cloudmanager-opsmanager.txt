@@ -1,0 +1,308 @@
+====================================
+Atlas, Cloud Manager and Ops Manager
+====================================
+
+
+Learning Objectives
+-------------------
+
+.. rst-class:: build
+
+- differences between *Atlas*, *Cloud Manager* (CM) and *Ops Manager* (OM)
+- components of *Ops Manager*
+- communication between the agents and the servers
+- typical deployments of *Ops Manager*
+
+
+Pre-requisites
+--------------
+
+- you have access to *Cloud Manager*
+- you listen to the videos listed in the NHTT Wiki page
+
+.. only:: instructor
+
+   .. note::
+
+      This is what we assume the students know
+      You can quickly test their knowledge
+
+
+Comparing Atlas, Cloud Manager and Ops Manager
+----------------------------------------------
+
+
+.. only:: instructor
+
+   .. note::
+
+      - prices per solution
+
+
+.. only:: instructor
+
+   .. note::
+
+      - *Ops Manager* is basically *Cloud Manager* that we package and ship to customers.
+      - Per one of our VP, writting a cloud product that you also ship to customer is challenging, as it is very difficult to excel at both skills.
+.. only:: todo
+
+   - find table/image showing the 3 products side-by-side (MDB World 2016?)
+
+
+Atlas
+-----
+
+- This is a key product of our strategy as a company
+- It scales easily
+- Can have tremendous growth
+
+.. only:: instructor
+
+   .. note::
+
+      - [STORY] *Atlas* was coined by a new hire (Daniel Farrell) while attending NHTT. He did not like the names on the ballot, so he submitted *Atlas*, and got enough other people to back up his choice, that we had a second ballot.
+
+
+Ops Manager
+-----------
+
+- Very sticky feature of our subscriptions, especially if used for backups
+
+  - you need a subscription to continue using it
+
+- Only easy way to manage your deployments without connecting to the outside
+
+
+What is MMS?
+------------
+
+.. only:: instructor
+
+   .. note::
+
+      - [STORY] how we went from *MongoDB Monitoring Service* to *MongoDB Management Service* to the actual names
+
+
+Timeline of the 3 products
+--------------------------
+
+
+.. only:: todo
+
+   - find a fun theme for the 3 products: 3 amigos?
+   - draw a timeline showing the 3 main features: monitoring, backup, automation
+
+
+Under the hood, comparing the products
+--------------------------------------
+
+- common
+
+  - the *monitoring*, *automation* and *backup* agents
+
+- different
+
+  - who pay$ who
+  - hosts where you run *MongoDB*
+  - no SSH access in *Atlas*
+
+
+The main components of Ops Manager
+----------------------------------
+
+.. note::
+
+   - we use *Ops Manager*, however it is very similar for *Cloud Manager* and *Atlas*.
+
+
+The MMS Agents
+--------------
+
+- monitoring
+
+  - always required, reports detailed status on cluster
+  - collect ``mongod/mongos`` stats
+  - usually 1 active at any time, the other ones in stand-by
+
+    - the monitoring agent needs connectivity to all ``mongod/mongos`` to monitor
+
+- automation
+
+  - optional, only if you want to *manage* your deployment
+  - collect additional hardware stats
+  - one per host
+
+
+.. nextslide::
+
+- backup
+
+  - optional, only if you want to backup
+  - piggyback on the information from the monitoring agent
+  - usually 1 active at any time, the other ones in stand-by
+
+.. only:: instructor
+
+   .. note::
+
+      - common mistake to expect each monitoring agent to monitor only the lost host
+
+
+Communication between the agents and the servers
+------------------------------------------------
+
+- The agents **always initiate** the communication
+
+  - monitoring agent: give me the list of hosts/ports to monitor
+  - automation agent: give me the configuration of what I should see on this host
+  - backup agent: give me the list of hosts to do initial sync, or get *oplog* entries from
+
+
+Communication between the monitoring agents and the processes
+-------------------------------------------------------------
+
+.. include:: /images/cm-monitoring-agents.rst
+
+
+How is monitoring done?
+-----------------------
+
+- run:
+
+  - ``serverStatus()``
+  - optionally ``dbStats()``
+
+
+How is automation done?
+-----------------------
+
+- receive a *desired state* for all processes
+- detect a *current state* for processes
+- do
+
+  - start/stop processes
+  - change configuration files
+  - install MongoDB versions
+
+- ... until *desired state* is reached
+- also collect hardware metrics
+
+.. only:: instructor
+
+   .. note::
+
+      - any manual changes to the configuration from the shell, to the config files, ... is likely to be reversed.
+
+
+How are backups done in Ops Manager?
+------------------------------------
+
+
+.. only:: instructor
+
+   .. note::
+
+      - the students should have seen the 2 videos on backup from the on-line classes
+      - go over the questions they have, however the sizing exercise in the next slides will be a good recap.
+
+
+How much does it cost to backup in Ops Manager
+----------------------------------------------
+
+- We have 5 shards of 1 TB each. How much disk space if:
+
+  - using a *Blockstore Database*
+  - using *File System Snapshots*
+
+.. only:: instructor
+
+   .. note::
+
+      - [DRAW] to flow of data from a sharded cluster to an *Ops Manager* deployment
+
+
+How does Ops Manager manage disk space
+--------------------------------------
+
+- *Blockstore* mode
+- *File System Snapshots* mode
+
+
+Typical deployments of Ops Manager
+----------------------------------
+
+
+How do you monitor/backup/manage your clusters
+----------------------------------------------
+
+- how many MMS groups?
+
+
+Lab: deploy a cluster with Cloud Manager
+----------------------------------------
+
+
+Restoring a backup
+------------------
+
+
+Lab: restore a backup
+---------------------
+
+In this lab, you will restore a backup from *Cloud Manager* and start a MongoDB process to talk to the restored database.
+
+
+Queryable backups
+-----------------
+
+
+Lab: query a given snapshot from Cloud Manager
+----------------------------------------------
+
+
+Zones
+-----
+
+
+Lab: deploy a cluster using zones in Atlas
+------------------------------------------
+
+
+.. only:: todo
+
+   - resolve the issue where people have to provide their credit card info to access Atlas.
+
+
+Lab: using the Cloud Manager UI
+-------------------------------
+
+In this exercise, you will browse the *Cloud Manager* UI in order to answer few questions.
+
+
+Some details on our Cloud Manager deployment
+--------------------------------------------
+
+- `Cloud Manager Admin Console <https://cloud.mongodb.com/v2/admin#general/overview/servers>`_
+
+
+Main Differences in Versions prior to 3.4
+-----------------------------------------
+
+- no server pool, provision hosts individually
+- previous version of *Ops Manager* was 2.0
+
+
+Common Issues
+-------------
+
+- monitoring and backup agents can't access remote processes
+- undersized hardware, especially for backups
+
+
+References
+----------
+
+
+To Know More
+------------

@@ -210,6 +210,19 @@ Figures
 
 You will find figures used in training in both the `<source/figures>`_ and `<source/images>`_ subdirectories. `<source/images>`_ contains a subset of the ``.svg`` images maintained by the documentation team for the MongoDB manual and other docs. the ``metadata.yaml`` file define which images we use for training and at what sizes they should be generated for the different targets (i.e. pdf, HTML, slides). We also contribute ``.svg`` files to this repository that we need to create for training. `<source/figures>`_ contains ``.png`` files and other images that we use (in a pinch) in training. There are not many of these files and, in general, if you are going to create a figure, you should create an ``.svg`` and place it in `<source/images>`_.
 
+If you checkin a file that is not in SVG (which is the recommendation, due to the size of the files), you must checkin the corresponding *EPS* file. Here is how you can convert a *PNG/JPG* file to *EPS*.
+
+.. code::
+
+    brew install imagemagick
+    convert temp.png eps3:temp.eps
+
+A good example on how a non-SVG file is referenced can be found by looking at the following 2 files:
+
+- https://github.com/10gen/training/blob/master/source/modules/human-disasters.txt
+- https://github.com/10gen/training/blob/master/source/modules/backup-file-system.txt
+
+For ``non-SVG`` files, it is preferable to place them in `<source/figures>`_`, however you will need to check them in the ``doc-assets`` repository.
 
 Labs
 ----
@@ -221,17 +234,27 @@ Tools and Editors
 
 There's a plenitude of different good editors out there for rST editing.
 
-* `Atom`_
+Atom
+~~~~
 
-Atom is a very nice editor that allows a great deal of customization and with a vast number of plugins.
+`Atom`_ is a very nice editor that allows a great deal of customization and with a vast number of plugins.
 
-One of the recommended plugins is `restructured text preview Pandoc`_ which gives us a quick preview of our edits.
+If you want to preview the *rST* files with `Atom`_:
 
+- install the plugin: `restructured text preview Pandoc`_
+
+  which will require that you also install the plugin *language-restructuredtext* and the command line tool *Pandoc*. See the above plugin documentation for more details on how to install those dependencies.
+
+- ensure the file that is opened in the editor is recognized as *reStructuredText*. If not, click on the type at the right bottom of the window and select *reStructuredText*.
+- Using the keys ``Shift + Control + E`` should open a window to the right of the page and display it in rST, minor the pre-processing stuff that should be handled by *Giza*.
 
 .. _`education training repo`: https://github.com/10gen/training
 .. _`EDU JIRA`: https://jira.mongodb.org/browse/EDU
 .. _`Atom`: https://atom.io/
 .. _`restructured text preview Pandoc`: https://github.com/tohosokawa/rst-preview-pandoc
+
+If you are a fan of ``vi``, you can still use `Atom`_ to preview your file as you edit it with your favorite editor.
+Upon saving in ``vi``, `Atom`_ will automatically refresh the previewed page.
 
 Building the artifacts
 ----------------------
@@ -242,7 +265,7 @@ Build the slides with
 
     make instructor-package
 
-In order to build the PDF, you will need to install 'LaTeXiT' and 'MacTex'. Then run:
+In order to build the *PDF*, you will need to install *LaTeXiT* and *MacTex*. Then run:
 
 .. code::
 
@@ -253,6 +276,88 @@ If you want to build a PDF, you will need to:
 - add the description of the PDF to the file "config/pdfs.yaml"
 - add a corresponding file in "source/meta", which should point to a section in "source/includes"
 
+More details about the internals
+--------------------------------
 
+Architecture of a PDF
+~~~~~~~~~~~~~~~~~~~~~
 
+If you create a new PDF, it may be difficult to tell which file or section is creating an error in trying to build the PDF file.
+So, here is a quick example on how files are organized.
+Often, the issue is coming from the figures/images, so you may want to build your PDF without those to ensure your files are organized correctly, then add the images.
+If the issue is with running ``pdflatex``, look for errors in the logs into the directory ``build/master-<target>/*.log``.
 
+Here are the dependencies between the files in the repository in order to build a PDF file. Let's look ``admin-three-day-instructor-guide.pdf`` as an example.
+
+- the PDF is listed in ``config/pdfs.yaml``
+
+  It shows the source as ``source: 'meta/admin-three-day'``
+
+- which points to the file ``source/modules/meta/admin-three-day.txt``.
+
+  This file contains a list of chapters. Each of the chapter will have a file in the ``source/modules/nav`` directory.
+
+  The list of chapters will appear as the top level tree in the left window and the chapters will be numbered 1, 2, 3, ...
+
+- in our example, the second chapter is described by ``source/modules/nav/crud.txt``.
+
+  The file starts with a header **"CRUD"**, which is what is contributed to the table of contents as the chapter name.
+  The file contains the following lines:
+
+  .. code::
+
+      .. include:: /includes/toc/dfn-list-crud.rst
+      .. include:: /includes/toc/crud.rst
+
+  which are more of an indication to *Giza* about what to build.
+
+  In reality, it points to the file ``source/includes/toc-crud.yaml``.
+
+  This is obtained by changing the ``/`` by a ``-`` after ``toc``.
+
+- ``source/includes/toc-crud.yaml`` list the lessons and exercises for the chapter.
+
+  Those will appear as the second level in the document tree and will be numbered 2.1, 2.2, 2.3, ...
+
+  Finally, we point to the ``rST`` files with the real contents.
+
+  Note that the text reflected at that level in the doc tree will be taken from the headers of the files it points to.
+
+- in our example, the first lesson is ``source/modules/crud-creating-and-deleting-documents``
+
+  Similarly to the first names of the chapters, the names of the lessons come from the header of each lesson, and this is what is displayed in the left window of the PDF file. In this case *Creating and Deleting Documents*, instead of what was in the ``toc-crud.yaml`` file.
+
+  In those pages, you will likely have images.
+  See the section on adding images for more information.
+
+Architecture of HTML contents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you understood the architecture of PDF files, this section is much easier.
+Let's look at the the course corresponding to the PDF file we looked at earlier.
+
+- in our example, the top file is ``source/modules/agenda-dba-3-days.txt``.
+
+  This file contains the contents that get rendered as you main HTML page.
+  This document mostly reference *lessons* directly, however if you want to see a similar agenda that points to *chapters* instead of *lessons*, you are likely going to point to a sub agenda. For example, look at ``source/modules/internal/agenda-nhtt.txt`` which includes the sub agenda ``source/modules/internal/agenda-nhtt-security.txt``.
+
+- once built, you can open the top level agenda, or any lessons.
+
+  All HTML pages for a giving agenda are available through ``build/instructor-package/modules``.
+
+- The left window in the HTML pages is created from ``source/includes/toc-contents.yaml``.
+
+  Regardless of the contents of a class, all the available contents can be accessed through this list.
+  This file has a references to chapters in the ``nav`` directory that will contain list of lessons back to this ``includes`` directory, and finally pointing to contents in the ``modules`` directory. This is very similar to what we saw earlier in the PDF architecture.
+
+  This main index is very similar to the files we find in ``meta``, however lives in ``includes``.
+  There's a reason but it's difficult to explain in text. The TL DR is that it's a vestige of the training repo emerging from docs. We are stuck with it for now. But we would like to remove the layer of indirection that embodies.
+
+Architecture of slide contents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Not much is different from the *HTML* contents.
+Those live in a parallel directory to the *HTML* contents, in ``build/instructor-package/slides``.
+Each *HTML* content page as a *URL* to the corresponding *slide*.
+
+Beware that the *HTML* and *slides* modes may not render exactly the same way, so you should preview both formats.

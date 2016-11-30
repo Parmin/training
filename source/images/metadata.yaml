@@ -657,4 +657,19 @@ output:
     tag: 'offset'
     dpi: 300
     width: 300
+---
+name: cm-monitoring-agents
+alt: "Monitoring Agents communication with Cloud Manager"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 300
+  - type: web
+    dpi: 72
+    width: 400
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
 ...

@@ -1,0 +1,4 @@
+file: /modules/internal/tools
+description: |
+  The tools in the MongoDB ecosystem
+...
