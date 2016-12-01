@@ -177,7 +177,7 @@ Examples
 
 In most cases, examples illustrating code and data are embedded in the content for a module. We did this originally to make examples easier to code review. In the near future we will be moving all examples into standalone files so that they can be more easily tested.
 
-As you write new content, please use the directive `literalinclude <http://www.sphinx-doc.org/en/stable/markup/code.html#includes`_ and the options ``start-after`` and ``end-before``. For example, you might have a
+As you write new content, please use the directive `literalinclude <http://www.sphinx-doc.org/en/stable/markup/code.html#includes>`_ and the options ``start-after`` and ``end-before``. For example, you might have a section
 
 .. code::
 
@@ -210,9 +210,10 @@ Figures
 
 You will find figures used in training in both the `<source/figures>`_ and `<source/images>`_ subdirectories. `<source/images>`_ contains a subset of the ``.svg`` images maintained by the documentation team for the MongoDB manual and other docs. the ``metadata.yaml`` file define which images we use for training and at what sizes they should be generated for the different targets (i.e. pdf, HTML, slides). We also contribute ``.svg`` files to this repository that we need to create for training. `<source/figures>`_ contains ``.png`` files and other images that we use (in a pinch) in training. There are not many of these files and, in general, if you are going to create a figure, you should create an ``.svg`` and place it in `<source/images>`_.
 
-If you are creating a new image, do it in SVG.
+If you are creating a new image, do it in *SVG* format.
 If you are given a ``.png`` or ``.jpg``, you will need to generate the corresponding ``.eps``.
-See the following example on how to generate a ``.eps`` file on your Mac.If you checkin a file that is not in SVG (which is the recommendation, due to the size of the files), you must checkin the corresponding *EPS* file. Here is how you can convert a *PNG/JPG* file to *EPS*.
+See the following example on how to generate a ``.eps`` file from a ``.png`` on your Mac.
+Note that trying to install ``imagemagick`` with ``brew`` may conflict with ``macports``, if you are using the latter.
 
 .. code::
 
@@ -245,10 +246,10 @@ Some examples:
 
 - training only non-SVG file
 
-  - ``source/images/internal-file-format.eps``
-  - ``source/images/internal-file-format.jpg``
-  - ``source/figures_local_meta/internal-file-format.txt``
-  - referenced in ``source/modules/internal/storage-engines-mmapv1.txt``
+  - `<source/images/internal-file-format.eps>`_
+  - `<source/images/internal-file-format.jpg>`_
+  - `<source/figures_local_meta/internal-file-format.txt>`_
+  - referenced in `<source/modules/internal/storage-engines-mmapv1.txt>`_
 
 Labs
 ----
@@ -258,10 +259,10 @@ You will find labs in the `<source/exercises>`_ subdirectory. The above discussi
 Tools and Editors
 -----------------
 
-There's a plenitude of different good editors out there for rST editing.
+There's a plenitude of different good editors out there for *rST* editing.
 
-Atom
-~~~~
+Atom Editor
+~~~~~~~~~~~
 
 `Atom`_ is a very nice editor that allows a great deal of customization and with a vast number of plugins.
 
@@ -272,15 +273,28 @@ If you want to preview the *rST* files with `Atom`_:
   which will require that you also install the plugin *language-restructuredtext* and the command line tool *Pandoc*. See the above plugin documentation for more details on how to install those dependencies.
 
 - ensure the file that is opened in the editor is recognized as *reStructuredText*. If not, click on the type at the right bottom of the window and select *reStructuredText*.
-- Using the keys ``Shift + Control + E`` should open a window to the right of the page and display it in rST, minor the pre-processing stuff that should be handled by *Giza*.
+- Using the keys ``Shift + Control + E`` should open a window to the right of the page and display it in *rST*, minor the pre-processing stuff that should be handled by *Giza*.
+
+If you are a fan of ``vi``, you can still use `Atom`_ to preview your file as you edit it with your favorite editor.
+Upon saving in ``vi``, `Atom`_ will automatically refresh the previewed page.
 
 .. _`education training repo`: https://github.com/10gen/training
 .. _`EDU JIRA`: https://jira.mongodb.org/browse/EDU
 .. _`Atom`: https://atom.io/
 .. _`restructured text preview Pandoc`: https://github.com/tohosokawa/rst-preview-pandoc
 
-If you are a fan of ``vi``, you can still use `Atom`_ to preview your file as you edit it with your favorite editor.
-Upon saving in ``vi``, `Atom`_ will automatically refresh the previewed page.
+
+Restview Viewer
+~~~~~~~~~~~~~~~
+
+*Restview* is another tool you can use to render *rST* pages.
+Here are the commands to install it and use it
+
+.. code::
+
+  pip install restview
+  # opens a web page and serves up the file; changes view as you save.
+  restview filename.rst
 
 Building the artifacts
 ----------------------
@@ -299,7 +313,7 @@ In order to build the *PDF*, you will need to install *LaTeXiT* and *MacTex*. Th
 
 If you want to build a PDF, you will need to:
 
-- add the description of the PDF to the file "config/pdfs.yaml"
+- add the description of the PDF to the file `<config/pdfs.yaml>`_
 - add a corresponding file in "source/meta", which should point to a section in "source/includes"
 
 More details about the internals
@@ -315,17 +329,17 @@ If the issue is with running ``pdflatex``, look for errors in the logs into the 
 
 Here are the dependencies between the files in the repository in order to build a PDF file. Let's look ``admin-three-day-instructor-guide.pdf`` as an example.
 
-- the PDF is listed in ``config/pdfs.yaml``
+- the PDF is listed in `<config/pdfs.yaml>`_
 
   It shows the source as ``source: 'meta/admin-three-day'``
 
-- which points to the file ``source/modules/meta/admin-three-day.txt``.
+- which points to the file `<source/modules/meta/admin-three-day.txt>`_.
 
   This file contains a list of chapters. Each of the chapter will have a file in the ``source/modules/nav`` directory.
 
   The list of chapters will appear as the top level tree in the left window and the chapters will be numbered 1, 2, 3, ...
 
-- in our example, the second chapter is described by ``source/modules/nav/crud.txt``.
+- in our example, the second chapter is described by `<source/modules/nav/crud.txt>`_.
 
   The file starts with a header **"CRUD"**, which is what is contributed to the table of contents as the chapter name.
   The file contains the following lines:
@@ -337,19 +351,19 @@ Here are the dependencies between the files in the repository in order to build 
 
   which are more of an indication to *Giza* about what to build.
 
-  In reality, it points to the file ``source/includes/toc-crud.yaml``.
+  In reality, it points to the file `<source/includes/toc-crud.yaml>`_.
 
   This is obtained by changing the ``/`` by a ``-`` after ``toc``.
 
-- ``source/includes/toc-crud.yaml`` list the lessons and exercises for the chapter.
+- `<source/includes/toc-crud.yaml>`_ lists the lessons and exercises for the chapter.
 
   Those will appear as the second level in the document tree and will be numbered 2.1, 2.2, 2.3, ...
 
-  Finally, we point to the ``rST`` files with the real contents.
+  Finally, we point to the *rST* files with the real contents.
 
   Note that the text reflected at that level in the doc tree will be taken from the headers of the files it points to.
 
-- in our example, the first lesson is ``source/modules/crud-creating-and-deleting-documents``
+- in our example, the first lesson is `<source/modules/crud-creating-and-deleting-documents>`_
 
   Similarly to the first names of the chapters, the names of the lessons come from the header of each lesson, and this is what is displayed in the left window of the PDF file. In this case *Creating and Deleting Documents*, instead of what was in the ``toc-crud.yaml`` file.
 
@@ -362,16 +376,16 @@ Architecture of HTML contents
 If you understood the architecture of PDF files, this section is much easier.
 Let's look at the the course corresponding to the PDF file we looked at earlier.
 
-- in our example, the top file is ``source/modules/agenda-dba-3-days.txt``.
+- in our example, the top file is `<source/modules/agenda-dba-3-days.txt>`_.
 
   This file contains the contents that get rendered as you main HTML page.
   This document mostly reference *lessons* directly, however if you want to see a similar agenda that points to *chapters* instead of *lessons*, you are likely going to point to a sub agenda. For example, look at ``source/modules/internal/agenda-nhtt.txt`` which includes the sub agenda ``source/modules/internal/agenda-nhtt-security.txt``.
 
 - once built, you can open the top level agenda, or any lessons.
 
-  All HTML pages for a giving agenda are available through ``build/instructor-package/modules``.
+  All HTML pages for a giving agenda are available through `<build/instructor-package/modules>`_.
 
-- The left window in the HTML pages is created from ``source/includes/toc-contents.yaml``.
+- The left window in the HTML pages is created from `<source/includes/toc-contents.yaml>`_.
 
   Regardless of the contents of a class, all the available contents can be accessed through this list.
   This file has a references to chapters in the ``nav`` directory that will contain list of lessons back to this ``includes`` directory, and finally pointing to contents in the ``modules`` directory. This is very similar to what we saw earlier in the PDF architecture.

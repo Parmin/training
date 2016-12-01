@@ -2,6 +2,9 @@
 Atlas, Cloud Manager and Ops Manager
 ====================================
 
+This chapter is incomplete and still under development
+------------------------------------------------------
+
 
 Learning Objectives
 -------------------
@@ -26,6 +29,9 @@ Pre-requisites
 
       This is what we assume the students know
       You can quickly test their knowledge
+
+      [Multi Votes]
+      /poll “Which security technologies are you proficient with?” “Kerberos” “LDAP” “X509” “SSL”
 
 
 Comparing Atlas, Cloud Manager and Ops Manager
