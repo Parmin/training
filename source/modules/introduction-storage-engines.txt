@@ -111,13 +111,8 @@ Specifying a Location to Store Data Files
 MMAPv1 Storage Engine
 ---------------------
 
-- MMAPv1 is MongoDB's original storage engine and currently the default.
-
-  .. code-block:: javascript
-
-     mongod
-
-- This is equivalent to the following command:
+- MMAPv1 is MongoDB's original storage engine was the default up to MongoDB 3.0.
+- specify the use of the MMAPv1 storage engine as follows:
 
   .. code-block:: javascript
 
@@ -178,13 +173,13 @@ WiredTiger Storage Engine
 -------------------------
 
 - The WiredTiger storage engine excels at all workloads, especially write-heavy and update-heavy workloads.
-
 - Notable features of the WiredTiger storage engine that do not exist in the MMAPv1 storage engine include:
 
   - Compression
   - Document-level concurrency
 
-- Specify the use of the WiredTiger storage engine as follows.
+- Default storage engine since MongoDB 3.2.
+- For older versions, specify the use of the WiredTiger storage engine as follows.
 
   .. code-block:: javascript
 
