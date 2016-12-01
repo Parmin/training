@@ -15,7 +15,7 @@ noop:
 %:
 	giza make $@
 
-stage giza-stage: 
+stage giza-stage:
 	@giza push --deploy stage-student stage-instructor --builder latex dirhtml html singlehtml slides --serial_sphinx --edition instructor student
 
 instructor-package:
@@ -41,3 +41,10 @@ internal-package:
 	rsync $(osverbosity) -r build/$(branch)/html-internal/ build/$@/
 	rsync $(osverbosity) -r build/$(branch)/slides-internal/ build/$@/slides/
 	tar $(osverbosity) -C build/ -czf build/$@.tar.gz $@/
+
+# TODO - remove lines 2-3 once DOCSP-69 is fixed
+internal-pdfs:
+	rm -rf build/$@/ build/$@.tar.gz
+	mkdir -p build/$(branch)/latex-internal
+	cp source/images/*.eps build/$(branch)/latex-internal/.
+	giza $(gizaverbosity) sphinx --builder latex --serial_sphinx --edition internal

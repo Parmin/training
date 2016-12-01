@@ -1,0 +1,9 @@
+====================================
+Atlas, Cloud Manager and Ops Manager
+====================================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-internal-atlas-cloudmanager-opsmanager.rst
+
+.. include:: /includes/toc/internal-atlas-cloudmanager-opsmanager.rst

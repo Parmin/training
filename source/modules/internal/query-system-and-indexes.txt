@@ -3,6 +3,10 @@ Query System and Indexes
 ========================
 
 
+This chapter is incomplete and still under development
+------------------------------------------------------
+
+
 Learning Objectives
 -------------------
 

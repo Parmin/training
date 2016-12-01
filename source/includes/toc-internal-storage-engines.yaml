@@ -1,4 +1,8 @@
 file: /modules/internal/storage-engines-wired-tiger
 description: |
   The WiredTiger storage engine
+---
+file: /modules/internal/storage-engines-mmapv1
+description: |
+  The MMAPv1 storage engine
 ...

@@ -1,3 +1,4 @@
+:orphan:
 
 .. only:: latex and not offset
 

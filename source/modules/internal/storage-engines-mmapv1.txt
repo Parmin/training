@@ -11,7 +11,7 @@ Upon completing this module, students should understand:
 - How the MMAPv1 storage engine pushes most of its work onto the OS
 - What operations read and write latches block
 - How btrees reference documents
-- How the journal prevents disk corruption 
+- How the journal prevents disk corruption
 
   - journaling mechanics
 
@@ -29,18 +29,18 @@ MMAPv1 in a Nutshell
 
 - Let the OS handle *everything*
 
-.. image:: /images/memory-map-all-the-things.jpg
+.. include:: /figures_local_meta/memory-map-all-the-things.txt
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - OS handles caching layer, i.e. demand paging (lazy reads)
-      
+
       -  MongoDB just reads/writes to RAM via the fs cache (virtual address space)
-    
+
     - If you read a page from the virtual address space, the OS brings it in RAM (resident) so you can read it.
 
       - *page fault!!!*
@@ -51,15 +51,13 @@ MMAPv1 in a Nutshell
 Memory Mapping
 --------------
 
-.. image:: /images/mmapv1-virtual-memory.jpg
-  :width: 300px
-
+.. include:: /figures_local_meta/mmapv1-virtual-memory.txt
 
 
 Pros and Cons
 -------------
 
-- Pros: 
+- Pros:
 
   - No complex memory / disk code in MongoDB, huge win!
   - The OS is very good at caching for any type of storage
@@ -81,7 +79,7 @@ Pros and Cons (continued)
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - For a more built-from-the-ground-up storage engine, the engine would know where the bits are, and can manage them. For MMAPv1, we are at the mercy of the OS.
 
@@ -89,7 +87,7 @@ Pros and Cons (continued)
 Virtual Address Space
 ---------------------
 
-.. image:: /images/virtual-address-space.jpg
+.. include:: /figures_local_meta/virtual-address-space.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -108,9 +106,9 @@ How Much Data is in RAM?
 ------------------------
 
 - Resident memory the best indicator of how much data in RAM
-- Resident is: 
+- Resident is:
 
-  - Process overhead (connections, heap) 
+  - Process overhead (connections, heap)
   - Plus FS pages in RAM that were accessed
 
 - Resets to 0 upon restart even though data is still in RAM due to FS cache
@@ -123,7 +121,7 @@ How Much Data is in RAM?
 
   .. note::
 
-    - 1 MB per connection on stack 
+    - 1 MB per connection on stack
     - Tuned down from Linux default of 10 MB.
 
 
@@ -131,11 +129,11 @@ Concurrency
 -----------
 
 - We say we use locks, which scares DBAs as a lock is a heavyweight thing, but really we use latches.
-- In earlier versions, there was a single global latch. 
+- In earlier versions, there was a single global latch.
 
   - Starting with 2.2, per database
   - With 3.0, per collection
- 
+
 - The latch is multiple-reader, single-writer, and is writer-greedy:
 
   - Writers block readers; one writer max
@@ -171,7 +169,7 @@ Lifecycle of a Write
   - msync called
   - File closed, process ends
   - Memory pressure from the OS
- 
+
 - When do we call msync?
 
   - Once every 60 seconds (--syncdelay)
@@ -225,9 +223,9 @@ Naming Restrictions in MMAPv1
 - Db name in file name, so no OS forbidden characters, e.g. \\0, /, \\, .
 
   - dbname.extension
- 
+
 - Case insensitive
- 
+
 - *Cannot rename db just by renaming files*
 
 .. include:: /includes/student-notes.rst
@@ -266,7 +264,7 @@ Namespace File
 Namespace Internal File Format
 ------------------------------
 
-.. image:: /images/internal-file-format.jpg
+.. include:: /figures_local_meta/internal-file-format.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -319,7 +317,7 @@ Indexes
     - fb optimization in 1.4 -> roughly cutting memory needs for index in half
 
     - Bucket:
-      
+
       - link to parent, root has link to null
       - link to right most child, stats, the following 18 byte data structure for key nodes:
 
@@ -337,7 +335,7 @@ Preallocation
 - We are aggressive, always create 1 spare file
 
   - \(0\) 64MB, (1) 128MB, … , (5) 2GB, (6) 2GB, …
- 
+
 - Can keep data files smaller with --smallfiles
 - Divide numbers by 4, i.e. double at 512MB
 - This does not actually make your data smaller
@@ -346,7 +344,7 @@ Preallocation
 
 .. only:: instrutor
 
-  .. note:: 
+  .. note::
 
     - Ask the students: Why do we always create a spare file?
     - On Linux we automatically create the next numbered file as soon as we put a document in the current numbered file. (why?)
@@ -382,7 +380,7 @@ Preallocation (continued)
 
     - When customer asks for fs rec, whether or not it supports fallocate that is or isn’t buggy is relevant...
     - CentOS5 has version of ext4 that does not have fallocate system call, so we have to recommend XFS in those cases
-    
+
 
 Fragmentation
 -------------
@@ -420,7 +418,7 @@ Fragmentation (continued)
 
 .. only:: instructor
 
-  .. note:: 
+  .. note::
 
     - How else to fight fragmentation? At the developer level:
     - Normalize schema more, design for in-place updates
@@ -493,7 +491,7 @@ Solution:  The Journal
 Journal Format
 --------------
 
-.. image:: /images/journal-format.jpg
+.. include:: /figures_local_meta/journal-format.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -501,7 +499,7 @@ Journal Format
 How MongoDB's Journaling Works
 ------------------------------
 
-.. image:: /images/journaling-1.jpg
+.. include:: /figures_local_meta/journaling-1.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -518,7 +516,7 @@ How MongoDB's Journaling Works
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-2.jpg
+.. include:: /figures_local_meta/journaling-2.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -534,7 +532,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-3.jpg
+.. include:: /figures_local_meta/journaling-3.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -558,7 +556,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-4.jpg
+.. include:: /figures_local_meta/journaling-4.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -577,7 +575,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-5.jpg
+.. include:: /figures_local_meta/journaling-5.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -598,7 +596,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-6.jpg
+.. include:: /figures_local_meta/journaling-6.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -619,7 +617,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-7.jpg
+.. include:: /figures_local_meta/journaling-7.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -638,7 +636,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-8.jpg
+.. include:: /figures_local_meta/journaling-8.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -657,7 +655,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-9.jpg
+.. include:: /figures_local_meta/journaling-9.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -701,5 +699,3 @@ Journal FAQ
 
     - Note that replication can reduce the data loss further. Use the REPLICAS_SAFE write concern (“w” option).
     - As write guarantees increase, latency increases. To maintain performance, use more connections!
-    
-

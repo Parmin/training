@@ -1,0 +1,9 @@
+=====
+Tools
+=====
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-internal-tools.rst
+
+.. include:: /includes/toc/internal-tools.rst

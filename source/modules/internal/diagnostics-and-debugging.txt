@@ -3,6 +3,10 @@ Diagnostics and Debugging
 =========================
 
 
+This chapter is incomplete and still under development
+------------------------------------------------------
+
+
 Learning Objectives
 -------------------
 

@@ -1,3 +1,4 @@
+:orphan:
 
 .. only:: latex and not offset
 
@@ -5,8 +6,6 @@
       :alt: Disasters happen.
       :align: center
       :figwidth: 1600px
-
-
 
 .. only:: website and slides
 
@@ -28,7 +27,6 @@
 
       <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_figures/human_disasters.jpg" alt="Index on x."></img><p>Disasters happen.</p></div>
 
-
 .. only:: latex and offset
 
    .. raw:: latex
@@ -37,4 +35,3 @@
       \centering
       \includegraphics[width=400px]{human_disasters.eps}
       \end{figure}
-

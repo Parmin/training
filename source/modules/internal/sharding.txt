@@ -3,6 +3,10 @@ Sharding
 ========
 
 
+This chapter is incomplete and still under development
+------------------------------------------------------
+
+
 Learning Objectives
 -------------------
 

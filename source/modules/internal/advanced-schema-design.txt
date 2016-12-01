@@ -3,6 +3,10 @@ Advanced Schema Design
 ======================
 
 
+This chapter is incomplete and still under development
+------------------------------------------------------
+
+
 Learning Objectives
 -------------------
 

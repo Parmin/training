@@ -37,7 +37,7 @@ What is WiredTiger?
     - [DRAW] WT as a subsystem of MongoDB (TODO provide the diagram for the instructor)
 
       - show that the feature of Wired Tiger transaction is used by MongoDB
-        to commit changes to data and indexes together, not exposing 
+        to commit changes to data and indexes together, not exposing
         transactions to the MongoDB user.
 
 Features of WiredTiger
@@ -86,11 +86,9 @@ Concurrency in WT
     - These statements apply not only to documents, but also to indexes
     - Because a "losing" write doesn't get committed, there is no need to "delete" it; you just start over fresh immediately
 
-.. only:: notprinted
+.. only:: todo
 
-  .. todo::
-
-    - clarify "but cannot commit"
+   - clarify "but cannot commit"
 
 Writes in WT
 ------------
@@ -156,7 +154,7 @@ Introduction to the WiredTiger Cache
 
     - FS cache will have to thrash a lot when reading/writing if it's too small
     - There's a reason why the default FS cache is about as big as the WT cache.
-    - One TSE opinion: if your uncompressed working set fits in memory, then make the WiredTiger Cache large (up to 60%); if your compressed working set fits in memory, then make the fscache large (up to 90%); 
+    - One TSE opinion: if your uncompressed working set fits in memory, then make the WiredTiger Cache large (up to 60%); if your compressed working set fits in memory, then make the fscache large (up to 90%);
 
 WT Data Structures - Pages
 --------------------------
@@ -287,7 +285,7 @@ WT Cache -- Reconciliation
 WT Cache -- Reconciliation (Continued)
 --------------------------------------
 
-.. include:: /modules/wt-page-reconciliation.txt
+.. include:: /figures_meta/wt-page-reconciliation.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -335,9 +333,7 @@ Checkpoints and Performance
 Checkpoints - Old and New Pages
 -------------------------------
 
-.. figure:: /figures/checkpoint-free-up-pages.png
-   :align: center
-   :figwidth: 700px
+.. include:: /figures_meta/checkpoint-free-up-pages.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -345,9 +341,7 @@ Checkpoints - Old and New Pages
 Checkpoints - Old and New Pages 2
 ---------------------------------
 
-.. figure:: /figures/checkpoint-free-up-pages-2.png
-   :align: center
-   :figwidth: 700px
+.. include:: /figures_meta/checkpoint-free-up-pages-2.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -405,11 +399,9 @@ Pitfall: WT Without the Journal
       - It just means that you must flush to disk before acknowledging
       - For WiredTiger, this means a checkpoint is forced
 
-.. only:: notprinted
+.. only:: todo
 
-  .. todo::
-
-    - does WT reduce the interval of the journal with ``{ j : true }`` for an operation, like MMAPv1 does?
+   - does WT reduce the interval of the journal with ``{ j : true }`` for an operation, like MMAPv1 does?
 
 Compression in WT
 -----------------
@@ -499,18 +491,17 @@ Indexes in WT: Prefix Compression
 
         - often can end up using *fewer* cpu cycles
 
-    - Students may ask about Log Structured Merge (LSM) trees.
+    - Students may ask about Log Structured Merge (LSM) trees. We don't want to spend too much time on the subject as they are not planned in any release any time soon.
 
-      - LSM trees are present natively in WT, but not implemented for MongoDB, yet.
+      - LSM trees are present natively in WT, but not implemented for MongoDB, yet. We tried to use them, but got a lot of issues, and backed off on their usage.
+
       - LSM trees would allow updates to indexes to happen smoothly in the background during heavy write loads
 
         - Allows you to build additional tree structures to avoid requent rebalancing (during a bulk load, for example)
 
-.. only:: notprinted
+.. only:: todo
 
-  .. todo::
-
-    - screenshot showing a WiredTiger leaf page with index values, using prefix compression
+   - screenshot showing a WiredTiger leaf page with index values, using prefix compression
 
 Situations where WiredTiger Performs Poorly
 -------------------------------------------
@@ -609,5 +600,3 @@ References on WiredTiger
     - If you had a standalone WT instance, how much data can we lose if it crashes?
 
       - how about for a replica set
-
-
