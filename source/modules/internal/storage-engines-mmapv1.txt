@@ -29,7 +29,7 @@ MMAPv1 in a Nutshell
 
 - Let the OS handle *everything*
 
-.. image:: /images/memory-map-all-the-things.jpg
+.. include:: /figures_local_meta/memory-map-all-the-things.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -51,9 +51,7 @@ MMAPv1 in a Nutshell
 Memory Mapping
 --------------
 
-.. image:: /images/mmapv1-virtual-memory.jpg
-  :width: 300px
-
+.. include:: /figures_local_meta/mmapv1-virtual-memory.txt
 
 
 Pros and Cons
@@ -89,7 +87,7 @@ Pros and Cons (continued)
 Virtual Address Space
 ---------------------
 
-.. image:: /images/virtual-address-space.jpg
+.. include:: /figures_local_meta/virtual-address-space.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -266,7 +264,7 @@ Namespace File
 Namespace Internal File Format
 ------------------------------
 
-.. image:: /images/internal-file-format.jpg
+.. include:: /figures_local_meta/internal-file-format.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -493,7 +491,7 @@ Solution:  The Journal
 Journal Format
 --------------
 
-.. image:: /images/journal-format.jpg
+.. include:: /figures_local_meta/journal-format.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -501,7 +499,7 @@ Journal Format
 How MongoDB's Journaling Works
 ------------------------------
 
-.. image:: /images/journaling-1.jpg
+.. include:: /figures_local_meta/journaling-1.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -518,7 +516,7 @@ How MongoDB's Journaling Works
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-2.jpg
+.. include:: /figures_local_meta/journaling-2.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -534,7 +532,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-3.jpg
+.. include:: /figures_local_meta/journaling-3.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -558,7 +556,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-4.jpg
+.. include:: /figures_local_meta/journaling-4.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -577,7 +575,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-5.jpg
+.. include:: /figures_local_meta/journaling-5.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -598,7 +596,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-6.jpg
+.. include:: /figures_local_meta/journaling-6.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -619,7 +617,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-7.jpg
+.. include:: /figures_local_meta/journaling-7.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -638,7 +636,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-8.jpg
+.. include:: /figures_local_meta/journaling-8.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 
@@ -657,7 +655,7 @@ How MongoDB's Journaling Works (Cont'd)
 How MongoDB's Journaling Works (Cont'd)
 ---------------------------------------
 
-.. image:: /images/journaling-9.jpg
+.. include:: /figures_local_meta/journaling-9.txt
 
 - http://www.kchodorow.com/blog/2012/10/04/how-mongodbs-journaling-works/
 

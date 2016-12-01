@@ -210,19 +210,45 @@ Figures
 
 You will find figures used in training in both the `<source/figures>`_ and `<source/images>`_ subdirectories. `<source/images>`_ contains a subset of the ``.svg`` images maintained by the documentation team for the MongoDB manual and other docs. the ``metadata.yaml`` file define which images we use for training and at what sizes they should be generated for the different targets (i.e. pdf, HTML, slides). We also contribute ``.svg`` files to this repository that we need to create for training. `<source/figures>`_ contains ``.png`` files and other images that we use (in a pinch) in training. There are not many of these files and, in general, if you are going to create a figure, you should create an ``.svg`` and place it in `<source/images>`_.
 
-If you checkin a file that is not in SVG (which is the recommendation, due to the size of the files), you must checkin the corresponding *EPS* file. Here is how you can convert a *PNG/JPG* file to *EPS*.
+If you are creating a new image, do it in SVG.
+If you are given a ``.png`` or ``.jpg``, you will need to generate the corresponding ``.eps``.
+See the following example on how to generate a ``.eps`` file on your Mac.If you checkin a file that is not in SVG (which is the recommendation, due to the size of the files), you must checkin the corresponding *EPS* file. Here is how you can convert a *PNG/JPG* file to *EPS*.
 
 .. code::
 
     brew install imagemagick
     convert temp.png eps3:temp.eps
 
-A good example on how a non-SVG file is referenced can be found by looking at the following 2 files:
+If the file is to be shared by the MongoDB documentation, it should go in the ``docs-assets`` repository.
+Note that committing to the this repository may take more cycles, and that it is a public repository that the customers can clone, so beware of adding confidential information.
 
-- https://github.com/10gen/training/blob/master/source/modules/human-disasters.txt
-- https://github.com/10gen/training/blob/master/source/modules/backup-file-system.txt
+If the file is not be shared, you should checked it in this repository.
 
-For ``non-SVG`` files, it is preferable to place them in `<source/figures>`_`, however you will need to check them in the ``doc-assets`` repository.
+Some examples:
+
+- shared SVG file
+
+  - None in use?
+
+- shared non-SVG file
+
+  - ``source/figures/wt-page-reconciliation.eps``
+  - ``source/figures/wt-page-reconciliation.png``
+  - ``source/figures_meta/wt-page-reconciliation.txt``
+  - referenced in ``source/modules/internal/storage-engines-wired-tiger.txt``
+
+- training only SVG file
+
+  - ``source/images/sharding-splitting.svg``
+  - metadata goes in ``source/images/metadata.yaml``
+  - referenced in ``source/modules/sharding-balancing.txt``
+
+- training only non-SVG file
+
+  - ``source/images/internal-file-format.eps``
+  - ``source/images/internal-file-format.jpg``
+  - ``source/figures_local_meta/internal-file-format.txt``
+  - referenced in ``source/modules/internal/storage-engines-mmapv1.txt``
 
 Labs
 ----

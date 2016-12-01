@@ -285,7 +285,7 @@ WT Cache -- Reconciliation
 WT Cache -- Reconciliation (Continued)
 --------------------------------------
 
-.. include:: /modules/wt-page-reconciliation.txt
+.. include:: /figures_meta/wt-page-reconciliation.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -333,7 +333,7 @@ Checkpoints and Performance
 Checkpoints - Old and New Pages
 -------------------------------
 
-.. include:: /modules/checkpoint-free-up-pages.txt
+.. include:: /figures_meta/checkpoint-free-up-pages.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -341,7 +341,7 @@ Checkpoints - Old and New Pages
 Checkpoints - Old and New Pages 2
 ---------------------------------
 
-.. include:: /modules/checkpoint-free-up-pages-2.txt
+.. include:: /figures_meta/checkpoint-free-up-pages-2.txt
 
 .. include:: /includes/student-notes.rst
 
