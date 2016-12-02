@@ -200,7 +200,7 @@ Time to create users that will authenticate using an X.509 certificate.
       .. code-block:: bash
 
         openssl x509 -in /share/etc/ssl/dbadmin.pem -inform PEM -subject -nameopt RFC2253
-        subject= C=US,ST=New York,L=New York City,O=MongoDB,OU=TRAINING,CN=client
+        subject= C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=dbadmin
         -----BEGIN CERTIFICATE-----
         MIIDezCCAmOgAwIBAgIDBZc1MA0GCSqGSIb3DQEBBQUAMGUxCzAJBgNVBAMTAkNB
 
@@ -215,7 +215,7 @@ Time to create users that will authenticate using an X.509 certificate.
         mongo --host PRIMARY_NODE --ssl --sslPEMKeyFile /share/etc/ssl/automation.pem --sslCAFile /share/etc/ssl/ca.pem
         > db.getSiblingDB("$external").auth({
           mechanism: "MONGODB-X509",
-          user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=EDU,CN=automation"
+          user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=automation"
           })
 
     - Create the new ``dbAdminAnyDatabase`` user with the ``dbadmin.pem``
@@ -224,7 +224,7 @@ Time to create users that will authenticate using an X.509 certificate.
       .. code-block:: javascript
 
         db.getSiblingDB("$external").runCommand({
-          createUser: "C=US,ST=New York,L=New York City,O=MongoDB,OU=TRAINING,CN=dbadmin",
+          createUser: "C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=dbadmin",
           roles: [
             { role: 'dbAdminAnyDatabase', db: 'admin' }
           ],
@@ -244,7 +244,7 @@ Time to create users that will authenticate using an X.509 certificate.
 
         db.getSiblingDB("$external").auth({
           mechanism: "MONGODB-X509",
-          user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=TRAINING,CN=dbadmin"
+          user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=dbadmin"
         })
 
         db.createDatabase("allgood")
