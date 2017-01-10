@@ -170,10 +170,10 @@ File System Restores
 Backup Sharded Cluster
 ----------------------
 
-1. Stop Balancer (and wait) or no balancing window
-2. Stop one config server (data R/O)
+1. Stop Balancer (and wait) or no balancing window.
+2. Lock one secondary member of each replica set and CSRS.
 3. Backup Data (shards, config)
-4. Restart config server
+4. Unlock replica set members and CSRS.
 5. Resume Balancer
 
 .. include:: /includes/student-notes.rst
@@ -182,7 +182,13 @@ Backup Sharded Cluster
 
     .. note::
 
-        Stopping one config server is sufficient even with a CSRS
+        - Stopping one config server is sufficient even with a CSRS
+
+        While in the past, you would stop a config server and backup the 3 of
+        them due to consistency concerns.
+
+        With CSRS, you only need to stop one, and backup this instance as its
+        data will be in sync with the locked replicas.
 
 Restore Sharded Cluster
 -----------------------

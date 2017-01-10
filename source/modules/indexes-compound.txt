@@ -307,6 +307,29 @@ Rebuild the index as follows.
 .. include:: /includes/student-notes.rst
 
 
+No need for ``stage : SORT``
+----------------------------
+
+===========  =========  =========
+username     rating     timestamp
+===========  =========  =========
+"anonymous"  2          4
+"anonymous"  3          1
+"anonymous"  5          2
+"sam"        1          2
+"martha"     5          5
+===========  =========  =========
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+    - general index illustration
+    - we can see that the returned results are already sorted.
+    - no need to perform an in-memory sort
+
 General Rules of Thumb
 ----------------------
 

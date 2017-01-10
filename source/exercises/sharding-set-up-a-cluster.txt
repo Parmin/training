@@ -78,18 +78,15 @@ Initiate a Replica Set (Linux/MacOS)
 
 .. code-block:: bash
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard0/m0 \
+   mongod --replSet shard0 --dbpath ~/data/cluster/shard0/m0 \
           --logpath ~/data/cluster/shard0/m0/mongod.log \
           --fork --port 27107
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard0/m1 \
+   mongod --replSet shard0 --dbpath ~/data/cluster/shard0/m1 \
           --logpath ~/data/cluster/shard0/m1/mongod.log \
           --fork --port 27108
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard0/arb \
+   mongod --replSet shard0 --dbpath ~/data/cluster/shard0/arb \
           --logpath ~/data/cluster/shard0/arb/mongod.log \
           --fork --port 27109
 
@@ -106,18 +103,15 @@ Initiate a Replica Set (Windows)
 
 .. code-block:: bash
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\shard0\m0 \
+   mongod --replSet shard0 --dbpath c:\data\cluster\shard0\m0 \
           --logpath c:\data\cluster\shard0\m0\mongod.log \
           --port 27107 --oplogSize 10
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\shard0\m1 \
+   mongod --replSet shard0 --dbpath c:\data\cluster\shard0\m1 \
           --logpath c:\data\cluster\shard0\m1\mongod.log \
           --port 27108 --oplogSize 10
 
-   mongod --replSet shard0 --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\shard0\arb \
+   mongod --replSet shard0 --dbpath c:\data\cluster\shard0\arb \
           --logpath c:\data\cluster\shard0\arb\mongod.log \
           --port 27109 --oplogSize 10
 
@@ -129,24 +123,26 @@ Initiate a Replica Set (Windows)
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - Students should replace <HOSTNAME> by the local machine name
 
 Spin Up a Second Replica Set (Linux/MacOS)
 ------------------------------------------
 
 .. code-block:: bash
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard1/m0 \
+   mongod --replSet shard1 --dbpath ~/data/cluster/shard1/m0 \
           --logpath ~/data/cluster/shard1/m0/mongod.log \
           --fork --port 27117
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard1/m1 \
+   mongod --replSet shard1 --dbpath ~/data/cluster/shard1/m1 \
           --logpath ~/data/cluster/shard1/m1/mongod.log \
           --fork --port 27118
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard1/arb \
+   mongod --replSet shard1 --dbpath ~/data/cluster/shard1/arb \
           --logpath ~/data/cluster/shard1/arb/mongod.log \
           --fork --port 27119
 
@@ -162,18 +158,15 @@ Spin Up a Second Replica Set (Windows)
 
 .. code-block:: bash
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\shard1\m0 \
+   mongod --replSet shard1 --dbpath c:\data\cluster\shard1\m0 \
           --logpath c:\data\cluster\shard1\m0\mongod.log \
           --port 27117 --oplogSize 10
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\shard1\m1 \
+   mongod --replSet shard1 --dbpath c:\data\cluster\shard1\m1 \
           --logpath c:\data\cluster\shard1\m1\mongod.log \
           --port 27118 --oplogSize 10
 
-   mongod --replSet shard1 --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\shard1\arb \
+   mongod --replSet shard1 --dbpath c:\data\cluster\shard1\arb \
           --logpath c:\data\cluster\shard1\arb\mongod.log \
           --port 27119 --oplogSize 10
 
@@ -184,6 +177,11 @@ Spin Up a Second Replica Set (Windows)
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - Students should replace <HOSTNAME> by the local machine name
 
 
 A Third Replica Set (Linux/MacOS)
@@ -191,18 +189,15 @@ A Third Replica Set (Linux/MacOS)
 
 .. code-block:: bash
 
-   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard2/m0 \
+   mongod --replSet shard2 --dbpath ~/data/cluster/shard2/m0 \
           --logpath ~/data/cluster/shard2/m0/mongod.log \
           --fork --port 27127
 
-   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard2/m1 \
+   mongod --replSet shard2 --dbpath ~/data/cluster/shard2/m1 \
           --logpath ~/data/cluster/shard2/m1/mongod.log \
           --fork --port 27128
 
-   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
-          --dbpath ~/data/cluster/shard2/arb \
+   mongod --replSet shard2 --dbpath ~/data/cluster/shard2/arb \
           --logpath ~/data/cluster/shard2/arb/mongod.log \
           --fork --port 27129
 
@@ -218,18 +213,15 @@ A Third Replica Set (Windows)
 
 .. code-block:: bash
 
-   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\shard2\m0 \
+   mongod --replSet shard2 --dbpath c:\data\cluster\shard2\m0 \
           --logpath c:\data\cluster\shard2\m0\mongod.log \
           --port 27127 --oplogSize 10
 
-   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\shard2\m1 \
+   mongod --replSet shard2 --dbpath c:\data\cluster\shard2\m1 \
           --logpath c:\data\cluster\shard2\m1\mongod.log \
           --port 27128 --oplogSize 10
 
-   mongod --replSet shard2 --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\shard2\arb \
+   mongod --replSet shard2 --dbpath c:\data\cluster\shard2\arb \
           --logpath c:\data\cluster\shard2\arb\mongod.log \
           --port 27129 --oplogSize 10
 
@@ -240,6 +232,11 @@ A Third Replica Set (Windows)
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - Students should replace <HOSTNAME> by the local machine name
 
 Status Check
 ------------
@@ -265,17 +262,17 @@ Launch Config Servers (Linux/MacOS)
 -----------------------------------
 .. code-block:: bash
 
-   mongod --smallfiles --nojournal --noprealloc \
+   mongod
           --dbpath ~/data/cluster/config/c0 \
           --logpath ~/data/cluster/config/c0/mongod.log \
           --fork --port 27217 --configsvr
 
-   mongod --smallfiles --nojournal --noprealloc \
+   mongod
           --dbpath ~/data/cluster/config/c1 \
           --logpath ~/data/cluster/config/c1/mongod.log \
           --fork --port 27218 --configsvr
 
-   mongod --smallfiles --nojournal --noprealloc \
+   mongod
           --dbpath ~/data/cluster/config/c2 \
           --logpath ~/data/cluster/config/c2/mongod.log \
           --fork --port 27219 --configsvr
@@ -286,18 +283,15 @@ Launch Config Servers (Windows)
 -------------------------------
 .. code-block:: bash
 
-   mongod --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\config\c0 \
+   mongod --dbpath c:\data\cluster\config\c0 \
           --logpath c:\data\cluster\config\c0\mongod.log \
           --port 27217 --configsvr
 
-   mongod --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\config\c1 \
+   mongod --dbpath c:\data\cluster\config\c1 \
           --logpath c:\data\cluster\config\c1\mongod.log \
           --port 27218 --configsvr
 
-   mongod --smallfiles --nojournal --noprealloc \
-          --dbpath c:\data\cluster\config\c2 \
+   mongod --dbpath c:\data\cluster\config\c2 \
           --logpath c:\data\cluster\config\c2\mongod.log \
           --port 27219 --configsvr
 
@@ -312,10 +306,10 @@ Now our mongos's. We need to tell them about our config servers.
 .. code-block:: bash
 
    mongos --logpath ~/data/cluster/s0/mongos.log --fork --port 27017 \
-          --configdb <HOSTNAME>:27217,<HOSTNAME>:27218,<HOSTNAME>:27219
+          --configdb $HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219
 
    mongos --logpath ~/data/cluster/s1/mongos.log --fork --port 27018 \
-          --configdb <HOSTNAME>:27217,<HOSTNAME>:27218,<HOSTNAME>:27219
+          --configdb $HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219
 
 .. include:: /includes/student-notes.rst
 
@@ -323,7 +317,7 @@ Now our mongos's. We need to tell them about our config servers.
 
   .. note::
 
-    - Students should replace <HOSTNAME> by the local machine name
+    - Students should set ``$HOSTNAME`` by the local machine name
     - echo $HOSTNAME
 
 
