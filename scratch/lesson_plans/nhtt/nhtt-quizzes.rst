@@ -138,43 +138,29 @@ Any of the following will work:
 Internals and Storage Engines
 -----------------------------
 
-1. Determine the truth of the following statement: Updating a non-indexed field in a document in a collection can lead to updates of indexes for that collection.
 
-:choices:
-   :yes: True for MMAPv1, but false for WiredTiger
-   :no: False for MMAPv1, but true for WiredTiger
-   :no: False for both MMAPv1 and WiredTiger
-   :no: True for both MMAPv1 and WiredTiger
 
-2. Which of the following features can be affected by your choice of storage engine?
+/poll "Which of the following features can be affected by your choice of storage engine?"  "On-disk encryption" "On-disk compression" "Capped collection implementation" "Locking granularity" "Ability to safely run without journaling" "Data files" "Ability to utilize multicore processors in parallel"
 
-   :yes: On-disk encryption
-   :yes: On-disk compression
-   :yes: Capped collection implementation
-   :yes: Locking granularity
-   :no: Ability to safely run without journaling
-   :yes: Data files
-   :yes: Ability to utilize multicore processors in parallel
-   :yes: Layout of data files
+/poll "For the WiredTiger cache, which of the following represent the differences between on-disk pages and pages in the cache?" "Presence of a page-specific index" "Compression and encryption" "Update list" "Ordering of documents (for a clean page)"
 
-3. For the WiredTiger cache, which of the following represent the differences between on-disk pages and pages in the cache?
-
-   :yes: Presence of a page-specific index
-   :yes: Compression and encryption
-   :yes: Update list
-   :no: Ordering of documents (for a clean page)
-
-4. For WiredTiger, what are the differences between collections and indexes?
-   
-   :no: Indexes are stored in btrees, but collections are stored in flat data structures
-   :yes: There is (almost) no difference between indexes and collections
-   :yes: An index is (usually) smaller than a collection 
-   :no: 
+/poll "For WiredTiger, what are the differences between collections and indexes?" "Indexes are stored in btrees, but collections are stored in flat data structures" "There is (almost) no difference between indexes and collections" "An index is (usually) smaller than a collection "
 
 
 Replication
 -----------
 
+  /poll   "When can you use secondaries for scaling?" "When you have a special use case that needs special indexes" "When you want to colocate a server and the application" "When you are OK with stale data" "When your primary cannot handle the read load"
+
+/poll "How are oplog entries communicated from the primary to the secondaries?" "They are pushed to the secondaries" "They are pulled from the primary" "They are pulled from the config servers" "This is decided by arbiters"
+
+/poll "When is idempotence important in the oplog?" "During the initial sync" "At all times when pulling the oplog" "When there are multiple servers pushing oplog entries"
+
+/poll "When is an election called?" "When there is no primary" "When no other server has called for an election" "When a write comes in" "When oplog entries must be replicated"
+
+
+
+Why must there be an odd number of members in a replica set?
 
 
 Schema Design
