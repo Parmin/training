@@ -168,8 +168,8 @@ db.movies.updateMany( { "title" : "Jaws II" },
                       { $inc: { "budget" : 5 } },
                       { upsert: true } )
 
-db.movies.replaceOne( { "title" : "Jaws III", "category" : [ "horror" ] },
-                      { $set : { "budget" : 1 } },
+db.movies.replaceOne( { "title" : "E.T.", "category" : [ "scifi" ] },
+                      { "title" : "E.T.", "category" : [ "scifi" ], "budget" : 1 },
                       { upsert: true } )
 
 
