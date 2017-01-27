@@ -160,8 +160,10 @@ Update Operators
 - ``$rename``: Rename a field.
 - ``$set``: Update one or more fields (already discussed).
 - ``$unset`` Delete a field (already discussed).
-- ``$min``: Update only if value is smaller than specified quantity
-- ``$max``: Update only if value is larger than specified quantity
+- ``$min``: Updates the field value to a specified value if the specified value 
+    is less than the current value of the field
+- ``$max``: Updates the field value to a specified value if the specified value 
+    is greater than the current value of the field
 - ``$currentDate``: Set the value of a field to the current date or timestamp.
 
 .. include:: /includes/student-notes.rst
