@@ -142,22 +142,22 @@ edition: 'student'
 # tag: 'workbook'
 # edition: 'student'
 # ---
-#source: 'meta/developer-rapid-start'
-#output: 'developer-rapid-start-instructor.tex'
-#title: "MongoDB Developer Rapid Start Training"
-#author: 'MongoDB, Inc.'
-#class: 'howto'
-#tag: 'guide'
-#edition: 'instructor'
-#---
-#source: 'meta/developer-rapid-start'
-#output: 'developer-rapid-start-student.tex'
-#title: "MongoDB Developer Rapid Start Training"
-#author: 'MongoDB, Inc.'
-#class: 'howto'
-#tag: 'workbook'
-#edition: 'student'
-#---
+source: 'meta/developer-rapid-start'
+output: 'developer-rapid-start-instructor.tex'
+title: "MongoDB Developer Rapid Start Training"
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'guide'
+edition: 'instructor'
+---
+source: 'meta/developer-rapid-start'
+output: 'developer-rapid-start-student.tex'
+title: "MongoDB Developer Rapid Start Training"
+author: 'MongoDB, Inc.'
+class: 'howto'
+tag: 'workbook'
+edition: 'student'
+---
 # source: 'meta/developer-one-day'
 # output: 'developer-one-day-instructor.tex'
 # title: 'MongoDB Developer Fundamentals'

@@ -12,7 +12,6 @@ Upon completing this module, students should understand:
 - BSON basics
 - That documents are organized into collections
 - ObjectIds
-- Padding Factor
 
 .. include:: /includes/student-notes.rst
 
