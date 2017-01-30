@@ -20,7 +20,7 @@ stage giza-stage:
 	@giza push --deploy stage-student stage-instructor --builder latex dirhtml html singlehtml slides --serial_sphinx --edition instructor student
 
 instructor-package:
-	rm conf.py
+	rm -f conf.py
 	ln conf-default.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
 	giza $(gizaverbosity) sphinx --builder slides html --serial_sphinx --edition instructor
@@ -30,7 +30,7 @@ instructor-package:
 	tar $(osverbosity) -C build/ -czf build/$@.tar.gz $@/
 
 student-package:
-	rm conf.py
+	rm -f conf.py
 	ln conf-default.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
 	giza $(gizaverbosity) sphinx --builder slides html --serial_sphinx --edition student
@@ -40,7 +40,7 @@ student-package:
 	tar $(osverbosity) -C build/ -czf build/$@.tar.gz $@/
 
 internal-package:
-	rm conf.py
+	rm -f conf.py
 	ln conf-internal.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
 	giza $(gizaverbosity) sphinx --builder slides html --serial_sphinx --edition internal
@@ -53,5 +53,6 @@ internal-package:
 
 internal-pdfs:
 	rm -rf build/$@/ build/$@.tar.gz
+	ln conf-internal.py conf.py
 	# TODO Copy the PDFs we still generate manually from PowerPoint slides
 	giza $(gizaverbosity) sphinx --builder latex --serial_sphinx --edition internal
