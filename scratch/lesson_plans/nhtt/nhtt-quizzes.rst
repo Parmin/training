@@ -8,26 +8,34 @@ Indexing Quiz Questions
 url here (to take quiz): https://www.research.net/r/XGDFBJQ
 to edit: https://www.surveymonkey.com/summary/7pFpOSfaY9uUMCZUDj2wOcgRWwBI4Mg9GNnjmSRp6ljAHTZZkWRRMM2hqSPg5sMP
 
-Create indexes that are optimized for the following queries. 
+
+Create indexes that are optimized for the following queries.
 
 If there is more than one query, assume that all are common and create a set of
 indices that will work for all of them.
 
+Note that the order of the questions is different for all people.
+
+Some comments on this quiz:
+- may want to not shuffle the questions
+- we need a different dataset to explain equality/sort/range. It would be good to have 1-N relationships for each level (not a 1-1 like city to zipcode)
+- let's not use boolean fields, unless the purpose is to show low cardinality
+
 1.
 
-.. code-block:: 
+.. code-block::
 
   db.users.find( { username : <string> } )
   db.users.find( { isActive : true, username: <string> } )
 
-2. 
+2.
 
 .. code-block:: javascript
 
   db.zips.find( { city : { $in : [ <string>, <string>, <string> ] },
                   state : <string> } ).sort( { zip_code : 1 } )
 
-3. 
+3.
 
 .. code-block:: javascript
 
@@ -35,7 +43,7 @@ indices that will work for all of them.
                             isActive : true },
                           { $inc : { balanceDue : NumberDecimal(10.00) } } )
 
-4. 
+4.
 
 .. code-block:: javascript
 
@@ -104,22 +112,22 @@ The order, however, is important. State needs to come first in order to
 efficiently use the index, and zip_code needs to come second in order to use
 the index for the sort.
 
-3. 
+3.
 
 any of the following:
 
 .. code-block:: javascript
 
-  { isActive : 1, lastLogin : 1 } 
-  { isActive : 1, lastLogin : -1 } 
-  { isActive : -1, lastLogin : 1 } 
-  { isActive : -1, lastLogin : -1 } 
+  { isActive : 1, lastLogin : 1 }
+  { isActive : 1, lastLogin : -1 }
+  { isActive : -1, lastLogin : 1 }
+  { isActive : -1, lastLogin : -1 }
 
-4. 
+4.
 
 No index is required for this. Insertions don't benefit from indexes, and are actually slowed down by them.
 
-5. 
+5.
 
 Any of the following will work:
 
@@ -167,5 +175,3 @@ Schema Design
 -------------
 
 * Draw them from the available options.
-
-
