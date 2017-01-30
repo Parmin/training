@@ -9,6 +9,7 @@ build/*
 *.class
 .DS_Store
 TAGS
+conf.py
 mongodb-domain.yaml
 composite-pages.yaml
 meta.yaml

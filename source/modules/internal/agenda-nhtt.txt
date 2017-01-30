@@ -7,11 +7,8 @@ Day 1
 
 - Welcome
 - :doc:`/modules/internal/company`
-- `Overview`_
-- :doc:`/modules/nav/schema-design-nhtt`
-- `Applications and Drivers`_
-
-.. include:: /includes/student-notes.rst
+- :doc:`/modules/internal/agenda-nhtt-indexes`
+- :doc:`/modules/internal/agenda-nhtt-security`
 
 Day 2
 -----
@@ -21,41 +18,30 @@ Day 2
   - :doc:`/modules/internal/storage-engines-mmapv1`
   - :doc:`/modules/internal/storage-engines-wired-tiger`
 
-- :doc:`/modules/internal/agenda-nhtt-indexes`
-
-.. include:: /includes/student-notes.rst
+- `Schema Design`_
 
 Day 3
+-----
+
+- :doc:`/modules/nav/opsmanager`
+- `Ops Manager Lab`_
+
+Day 4
 -----
 
 - `Replication`_
 - `Sharding`_
 
-.. include:: /includes/student-notes.rst
-
-Day 4
------
-
-- :doc:`/modules/nav/opsmanager`
-- Tools
-
-.. include:: /includes/student-notes.rst
-
 Day 5
 -----
 
-- :doc:`/modules/internal/agenda-nhtt-security`
-
+- `Applications and Drivers`_
+- Tools and Methodologies
 - Misc
 
-.. include:: /includes/student-notes.rst
 
 .. _`Applications and Drivers`: https://drive.google.com/file/d/0B-_GyywmjjWBMzJvYlVVblZOLTQ/view
-
-.. _`Overview`: https://drive.google.com/open?id=0B-_GyywmjjWBRlBtUElqVXhHVGs
-
+.. _`Ops Manager Lab`: https://drive.google.com/open?id=0B-_GyywmjjWBMzZJWHotdmF2Wlk
 .. _`Replication`: https://drive.google.com/open?id=0B-_GyywmjjWBTlhsdXp6R3pxemM
-
+.. _`Schema Design`: https://drive.google.com/open?id=0B-_GyywmjjWBSE5mTTBQQ1VPcWc
 .. _`Sharding`: https://drive.google.com/open?id=0B-_GyywmjjWBa2hjWTF3X1ZTS1k
-
-

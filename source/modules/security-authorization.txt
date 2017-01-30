@@ -296,10 +296,7 @@ Built-in Roles
     - Cluster Administrator roles: mostly for system administrators and DBAs;
       individuals that will deal with the overall administration of deployments
     - Backup and Restore: for applications that perform only backup and restore
-      operations
-
-        – Cloud and Ops manager, for example
-
+      operations (for example: Cloud and Ops Manager)
     - All Database Roles: for global administrators of a deployment. If you want
       to avoid granting the same role for every single database
     - Superuser: root level operations. Generally the first user that you create

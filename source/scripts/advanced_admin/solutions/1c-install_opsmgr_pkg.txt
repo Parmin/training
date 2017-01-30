@@ -18,6 +18,8 @@ sudo vi /opt/mongodb/mms/conf/conf-mms.properties
 sudo service mongodb-mms start
 
 # copy the gen.key file to opsmgr2 and opsmgr3, with ownership to mongodb-mms
+# you will need to make the file writable by 'centos', copy it to the 2
+# other machines, then change back the permissions and ownership.
 $ ls -al /etc/mongodb-mms/gen.key
 -rw------- 1 mongodb-mms mongodb-mms 24 Sep 23 17:29 /etc/mongodb-mms/gen.key
 
@@ -37,7 +39,7 @@ http://52.211.184.123:8080/
 # URL to Access Ops Manager: need to put the load balancer IP
 http://dcoupal-t-OpsMgrLB-1OIOOKXYXWPB-356712150.eu-west-1.elb.amazonaws.com:8080
 
-# Load Balancer Remote IP Header  
+# Load Balancer Remote IP Header
 X-Forwarded-For
 
 # email addresses
@@ -45,4 +47,3 @@ TODO - still not clear which SMTP server the students can use
 
 ### restart the services on the 3 hosts
 sudo service mongodb-mms restart
-
