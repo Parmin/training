@@ -52,7 +52,8 @@ internal-package:
 	ln -s $@/_images build/_images
 
 internal-pdfs:
-	rm -rf build/$@/ build/$@.tar.gz
+	rm -f conf.py
 	ln conf-internal.py conf.py
+	rm -rf build/$@/ build/$@.tar.gz
 	# TODO Copy the PDFs we still generate manually from PowerPoint slides
 	giza $(gizaverbosity) sphinx --builder latex --serial_sphinx --edition internal
