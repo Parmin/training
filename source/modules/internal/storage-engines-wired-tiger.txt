@@ -161,8 +161,11 @@ Introduction to the WiredTiger Cache
     - There's a reason why the default FS cache is about as big as the WT cache.
     - One TSE opinion: if your uncompressed working set fits in memory, then make the WiredTiger Cache large (up to 60%); if your compressed working set fits in memory, then make the fscache large (up to 90%);
 
+
 WT Cache Size - Some Guidelines
 -------------------------------
+
+.. rst-class:: longlist
 
 - Can't rely on Page Faults, so look at ``iostats`` and ``serverStatus()`` metrics:
 

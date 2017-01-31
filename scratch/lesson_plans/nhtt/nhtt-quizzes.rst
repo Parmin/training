@@ -5,8 +5,9 @@ NHTT Labs - Will
 Indexing Quiz Questions
 -----------------------
 
-url here (to take quiz): https://www.research.net/r/XGDFBJQ
-to edit: https://www.surveymonkey.com/summary/7pFpOSfaY9uUMCZUDj2wOcgRWwBI4Mg9GNnjmSRp6ljAHTZZkWRRMM2hqSPg5sMP
+The Quiz is in SurveyMonkey:
+- url to take quiz: https://www.research.net/r/XGDFBJQ
+- url to edit quiz: https://www.surveymonkey.com/summary/7pFpOSfaY9uUMCZUDj2wOcgRWwBI4Mg9GNnjmSRp6ljAHTZZkWRRMM2hqSPg5sMP
 
 
 Create indexes that are optimized for the following queries.
