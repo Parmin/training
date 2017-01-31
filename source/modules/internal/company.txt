@@ -195,7 +195,7 @@ MongoDB Product History
 MongoDB Company Overview
 ------------------------
 
-.. figure:: /figures/company.png
+.. include:: /figures_local_meta/company.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -210,7 +210,7 @@ MongoDB Company Overview
 Database Popularity Index
 -------------------------
 
-.. figure:: /figures/db-engines-ranking.png
+.. include:: /figures_local_meta/db-engines-ranking.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -275,6 +275,7 @@ Business Model (continued)
       - revenues that are not proportional to number of employees
 
     - ... not so much *Support*, *Consulting* and *Training*
+
 
 Subscriptions
 -------------
@@ -478,6 +479,7 @@ How to work at MongoDB
 
     Note that Barrie/Ramon will present on this topic in more detail
 
+
 How to work at MongoDB(continued)
 ---------------------------------
 
@@ -489,6 +491,7 @@ How to work at MongoDB(continued)
     -  send mail to **publicmentions@mongodb.com**
 
 .. include:: /includes/student-notes.rst
+
 
 How to work at MongoDB (continued)
 ----------------------------------
@@ -502,11 +505,11 @@ How to work at MongoDB (continued)
 
 .. include:: /includes/student-notes.rst
 
+
 IT Cheat Sheet
 --------------
 
-.. figure:: /figures/it-cheat-sheet.png
-  :align: center
+.. include:: /figures_local_meta/it-cheat-sheet.txt
 
 
 .. _New Hires: https://wiki.mongodb.com/display/10GEN/How+To+Be+A+New+Hire+@+MongoDB

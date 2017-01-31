@@ -1,0 +1,9 @@
+=======
+Company
+=======
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-internal-company.rst
+
+.. include:: /includes/toc/internal-company.rst
