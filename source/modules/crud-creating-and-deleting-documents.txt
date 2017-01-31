@@ -299,6 +299,7 @@ Dropping a Collection
 - It will also remove any metadata associated with that collection.
 - Indexes are one type of metadata removed.
 - All collection and indexes files are removed and space allocated reclaimed.
+    - Wired Tiger only!
 - More on meta data later.
 
 .. include:: /includes/student-notes.rst
