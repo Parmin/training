@@ -129,10 +129,15 @@ Writes in WT
 Introduction to the WiredTiger Cache
 ------------------------------------
 
+.. rst-class:: longlist
+
 - The WT cache is separate from the filesystem cache
-- Their sum is limited by available RAM
+
+  - Their sum is limited by available RAM
+
 - WT cache size:
 
+  - in 3.4, greater of either 256 MB, or 50% of RAM minus 1 GB
   - in 3.2, greater of either 1 GB, or 60% of RAM minus 1 GB
   - in 3.0, was the greater of 50% of RAM or 2 GB
 
@@ -155,6 +160,32 @@ Introduction to the WiredTiger Cache
     - FS cache will have to thrash a lot when reading/writing if it's too small
     - There's a reason why the default FS cache is about as big as the WT cache.
     - One TSE opinion: if your uncompressed working set fits in memory, then make the WiredTiger Cache large (up to 60%); if your compressed working set fits in memory, then make the fscache large (up to 90%);
+
+
+WT Cache Size - Some Guidelines
+-------------------------------
+
+.. rst-class:: longlist
+
+- Can't rely on Page Faults, so look at ``iostats`` and ``serverStatus()`` metrics:
+
+  - disk reads
+  - disk writes
+  - bytes read into cache
+  - bytes written from cache
+
+- If **low** *disk reads* + **high** *bytes read into cache*
+
+  - increase *WT Cache* size
+
+- If **medium to high** *disk reads* + **medium to high** *bytes read into cache*
+
+  - add RAM
+
+- If **medium to high** *disk reads* + **low to medium** *bytes read into cache*
+
+  - decrease the *WT cache* size
+
 
 WT Data Structures - Pages
 --------------------------
@@ -359,7 +390,10 @@ WT and the Journal
 - A complete view of data is captured on disk at the last checkpoint
 - Writes get logged to the journal between checkpoints
 - The journal is compressed (Snappy by default)
-- The journal in WT writes to disk every 50 ms in 3.2 (100 ms in 3.0)
+- The journal in WT writes to disk every:
+
+  - 50 ms in 3.2 and 3.4
+  - 100 ms in 3.0
 
 .. include:: /includes/student-notes.rst
 
@@ -456,8 +490,8 @@ Indexes in WT
 
 - Implemented in the same data structures as collections
 
-  - Same compression on-disk
-  - Smaller b/c just keys are stored
+  - Same representation on-disk and in memory
+  - Smaller because just values are stored (no need to save key names)
 
 - Updated only:
 

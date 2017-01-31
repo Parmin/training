@@ -50,7 +50,7 @@ Comparing Atlas, Cloud Manager and Ops Manager
    .. note::
 
       - *Ops Manager* is basically *Cloud Manager* that we package and ship to customers.
-      - Per one of our VP, writting a cloud product that you also ship to customer is challenging, as it is very difficult to excel at both skills.
+      - Per one of our VP, writing a cloud product that you also ship to customer is challenging, as it is very difficult to excel at both skills.
 .. only:: todo
 
    - find table/image showing the 3 products side-by-side (MDB World 2016?)
@@ -243,6 +243,12 @@ How do you monitor/backup/manage your clusters
 ----------------------------------------------
 
 - how many MMS groups?
+
+
+MongoDB Managers and Security
+-----------------------------
+
+- https://docs.opsmanager.mongodb.com/current/core/security/#security-options-available-in-the-current-version-of-onprem
 
 
 Lab: deploy a cluster with Cloud Manager

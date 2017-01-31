@@ -30,7 +30,7 @@ Logistics
 
 - ~8:30 Breakfast
 - 9:00-17:00 Sessions
-- 17:00-18:00 Guest Speaker
+- 17:00-18:00 Guest Speakers
 
 - ~13:00 Break for Lunch (45 min)
 
@@ -44,7 +44,7 @@ Logistics
 
   .. note::
 
-    - Except for the first day where Dev generally comes to greet all other special guests will be confirmed for 17:00
+    - Except for the day where Dev generally comes to greet all other special guests will be confirmed as one at 17:00, and one at 17:30.
 
 
 Schedule
@@ -59,20 +59,20 @@ Schedule
      - 09:00 - 13:00
      - 14:00 - 17:00
    * - Monday
-     - Introduction / Schema Design
-     - Application and Drivers
+     - Introduction / Indexing
+     - Security
    * - Tuesday
      - Storage Engines
-     - Indexes
+     - Schema Design
    * - Wednesday
+     - Atlas, Cloud Manager and Ops Manager
+     - Ops Manager Lab
+   * - Thursday
      - Replication
      - Sharding
-   * - Thursday
-     - Cloud and Ops Manager
-     - Tools
    * - Friday
-     - Security
-     - Misc
+     - Drivers and Wire Protocol
+     - Tools and Methodologies
 
 .. include:: /includes/student-notes.rst
 
@@ -80,7 +80,8 @@ Schedule
 
    .. note::
 
-     - Except for the first day where Dev generally comes to greet all other special guests will be confirmed for 17:00
+     - Unless you updated this page, use the Wiki page for the schedule
+     - https://wiki.mongodb.com/display/10GEN/New+Hire+Technical+Training
 
 
 Hi! I'm ...
@@ -98,9 +99,11 @@ Hi! I'm ...
 
   .. note::
 
-    - Make sure people are comfortable and know their partner
+    - This is a good time to quickly write their names down in a layout that match the class, to help remember their names
+    - Make sure people are comfortable
     - Point out that they will be working in groups throughout the training
-    - The person next to you might be an expert in a matter that you might want to know about
+
+      - try to have teams where you have a mix of roles, not all SAs in one team for example.
 
 
 Goal of the Training
@@ -113,7 +116,7 @@ Goal of the Training
 
 - Get to
 
-  - Come to the mothership
+  - Come to the mothership (NYC)
   - Meet people
   - Ask questions
 
@@ -123,8 +126,7 @@ Goal of the Training
 
   .. note::
 
-    - make sure people do make a lot of questions
-    - the previous introduction training sometimes is not enough
+    - make sure people know to ask a lot of questions
     - tell students ask for deep technical questions
     - words of wisdom, from Richard...
 
@@ -132,7 +134,7 @@ Goal of the Training
       - “Don’t make guesses, there is a lot in MongoDB that may not behave the way you expect.”
       - “Don’t get caught saying MongoDB works like that, while it works differently. Once you lose their confidence and trust as a consultant or TSE, it is very difficult to gain back. They will stop listening to you about everything, even when you are right.”
       - It is OK to say: “I don’t know how it works, but let me find it out for you.”
-    
+
     - NHTT history
 
       - At the beginning of MongoDB, every technical person was involved in support
@@ -149,7 +151,7 @@ Company History
 - 2013: 10gen renamed to MongoDB (250 people)
 - 2014: Acquired WiredTiger (425 people)
 - 2016: Atlas (700 people)
-
+- 2017:
 
 .. include:: /includes/student-notes.rst
 
@@ -161,7 +163,7 @@ Company History
     - we have several other products like Ops Manager or Cloud Manager.
     - notes on history:
 
-      - Founded 9 years ago (2007), under the name 10gen by Dwight Merriman (Chairman of the board) and Elliott Horowitz (CTO), and Kevin Ryan.
+      - Founded 10 years ago (2007), under the name 10gen by Dwight Merriman (Chairman of the board) and Elliott Horowitz (CTO), and Kevin Ryan.
       - Dwight has been the founder of Double Click before, where Elliot joined as an intern from college
       - Original intention was to develop a product: Software As A Service
       - Built storage layer (P), application layer and one programmatic language that resembles JavaScript (Babble?)
@@ -170,12 +172,40 @@ Company History
       - MongoDB was called ‘P’ for “Persistence’. It was a key/value store, based on JSON which evolved in to BSON
       - Turning the DB into a product required: adding indexes on other than primary keys, query language, reads and updates on more than one document. All those after thoughts reflect in the current architecture and behaviors of MongoDB as of today.
 
+
+MongoDB Product History
+-----------------------
+
+.. rst-class:: longlist
+
+- 2009 – 1.0
+- 2010 – 1.2 master slave replication
+- 2010 – 1.4 geo queries
+- 2010 – 1.6 replica sets and sharding
+- 2011 – 1.8 journaling (25 people)
+- 2011 – 2.0 concurrency and fixes on everything above
+- 2012 – 2.2 database level locking (100 people)
+- 2013 – 2.4 text search and hashed sharding (325 people)
+- 2014 – 2.6 security, auditing and new query planner (400 people)
+- 2015 – 3.0 collection level locking in MMAPV1, document level locking with WiredTiger and OpsManager (MMS 1.6/OpsManager 1.8)
+- 2015 – 3.2 WT as default, new storage engines (memory, encrypted), config servers as replica set and OpsManager 2.0 (500 people)
+- 2016 – 3.4 and OpsManager 3.4 (700 people)
+
+
 MongoDB Company Overview
 ------------------------
 
 .. figure:: /figures/company.png
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The picture is a little old
+    - 700 employees in Jan 2017
+
 
 Database Popularity Index
 -------------------------
@@ -190,9 +220,10 @@ Database Popularity Index
 
     Make sure to remark that:
 
+    - Go to master at http://db-engines.com/en/ranking
     - popularity is not profitability
     - just means that we have a lot of users
-    - or that we are very easy to beat up!
+
 
 Business Model
 --------------
@@ -250,7 +281,7 @@ Subscriptions
 
 - **MongoDB Enterprise**
 
-  - Per server subscription 
+  - Per server subscription
   - MongoDB Enterprise Server (advanced security)
   - Ops Manager or Cloud Manager Premium
   - Commercial Support: High SLA
@@ -271,7 +302,8 @@ Subscriptions
 
     - Do you guys know what a subscription stands for?
 
-      - VM or host with 512GB RAM max
+      - VM or host with 256GB RAM max
+      - ... was 512GB of RAM pre-3.4
 
     - What does SLA mean?
     - What is Compass? BI Connector?
@@ -340,7 +372,10 @@ Subscriptions (continued)
 
   - Support for Cloud Manager: No SLA
 
-- `Side by Side Comparaison <https://docs.google.com/spreadsheets/d/1tQzj43KsW6I1O9QJxcbhjol8plA3M8PLZLKDAbF9A-Y>`_
+- Comparing the products:
+
+  - `side by side <https://docs.google.com/presentation/d/11Fqc5Je5Njrqg5TUqr1mV2ORilX3VbjLvzKoh8GBD8k/edit#slide=id.g12559e1316_0_0>`_
+  - `with full history <https://docs.google.com/spreadsheets/d/1tQzj43KsW6I1O9QJxcbhjol8plA3M8PLZLKDAbF9A-Y>`_
 
 .. include:: /includes/student-notes.rst
 
@@ -396,7 +431,7 @@ Open Source Model (continued)
     - What does it mean that third party can't distribute our binaries? What if they are included on their software?
 
     - If I embed MongoDB on a binary? is this a violation of our license?
-    
+
       - No, but they cannot sell support on that component of their product. Generally we will get a OEM license model for these situations
 
 .. include:: /includes/student-notes.rst
@@ -409,7 +444,7 @@ Company Mission and Values
 
   - *MongoDB unleashes the power of software and data for innovators everywhere.*
 
-- Our Core Values:
+- `Our Core Values: <https://wiki.mongodb.com/display/10GEN/Mission+and+Core+Values>`_
 
   - Think Big, Go Far
   - Make It Matter
@@ -427,8 +462,8 @@ How to work at MongoDB
 - System we are using: `Systems Check List`_
 - Jira Projects:
 
-  - CS (Commercial Support)
-  - MMSSUPPORT
+  - SF (Commercial Support)
+  - MMSSUPPORT (Atlas and Cloud Manager)
   - SUPPORT (Community Private, costumer to sign soon)
   - FREE (Community Support)
   - SERVER

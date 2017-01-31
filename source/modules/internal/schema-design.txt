@@ -5,6 +5,55 @@ Schema Design Internal Reflections
 Outline
 -------
 
+- SQL vs NoSQL and MongoDB
+- Schema Design
+- Patterns
+- Examples
+
+
+SQL vs NoSQL and MongoDB
+------------------------
+
+
+Schema Design
+-------------
+
+- relationship types
+- cardinality of relationships
+- access path to records/documents
+
+
+SD - Relation types
+-------------------
+
+- 1 to N
+- N to N
+- 1 to 1
+
+
+SD - Cardinality of Relationships
+---------------------------------
+
+- one
+- few
+- many
+- zillions
+
+
+SD - Access Path to Records/Documents
+-------------------------------------
+
+In a 1-N or N-N relationship, do you need to:
+
+- identify the referencing documents without doing another query?
+- how many documents do you want to update when the relationship changes?
+
+
+
+
+Outline
+-------
+
 - MongoDB is schemaless...?
 - To embed, or not to embed
 - Denormalization and referencing

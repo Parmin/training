@@ -1,17 +1,18 @@
-============================
-New Hires Technical Training
-============================
+===========================
+New Hire Technical Training
+===========================
 
 Day 1
 -----
 
 - Welcome
 - :doc:`/modules/internal/company`
-- `Overview`_
-- :doc:`/modules/nav/schema-design-nhtt`
-- `Applications and Drivers`_
+- Indexing
 
-.. include:: /includes/student-notes.rst
+  - :doc:`/modules/internal/agenda-nhtt-indexes`
+  - Alternative presentation on `Indexing`_
+
+- :doc:`/modules/internal/agenda-nhtt-security`
 
 Day 2
 -----
@@ -21,41 +22,36 @@ Day 2
   - :doc:`/modules/internal/storage-engines-mmapv1`
   - :doc:`/modules/internal/storage-engines-wired-tiger`
 
-- :doc:`/modules/internal/agenda-nhtt-indexes`
-
-.. include:: /includes/student-notes.rst
+- `Schema Design`_
 
 Day 3
+-----
+
+- Atlas, Cloud Manager and Ops Manager
+
+  - :doc:`/modules/nav/opsmanager`
+  - Alternative PPT presentation on `Atlas, Cloud and OpsManager`_
+
+- `Ops Manager Lab`_
+
+Day 4
 -----
 
 - `Replication`_
 - `Sharding`_
 
-.. include:: /includes/student-notes.rst
-
-Day 4
------
-
-- :doc:`/modules/nav/opsmanager`
-- Tools
-
-.. include:: /includes/student-notes.rst
-
 Day 5
 -----
 
-- :doc:`/modules/internal/agenda-nhtt-security`
-
+- `Applications and Drivers`_
+- Tools and Methodologies
 - Misc
 
-.. include:: /includes/student-notes.rst
 
-.. _`Applications and Drivers`: https://drive.google.com/file/d/0B-_GyywmjjWBMzJvYlVVblZOLTQ/view
-
-.. _`Overview`: https://drive.google.com/open?id=0B-_GyywmjjWBRlBtUElqVXhHVGs
-
-.. _`Replication`: https://drive.google.com/open?id=0B-_GyywmjjWBTlhsdXp6R3pxemM
-
-.. _`Sharding`: https://drive.google.com/open?id=0B-_GyywmjjWBa2hjWTF3X1ZTS1k
-
-
+.. _`Atlas, Cloud and OpsManager` : https://drive.google.com/open?id=0B-_GyywmjjWBRUNkc25WMmk1ZG8
+.. _`Applications and Drivers`: https://drive.google.com/open?id=0B-_GyywmjjWBV1FidjRtR1NvQUk
+.. _`Indexing`: https://drive.google.com/open?id=0B-_GyywmjjWBaElvOVZqUUQweHc
+.. _`Ops Manager Lab`: https://drive.google.com/open?id=0B-_GyywmjjWBMzZJWHotdmF2Wlk
+.. _`Replication`: https://drive.google.com/open?id=0B-_GyywmjjWBODNOcUc5dW05d1E
+.. _`Schema Design`: https://drive.google.com/open?id=0B-_GyywmjjWBUGZ2MUN2X0NQMDg
+.. _`Sharding`: https://drive.google.com/open?id=0B-_GyywmjjWBb0RkR3ZyQVNxSU0
