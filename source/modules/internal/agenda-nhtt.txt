@@ -1,13 +1,17 @@
-============================
-New Hires Technical Training
-============================
+===========================
+New Hire Technical Training
+===========================
 
 Day 1
 -----
 
 - Welcome
 - :doc:`/modules/internal/company`
-- :doc:`/modules/internal/agenda-nhtt-indexes`
+- Indexing
+
+  - :doc:`/modules/internal/agenda-nhtt-indexes`
+  - Alternative presentation on `Indexing`_
+
 - :doc:`/modules/internal/agenda-nhtt-security`
 
 Day 2
@@ -23,7 +27,11 @@ Day 2
 Day 3
 -----
 
-- :doc:`/modules/nav/opsmanager`
+- Atlas, Cloud Manager and Ops Manager
+
+  - :doc:`/modules/nav/opsmanager`
+  - Alternative PPT presentation on `Atlas, Cloud and OpsManager`_
+
 - `Ops Manager Lab`_
 
 Day 4
@@ -40,8 +48,10 @@ Day 5
 - Misc
 
 
-.. _`Applications and Drivers`: https://drive.google.com/file/d/0B-_GyywmjjWBMzJvYlVVblZOLTQ/view
+.. _`Atlas, Cloud and OpsManager` : https://drive.google.com/open?id=0B-_GyywmjjWBRUNkc25WMmk1ZG8
+.. _`Applications and Drivers`: https://drive.google.com/open?id=0B-_GyywmjjWBV1FidjRtR1NvQUk
+.. _`Indexing`: https://drive.google.com/open?id=0B-_GyywmjjWBaElvOVZqUUQweHc
 .. _`Ops Manager Lab`: https://drive.google.com/open?id=0B-_GyywmjjWBMzZJWHotdmF2Wlk
-.. _`Replication`: https://drive.google.com/open?id=0B-_GyywmjjWBTlhsdXp6R3pxemM
-.. _`Schema Design`: https://drive.google.com/open?id=0B-_GyywmjjWBSE5mTTBQQ1VPcWc
-.. _`Sharding`: https://drive.google.com/open?id=0B-_GyywmjjWBa2hjWTF3X1ZTS1k
+.. _`Replication`: https://drive.google.com/open?id=0B-_GyywmjjWBODNOcUc5dW05d1E
+.. _`Schema Design`: https://drive.google.com/open?id=0B-_GyywmjjWBUGZ2MUN2X0NQMDg
+.. _`Sharding`: https://drive.google.com/open?id=0B-_GyywmjjWBb0RkR3ZyQVNxSU0
