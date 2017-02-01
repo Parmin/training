@@ -55,5 +55,7 @@ internal-pdfs:
 	rm -f conf.py
 	ln conf-internal.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
+	mkdir -p build/$(branch)/latex-internal
+	cp source/images/*.eps build/$(branch)/latex-internal/.
 	# TODO Copy the PDFs we still generate manually from PowerPoint slides
 	giza $(gizaverbosity) sphinx --builder latex --serial_sphinx --edition internal
