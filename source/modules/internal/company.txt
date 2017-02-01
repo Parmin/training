@@ -515,3 +515,19 @@ IT Cheat Sheet
 .. _New Hires: https://wiki.mongodb.com/display/10GEN/How+To+Be+A+New+Hire+@+MongoDB
 .. _Systems Check List: https://wiki.mongodb.com/display/10GEN/Systems+Checklist
 .. _security policy: https://wiki.mongodb.com/display/SEC/Security+Overview
+
+
+References
+----------
+
+- How a startup transitions to a larger organization
+
+  - Crossing the Chasm, by Geoffrey A. Moore
+
+- What is inspiring Dev on how to build a lasting company
+
+  - Good to Great, by Jim Collins
+
+- ... on how managers should provide feedback to their employees
+
+  - Radical Candor, by Kim Scott

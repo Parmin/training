@@ -7,8 +7,10 @@ noop:
 	$(info *** Some available targets: ***)
 	$(info   instructor-package   build the courses with instructor notes)
 	$(info   student-package      build the material for the students)
-	$(info   internal-package     build the course: NHTT, and all classes as instructor)
-	$(info   internal-pdfs        build the PDFs for the NHTT class)
+	$(info   latex                build the PDFs for all classes)
+	$(info   )
+	$(info   internal-package     NHTT only: build the course for the instructor)
+	$(info   internal-pdfs        NHTT only: build the PDFs for the students)
 	$(info   )
 	$(info   set EDU_VERBOSITY to 'info' or 'debug' to increase the verbosity):
 	@true
