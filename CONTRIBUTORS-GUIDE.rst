@@ -208,7 +208,16 @@ In the included file you would then have a section something like the following.
 Figures
 -------
 
-You will find figures used in training in both the `<source/figures>`_ and `<source/images>`_ subdirectories. `<source/images>`_ contains a subset of the ``.svg`` images maintained by the documentation team for the MongoDB manual and other docs. the ``metadata.yaml`` file define which images we use for training and at what sizes they should be generated for the different targets (i.e. pdf, HTML, slides). We also contribute ``.svg`` files to this repository that we need to create for training. `<source/figures>`_ contains ``.png`` files and other images that we use (in a pinch) in training. There are not many of these files and, in general, if you are going to create a figure, you should create an ``.svg`` and place it in `<source/images>`_.
+You will find figures used in training in both the `<source/figures>`_ and `<source/images>`_ subdirectories.
+
+`<source/figures>`_ is linked to the *docs-assets* repository, using the *training* branch.
+It is used for shared images between this repository and the docs repositories.
+If you make a modification in this directory, it should be on a private branch that will be merged to the *training* repository.
+You will need to ask someone in the *Docs* team to do the review.
+Note that committing to this repository may take more cycles, and that it is a **public repository** that the customers can clone, so beware of adding confidential information.
+
+`<source/images>`_ contains local images, mostly ``.svg`` files.
+The ``metadata.yaml`` file define which images we use and at what sizes they should be generated for the different targets (i.e. pdf, HTML, slides).
 
 If you are creating a new image, do it in *SVG* format.
 If you are given a ``.png`` or ``.jpg``, you will need to generate the corresponding ``.eps``.
@@ -220,10 +229,9 @@ Note that trying to install ``imagemagick`` with ``brew`` may conflict with ``ma
     brew install imagemagick
     convert temp.png eps3:temp.eps
 
-If the file is to be shared by the MongoDB documentation, it should go in the ``docs-assets`` repository.
-Note that committing to the this repository may take more cycles, and that it is a public repository that the customers can clone, so beware of adding confidential information.
+Again, if the file is to be shared by the MongoDB documentation, it should go in the ``docs-assets`` repository (`<source/figures>`_).
 
-If the file is not be shared, you should checked it in this repository.
+If the file is not be shared, you should checked it in `<source/figures>`_
 
 Some examples:
 
@@ -325,7 +333,7 @@ Architecture of a PDF
 If you create a new PDF, it may be difficult to tell which file or section is creating an error in trying to build the PDF file.
 So, here is a quick example on how files are organized.
 Often, the issue is coming from the figures/images, so you may want to build your PDF without those to ensure your files are organized correctly, then add the images.
-If the issue is with running ``pdflatex``, look for errors in the logs into the directory ``build/master-<target>/*.log``.
+If the issue is with running ``pdflatex``, look for errors in the logs into the directory ``build/<branch>/latex-<target>/*.log``.
 
 Here are the dependencies between the files in the repository in order to build a PDF file. Let's look ``admin-three-day-instructor-guide.pdf`` as an example.
 
