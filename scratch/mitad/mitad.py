@@ -46,6 +46,7 @@ import glob
 import json
 import logging
 import os
+import os.path
 import pymongo
 import re
 import shutil
@@ -161,12 +162,14 @@ class Docs(Base_rst):
                             page_title = previous_line.rstrip()
                             if is_verbose_enough():
                                 print("        page title: {}".format(page_title))
+
                         current_page = current_page + one_line
                         previous_line = one_line
                     if is_verbose_enough():
-                        print("      pages: {}".format(pages))
+                        print("      number of pages: {}".format(pages))
             except:
                 print("ERROR - in reading file: {}".format(one_file))
+
         return ret
 
 
@@ -222,9 +225,10 @@ class Training(Base_rst):
                         current_page = current_page + one_line
                         previous_line = one_line
                     if is_verbose_enough():
-                        print("      pages: {}".format(pages))
+                        print("      number of pages: {}".format(pages))
             except:
                 print("ERROR - in reading file: {}".format(one_file))
+
         return ret
 
 
@@ -234,6 +238,9 @@ class University(Base_rst):
 
     def parse(self):
         ret = True
+
+        # First pass is to go through all the rst/txt files
+        # Then in a second pass, we will add the video captions to the pages seens in the first pass
         dirs = ['src/lessons/*.rst', 'src/lessons/*/*.rst']
         files = self.get_files(dirs)
         for one_file in files:
@@ -245,6 +252,7 @@ class University(Base_rst):
                 current_page = ''
                 page_title = ''
                 previous_line = ''
+                video = ''
                 keywords = []
                 with open(one_file) as file_obj:
                     for one_line in file_obj:
@@ -263,6 +271,7 @@ class University(Base_rst):
                                                         'path': one_file,
                                                         'section': current_section,
                                                         'title': page_title,
+                                                        'video': video,
                                                         'keywords': keywords,
                                                         'contents': current_page_to_insert})
                             # Let's start our new page
@@ -270,14 +279,67 @@ class University(Base_rst):
                                 current_page = previous_line
                             pages += 1
                             page_title = previous_line.rstrip()
+                            video = ''
                             if is_verbose_enough():
                                 print("        page title: {}".format(page_title))
+
+                        # Looking for a line that points to a video
+                        video_match = re.search('<https://youtu.be/(.+)>', one_line, re.IGNORECASE)
+                        if video_match:
+                            if video != '':
+                                print("WARNING - there is already a video for this page")
+                            video = video_match.group(1)
                         current_page = current_page + one_line
                         previous_line = one_line
                     if is_verbose_enough():
-                        print("      pages: {}".format(pages))
+                        print("      number of pages: {}".format(pages))
             except:
                 print("ERROR - in reading file: {}".format(one_file))
+
+        # Second pass, let's process the captions
+        dirs = ['src/captions/*.srt']
+        files = self.get_files(dirs)
+        for one_file in files:
+            try:
+                # Some files (6?) like "training/source/modules/aggregation.txt" have format isssues, so let's skip them
+                if is_verbose_enough():
+                    print("    File: {}".format(one_file))
+                with open(one_file) as file_obj:
+                    captions = []
+                    time = ''
+                    text_at_time = ''
+                    # TODO - add some consistency check on the flow of lines.
+                    for one_line in file_obj:
+                        # Construct a nice array with the captions
+                        # and we will add it to the 'contents' of the appropriate page
+                        if re.match("^\d+$", one_line):
+                            # Skip those lines and complete the previous section
+                            if time != '':
+                                captions.append("{}: {}".format(time, text_at_time))
+                            time = ''
+                            text_at_time = ''
+                        else:
+                            match_timestamp = re.search("^\d\d:(\d\d:\d\d)", one_line)
+                            if match_timestamp:
+                                time = match_timestamp.group(1)
+                            else:
+                                text_at_time = text_at_time + " " + one_line.rstrip()
+                    # Complete the last part
+                    if time != '':
+                        captions.append("{}: {}".format(time, text_at_time))
+                    # Find the corresponding document for those captions
+                    basename = os.path.basename(one_file)
+                    video_id = os.path.splitext(basename)[0]
+                    doc = DB_obj[DB_item].find_one({'video': video_id})
+                    if doc is None:
+                        print("ERROR - Can't find a document to associate this video to")
+                    else:
+                        DB_obj[DB_item].update_one({"_id": doc['_id']}, {'$push': {'contents': { '$each': captions }}})
+
+            except Exception as ex:
+                print(str(ex))
+                print("ERROR - in reading file: {}".format(one_file))
+
         return ret
 
 
