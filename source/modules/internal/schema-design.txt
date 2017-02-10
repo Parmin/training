@@ -232,6 +232,15 @@ Denormalization and Referencing (continued)
 .. include:: /includes/student-notes.rst
 
 
+Patterns
+--------
+
+- Cache
+- Subset
+
+.. KI learning_obj : list of patterns
+
+
 Zola’s 6 Rules of Thumb
 -----------------------
 

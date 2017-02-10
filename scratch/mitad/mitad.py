@@ -29,17 +29,22 @@ Examples:
 
 # implementation notes
 """
-- uses tags of the form
+- uses "Knowledge Info" tags of the form
     .. KI <key> : <value>
-  in the .txt files that are pre-processed by Giza.
-  Those line are discarded by Giza (not .. )
+    <key> being "learning_obj", ...
+    any <key> will be accepted and added to the document
+  in the .txt or .rst files.
+  Those line are disregarded by Giza and discarded by Sphinx.
 
 TODOs:
-    - add base class for common code
-    - count the number of files pre-processed
+    - count the number of files processed
     - report all errors encountered at the end
     - report some stats at the end
     - support sources as GitHub refs instead of local repos
+    - have 'path' and 'uri'
+    - have 'debug' mode to not catch exceptions, and/or only catch specific exceptions
+    - pylint
+    - report type of error per file, especially 'UnicodeDecodeError'
 """
 
 import glob
@@ -65,7 +70,7 @@ Store_contents_as_array = True
 Store_title_in_contents = True
 
 DB_item = 'item'
-KI_regex = "^\.\. KI\s+(.+)\s*:(.+)$"   # Matching the KI directives in the files processed by Giza
+KI_regex = "^\.\. KI\s+(.+?)\s*:\s*(.+)$"   # Matching the KI directives in the files processed by Giza
 
 def identify_source(path):
     cmd = "git remote get-url origin"
@@ -112,6 +117,20 @@ class Base_rst(object):
         all_files.sort()
         return all_files
 
+    def get_ki(self, one_line):
+        ret = (None, None)
+        match = re.search(KI_regex, one_line)
+        if match:
+            key = match.group(1)
+            value = match.group(2)
+            ret = (key, value)
+        return ret
+
+    def insert_doc(self, doc, kis):
+        for key in kis.keys():
+            doc[key] = kis[key]
+        DB_obj[DB_item].insert(doc)
+
 
 class Docs(Base_rst):
     def __init__(self, path):
@@ -132,11 +151,12 @@ class Docs(Base_rst):
                 page_title = ''
                 previous_line = ''
                 keywords = []
+                kis = dict()
                 with open(one_file) as file_obj:
                     if re.match(".*tutorial.*", one_file):
                         knowledge_type = "tutorial"
                     else:
-                        knowledge_type = "docs"
+                        knowledge_type = "doc"
                     for one_line in file_obj:
                         if re.match("^\=+$", one_line):
                             current_section = previous_line.rstrip()
@@ -149,26 +169,33 @@ class Docs(Base_rst):
                                     current_page_to_insert = current_page.split("\n")
                                 else:
                                     current_page_to_insert = current_page
-                                DB_obj[DB_item].insert({'type': knowledge_type,
+                                doc = {'source': 'docs',
+                                                        'type': knowledge_type,
                                                         'path': one_file,
                                                         'section': current_section,
                                                         'title': page_title,
                                                         'keywords': keywords,
-                                                        'contents': current_page_to_insert})
+                                                        'contents': current_page_to_insert}
+                                self.insert_doc(doc, kis)
                             # Let's start our new page
                             if Store_title_in_contents == True:
                                 current_page = previous_line
                             pages += 1
                             page_title = previous_line.rstrip()
+                            kis = dict()
                             if is_verbose_enough():
                                 print("        page title: {}".format(page_title))
-
+                        (ki_key, ki_value) = self.get_ki(one_line)
+                        if ki_key is not None:
+                            kis[ki_key] = ki_value
                         current_page = current_page + one_line
                         previous_line = one_line
                     if is_verbose_enough():
                         print("      number of pages: {}".format(pages))
-            except:
+            except Exception as ex:
                 print("ERROR - in reading file: {}".format(one_file))
+                if is_verbose_enough():
+                    print(str(ex))
 
         return ret
 
@@ -192,11 +219,12 @@ class Training(Base_rst):
                 page_title = ''
                 previous_line = ''
                 keywords = []
+                kis = dict()
                 with open(one_file) as file_obj:
                     if re.match(".*internal.*", one_file):
                         knowledge_type = "nhtt"
                     else:
-                        knowledge_type = "in-person"
+                        knowledge_type = "inperson"
                     for one_line in file_obj:
                         if re.match("^\=+$", one_line):
                             current_section = previous_line.rstrip()
@@ -209,25 +237,34 @@ class Training(Base_rst):
                                     current_page_to_insert = current_page.split("\n")
                                 else:
                                     current_page_to_insert = current_page
-                                DB_obj[DB_item].insert({'type': knowledge_type,
-                                                        'path': one_file,
-                                                        'section': current_section,
-                                                        'title': page_title,
-                                                        'keywords': keywords,
-                                                        'contents': current_page_to_insert})
+                                doc = { 'source': 'training',
+                                        'type': knowledge_type,
+                                        'path': one_file,
+                                        'section': current_section,
+                                        'title': page_title,
+                                        'keywords': keywords,
+                                        'contents': current_page_to_insert}
+                                self.insert_doc(doc, kis)
                             # Let's start our new page
                             if Store_title_in_contents == True:
                                 current_page = previous_line
                             pages += 1
                             page_title = previous_line.rstrip()
+                            kis = dict()
                             if is_verbose_enough():
                                 print("        page title: {}".format(page_title))
+                        (ki_key, ki_value) = self.get_ki(one_line)
+                        if ki_key is not None:
+                            kis[ki_key] = ki_value
                         current_page = current_page + one_line
                         previous_line = one_line
                     if is_verbose_enough():
                         print("      number of pages: {}".format(pages))
-            except:
+            except Exception as ex:
                 print("ERROR - in reading file: {}".format(one_file))
+                if is_verbose_enough():
+                    print(type(ex).__name__)
+                    print(str(ex))
 
         return ret
 
@@ -254,6 +291,7 @@ class University(Base_rst):
                 previous_line = ''
                 video = ''
                 keywords = []
+                kis = dict()
                 with open(one_file) as file_obj:
                     for one_line in file_obj:
                         if re.match("^\=+$", one_line):
@@ -267,18 +305,21 @@ class University(Base_rst):
                                     current_page_to_insert = current_page.split("\n")
                                 else:
                                     current_page_to_insert = current_page
-                                DB_obj[DB_item].insert({'type': 'online',
+                                doc = {'source': 'university-course',
+                                                        'type': 'online',
                                                         'path': one_file,
                                                         'section': current_section,
                                                         'title': page_title,
                                                         'video': video,
                                                         'keywords': keywords,
-                                                        'contents': current_page_to_insert})
+                                                        'contents': current_page_to_insert}
+                                self.insert_doc(doc, kis)
                             # Let's start our new page
                             if Store_title_in_contents == True:
                                 current_page = previous_line
                             pages += 1
                             page_title = previous_line.rstrip()
+                            kis = dict()
                             video = ''
                             if is_verbose_enough():
                                 print("        page title: {}".format(page_title))
@@ -289,12 +330,17 @@ class University(Base_rst):
                             if video != '':
                                 print("WARNING - there is already a video for this page")
                             video = video_match.group(1)
+                        (ki_key, ki_value) = self.get_ki(one_line)
+                        if ki_key is not None:
+                            kis[ki_key] = ki_value
                         current_page = current_page + one_line
                         previous_line = one_line
                     if is_verbose_enough():
                         print("      number of pages: {}".format(pages))
-            except:
+            except Exception as ex:
                 print("ERROR - in reading file: {}".format(one_file))
+                if is_verbose_enough():
+                    print(str(ex))
 
         # Second pass, let's process the captions
         dirs = ['src/captions/*.srt']
@@ -337,8 +383,9 @@ class University(Base_rst):
                         DB_obj[DB_item].update_one({"_id": doc['_id']}, {'$push': {'contents': { '$each': captions }}})
 
             except Exception as ex:
-                print(str(ex))
                 print("ERROR - in reading file: {}".format(one_file))
+                if is_verbose_enough():
+                    print(str(ex))
 
         return ret
 
@@ -365,6 +412,7 @@ def main(conn_string, database, sources):
     DB_obj = conn[database]
     DB_obj.drop_collection(DB_item)
     DB_obj[DB_item].create_index([('contents', pymongo.TEXT)])
+    DB_obj[DB_item].create_index([('learning_obj', pymongo.ASCENDING)])
 
     # Let's process all the sources
     for one_source_obj in source_objs:
