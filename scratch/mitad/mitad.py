@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Construct a catalog of some MongoDB knowledge from different sources.
 
 Usage:
     mitad -h
-    mitad [--verbose] [--mongodb=<conn_string>] [--db=<database>] <source> ...
+    mitad [--verbosity=<N>] [--mongodb=<conn_string>] [--db=<database>] <source> ...
 
 At this point, the sources are:
     - online courses
@@ -19,11 +19,11 @@ Options:
     -h --help               Show this help text.
     --db=<database>         Database in which to store the information [default: mitad]
     --mongodb=<conn_string> Connection string to the instance [default: localhost:27017]
-    -v --verbose            Print more information about the processing
+    -v --verbosity=<N>      Print more information about the processing, from none (0) to max (5) [default: 1]
     <source> ...            Sources to process. Those must be paths to a file system
 
 Examples:
-    python mitad.py --verbose ./training-sw ./university-courses-sw ./docs
+    python mitad.py --verbosity 2 ./training-sw ./university-courses-sw ./docs
 """
 # end docopt usage string
 
@@ -35,6 +35,13 @@ Examples:
     any <key> will be accepted and added to the document
   in the .txt or .rst files.
   Those line are disregarded by Giza and discarded by Sphinx.
+
+- verbosity
+    - 1: high level output, errors
+    - 2: warnings
+    - 3: list of files
+    - 4: actions per files
+    - 5: nothing yet, but likely very verbose stuff like being in loops
 
 TODOs:
     - count the number of files processed
@@ -62,15 +69,22 @@ from datetime import datetime
 from docopt import docopt
 
 DB_obj = None
-Exit_code = 0
-Verbose = False                         # May want to allow for many levels of verbosity
+Exit_Code = 0
+Verbosity = 1
 
 # How we store info in the collections
 Store_contents_as_array = True
 Store_title_in_contents = True
 
-DB_item = 'item'
-KI_regex = "^\.\. KI\s+(.+?)\s*:\s*(.+)$"   # Matching the KI directives in the files processed by Giza
+DB_ITEM = 'item'
+KI_REGEX = "^\.\. KI\s+(.+?)\s*:\s*(.+)$"   # Matching the KI directives in the files processed by Giza
+
+def clean_filenames(filenames):
+    new_filenames = []
+    for filename in filenames:
+        new_filename = filename.replace("\\", "/")
+        new_filenames.append(new_filename)
+        return new_filenames
 
 def identify_source(path):
     cmd = "git remote get-url origin"
@@ -86,24 +100,33 @@ def identify_source(path):
             type = "university"
         else:
             raise Exception("Can't identify repository type from path {}".format(path))
-        if is_verbose_enough():
+        if is_verbose_enough(1):
             print("  Repo type: {}".format(type))
     except:
         raise Exception("FATAL - Can't identify repository type from path {}".format(path))
     return type
 
-def is_verbose_enough():
-    return Verbose
+def is_verbose_enough(level_needed):
+    verbose = False
+    if Verbosity >= level_needed:
+        verbose = True
+    return verbose
+
+def print_exception(ex):
+    if is_verbose_enough(1):
+        print(type(ex).__name__)
+        print(str(ex))
+        print()
 
 def run_cmd(cmd):
     cmd_list = cmd.split(" ")
-    output = subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
+    output = subprocess.Popen(cmd_list, stdout=subprocess.PIPE).communicate()[0]
     return output.decode("utf-8")
 
 '''
 Base class for all RST based repositories
 '''
-class Base_rst(object):
+class BaseRst(object):
     def __init__(self, path):
         self.path = path
         print("Processing source: {}".format(self.path))
@@ -119,20 +142,23 @@ class Base_rst(object):
 
     def get_ki(self, one_line):
         ret = (None, None)
-        match = re.search(KI_regex, one_line)
+        match = re.search(KI_REGEX, one_line)
         if match:
             key = match.group(1)
             value = match.group(2)
             ret = (key, value)
         return ret
 
-    def insert_doc(self, doc, kis):
-        for key in kis.keys():
-            doc[key] = kis[key]
-        DB_obj[DB_item].insert(doc)
+    def insert_doc(self, doc):
+        DB_obj[DB_ITEM].insert(doc)
+
+    def merge_dicts(self, doc, otherdic):
+        for key in otherdic.keys():
+            doc[key] = otherdic[key]
+        return doc
 
 
-class Docs(Base_rst):
+class Docs(BaseRst):
     def __init__(self, path):
         super().__init__(path)
 
@@ -143,7 +169,7 @@ class Docs(Base_rst):
         for one_file in files:
             try:
                 # Some files (6?) like "training/source/modules/aggregation.txt" have format isssues, so let's skip them
-                if is_verbose_enough():
+                if is_verbose_enough(3):
                     print("    File: {}".format(one_file))
                 pages = 0
                 current_section = ''
@@ -169,38 +195,38 @@ class Docs(Base_rst):
                                     current_page_to_insert = current_page.split("\n")
                                 else:
                                     current_page_to_insert = current_page
-                                doc = {'source': 'docs',
-                                                        'type': knowledge_type,
-                                                        'path': one_file,
-                                                        'section': current_section,
-                                                        'title': page_title,
-                                                        'keywords': keywords,
-                                                        'contents': current_page_to_insert}
-                                self.insert_doc(doc, kis)
+                                doc = { 'source': 'docs',
+                                        'type': knowledge_type,
+                                        'path': one_file,
+                                        'section': current_section,
+                                        'title': page_title,
+                                        'keywords': keywords,
+                                        'contents': current_page_to_insert }
+                                doc = self.merge_dicts(doc, kis)
+                                self.insert_doc(doc)
                             # Let's start our new page
                             if Store_title_in_contents == True:
                                 current_page = previous_line
                             pages += 1
                             page_title = previous_line.rstrip()
                             kis = dict()
-                            if is_verbose_enough():
+                            if is_verbose_enough(4):
                                 print("        page title: {}".format(page_title))
                         (ki_key, ki_value) = self.get_ki(one_line)
                         if ki_key is not None:
                             kis[ki_key] = ki_value
                         current_page = current_page + one_line
                         previous_line = one_line
-                    if is_verbose_enough():
+                    if is_verbose_enough(4):
                         print("      number of pages: {}".format(pages))
             except Exception as ex:
-                print("ERROR - in reading file: {}".format(one_file))
-                if is_verbose_enough():
-                    print(str(ex))
+                print("ERROR - in processing file: {}".format(one_file))
+                print_exception(ex)
 
         return ret
 
 
-class Training(Base_rst):
+class Training(BaseRst):
     def __init__(self, path):
         super().__init__(path)
 
@@ -211,7 +237,7 @@ class Training(Base_rst):
         for one_file in files:
             try:
                 # Some files (6?) like "training/source/modules/aggregation.txt" have format isssues, so let's skip them
-                if is_verbose_enough():
+                if is_verbose_enough(3):
                     print("    File: {}".format(one_file))
                 pages = 0
                 current_section = ''
@@ -243,33 +269,32 @@ class Training(Base_rst):
                                         'section': current_section,
                                         'title': page_title,
                                         'keywords': keywords,
-                                        'contents': current_page_to_insert}
-                                self.insert_doc(doc, kis)
+                                        'contents': current_page_to_insert }
+                                doc = self.merge_dicts(doc, kis)
+                                self.insert_doc(doc)
                             # Let's start our new page
                             if Store_title_in_contents == True:
                                 current_page = previous_line
                             pages += 1
                             page_title = previous_line.rstrip()
                             kis = dict()
-                            if is_verbose_enough():
+                            if is_verbose_enough(4):
                                 print("        page title: {}".format(page_title))
                         (ki_key, ki_value) = self.get_ki(one_line)
                         if ki_key is not None:
                             kis[ki_key] = ki_value
                         current_page = current_page + one_line
                         previous_line = one_line
-                    if is_verbose_enough():
+                    if is_verbose_enough(4):
                         print("      number of pages: {}".format(pages))
             except Exception as ex:
-                print("ERROR - in reading file: {}".format(one_file))
-                if is_verbose_enough():
-                    print(type(ex).__name__)
-                    print(str(ex))
+                print("ERROR - in processing file: {}".format(one_file))
+                print_exception(ex)
 
         return ret
 
 
-class University(Base_rst):
+class University(BaseRst):
     def __init__(self, path):
         super().__init__(path)
 
@@ -282,7 +307,7 @@ class University(Base_rst):
         files = self.get_files(dirs)
         for one_file in files:
             try:
-                if is_verbose_enough():
+                if is_verbose_enough(3):
                     print("    File: {}".format(one_file))
                 pages = 0
                 current_section = ''
@@ -305,15 +330,16 @@ class University(Base_rst):
                                     current_page_to_insert = current_page.split("\n")
                                 else:
                                     current_page_to_insert = current_page
-                                doc = {'source': 'university-course',
-                                                        'type': 'online',
-                                                        'path': one_file,
-                                                        'section': current_section,
-                                                        'title': page_title,
-                                                        'video': video,
-                                                        'keywords': keywords,
-                                                        'contents': current_page_to_insert}
-                                self.insert_doc(doc, kis)
+                                doc = { 'source': 'university-course',
+                                        'type': 'online',
+                                        'path': one_file,
+                                        'section': current_section,
+                                        'title': page_title,
+                                        'video': video,
+                                        'keywords': keywords,
+                                        'contents': current_page_to_insert }
+                                doc = self.merge_dicts(doc, kis)
+                                self.insert_doc(doc)
                             # Let's start our new page
                             if Store_title_in_contents == True:
                                 current_page = previous_line
@@ -321,26 +347,28 @@ class University(Base_rst):
                             page_title = previous_line.rstrip()
                             kis = dict()
                             video = ''
-                            if is_verbose_enough():
+                            if is_verbose_enough(4):
                                 print("        page title: {}".format(page_title))
 
                         # Looking for a line that points to a video
                         video_match = re.search('<https://youtu.be/(.+)>', one_line, re.IGNORECASE)
                         if video_match:
                             if video != '':
-                                print("WARNING - there is already a video for this page")
+                                if is_verbose_enough(2):
+                                    pass
+                                    # This is OK to have 2 videos if one is Japanese
+                                    #print("WARNING - there is already a video for this page {}".format(one_file))
                             video = video_match.group(1)
                         (ki_key, ki_value) = self.get_ki(one_line)
                         if ki_key is not None:
                             kis[ki_key] = ki_value
                         current_page = current_page + one_line
                         previous_line = one_line
-                    if is_verbose_enough():
+                    if is_verbose_enough(4):
                         print("      number of pages: {}".format(pages))
             except Exception as ex:
-                print("ERROR - in reading file: {}".format(one_file))
-                if is_verbose_enough():
-                    print(str(ex))
+                print("ERROR - in processing file: {}".format(one_file))
+                print_exception(ex)
 
         # Second pass, let's process the captions
         dirs = ['src/captions/*.srt']
@@ -348,7 +376,7 @@ class University(Base_rst):
         for one_file in files:
             try:
                 # Some files (6?) like "training/source/modules/aggregation.txt" have format isssues, so let's skip them
-                if is_verbose_enough():
+                if is_verbose_enough(3):
                     print("    File: {}".format(one_file))
                 with open(one_file) as file_obj:
                     captions = []
@@ -376,16 +404,16 @@ class University(Base_rst):
                     # Find the corresponding document for those captions
                     basename = os.path.basename(one_file)
                     video_id = os.path.splitext(basename)[0]
-                    doc = DB_obj[DB_item].find_one({'video': video_id})
+                    doc = DB_obj[DB_ITEM].find_one({'video': video_id})
                     if doc is None:
-                        print("ERROR - Can't find a document to associate this video to")
+                        if is_verbose_enough(2):
+                            print("WARNING - Can't find a document to associate this video to {}".format(video_id))
                     else:
-                        DB_obj[DB_item].update_one({"_id": doc['_id']}, {'$push': {'contents': { '$each': captions }}})
+                        DB_obj[DB_ITEM].update_one({"_id": doc['_id']}, {'$push': {'contents': { '$each': captions }}})
 
             except Exception as ex:
-                print("ERROR - in reading file: {}".format(one_file))
-                if is_verbose_enough():
-                    print(str(ex))
+                print("ERROR - in processing file: {}".format(one_file))
+                print_exception(ex)
 
         return ret
 
@@ -406,19 +434,21 @@ def main(conn_string, database, sources):
 
     # Let's create a connection to the MongoDB instance
     # ... clean the previous database and prepare the new collections
-    # TODO - allow for only partial updates
+    # We could consider partial update by keeping checksums on files,
+    # however the processing is so fast, that it is not worth the investment
+    # at this point.
     conn = pymongo.MongoClient(conn_string)
     global DB_obj
     DB_obj = conn[database]
-    DB_obj.drop_collection(DB_item)
-    DB_obj[DB_item].create_index([('contents', pymongo.TEXT)])
-    DB_obj[DB_item].create_index([('learning_obj', pymongo.ASCENDING)])
+    DB_obj.drop_collection(DB_ITEM)
+    DB_obj[DB_ITEM].create_index([('contents', pymongo.TEXT)])
+    DB_obj[DB_ITEM].create_index([('learning_obj', pymongo.ASCENDING)])
 
     # Let's process all the sources
     for one_source_obj in source_objs:
         one_source_obj.parse()
 
-    sys.exit(Exit_code)
+    sys.exit(Exit_Code)
 
 
 if __name__ == '__main__':
@@ -428,6 +458,6 @@ if __name__ == '__main__':
     if conn_string is None:
         conn_string = "localhost:27017"
     database = arguments['--db']
-    Verbose=arguments['--verbose']
-    sources=arguments['<source>']
+    Verbosity = int(arguments['--verbosity'])
+    sources = arguments['<source>']
     main(conn_string, database, sources)
