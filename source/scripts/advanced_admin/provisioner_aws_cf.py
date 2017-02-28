@@ -151,7 +151,7 @@ class Provisioner_aws_cf(object):
         run_info.start_list("Teams")
         # Describe all sub stacks, starting with the top one for the 'run'
         for one_run_resource in run_resources['StackResources']:
-            # Need VPC, key/pair, 
+            # Need VPC, key/pair,
             if one_run_resource['ResourceType'] == 'AWS::CloudFormation::Stack':
                 # This is one team
                 physicalId = one_run_resource['PhysicalResourceId']
@@ -225,8 +225,15 @@ class Provisioner_aws_cf(object):
         info = dict()
         instance = self.ec2.describe_instances(InstanceIds=[instanceId])
         instance_info = instance['Reservations'][0]['Instances'][0]
-        info['PublicIP'] = instance_info['PublicIpAddress']
-        info['PublicDnsName'] = instance_info['PublicDnsName']
+        # If the instance is stopped, it will not have a publicIP
+        if instance_info.has_key('PublicIpAddress'):
+            info['PublicIP'] = instance_info['PublicIpAddress']
+        else:
+            info['PublicIP'] = ''
+        if instance_info.has_key('PublicDnsName'):
+            info['PublicDnsName'] = instance_info['PublicDnsName']
+        else:
+            info['PublicDnsName'] = ''
         info['PrivateIP'] = instance_info['PrivateIpAddress']
         info['PrivateDnsName'] = instance_info['PrivateDnsName']
         return info
@@ -319,9 +326,3 @@ class Provisioner_aws_cf(object):
             for line in result:
                 print line,
         return target_filename
-
-
-
-
-
-
