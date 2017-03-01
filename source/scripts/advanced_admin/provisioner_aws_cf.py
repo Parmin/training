@@ -119,7 +119,8 @@ class Provisioner_aws_cf(object):
                 else:
                     more_results = False
         else:
-            run_info = self.get_run_info(printit=True)
+            # TODO - remove all the files that would match this run, and for all teams
+            run_info = self.get_run_info(printit=True, perteam=True)
             if self.args.out:
                 try:
                     f = open(self.args.out, 'w')
@@ -128,7 +129,9 @@ class Provisioner_aws_cf(object):
                     f.close()
                 except Exception, e:
                     fatal(1, e.__str__())
-                print("\nJSON file for the above has been saved in: {}".format(self.args.out))
+                print("\nJSON file for the above run has been saved in: {}".format(self.args.out))
+                print("There is also one file per team saved in: {}".format(self.args.out))
+
 
     def destroy(self):
         """
@@ -137,7 +140,7 @@ class Provisioner_aws_cf(object):
         self.client.delete_stack(StackName = self.training_run)
         None
 
-    def get_run_info(self, printit):
+    def get_run_info(self, printit, perteam=False):
         run_info = BuildAndPrintDict(printit)
 
         run_description = self._describe_stack(self.training_run)
@@ -151,7 +154,7 @@ class Provisioner_aws_cf(object):
         run_info.start_list("Teams")
         # Describe all sub stacks, starting with the top one for the 'run'
         for one_run_resource in run_resources['StackResources']:
-            # Need VPC, key/pair, 
+            # Need VPC, key/pair,
             if one_run_resource['ResourceType'] == 'AWS::CloudFormation::Stack':
                 # This is one team
                 physicalId = one_run_resource['PhysicalResourceId']
@@ -194,7 +197,7 @@ class Provisioner_aws_cf(object):
         """
         etchosts_filename = "/tmp/hosts"
         # Get the list of hosts from the deployment
-        run_info = self.get_run_info(printit=False)
+        run_info = self.get_run_info(printit=False, perteam=False)
         keypair = run_info['KeyPair']
         for team in run_info['Teams']:
             if (self.args.ips is not None) or (self.args.teams == "all") or (self.args.teams is not None and team['Id'] in self.args.teams):
@@ -319,9 +322,3 @@ class Provisioner_aws_cf(object):
             for line in result:
                 print line,
         return target_filename
-
-
-
-
-
-
