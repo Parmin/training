@@ -9,10 +9,10 @@
 ### Files to download
 DIR=/data/downloads
 FILES=(
-    https://downloads.mongodb.com/on-prem-mms/rpm/mongodb-mms-2.0.6.363-1.x86_64.rpm
-    https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.2.9.tgz
-    https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-rhel70-3.2.9.tgz
-    https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/3.2/x86_64/RPMS/mongodb-enterprise-server-3.2.9-1.el7.x86_64.rpm
+    https://downloads.mongodb.com/on-prem-mms/rpm/mongodb-mms-3.4.3.402-1.x86_64.rpm
+    https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.2.tgz
+    https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-rhel70-3.4.2.tgz
+    https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/3.4/x86_64/RPMS/mongodb-enterprise-server-3.4.2-1.el7.x86_64.rpm
     https://s3.amazonaws.com/mongodb-training/advadmin/config/appdb.cnf
     https://s3.amazonaws.com/mongodb-training/advadmin/config/backupdb.cnf
     https://s3.amazonaws.com/mongodb-training/advadmin/config/etchosts
