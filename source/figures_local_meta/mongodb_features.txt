@@ -1,22 +1,22 @@
 
 .. only:: latex and not offset
 
-   .. figure:: /images/mongodb_features.png
-      :alt: TODO - add desc
+   .. figure:: /images/mongodb_features.jpg
+      :alt: List of features per MongoDB release
       :align: center
       :figwidth: 1600px
 
 .. only:: website and slides
 
-   .. figure:: /images/mongodb_features.png
-      :alt: TODO - add desc
+   .. figure:: /images/mongodb_features.jpg
+      :alt: List of features per MongoDB release
       :align: center
       :figwidth: 700px
 
 .. only:: website and html
 
-   .. figure:: /images/mongodb_features.png
-      :alt: TODO - add desc
+   .. figure:: /images/mongodb_features.jpg
+      :alt: List of features per MongoDB release
       :align: center
       :figwidth: 700px
 
@@ -24,7 +24,7 @@
 
    .. raw:: html
 
-      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_images/mongodb_features.png" alt="Description"></img><p>MongoDB Features</p></div>
+      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_images/mongodb_features.jpg" alt="Description"></img><p>List of features per MongoDB release</p></div>
 
 .. only:: latex and offset
 
