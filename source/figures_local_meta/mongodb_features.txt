@@ -1,21 +1,21 @@
 
 .. only:: latex and not offset
 
-   .. figure:: /images/journaling-1.jpg
+   .. figure:: /images/mongodb_features.png
       :alt: TODO - add desc
       :align: center
       :figwidth: 1600px
 
 .. only:: website and slides
 
-   .. figure:: /images/journaling-1.jpg
+   .. figure:: /images/mongodb_features.png
       :alt: TODO - add desc
       :align: center
       :figwidth: 700px
 
 .. only:: website and html
 
-   .. figure:: /images/journaling-1.jpg
+   .. figure:: /images/mongodb_features.png
       :alt: TODO - add desc
       :align: center
       :figwidth: 700px
@@ -24,7 +24,7 @@
 
    .. raw:: html
 
-      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_images/journaling-1.jpg" alt="Description"></img><p>Description</p></div>
+      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_images/mongodb_features.png" alt="Description"></img><p>MongoDB Features</p></div>
 
 .. only:: latex and offset
 
@@ -32,5 +32,5 @@
 
       \begin{figure}[h!]
       \centering
-      \includegraphics[width=400px]{journaling-1.eps}
+      \includegraphics[width=400px]{mongodb_features.eps}
       \end{figure}

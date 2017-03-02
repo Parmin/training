@@ -1,0 +1,21 @@
+====
+Misc
+====
+
+
+This chapter go over miscellaneous things
+-----------------------------------------
+
+- ... in no specific order
+
+Doing Community Support
+-----------------------
+
+- We also help our non-paying users
+- To know more ...
+
+  - https://wiki.mongodb.com/display/cs/Community+Support+Tips
+  - https://wiki.mongodb.com/display/cs/Differences+between+Community+and+Commercial+Support+interactions
+  - https://wiki.mongodb.com/display/cs/Interactions+on+the+mongodb-user+discussion+forum
+  - https://wiki.mongodb.com/display/cs/Interactions+on+StackExchange+sites
+  - https://wiki.mongodb.com/display/cs/Community+ramping+workflow

@@ -318,3 +318,5 @@ References
 
 To Know More
 ------------
+
+- presentation on useful Cloud Manager graphs
