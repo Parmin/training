@@ -45,7 +45,7 @@ internal-package:
 	rm -f conf.py
 	ln conf-internal.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
-	giza $(gizaverbosity) sphinx --builder slides html --serial_sphinx --edition internal 2>&1 | grep -v "isn't included in any toctree" && true
+	giza $(gizaverbosity) sphinx --builder slides html --serial_sphinx --edition internal 2>&1 | grep -v "isn't included in any toctree" || true
 	mkdir -p build/$@/slides/
 	rsync $(osverbosity) -r build/$(branch)/html-internal/ build/$@/
 	rsync $(osverbosity) -r build/$(branch)/slides-internal/ build/$@/slides/
