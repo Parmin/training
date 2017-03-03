@@ -10,6 +10,40 @@ This chapter is incomplete and still under development
 Learning Objectives
 -------------------
 
+Consensus Protocols
+-------------------
+
+- Common
+
+  - Centralized notion of time
+
+- Paxos (1989)
+
+- RAFT
+
+  - Leader based consensus
+
+
+Chaining
+--------
+
+- Reduce bandwidth costs by replicating from nearest member
+
+
+Jepsen
+------
+
+- `Test Tool <https://aphyr.com/tags/Jepsen>`_ created by Kyle Kingsbury
+
+  - gold standard of testing tools for distributed databases
+
+- lead to infamous **Call Me Maybe* article on MongoDB losing writes
+- followup blog in Feb 2017 praise MongoDB 3.4.1 as passing all tests
+- to know more
+
+  - `internal FAQ <https://docs.google.com/a/10gen.com/document/d/19f3BTdz-qgYcSX1acLUisNzMfAkLQZzzdYxz_Czle60/edit?usp=sharing>`_
+
+
 Common Issues
 -------------
 

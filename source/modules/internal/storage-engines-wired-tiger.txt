@@ -361,6 +361,7 @@ Checkpoints and Performance
     - Very large WT caches means around 100 GB+
     - High write throughput between checkpoints can mean a bigger hit to performance during checkpoints
 
+
 Checkpoints - Old and New Pages
 -------------------------------
 
@@ -537,12 +538,17 @@ Indexes in WT: Prefix Compression
 
    - screenshot showing a WiredTiger leaf page with index values, using prefix compression
 
-Situations where WiredTiger Performs Poorly
--------------------------------------------
+
+Situations where MMAPv1 Performs better than WiredTiger
+-------------------------------------------------------
 
 - Frequent small updates on large documents
 
-  - Edge to MMAPv1
+- Latency
+
+
+Situations where WiredTiger Performs Poorly
+-------------------------------------------
 
 - Capped collections in MongoDB 3.0
 
@@ -559,6 +565,7 @@ Situations where WiredTiger Performs Poorly
   - e.g. image files
 
 .. include:: /includes/student-notes.rst
+
 
 Main issues seen with WiredTiger
 --------------------------------

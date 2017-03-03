@@ -20,7 +20,7 @@ Contents
       https://docs.google.com/document/d/10nL--w_NaGZWEweKdYnEz_m36PhL12a-hC9u18vXhJg/edit#
     - first session of the day
     - there might be some people getting in late
-    - some others will be with a considerable jetlag
+    - some others will be with a considerable jet lag
     - so present yourself
     - talk firmly but with pause
     - make sure everyone is heavily caffeinated
@@ -190,6 +190,12 @@ MongoDB Product History
 - 2015 – 3.0 collection level locking in MMAPV1, document level locking with WiredTiger and OpsManager (MMS 1.6/OpsManager 1.8)
 - 2015 – 3.2 WT as default, new storage engines (memory, encrypted), config servers as replica set and OpsManager 2.0 (500 people)
 - 2016 – 3.4 and OpsManager 3.4 (700 people)
+
+
+MongoDB Features History
+------------------------
+
+.. include:: /figures_local_meta/mongodb_features.txt
 
 
 MongoDB Company Overview

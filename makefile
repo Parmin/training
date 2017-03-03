@@ -45,7 +45,7 @@ internal-package:
 	rm -f conf.py
 	ln conf-internal.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
-	giza $(gizaverbosity) sphinx --builder slides html --serial_sphinx --edition internal
+	giza $(gizaverbosity) sphinx --builder slides html --serial_sphinx --edition internal 2>&1 | grep -v "isn't included in any toctree" && true
 	mkdir -p build/$@/slides/
 	rsync $(osverbosity) -r build/$(branch)/html-internal/ build/$@/
 	rsync $(osverbosity) -r build/$(branch)/slides-internal/ build/$@/slides/
@@ -60,5 +60,7 @@ internal-pdfs:
 	# TODO - remove the next 2 lines once everyone in the team uses Giza version 0.5.10 (Dec 2016)
 	mkdir -p build/$(branch)/latex-internal
 	cp source/images/*.eps build/$(branch)/latex-internal/.
+	# TODO - fixes because we are in the 'internal' direcory
+	ln -s build/$(branch)/slides-internal/_static build/$(branch)/slides-internal/modules/_static
 	# TODO Copy the PDFs we still generate manually from PowerPoint slides
 	giza $(gizaverbosity) sphinx --builder latex --serial_sphinx --edition internal

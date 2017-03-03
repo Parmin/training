@@ -2,10 +2,10 @@
 Lab: Ops Manager Installation
 =============================
 
-Permise
+Premise
 -------
 
-Ops Manager is a solution for on-prem MongoDB cluster operational management.
+Ops Manager is a solution for On-Prem MongoDB cluster operational management.
 
 Enables features like:
 
@@ -136,7 +136,7 @@ We will need the following instances:
 
 - Load Balancer
 
-  - The load balancer is already set up and its name should be given to 
+  - The load balancer is already set up and its name should be given to
     you by the trainer.
 
 .. include:: /includes/student-notes.rst
@@ -154,10 +154,16 @@ We will need the following instances:
 
     - Do we need a replica set to support the Backup Daemon?
 
-      - Yes, you always need one, and we will be using the 'blockstore' part of it
+      - Yes, you always need one, and we will be using the 'Blockstore' part
+        of the Backup DB
 
         - we can use a Filestore as an alternative but for the exercise let's
           use the Blockstore
+
+    - 2 possible solutions:
+
+      - each ``opsmgr`` node gets App, BackupDaemon, AppDB and BackupDB
+      - ``opsmgr`` gets App, BackupDaemon and BackupDB, ``nodes`` get AppDB
 
 
 1. Configure Ops Manager Application Database
