@@ -52,9 +52,9 @@ SQL vs NoSQL (and MongoDB)
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    [ASK] which ER diagram methodologies they are familiar with.
+      [ASK] which ER diagram methodologies they are familiar with.
 
 
 Get things in the right order
@@ -75,9 +75,9 @@ Get things in the right order
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - you need to understand the queries before you create the schema
+      - you need to understand the queries before you create the schema
 
 
 Terminology - Schema Free
@@ -96,19 +96,19 @@ Terminology - Schema Free
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    make sure that students understand how to deal with this topic. Specially field team.
+      make sure that students understand how to deal with this topic. Specially field team.
 
-    - You can say that "your data has no schema till you find one"
-    - MongoDB flexibility allows to deal with changes that soon or later materialize
-    - raise their attention to the document validation: https://docs.mongodb.org/manual/core/document-validation/
-    - John Page generally explains MongoDB as follows:
+      - You can say that "your data has no schema till you find one"
+      - MongoDB flexibility allows to deal with changes that soon or later materialize
+      - raise their attention to the document validation: https://docs.mongodb.org/manual/core/document-validation/
+      - John Page generally explains MongoDB as follows:
 
-      - MongoDB is similar with relational tables but with one large difference
-      - there's a field type called `table`
-      - where you can define inner fields
-      - you can define indexes on any field
+        - MongoDB is similar with relational tables but with one large difference
+        - there's a field type called `table`
+        - where you can define inner fields
+        - you can define indexes on any field
 
 
 Elements of Schema Design
@@ -159,9 +159,9 @@ Elements/Product Considerations
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    ask questions:
+      ask questions:
 
       - What are hardware limitations?
 
@@ -232,10 +232,6 @@ Elements/Sizing the Cardinalities
 .. include:: /includes/student-notes.rst
 
 
-Relationships
--------------
-
-
 Relationships/Embed or Store Separately
 ---------------------------------------
 
@@ -304,10 +300,10 @@ Relationships/Models
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - You can also link from both sides, the parent and the children
-      if you need to access the data from either collection
+      - You can also link from both sides, the parent and the children
+        if you need to access the data from either collection
 
 
 Relationship - 1 to 1, embedding
@@ -319,10 +315,10 @@ Relationship - 1 to 1, embedding
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - We keep all the information together for a given entity
-      This is the simplest model
+      - We keep all the information together for a given entity
+        This is the simplest model
 
 
 Relationship - 1 to 1, reference to the children
@@ -334,16 +330,16 @@ Relationship - 1 to 1, reference to the children
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Even if it is a 1:1 relationship, we are putting some information
-      of an entity into another collection.
-    - [ASK] what is the use case?
+      - Even if it is a 1:1 relationship, we are putting some information
+        of an entity into another collection.
+      - [ASK] what is the use case?
 
-      - you don't need the information put in the children that often
-      - examples:
+        - you don't need the information put in the children that often
+        - examples:
 
-        - detailed description for a given product
+          - detailed description for a given product
 
 
 Relationship - 1 to 1, reference to the parent
@@ -355,11 +351,11 @@ Relationship - 1 to 1, reference to the parent
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - similar to the reference to the children, however we want to query
-      directly the children collection for a given movie
-    - again, you can always link both ways.
+      - similar to the reference to the children, however we want to query
+        directly the children collection for a given movie
+      - again, you can always link both ways.
 
 
 Relationship - 1 to N, embedding
@@ -371,9 +367,9 @@ Relationship - 1 to N, embedding
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - .
+      - TBD
 
 
 Relationship - 1 to N, reference to the children
@@ -385,9 +381,9 @@ Relationship - 1 to N, reference to the children
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - .
+      - TBD
 
 
 Relationship - 1 to N, reference to the parent
@@ -399,9 +395,9 @@ Relationship - 1 to N, reference to the parent
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - .
+      - TBD
 
 
 Relationship - N to N, embedding
@@ -413,9 +409,9 @@ Relationship - N to N, embedding
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - .
+      - TBD
 
 
 Relationship - N to N, reference to the children
@@ -427,9 +423,9 @@ Relationship - N to N, reference to the children
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - .
+      - TBD
 
 
 Relationship - N to N, reference to the parent
@@ -441,9 +437,9 @@ Relationship - N to N, reference to the parent
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - .
+      - TBD
 
 
 Patterns
@@ -499,9 +495,9 @@ List of Patterns
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - should we consider 'versioning' as a pattern?
+      - should we consider 'versioning' as a pattern?
 
 
 Pattern - Subset
@@ -517,21 +513,39 @@ Pattern - Subset
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    -
+      - TBD
 
 
-Pattern - Subset
-----------------
+Pattern - Example of Subset
+---------------------------
 
-.. include:: /images/pattern-subset.rst
+.. only:: latex
+
+   .. figure:: /images/pattern-subset-print.png
+      :alt: Pattern: Subset
+      :align: center
+      :figwidth: 1200px
+
+.. only:: website
+
+   .. figure:: /images/pattern-subset.png
+      :alt: Pattern: Subset
+      :align: center
+      :figwidth: 600px
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
 
 Pattern - Cache
-----------------
+---------------
 
 - You want to display dependent data
 - Does not have to be up to date
@@ -547,17 +561,23 @@ Pattern - Cache
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    -
+      - TBD
 
 
-Pattern - Cache
-----------------
+Pattern - Example of Cache
+--------------------------
 
 .. include:: /images/pattern-cache.rst
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
 
 
 Pattern - Attributes
@@ -575,17 +595,23 @@ Pattern - Attributes
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    -
+      - TBD
 
 
-Pattern - Attributes
---------------------
+Pattern - Example of Attributes
+-------------------------------
 
 .. include:: /images/pattern-attributes.rst
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
 
 
 Pattern - Aggregate
@@ -600,17 +626,23 @@ Pattern - Aggregate
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    -
+      - TBD
 
 
-Pattern - Aggregate
--------------------
+Pattern - Example of Aggregate
+------------------------------
 
 .. include:: /images/pattern-aggregate.rst
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
 
 
 Pattern - Overflow
@@ -626,16 +658,22 @@ Pattern - Overflow
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    -
+      - TBD
 
-Pattern - Overflow
-------------------
+Pattern - Example of Overflow
+-----------------------------
 
 .. include:: /images/pattern-overflow.rst
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
 
 
 Pattern - Approximation
@@ -654,16 +692,23 @@ Pattern - Approximation
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    -
+      - TBD
 
-Pattern - Approximation
------------------------
+
+Pattern - Example of Approximation
+----------------------------------
 
 .. include:: /images/pattern-approximation.rst
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
 
 
 Pattern - Pre-allocation
@@ -679,17 +724,23 @@ Pattern - Pre-allocation
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - "Time Series" are often represented using this pattern
+      - "Time Series" are often represented using this pattern
 
 
-Pattern - Pre-allocation
-------------------------
+Pattern - Example of Pre-allocation
+-----------------------------------
 
 .. include:: /images/pattern-pre-allocation.rst
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
 
 
 Pattern - Tree as Nodes
@@ -699,14 +750,12 @@ Pattern - Tree as Nodes
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /includes/student-notes.rst
-
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Node is defined by itself and its parent
-    - Likely need recursive lookup to build it
+      - Node is defined by itself and its parent
+      - Likely need recursive lookup to build it
 
 
 Pattern - Tree as Children
@@ -716,13 +765,11 @@ Pattern - Tree as Children
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /includes/student-notes.rst
-
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Node is defined by itself and its children
+      - Node is defined by itself and its children
 
 
 Pattern - Tree as Ancestors
@@ -732,13 +779,11 @@ Pattern - Tree as Ancestors
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /includes/student-notes.rst
-
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Node is defined by itself and all its parent/ancestors
+      - Node is defined by itself and all its parent/ancestors
 
 
 Misc notes
@@ -754,11 +799,11 @@ Misc notes
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Short field names may make your data unreadable
+      - Short field names may make your data unreadable
 
-      - This is what we do for Oplog and all MMS collections
+        - This is what we do for Oplog and all MMS collections
 
 
 The bad
@@ -793,19 +838,19 @@ Zola’s 6 Rules of Thumb
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    William Zola was great Support Engineer that was loved by colleagues and customers.
+      William Zola was great Support Engineer that was loved by colleagues and customers.
 
-    We have an yearly innovation award named after William Zola.
+      We have an yearly innovation award named after William Zola.
 
-    He created a set of rules for good schema design.
+      He created a set of rules for good schema design.
 
-    IV) if you index correctly and use the projection specifier then application-level joins are barely more expensive than server-side joins in a relational database.
+      IV) if you index correctly and use the projection specifier then application-level joins are barely more expensive than server-side joins in a relational database.
 
-    V) A field that will mostly be read and only seldom updated is a good candidate for de-normalization.
+      V) A field that will mostly be read and only seldom updated is a good candidate for de-normalization.
 
-    VI) You want to structure your data to match the ways that your application queries and updates it.
+      VI) You want to structure your data to match the ways that your application queries and updates it.
 
 
 References
@@ -851,24 +896,24 @@ Exercise 1 - Requirements
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    Solution
+      Solution
 
-    - Collections
+      - Collections
 
-      - Products
-      - Cached reviews
-      - Reviews
-      - Cached comments and ratings
-      - Comments and ratings
-      - Prices
-      - History
+        - Products
+        - Cached reviews
+        - Reviews
+        - Cached comments and ratings
+        - Comments and ratings
+        - Prices
+        - History
 
-    - Considerations:
+      - Considerations:
 
-      - Caching last reviews, and comments
-      - Prices: currency, representing decimals,
-      - Product categories: tree, list of parents
-      - Keeping track of views, increment by ten every ten views
-      - Updates to ‘caching pattern’ done in batch
+        - Caching last reviews, and comments
+        - Prices: currency, representing decimals,
+        - Product categories: tree, list of parents
+        - Keeping track of views, increment by ten every ten views
+        - Updates to ‘caching pattern’ done in batch
