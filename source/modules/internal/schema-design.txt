@@ -373,7 +373,7 @@ Relationship - 1 to N, embedding
 
   .. note::
 
-    -
+    - .
 
 
 Relationship - 1 to N, reference to the children
@@ -387,7 +387,7 @@ Relationship - 1 to N, reference to the children
 
   .. note::
 
-    -
+    - .
 
 
 Relationship - 1 to N, reference to the parent
@@ -401,7 +401,7 @@ Relationship - 1 to N, reference to the parent
 
   .. note::
 
-    -
+    - .
 
 
 Relationship - N to N, embedding
@@ -415,7 +415,7 @@ Relationship - N to N, embedding
 
   .. note::
 
-    -
+    - .
 
 
 Relationship - N to N, reference to the children
@@ -429,7 +429,7 @@ Relationship - N to N, reference to the children
 
   .. note::
 
-    -
+    - .
 
 
 Relationship - N to N, reference to the parent
@@ -443,7 +443,7 @@ Relationship - N to N, reference to the parent
 
   .. note::
 
-    -
+    - .
 
 
 Patterns

@@ -682,11 +682,11 @@ output:
     width: 200
   - type: web
     dpi: 72
-    width: 400
+    width: 100
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 100
 ---
 name: pattern-subset
 alt: "Pattern: Subset"
@@ -701,7 +701,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: pattern-cache
 alt: "Pattern: Cache"
@@ -716,7 +716,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: pattern-attributes
 alt: "Pattern: Attributes"
@@ -731,7 +731,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: pattern-aggregate
 alt: "Pattern: Aggregate"
@@ -746,7 +746,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: pattern-overflow
 alt: "Pattern: Overflow"
@@ -761,7 +761,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: pattern-approximation
 alt: "Pattern: Approximation"
@@ -769,14 +769,14 @@ output:
   - type: print
     tag: 'print'
     dpi: 300
-    width: 400
+    width: 600
   - type: web
     dpi: 72
     width: 300
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 200
 ---
 name: pattern-pre-allocation
 alt: "Pattern: Pre-Allocation"
@@ -791,7 +791,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: pattern-tree-as-nodes
 alt: "Pattern: Tree as Nodes"
@@ -806,7 +806,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: pattern-tree-as-children
 alt: "Pattern: Tree as Children"
@@ -821,7 +821,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: pattern-tree-as-ancestors
 alt: "Pattern: Tree as Ancestors"
@@ -836,7 +836,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: relationship-1to1-embed
 alt: "Relationship: 1 to 1, embedding"
@@ -851,7 +851,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 200
 ---
 name: relationship-1to1-ref-to-children
 alt: "Relationship: 1 to 1, reference to the children"
@@ -866,7 +866,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: relationship-1to1-ref-to-parent
 alt: "Relationship: 1 to 1, reference to the parent"
@@ -881,7 +881,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: relationship-1toN-embed
 alt: "Relationship: 1 to N, embedding"
@@ -889,14 +889,14 @@ output:
   - type: print
     tag: 'print'
     dpi: 300
-    width: 400
+    width: 600
   - type: web
     dpi: 72
     width: 300
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 200
 ---
 name: relationship-1toN-ref-to-children
 alt: "Relationship: 1 to N, reference to the children"
@@ -911,7 +911,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: relationship-1toN-ref-to-parent
 alt: "Relationship: 1 to N, reference to the parent"
@@ -926,7 +926,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: relationship-NtoN-embed
 alt: "Relationship: N to N, embedding"
@@ -934,14 +934,14 @@ output:
   - type: print
     tag: 'print'
     dpi: 300
-    width: 400
+    width: 600
   - type: web
     dpi: 72
     width: 300
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 200
 ---
 name: relationship-NtoN-ref-to-children
 alt: "Relationship: N to N, reference to the children"
@@ -956,7 +956,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: relationship-NtoN-ref-to-parent
 alt: "Relationship: N to N, reference to the parent"
@@ -971,5 +971,5 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ...
