@@ -672,4 +672,304 @@ output:
     tag: 'offset'
     dpi: 300
     width: 300
+---
+name: relationship-to-zillions
+alt: "Notation to show relationships to zillions"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 200
+  - type: web
+    dpi: 72
+    width: 400
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-subset
+alt: "Pattern: Subset"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-cache
+alt: "Pattern: Cache"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-attributes
+alt: "Pattern: Attributes"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 400
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-aggregate
+alt: "Pattern: Aggregate"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-overflow
+alt: "Pattern: Overflow"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-approximation
+alt: "Pattern: Approximation"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 400
+  - type: web
+    dpi: 72
+    width: 300
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-pre-allocation
+alt: "Pattern: Pre-Allocation"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-tree-as-nodes
+alt: "Pattern: Tree as Nodes"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-tree-as-children
+alt: "Pattern: Tree as Children"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: pattern-tree-as-ancestors
+alt: "Pattern: Tree as Ancestors"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: relationship-1to1-embed
+alt: "Relationship: 1 to 1, embedding"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 600
+  - type: web
+    dpi: 72
+    width: 300
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: relationship-1to1-ref-to-children
+alt: "Relationship: 1 to 1, reference to the children"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: relationship-1to1-ref-to-parent
+alt: "Relationship: 1 to 1, reference to the parent"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: relationship-1toN-embed
+alt: "Relationship: 1 to N, embedding"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 400
+  - type: web
+    dpi: 72
+    width: 300
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: relationship-1toN-ref-to-children
+alt: "Relationship: 1 to N, reference to the children"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: relationship-1toN-ref-to-parent
+alt: "Relationship: 1 to N, reference to the parent"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: relationship-NtoN-embed
+alt: "Relationship: N to N, embedding"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 400
+  - type: web
+    dpi: 72
+    width: 300
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: relationship-NtoN-ref-to-children
+alt: "Relationship: N to N, reference to the children"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
+---
+name: relationship-NtoN-ref-to-parent
+alt: "Relationship: N to N, reference to the parent"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 72
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 300
 ...

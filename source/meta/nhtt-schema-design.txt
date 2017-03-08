@@ -1,0 +1,9 @@
+:orphan:
+
+==========================
+MongoDB NHTT Schema Design
+==========================
+
+.. toctree::
+
+   /modules/nav/internal-schema-design

@@ -1,0 +1,37 @@
+
+.. only:: latex and not offset
+
+   .. figure:: /figures/schema-design-sql-er.png
+      :alt: Example of an entity relationship diagram
+      :align: center
+      :figwidth: 1600px
+
+.. only:: website and slides
+
+   .. figure:: /figures/schema-design-sql-er.png
+      :alt: Example of an entity relationship diagram
+      :align: center
+      :figwidth: 700px
+
+.. only:: website and html
+
+   .. figure:: /figures/schema-design-sql-er.png
+      :alt: Example of an entity relationship diagram
+      :align: center
+      :figwidth: 700px
+
+.. only:: website and not (html or slides)
+
+   .. raw:: html
+
+      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_figures/schema-design-sql-er.png" alt="Example of an entity relationship diagram"></img><p>Example of an entity relationship diagram</p></div>
+
+
+.. only:: latex and offset
+
+   .. raw:: latex
+
+      \begin{figure}[h!]
+      \centering
+      \includegraphics[width=400px]{schema-design-sql-er.eps}
+      \end{figure}

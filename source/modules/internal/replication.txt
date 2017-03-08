@@ -37,7 +37,7 @@ Jepsen
 
   - gold standard of testing tools for distributed databases
 
-- lead to infamous **Call Me Maybe* article on MongoDB losing writes
+- lead to infamous **Call Me Maybe** article on MongoDB losing writes
 - followup blog in Feb 2017 praise MongoDB 3.4.1 as passing all tests
 - to know more
 
