@@ -521,19 +521,7 @@ Pattern - Subset
 Pattern - Example of Subset
 ---------------------------
 
-.. only:: latex
-
-   .. figure:: /images/pattern-subset-print.png
-      :alt: Pattern: Subset
-      :align: center
-      :figwidth: 1200px
-
-.. only:: website
-
-   .. figure:: /images/pattern-subset.png
-      :alt: Pattern: Subset
-      :align: center
-      :figwidth: 600px
+.. include:: /images/pattern-subset.rst
 
 .. include:: /includes/student-notes.rst
 
