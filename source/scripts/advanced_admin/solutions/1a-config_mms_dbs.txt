@@ -10,8 +10,8 @@
 ### on opsmrg1, opsmgr2 and opsmgr3
 
 cd /data
-tar -xf downloads/mongodb-linux-x86_64-enterprise-rhel70-3.2.*.tgz
-mv mongodb-linux-x86_64-enterprise-rhel70-3.2.*/ mongodb
+tar -xf downloads/mongodb-linux-x86_64-enterprise-rhel70-3.4.*.tgz
+mv mongodb-linux-x86_64-enterprise-rhel70-3.4.*/ mongodb
 
 # For the APPDB
 # mkdir -p /mongod-data/appdb/data

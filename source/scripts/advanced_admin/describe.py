@@ -85,7 +85,7 @@ def main():
       help="environment training run identifier, or none to see all the runs")
 
     parser.add_argument('--out', dest='out', type=str,
-      help="File in which to store the output")
+      help="File(s) in which to store the output. For each team, a -X is added to the name")
 
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
       help="AWS profile that will launch the environment")

@@ -4,7 +4,7 @@
 ### on opsmrg1, opsmgr2 and opsmgr3
 
 cd /data/downloads
-sudo rpm -ivh mongodb-mms-2.0.*.x86_64.rpm
+sudo rpm -ivh mongodb-mms-3.4.*.x86_64.rpm
 
 # construct the mongoUri, for example:
 mongo.mongoUri=mongodb://10.0.0.53:27001,10.0.0.140:27001,10.0.0.115:27001/?replicaSet=APPDB&maxPoolSize=150

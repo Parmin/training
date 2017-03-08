@@ -8,8 +8,8 @@ set -e
 
 # The following version numbers should be updated by running update-versions.sh
 # and not manually.
-MONGODB_VER=3.2.6
-OPS_MGR_VER=2.0.6.363
+MONGODB_VER=3.4.2
+OPS_MGR_VER=3.4.3.402
 
 OPS_MGR_USERNAME=admin@localhost.com
 OPS_MGR_PASSWORD=ABCabc1!
