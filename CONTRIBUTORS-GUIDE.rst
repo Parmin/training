@@ -275,6 +275,10 @@ Here a quick checklist of the steps I used to create the figures for the schema 
 - copy the ``.svg`` into ``source/figures``
 - link the svg from ``source/images``
 - add the image to ``source/images/metadata.yaml``
+
+  - 'web' section is for the HTML and Slides modes
+  - 'offset' section is for the PDF
+  
 - add a line like the following in the rST files
 
   - .. include:: /images/pattern-cache.rst
