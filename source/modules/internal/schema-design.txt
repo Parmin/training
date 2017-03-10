@@ -11,6 +11,12 @@ Outline
 - Patterns
 - Exercises
 
+.. only:: instructor
+
+   .. note::
+
+      - cover integrity
+      
 
 Leaning Objectives
 ------------------
