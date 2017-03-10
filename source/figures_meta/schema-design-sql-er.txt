@@ -11,14 +11,14 @@
    .. figure:: /figures/schema-design-sql-er.png
       :alt: Example of an entity relationship diagram
       :align: center
-      :figwidth: 700px
+      :figwidth: 600px
 
 .. only:: website and html
 
    .. figure:: /figures/schema-design-sql-er.png
       :alt: Example of an entity relationship diagram
       :align: center
-      :figwidth: 700px
+      :figwidth: 600px
 
 .. only:: website and not (html or slides)
 

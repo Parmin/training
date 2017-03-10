@@ -682,7 +682,7 @@ output:
     width: 200
   - type: web
     dpi: 72
-    width: 100
+    width: 200
   - type: 'offset'
     tag: 'offset'
     dpi: 300
