@@ -1,3 +1,7 @@
+file: /modules/advanced-administrator
+description: |
+  Introduction to Ops Manager and installation
+---
 file: /exercises/opsmanager-installation
 description: |
   Introduction to Ops Manager and installation

@@ -1,0 +1,222 @@
+======================
+Advanced Administrator
+======================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this training students should understand:
+
+- How to install and configure a highly available Ops Manager deployment
+- Understand all the necessary components and architecture choices for an Ops
+  Manager deployment
+- How to effectively manage clusters using Ops Manager
+- How to deploy and operate secured MongoDB deployments
+
+.. include:: /includes/student-notes.rst
+
+
+Hands-on Approach
+-----------------
+
+This training is a full hands-on experience.
+
+- You will be given access to a set of AWS instances.
+- All the necessary software will be available within those same instances
+- However, all architecture decisions and configuration steps will be made by
+  students
+- You are expected to work in teams. So you will be sharing a set of machines
+  with your colleagues.
+- Use the instructor for guidance and advice but he should mostly be there for
+  observation and time boxing the labs.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    At this point you should have created the infrastructure for the students
+    and be retrieving its configuration by running the following command that
+    will create the /tmp/advadm* files with all the info about IPs, LBs, VPCs:
+
+    .. code-block:: sh
+
+      ./describe.py --run <TRAINING-RUN> --out /tmp/advadmin
+
+    - show the students how many teams have been created
+    - show how to install the machines key file in the ssh agent
+
+    .. code-block:: sh
+
+      ssh-add -K AdvancedAdministrator.pem
+
+    - exemplify how they have access to the machines by making an ssh connection
+      with key forwarding
+
+    .. code-block:: sh
+
+
+      ssh -A -i AdvancedAdministrator.pem centos@<AWS-INSTANCE-PUBLIC-IP>
+
+    - Access key file should be available through training portal files
+
+
+
+Expected Takeaways
+------------------
+
+There are a few important objectives that we want to accomplish by the end of
+this course:
+
+- Understand the necessary infrastructure needed to run Ops Manager
+- Understand the different architecture choices and their tradeoffs in different
+  deployments
+- Understand the different options that Ops Manager allows for backup
+- Clear understanding of the benefits of using Ops Manager to manage different
+  clusters
+- Deploy secured, monitored, and fully managed infrastructure for your application
+
+
+.. only:: instructor
+
+  .. note::
+
+    Make sure the students understand that, for this completion of this course,
+    they are expected to have a significant experience with MongoDB, and that we
+    assume that terms like:
+
+    - Replica Set
+    - Shard Cluster
+    - mongos
+    - mongod
+    - config servers
+    - indexes
+    - shard keys
+    - ...
+
+    are very familiar to the them.
+
+
+.. include:: /includes/student-notes.rst
+
+
+
+Take your time, ask questions
+-----------------------------
+
+It's important to foster the discussion of different options and review options
+so:
+
+- Use the whiteboard (if available)
+- Talk to your team members to defined clear tasks and responsibilities
+- Use the instructor for guidance and ask for advice
+- Take chances, break stuff!
+
+
+.. only:: instructor
+
+  .. note::
+
+    Reinforce that this is the perfect opportunity for students to make
+    experiments and test configuration options.
+
+    You are there to guide them but they should make use of this time to
+    actually put in practice some ideas and check if they would work, in the
+    context of the exercises in hand
+
+    At this point you should assemble the teams and share the teams
+    machine details files.
+
+.. include:: /includes/student-notes.rst
+
+
+Let's review what we have
+-------------------------
+
+Once we have our teams assembled it is time to do our first checklist.
+
+Within your team configuration file you should have:
+
+- Load balancer address.
+- Public and private ip address for each AWS instance.
+- An internal VPC set of ip addresses for each instance.
+- 3 `<opsmgr>` instances.
+- Up to 12 `<node>` instances.
+- `AdvancedAdministrator.pem` key file to allow access to the instances.
+
+
+.. only:: instructor
+
+  .. note::
+
+    At this point you should make sure the students have all the necessary files
+    needed to access the infrastructure.
+
+    - everyone should be assigned to one team, max of 3 person teams
+    - check if everyone has their team configuration file
+    - check that everyone has their key file and successfully added the key to
+      their ssh-agents
+    - check that everyone is able to reach the AWS instances
+
+      - ask students to connect to one of their designated team instances.
+
+    - check that everyone is able to run command ``ls /share``
+
+    You may want to explain to the students that:
+    - each team works in under their private vpc
+    - to navigate and configure the infrastructure, students should be using the
+      ``/etc/hosts`` defined names
+
+.. include:: /includes/student-notes.rst
+
+
+Within our instances ...
+------------------------
+
+In our machines we will have access to all nodes in the deployment:
+
+.. code-block:: sh
+
+    cat /etc/hosts
+
+A ``/share`` folder with all necessary software downloaded
+
+.. code-block:: sh
+
+    ls /share
+
+And you should have MongoDB installed in your instances:
+
+.. code-block:: sh
+
+    mongod --version
+
+
+.. only:: instructor
+
+  .. note::
+
+    Connect to one of the instances and run all the commands yourself.
+
+    .. code-block:: sh
+
+      ssh -A -i AdvancedAdministrator.pem centos@<AWS-INSTANCE-PUBLIC-IP>
+
+      ls /share
+      mongod --version
+
+    This is also a good opportunity to show that if you forward the ssh key you
+    will be able to jump to all machines of a given team.
+
+    .. code-block:: sh
+
+      ssh -A -i AdvancedAdministrator.pem centos@<AWS-INSTANCE-PUBLIC-IP>
+
+      ssh -A centos@10.0.0.101
+
+      ssh -A centos@10.0.0.22
+
+
+.. include:: /includes/student-notes.rst
