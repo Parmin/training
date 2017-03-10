@@ -25,5 +25,5 @@ const _generateRandomMessage = () => {
 
 const _randomly = callback => {
   // randomly under one minute do something
-  setTimeout(() => callback, Math.random() * 60 * 1000)
+  setTimeout(() => callback(), Math.random() * 60 * 1000)
 }
