@@ -16,8 +16,8 @@ project:
     - name: internal
       tag: training-internal
 version:
-  release: '3.2'
-  branch: '3.2'
+  release: '3.4'
+  branch: '3.4'
 system:
   files:
     - 'pdfs.yaml'
