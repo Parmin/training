@@ -1,27 +1,27 @@
 #!/bin/bash
 
-# Destroy all test runs in all regions, then wait for them to be completed
+# Create a test run in all regions, then wait for them to be completed
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-ADVADMINDIR="$SCRIPTDIR/../../advanced_admin"
+ADVADMINDIR="$SCRIPTDIR/../../advanced_administrator"
 
 PROFILES=`cat $SCRIPTDIR/profiles.txt`
 KEYPAIR=AdvancedAdministrator
 
 for profile in ${PROFILES[@]}; do
-  echo Destroying Run for Region: $profile
+  echo Creating Run for Region: $profile
   # TODO - make the string unique
   RUN=systest-${USER}
-  ${ADVADMINDIR}/teardown.py --profile ${profile} --run ${RUN}
+  ${ADVADMINDIR}/deploy.py --profile ${profile} --run ${RUN} --keypair ${KEYPAIR} --teams 1 --testmode
   echo ""
 done
 
 # Iterate on all regions, waiting for the run to be completed or rolledback
 for profile in ${PROFILES[@]}; do
-  echo Waiting on Run deletion for Region: $profile
+  echo Waiting on Run creation for Region: $profile
   DONE=false
   while [ $DONE == false ]; do
-    OUT=`${ADVADMINDIR}/describe.py --profile ${profile} | grep DELETE_IN_PROGRESS`
+    OUT=`${ADVADMINDIR}/describe.py --profile ${profile} | grep CREATE_IN_PROGRESS`
     if [ -z "$OUT" ]; then
       DONE=true
       ${ADVADMINDIR}/describe.py --profile ${profile}

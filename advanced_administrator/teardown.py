@@ -15,7 +15,6 @@
 #   - should accumulate errors and continue instead of throwing an exception
 
 from provisioner_aws_cf import Provisioner_aws_cf
-from provisioner_aws_plain import Provisioner_aws_plain
 import argparse
 import logging
 import sys
@@ -42,22 +41,11 @@ def main():
     parser.add_argument('--profile', dest='awsprofile', default='default',
     type=str, help='AWS profile that will launch the environment')
 
-    parser.add_argument('--provider', dest='provider', default="aws-cf", type=str,
-    help="Provider, one of 'aws-cf' or 'aws-plain'")
-
     args = parser.parse_args()
     training_run = args.training_run
     awsprofile = args.awsprofile
 
-    if args.provider == "aws-cf":
-        pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
-    elif args.provider == "aws-plain":
-        logger.setLevel(logging.DEBUG)
-        logger.info('Tearing Down Environment')
-        pr = Provisioner_aws_plain(training_run, aws_profile=awsprofile)
-    else:
-        print("FATAL - invalid provider, must be 'aws-plain' or 'aws-cf' " % args.provider)
-        sys.exit(1)
+    pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
 
     pr.connect()
     logger.info('Destroying {0}'.format(args.training_run))

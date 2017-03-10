@@ -10,7 +10,7 @@
 
 '''
 Example of a run:
-  ./describe --profile training-eu-west --run dcoupal-test --out /tmp/cluster.out
+  ./describe --profile training-eu-west --run dcoupal-test --out /users/dcoupal/myruns
 
 Example of an output:
 
@@ -63,7 +63,6 @@ import sys
 from datetime import date,timedelta
 import time
 from provisioner_aws_cf import Provisioner_aws_cf
-from provisioner_aws_plain import Provisioner_aws_plain
 
 from provider_utils import *
 
@@ -84,14 +83,11 @@ def main():
     parser.add_argument('--run', dest='training_run', type=str,
       help="environment training run identifier, or none to see all the runs")
 
-    parser.add_argument('--out', dest='out', type=str,
-      help="File(s) in which to store the output. For each team, a -X is added to the name")
+    parser.add_argument('--out', dest='out', default="/tmp/advadm-run", type=str,
+      help="Path in which to store the output. For each team, a -X is added to the name. Defaults to '/tmp/advadm-run'")
 
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
       help="AWS profile that will launch the environment")
-
-    parser.add_argument('--provider', dest='provider', default="aws-cf", type=str,
-      help="Provider, one of 'aws-cf' or 'aws-plain'")
 
     parser.add_argument('--verbose', dest='verbose', action='store_true',
       help="Show more details in the output")
@@ -104,13 +100,7 @@ def main():
 
     provisioner_values = ["aws-plain", "aws-cf"]
 
-    if args.provider == "aws-cf":
-        pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
-    elif args.provider == "aws-plain":
-        logger.setLevel(logging.DEBUG)
-        pr = Provisioner_aws_plain(training_run, aws_profile=awsprofile)
-    else:
-        fatal(1, "Invalid provider, must be one of {}".format(provisioner_values))
+    pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
 
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")

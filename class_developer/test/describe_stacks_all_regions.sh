@@ -3,7 +3,7 @@
 # Show all active stacks in all used regions
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-ADVADMINDIR="$SCRIPTDIR/../../advanced_admin"
+ADVADMINDIR="$SCRIPTDIR/../../advanced_administrator"
 
 PROFILES=`cat $SCRIPTDIR/profiles.txt`
 

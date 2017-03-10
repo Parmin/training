@@ -1,5 +1,5 @@
 profile := $(shell if [ ! -z $(PROFILE) ]; then echo --profile $(PROFILE); fi)
-advadmindir := "../advanced_admin"
+advadmindir := "../advanced_administrator"
 
 noop:
 	$(info *** Some available targets: ***)
@@ -37,5 +37,3 @@ validate-cf:
 	aws $(profile) cloudformation validate-template --template-body file://$(advadmindir)/s3/cf-templates/advadmin-team.template
 	aws $(profile) cloudformation validate-template --template-body file://$(advadmindir)/s3/cf-templates/advadmin-host.template
 	aws $(profile) cloudformation validate-template --template-body file://$(advadmindir)/s3/cf-templates/advadmin-run.template
-
-

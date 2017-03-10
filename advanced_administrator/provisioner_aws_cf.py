@@ -136,7 +136,7 @@ class Provisioner_aws_cf(object):
                 except Exception, e:
                     fatal(1, e.__str__())
                 print("\nJSON file for the above run has been saved in: {}".format(self.args.out))
-                print("There is also one file per team saved in: {}".format(self.args.out))
+                print("There is also one file per team saved in: {}-<teamNumber>".format(self.args.out))
 
 
     def destroy(self):
