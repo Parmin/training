@@ -8,16 +8,16 @@ Instructions:
 tests
 =====
 
-all_regions
+create_runs.sh
   create a minimum cluster in a list of regions
     - test that the key/pairs are working in each region
     - test that the AMIs are available in each supported region
 
-manage_cmd
+describe_stacks_all_regions.sh
+  use 'describe' to see if all regions can be looked at, and got runs created
 
-manage_script
+access_hosts.sh
+  use 'manage' to test the access to each machine
 
-describe_all
-
-describe_one
-
+destroy_runs.sh
+  remove all the runs from the 'create_runs.sh'

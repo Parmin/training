@@ -3,7 +3,7 @@
 # Create a test run in all regions, then using the AdvancedAdministrator key/pair, access all hosts
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-ADVADMINDIR="$SCRIPTDIR/../../advanced_admin"
+ADVADMINDIR="$SCRIPTDIR/../../advanced_administrator"
 
 PROFILES=`cat $SCRIPTDIR/profiles.txt`
 KEYPAIR=AdvancedAdministrator

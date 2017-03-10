@@ -40,7 +40,6 @@ import sys
 from datetime import date,timedelta
 import time
 from provisioner_aws_cf import Provisioner_aws_cf
-from provisioner_aws_plain import Provisioner_aws_plain
 
 from provider_utils import *
 
@@ -73,9 +72,6 @@ def main():
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
       help="AWS profile that will launch the environment")
 
-    parser.add_argument('--provider', dest='provider', default="aws-cf", type=str,
-      help="Provider, one of 'aws-cf' or 'aws-plain'")
-
     parser.add_argument('--roles', dest='roles', type=str,
       help="List of roles (or regexes) to match the hosts to manage")
 
@@ -97,15 +93,7 @@ def main():
     training_run = args.training_run
     awsprofile = args.awsprofile
 
-    provisioner_values = ["aws-plain", "aws-cf"]
-
-    if args.provider == "aws-cf":
-        pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
-    elif args.provider == "aws-plain":
-        logger.setLevel(logging.DEBUG)
-        pr = Provisioner_aws_plain(training_run, aws_profile=awsprofile)
-    else:
-        fatal(1, "Invalid provider, must be one of {}".format(provisioner_values))
+    pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
 
     if args.cmd is None and args.script is None and args.etchosts is None:
       fatal(1, "You must provide a --cmd or a --script to execute on the remote hosts, or --etchosts")

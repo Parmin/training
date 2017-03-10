@@ -6,7 +6,7 @@ Simple workflow
 ---------------
 
 - Make changes to templates
-  - verify that the changes are syntaxily correct by validating on the command line, 
+  - verify that the changes are syntaxily correct by validating on the command line,
 
       make validate-cf
 
@@ -76,7 +76,7 @@ Additional notes
   aws --profile training-west cloudformation create-stack --stack-name PaloAlto --parameters ParameterKey=KeyPair,ParameterValue=AdvancedAdministrator ParameterKey=NbTeams,ParameterValue=0 --template-body file://./s3/cf-templates/advadmin-base_team.template
 
 3) sync with S3:
-   cd source/scripts/advanced_admin
+   cd advanced_administrator
    make s3-prod
    OR
    make s3-devel

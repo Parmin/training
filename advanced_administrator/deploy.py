@@ -36,7 +36,6 @@ import sys
 from datetime import date,timedelta
 import time
 from provisioner_aws_cf import Provisioner_aws_cf
-from provisioner_aws_plain import Provisioner_aws_plain
 
 from provider_utils import *
 
@@ -70,9 +69,6 @@ def main():
     parser.add_argument('--profile', dest='awsprofile', default='default',
       type=str, help='AWS profile that will launch the environment')
 
-    parser.add_argument('--provider', dest='provider', default="aws-cf", type=str,
-      help="Provider, one of 'aws-cf' or 'aws-plain'")
-
     parser.add_argument('--run', dest='training_run', required=True, type=str,
       help='environment training run identifier')
 
@@ -93,14 +89,7 @@ def main():
 
     logger.debug("Training will finish {:%d, %b %Y}".format(end_date))
 
-    if args.provider == "aws-cf":
-        pr = Provisioner_aws_cf(args, training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams, keypair=args.keypair)
-    elif args.provider == "aws-plain":
-        logger.setLevel(logging.DEBUG)
-        pr = Provisioner_aws_plain(training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams)
-    else:
-        print("FATAL - invalid provider, must be 'aws-plain' or 'aws-cf' " % args.provider)
-        sys.exit(1)
+    pr = Provisioner_aws_cf(args, training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams, keypair=args.keypair)
 
     if "_" in args.training_run:
         # since we use the name in the template name, it would not be accepted by AWS
