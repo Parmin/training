@@ -19,6 +19,7 @@ FILES=(
     https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_replicasetreconfig.py
     https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_securedreplicaset.py
     https://s3.amazonaws.com/mongodb-training/advadmin/datasets/usb_drive.zip
+    https://s3.amazonaws.com/mongodb-training/security_lab/security_lab.tgz
 )
 PACKAGES=(
     unzip
