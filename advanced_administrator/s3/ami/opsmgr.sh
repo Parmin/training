@@ -23,6 +23,8 @@ FILES=(
 )
 PACKAGES=(
     unzip
+    gcc 
+    gcc-c++
 )
 # MongoDB enterprise dependencies
 # cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs
