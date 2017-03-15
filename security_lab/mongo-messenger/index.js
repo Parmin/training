@@ -17,6 +17,11 @@ app.use(express.static(__dirname + '/public'))
 app.use(webpackDevMiddleware(webpack(webpackConfig)))
 app.use(bodyParser.urlencoded({ extended: false }))
 
+// health check for AWS
+app.get('/user/login', (req, res) => {
+  res.sendStatus(200)
+})
+
 io.on('connection', socket => {
   // whenever a client connects send them all the messages in the db
   Messages.all(messages => {
