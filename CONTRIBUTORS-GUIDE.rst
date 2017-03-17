@@ -205,8 +205,8 @@ In the included file you would then have a section something like the following.
     mongoimport -d training -c companies --drop companies.json
     # end import companies.json
 
-Figures
--------
+Using Figures
+-------------
 
 You will find figures used in training in both the `<source/figures>`_ and `<source/images>`_ subdirectories.
 
@@ -216,7 +216,7 @@ If you make a modification in this directory, it should be on a private branch t
 You will need to ask someone in the *Docs* team to do the review.
 Note that committing to this repository may take more cycles, and that it is a **public repository** that the customers can clone, so beware of adding confidential information.
 
-`<source/images>`_ contains local images, mostly ``.svg`` files.
+`<source/images>`_ contains local images to this repository, mostly ``.svg`` files.
 The ``metadata.yaml`` file define which images we use and at what sizes they should be generated for the different targets (i.e. pdf, HTML, slides).
 
 If you are creating a new image, do it in *SVG* format.
@@ -230,16 +230,22 @@ Note that trying to install ``imagemagick`` with ``brew`` may conflict with ``ma
     convert temp.png eps3:temp.eps
 
 Again, if the file is to be shared by the MongoDB documentation, it should go in the ``docs-assets`` repository (`<source/figures>`_).
-
-If the file is not be shared, you should checked it in `<source/figures>`_
+If the file is not be shared, you should checked it in `<source/images>`_
 
 Some examples:
 
-- shared SVG file
+- shared/public SVG file
 
-  - None in use?
+  - ``source/figures/relationship-to-zillions.svg``
+  - ``source/images/relationship-to-zillions.svg``   (soft link)
+  - metadata goes in ``source/images/metadata.yaml``
 
-- shared non-SVG file
+    - type: web  will control the size in the html pages
+    - type: web  will also control the size in the slides (which are also html!)
+
+  - referenced in ``source/modules/internal/schema-design.txt``
+
+- shared/public non-SVG file
 
   - ``source/figures/wt-page-reconciliation.eps``
   - ``source/figures/wt-page-reconciliation.png``
@@ -258,6 +264,24 @@ Some examples:
   - `<source/images/internal-file-format.jpg>`_
   - `<source/figures_local_meta/internal-file-format.txt>`_
   - referenced in `<source/modules/internal/storage-engines-mmapv1.txt>`_
+
+Creating figures
+----------------
+
+Here a quick checklist of the steps I used to create the figures for the schema design module.
+
+- create the figure in Google Draw
+- download the figure as ``.svg``
+- copy the ``.svg`` into ``source/figures``
+- link the svg from ``source/images``
+- add the image to ``source/images/metadata.yaml``
+
+  - 'web' section is for the HTML and Slides modes
+  - 'offset' section is for the PDF
+  
+- add a line like the following in the rST files
+
+  - .. include:: /images/pattern-cache.rst
 
 Labs
 ----
@@ -341,7 +365,7 @@ Here are the dependencies between the files in the repository in order to build 
 
   It shows the source as ``source: 'meta/admin-three-day'``
 
-- which points to the file `<source/modules/meta/admin-three-day.txt>`_.
+- which points to the file `<source/meta/admin-three-day.txt>`_.
 
   This file contains a list of chapters. Each of the chapter will have a file in the ``source/modules/nav`` directory.
 

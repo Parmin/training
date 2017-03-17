@@ -1,131 +1,58 @@
-==================================
-Schema Design Internal Reflections
-==================================
+===========================
+Schema Design/Data Modeling
+===========================
 
-Outline
--------
-
-- SQL vs NoSQL and MongoDB
-- Schema Design
-- Patterns
-- Examples
-
-
-SQL vs NoSQL and MongoDB
-------------------------
-
-
-Schema Design
--------------
-
-- relationship types
-- cardinality of relationships
-- access path to records/documents
-
-
-SD - Relation types
--------------------
-
-- 1 to N
-- N to N
-- 1 to 1
-
-
-SD - Cardinality of Relationships
----------------------------------
-
-- one
-- few
-- many
-- zillions
-
-
-SD - Access Path to Records/Documents
--------------------------------------
-
-In a 1-N or N-N relationship, do you need to:
-
-- identify the referencing documents without doing another query?
-- how many documents do you want to update when the relationship changes?
-
-
-
-
-Outline
--------
-
-- MongoDB is schemaless...?
-- To embed, or not to embed
-- Denormalization and referencing
-- Arrays good.
-
-  - Nested arrays, [usually] bad!
-
-- BSON data types
-- Growing document considerations
-- Zola’s 6 Rules of Thumb
-
-
-.. include:: /includes/student-notes.rst
-
-
-MongoDB Schemaless
+Leaning Objectives
 ------------------
 
-Quoting Derick:
+Be able to:
 
-  .. image:: /images/derick_tweet.jpg
+- Model 1-1, 1-N and N-N relationships
+- Identify schema design patterns
+- Create a model for some common problems
+
+.. only:: instructor
+
+   .. note::
+
+      TODOs
+      - Add a mention about integrity
+
+
+Before we start, let's set something straight!
+----------------------------------------------
+
+- MongoDB is **Schema Free** !
+
+  - Not "Schema Less"
+  - Just means that collections do not enforce document structure
+  - Store the data in a way the application wants to see it
+  - There is always an underlying design
+
+    **If you don't have a schema, you're probably not looking hard enough**
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    make sure that students understand how to deal with this topic. Specially field team.
+      [TODO] consider moving this slide at the end.
+      Make sure that students understand how to deal with this topic. Specially field team.
 
-    - You can say that "your data has no schema till you find one"
-    - MongoDB flexibility allows to deal with changes that soon or later materialize
-    - John Page generally explains MongoDB as follows:
+      - You can say that "your data has no schema till you find one"
+      - MongoDB flexibility allows to deal with changes that soon or later materialize
+      - Raise their attention to the document validation: https://docs.mongodb.org/manual/core/document-validation/
+      - John Page generally explains MongoDB as follows:
 
-      - MongoDB is similar with relational tables but with one large difference
-      - there's a field type called `table`
-      - where you can define inner fields
-      - you can define indexes on any field
-
-
-A New Database Type
--------------------
-
-Wikipedia:
-
-  NoSQL databases are often very fast, do not require fixed table schemas, avoid join operations by storing denormalized data, and are designed to scale horizontally
-
-.. include:: /includes/student-notes.rst
+        - MongoDB is similar with relational tables but with one large difference
+        - There's a field type called `table`
+        - Where you can define inner fields
+        - You can define indexes on any field
 
 
-MongoDB has a *flexible* schema
--------------------------------
-
-- Schemaless just means that collections do not enforce document structures
-
-- Easier to get started
-
-**If you don't have a schema, you're probably not looking hard enough**
-
-- The application drives the schema design, not the other way around!
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    - raise their attention to the document validation: https://docs.mongodb.org/manual/core/document-validation/
-
-
-Get things in the right order
------------------------------
+Getting things in the right order
+---------------------------------
 
 .. list-table::
    :header-rows: 1
@@ -142,45 +69,71 @@ Get things in the right order
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - advise students to avoid talking about MongoDB as NoSQL
-    - We are moving away from this concept although we will mostly be referred to as a NoSQL database
-    - Marketing department want's field to refer to this as `Nexus Architecture`
+      - You need to understand the queries before you create the schema
 
 
-Product Considerations
-----------------------
+Elements of Schema Design
+-------------------------
 
-- Core Server
+What are all the things to consider when building a model?
 
-  - Max document size: 16 MB
-  - Simple update may result in a full document copy in the replication protocol
-  - Full documents get read from disk
-  - Atomic update at the document level
+* Constraints
 
-- Storage Engine
+  - Database
+  - Hardware
 
-  - MMAPv1
-
-    - Growing documents may move (update index entries)
-
-  - WiredTiger
-
-    - Each update rewrites the whole document (MVCC)
+* Access patterns (queries/writes)
+* Cardinality
+* Relation types
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    ask questions:
+      - This is list of things you will need to consider to create a full model.
+      - We will go through those points in the next slides. Those are the sections for the next slides.
+
+
+Considerations with MongoDB
+---------------------------
+
+With any system, you need to model to alleviate the constraints from the software and hardware
+
+With MongoDB:
+
+.. rst-class:: longlist
+
+- Max document size: 16 MB
+- Simple update may result in a full document copy in the replication protocol
+- Full documents get read from disk
+- Atomic update at the document level
+- Can't easily query an element inside an array embedded into another array
+- Joins available through "$lookup", but not that efficient
+- (only in WT) Each update rewrites the whole document (MVCC)
+- (only in MMAPv1) Growing documents may move them (update refs to doc and index)
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      With a perfect database and hardware, you would not need to model. Everything would be super fast!
+      Since it is not the case, you will model to alleviate your constraints and limitations
+
+      - [ASK] What are hardware limitations?
+
+        - Disk is much slower than RAM
+        - Fixed amount of RAM
 
       - Storage Engines
 
-        - what is MVCC?
-        - Can I do updates on multiple documents all at once? Can I guarantee that they are all updated?
+        - What is MVCC?
+        - Can I do updates on multiple documents all at once with MongoDDB? Can I guarantee that all updated worked?
         - Why moving documents, after an update, can be a good/bad thing?
 
       - Server
@@ -190,99 +143,771 @@ Product Considerations
         - Just 16 MB? or better saying, that much???
 
 
+Entity Relationship Diagram Example
+-----------------------------------
+
+.. include:: /figures_meta/schema-design-sql-er.txt
+
+.. include:: /includes/student-notes.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - [ASK] Which ER diagram methodologies they are familiar with.
+      - This is the ER diagram of movies/actors/viewers/...
+      - It will serve as our base for all the following examples in this session.
+      - Explain the different entities/collections, so they are understood for the following examples.
+
+
+Relationship - 1 to 1, embedding
+--------------------------------
+
+.. include:: /images/relationship-1to1-embed.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - We keep all the information together for a given entity
+        This is the simplest model
+
+
+Relationship - 1 to 1, reference to the children
+------------------------------------------------
+
+.. include:: /images/relationship-1to1-ref-to-children.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Even if it is a 1:1 relationship, we are putting some information
+        of an entity into another collection.
+      - [ASK] what is the use case?
+
+        - You don't need the information put in the children that often
+        - Examples:
+
+          - Detailed description for a given product
+
+
+Relationship - 1 to 1, reference to the parent
+----------------------------------------------
+
+.. include:: /images/relationship-1to1-ref-to-parent.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Similar to the reference to the children, however we want to query
+        directly the children collection for a given movie
+      - Again, you can always link both ways.
+
+        - We will not show examples of linking both ways, those are done by simply
+          using the fields from the 2 single side examples.
+
+
 Embed or Store Separately
 -------------------------
 
-Given MongoDB flexibility the question around *embed* or *separate document* will be very common.
+Given MongoDB hierarchical schema the question around *embed* or *separate document* is very common.
 
 A few tips on how to approach these discussions:
 
-  - Combine objects that you will use together
+.. rst-class:: longlist
 
-    - Efficiency for reads
-    - Atomicity for writes
+- **You cannot perform atomic updates on more than one document**
+- Combine objects that you will use together
 
-  - Store documents in separate collections when
+  - Efficiency for reads
+  - Atomicity for writes
+  - Avoid application level joins
 
-    - Read pattern are different
-    - Different lifecycle between relationships
+- Store documents in separate collections when
 
-.. include:: /includes/student-notes.rst
+  - Read pattern are different
 
-
-Denormalization and Referencing
--------------------------------
-
-- **You cannot perform atomic updates on data that spans more than one document**
-
-  - No transactions!
-
-- Denormalization allows you to avoid some application-level joins at the expense of having more complex and expensive updates
-- Only makes sense when you have high read to write ratio
-  - one or more documents are read more often than they are updated
+- Different lifecycle between relationships
 
 .. include:: /includes/student-notes.rst
 
-Denormalization and Referencing (continued)
--------------------------------------------
+
+Retrieving the Documents
+------------------------
+
+In a 1-N or N-N relationship, do you need to consider:
+
+- How to identify the referencing documents without doing another query?
+- How many documents do you want to update when the relationship changes?
+
+  - Nested arrays, usually bad if you want to query in the embedded array
+
 - Can use bi-directional referencing if it optimizes your schema and you are willing to live without atomic updates
-- SQL developers don’t live in a perfect world. They often rely on denormalization due to huge performance issues with the normalized solution
-
+- Growing documents is an important consideration when using MMAPv1
 
 .. include:: /includes/student-notes.rst
+
+
+Cardinality of Relationships
+----------------------------
+
+- 1 to 1
+- 1 to N
+- N to N
+- 1 to zillions and  N to **zillions**
+
+  - Let's add a new notation for **zillions**!
+
+.. include:: /images/relationship-to-zillions.rst
+
+.. include:: /includes/student-notes.rst
+
+
+Representing the Cardinalities
+------------------------------
+
+- [10]
+
+  - Exactly 10 elements
+
+- [0, 20]
+
+  - Minimum of 0 elements
+  - Maximum of 20 elements
+
+- [0, 10, 1000000]
+
+  - Minimum of 0 elements
+  - Median of 10 elements
+  - Maximum of 1000000 elements
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - You often get a push back that those numbers may be difficult to estimate,
+        however it is worth the effort, even if you are way off.
+
+
+Relationship - 1 to N, embedding
+--------------------------------
+
+.. include:: /images/relationship-1toN-embed.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - 1 to N, reference to the children
+------------------------------------------------
+
+.. include:: /images/relationship-1toN-ref-to-children.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - 1 to N, reference to the parent
+----------------------------------------------
+
+.. include:: /images/relationship-1toN-ref-to-parent.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - N to N, embedding
+--------------------------------
+
+.. include:: /images/relationship-NtoN-embed.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - N to N, reference to the children
+------------------------------------------------
+
+.. include:: /images/relationship-NtoN-ref-to-children.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - N to N, reference to the parent
+----------------------------------------------
+
+.. include:: /images/relationship-NtoN-ref-to-parent.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationships - Summary
+-----------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 40 40 40
+
+   * - relation type
+     - 1 to 1
+     - 1 to N
+     - N to N
+   * - Embed
+     - one read
+     - no join
+     - no join, however duplication of data
+   * - Reference
+     - smaller reads, more read ops
+     - smaller reads, more read ops
+     - smaller reads, avoid duplication
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TODO - add the summary for each cell
 
 
 Patterns
 --------
 
-- Cache
-- Subset
+- They are not:
+
+  - Modeling of relationships
+  - The full "solution" of a problem
+
+- They only address a precise use case in a problem
+
+  - Similar to the GoF (Gang of Four) with their patterns for Object Oriented Design
+
+.. include:: /includes/student-notes.rst
+
+
+Pattern Characteristics
+-----------------------
+
+- NoSQL patterns ...
+
+  - Often address performance concerns
+
+    - Like reducing the number of reads
+
+  - May create duplication
+
+.. include:: /includes/student-notes.rst
+
+
+Pattern - Subset
+----------------
+
+- You want to display dependent information, however only part of it
+- The rest of the data is fetch only if needed
+- Examples:
+
+  - Last 10 comments on an article
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Example of Subset
+---------------------------
+
+.. include:: /images/pattern-subset.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Cache
+---------------
+
+- You want to display dependent data
+- Does not have to be up to date
+- Too expensive to update the document all the time
+- Updates can be done in batch
+- Examples:
+
+  - Top reviews on a movie
+  - Top reviews on a product
+  - Number of seats available on a flight
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Example of Cache
+--------------------------
+
+.. include:: /images/pattern-cache.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Attributes
+--------------------
+
+- A lot of different and predictable values
+- Need to index the attributes
+- Examples:
+
+  - Catalog items
+
+    - A shirt is XL, blue, iron-free
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Example of Attributes
+-------------------------------
+
+.. include:: /images/pattern-attributes.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Aggregate
+-------------------
+
+- One document shows a sum of data from other documents
+- Examples:
+
+  - Cumulative sales from many theaters
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Example of Aggregate
+------------------------------
+
+.. include:: /images/pattern-aggregate.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Overflow
+------------------
+
+- Only a few documents are too big
+- Don’t want to model the relationship in a different way
+- Example:
+
+  - Justin Bieber has too many followers to fit into an array of refs
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+Pattern - Example of Overflow
+-----------------------------
+
+.. include:: /images/pattern-overflow.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Approximation
+-----------------------
+
+- Does not have to be exact
+- No source of truth
+- Examples:
+
+  - Population of a country
+  - Web page hits
+
+    - Only count once in 100, increment by 100
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Example of Approximation
+----------------------------------
+
+.. include:: /images/pattern-approximation.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Pre-allocation
+------------------------
+
+- Superset of “Time Series”
+- Examples:
+
+  - Metrics collected every minute
+  - Seats in a concert
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - "Time Series" are often represented using this pattern
+
+
+Pattern - Example of Pre-allocation
+-----------------------------------
+
+.. include:: /images/pattern-pre-allocation.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Tree as Nodes
+-----------------------
+
+.. include:: /images/pattern-tree-as-nodes.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Node is defined by itself and its parent
+      - Likely need recursive lookup to build it
+
+
+Pattern - Tree as Children
+--------------------------
+
+.. include:: /images/pattern-tree-as-children.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Node is defined by itself and its children
+
+
+Pattern - Tree as Ancestors
+---------------------------
+
+.. include:: /images/pattern-tree-as-ancestors.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Node is defined by itself and all its parent/ancestors
+
+
+Comparing Tree Patterns
+-----------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 70 40 40 50
+
+   * -
+     - Nodes
+     - Children
+     - Ancestors
+   * - Restructure tree
+       (num of updates)
+     - One per moved node
+     - One per moved node
+     - Many updates per moved node
+   * - Information per document
+     - Very little
+     - Very little
+     - Much more
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Node is defined by itself and its children
+
+
+Summary of Patterns
+-------------------
 
 .. KI learning_obj : list of patterns
+
+.. rst-class:: longlist
+
+* Subset
+* Cache
+* Attributes
+* Aggregate
+* Overflow
+* Approximation
+* Pre-allocation
+* Tree
+
+  * Node
+  * Children
+  * Ancestors
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Should we consider 'versioning' as a pattern?
+
+
+Misc notes
+----------
+
+- Field names take up space
+
+  - This is not very important with fewer documents, but when you get into the billions of records, they have a meaningful impact on your data size in memory and on disk.
+
+- Disk space is cheap but RAM is not, and you want as much data in memory as possible.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Short field names may make your data unreadable
+
+        - This is what we do for Oplog and all MMS collections
+
+
+The bad
+-------
+
+- We don’t have a representation to suggest to our customers other than model by example
+
+- A schema is optimized for one application, a second application, sharing the same data, may not be optimized for the schema
 
 
 Zola’s 6 Rules of Thumb
 -----------------------
 
-William Zola was great Support Engineer that was loved by colleagues and customers.
+.. rst-class:: longlist
 
-We have an yearly innovation award named after William Zola.
+#. Favor embedding unless there is a compelling reason not to
+#. Accessing an object on its own is a compelling reason not to embed it
+#. Arrays should not grow without bound. High-cardinality arrays are a compelling reason not to embed.
+#. Don’t be afraid of application-level joins
 
-He created a set of rules for good schema design.
+   - With the right indexes and the use of projection, then application-level joins are barely more expensive than server-side joins of a RDBMS.
 
-I) Favor embedding unless there is a compelling reason not to
+#. Consider the write/read ratio when de-normalizing.
 
-II) Needing to access an object on its own is a compelling reason not to embed it
+   - A field that will mostly be read and only seldom updated is a good candidate for de-normalization.
 
-.. include:: /includes/student-notes.rst
+#. As always with MongoDB, how you model your data depends *entirely* on your particular application’s data access patterns.
 
-Zola’s 6 Rules of Thumb (continued)
------------------------------------
-
-III) Arrays should not grow without bound. High-cardinality arrays are a compelling reason not to embed.
-
-IV) Don’t be afraid of application-level joins
-
-  - if you index correctly and use the projection specifier then application-level joins are barely more expensive than server-side joins in a relational database.
+   - Structure the data to match the how the application uses it.
 
 .. include:: /includes/student-notes.rst
 
-Zola’s 6 Rules of Thumb (continued)
------------------------------------
+.. only:: instructor
 
-V) Consider the write/read ratio when de-normalizing.
+   .. note::
 
-  - A field that will mostly be read and only seldom updated is a good candidate for de-normalization.
+      William Zola was great Support Engineer that was loved by colleagues and customers.
 
-VI) As always with MongoDB, how you model your data depends *entirely* on your particular application’s data access patterns.
+      We have an yearly innovation award named after William Zola.
 
-  - You want to structure your data to match the ways that your application queries and updates it.
+      He created a set of rules for good schema design.
 
+      IV) If you index correctly and use the projection specifier then application-level joins are barely more expensive than server-side joins in a relational database.
 
-.. include:: /includes/student-notes.rst
+      V) A field that will mostly be read and only seldom updated is a good candidate for de-normalization.
+
+      VI) You want to structure your data to match the ways that your application queries and updates it.
 
 
 References
 ----------
+
+- https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1
 - https://docs.mongodb.com/manual/reference/sql-comparison/
 - https://docs.mongodb.com/manual/applications/data-models-relationships/
+
+
+Exercise 1 - E-commerce site
+----------------------------
+
+.. rst-class:: longlist
+
+A) Description
+
+   #. Come up with a basic but reasonable data model for an e-commerce site.
+   #. For anything not clear, use Amazon’s web site as a guide.
+   #. For users of RDBMSs, the most challenging part of the exercise will be figuring out how to construct a data model when database-level joins aren’t allowed.
+
+B) Deliverables
+
+   #. Sample document and schema for each collection
+   #. Queries the application will use
+   #. Index definitions
+
+
+Exercise 1 - Requirements
+-------------------------
+
+.. rst-class:: longlist
+
+#. **Products**. In addition to the standard product attributes, we will allow for variations of product type and custom attributes. E.g., users may search for blue jackets, 11-inch MacBooks, or size 12 shoes. The product catalog will contain millions of products.
+#. **Product pricing**. Current prices as well as price histories.
+#. **Product categories**. We need to allow for both that hierarchy and the many-to-many relationship between products and categories.
+#. **Product reviews and review comments**. Every product has zero or more reviews and each review can receive votes and comments.
+#. **Product views and purchases**. Keep track of the number of times each product is viewed and when each product is purchased.
+#. **Top 10 lists**. Create queries for top 10 viewed and purchased products.
+#. **Graph historical trends**. Create a query to graph how a product is viewed/purchased over the past 30 days with 1 hour granularity. This graph will appear on every product page, the query must be very fast.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Solution
+
+      - Collections
+
+        - Products
+
+          - Cached reviews
+
+        - Reviews
+
+          - Cached comments and ratings
+
+        - Comments and ratings
+        - Prices History
+        - Views and Purchases
+
+      - Considerations:
+
+        - Caching last reviews, and comments
+        - Prices: currency, representing decimals,
+        - Product categories: tree, list of parents
+        - Keeping track of views, increment by ten every ten views
+        - Updates to ‘caching pattern’ done in batch

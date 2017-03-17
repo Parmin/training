@@ -52,6 +52,7 @@ internal-package:
 	tar $(osverbosity) -C build/ -czf build/$@.tar.gz $@/
 	# Temp workaround for console not seeing images for 'internal' until EDU-3946 is fixed
 	ln -s $@/_images build/_images
+	ln -s ../_static build/$@/slides/modules/_static
 
 internal-pdfs:
 	rm -f conf.py
@@ -60,7 +61,5 @@ internal-pdfs:
 	# TODO - remove the next 2 lines once everyone in the team uses Giza version 0.5.10 (Dec 2016)
 	mkdir -p build/$(branch)/latex-internal
 	cp source/images/*.eps build/$(branch)/latex-internal/.
-	# TODO - fixes because we are in the 'internal' direcory
-	ln -s build/$(branch)/slides-internal/_static build/$(branch)/slides-internal/modules/_static
 	# TODO Copy the PDFs we still generate manually from PowerPoint slides
-	giza $(gizaverbosity) sphinx --builder latex --serial_sphinx --edition internal
+	giza $(gizaverbosity) sphinx --builder latex --serial_sphinx --edition internal 2>&1 | grep -v "isn't included in any toctree" || true
