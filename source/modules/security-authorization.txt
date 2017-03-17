@@ -452,6 +452,8 @@ LDAP Authorization
 
 As of MongoDB 3.4, MongoDB supports *authorization* with LDAP.
 
+**How it works:**
+
 1. User authenticates via an external mechanism
 2. Username is tranformed into LDAP query
 
@@ -467,18 +469,28 @@ As of MongoDB 3.4, MongoDB supports *authorization* with LDAP.
        }
      ]
 
+.. include:: /includes/student-notes.rst
+
+LDAP Authorization
+------------------
+
 3. MongoDB queries the LDAP server
 
    - A single entity's attributes are treated as the user's roles
    - Multiple entitiy's distinguished names are treated as the user's roles
 
-- ``mongoldap`` can be used to test configurations between MongoDB and an LDAP
-  server
+.. include:: /includes/student-notes.rst
 
-  .. code-block:: bash
+Mongoldap
+---------
 
-    $ mongoldap -f mongod.conf \
-                --user "uid=alice,ou=Users,dc=example,dc=com" \
-                --password secret
+``mongoldap`` can be used to test configurations between MongoDB and an LDAP
+server
+
+.. code-block:: bash
+
+  $ mongoldap -f mongod.conf \
+              --user "uid=alice,ou=Users,dc=example,dc=com" \
+              --password secret
 
 .. include:: /includes/student-notes.rst
