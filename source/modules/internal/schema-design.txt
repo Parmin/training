@@ -717,6 +717,36 @@ Pattern - Tree as Ancestors
       - Node is defined by itself and all its parent/ancestors
 
 
+Comparing Tree Patterns
+-----------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 70 40 40 50
+
+   * -
+     - Nodes
+     - Children
+     - Ancestors
+   * - Restructure tree
+       (num of updates)
+     - One per moved node
+     - One per moved node
+     - Many updates per moved node
+   * - Information per document
+     - Very little
+     - Very little
+     - Much more
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Node is defined by itself and its children
+
+
 Summary of Patterns
 -------------------
 
@@ -780,11 +810,11 @@ Zola’s 6 Rules of Thumb
 .. rst-class:: longlist
 
 #. Favor embedding unless there is a compelling reason not to
-#. Need to access an object on its own is a compelling reason not to embed it
+#. Accessing an object on its own is a compelling reason not to embed it
 #. Arrays should not grow without bound. High-cardinality arrays are a compelling reason not to embed.
 #. Don’t be afraid of application-level joins
 
-   - If you index correctly and use the projection specifier then application-level joins are barely more expensive than server-side joins of a RDBMS.
+   - With the right indexes and the use of projection, then application-level joins are barely more expensive than server-side joins of a RDBMS.
 
 #. Consider the write/read ratio when de-normalizing.
 
@@ -792,7 +822,7 @@ Zola’s 6 Rules of Thumb
 
 #. As always with MongoDB, how you model your data depends *entirely* on your particular application’s data access patterns.
 
-   - Structure the data to match the how the application query and update it.
+   - Structure the data to match the how the application uses it.
 
 .. include:: /includes/student-notes.rst
 
@@ -863,12 +893,16 @@ Exercise 1 - Requirements
       - Collections
 
         - Products
-        - Cached reviews
+
+          - Cached reviews
+
         - Reviews
-        - Cached comments and ratings
+
+          - Cached comments and ratings
+
         - Comments and ratings
-        - Prices
-        - History
+        - Prices History
+        - Views and Purchases
 
       - Considerations:
 
