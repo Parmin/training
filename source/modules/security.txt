@@ -68,6 +68,12 @@ Authorization via MongoDB
   - Some roles apply to all databases.
   - You can also create custom roles.
 
+- External authorization via LDAP (MongoDB Enterprise)
+
+  - Query LDAP server for groups to which a user belongs.
+  - Distinguised names (DN) are mapped to roles on the ``admin`` database.
+  - Requires external authentication (x.509, LDAP, or Kerberos).
+
 .. include:: /includes/student-notes.rst
 
 

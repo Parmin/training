@@ -15,6 +15,7 @@ Upon completing this module, students should be able to:
 - Create privileges
 - Outline MongoDB built-in roles
 - Grant roles to users
+- Explain LDAP authorization 
 
 .. include:: /includes/student-notes.rst
 
@@ -444,3 +445,40 @@ the ``getRole`` method:
         }
        ]
       }
+
+
+LDAP Authorization
+------------------
+
+As of MongoDB 3.4, MongoDB supports *authorization* with LDAP.
+
+1. User authenticates via an external mechanism
+2. Username is tranformed into LDAP query
+
+   .. code-block:: javascript
+
+     [
+       {
+         match: "(.+)@ENGINEERING",
+         substitution: "cn={0},ou=engineering,dc=example,dc=com"
+       }, {
+         match: "(.+)@DBA", 
+         substitution:"cn={0},ou=dba,dc=example,dc=com"
+       }
+     ]
+
+3. MongoDB queries the LDAP server
+
+   - A single entity's attributes are treated as the user's roles
+   - Multiple entitiy's distinguished names are treated as the user's roles
+
+- ``mongoldap`` can be used to test configurations between MongoDB and an LDAP
+  server
+
+  .. code-block:: bash
+
+    $ mongoldap -f mongod.conf \
+                --user "uid=alice,ou=Users,dc=example,dc=com" \
+                --password secret
+
+.. include:: /includes/student-notes.rst
