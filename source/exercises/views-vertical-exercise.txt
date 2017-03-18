@@ -1,0 +1,110 @@
+===================
+Lab: Vertical Views
+===================
+
+
+
+Exercise: Vertical View Creation
+--------------------------------
+
+It is useful to create vertical views to give us a lens into a subset of our overall data.
+
+- Use the aggregation framework to create a vertical view of our dataset.
+- Start by importing the necessary data if you have not already.
+- You will need to untar the dataset
+
+.. code-block:: bash
+
+   tar xvzf views_dataset.tar.gz
+
+.. code-block:: bash
+
+   # for version >= 3.4
+   mongoimport -d companies -c complaints --drop views_dataset.json
+
+To help you verify your work, there are 404816 entries in this dataset.
+
+.. only:: instructor
+
+  .. note::
+
+      .. code-block:: javascript
+
+      	use companies;
+        db.complaints.count() // 404816
+
+Exercise : Vertical View Creation Instructions
+----------------------------------------------
+Once you've verified the data import was successful, create a view that only reflects
+consumer complaints in New York, ordered from most recently to least recently received.
+The resulting data should look like:
+
+
+Exercise : Vertical View Creation Instructions Result
+-----------------------------------------------------
+
+.. code-block:: javascript
+
+  db.companyComplaintsInNY.findOne()
+
+  {
+  	"_id" : <...>,
+  	"complaint_id" : 1416985,
+  	"product" : "Debt collection",
+  	"sub-product" : "",
+  	"issue" : "Cont'd attempts collect debt not owed",
+  	"sub-issue" : "Debt is not mine",
+  	"state" : "NY",
+  	"zip_code" : 11360,
+  	"submitted_via" : "Web",
+  	"date_received" : ISODate("2015-06-11T04:00:00Z"),
+  	"date_sent_to_company" : ISODate("2015-06-11T04:00:00Z"),
+  	"company" : "Transworld Systems Inc.",
+  	"company_response" : "In progress",
+  	"timely_response" : "Yes",
+  	"consumer_disputed" : ""
+  }
+
+.. only:: instructor
+
+  .. note::
+
+      .. code-block:: javascript
+
+      	use companies;
+        db.createView("companyComplaintsInNY", "complaints", [
+          { $match: { "state": "NY" } },
+          { $sort: { "date_received": -1 } }
+        ])
+
+Exercise: Vertical View Creation Validation Instructions
+--------------------------------------------------------
+
+Verify that the view is functioning correctly by inserting the following document
+into the source collection and then running another query against the view.
+
+
+Exercise: Vertical View Creation Validation Instructions Cont'd
+---------------------------------------------------------------
+
+.. code-block:: javascript
+
+  db.complaints.insert({
+  	"complaint_id" : 987654,
+  	"product" : "Food and Beverage",
+  	"sub-product" : "Coffee",
+  	"issue" : "Coffee is too hot",
+  	"sub-issue" : "",
+  	"state" : "NY",
+  	"zip_code" : 11360,
+  	"submitted_via" : "Web",
+  	"date_received" : new Date(),
+  	"date_sent_to_company" : "pending",
+  	"company" : "CoffeeMerks",
+  	"company_response" : "",
+  	"timely_response" : "",
+  	"consumer_disputed" : ""
+  })
+
+
+.. include:: /includes/student-notes.rst

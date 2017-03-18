@@ -1,0 +1,17 @@
+file: /modules/views
+description: |
+  Creating and Deleting views
+---
+file: /exercises/views-vertical-exercise
+description: |
+  Creating a vertical view lab
+---
+file: /exercises/views-horizontal-exercise
+description: |
+  Creating a horizontal view lab
+---
+
+file: /exercises/views-reshaped-exercise
+description: |
+  Creating a reshaped view lab
+...

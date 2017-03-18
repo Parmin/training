@@ -46,7 +46,7 @@ How to create and drop a view
 
   - We must give our view a <name>, which will be the name we can access it by
   - We must specify a <source> collection
-  - We must define an aggregation pipeline to fill our new view with data
+  - We must define an aggregation <pipeline> to fill our new view with data
   - Optionally, we may also specify a <collation>
 
 .. only:: instructor
