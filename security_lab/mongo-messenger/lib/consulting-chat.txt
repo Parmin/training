@@ -1,0 +1,1266 @@
+It gets more complicated with sharded clusters though.
+Yes, aggregation can do covered queries. You can verify via explain
+can aggregation framework use covered queries and not fetch docs? or it will always fetch the documents?
+Is that only a 7.1 issue?
+That's so weird. Is there a public ticket associated the issue so I can link other customers to it?
+the explanation is:  systemd starts your process as a service then monitors it, if that process dies then it sigterm's it to clean up the child processes. When you tell mongod to fork its initial process forks then exits. systemd is like, "well OK, man, guess it's time for you to die."
+we had a support case exactly like that recently.
+that was the issue! Thanks!
+permission issues would not cause a signal 15
+well if you've started it manually as root, you've probably got permissions issues on data files and/or lock files
+if so that is your problem, take that out and systemctl will work
+does the mongod.conf have fork specified?
+I can start mongod v3.4.2 on Rhel 7.1 with "mongod -f /etc/mongod.conf" no problem, but when I do "systemctl start mongod" I get a signal 15. Any quick ideas I can check?
+Ah, thanks I obviously had an old link!
+The CE knowledge base is here: - not really up to date though.
+I’m getting a 403 for (CE Knowledge Base) Is there a new site or can whom can I request access from ?
+If you can avoid the arbiter, it's always better to have full members. While full region outages have been known to happen in AWS, it is exceedingly rare (I remember just one instance). So a setup with say 2 in SG1, 1 in SG2 and 2 in TK (or some other permutation) might be good enough. A failure of both SG1 and SG2 would mean a force-reconfig to restore a majority in TK but support can help with that and that lets you use w:majority properly.
+so 1 in SG-AZ1, 1 in SG-AZ2, 2 in TK, 1 Arbiter somewhere else
+something to consider is the cost of the cross-region traffic between SG and TK, too
+I guess the AZ are data centers in their own right by amazon terms
+OK it seems it's essentially the same as 3 datacenters described in the document. I'm a just little confused by the zones
+SG instances has higher priority
+I mean like 2 in SG, 2 in TK, and 1 arbiter somewhere else
+then you would only need one az in SG, as otherwise you have an even number of members
+unless we have another DC with an arbiter in it, and have same qty of instances in SG and TK?
+right, if they raise the prio on the replica set members in Singapore, Tokyo should not become a primary ever
+So unless we `reconfig()` with `{force: true}`, there doesn't seem to be ways to failover to Tokyo
+while if all zones in Singapore are down, they lose majority.
+so if any zone of Singapore is available, they prefer primary being in that zone. if not, fail over to Tokyo.
+They want ability to failover between datacenters, but they definitely prefer avoiding that as possible. So they are considering 2 availability zones of AWS in Singapore, then some instances in Tokyo. So I think this makes it 3 datacenters
+I think this is more complex than the document. a little discussion might be necessary.
+thanks. I'm reading. will get back if I had further questions
+Tom added a nice write up on 2 and 3 data center deployments in the Common Recommendations: guys, need some suggestions here. and I was involved in a engagement yesterday. The customer required a multi-datacenter deployment to failover between datacenters. anyone done this before? I had several questions here
+has joined the channel
+what does the sizing calculator do for shards?  the question is about a single oplog right?  thus, the answer to "too much oplog activity" is sharding
+thank you for the info, i was planning to have the sizing calculator flag at over 2TB a day, but I think your 20GB per hour is much more reasonable.
+we have seen such numbers in the past though, and predictably the customer usually can't complete an initial sync except by artificially reducing load during that time
+realistically beyond ~20GB/Hr (for a single oplog) becomes unworkable since our documentation suggests an oplog covering 3 days, that's around 1.5TB of oplog
+i would classify anything beyond ~1GB/hr as comparatively 'high' (so 24GB/day) though i've seen much higher
+for whoever is  -- what's would you say is a 'high' amount of oplog per 24 hours that you've seen in the field?
+fishing question obviously (i know we have customers using it) -- consider the impact and provide feedback in the doc
+the new security model in 3.6 removes the ability to do multi-tenancy authentication -- do we have customers using this?
+obviously they want to crunch some profiling stats as they move from one version to the other
+so any thoughts on how we can help replicate PROD v2.4 load and replay it as they migrate ?
+they mentioned about certain queries are running slower after v2.4 to v2.6 upgrade
+and since the client is in v2.4 and would be doing major version upgrade to v3.4 or at least v3.2, their primary intent is to replicate the production node load in lower environment as they move from v2.4 -&gt; v2.6 -&gt; v3.0 -&gt; v3.2 -&gt; v3.4 (spins my head already :p) and check for performance changes
+, you should use "mongoreplay" as a selling point for them to upgrade.
+There is no more support for 2.4 and 2.6.
+And we are stopping Cloud Backups for 2.4 soon.
+And what version are they trying to replay against?
+You could try it with 2.4. Have they tried it already? What issues were they having?
+Is the purpose of the testing for upgrade? (I hope so)
+if we are stretching the band on mongoreplay to work with v2.4 .. what all options  we got to replicate the prod read /writes  into lower environments ?
+The WT for dummies doc has a script here: Is there a way to map a collection to a WT data file? I see db.collection.stats().wiredTiger.uri, but that doesn’t seem to correspond to an actual file
+I've played around with it a bit. Might be pushing it to expect it to work with version 2.4
+just got off the call from client they were trying to make use of mongoreplay on v2.4  in production to record and replay it on stage environments. Let me know if someone has played around with such scenarios
+If you have a development specific question, open a HELP ticket for the server team,  But, it sounds like you’d be better off opening multi-team HELP question for the Field and Education teams to find someone who has experience using it previously and guide you about how to use it.
+I have an upcoming consult asking some questions around it and would like to prep on this tool before i head there
+where should i reach for specific questions on mongoreplay
+Cool, thx.
+On a 'secondary' node a index cannot be rebuild. That's the reason for starting the secondary nodes as standalone nodes in order to be able at all to apply the index rebuild commands.
+Well, if you're sync'ing just the indexes, does that state you believe the data is already in sync. Thus, why not just rebuild the index locally on the secondary ?  (I'm asking because I don't know.)
+would be cool if there would be a syncJustIndexes command on secondaries for that kind of use cases
+Hi  I'm with a customer, who is building a CMS using MongoDB as the sole data store.
+MongoDB is deployed as a replica set, and a text index is used for fast full text searches.
+Now: Currently fields a and b are text indexed - db.c.createIndex({"a" : "text",  "b" : "text"}).
+Customer has the requirement to invent further text fields in the future, e.g., field c is introduced later, and should be part of the collections text index - db.c.createIndex({"a" : "text",  "b" : "text", "c" : "text"}).
+Wildcard Text Indexes are not an option.
+Dropping the existing text index and recreating it is not an option, as this a 24/7 cms and all the full text search queries would fail during index rebuild time.
+This is the 'strategy' we came up with
+(1) Stop one secondary and start it as a standalone
+(2) Drop and recreate the text index on the standalone
+(3) Stop the standalone and start it as replica set member
+(4) Make the newly started member (having the new text index) the primary node (manual failover)
+(5) In a rolling fashion, - either resync all the other members or - repeat steps (1) to (4) for the other members
+Resyncing is necessary as Indexes are only synced to secondary nodes when the index is created on the primary, or when the secondary is resynced.
+Is there any better way?
+Were they using PV1?
+thanks a lot !
+is linked to that issue and was fixed in 3.2.11 and 3.2.12
+from the logs it seems that l1-tal… was primary, then l2-tal, and then l1-tal again. Any ideas on what might have happened and how to detect the root cause for this? I do have the logs available from the three hosts.
+before that I see a bunch of rollbacks in the log. None of this looks very promising. I asked how they changed the primary, e.g. with stepDown() or just killing it
+Yep, as usual!
+You can basically sum this up as “it depends” :wink:
+thanks!
+Cool. I'll search for them
+I don’t think we do provide guidelines for that. There may be one or two HELP tickets mentioning this.
+But by default, we generally recommend to install on the same machine, unless there is a real performance issue.
+Makes sense ..
+This has the advantage of local access to data (no wire transfer)
+Otherwise, if you know that the operations will be simple operations (without casts or changes in data types), you may install it on the same server
+Any documentation that I should read ?
+In this case, you would want the connector to be installed on a different machine, or increase the amount of RAM in order to prevent contention between the mongosqld process and mongod
+If there will be data conversions (casts or operations), in some cases the operations cannot be pushed down to MongoDB, and this will require mongosqld to perform operations in RAM, before returning the data to the mysql client.
+It mostly depends on the workload
+Hi all, do we have any best practices for where the BI Connector should be installed? Ie. is it OK on the database server? Should it be installed on the app server? Does it use many resources? etc.
+zoom in on a spike, see how it compares to the operations graph -- do write operations drop to zero for the 10 seconds prior to the spike?
+replication lag graph is only accurate in the presence of continuous writes -- if there are periods where no writes occur, replication lag _might_ be erroneously reported when the doldrum ends
+did anyone work on synchronous data updates between a data mart and a data lake?
+That's assuming that there is enough disk space available and the user is happy to create the indexes manually afterwards.
+I would suspect (a) hosts running on VMware and getting paged out (b) the network
+it’s an old ticket
+most drivers should have it implemented by now
+that will solve all my problems lol
+Thanks,  This plus the resolution to kiril's ticket should do the trick.
+files_id does not have to be of type ObjectId
+Have you seen any thoughts on sharding the fs.chunks collection? I have a customer planning on using Mongo as the backend for a potentially huge "ftp as a service" app and that is how they are planning on implementing it.
+One of my clients is seeing replication lag of up to 10s on a replica set that has no load on it. That's displayed in ops manager and I haven't got a good explanation for it. Unfortunately no poking around their RS gives me any clues why that is.
+They're a bit concerned about that because they have pretty strict monitoring requirements on a hidden secondary that are being imposed on them by a third party.
+Ok, thank you both!
+Currently, we rely on the clients (drivers) to give correct insertions, and if duplicate field names are present, you could see one or the other or both depending on the client (driver)
+We’re disallowing insertions in 3.6, see This is the reason, btw, why you need to use the $and  operator instead of using implicit *and* when specifying a query where you want to search for multiple values of the same key; otherwise you'd just get the second (or last) condition.
+I believe it's valid json, and it wouldn't result in duplicate keys
+Why would there be?
+Agreed in terms of it not mattering practically, but there’s no server-side enforcement?
+It shouldn't really matter, - The second instance of the key will overwrite the values in the first.  It's not great practice, of course, but will provide the seemingly-contradictory behavior of allowing 'duplicate keys' albeit in a single document.
+I thought the server prevented this from happening? Or does it only rely on the driver? Clearly the majority of languages will prevent this from happening but it seems OK in Robomongo?
+Has anyone seen duplicate keys in a document? On-site and a client showed me a document that contains a document like { firstName: “abc”, firstName: “xyz” } — it’s displaying fine on Robomongo
+and deploying a 7 member CSRS seems like overkill
+but the restriction of no arbiters in a CSRS makes that a little funky
+I'd say the easy answer is to use the same topology for the CSRS as the other data bearing replica sets
+I'm curious what folks have been recommending for CSRS config server deployments in multi-DC environments.
+thanks, I think the support case makes most sense, as it contains mdiag, getMongoData and mongoLogs for the upcoming consult next week
+you can use the uploader but it’s not totally reliable and honestly I think it may end up going away as it’s not being maintained.
+I’d push them to the Support Case route
+or should they open a support case and attach the files there?
+GfK Drive wants to share some files with me, is the support uploader the way to go: Ah yes! Thanks :slightly_smiling_face:
+paragraph 2.12 Ops Manager - Suggested Alerts
+we do, it’s available in our “common recommendation” document: Understanding that situations vary, do we have a list of general / recommended Ops Manager alerts? What do you generally recommend when helping a customer setup Ops Manager?
+Yes, I doubt they will move away from LDAP
+You might talk them into using MongoDB roles straight up, would make their processes easier, but they are probably stuck on LDAP/AD as their corporate policy for authorization
+Otherwise, (if we have to do it in 3.2) it seems like we might have to do things through the Ops Manager REST API
+Yeah, that seems like the best option.
+From there it's pretty straightforward.
+If they want to use LDAP/AD for roles, 3.4 allows them to map LDAP groups to MongoDB roles. This question is about a system that is still in a brainstorming stage. Does anyone have experience with a self-serve system that allows creation of users and/or creation of collections/databases through some kind of internal portal? Ie. one that would allow employees to have enough privileges to create collections in certain databases based on their AD groups? Essentially, HSBC would like to an employee to be able to login to the database and create a collection for a certain group of people .. but they don't want a free-for-all where anyone can create collections and/or databases wherever they want. The ability to create and use collections/databases will probably need to be regulated by AD permissions. Has anyone done anything similar?  (I know this is a bit nebulous right now, as I am still trying to figure out the best approach to this problem). They are using 3.2, but if 3.4 solves this problem in a better way, then it could likely be postponed.
+Thanks, that could be it.
+Dirty is not related, you might want to read "WiredTiger Playbook - Performance problems with Memory usage beyond the WT cache value"
+BTW it's VMWare and ballooning is on. Don't think this should change things (except making things worse)
+(if I understand the issue correctly)
+Don't think so, dirty cache is never more than 1.5%
+SERVER-20306?
+As I remember there's a bug related to memory over commit even when you set limit to WT cache size. I'm looking for the ticket
+- customer I'm sitting with sees resident memory steadily increase up to OOM killer triggers. WT cache is set to 50% RAM (total RAM = 12GB, swap = 500 MB) and mongostat shows WT cache usage hovers between 50 and 80%. Mongo 3.0.7, currently upgrading to 3.0.14 as we speak. I've asked to see the logs in case something jumps at me. No special connection storm (1 app server with a Java pool at 100) or anything like that. Any clue why resident grows all the time? NB - one example saw resident memory at 10GB with only about 3GB used by WT cache.
+There's a "Data Viewers" section in this document. I never tried. Maybe worth trying.
+Well, all web based GUI from our document ( seems requiring explicit login with an account. How about persuading them using accounts instead? It's not a good idea to expose production data like that anyway.
+so basically something like a proxy server for mongodb, rather than a direct connection
+I think they want something were the web - frontend user is not necessarily the same as the database user.
+I guess this could be achieved by any web based GUI with properly configured MongoDB account?
+does anyone know of 'web based read-only data browser’ for mongodb? With a user hidden in it, so people cannot rip out the config and connect directly to the db? Use case behind is to give developers access to production db documents, without compromising the production db
+yeah ping me if they do with the # I can look at it
+Thanks a lot for you help At that point I'll have them open a support ticket if necessary.
+I have a plane to catch, so I'm getting out of here at 4:30pm.
+k, I'm heading home soon but will watch
+They are.
+I'll see if they can get me the openssl output and I'll send it over to you if I can get it before I have to leave.
+are they using TLS with mysql?
+Yeah, mongodb works fine too, as a single server like mysql
+"works fine" or similar hints.
+doesn't have replica sets?
+but mysql what?
+If you can send me the openssl x509 -in xxx.pem -text for each certificate it would help
+There is some resistance, like "but mysql...".
+i keep suggesting that they go get real certificates.
+Oh, they need to have the capability for client auth as well as server auth. Because the mongod's act as clients to each other in a replica set.
+Trying to use the CA cert and the mdb11.combo.pem together results in verification errors both in the mongod log and openssl verify.
+ok what I would tell them is: forget about self-signed certs, unless you want to just experiment with a single standalone server and client. Go to your corporate certificate people and ask them for server certificates, just like they'd do for a Web server, for your mongod's. Then use those.
+That I don't know, and everybody just wandered off to an all hands meeting so I can't really ask them.
+and the self-signed server certs were generated without reference to that homegrown CA cert?
+That was the one referenced in the commented out CAFile entry.
+They have their own homegrown CA certificate, at least as far as I understand their setup.
+I did tell them that we don't recommend using self-signed certificates.
+oh you said they were self signed?
+They are using their own trusted CA certificate, but from SSL verify's output, we may be missing an intermediate certificate.
+With a replica set, self-signed certs don't work well because they don't have a common CA signing them.
+The "CA cert" is installed amongst the trusted certs as well.
+This is not something I've tried.
+Same on all three nodes.
+Yes, they're concatenated.
+One self-signed cert + key per RS node with correct CN setting for this hostname.
+and you concatenated them into the mdb11.combo.pem file in the order key, cert?
+so you have one self-signed cert and key?
+That's something we're unable to figure out.
+what client?  mongo shell?
+net section of the config:
+mongod SSL config entries are forthcoming.
+Once we had them running with preferSSL the RS appeared to be working fine until clients started connecting via SSL. That's when the error messages started appearing.
+It's a 3 member replica set. We followed the tutorial in moving from no SSL to preferredSSL via allowSSL. We had to remove the CACert entry from the example config as the mongod replica set's certificates would not validate otherwise.
+the ssl config on mongod. and when did the error happen?  are you doing a replica set or what?
+For openssl verify, it was a simple -CAfile &lt;user's CA&gt; &lt;certfile&gt;
+For verify? Or for the SSL config on mongod?
+what options are you using?
+You can use `openssl x509 -in _cert.pem_ -text` to get a dump of the certificate contents from the client(s)
+where is this error being seen? the mongod log?
+anybody got any suggestions how to debug 'sslv4 alert certificate unknown' errors after setting mongod to use preferSSL? Client is using self-signed certificates so those are likely to be the root of the problem.
+Unfortunately we can't see where the connections are coming from with this error.
+has left the channel
+client uses mongosniff to capture a record of all interactions with mongodb via an internal bastion host and then ships off the logs to storage for compliance reasons.
+This is obviously going to work really well once they enable SSL so they're looking for alternatives. Auditing isn't one as they feel it doesn't capture all the data they can currently get, plus with the retention requirements they'll either have to frequently dump the audit collections or end up with a really big collection.
+As an additional wrinkle, their application design doesn't really lend itself to proper per-user authentication so someone can go into the application console  and the commands they run show up as a generic user on mongodb.
+Does anybody have an suggestions other than running in preferSSL mode, keeping the monitored connections in plain text and use mongoreplay?
+As in, they are manually performing migrations to level the workloads across their different shards
+They have 85 shards, but their sharding strategy is somewhat manual
+Right.  This is Wish.  They kind of do things their own way
+still, with great power comes great responsibility :slightly_smiling_face:
+It's the latter, - they will use moveChunk()
+by manual chunk migration, do you mean they want to copy documents themselves, or do you mean calling moveChunk() manually? because if it's the former, they'd have to duplicate all the work of allowing documents to be modified while they move (or prevent that from happening). I would say that's basically impossible.
+- I have a customer that wants to perform manual chunk migration and then manually delete any potential orphan records.  Are there any potential drawbacks to this approach (other than duplicating work already done by the chunk migration process)
+while that ticket doesn't explain the performance difference, it definitely does reinforce why I'm uneasy with this query. I'll revisit the query with the client today, provided they've actually managed to find the code that triggers it.
+Bitte schön!
+Danke!
+DOCS ticket
+Guys where do I report a blatant error on our documentation?
+Thanks  Just sent it to the customer.
+been backlogged this week and reading the report you just sent to SAP Cloud, a very very good job! Nice one :slightly_smiling_face: cc .. and that's true for 3.2 and 3.4 so not related to the performance changge
+pfft, SERVER-13946
+"docsExamined:9140" &lt;- why is it reading the actual documents? the query was covered.. it should have skipped on the index and not actually read the skipped documents
+any input is welcome. I've asked them to show me where they're triggering this query because to me it looks like someone tried to pull results with a smaller batch size than normal. Somehow that resulted in the same query being triggered over and over again with different skip values, but we haven't figured out if that was in their code or if something got translated weirdly.
+Hm. Then I'm at a loss.
+They checked multiple times, against several secondaries and the result was reproducible.
+it was the same instance after an in-place upgrade to 3.4, using the same ETL process. The client has multiple ETL jobs, this is the one one causing performance problems.
+Hate to say it, but are you sure the 3.4 and 3.2 cases are fully comparable in every single respect? For example, was the data loaded into both instances in the same way, have identical operations been applied to both sets of data, etc.? Otherwise, one of the two cases might have a very different document layout than the other, more fragmentation, etc. I've had a case where a customer compared two collections where the only difference was the order in which documents were inserted, and both had radically different performance. BTW, what about readahead with those two examples?
+Likely reason for the skip/limit as these documents can be pretty large (~1MB)
+does anyone have an idea why the following query would be approx 30% slower when run against 3.4 mmapv1 than in 3.2 mmapv1?
+I'm trying to dig deeper into the reason for the skip/limit as this query is called over and over again, but that's a different issue.
+I'm generally a proponent of having a small subset of sub-entities embedded for easier access, but not if they're huge.  Hopefully you can rescue them from schema purgatory
+tough to say without knowing more about specific use-case/scenarios, loads, servers, etc. The update “whole doc” part shouldn't matter much anymore with WT, but perhaps extra wire noise will slow things down + oplog implications.
+If they want to do event sourcing design, then that’s a different story.
+Not sure Mike - many ways to go here
+might be a record.  Their docs are huge (or, in Trump speak, yuuuuuge).  On top of it, they are replacing the whole doc on every update, so oplog window gets down to around 3 hrs during the day.
+They need all the events, but they would like to keep the last 3 days worth (10s of documents) embedded as well.  They are ok with maintaining from the app.  Is there any real advantage to this, or should they just ALWAYS read events from the 2nd collection?
+Can they just store _id from user in tx collection, then you can TTL (if that works) on tx collection { user_id, ts }index, and its just an index scan cursor iteration. Nobody can look at 10k on a page, and if API then just limit to batches of 1000 or whatever works best
+10K embeds?  Is that the current record holder?
+Their schema is REALLY WRONG now - see ^^^^    Trying to get it to a better place.
+In this case, they want last 3 days of customer interactions embedded in the doc so they can get it with a single read.  They will also be held in a different collection (as opposed to allowing up to 10,000 embedded in the doc now!)
+I suspect they have the wrong schema.
+If information in the doc goes obsolete, but the rest is good, they may be better dividing those documents in smaller parts.
+That said, we would need to see the other use cases.
+TTL index can't do that -- it works with documents only
+Right now, I’m recommending they use the app to delete these subdocs.
+TTL type question: I have a collection with an array of sub documents.  I want to delete any subdoc in the array older than n days.  What’s the best approach?  According to the doc, TTL will delete the whole document (which is bad in my case!)
+Well, I know at least one use case where MMAPv1 is still better than WT - one that Symantec and Google have - where they created tons of collections (for every online user) and some are even sharded with zone-aware sharding. Look up Bluecoat/Elastica in JIRA - we couldn't help them when we tried to migrate to 3.2/WT - they had to go back to MMAP.
+you are right that contention on single documents might be higher with WT. my tests did not involve contention or multi-threading for that matter.
+were your tests updating the same documents at a frequent rate?
+Those would lead to more retries in WT. However, it may still perform better than expected in that condition too.
+even Linux developers
+no one understands how mmap-files work anyway
+and will be soon
+but anyway, MMAP should be deprecated
+:wink:
+that's what I just said
+WT does not have in-place updates, as documents are always rewritten upon modification. however, that does not usually lead to index updates, since indexes in WT do not reference disk locations directly. in my experience, WT without in-place updates still performs better than MMAP with in-place updates.
+Feel free to correct me if I missed something
+in fact, I doubt Eng ever set that expectation. Rather, we expect pure read or read-mostly workloads to perform better in MMAP, or capped collections
+but that doesn't mean that in-place updates in MMAP should perform better than WT
+so updates were faster when you have a dozen of indexes
+in MMAP there was a big reason for in-place updates - no need to update indexes
+what about indexes?
+, that's a necessity. + we don't use hashed indexes for queries anyway
+we take the first 64bits of MD5 I believe
+seems to be MD5
+I have a customer who is very interested in knowing the hashing algorithm for our hashed indexes. Does anyone know?
+custom write concern would be the same as w:number
+Documentation here doesn't talk about custom write concern: The docs talk about &lt;number&gt; or 'majority', but I can't find anything relating to the j value for customer write concerns
+Anyone know the default write concern j value for custom write concerns?
+but maybe this now would be a usecase which could motivate the implementation of it?
+ya, i wasn't thinking thru :disappointed:
+seems that an unshard command was considered but never implemented:  which I'm not willing to tell the customer to do
+Do you have a way to unshard a collection?
+using mongoconnector you still have the problem at the end of making the switch - requires manual updating of config db
+the question would be how these collections are beeing used
+yes, we can migrate using zoned sharding, then dump collections, restore to other names, start downtime, dump oplog, drop collections, rename new collections to old names, replay oplog, stop downtime
+only a stupid idea: you could use  mongoconnector to replicate the databases on replica set level fron one shard to another
+maybe shard it on current shard and destination shard and then un-shard from current shard
+for my (SAP's) purposes, time isn't so much a problem as availability
+Maybe we should develop a tool for that. Even with zone sharding and 3.4, it may take a while to migrate chunks from a shard to another one
+yeah but that's the point - we want to unshard collections to clean up after the fact
+Which restricts it to non-sharded databases only
+Yeah and does not work properly on a sharded collection
+yes, can't do it online
+copyDatabases would also require a downtime
+Don't know whether you can use that with the same database, and there are probably caveats with that approach too
+Well, we do have db.copyDatabase()
+that's the rub - if downtime is ok, they can use movePrimary
+dump/drop/restore is probably the safest if a downtime is ok
+would be nice if we would have a command for this, as this would also allow for a quite simple (but slow) approach for changing the shard key of a collection without interrupting an application
+yeah, or dump/drop/restore
+I wonder how difficult it would be to unshard a database if all the collections are in one shard (after using the zone sharding for the migration),  but would certainly require toching the config dbs manually as well
+Any thoughts?
+Hey everyone - trying to think through options to move a database with unsharded collections from one shard to another:
+* `movePrimary` is the obvious choice but can't be done on-line (no guarantee what happens with writes while the db is being copied).
+* One could dump the db, restore it to the target shard, then dump the oplog, filter it for the namespace, then restore it to the target shard, and switch the primary; that would reduce downtime to oplog catchup; but switching the primary would mean manually updating the config db and flushing all the mongos - I won't recommend that to a customer
+* Using zoned sharding does the trick with zero downtime (assign a unique zone to each shard, shard all collections and assign the full key range to the target zone, start balancer, stop it when it's finished). There are problems with that: over time a lot (thousands or tens of thousands) of collections will end up being sharded this way and I'm unsure how mongo[d|s] behaves in such a situation; also the collection files remain (empty) on the origin shard, when the purpose was explicitly to manually balance the number of data files across shards - I'm also unsure the db can be simply dropped from the origin shard.
+ok keep me posted
+thanks, we're going to try that again
+hmm intersting .. could be an old notes efinitely recall plugging in &amp;amp; as &amp; all itself isn;t a valid char in XML
+&lt;add name="analytics" connectionString="mongodb://scxdbuser:password@mngodb-vt01.osumc.edu:27017,mngodb-vt02.osumc.edu:27017,mngodb-vt03.osumc.edu:27017/analytics?authSource=admin&amp;replicaSet=rsProd" /&gt;
+ok let me check my old doc i might have listed the conn format in there
+right, i expected so too -- i might get them to try it again, with me watching, since i wasn't actually there when they tried that
+naa it worked for me when i did primarily because its config file which is xml
+we tried that, same death
+use &amp;amp;
+for a sitecore installation have discovered that the mongodb connection string requires ; to be used in place of &amp; (parameter separation) -- anybody know if this is documented?
+filed HELP-3799 to figure out what it is
+i don't see that "run" option anywhere in the docs
+the option is used by the rpm install script
+or the docs?
+you seeing this on the rpm install scripts ?
+I”ve seen it before but I assumed it was some odd custom startup script
+I'm seeing a 3.4.2 installation on CentOS start mongod as `mongod -f /etc/mongod.conf run`. Has anybody ever seen that "run" part at the end? Anybody know what it means?
+Do we have a oplog cheat sheet anywhere? I.e. “The various _op_ values are …”
+Thanks, I'll use the mail list
+or directly the concerned PM if you know his name
+by pigeon on: Good idea. How do you reach out to them usually?
+Maybe you can contact product management to see what information you can disclose to SAP? For Amadeus we organised multiple meetings between the customer and product management to discuss about their feature requests (greatly help to reduce the frustration)
+Allow me to vent frustration here - I'm writing a report for SAP whose main problem is the common "too many files kills WT" issue. Researching workarounds I see which would go a long way to solve the issue, is slated for 3.6 and is scoped. But of course I can't disclose that to the customer. Bah, I'll just tell up to vote for and "this may lead to significant improvements in future releases".
+thanks
+clusterAdmin, dbAdminAnyDatabase, readWriteAnyDatabase, userAdminAnyDatabase, restore
+about two-thirds in it lists the roles for the automation user
+trying to find the details
+the way automation creates the automation user is by giving it a bunch of roles that all together equate root, I think
+root will work
+or just giving root access would suffice?
+no worries, also I am not able to find the link to required access to AA. Do you have it handy?
+Sorry can't help you more.
+ok, will keep looking, thanks
+so I'd dig into the auth failed
+Every time I've had that was because of an auth misconfiguration
+and the error in OM is "not authorized on admin to execute command" or this is just bad message and root cause is auth failed
+i have checked it many times, automation agent has the same password and is in admin db. Its not making any sense to me at this time
+Note that all OM users (automation, monitoring, backup) need to be in the admin database; can't be elsewhere.
+I've already noticed that Ops Manager says "MONGODB-CR" for all username/password protocols (so both it and SCRAM-SHA-1). For your issue, it looks like the mms-automation user you created doesn't have the same password as the one you gave Ops when adding automation
+Also the raw config shows auth mech is MONGODB-CR where as the log shows SCRAM-SHA-1
+first of all, who is the user that is trying to find mms-automation user? The user I supplied has root privilages
+I am tired. I am getting the following error when I try to manage an existing rs
+here is the code I was referring to about last week or so
+found in getMongoData.json file. hence was curious about limit(-1). both limit(1) and limit(-1) returned same document though
+never mind someone had typo in /etc/hosts file
+rs.conf() shows server3 is part of it
+others are showing rs0:primary / secondary &gt;
+server 3 says enterprise &gt;
+says connected successfully to server 1 and server 2
+Examine the log file of server 3
+something around I got some weird notes that mongodb-enterprise binaries are not signed .
+had issues when i did sudo apt-get update
+mongod —port 27001 is up and running on server 3, server 1 and 2 are joined but not 3
+do you guys why one of the node would not want to join the replicaset ?
+I also noticed in one of the HELP tickets you recommended MMAPV1, would that run faster if they can fit entire data set in RAM?
+They have three days worth of data so the match on date reduces the set to a third,  No idea how it filters on temp because they have created test data and what they told me is there are two docs out of every 24 in a day where all the values are above the threshold (not the most realistic data) I will let you know how this test goes.
+I'd be curious to see how much this speeds things up (if any) - the fact that the match is not very selective is probably at the heart of the slowness.
+here is the pipeline, if you have test data to check it with:
+yes, you can do it with $match, $group and last $project only.
+give me a second
+you don't need the first $project and I'm pretty sure you can eliminate $unwind as well.
+they are trying to get this under 100ms and they are processing a resultset of  200K docs which unwind to 1.2M.
+what can I streamline?
+makes sense
+already had that conversation with them. They're not currently willing or able to make the architectural changes that using a completely separate replica set would require. Although we have some continuing discussions around other issues that come from this decision, so they might have to revisit it.
+using zones to separate data for regulatory reasons is just asking for trouble
+the slight wrinkle in this setup is that the new shard is subject to monitoring and data retention laws of its host country (the cluster is being sharded by region) so there have to be safeguards in place that data doesn't spill over that isn't supposed to be there.
+What they would like is to roll back to an unsharded scenario, but so far it looks like that will require a collection drop and reload from backup.
+The other scenario they're worried about is what to do when they have to roll back halfway through the deployment with some, but not all the collections sharded.
+I guess in either case, they'll have to adjust the tag ranges to make sure everything is on the original cluster, check that there is no data on the new shard and remove the new shard from the cluster.
+thanks
+but looking at diagnostics timeseries you can
+larger than it's allowed to
+no, it's the WT cache that is growing larger
+nope
+wait, so you can tell the difference between WT cache and total used by mongod in OM?
+ok, thanks good to know
+there were bugs before ~3.2.10 with cache size exceeding configured value
+140-150 maybe the total cache
+a customer running 3.2.7 has their WT cache configured to 90GB, but the cache usage in Ops Manager runs up to 140-150 GB during high load. Is this a known effect? I thought the WT cache size was a hard limit?
+they are not looking for max,  they are looking for temps above a certain value
+what about the approach with saving the max at the top level?
+we have run this multiple times, this data should fit in RAM and there was nothing else that was being executed on the server while we were running this aggregate
+I would expect it to be much faster on the second run
+its yielding after every 3-4 docs?
+so high number of yields is not unexpected
+in your example you had `docsExamined:204800`
+anyone?
+and also why would numYields:56573 be so high?
+, going back to aggregation, if all the data is in RAM, shouldn't the processing be much faster than ~2k/s?
+*forced to use google cache to share docs like an animal*
+to ensure that chunk that will be migrated will also be archived in the `moveChunk` directory  (not saying that restore is easy, but at least you still have the data on the machine)
+another option that could interest you: why not just drain and remove the new shard in case if rollback is needed
+Does anybody have any good suggestions on how to prep a sharded cluster for potential rollback when adding another shard?
+Client currently has a single shard and wants to add a second shard and go to zone sharding, but for the production deployment they obviously want to be able to roll back to the single shard environment in case something goes wrong in deployment.
+mongomirror'ing to a backup cluster doesn't seem to work (docs state it doesn't work for sharded clusters) and the only other approach I can think of is to make sure that they have a PIT restore point just prior to adding the second shard. Are there any other, better ways?
+I’ll try this :slightly_smiling_face: thanks personally I also use Dash: (very convenient to quickly look into multiple documentation and store offline docs)
+or with github you can directly access the RST: I guess google cache is a good choice: do we have an offline version of the docs?
+yep, AWS S3 issue
+Got the same, it seems to be a general issue :confused:
+Is anyone else getting a “service unavailable” error when visiting the OM docs? The idea here is that you almost never access the accounts’ information by itself, but you need to have a unique identifier to refer to them in the transactions.
+Basically, that would be something like:
+that didn't answer my question :wink:
+Basically, the idea would be to have an unique index on the embedded document’s ID, which is referred to in another collection
+(why does it sound like a very personal question?)
+who is going to maintain the integrity of the relationship?
+(Apart from the fact that you may use a multikey index instead of a normal index if the subdocuments are in an array)
+Are there any particular caveats with using embedded objects with their own OIDs in order to reference subdocuments in a separate collection?
+it seems that they have a single document per hour and a single event per minute in the array
+Let me understand their requirements in more details, Thanks
+given the [potentially unbounded] number of raw events, I'd say they need to have a separate collection that would be more suitable for reporting
+yes
+It seems to me that they want to count breaches from raw data (AQIRawEventCollection)
+These are readings from sensors, they are counting the breaches. I am going to focus on redesigning the schema
+even without talking about the unwind because of these large arrays we need to examine 7 million keys
+yup
+maybe they can do a schema change and store max temp in a single field on the top level of the document
+typically it's ~2k/s
+it's single threaded after all
+$unwind+$group is never going to be FAST
+how much time have you seen aggregation taking, after unwind, we are looking at 1.2M docs
+yes
+"[31.0, inf.0]” on data.temp sounds right
+and we had nothing else running on the server just this one aggregation
+and similar value for last_evt_time
+we just dropped the index but the bounds were like "data.temp" : [
+"[31.0, inf.0]"
+]
+yes
+was index `{ last_evt_time: 1, data.temp: 1 }` built on 3.4?
+3.4.2
+data contains 60 values one for each minute.
+Following is the aggregate and the time it took
+The reason it examines so many keys is because with in a given hour there maybe multiple temps that may match the criteria and then the data is deduped.
+So I have two pain points, time spent in deduping the data and the overall time taken in aggregation or its going to be slow because of the no. of docs?
+here is an example of the doc
+I saw a HELP ticket in last few days regarding doing count which had to dedup the data before returning it. Anyone remembers the HELP tickct?
+(the use case here is mostly to reverse engineer documents and generate diagrams for newcomer documentation on a project)
+Besides Hackolade, are there any other tools which can help generate MongoDB schemas?
+no, i don't have any firewalls, I am able to ping if I enable icmp
+I ended up wasting 15 minute one morning without realising it was my own application firewall that was stopping access … :facepalm:
+Normally that's security group / firewall rules or VPC gateway / ACL for VPC deployment. You’re not running something like Little Snitch locally that might be stopping the packets at your machine as well ?
+I am not able ssh into an AWS instance I just created, I keep getting "Operation timed out"
+found it but doesn't look like there is a way to specify a different size
+Thanks  I was on that page but completely missed in-memory line :disappointed:
+- default value is 50MB &gt; 5% of physical memory &lt; 50GB and you specify it with the oplogSize option
+how do you specify oplog size for in memory engine? and what is the default value?
+yea, filesystem-level backups will be too big
+a huge oplog can be difficult to query, and difficult to move around if it needs to be copied somewhere
+typically though people don't like to take too much disk space for oplog
+(at least not that I know of)
+nothing really
+What are the downsides of increasing the oplog collection beyond the required minimum for backups and replication? I mean why wouldn't users just explode this size 'just in case' (like large data loads) given they have enough storage?
+Has anyone actually seen Hibernate OGM in the wild? Funny thing is one of my former colleagues has been hired by Red Hat to work on it (as well as other Hibernate projects) and he hates and despises everything that isn't Postgres… doesn't bode very well.
+Codecs if you want hard work - but don’t do that until you understand the document API
+but it’s a mindset things
+With Pojos + codecs, or directly using the Document API?
+Definately native drivers
+:wink:
+Forgot *or the drivers*
+Neither - but if no choice, Morphia
+if you had to migrate from a Hibernate SQL-based project to MongoDB, would you use Hibernate OGM, or rather Morphia?
+just leave those databases unsharded and that's it
+the price for a mistake is unjustifiably high
+BUT
+there is no technical reason why it couldn't work
+Not a legal / contractual thing, but Banque de France have been doing this in the past. This and rather floppy procedures means they have basically broken their backups, at some point having the same database on two different shards, etc. This kind of setup is very unforgiving in case of mistakes.
+pinned a message to this channel.
+customer wants to turn a replica set into a sharded cluster, adding a second shard to it, but has some databases on the original replica set that they still want to use unsharded by the respective applications. so those applications would still be talking directly to the replica set, rather than to the mongos. i'm telling them that this is illegal and unsupported and all their warranty is now void, but they still insist on doing it. ("what could possibly go wrong?") can i get a confirmation that we are indeed not supporting this?
+for those of you interested, i put together a wiki page with all the trainings (that I'm aware of) on Ops Manager/Cloud Manager/Atlas etc.  that page is here has joined the channel
+I don't have access to EFS too, if you require access I think the best way is to create a TECHOPS ticket (
+I didn't try but I would assume that it recreates the oplog collection (that's the only way AFAIK, . So yes, restarting the nodes and keeping only the last entry in it (to test though).
+What happens when we decrease the oplogSize (in say Ops Manager)? Does it keep the newest entries as opposed to the oldest? Does it cause any restarts/re-config on the cluster?
+Hey all, the security team wrote some notes on the sha1 collision and how it affects us (it doesn’t)
+has joined the channel
+does anyone have access to EFS on AWS ? I get "You do not have permission to access this page. Please check your IAM permissions."
+I had some syntax errors in my userToDNMapping string :disappointed: Its working now. Thanks for your help
+Does this documentation seem wrong? - in particular where we configure two write concern modes - and one of them is called ssd and it referrs to a replica set tag with a key of "ssd" -- but there are no tags with a key called ssd (only values)
+We have the sharding figured out on the cluster level from a technical perspective as they had already made some prep work to make that easier.
+due to the design of their app (it's some sort of message app) they want to avoid the application level sharding due to the necessary level of re-engineering, especially as they do want the users to communicate with users in other countries. So right now they're trying to make sure that only data for Russian users actually makes it to Russia.
+I'll talk to them regarding the backups, though, that might be something they haven't considered.
+In other words, just create a separate replica set for the users in Russia, and have the application query that data set when necessary
+the sharding of the data should not be difficult, the hard (impossible right now) part is to backup the data in a way that keeps the backups in Russia  and other regions (if using Ops Manager). This is something that some banks are considering doing for regulatory reasons, and it is not currently feasible. Application-level sharding seems to be the approach that will be used for now
+, OpenTable does that geo-sharding but not for compliance reasons
+ldp.exe is on most windows too - it’s old gui you can do queries with
+Has anybody on here helped a client set up a sharded cluster with per-region sharding to specifically comply with Russian laws that require companies to keep/store data for their Russian users in Russia? If so, my current DCE client may have some question regarding how other companies handle the practical side of that kind of implementation before they start talking to lawyers in Russia.
+Obviously we can do this on a conceptual level, but let's just say that they may have got the impression that we may have experience on a practical level with this exact scenario rather than on a more theoretical level...
+ldapsearch -x -D "&lt;bind dn&gt;" -H &lt;ldap server&gt; -b "OU=FIM - Users,OU=Production,OU=Enterprise,DC=cara,DC=caraoperations,DC=com" -W cn=&lt;username&gt;
+how?
+see if that query returns anything
+do they have ldapsearch available?
+trying to set up ldap authorization. Getting the following error
+has joined the channel
+say if we have a multikey index on an array field, and we use `$set` and give it all elements in that array but only with one element changed, will it update all the index entries?
+very good points,  thanks
+ah, yeah, good point  I was only thinking about count_scan and document counts. If the sizestorer isn’t accurate (for example, after an unclean shutdown), you would need to execute the count as aggregation or run validate() first.
+if the predicate includes a shard key range entirely constrained to a particular shard, that shard will be asked for a simple count, without the predicate -- so even if no orphans exist, the answer could still be wrong
+this applies to sharded cluster too -- note that under specific conditions it would be possible to induce this behavior even with a predicate
+regarding the count discussion above; when counting without a predicate (whole collection) can report wrong counts in wiredtiger because the count is only updated on each flush
+okay fair enough
+in the same vein, secondary reads to sharded clusters. For specific versions, there may be other issues, but I’m aware of any other open tickets.
+orphan issue hasn’t been resolved yet.
+followup on this one: the only way a count() can be inaccurate at this point is by counting orphaned documents, correct? there is no possible inaccuracy other than that. or has the orphan issue been resolved in 3.4 already?
+thanks  might be worth documenting it, as it makes all the difference for this customer
+even better
+if an index is multi-key, count_scan will dedup
+so it would work for compound indexes, equality matches on multiple fields, and range queries, but not on multi-keys, right?
+If you .explain() a count you should be able to see whether it is using a count_scan
+so it requires that an index exists that satisfies the query criteria (so it never has to actually examine the documents).
+count_scan will scan an index range and count the number of keys
+can you elaborate on the count_scan mechanism? what does it actually do, and when is it applicable?
+that explains it, thanks
+The issue here, is that for the $in query, MongoDB doesn’t recognize it can do a series of count_scans (which don’t require fetching the document) and instead falls back on the much slower process.
+So there are three ways we do counting in MongoDB. For full collections, we use sizestorer, for some queries we use count_scan, and for more complex queries we fetch documents and then count them.
+oh, it's the de-duplication?
+er, iterated the range
+I wouldn't be surprised (but wouldn't bet very much money on it) if count counted the range between the lowest and highest element in the $in list.
+sharded collection?
+(this is 3.0.8, btw)
+does anybody have a deeper understanding how count() works? my customer is trying to count billions of documents using filtered counts, and some of these are very fast, but others not. in particular, when the filter is an equality match on a single field, it's fast, but when it's a $in on many values for that same field, it's overproportionally slower (i.e. it's much slower than doing a separate count for each value of the field). does anybody have an explanation for that?
+:+1: Ok, thanks. I’m of like mind about mongodump/mongorestore
+You could look at mongomirror
+Assuming they can tolerate enough downtime to make the swap
+That's pretty small, I'd go for the simple solution of mongodump/mongorestore
+Smallest is ~15GB, largest is 120GB (uncompressed)
+how big are the databases?
+I’m on-site and client wants to migrate five stand-alone databases into a single (separate) replica set. Any recommendations beyond mongodump/mongorestore?
+Thanks  I found a way to do simple arithmetic to estimate what I need.
+(Not sure that Object.bsonSize works, though)
+Note that in the `$reverseArray` case the array is sorted (just in the opposite order than what I'd like) and in the `$sort` it isn't at all. Numbers are in aggregate over 700-900 thousand queries.
+Regarding the object size, you can’t get the object size using the aggregation framework. You could try using mapReduce, and Object.bsonSize() on the object itself though.
+On a completely different topic: I'm doing some vastly unscientific microbenchmarks of some various aggregations. I find that for small (0-100 items) arrays, `$reverseArray` is much (20-ish%) slower than in-memory `$sort`. I find that very surprising, don't you?
+They are planning to use the shard key in the majority of their queries, but they're also trying to minimise number of code changes.
+Thanks Sylvain. The sharding is mainly for regulatory reasons, but they do want to keep the performance impact as low as possible.
+You wouldn't be able to define a shard key range using the reverse order. The shard zone discriminant should always be a prefix of the shard key. That said, the queries would still work, but that would be a scatter/gather instead of targeting the correct shard. The question then is, if they want to use zoned sharding for regulatory reasons (like EU data must be stored in EU) but don't care too much about performance, that's okay, but if they want to use it to scale, then that's a no-go - they have to use the shard key in their queries.
+Background is that they have a bunch of existing queries that will they would prefer to continue using just the user_id, even if it means running a scatter/gather query. They're not opposed to adding another index or two to get the shard key index, but they'd prefer not to do that if it's not necessary.
+do I need special roles to allow mapReduce?
+If I were in consulting I would tell all my clients... just use commodity hardware without virtualization!  you'll get more consistent performance, and more performance for your dollars.
+sorry only say that note now, made a couple of small suggestions.
+- I've seen some successes, but only with high-performing SANs that have sufficient *dedicated* resources.  Most environments operating with a shared, low[er] performance SAN will see suboptimal results.
+It's amazing the number of cases we in support handle where it's "poor performance" and they are running MongoDB on some combination of VMware, SAN (or worse NAS), and Windows
+I think the number of VMs and the likelihood that they’ve not applied any of our VMware or SAN recommendations (per your consult report) are strong candidates to help eliminate MongoDB :wink:
+Yeah, in some sense but they also have some other issues that we haven't been able to eliminate MongoDB yet
+ok, so would I conclude that you have eliminated MongoDB and WiredTiger as the source of this issue?
+I’ve pinged some comments onto to you on the report plus then the comment about the SAN recommendations from p13 on the common consult report might be useful so :wink:
+Correct, it just asks for a 1MB block from a collection file from a random location in that file
+By "separate script" you mean a script that just copies files from the WT directory, or something? not using Wired Tiger or MongoDB?
+Anyone know of success stories using a san storage system on WT. I've got an HST G1000 system where we have queries that are taking multiple seconds on queries and we also see it on a separate script grabbing from the WT data files as well.
+In aggregation, is there a way to $project the object size? I.e. what if I want to get the average object size of a subset of my collection?
+nice report, just added a few small comments
+ty
+- I read that yesterday but had nothing to add
+*now*
+Nor ArrangoDB - thats Shiny and new
+, MongoDB isn’t *new* its established and proven, and Document databases are ancient - I’ve been using them for 22 years
+I will do a review now
+has joined the channel
+thank goodness our customers don’t feel that way about database :wink:
+Has anyone got bandwidth to have a look at my report? Want to send it today.
+I don't start projects in any language that I don't have years of experience in - it will be at least 10 years before I consider golang appropriate to use. For me new is the opposite of good.
+Seconded for golang. Plus it still has that fresh new language smell :slightly_smiling_face: (at least for me anyway).
+Oh and it's simple/easy.
+easy cross compiling, static linked binaries, compiled, static typed, garbage collected. Our tools like mongodump and the agents are in Go now.
+And I use C# for Windows GUI apps too - I write my last one of them in 2010
+In general I start with - can I write it in C and if for whatever reason I decide not to then Java is a goto. I think python is great but can be a pain for distribution and longevity.
+but can you bring a docker image with necessary dependencies?
+On my side, if performance is not a strict requirement I prefer to use Python. But I get your point, it could be a nightmare if you don’t have internet to install all dependencie
+I use C# for GUI tools on windows. but it needs windows and VS which is a little too heavy if you don't have them already.
+are we starting a programming language war? :ghost:
+but I am the kind of developer who prefers strict typing
+Depends what kind of "thing" it is - I find myself POCing stuff more and more in Kotlin (JVM language like Scala without the weirdness, more like Java++) when Python is not suited (eg there's multi-threading involved, etc.) as it's not nearly as painfully verbose as Java yet runs everywhere Java does.
+for things which need to live longer than 5 minutes Java is the better option in my opinion
+*trolling* Jython!
+Any sage advice?
+My new Backup tool for EBPI follow same philosophy
+POCDriver is Java for that reason - one file and that’s it
+Python needs modules and if you arent online that’s a pain
+I like Python, but I like the portability of Java more
+I’m starting a thing - a new thing and I’m torn between Java and Python
+here's the ticket: I think `compact` only work after a certain version because of a WT bug.
+thanks  and !
+there is an answer for that in WT for Dummies doc
+It can fragment, though I don't know by how much or if it can be measured. Use the `compact` command to defragment
+Hi Everyone,   a customer asked me wether WiredTiger has fragementation and if it can be measured and defragemented
+awesome
+if they never "dropDatabase", or don't recycle the database names, then flushing isn't needed
+the rule is if they ever "dropDatabase" and expect to ever use that database name again, they need to run flushRouterConfig then
+for now they will take it as answer but at what point of time / how often they should be flushing the config ?
+:slightly_smiling_face:
+thanks for your insight .. it worked
+note the age of the first one, and note that it's a "critical feature request"
+but much more expressive of the actual problem
+this is dupe: but that's meaningless
+the jira ticket is this: run flushRouterConfig command on both mongos, and then see what you get
+(dont get why they are unit testing with real db :p) so they are doing some automated testing on mongodb sharded cluster
+yeah they flushing things like crazy and call it as unit test environment
+in particular, they cache the "primary shard" of a database name, which is not versioned, so if it's ever dropped they can quietly get mized up about where the database is located
+mongos cache things
+was the database dropped ever?
+in what scenarios that would happen .. only thing i could image is somehow both mongos are talking to different config servers
+I am seeing some weird scenarios on a sharded cluster .. just thought seeking your help on how to disect it … mongos-server1 shows database.colllection.count() as 5 and mongos-server2 shows the same count as 0
+yeah it was mentioned in a thread a few months ago as No, but could have changed
+Thanks. That was my guess as KMS docs never mention KMIP
+I had a case with exactly that question. My answer was, "We don't know, but we don't think so, go ask AWS"
+does anyone know Amazon’s KMS uses KMIP or not? My customer was basically asking me whether we could integrate MongoDB’s encryption at rest with KMS.
+The "standard" MongoDB image is (officially supported by Docker, as noted earlier)
+You’re welcome!
+Thanks so far looks like docker will be simply used for the training examples but I’ll ping you guys if they’ll be using it for other purposes. :slightly_smiling_face:
+For example, for using Docker with MongoDB Enterprise and Ops/Cloud Manager,  and I have a bit of experience with running the automation agent in a container using a custom `Dockerfile`, and automate the rest using the Ops Manager API.
+Then again, it depends on what you intend to do with Docker
+We don’t really have one. Or at least none that we maintain on our side. You can take a look at the wiki for a list of Docker images (maintained and not maintained): Thanks in that case, do we have a standard “unofficial” docker image?
+I don’t recall that we have an official image. The “official” mongod docker image is provided by Docker, not us.
+do we have an “official” mongod docker image?
+I was trying to come up with better ways to refactor the schema or get creative with the indexing, but I can't seem to come up with anything better.
+doc is part of the expected result set, but explain() shows that it's only using the index {a:1, b:1} for "a" between [1.0, 1.0] which makes perfect sense, it's just not efficient for the customer I'm working with who might have 2-20 criteria in the $all.
+that’s my understanding as well .. however slowed down by replication lag and … secondaries running behind as  mentioned
+it’s static data load .. so no inserts happening at that point of time … assuming I count on what they are saying
+its w:Majority and the replicas are behind?
+The duration includes the time to complete writeconcern I believe?
+any thoughts on why an insert operation is taking 293ms ?
+are there any tricks to building indexes that support $all?
+nope, it is a clean Ubuntu install
+Do we have a rule of thumb formula for how long a background index will take to build? I understand that it will take longer depending on the read/write load in the foreground and on other factors like whether the index will fit entirely in memory.
+is there /etc/apt/preferences or /etc/apt/preferences.d/ entries for mongod that would pin the old version?
+Ubuntu 14.04
+yeah did update
+did you run apt update first? Which Ubuntu/Debian version are you using?
+Is this expected behaviour or I am doing something wrong?
+For some reason installing a new version of MongoDB on top of the old one using apt-get only installs new meta package `mongodb-org` and does not update any binaries
+the collection is only used by one thread - it does a drop collection, then insert 10K docs, in 30 seconds, drop, then insert again, repeating the cycle
+dropping a collection is not instant, but it usually has no impact on the assumption that no thread is trying to actively write to the collection being dropped (because that usually doesn't make sense)
+if the collection is being written to, then you'll see a stall on those other threads trying to write to it
+Will collect logs thanks
+Yes fairly busy with a dozen or so applications
+were there writes going to the collection at the time? -- also, do you have the log from that event?
+thanks in advance!
+because it’s in production so customer is a bit anxious wanted to have some quick ansnswer as for what could be the possible causes. Hence seeking soe help from you gurus here.
+3.0.12 wiredtiger
+hello guys, I’m here at customer site and seeing a problem where dropping a collection (10K docs) causing a few seconds of halt
+the short answer is no. See Stennie’s comment on is there any equivalent of "Buffer pool keep space” from Oracle , where the data is from specific table is always kept in memory? The only way I know about replicating this in MongoDb is with Cron Jobs doing either Covered query (to ensure the index is loaded) or run the actual query to load the data as well
+awesome thanks for some pointers
+you can also check out Specifically, mongodb-enterprise. There are a bunch of other helpful vagrants there too
+Found it (that was a lot of work!): I believe there’s a vagrant using KMIPS … I’ll see if I can find it
+Re above: if they’re using message queuing systems, they may find value in tailable cursors. They’re only available on capped collections, but they work similarly to pub/sub so they’re worth noting
+do we have any environment for us to play around or spin something on AWS. This is something I would be doing tomorrow  .. so any recommendations you got for the typical issues that I need to watchout for would be highly helpful
+how can i get my hands dirty on integration with KMIP ?
+Also confirmed:
+`openssl md5` is perfectly acceptable, of course
+If you're on linux, you can directly use `md5sum` on MacOS `md5`
+c.f hasher.cpp got it  its pretty neat. thanks for the insight awesome ..echo -n 2 | openssl md5
+IIRC we're using MD5 to hash values, so you could always use that to create a histogram of the Oracle sequence_id values to confirm
+rather … for self learning purposes … can I call the hash method from mongo client console to see output
+is that evenly distributed across multiple shards ?
+Also any thoughts on hash index on _id generated out of Oracle sequence id ?
+yup … that’s the strategy for now while they completely onboard certain tables into mongodb
+Well, that's good there's a precedent for it there.  Conversely, could they just have a subscriber to handle the writing to the MongoDB database and keep their existing historical subscriber? (re-target it to MongoDB, of course)
+.. that’s exactly they are doing currently on Oracle via triggers .. they send a payload to messaging queue
+I wouldn't recommend the second route (application level).  If they want to do something other than oplog tailing, the alternative I've seen is to use some sort of message queueing system [RabbitMQ, SQS, etc.] and have a (history) subscriber that would update the history collection
+Thanks Also should we choose the second route .. what are the recommendations for ensuring the idempotency on historical tables
+Probably oplog tailing is your best bet to avoid duplication of history-appending code
+which now requires all these applications to not only modify the original record but also make insert into the historical collection.
+- I am at a client who is porting certain collections from Oracle to MongoDB. They have triggers on tables, to keep track of changes on any row and log them into Historical tables. What recommendations do we have to emulate them. I know of tailing the Oplog and replicate what triggers do or do inserts to history collection as they do updates / inserts on original collection. Not sure about the viability of later part as there are multiple applications currently doing modification of records on the table, and triggers are taking care of the history tracking behind the scenes.
+could be their servers, but just wondering if anyone has seen this kind of things before
+Anyone ever experience slow LDAP authentication with AD? We just setup things for a repl set and it works (3.4 native Auth on Windows) but to login via shell is taking ~3.5 seconds from log entries
+Thanks, all.
+The spreadsort algorithm is a hybrid algorithm; when the number of elements being sorted is below a certain number, comparison-based sorting is used. Above it, radix sorting is used. The radix-based algorithm will thus cut up the problem into small pieces, and either completely sort the data based upon its radix if the data is clustered, or finish sorting the cut-down pieces with comparison-based sorting.
+I doubt it is using vanilla quicksort or mergesort… must be something from Boost but ofcourse it would also be possible to combine quicksort and merge sorts
+I do not know exactly know what the agg framework is using, but I would have implemented with the merge sort, as the merge sort could easilybe  parallized among different nodes and the node requireing the result would then only need to merge sorted results from the other nodes
+quicksort is faster if the input data is already sorted but in  the worst case it can be O(n^2), but the avg case is O(n*log(n)), merge sort in comparison will always run in O(n*log(n))
+Hey - does anyone know what algorithm is used for $sort in agg framework? Is it quicksort, another one? Underlying question is - how does it perform with "nearly sorted" data. My algorithms class was too many years ago, but as far as I remember quicksort is good in the general case but no better if the data is already nearly sorted. If that's the case, it might be better to sort client-side with an algorithm that's better suited.
+thanks a lot   and :slightly_smiling_face:
+On the other hand if you just want to use the sizing sheet without sharing it to the customer, I think this is the one: How about our documentation: Not sure if the ops manager sizing ticket spread sheet from support is available freely.
+I think this is the one with information we can share with the customer: Hi Everyone,  where can I find the current version of the ops manager sizing sheet?
+makes sense
+understand
+i.e if the highest priority member has a problem and must step down, the second highest will take over... then when the highest is "able" again, it will force another, completely pointless, election
+the trouble with that (ignoring any "bug") is that every election assures at least one more election in the future
+well, they have priority 1,2,3 for 3 servers...
+(even if you go with PV0, this advice holds)
+in any case, be sure to have at least 2 members with the same highest priority
+priorities i believe are handled better now -- but check that server ticket
+yes, priority
+it was usually only a problem with arbiter or priorities -- do you have either of those things?
+Is `PV1` safe enough now? I saw some of the issues are marked as fixed.
+Thanks :wink:
+There's a similar issue I uploaded sample file there but please upload files
+should be there :confused:
+I'll upload some sample files to github. Maybe related to mongodb version?
+Hum, it should be there. I just retried and subsection is present everywhere (as expected)
+another thing which may cause a problem is that I can't seem to find `subsection` in `getMongoData` result.
+I'll try to fix it myself
+I am currently on my way to the office, but I can have a look to the file if you want to
+iconv should be the man to fix the issue (if that's really an encoding issue): e.g. `iconv -f macroman -t UTF-8 mdiag-ts-1.json &gt; mdiag-ts1-uft8.json`
+yes, it's probably caused by encoding
+ok, we don't display the parsing error :stuck_out_tongue_winking_eye:
+I'm reading the source code and it's here:
+try:
+content = json.loads(content)
+if "subsection" in content[0]:
+return 'getMongoData'
+elif "script" in content[0]:
+return 'mdiag'
+except:
+return 'log'
+it could also be an unicode error :confused:
+could you check if the json is valid? If I remember correctly we put in the log the parsing error
+but recognized as log
+I'm uploading a mdiag json file
+The file recognition system is quite dumb right now: we check if it's a valid JSON, if it is, we check the presence of mdiag or getMongoData data, if it's not a valid JSON we assume that it's a log file
+Do you get this error while uploading a log file? It could happens that you get this error (coming from mtools) if you upload an invalid file
+anyone use mhealth and get this error?
+&gt;euphonia.py: error: argument logfile: invalid InputSourceAction('r') value: '/var/folders/9y/58hdzztx5pscr_45dkjlqq180000gn/T/tmp7bV5cN'
+@team would it be possible to have memory ballooning exceptions on amazon aws Ubuntu 14.04 LTS HVM instance ? I wasn’t sure if it’s a false positive flag from mhealth but found a link pointing to similar context Thanks  I suspect the client has already done that and they were looking for something more like an official-ish sample.
+You can google "terraform mongodb" and find a few people who have done this, I don't see anything close to "very good/official".
+I stood up a whole AWS deployment using Terraform at my last gig (joined MongoDB 7 months ago), so I have a lot of experience with it.
+Just had a call with a client who is considering using Hashicorp's Terraform to create and stand up AWS instances. They were wondering if we had any sample scripts for either mongodb servers or at least AWS instances with automation agents?
+Thanks - I’ll pass along and have them contact account exec if more question
+section 7, so they are likely already covered
+thanks guys, - yes I was aware of that. starting new DCE and now we pretty much waste a day because they won’t give me 4 queries until they check on this, so I was hoping to point them in the right direction to help speed things up
+yes and to NOT sign any additional NDAs without contacting CSM or consulting ops.
+Jason that would be a management question but I vaguely remember Richard mentioning that we do have NDA
+- do we have a standard NDA in place for our consulting gigs? I think that’s part of the usual course of business through sales, but does anyone know for sure?
+Does anyone know of an obfuscator for mongod.log, apart fruitsalad?
+Looking at also considering the field names, users, ...
+has joined the channel
+According to this 1 and -1 are the same: I think someone got there wires crossed there.
+i would need to look up that text though
+good question .. i do recall seeing somewhere in our docs about sort({$natural: -1}).limit(-1) hence my question .. i did fiddle through simple test case earlier both returned the same thing. I thought it could return the last one
+also make sure that you get the extendedKeyUsage settings correct on your certs
+That seems to match what I was thinking.  Thanks!
+I'm thinking that it shouldn't matter if you're not using x509 cluster auth
+ummm, sounds familiar
+was you 3:02 message re: the x.509 stuff?
+how can you return -1 results?
+both returned same doc for me
+Thanks, I will use that moving forward
+likewise whats find().limit(-1) vs find().limit(1)
+I'm not 100% sure to be honest, Stennie told me that and he's smarter than I am
+Do you know if the collision between client &amp; server O/OU occurs even if the servers aren't using X.509 to authenticate cluster members?
+-1 is magic foo that only consultants know about
+Hey - I see your name on a couple of the x.509 client auth SERVER tickets
+What is the difference between db.setProfilingLevel(0,-1) and db.setProfilingLevel(0,0)? Do you see things that are not logged in the second command?
+it's in all of my reports
+ooh never knew about the Level(0, -1)
+haven't crashed anyone (yet)
+nah, I do it all the time :blush:
++1, just be very careful if this is a production system.
+db.setProfilingLevel(0,-1)
+mongod.log
+I turned the db.setProfilingLevel(2,0) they made it to system.profile collection alright but not to mongod
+any means to get all the queries logged into mongod.log ? not necessarily just the &gt;100+ms ?
+Thanks for your help guys
+it was working in prod but not in QA because PROD has rs0/node1.paradata.io:27017,and QA has rs0/node1.paradata.io:27017 hence the DNS issue .
+update on connection string . They got rs0/node1.paradata.io:27017 instead of
+Now the question is, how did it get to the bad state in the 1st place?  I guess you can to the RCA on that one :slightly_smiling_face:
+thanks.. that worked
+thank you mike
+doing the drop as we speak
+Hmm - to fix it, you could start in standalone mode, drop the local db, restart with the rplSetName and then re-do the rs.init().  Be sure to backup the data dir first though!
+yes only one
+- did you verify that the rs.conf() ONLY has that node in it?
+I agree with - a single node replica set shouldn't be trying to sync from anything.  Keyfile/auth should not be playing a role here either.  Do you have the log?
+Correct replicaset with only one node . Does having keyfile and authentication enabled on a 1 node replicaset gives this error?
+As an aside, `PRIMARY` is just a replica set member state as is `RECOVERING`.  I assume "Primary" just means "replica set member" in this context
+How did you get in this state? why does it think there is another node to sync from if its the only node in replica set?
+I have a replicaset with 1 Primary in recovering mode, (says could not find member to sync from). What can I do to make it primary back
+as the local.system.replset has the servers pointing to prod, before I reconfig?
+Referring to
+When I have a PROD db disk snapshot .. and restore it on QA … would starting the mongod on the path would fiddle something with the Prod servers ?
+thank you . no code change here.
+I do not have one handy but in the past I’ve POCDriver’ed the crap out of some underpowered instance to create a log with lots of slow operations in it.
+Looking for insights on the following. Given `{ _id: 1, a: [ 1, 2 ], b: [ 1, 2 ] }` The docs state, "you cannot create a compound multikey index { a: 1, b: 1 } on the collection since both the a and b fields are arrays", but such seems to only apply when the index is either done on a primary or a secondary which already contains documents violating the constraint. When the index is created on a secondary with no data the index succeeds along with the replicated inserts in which both indexed fields are arrays.
+initial sync test on 3.2.7 yields almost the same results:
+44 seconds for 1.32 GB, which is about *108 GB/hour*
+Please post those results too (Our test here show initial sync to be ~1.6x faster in 3.4.1 vs 3.2.4)
+the thing is that this procedure needs to be done by DBAs in production. manual copy involves a few super-critical steps and if they get any of them wrong, we're in trouble. but if Ops Manager can do it all by itself in 30 hours, that might be absolutely worth it.
+i'm doing the same test on 3.2.7 as we speak :slightly_smiling_face:
+I’m drooling over your throughput.  There’s no way I’d consider initial syncing that much data here (we’re still on 3.2.4 though)
+sounds like either your connection string is messed up or you've got a networking or dns issue
+Any ideas why I would be receiving below exception after restoring backup from PROD into QA environment?  I have modified the rs.conf() to use the QA machines though. And the python code where its running is able to ping the QA machines as well but simple code to connect
+python [errno 8] nodename nor servname provided, or not known
+Does anyone knows of a mongod log that is "public", meaning we can use it to show slow queries to users and even distribute it?
+~ 35 MB/sec
+so here's a first data point: initial sync on 3.4.1 between two m3.xlarge nodes on different AWS hosts in same AZ
+5m documents @ 285 bytes = 1.32 GB
+initial sync took 37.3 seconds, which translates to *128 GB/hour*
+very much the same ballpark that s data suggested
+yes .. looks like the sample_document might have bloated it
+are you using json output from getMongoData.js? mhealth requires it.
+the content is about 25 MB ..
+does getMongoData output of size &gt; 16 MB will be loaded properly into mhealth ? I do not see anything happening on the UI mhealth.logs led me to getmongodatafile.py where its trying to load the log file in json format via below code.
+schema = bson.json_util.loads(content)
+Thanks . That makes sense since the entire document will be read into memory for such operations
+Of course, the fact that we were processing 600 trans per second the whole time didn’t speed things up much!
+The same spec of hardware with 20 mil docs, but only 20gb collection, took a couple of hours to do.
+I can tell you this - on 3.2.4, large documents take much, much longer to create a new index on or add a new field to.  We had ~100gb collection with ~20mil docs in it, and adding a new field to all documents for tracking a batch job took over 24 hours.  IOStat showed the data volume at near 100% utilization the whole time.  There was a lot of thrashing in the cache due to the amount of data going in and out.
+let us know your results please :slightly_smiling_face:
+Oh, even that. Well okay. I'll do some testing on my own.
+they were on 3.4.1 or 3.4.2
+rsync is faster, I'll bet you a $1 on that :slightly_smiling_face:
+Right. And that was pre-3.4 I assume? My current customer is looking at 2TB.
+actually, I think the time was similar. if I assume 100GB/hour, it would have been 30 hours
+I had an Atlas customer recently that had a secondary fall of the oplog, M60 instance type, and the initial sync was horribly slow for what I think was a 3TB database
+Thanks Mark. I'm only looking for ballpark numbers here, so that's a great data point. Yes I know that 3.4 is faster.
+of course, YMMV :slightly_smiling_face:
+that was m3.2xlarge (8 vCPU, 30 GB RAM) EBS-optimized instances running MongoDB 3.0.4 configured to use the WiredTiger storage engine.
+so 111GB/hour
+dataSize and storageSize are in GB
+depending on your setup you could have other bottlenecks, e.g. you might be IO bound on the source. I found an old test that I did in July 2015 where it took 2 hours to copy 63.5% of this database:
+"objects" : 400086016,
+"avgObjSize" : 943.7678940545625,
+"dataSize" : 351.65654193703085,
+"storageSize" : 122.55698776245117,
+Just as an FYI the docs for snappy replication compression have now been updated so it’s publicly visible ( but for your own reference or a customers search the SF KB for "How do I enable network compression in MongoDB 3.4?” which has a much better overall outline h/t I guess 3.4 initial sync would be fast. I am inclined to say that copying directory may still be faster
+what version of mongoDB?
+Does anybody have a ballpark number how fast initial syncs are, as in GB/day or some such? And how they compare to leap-frogging the sync by transferring the data directory contents? Assuming that network bandwidth is not the bottleneck?
+agreed
+I think compression over wire in 3.4 does not work between driver and mongod.  Both ends need to have mongod
+Thanks  .
+sure, I should have mentioned in the beginning that these are all related documents
+think of it like a clustering index. You want to colocate things you will fetch together
+that was my assumption
+large documents with random records in are seldom sensible
+sure
+they are all about the same thign or from the same time and likely to be retrieved together
+larger documents are good - if and only if the records in a document are related in some important way
+how is that?
+large docs cannot be sorted using an index
+Large Documents Pros:
+Small Documents could mean lot of random IO for aggregation type of queries if data needs to be fetched from disk.
+If the collections are large(many small documents), your indexes could end up being too large thereby putting pressure on the memory.
+Inserts may be a little quicker since you may have lesser overhead.
+Larger documents also provide you the opportunity to pre-aggregate data.
+Large Documents Cons:
+You have to keep check on the growth.
+Updates to sub documents.
+Queries will bring entire document into memory.
+If data is already in memory then aggregations may be slower.-- This is specific to a certain aggregation
+Here is what I was thinking:
+10,000,000 incrementing index entries will be a lto faster than 10,000,000 random ones
+yes
+if you do then the subdocs will be slower
+assuming you dont index the sub documents
+yeah - 10,000,000 index entries versus 40,000
+not yet
+- have you established what is limiting insert speed?
+index overhead for smaller docs right?
+- there will be more an index overhead, but the 5MB docs will likely be faster to write overall - depends on how muych parallelism you have in your load as well
+My goal is to increase the insert speed, since I am reading only 5% of the time and a little slowness is ok..
+ha ha
+otherwise you might as well just write it all do /dev/null :slightly_smiling_face:
+It’s OK I can indect my field at the end of the byte array
+regarding your question, I think the more important consideration is how you're going to *read* the data
+I am not sure how the comparison looks like  inside wiredTiger
+Good point. You can avoid the overhead
+just a thought … if client is on v3.4, may be ntra-cluster-compression helps in your large inserts … not sure about throughput &amp; compression factors about multiple inserts vs multiple subdocs in an array
+I think
+Dammit - and still its’ no good as _id needs to be first
+any reasons behind
+Changed in version 3.2: Starting in MongoDB 3.2, the WiredTiger internal cache, by default, will use the larger of either:
+60% of RAM minus 1 GB, or
+1 GB.
+Starting in 3.4, the WiredTiger internal cache, by default, will use the larger of either:
+50% of RAM minus 1 GB, or
+256 MB.
+this was just an example but in general,  is there an advantage to writing large documents vs smaller and is it significant..
+Hey guys,  from a purely insert perspective, will it be quicker to insert  10 million small documents of 2 kb each OR 4000 documents each having 5 MB of embedded sub documents.
+means I have to add this field as bytes!
+Arrgh - turns out this is harder than it looks because I have immutable records I cannot add a field to!
+not the same, but did something for the GAP to forward oplog events to Splunk, were we added some meta data to each record like host/etc, but in that case I didn’t care what was in the oplog and was able to keep track of timestamp of last record sent; I thought I heard the long discussed “official oplog api” is on the table for 3.6, but not sure - good luck!
+yup
+I see, so you can slightly modify the “o” in the oplog doc
+so when I am backing up and restoring to the same db at the same time I dont re-backup things I already have backed up
+and I want ot flag ‘restored’ records
+This is a backup tool
+because I have control of the think inserting them too
+how did you manage that?
+*not
+note perfect but it will have to do
+I’ve added a bool to the records
+or some “meta” optional field
+right, ok.. not sure then. the comment making into oplog would be a good enhancment
+like a query comment equivalent
+no I really need it in the message itself
+can the app doing the initial write drop some piece on info in another side collection, _id or something? otherwise, I don’t think there’s anyway to change oplog info apart from the “op” and the “o”, maybe a subsequent “op” with some info in it’s “o” pointing to another doc in oplog??
+*changing
+it cannot go in a different collection
+record
+Can anyone think of a way (other than by chaning the record itself) to ‘flag’ an insert in the oplog so an oplog reader can recognise that specific type of recoed
+In general I'd be looking for overloaded machines first, network connectivity or flooding second, as a root cause
+I have seen this message pop up in the log when it is searching for a sync member, I think it is safe to ignore if it does re-establish itself with a sync source
+Do you see it switching to a different sync source eventually?
+these messages and problems seem to happen each day (based on a 2 day sample right now …).
+I have some logs which show `ReplicationExecutor] could not find member to sync from` frequently in the morning hours from roughly 5am to roughly 9am, but not during the day. The message is preceded by the info that the current oplog time is 30 seconds off from another source.
+I see. probably caused by the background build index
+no, it's WT
+this will not directly tell you what is causing this, but you might able to extract it from it
+or if it is currently happening check db.currentOp()
+either check with mtools what other operations were currently during that time
+is this MMAPv1?
+Onsite with Huawei. Any idea how to find out what cause the `timeAcquiringMicros: { w: 2358838 }`?
+I don't know the answer but why should the connection be closed?
+I think during the election the connection would be closed.  Can anyone else corroborate?
+if driver is connected to read preference of secondary and you are iterating some query …. during that time frame if primary goes down and current secondary that driver conncected to becomes new primary, would the connection continues to be available on that same server until its closed ?
+Thank you!
+From FREE-100437 "MongoDB will only start using the local disk once the RAM limit is exceeded."
+If using the aggregation pipeline with allowDiskUse: true, will the disk be used for the query regardless of how much memory it uses, or will it only use the disk after it reaches the 100MB limit?
+Has anyone experimented with mongoreplay?
+FYI Cloud Services (Cloud Manager and Atlas) *next gen version of* queryable backups just went into invite only beta. Drew DiPalma is point. Note that this will be available as beta on Ops Manager eventually as well, after we prove it out in cloud.
+It was almost 4 years ago that I saw the first demo of that feature!
+oh my bad, just saw that we're touting Queryable Backups as a 3.4 beta feature!
+Thanks Mark. Good to know. I have heard some SAs talking about it ..
+AFAIK queryable backups is not a feature. That was a feature that we developed a prototype of, we actually demoed it at some conferences as something like a pre-release feature. But the feature never actually made it to being released
+Anyone know where validator rules are stored? Are they in a collection, or outside of the database itself?
+ah yes, that makes sense. Thanks!
+Anyone know where queryable backups are documented? Google isn't returning much useful information ..
+I believe the 3 mongod’s come from making it a daemon process, e.g. all the input output streams are redirected
+Thanks for the insights  I’ll include this in the report as the client was concerned on the query planner’s resource consumption.
+damn..
+ahh ..
+If you do find some code or script that does the conversion, let me know :wink:
+You can’t there are inconsistencies between Atlassian’s markdown and Saleforces markdown.
+anyone know how to copy and past code from a wiki into a salesforce support case, keeping formatting?
+Another question - when mongod starts there is a brief period of time during which `ps -ef` reports 3 mongod processes. This period can be made more evident if you create many collections then restart the mongod (initialisation takes much longer). Does anyone have an explanation for _why_ we have these 3 processes during this transient initialisation?
+An option is to downgrade to mmap to remove the WT limit in active files, but they're very happy with WT - much better performance across the board (conversely, I'm not happy at all with recommending a downgrade that kills performance!)
+Hi, are there any approaches for multi-tenancy beside *1* one replica set per tenant (very expensive) *2* one database per tenant (does not scale to many tenants due to WT limit of 20-30,000 active collections+indexes) *3* data all mixed up in same collections, use field to discriminate between tenants (unacceptable to my customer, they fear potential security issues and not easy to remove tenants)
+They use option *2* today (on a 3-shard cluster, collections unsharded) but based on their current usage they are limited to about 1000 tenants per shard (and even that is taking a risk IMO, they can't expect correct behaviour / performance with over 300 active tenants on a single shard) - they expect fast growth in number of tenants in the next few years so would look like a 20- to 60-shard cluster within the next 3 to 5 years. That's a massive investment given that they have very low volume (target 1-2 TB in 3-5 years) and while I don't have hard numbers on queries/s they're not expected to be very high, a few tens of thousands maybe.
+they do not have answer to my question yet on why find rather than findOne … but their primary complaint is performance is lot low  WT  ((about 20% ofwhat they used to get in MMAP). They are very small only 3-4 db’s may be 10 collections about 5 mill records … nothing crazily big
+that they run by default via mongochef . they are complaining that in  mmapv1 it was lot faster than WT (they updated last month) and right now it takes about good 20+ seconds just to get back first 20 records
+also developers in here are going nutts with collection.find({})
+yup i did … they did agree that they created the index recently and what i found is from few months ago. so right now limiting the logs only to last 2 months
+did you verify the index?
+sorry about the lag .. internet connection glitchy here
+would there be any scenarios our mongodb would not use index at all despite the filter is only one index and its sparse indexed ?
+of large log file. but developers in here claim they have sparse index on request_tag
+awesome …
+t1.archive.count({"request_tag": 1})
+that’s the query i found in grep of COLLSCAN
+you could look at what ip conn57478 is established from
+ok .. guys in here says we dont know process running that command in first place .. hence I thought it to be an internal query
+that means someone ran db.cc.count( { ccrefreshed: "true" })
+is $cmd internal command or ran by users
+I don't understand what you are asking
+in log files i do find lot of entries with
+namespace: database_name.$cmd,
+operation: count
+pattern: {field_name: 1}
+Any idea on what $cmd commands are doing with a specific filter pattern ?
+Any known caveats to using CGROUPs with mmapv1?
+- yes container/CGROUP only way I’ve heard of, no way otherwise
+when using a text index on a collection and querying this text index, is it loaded completely into memory and cached there?
+cgroups, maybe?
+do we have a way to limit the amount of resident memory used by MongoDB when using MMAPv1?
+wow thanks for sharing
+The thing is, you cannot configure client options like min-connctions-per-host or min-heartbeat-frequency when using a MongoDB URI. However the settings that they set didn’t seem very sane.
+We went from
+- paste paste the info you found in here
+Nevermind, I managed to find what I needed. Turns out that the Spring Data MongoDB documentation is extremely confusing
+does someone have an example of configuration file for Spring Data MongoDB, which uses a MongoDB URI?
+well I guess I'll do it more frequently :doge:
+... i'll do the same to you btw :stuck_out_tongue:
+we are in similar TZ, you can ping me direct any time you want a quicker answer
+good to have a team here
+sometimes it's just not sure if I'm giving the right solution
+:slightly_smiling_face:
+well, thanks for the detailed explanation
+goodo, it sounds like you've fixed it
+yes
+and the balancer doesn't consider chunk sizes, it only considers chunk counts
+the only issue is that it will unbalance the size of certain chunks versus others, for a while
+that will probably work incidentally, and as long as the collection is actively receiving writes, it will be fine
+but doesn't hurt I guess
+I think I didn't do right this part. I gave them a script to find `{jumbo: true}` and do a manual `splitFind`
+excellent, if you would rather script the reset of mongos, you can use the mongos collection in the config database and send each one a flushRouterConfig (
+in the ticket
+32MB is small enough, I did calculate following your formula
+if you want to speed it up, or if you're just starting out, then you may want to restart all the mongos after clearing the jumbo flag to force them to reload
+set chunkSize, then clear the existing jumbo flags, then just wait, the system will slowly fix itself
+i think 32MB will work, but i could be wrong
+yep, too low, use the equation to work out what chunkSize they need
+100 bytes average
+yes, that's their situation
+if you get jumbo chunks as a result of SERVER-19919 (check the author btw, i know a lot about that ticket) then lowering the chunksize and clearing the jumbo flags will be a persistent workaround
+i mean, ALL chunks, not just all jumbo chunks
+unless you do ALL of them
+artificially splitting the chunk ahead of time will actually unbalance the cluster
+and that is what you want
+if the chunk still meets the criteria for jumbo then yes, it will be marked jumbo again
+or if the balancer happens to select that chunk for migration
+will it be marked as jumbo again?
+right
+so the chunk will keep growing until a mongos thinks it's a good time to split
+don't restart mongos btw, because they'll forget all the data they've counted and chunk splits will get weird
+right
+and they use a heuristic which is a bit crap
+I think maybe until another 20% go through the mongos
+the mongos currently do the splitting (even in 3.4)
+true
+well, sort of... or perhaps "maybe" is the better term -- the balancer runs for various reasons
+so if the flag is unset, next time a document comes in, balancer will try to split the jumbo chunk into valid size
+i feel there is a problem here that i'm not aware of yet
+i mean, you could do it with a script that replicates what the balancer does, but why?
+Oh, I see your point
+"how to make sure the chunks are smaller than chunkSize after spliting" &lt;- why does this matter?
+trying to split a chunk marked jumbo is not a good way to proceed -- it is cleaner and simpler to clear the jumbo flag and then wait
+the thing about a jumbo chunk is that it either can't be split any further for real, in which case the attempt to split it will fail), or the flag is erroneous in which case you don't know if the chunk needs splitting
+they are wondering how to make sure the chunks are smaller than chunkSize after spliting
+yes, I told Band of China to unset following the document
+yeah i wondered about that too -- be aware that our documentation contains a perfectly valid way of resetting jumbo chunks; just unset the flag
+or it just do the split?
+Thanks. But how is this function making sure it's not "jumbo" after split?
+commented on s file  We have used something like the attached to force Jumbo chunks into getting split and reassessed
+shared a file: thanks for the clarification!
+the icu libraries provide all you need for collation and sorting etc - but not the rules and wordlist for stemming. So I can see why the set of languages andhow you describe them might differ between FTS and Collation.
+yes, text indexes are case insensitive, and this has been expanded to other chars than a-z in the latest 3.* releases. So probably the answer is, that language support for text indexes was first and we wouldn’t just change it to some collation scheme?
+- aren't the text indexes case insensitive anyway. I expected them to get all the collation stuff although you can’t sensibly sort on a text index. The stemming is language specific - thats why we have languages for it.
+I guess the restriction of one text index per collection would have to be loosened with collation support?
+anyone here aware why text indexes support language, and not collations? Just curious why the collation support does not extend to text indexes.
+thanks I think that would be a useful example exercise to add to the recommendations, just as a trivial but end to end example.
+in the example we just had a few documents in the db, so a manual inspection was good enough
+not an exact answer to your question, but I had the participants of the Ops Rapid Start perform a manual restore via Ops Manager, e.g. download the db files and start a local db with it. Would be great to expand on this with some data integrity exercise
+Do we make any more specific recommendations for Ops Manager backups regarding how to perform data restore testing/data integrity for customer’s data when providing a Ops Manager consult than the line in section 5.2 (Review Backup processes) of the Consult Report Common Recommendations - "Verification. The integrity of the backup needs to be ensured. It has to be verified that data can in fact be restored from the backup and that the data itself is valid.” ? It’s a generic question rather than for a specific customer/report.
+I see
+you can keep right on splitting a chunk way below chunkSize -- if you're splitting chunks in the shell, chunkSize doesn't apply
+chunkSize is only used by the balancer, it has no meaning elsewhere
+the results from splitAt and splitFind may easily still be larger than chunkSize
+right
+the balancer will not touch jumbo chunks, thus they will not auto-split
+yeah I mean maybe still larger than `chunkSize` right?
+ah.. not sure about jumbo flag -- i think it would persist on the original chunk only
+So only 2 chunks, and maybe still jumbo?
+i think if you issued splitAt or splitFind (which are just shell helpers), they'll do what the documentation says only
+the balancer uses this -&gt; the second refers to the method of splitting at specific points
+your first statement is correct
+And this applies to both `splitFind` and `splitAt`?
+so say if I had a chunk which is as large as 128MB, my chunk size is 32MB, then the `split` will create maybe more than 4 chunks?
+you can just open a case and choose the right "contact name", he'll get an email notification.
+ask in -- specifically, ask the TC (check the channel subject) how to do it
+a split may result in more than two chunks -- if the split is overdue then it may create multiple chunks, however, the multi-split you are seeing might also be manual or from the initial shard collection command
+Does anyone know how to open a salesforce ticket on behalf of the client?
+Sometimes I saw in the log there's multi-split which split a chunk into 3 or more chunks. Is it because the chunk is too big even split into 2?
+So only when a new document is inserted does mongos re-assess a jumbo chunk? I mean after jumbo flag is cleared.
+it is trivial to remove the jumbo flag manually which will merely cause the balancer to re-assess the affected chunks
+there is a slim chance this changed in 3.4 that i do not know of (have not confirmed that version) but i don't know what logic would apply to know when to remove the flag
+there is no code in the server to remove jumbo chunks -- once jumbo:true occurs it does not go away
+their document size is 100 bytes, which definitely lead to  But is this related in theory?
+Hi guys, a question from Bank of China asking that when doing a `mongoimport`, they monitored chunks marked as `{jumbo: true}`. According to them number of jumbo chunks is going down. Is that even possible? I though when a chunk is marked as `jumbo`, we don't try to split it anymore
+Yes- that was all based off my testing. Can give you more info
+I think I recall them presenting at MDBW last year? Did they include tailable cursors in their presentation?
+I did alot of testing with them back almost a year ago; then Mmap was way better at scaling with load; I know there have been improvements with the WT capped collection impl lately so these differences may not still exist, but I havent tested yet
+The Gap uses them alot for event streaming, but not quiet that many cursors, more like 15-25 I think
+Does anyone have resources on tailable cursors? Specifically, I’m at a client who’s thinking about using tailable cursors in the order of hundreds of active cursors. Is it feasible to have that many running?
+You should also make those hidden so that any app that allows secondary reads wont inadvertently onnect to it.  You can use that hidden node for reporting/analytics.
+All, does anyone recommend having priority = 0 secondaries with different indexes than the other nodes (for reporting)? I know it is technically possible but likely fraught with problems in managing it
+Thanks
+not an expert but you may find this useful: anyone familiar with `perf`? need some quick guide
+Great! Thanks for all the suggestions. They'll appreciate all the different examples
+I have some Geo stuff from quite awhile ago. I haven’t used it in almost a couple years, but it has airport data which works nice since it’s all over the US. It’s in my “dump” on github: and There is a csv with the airport data which is easy to load. Also - I basically got all this data and idea from an SA who left us long ago: Tug
+How big is the Bay Area Bike Share?
+I’m giving the Citi bike data a try — it’s fairly small
+I have a dataset for Bay Area Bike Share also, Ok cool, I’ll check for those collections! Thanks
+Yes
+Are those in data.mongodb.parts?
+Also check the slack channel.
+We have several demo datasets for geo. Citi bike trips, all zip codes in the US etc. will provide links when I'm in the office.
+Do we have any good sample data sets that include geospatial so we can demo Compass?
+Good luck, Thanks for the ideas
+Beyond that, there's always restarting things just in case
+Also tcpdump to verify that the agent is talking to Ops Manager
+You could always get an md5 of the automation agent config files and ensure that they are identical.
+I don't have a good explanation for why things wouldn't work.  You seem to have checked all of the obvious (and not-so-obvious) causes.
+No success with SELinux in permissive mode.
+If you succeed with SELinux in permissive mode, then you can determine what policy needs to be in place to re-enable it.
+For troubleshooting purposes, it may be useful to set the 6.x box to 'permissive' and attempting.  (This may require a restart of the server to take effect)
+Yes! On both the 7.x and 6.x boxes.
+Is SELinux enabled by chance?
+Keys, group etc all match. A ‘wget' against the ops manager port 8080 returns and http response of 200 ok, permission denied when accessing index.html, showing the connection is allowed.
+Also, did you confirm that the config file specifies the same keys?
+*From the RHEL 6.8 host specifically*
+Can you connect to the Ops Manager host on its listening port? i.e. 8080?
+Ops Mgr sees the mongo process on the 6.8 box, but not the agent.
+Can you actually connect to the mongodb port from the RHEL 6.8 host?
+I’m setting up Ops Manager with a customer. "Install an Automation Agent" screen can find the automation agents on 2 hosts running RHEL 7.2 but not on a host running RHEL 6.8. I can see the automation agent process running on that host, there are no errors in the logs and I can resolve all FQDNs from all hosts. Any ideas why the automation agent wouldn’t be visible to Ops Manager?
+Hi guys, any idea in what situation would a mongos create more than 1 connections to mongod for 1 connection from client?
+exactly
+IMO they need a model in between database and frontend that can cope with N and N+1 and deliver the right document format to their frontend. So the database can hold documents in version N and N+1 for a limited time, until the conversion is done.
+I guess they hoped to get the ‘latest’ documents up to version N+1
+In other words it seems weird to me they would consider doing it from the oplog what were they thinking they would accomplish by doing that?
+It's not downtime it's just stale data
+I’m trying to find that out, but a downtime free requirement seems to indicate it
+So they have that requirement?
+sure, but for the time the update runs the old docs can still be read?
+Write an update that queries the old docs and transforms them to new docs?
+Fielmann wants to introduce downtime free re-deployments (blue/green) of their application. Upon schema upgrades for MongoDB documents, they ask how to best get documents version n to n+1. They consider analyzing the oplog and updating the documents found there to version n+1.  My first thought is, that this only captures written documents which might be very distinct from read documents. Do we have any generic instructions on schema upgrades for their downtime free wish? Their data set was pretty small, some 10 GB I believe
+is that how it is?
+when setting up "security.ldap.bind.queryPassword" through OM, I don't see this param listed. If I use setParameter then the password would be in clear text in OM
+Okay, got it!!
+I mean it's more work setting it up, testing, troubleshooting, etc. More moving parts, so more failure modes, etc. Takes some engineering as opposed to a quick DB config :slightly_smiling_face:
+Can you elaborate on "more work" part - is it more work setting it up or more work running mongoconnector every time - we can definitely automate the scheduled execution part?
+AFAIK they have their own DC and are hosting it there. But that's definitely idea worth discussing. I'll check with the customer around that.
+do they need to have the data available globally? Then maybe renting own servers in AWS/google cloud/azure in the different zones and configuring them as secondary and setting the application to read from nearest might be an easier path and easier to administrate
+but more work
+that's probably sanest - push changes, isolate zones.
+We are expecting a batch update in day and then sporadic ones all throughout the day.
+Instead of going the replica set route?
+How about using mongoconnector?
+yeah, well, unless you ship your secondary as a very locked-down appliance (and even then…) you can pretty much start with the idea that it's compromised by the sysadmins on your customer's side
+I agree. Its a very important aspect of our customer ITQ's business case. If they can't cater multiple travel portals then its not worth the effort.
+might be a use case for encryption-at-rest :wink:
+security-wise I don't think it's a great idea to place a replica of your database under the control of your customers.
+which we definitely want to avoid - so may be push dummy rs configuration which will remain active until they are pushed by the system.
+yes, but I had always thought of them by DCs of the same company. Not a mix of companies. Placing servers in those DCs might open a can of worms administration wise.
+another downside to this is that customers will (probably) be able to get the rs.conf(), so they'll know the list of customers served by a particular replica set
+But then having geographically separated replica set nodes is quite possible if that's what you mean?
+or actually, for deciding to start an election
+heartbeats are used for elections.
+that's fine we can make them non-voting. But does that mean heart bit messages won't have any errors?  Because a secondary in one travel portal DC won't be able to reach out to secondary in another's
+Call it "functional segregation"… if they want a full copy of the data, it's the easiest setup. You do need a VPN into the central DC though, which might be a risk, security-wise.
+given that the DCs are completely separated, isn’t this stretching the MongoDB Replica-Set idea a bit?
+Anyway I wouldn't like a server in one of my customers' DC to weigh in elections in my central infrastructure.
+Make dedicated secondaries in portal DCs non-voting. Nonvoting secondaries don't have to see each other as they don't participate in elections or establish majorities. They just have to be able to see the "center" to pull data. But you must have a third voting member in the "center".
+I am looking at possibility of using mongoconnector but would appreciate if anyone has gone through such use case in past and share their experiences and recommendations.
+We have a customer - ITQ from travel industry, selling the flight booking data to travel portals. Right now they have just one travel portal consuming the data and so the Mongo setup is one replica set with 2 nodes (P+S) in ITQ DC and 1 secondary in travel portal DC (dedicated for reading purpose and with priority 0). In future when they onboard more travel portals, how can they provide same set of data to these new travel portals? Extending the replica set to new travel portals won’t work because the n/w between these won’t be shared, so a secondary in one travel portal’s DC can’t communicate with secondary in other travel portal’s DC.  Data is pumped into the system once a day through batch and then in small bursts sporadically.
+That's what I was looking for - it doesn't seem to be part of 3.4 documentation yet.  Thanks !!
+see DOCS-9583 for the open ticket to add the snappy replication compression settings to the DOCS and for the procedure in the customer facing KB see Looking for details of Wire protocol compression capability as described in this JIRA ticket -  Not able to find relevant documentation. Has anyone in field tried it in customer environments and what level of compression are we getting with Snappy?
+:sweat:
+Customer is so happy with PS here that they are asking us if we support Cassandra
+When checking the client's OS, I saw a lot of (10001 is the MongoDB listen port)
+&gt; TCP: Possible SYN flooding on port 10001. Sending cookies.
+checked a little and get:
+&gt; net.core.somaxconn = 65535
+&gt; net.ipv4.tcp_max_syn_backlog = 16384
+Any idea what else I should check?
+set the channel topic: Discussion with the Consulting Engineers (aka Professional Services)
+A customer using the node driver 2.2.10 (and mongoose 4.6.4) with a max connection pool size of 50 can see around 10 connections active in the logs. We frequently see in the log that new connections are created, show a successful auth, and then the connections are almost immediately closed, even though we haven’t approached max pool size. Any thoughts as to why the connections are not maintained / reused for the pool? I don't see any connections explicitly closed in their code.
+hmm i dont recall seeing 365 .. but will poke around … i still got some time to sleep on the thought though
+I'm 99.9% certain max is 365 in the UI
+well oplogstore intraday snapshots is by default 2 days and upto 6 days for every 6,12,24 hrs
+isn't it even longer than that? i thought there was no upper bound left
+and that is pure insanity
+max is 365 days
+Thanks yes they are asking for PIT @ 1 min interval for last 7 years ..
+Ops Manager does store the oplog and uses it to perform PIT restores down to individual operations. No need to manually replay it, Ops Mgr does that for you.
+You should verify with them what resolution of PIT they want. If they really want down-to-the-second resolution, they have to store oplogs for 7 years. But if they are okay with one-day or one-month resolution, only the actual snapshots would be needed. And if their data doesn't change all that much, using a blockstore might make it practical to actually store that many snapshots.
+i am guessing we can do similar stuff but requires some manual replay of oplog .. I haven’t committed anything yet but thought of seeking your expertise. let me know your thoughts
+they were saying that oracle can save the archive log and go PIT anywhere in last 7 years ..
+I have a question from client asking can they do PIT restore going back to anywhere in last 7 years :flushed: Being in finance companies usually the compaliance teams are okay with having a monthly backups. but what TDA is asking is somewhat extreme to go PIT anywhere in last 7 years.
+Doc sent to your e-mail.
+Ok thanks If you want to change the RplSet names, there’s a bit more hacking that needs to be done.  I’ll dig out the steps
+7) Stepdown and remove old nodes
+6) Wait an for everything to catch up
+5) Spin up new nodes ad add to RplSet
+4) Copy data files to new nodes
+3) fsyncLocked a secondary on the ‘from’ rpl set top copy data (note this won’t be an option if you only have a single node, so you’ll have to do a mongodump or initial sync on at least 1 node)
+2) Ensured connectivity (this is a large pain at AMEX)
+1) Spun up a new RplSet
+Did something similar (without the DB drops) recently.  The dataset was fairly large with low Oplog Headroom, but we managed the whole process with ~5 minutes of downtime.  Here’s the steps we took:
+Sure, do we know what Mongo mirror offers?
+Anyone have any good anecdotal comparisons / stories of read scaling via secondary reads?
+repetivie rsync of the whole think n times, drop the databases that you don't want on each RS
+May be. I am trying to have that discussion
+Rather than syncing the whole set of data and then dropping a bunch of databases, I mean.
+Is pulling out the data on a per-database basis using mongodump an option?
+Hey Guys, what will be a good way of moving databases from a single replica set to a replica set per database with minimum down time. Customer has one database per application in a single replica set(total storage is 170 GB) and we are discussing isolating by deploying one replica set per application on VMs.
+Here is one way I am thinking:
+For each database:
+-spin up new mongodb nodes and add them to the existing replica set
+-initial sync+ replication
+-drop all other databases
+- reconfigure the nodes as a new replica set
+- change the connection string in the application and restart
+Any better ways of doing it? Any idea if this kind of capability will be available in Mongo Mirror?
+Has anyone benchmarked balancing / chunk migration in 3.4?
+Forget my question - found the buildInfo command
+If I’m undertstanding your question correctly, you may be able to extract the config from Ops Manager modify it and push that config to Cloud Manager via the API.  I’ve not done so myself though.
+Question from customer: how can we check if the server runs a Community or Enterprise build from the shell?
+can certainly export them… as in the case of grabbing the apikey for example… `mongo 127.0.0.1:27017 --quiet --eval “print(db.getSiblingDB('mmsdbconfig').config.customers.findOne().k)”`
+Anyone know if you can export/import config from Ops Manager to Cloud Manager and vice versa? Any gotchas?
+Ha, TTL indexes will typically create that kind of thing.
+Thanks  Makes sense. I think they mentioned they're using TTL indexes as well. They’re still on 3.0.12
+also depending on the version, $push to arrays might copy the whole array to the oplog - recent versions use a $set: {array.X: "whatever"} instead, which doesn't demultiply the oplog as much
+Lots of churn? If they delete about as many documents in a day than they create, you'll have a stable-ish data size with a big oplog
+I’m going through Ops Manager sizing/planning discussion with customer. With db.printReplicationInfo(), I see that configured oplog size is 1024MB and log length start to end is 6000secs (1.67hrs). This is ~ 14GB per day of total oplog and yet their total data size is only 58GB. Waiting for the customer to dive a little deeper, but any initial thoughts of why the oplog rate would be so high or what I might look for?
+thats what i thought too.  without it i am authorized on any db
+Not sure about that - it doesn't make sense to have clusterAuthMode on a standalone anyway
+sort of restarted mongod with those config changes
+security:
+clusterAuthMode: x509
+Should that be commented before creating the user and uncomment it after creating the user? Atleast that’s what got me working on a standalone
+Great!
+awesome thanks for your help . I changed the OU for the client , "CN=OU=Applications,O=MongoDB,L=Austin,ST=Texas,C=US” vs server “CN=OU=Consulting,O=MongoDB,L=Austin,ST=Texas,C=US” and it worked
+(still has to be signed by the same CA, though)
+that's because your client certificate's DN is "too close" to the server certificate. Read the bit about "certificate requirements" here: -- essentially for user authentication you must not match O's, OU's, and DC's, because that would be recognised as another mongod in the cluster.
+but now getting a new error :stuck_out_tongue: ""errmsg" : "Cannot create an x.509 user with a subjectname that would be recognized as an internal cluster member.”"
+never mind. i missed the note : NOTE
+If you are configuring a standalone mongod, omit the --clusterAuthMode option.
+I am trying to get "Use x.509 Certificates to Authenticate Clients” to work on my local machine  I wrote the following script and modified /etc/hosts to have server1 &amp; client FQDNs and I am getting "errmsg" : "not authorized on $external to execute command { createUser: \"CN=client.a ….” error. Anyone can suggest what I might be doing wrong ?
+My understanding is that once blocks are allocated on disk, they remain so (and accounted in stats()) until the compact command is run. This is also quite muddied by compression, the fact that previous versions of a document may not be deleted immediately (and will not if you use read concern majority), etc.
+If I shrink documents via a series of updates in WT, do we expect to see a reduction in storageSize as reported by db.&lt;coll&gt;.stats()?  I know that in MMAP we didn't but our docs sort of imply that we should in WT:
+&gt;*collStats.storageSize*
+&gt;
+&gt;The total amount of storage allocated to this collection for document storage. The scale &gt;argument affects this value.
+&gt;
+&gt;storageSize does not include index size. See totalIndexSize for index sizing.
+&gt;
+&gt;For MMAPv1, storageSize will not decrease as you remove or shrink documents.
+has anyone delivered new Advanced Administrators Training yet?
+Oh, *that* 10s.  I guess I could always run profiler to see how those get inserted
+I'm actually not clear if the 10s samples are ingested at that frequency or batched
+10-second granularity
+New 10s stuff?
+I know that eBay has an insane number of hosts, but I'd still be willing to bet that WT can hold up to the workload. Having said that I haven't really thought much about the impact of the new 10s stuff. I'd say give it a shot, you could always fall back to mmap if necessary.
+yes, and all chance.js functions are passed through and mapped to operators. So you can use things like `$name`, `$ip`, `$email`, `$country`, ... and you can even provide extra options to those operators.
+Is there any shortcut to calculate document quantity of a chunk?
+Ooooo chance.js. This is pretty fantastic!
+Cool! I'll check it out.
+- Just monitoring / automation right now.  I suspect Blockstore would be a different story.
+Is there a docs page I can link to with hardware recs for config servers?
+for monitoring/automation or backup...or both?
+x-post from
+I remember we (PS) were originally recommending WiredTiger for the App DB, then that changed back to MMAPv1 since as I understand it Ops Manager was optimized for MMAPv1.
+Are we still recommending that going forward, and is it significant enough of an effect that we would recommend *against* WT still?  eBay would like to have a single install and would like to standardize on WT if possible.
+That's an artifact of Python having unordered dictionaries.
+Please use the new implementation, we're going to deprecate mgenerate in mtools in the next version.
+It also seems to create keys in the order you specify:
+Hi  and everyone using the old mtools mgenerate: This tool has been completely rewritten in Node.js, it's faster and has a lot more features now: Is there a way to have it not do this?
+Any mgenerate users notice that it randomizes the field order in the generated documents?
+Thanks
+I have actually tried to create a replica set and add an eighth voting member. MongoDB refuses to add it and returns a good error message
+I asked this very question on that support bubble in the corner once and one of the PMs responding to it said this is the feature on the roadmap but not yet (that was like 2 months ago)
+can you delete multiple documents using compass?
+Thanks , I will write up something for Security
+I will open a doc ticket
+phew Thanks  This must be documentation issue. Look here  np
+Thanks I have never tried it but I would think after the 7 voting members any new members that are added will probably have a vote of 0
+Let’s say all are default. How are they determined?
+, you configure them with vote:1
+we don't have a perl driver for mongo 3.4? Given a replica set of size &gt; 7 members, how are the 7 voting members determined?
+Thanks
+or may have more information on Swisscom’s implementation
+Ok..so that means they have implemented persistent storage and host names
+Swisscom? Yes
+: Are they using PCF in production?
+Ok, that will be great
+Also, Swisscom developed their own implementation of MongoDB Tile for PCF (which also leverages Ops Manager to deploy MongoDB), which they plan to open-source in the near future according to the call I had yesterday with the Program Manager at Swisscom
+genuinely half baked idea right now
+woudl this benefit of simply poling querying for matches?
+then effectively hint with those indexes and the condition to get back pre-discovered matches
+Coudl you create filtered indexes matching the conditions
+If you want to profile an incoming record stream for specific conditions, and effectively event source on input.
+Hi All - heres an outline Idea I have, appreciate thoughts.
+I attempted to give it some structure to capture related questions in the different sessions
+it’s based on a set of questions they raised in a ‘memo’ document
+Why isnt it a ‘Training'
+comments added, seems like a lot to cover in 3 days and covers some things that may not be vital
+thanks, invite sent!
+- i can review your agenda
+Ok, MongoDB is also working with Pivotal to provide a joint integration. I was wondering how our customers, who have deployed on PCF, built their deployments. I am trying to learn all this since I have a consult coming up that is heavy on PCF :slightly_smiling_face:
+I believe Bosch is going that route as well. Previously they had a custom service broker, now they go the PCF route. Benjamin Lorenz is probably involved in it
+If I remember correctly, Swisscom is on PCF
+Hi All, has anyone worked with customers that have deployed MongoDB in PCF? Do you have any details on how they deployed?
+Tosca is an automated testing framework
+Hi all,  I received a question from a client about using the Tosca tool with MongoDB. Does anyone have experience  with this?
+I’ve drafted a one-page agenda for a 3 day consult for MongoDB Community Edition for Randstad next week. Anyone interested in reviewing it and check if my timing is ok or probably to ambitious?
+I have one, but it is very simple as it is basically just a copy of our security checklist in the docs.  See Section 6 Security in this Consult Report for Klaverblad:   no, but if there isn't one in the 'standard' recommendations doc we should look to putting on there
+Anybody has a section on security that  I can include in my report for Rapid start.
+I totally missed that :joy:
+I like how Justin called it YCBS, I think that's a much better name :slightly_smiling_face:
++1 on comment - YCSB is an artificial benchmark, and unless their workload is actually YCSB, they should not be overly obsessed with the results.
+After tuning the cache settings per the above help ticket, and upping the cache to 3.2 default size insert only workload performed very close to the same in both versions.
+Bottom line is that insert only workload appears slower, but mixed workloads are much faster in 3.4.1 vs 3.2.4
+WT Cache tuning will affect the benchmark too.  YCSB has become the bane of my existence here at AMEX - especially late 3.2.x changed the default cache tuning.  See Agreed
+I'd try your best to steer them away from obsessing with benchmarks.
+That will slow down WT, the creating and dropping collections a lot.

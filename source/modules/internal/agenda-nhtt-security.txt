@@ -44,3 +44,8 @@ Audit & Encryption
   :align: right
 
 .. include:: /includes/student-notes.rst
+
+
+Security Workshop
+-----------------
+- :doc:`/exercises/security-workshop`

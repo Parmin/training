@@ -1,0 +1,237 @@
+======================
+Lab: Security Workshop
+======================
+
+Learning Objectives
+-------------------
+
+Upon completing this workshop, students will be able to:
+
+- Secure application communication with MongoDB
+- Understand all security authentication and authorization options of MongoDB
+- Encrypt MongoDB data at rest using encrypted storage engine
+
+.. include:: /includes/student-notes.rst
+
+
+Introduction
+------------
+
+In this lab you are asked to secured a running application that stores data
+using MongoDB as a backend.
+
+- We are going to secure the backend communications using TLS/SSL
+- Enable authorization on the backend side
+- Encrypt the storage layer
+- Make sure that there are no *"leaks"* of information to
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Show students the different components of this workshop.
+
+    - The application code
+      - how to launch it
+
+    - The AWS instances where the backend should be running
+    - The set of available files:
+      - X509 certificates
+      - MongoDB binaries
+      - Configuration files
+
+    .. code-block::
+
+        ls /share/downloads
+
+
+Exercise: Check Connection to MongoDB
+-------------------------------------
+
+Let's connect to our running MongoDB cluster and check if we can connect.
+
+.. code-block:: sh
+
+    mongo --host SECURED/node1,node2,node3
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Here we want to make sure everyone can connect correctly to the MongoDB
+    cluster.
+
+
+Exercise: Launch Sample Application
+-----------------------------------
+
+Now that we know that we can connect to MongoDB through the ``mongo`` shell,
+it's time connect our sample application.
+
+To do so, we need to install the application:
+
+.. code-block:: sh
+
+    tar xzvf /share/downloads/security_lab.tgz
+    cd mongo-messenger
+    npm install
+    npm start
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    The sample application code should be available in the AWS instance.
+    In case students cannot find it, they can download using this instruction:
+
+    .. code-block:: sh
+
+        curl -O https://s3.amazonaws.com/mongodb-training/security_lab/security_lab.tgz
+
+    Also, make sure all instances have nodejs installed.
+
+Exercise: Checking your app
+---------------------------
+
+Throughout the lab duration the instructor will be checking on your app!
+
+This checking is done by running a few checks into your machine that will verify
+if you have completely secured, or not, your applications backend.
+
+We will come back to this later on.
+
+
+.. only:: instructor
+
+  .. note::
+
+    At this point you should run the lab validation scripts against one of the
+    students environment to test which things are not yet secured.
+
+    TODO: add instructions to run the scripts
+
+
+
+Exercise: Enable ``auth`` in your MongoDB cluster
+-------------------------------------------------
+
+Once we have our sample application up an running is time to start securing the
+system.
+
+You should start by enabling `MongoDB authentication`_
+
+To do this, you will have to decide:
+
+- Which authentication mechanism to use
+- Which authorization support will you use
+- Set of users required to operate this system
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    At this stage we will have the students making decisions regarding the
+    authentication and authorization mechanisms available, and which better
+    suits their needs.
+
+    Ask questions like:
+    - Which authentication mechanisms should we be setting up?
+      - Remind students that we will want the application to be fully encrypted
+
+    - Which systems should we have in place to manage users?
+      - What happens if we decide to have more than one application in this system?
+      - What will happen if we need to remove
+
+
+.. _`MongoDB authentication`: https://docs.mongodb.com/manual/core/authentication/
+
+
+
+Exercise: Encrypt communications between app and database
+---------------------------------------------------------
+
+You instructor has been eavesdropping on your application!
+
+Make sure he is not able to do so by encrypting your application connections on
+the backend side.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Run ``mongoreplay`` and show the students that you can in fact see what their
+    comms are looking like, between the application and the MongoDB cluster.
+
+
+    TODO: instructions for ``mongoreplay``
+
+
+Exercise: Avoid any log leaks
+-----------------------------
+
+Logs are an important asset of your system.
+
+Allow us to understand any potential issue with our cluster or deployment.
+But they can also **leak** some confidential information!
+
+Make sure that you do not have any data leaks into your logs.
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    At this point students should enable log redaction in their cluster nodes.
+
+    To accomplish this students should do the following:
+
+    - relaunch all nodes enabling client log data redaction
+
+      .. code-block:: yaml
+
+        ...
+        security:
+          redactClientLogData: true
+        ...
+
+    - this should be done without downtime
+
+    - Give "extra kudos" to students that managed to do this and also clearing
+      any information on previous logs
+
+Exercise: Encrypt Storage Layer
+-------------------------------
+
+To fully secure our MongoDB deployment we need to consider the actual MongoDB
+instance files.
+
+Your instructor, has some scripts that will enable him to have a peek into the
+your collection and indexes data files.
+
+Don't let him do so!!!
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Here we are asking students to enable the encryption storage engine:
+
+    https://docs.mongodb.com/manual/tutorial/configure-encryption/
+
+    TODO: instructions to enable encrypted storage engine.

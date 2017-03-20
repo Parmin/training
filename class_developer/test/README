@@ -1,0 +1,23 @@
+Instructions:
+=============
+1) Put the list of profiles you work with in 'profiles.txt'.
+   Put the region on which you want to run the majority of your tests as the first entry.
+     Some tests will be run only against this one
+   I suggest you create profiles matching those names for simplicity.
+
+tests
+=====
+
+create_runs.sh
+  create a minimum cluster in a list of regions
+    - test that the key/pairs are working in each region
+    - test that the AMIs are available in each supported region
+
+describe_stacks_all_regions.sh
+  use 'describe' to see if all regions can be looked at, and got runs created
+
+access_hosts.sh
+  use 'manage' to test the access to each machine
+
+destroy_runs.sh
+  remove all the runs from the 'create_runs.sh'
