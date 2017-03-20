@@ -35,6 +35,7 @@ What Views are useful for
 
   - Sensitive data from a collection can be projected out of the view
   - Views are read only
+  - Combined with role based authorization allows to select information by roles
 
 .. include:: /includes/student-notes.rst
 

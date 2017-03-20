@@ -5,17 +5,16 @@ Lab: Horizontal Views
 
 
 Exercise: Horizontal View Creation
---------------------------------
+----------------------------------
 
-It is useful to create horizontal views to give us a wide view of our data,
-with unnecessary data omitted (projected out).
+Horizontal views allow us to provide a selective set of fields of the underlying
+collection of documents for efficiency and role-based filtering of data.
 
-- Use the aggregation framework to create a horizontal view of our dataset.
+- Let's go ahead and create a horizontal view of our dataset.
 - Start by importing the necessary data if you have not already.
 
 .. code-block:: bash
 
-   # for version >= 3.4
    mongoimport -d companies -c complaints --drop views_dataset.json
 
 To help you verify your work, there are 404816 entries in this dataset.
@@ -30,15 +29,19 @@ To help you verify your work, there are 404816 entries in this dataset.
         db.complaints.count() // 404816
 
 Exercise : Horizontal View Creation Instructions
-----------------------------------------------
+------------------------------------------------
 Once you've verified the data import was successful, create a view that only shows the
-product, company, and state fields of the complaint document.
+the following fields:
 
-The resulting data should look like:
+- product
+- company
+- state
 
 
 Exercise : Horizontal View Creation Instructions Result
------------------------------------------------------
+-------------------------------------------------------
+
+The resulting data should look like:
 
 .. code-block:: javascript
 

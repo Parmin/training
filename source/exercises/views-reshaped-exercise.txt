@@ -6,14 +6,13 @@ Lab: Reshaped Views
 
 Exercise: Reshaped View
 -----------------------
-We can create a reshaped view from a collection to enable more intuitive data
+We can create a reshaped view of a collection to enable more intuitive data
 queries and make it easier for applications to perform analytics.
 
-It is also possible to create a view from a view. While not necessary,
-we will do so for this exercise.
+It is also possible to create a view from a view.
 
 - Use the aggregation framework to create a reshaped view of our dataset.
-- It is necessary to have completed the Horizontal View Lab.
+- It is necessary to have completed :doc:`/exercises/views-horizontal-exercise`
 
 Exercise : Reshaped View Specification
 --------------------------------------
