@@ -1,0 +1,17 @@
+dn: ou=Users,dc=mongodb,dc=com
+ou: Users
+objectClass: organizationalUnit
+
+dn: uid=alice,ou=Users,dc=mongodb,dc=com
+changetype: add
+objectclass: person
+objectclass: inetOrgPerson
+cn: alice
+sn: Alice
+uid: alice
+userPassword: secret
+
+dn: cn=admins,ou=Users,dc=mongodb,dc=com
+objectclass: groupOfNames
+cn: admins
+member: uid=alice,ou=Users,dc=mongodb,dc=com
