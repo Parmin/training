@@ -7,23 +7,23 @@
 ### Machine Role: opsmgr and node
 
 ### Files to download
-DIR=/data/downloads
+TARGETDIR=/data/downloads
+BUCKETFOLDERS=(
+    advadmin/config
+    advadmin/validation
+)
 FILES=(
     https://downloads.mongodb.com/on-prem-mms/rpm/mongodb-mms-3.4.3.402-1.x86_64.rpm
     https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.2.tgz
     https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-rhel70-3.4.2.tgz
     https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/3.4/x86_64/RPMS/mongodb-enterprise-server-3.4.2-1.el7.x86_64.rpm
-    https://s3.amazonaws.com/mongodb-training/advadmin/config/appdb.cnf
-    https://s3.amazonaws.com/mongodb-training/advadmin/config/backupdb.cnf
-    https://s3.amazonaws.com/mongodb-training/advadmin/config/etchosts
-    https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_replicasetreconfig.py
-    https://s3.amazonaws.com/mongodb-training/advadmin/validation/validate_securedreplicaset.py
     https://s3.amazonaws.com/mongodb-training/advadmin/datasets/usb_drive.zip
     https://s3.amazonaws.com/mongodb-training/security_lab/security_lab.tgz
 )
+
 PACKAGES=(
     unzip
-    gcc 
+    gcc
     gcc-c++
 )
 # MongoDB enterprise dependencies
@@ -31,30 +31,42 @@ PACKAGES=(
 #            lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs
 #            tcp_wrappers-libs
 
-### Setup
-[ -d $DIR ] || mkdir -p $DIR
-cd $DIR
-pwd
-
-### Download files
-echo Starting to download files
-for file in ${FILES[@]}; do
-    echo Downloading $file
-    curl $file -O
-done
-echo Done Downloading files
-
 ### Packages
 for package in ${PACKAGES[@]}; do
     yum install -y $package
 done
+
+### Setup
+[ -d $TARGETDIR ] || mkdir -p $TARGETDIR
+cd $TARGETDIR
+echo Current Directory:
+pwd
+
+### Download dirs and files
+echo Starting to download dirs
+for dir in ${BUCKETFOLDERS[@]}; do
+    echo Downloading directory $dir
+    BUCKETFILES=$(curl mongodb-training.s3.amazonaws.com?prefix=$dir | perl -lne 'while(/<Key>(.*?)<\/Key>/g){print("$1\n")}')
+    for file in ${BUCKETFILES[@]}; do
+        echo Downloading file $file
+        curl https://s3.amazonaws.com/mongodb-training/${file} -O
+    done
+done
+echo Done Downloading dirs
+
+echo Starting to download individual files
+for file in ${FILES[@]}; do
+    echo Downloading file $file
+    curl $file -O
+done
+echo Done Downloading individual files
 
 ### Commands to run
 # disable SELINUX
 /bin/sed -i -e 's/^SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 echo 0 > /sys/fs/selinux/enforce
 # unzip the data file
-/bin/unzip usb_drive.zip
+/bin/unzip -o usb_drive.zip
 # create additional directories, links, ...
 mkdir -p /data/etc
 chmod 777 /data/etc
