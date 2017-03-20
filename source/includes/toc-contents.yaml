@@ -22,6 +22,10 @@ file: /modules/nav/aggregation
 description: |
   The MongoDB aggregation framework
 ---
+file: /modules/nav/views
+description: |
+  Views in MongoDB
+---
 file: /modules/nav/schema-design-intro
 description: |
   Data modeling in MongoDB.

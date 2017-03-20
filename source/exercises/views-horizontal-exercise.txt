@@ -1,0 +1,67 @@
+=====================
+Lab: Horizontal Views
+=====================
+
+
+
+Exercise: Horizontal View Creation
+----------------------------------
+
+Horizontal views allow us to provide a selective set of fields of the underlying
+collection of documents for efficiency and role-based filtering of data.
+
+- Let's go ahead and create a horizontal view of our dataset.
+- Start by importing the necessary data if you have not already.
+
+.. code-block:: bash
+
+   mongoimport -d companies -c complaints --drop views_dataset.json
+
+To help you verify your work, there are 404816 entries in this dataset.
+
+.. only:: instructor
+
+  .. note::
+
+      .. code-block:: javascript
+
+      	use companies;
+        db.complaints.count() // 404816
+
+Exercise : Horizontal View Creation Instructions
+------------------------------------------------
+Once you've verified the data import was successful, create a view that only shows the
+the following fields:
+
+- product
+- company
+- state
+
+
+Exercise : Horizontal View Creation Instructions Result
+-------------------------------------------------------
+
+The resulting data should look like:
+
+.. code-block:: javascript
+
+  db.productComplaints.findOne()
+  {
+    "product" : "Debt collection",
+    "state" : "FL",
+    "company" : "Enhanced Recovery Company, LLC"
+  }
+
+.. only:: instructor
+
+  .. note::
+
+      .. code-block:: javascript
+
+      	use companies;
+        db.createView("productComplaints", "complaints", [
+          { $project: { _id: 0, product: 1, state: 1, company: 1 } }
+        ])
+
+
+.. include:: /includes/student-notes.rst

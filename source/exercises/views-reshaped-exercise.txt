@@ -1,0 +1,74 @@
+===================
+Lab: Reshaped Views
+===================
+
+
+
+Exercise: Reshaped View
+-----------------------
+We can create a reshaped view of a collection to enable more intuitive data
+queries and make it easier for applications to perform analytics.
+
+It is also possible to create a view from a view.
+
+- Use the aggregation framework to create a reshaped view of our dataset.
+- It is necessary to have completed :doc:`/exercises/views-horizontal-exercise`
+
+Exercise : Reshaped View Specification
+--------------------------------------
+
+Create a view that can be queried by company name that shows the amount of complaints by state.
+The resulting data should look like:
+
+.. code-block:: javascript
+
+  db.companyComplaintsByState.find({"company": "ROCKY MOUNTAIN MORTGAGE COMPANY"})
+
+  {
+	  "company" : "ROCKY MOUNTAIN MORTGAGE COMPANY",
+	  "states" : [
+	    {
+	    	 "state" : "TX",
+	    	 "count" : 4
+	    }
+	  ]
+  }
+
+.. only:: instructor
+
+  .. note::
+
+      .. code-block:: javascript
+
+      	use companies;
+        db.createView("companyComplaintsByState", "productComplaints", [
+          {
+            $group: {
+              "_id": {
+                  company: "$company",
+                  state: "$state"
+              },
+              count: {
+                  $sum: 1
+              }
+            }
+          }, {
+            $group: {
+              "_id": "$_id.company",
+              "byState": {
+                "$push": {
+                  "state": "$_id.state",
+                  "count": "$count"
+                }
+              }
+            }
+          }, {
+            $project: {
+              _id: 0,
+              "company": "$_id",
+              "states": "$byState"
+            }
+          }
+        ])
+
+.. include:: /includes/student-notes.rst

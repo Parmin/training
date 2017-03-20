@@ -1,0 +1,9 @@
+=====
+Views
+=====
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-views.rst
+
+.. include:: /includes/toc/views.rst

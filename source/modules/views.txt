@@ -1,0 +1,125 @@
+====================
+Views Tutorial
+====================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- What a view is
+- What views are useful for
+- How to create and drop a view
+- Internal mechanisms of a view
+
+.. include:: /includes/student-notes.rst
+
+
+What a View is
+--------------
+
+- A non-materialized collection created from one or more other collections.
+- For those who are used to SQL, MongoDB views are equivalent.
+- Can be thought of as a predefined aggregation that can be queried.
+
+
+.. include:: /includes/student-notes.rst
+
+
+What Views are useful for
+-------------------------
+
+- Views provide an excellent mechanism for data abstraction.
+- Views provide an excellent means to protect data
+
+  - Sensitive data from a collection can be projected out of the view
+  - Views are read only
+  - Combined with role based authorization allows to select information by roles
+
+.. include:: /includes/student-notes.rst
+
+
+How to create and drop a view
+-----------------------------
+
+- Creating a view is a straightforward process.
+
+  - We must give our view a <name>, which will be the name we can access it by
+  - We must specify a <source> collection
+  - We must define an aggregation <pipeline> to fill our new view with data
+  - Optionally, we may also specify a <collation>
+
+.. only:: instructor
+
+   .. note::
+
+      - Views do not have any data, nor do they cache their data.
+      - Views can only be created from another view. In order to combine data from
+      multiple collections, users can use the familiar aggregation operator `$lookup`
+
+Example - Creating a view
+-------------------------
+.. code-block:: javascript
+
+  // db.createView(<name>, <source>, <pipeline>, <collation>)
+  db.createView("contact_info", "patients", [
+    { $project: {
+      _id: 0,
+      first_name: 1,
+      last_name: 1,
+      gender: 1,
+      email: 1,
+      phone: 1
+      }
+    }
+  ])
+
+.. only:: instructor
+
+   .. note::
+
+      - Views do have limits and there are certain operators that can't be used.
+
+        - MapReduce
+        - $text
+        - Certain Projection operators
+
+          - $
+          - $slice
+          - $elemMatch
+          - $meta
+
+Dropping Views
+--------------
+- Views can be dropped like any other collection
+
+  .. code-block:: javascript
+
+    db.contact_info.drop()
+
+
+.. include:: /includes/student-notes.rst
+
+
+Internal mechanisms of a view
+---------------------------------------
+Views can be thought of as a predefined aggregation. As such:
+
+- Views do not contain any data nor take disk space by themselves
+- Views will benefit greatly from indexes on the source collection in their ``$match`` stage
+- Views are considered sharded if their underlying collection is sharded.
+- Views are immutable, and cannot be renamed
+
+.. only:: instructor
+
+   .. note::
+
+    - The aggregation to create the view is ran every time the view is queried
+    - Creating views from views can be slow, as we are cascading aggregations.
+
+      - MongoDB will neither check collection fields nor existence before creating a view.
+      - If there is no collection, the view will return an empty cursor
+
+
+.. include:: /includes/student-notes.rst
