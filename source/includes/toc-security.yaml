@@ -29,4 +29,8 @@ description: |
 file: /exercises/secured-replicaset
 description: |
   Using keyfiles to secure a replica set
+---
+file: /exercises/ldap-authz
+description: |
+  Authentication & authorization with LDAP
 ...

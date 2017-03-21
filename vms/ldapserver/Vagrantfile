@@ -1,21 +1,10 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-# SSL Mongod
-#$MONGOD_SSL_SCRIPT = <<EOF
-#touch /var/log/vagrant-setup.log; \
-#sh /vagrant/config/mongo_config/install.sh    | tee -a /var/log/vagrant-setup.log;\
-#sh /vagrant/config/ssl/install_ssl.sh    | tee -a /var/log/vagrant-setup.log;
-#sh /vagrant/config/ldap/ldap_install.sh    | tee -a /var/log/vagrant-setup.log;
-#EOF
-
-
 Vagrant.configure("2") do |config|
-  config.vm.synced_folder "config/", "/vagrant", create: true
+  config.vm.synced_folder "shared/", "/vagrant", create: true
   config.vm.box_check_update = false
-  #config.vm.box = "centos/7"
   config.vm.box = "CentoOS 6.4"
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box"
+  config.vm.network "forwarded_port", guest: 389, host: 8389
+  config.ssh.insert_key = false
 
   config.vm.define "ldap" do |server|
     server.vm.provider "virtualbox" do |v|

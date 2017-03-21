@@ -1,0 +1,185 @@
+===================================================
+Lab: LDAP Authentication & Authorization (Optional)
+===================================================
+
+Premise
+-------
+
+- Authentication and authorization with an external service (like LDAP) is an
+  important functionality for large organizations that rely on centralized user
+  management tools.
+
+- This lab is designed to get you familiar with the procedure to run a
+  ``mongod`` with authentication and authorization enabled with an external
+  LDAP service.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Take this opportunity to setup your OpenLDAP VM which students will
+      connect to.
+      
+      1. Download and extract `ldapserver.tar.gz`_ 
+      2. Run the following commands:
+
+        .. code-block:: bash
+          
+          $ vagrant up
+          $ vagrant ssh
+
+      3. You can confirm that everything is up and running correctly by
+         running:
+
+        .. code-block:: bash
+          
+          $ ldapwhoami -vvv -H ldapi:/// -D 'uid=alice,ou=Users,dc=mongodb,dc=com' -x -w secret
+
+
+Test Connection to LDAP
+-----------------------
+
+- An LDAP server is up and running for you to connect to.
+
+- **Server Info**:
+
+  - **Server Address**: ``192.168.19.100:8389``
+  - **User**: ``uid=alice,ou=Users,dc=mongodb,dc=com``
+  - **Password**: ``secret``
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Make sure to update the IP above with your computer's own local IP
+      address.
+
+    - We're using ``8389`` instead of the default LDAP port of ``389`` because
+      we need to forward the port from our VM to our host machine so students
+      can access the OpenLDAP server.
+
+
+Test Connection to LDAP (cont'd)
+--------------------------------
+
+- Your goal is to fill in the following configuration file and get
+  ``mongoldap`` to successfully talk to the LDAP server with the following
+  command:
+
+.. code-block:: bash
+  
+  $ mongoldap --config mongod.conf --user alice --password secret
+
+.. code-block:: yaml
+
+  ...
+  security:
+    authorization: "enabled"
+    ldap:
+      servers: "XXXXXXXXXXXXXX:8389"
+      authz:
+        queryTemplate: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      userToDNMapping: '[{match: "XXXX", substitution: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"}]'
+      transportSecurity: "none"
+      bind:
+        method: "simple"
+  setParameter:
+      authenticationMechanisms: PLAIN
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The key to this exercise is to build a correct ``queryTemplate`` and
+      ``userToDNMapping``.
+
+    - The correct missing parts of the config are:
+
+      .. code-block:: yaml
+
+        security:
+          ldap:
+            servers: "192.168.19.100" // students will update with your local IP, currently this is the IP of the VM
+            authz:
+              queryTemplate: "ou=Users,dc=mongodb,dc=com??one?(member={USER})"
+            userToDNMapping: '[{match: "(.+)", substitution: "uid={0},ou=Users,dc=mongodb,dc=com"}]'
+
+    - Inside `ldapserver.tar.gz`_ there is a sample ``mongod.conf`` that should
+      be able to talk to the LDAP server.
+
+
+Authentication with LDAP
+------------------------
+
+- Once you've successfully connected to LDAP with ``mongoldap`` you should be
+  able to use the same config file with ``mongod``.
+
+  .. code-block:: bash
+    
+    $ mongod --config mongod.conf
+    
+- From here you should be able to authenticate with ``alice`` and ``secret``.
+
+  .. code-block:: bash
+    
+    $ mongo --username alice \
+            --password secret \
+            --authenticationMechanism PLAIN \
+            --authenticationDatabase '$external'
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The following command will test your connection to the OpenLDAP server
+
+      .. code-block:: bash
+        
+        $ mongoldap --config mongod.conf --user alice --password secret
+
+
+Authorization with LDAP
+-----------------------
+
+- After successfully *authenticating* with LDAP, you'll need to take advantage
+  of the **localhost exception** to enable *authorization* with LDAP.
+
+- Create a role that allows anyone who is apart of the
+  **cn=admins,ou=Users,dc=mongodb,dc=com** LDAP group to be able to manage
+  users (e.g., inheriting ``userAdminAnyDatabase``).
+
+- To confirm that you've successfully setup authorization the following command
+  should execute without error if you're authenticated as ``alice`` since she's
+  apart of the group.
+
+  .. code-block:: bash
+    
+    > use admin
+    > db.getRoles()
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - The following command will create the necessary role.
+
+      .. code-block:: bash
+        
+        > db.createRole({
+            role: 'cn=admins,ou=Users,dc=mongodb,dc=com',
+            privileges: [],
+            roles:['userAdminAnyDatabase']
+          });
+
+
+.. _ldapserver.tar.gz : http://s3.amazonaws.com/mongodb-training/vms/ldapserver.tar.gz

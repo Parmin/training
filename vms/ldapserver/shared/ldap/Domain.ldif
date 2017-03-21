@@ -1,5 +1,5 @@
-dn: dc=10gen,dc=me
+dn: dc=mongodb,dc=com
 objectClass: dcObject
 objectClass: organization
-dc: 10gen
-o : 10gen
+dc: mongodb
+o : mongodb
