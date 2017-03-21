@@ -5,10 +5,11 @@ Lab: LDAP Authentication & Authorization (Optional)
 Premise
 -------
 
-- Authentication and authorization with an external service (like LDAP) is a
-  critical requirement of production enterprise deployments.
+- Authentication and authorization with an external service (like LDAP) is an
+  important functionality for large organizations that rely on centralized user
+  management tools.
 
-- This lab is designed to get you familiar with the procedure to standup a
+- This lab is designed to get you familiar with the procedure to run a
   ``mongod`` with authentication and authorization enabled with an external
   LDAP service.
 
@@ -34,7 +35,7 @@ Premise
 
         .. code-block:: bash
           
-          $ ldapwhoami -vvv -H ldapi:/// -D 'cn=Manager,dc=mongodb,dc=com' -x -w password
+          $ ldapwhoami -vvv -H ldapi:/// -D 'uid=alice,ou=Users,dc=mongodb,dc=com' -x -w secret
 
 
 Test Connection to LDAP
@@ -44,11 +45,22 @@ Test Connection to LDAP
 
 - **Server Info**:
 
-  - **Server Address**: ``192.168.19.100``
+  - **Server Address**: ``192.168.19.100:8389``
   - **User**: ``uid=alice,ou=Users,dc=mongodb,dc=com``
   - **Password**: ``secret``
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Make sure to update the IP above with your computer's own local IP
+      address.
+
+    - We're using ``8389`` instead of the default LDAP port of ``389`` because
+      we need to forward the port from our VM to our host machine so students
+      can access the OpenLDAP server.
 
 
 Test Connection to LDAP (cont'd)
@@ -68,7 +80,7 @@ Test Connection to LDAP (cont'd)
   security:
     authorization: "enabled"
     ldap:
-      servers: "XXXXXXXXXXXXXX"
+      servers: "XXXXXXXXXXXXXX:8389"
       authz:
         queryTemplate: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
       userToDNMapping: '[{match: "XXXX", substitution: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"}]'
@@ -93,7 +105,7 @@ Test Connection to LDAP (cont'd)
 
         security:
           ldap:
-            servers: "192.168.19.100"
+            servers: "192.168.19.100" // students will update with your local IP, currently this is the IP of the VM
             authz:
               queryTemplate: "ou=Users,dc=mongodb,dc=com??one?(member={USER})"
             userToDNMapping: '[{match: "(.+)", substitution: "uid={0},ou=Users,dc=mongodb,dc=com"}]'
@@ -123,6 +135,16 @@ Authentication with LDAP
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - The following command will test your connection to the OpenLDAP server
+
+      .. code-block:: bash
+        
+        $ mongoldap --config mongod.conf --user alice --password secret
+
 
 Authorization with LDAP
 -----------------------
@@ -131,8 +153,8 @@ Authorization with LDAP
   of the **localhost exception** to enable *authorization* with LDAP.
 
 - Create a role that allows anyone who is apart of the
-  **cn=admins,ou=Users,dc=mongodb,dc=com** group to be able to manage users
-  (e.g., ``userAdminAnyDatabase``).
+  **cn=admins,ou=Users,dc=mongodb,dc=com** LDAP group to be able to manage
+  users (e.g., inheriting ``userAdminAnyDatabase``).
 
 - To confirm that you've successfully setup authorization the following command
   should execute without error if you're authenticated as ``alice`` since she's
