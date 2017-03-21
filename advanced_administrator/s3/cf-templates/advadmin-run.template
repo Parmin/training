@@ -2,14 +2,25 @@
   "Description" : "This is the top stack template to create a training class.",
 
   "Parameters": {
+    "KeyPair": {
+      "Description": "Amazon EC2 Key Pair, either AdvancedAdministrator or another one to distribute to the teams",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
     "NbTeams": {
       "Description": "Number of Teams to initially create (max 9), you can add more later",
       "Type": "String",
       "AllowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
     },
-    "KeyPair": {
-      "Description": "Amazon EC2 Key Pair, either AdvancedAdministrator or another one to distribute to the teams",
-      "Type": "AWS::EC2::KeyPair::KeyName"
+    "NbNodes": {
+      "Description": "Number of node type hosts to create per team",
+      "Type": "String",
+      "AllowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" ]
+    },
+    "OMMode": {
+      "Description": "Create the Ops Manager hosts and the Load Balancer",
+      "Type": "String",
+      "AllowedValues": [ "true", "false" ],
+      "Default": "true"
     },
     "TestMode": {
       "Description": "Run in test mode, using less resources",
@@ -85,6 +96,8 @@
           "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "1",
           "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
           "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
@@ -103,6 +116,8 @@
           "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "2",
           "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
           "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
@@ -121,6 +136,8 @@
           "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "3",
           "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
           "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
@@ -139,6 +156,8 @@
           "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "4",
           "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
           "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
@@ -157,6 +176,8 @@
           "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "5",
           "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
           "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
@@ -175,6 +196,8 @@
           "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "6",
           "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
           "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
@@ -193,6 +216,8 @@
           "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "7",
           "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
           "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
@@ -211,6 +236,8 @@
           "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "8",
           "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
           "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
@@ -229,6 +256,8 @@
           "RunName": { "Ref": "AWS::StackName" },
           "TeamNumber": "9",
           "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
           "TestMode": { "Ref": "TestMode" }
         },
         "TimeoutInMinutes": "10",
@@ -244,6 +273,14 @@
     "NbTeams": {
       "Value": { "Ref": "NbTeams" },
       "Description": "Number of Teams initially created by this top Stack"
+    },
+    "NbNodes": {
+      "Value": { "Ref": "NbNodes" },
+      "Description": "Number of node type hosts per team"
+    },
+    "OMMode": {
+      "Value": { "Ref": "OMMode" },
+      "Description": "Create Ops Manager artifacts"
     },
     "KeyPair": {
       "Value": { "Ref": "KeyPair" },

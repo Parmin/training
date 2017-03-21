@@ -7,13 +7,24 @@
       "Description": "Run or class name, used to name the Load Balancer",
       "Type": "String"
     },
-    "TeamNumber": {
-      "Description": "Team number, 1 to 16. Subnet for this team will be 10.0.X.0",
-      "Type": "String"
-    },
     "KeyPair": {
       "Description": "Amazon EC2 Key Pair, either AdvancedAdministrator or another one to distribute to the teams",
       "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "TeamNumber": {
+      "Description": "Team number, 1 to 9.",
+      "Type": "String"
+    },
+    "NbNodes": {
+      "Description": "Number of node type hosts to create per team",
+      "Type": "String",
+      "AllowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" ]
+    },
+    "OMMode": {
+      "Description": "Create the Ops Manager hosts and the Load Balancer",
+      "Type": "String",
+      "AllowedValues": [ "true", "false" ],
+      "Default": "true"
     },
     "TestMode": {
       "Description": "Run in test mode, using less resources",
@@ -42,7 +53,19 @@
   },
 
   "Conditions" : {
-    "IsNotTestMode": {"Fn::Equals": [{"Ref": "TestMode"}, "false"]},
+    "OMMode": {"Fn::Equals": [{"Ref": "OMMode"}, "true"]},
+    "CreateNode12" : { "Fn::Equals": [{"Ref": "NbNodes"}, "12"] },
+    "CreateNode11" : { "Fn::Or": [ {"Condition": "CreateNode12"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "11"]} ] },
+    "CreateNode10" : { "Fn::Or": [ {"Condition": "CreateNode11"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "10"]} ] },
+    "CreateNode9" : { "Fn::Or": [ {"Condition": "CreateNode10"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "9"]} ] },
+    "CreateNode8" : { "Fn::Or": [ {"Condition": "CreateNode9"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "8"]} ] },
+    "CreateNode7" : { "Fn::Or": [ {"Condition": "CreateNode8"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "7"]} ] },
+    "CreateNode6" : { "Fn::Or": [ {"Condition": "CreateNode7"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "6"]} ] },
+    "CreateNode5" : { "Fn::Or": [ {"Condition": "CreateNode6"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "5"]} ] },
+    "CreateNode4" : { "Fn::Or": [ {"Condition": "CreateNode5"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "4"]} ] },
+    "CreateNode3" : { "Fn::Or": [ {"Condition": "CreateNode4"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "3"]} ] },
+    "CreateNode2" : { "Fn::Or": [ {"Condition": "CreateNode4"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "2"]} ] },
+    "CreateNode1" : { "Fn::Or": [ {"Condition": "CreateNode2"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "1"]} ] },
     "hasMissingInstanceTypes": {"Fn::Equals": [{"Ref": "AWS::Region" }, "ap-south-1"]}
   },
 
@@ -207,6 +230,7 @@
 
     "opsmgr1": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "OMMode",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -227,6 +251,7 @@
 
     "opsmgr2": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "OMMode",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -247,6 +272,7 @@
 
     "opsmgr3": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "OMMode",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -267,6 +293,7 @@
 
     "node1": {
       "Type": "AWS::CloudFormation::Stack",
+      "Condition": "CreateNode1",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -291,7 +318,7 @@
 
     "node2": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode2",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -316,7 +343,7 @@
 
     "node3": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode3",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -341,7 +368,7 @@
 
     "node4": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode4",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -366,7 +393,7 @@
 
     "node5": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode5",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -391,7 +418,7 @@
 
     "node6": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode6",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -416,7 +443,7 @@
 
     "node7": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode7",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -441,7 +468,7 @@
 
     "node8": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode8",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -466,7 +493,7 @@
 
     "node9": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode9",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -491,7 +518,7 @@
 
     "node10": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode10",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -516,7 +543,7 @@
 
     "node11": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode11",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -541,7 +568,7 @@
 
     "node12": {
       "Type": "AWS::CloudFormation::Stack",
-      "Condition": "IsNotTestMode",
+      "Condition": "CreateNode12",
       "Properties": {
         "TemplateURL": { "Fn::FindInMap" : [ "Params", "AMITemplate", { "Ref": "TestMode" } ] },
         "Parameters": {
@@ -566,6 +593,7 @@
 
     "OpsMgrLB": {
       "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+      "Condition": "OMMode",
       "Properties": {
         "Instances": [
           { "Fn::GetAtt": [ "opsmgr1", "Outputs.InstanceID" ] },
@@ -609,7 +637,11 @@
     },
     "LoadBalancerHostName": {
       "Value": {
-        "Fn::GetAtt": [ "OpsMgrLB", "DNSName" ]
+        "Fn::If": [
+          "OMMode",
+          "Fn::GetAtt": [ "OpsMgrLB", "DNSName" ],
+          "No Load Balancer/No Ops Manager instances"
+        ]
       },
       "Description": "Load Balancer Public Name"
     },
