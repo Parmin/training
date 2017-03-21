@@ -69,6 +69,9 @@ def main():
     parser.add_argument('--profile', dest='awsprofile', default='default',
       type=str, help='AWS profile that will launch the environment')
 
+    parser.add_argument('--region', dest='awsregion', default='default', type=str,
+      help="AWS region that is looked at")
+
     parser.add_argument('--run', dest='training_run', required=True, type=str,
       help='environment training run identifier')
 
@@ -83,13 +86,14 @@ def main():
 
     training_run = args.training_run
     awsprofile = args.awsprofile
+    awsregion = args.awsregion
 
     logger.debug("Going to deploy new traing run")
     end_date = date.today()+timedelta(days=args.duration)
 
     logger.debug("Training will finish {:%d, %b %Y}".format(end_date))
 
-    pr = Provisioner_aws_cf(args, training_run, end_date=end_date, aws_profile=awsprofile, teams=args.teams, keypair=args.keypair)
+    pr = Provisioner_aws_cf(args, training_run, end_date=end_date, aws_profile=awsprofile, aws_region=awsregion, teams=args.teams, keypair=args.keypair)
 
     if "_" in args.training_run:
         # since we use the name in the template name, it would not be accepted by AWS

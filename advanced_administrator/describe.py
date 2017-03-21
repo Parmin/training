@@ -87,7 +87,10 @@ def main():
       help="Path in which to store the output. For each team, a -X is added to the name. Defaults to '/tmp/advadm-run'")
 
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
-      help="AWS profile that will launch the environment")
+      help="AWS profile that is used")
+
+    parser.add_argument('--region', dest='awsregion', default='default', type=str,
+      help="AWS region that is looked at")
 
     parser.add_argument('--verbose', dest='verbose', action='store_true',
       help="Show more details in the output")
@@ -97,10 +100,11 @@ def main():
 
     training_run = args.training_run
     awsprofile = args.awsprofile
+    awsregion = args.awsregion
+    
+    provisioner_values = ["aws-cf"]
 
-    provisioner_values = ["aws-plain", "aws-cf"]
-
-    pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
+    pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile, aws_region=awsregion)
 
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")

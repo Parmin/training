@@ -5,10 +5,10 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ADVADMINDIR="$SCRIPTDIR/../../advanced_administrator"
 
-REGIONS=`cat $SCRIPTDIR/regions.txt`
+PROFILES=`cat $SCRIPTDIR/profiles.txt`
 
-for region in ${REGIONS[@]}; do
-  echo Region: $region
-  ${ADVADMINDIR}/describe.py --region ${region}
+for profile in ${PROFILES[@]}; do
+  echo Profile: $profile
+  ${ADVADMINDIR}/describe.py --profile ${profile}
   echo ""
 done
