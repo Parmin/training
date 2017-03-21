@@ -41,11 +41,15 @@ def main():
     parser.add_argument('--profile', dest='awsprofile', default='default',
     type=str, help='AWS profile that will launch the environment')
 
+    parser.add_argument('--region', dest='awsregion', default='default', type=str,
+      help="AWS region that is looked at")
+
     args = parser.parse_args()
     training_run = args.training_run
     awsprofile = args.awsprofile
+    awsregion = args.awsregion
 
-    pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
+    pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile, aws_region=awsregion)
 
     pr.connect()
     logger.info('Destroying {0}'.format(args.training_run))

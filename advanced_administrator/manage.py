@@ -72,6 +72,9 @@ def main():
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
       help="AWS profile that will launch the environment")
 
+    parser.add_argument('--region', dest='awsregion', default='default', type=str,
+      help="AWS region that is looked at")
+
     parser.add_argument('--roles', dest='roles', type=str,
       help="List of roles (or regexes) to match the hosts to manage")
 
@@ -92,8 +95,9 @@ def main():
 
     training_run = args.training_run
     awsprofile = args.awsprofile
+    awsregion = args.awsregion
 
-    pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile)
+    pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile, aws_region=awsregion)
 
     if args.cmd is None and args.script is None and args.etchosts is None:
       fatal(1, "You must provide a --cmd or a --script to execute on the remote hosts, or --etchosts")

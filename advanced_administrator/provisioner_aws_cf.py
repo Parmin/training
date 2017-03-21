@@ -30,7 +30,7 @@ class Provisioner_aws_cf(object):
     """
 
     # TODO - cleanup the arguments to the constructor, maybe just keeping 'args'
-    def __init__(self, args, training_run, aws_profile="default", teams=1, end_date=date.today()+timedelta(days=7), aws_region=None, keypair=None):
+    def __init__(self, args, training_run, aws_profile="default", teams=1, end_date=date.today()+timedelta(days=7), aws_region="default", keypair=None):
         self.training_run = training_run
         self.aws_profile = aws_profile
         self.number_of_teams = teams
@@ -87,10 +87,12 @@ class Provisioner_aws_cf(object):
         Establish the resources and client objects
         """
         try:
-            if self.aws_region is None:
+            if self.aws_region != "default" and self.aws_region is not None:
+                self.session = boto3.session.Session(region_name=self.aws_region)
+            elif self.aws_profile != "default" and self.aws_profile is not None:
                 self.session = boto3.session.Session(profile_name=self.aws_profile)
             else:
-                self.session = boto3.session(profile_name=self.aws_profile, aws_region=self.aws_region)
+                self.session = boto3.session.Session()
             self.client = self.session.client('cloudformation')
             self.ec2 = self.session.client('ec2')
         except ProfileNotFound, e:
