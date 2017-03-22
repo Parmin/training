@@ -455,6 +455,20 @@ As of MongoDB 3.4, MongoDB supports *authorization* with LDAP.
 **How it works:**
 
 1. User authenticates via an external mechanism
+
+  .. code-block:: bash
+    
+    $ mongo --username alice \
+            --password secret \
+            --authenticationMechanism PLAIN \
+            --authenticationDatabase '$external'
+
+.. include:: /includes/student-notes.rst
+
+
+LDAP Authorization (cont'd)
+---------------------------
+
 2. Username is tranformed into LDAP query
 
    .. code-block:: javascript
@@ -471,8 +485,9 @@ As of MongoDB 3.4, MongoDB supports *authorization* with LDAP.
 
 .. include:: /includes/student-notes.rst
 
-LDAP Authorization
-------------------
+
+LDAP Authorization (cont'd)
+---------------------------
 
 3. MongoDB queries the LDAP server
 
