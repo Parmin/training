@@ -46,10 +46,6 @@ file: /modules/nav/security
 description: |
   An overview of security options for MongoDB
 ---
-file: /modules/nav/new-in-3-2
-description: |
-  Changes in MongoDB 3.2
----
 file: /modules/nav/performance-essentials
 description: |
   An introduction to MongoDB tools for performance troubleshooting

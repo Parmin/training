@@ -173,6 +173,29 @@ Aggregation (1 hour)
 
 .. include:: /includes/student-notes.rst
 
+Views (1 hour)
+--------------
+
+- |views_tut|
+- |views_vertical|
+- |views_horizontal|
+- |views_reshaped|
+
+.. |views_tut| raw:: html
+
+   <a href="views.html">Views Tutorial</a>
+
+.. |views_vertical| raw:: html
+
+  <a href="../exercises/views-vertical-exercise.html">Lab: Vertical View</a>
+
+.. |views_horizontal| raw:: html
+
+  <a href="../exercises/views-horizontal-exercise.html">Lab: Horizontal View</a>
+
+.. |views_reshaped| raw:: html
+
+  <a href="../exercises/views-reshaped-exercise.html">Lab: Reshaped View</a>
 
 Day 2 (Morning)
 ---------------
@@ -421,5 +444,3 @@ Additional Topics (2 hours)
 - Additional topics, application specific topics from class
 
 .. include:: /includes/student-notes.rst
-
-
