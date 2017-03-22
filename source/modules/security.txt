@@ -71,6 +71,24 @@ Authorization via MongoDB
 .. include:: /includes/student-notes.rst
 
 
+External authorization via LDAP (MongoDB Enterprise)
+----------------------------------------------------
+
+- Query LDAP server for groups to which a user belongs.
+- Distinguised names (DN) are mapped to roles on the ``admin`` database.
+- Requires external authentication (x.509, LDAP, or Kerberos).
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Visit the lab on :ref:`LDAP Authentication & Authorization
+      <lab-ldap-authz>` for step-by-step instructions.
+    - Checkout the `LDAP Authorization documentation`_ to learn more!
+
+
 Network Exposure Options
 ------------------------
 
@@ -154,3 +172,5 @@ MongoDB Custom User Roles
 - You won't remember how to do this, so if you need it, consult the :manual:`docs </core/security-introduction/>`.
 
 .. include:: /includes/student-notes.rst
+
+.. _LDAP Authorization documentation : https://docs.mongodb.com/manual/core/security-ldap-external/
