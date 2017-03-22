@@ -63,8 +63,11 @@ def main():
     parser.add_argument('--keypair', dest='keypair', default="AdvancedAdministrator", type=str,
       help="SSH keys to use. It defaults to 'AdvancedAdministrator'. You can provide another string, but the keys must exist under your account")
 
-    parser.add_argument('--instances', dest='instances', default=16, type=int,
-      help="Number of instances per team")
+    parser.add_argument('--instances', dest='instances', default=12, type=int,
+      help="Number of 'nodeX' instances per team, default is 12")
+
+    parser.add_argument('--noom', dest='noom', action='store_true', default=False,
+      help="Don't create the Ops Manager artifacts")
 
     parser.add_argument('--profile', dest='awsprofile', default='default',
       type=str, help='AWS profile that will launch the environment')
@@ -87,6 +90,8 @@ def main():
     training_run = args.training_run
     awsprofile = args.awsprofile
     awsregion = args.awsregion
+    if args.noom == True and args.instances == 12:
+        args.instances = 1
 
     logger.debug("Going to deploy new traing run")
     end_date = date.today()+timedelta(days=args.duration)

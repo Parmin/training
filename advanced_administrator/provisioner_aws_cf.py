@@ -54,6 +54,11 @@ class Provisioner_aws_cf(object):
         else:
             testmode = "false"
 
+        if self.args.noom:
+            ommode = "false"
+        else:
+            ommode = "true"
+
         # http://boto3.readthedocs.io/en/latest/reference/services/cloudformation.html#CloudFormation.Client.create_stack
         template_path = os.path.join(S3_FILES_PATH, "cf-templates", "advadmin-run.template")
         with open(template_path, 'r') as f:
@@ -63,7 +68,9 @@ class Provisioner_aws_cf(object):
                 OnFailure = 'DO_NOTHING',
                 Parameters = [
                     { "ParameterKey": "NbTeams", "ParameterValue": str(self.number_of_teams) },
+                    { "ParameterKey": "NbNodes", "ParameterValue": str(self.args.instances) },
                     { "ParameterKey": "KeyPair", "ParameterValue": self.keypair },
+                    { "ParameterKey": "OMMode", "ParameterValue": ommode },
                     { "ParameterKey": "TestMode", "ParameterValue": testmode }
                 ],
                 # Add 'Project' and 'Expire-on'

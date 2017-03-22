@@ -13,6 +13,7 @@
 #   - support file names with spaces in them?
 #   - allow to use a cached .json file (from describe) to avoid describing the stacks again, which is slow
 #   - support regex in list of hosts to run cmd/script on
+#   - add actions to 'start/stop/terminate' the hosts
 
 """
 Example:
