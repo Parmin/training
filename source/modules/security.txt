@@ -80,6 +80,14 @@ External authorization via LDAP (MongoDB Enterprise)
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - Visit the lab on :ref:`LDAP Authentication & Authorization
+      <lab-ldap-authz>` for step-by-step instructions.
+    - Checkout the `LDAP Authorization documentation`_ to learn more!
+
 
 Network Exposure Options
 ------------------------
@@ -164,3 +172,5 @@ MongoDB Custom User Roles
 - You won't remember how to do this, so if you need it, consult the :manual:`docs </core/security-introduction/>`.
 
 .. include:: /includes/student-notes.rst
+
+.. _LDAP Authorization documentation : https://docs.mongodb.com/manual/core/security-ldap-external/
