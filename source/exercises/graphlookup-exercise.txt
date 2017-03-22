@@ -1,0 +1,53 @@
+=========================
+Lab: Using ``$graphLookup``
+=========================
+
+Exercise: Finding Airline Routes
+--------------------------------
+
+For this exercise, incorporate the ``$graphLookup`` stage into an aggregation
+pipeline to find Delta Air Lines routes from JFK to BOI. Find all routes that only
+have one layover.
+
+- Start by importing the necessary dataset
+
+.. code-block:: bash
+
+   mongoimport -d air -c routes routes.json
+   mongo air
+   > db.routes.count()
+   66985
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         db.routes.aggregate([
+           {
+             $match: { "airline.alias": "DL", "dst_airport": "BOI" }
+           }, {
+             $graphLookup: {
+               "startWith": "$dst_airport",
+               "from": "routes",
+               "connectFromField": "dst_airport",
+               "connectToField": "src_airport",
+               "as": "connections",
+               "restrictSearchWithMatch": { "airline.alias": "DL" }
+             }
+           }, {
+             $unwind: "$connections"
+           }, {
+             $match: { "connections.src_airport": "JFK" }
+           }, {
+             $project: {
+               src_airport: 1,
+               dst_airport: 1,
+               connections: 1,
+               is_equal: { $eq: ["$src_airport", "$connections.dst_airport"] }
+             }
+           }, {
+             $match: { is_equal: true }
+           }
+         ]).pretty()

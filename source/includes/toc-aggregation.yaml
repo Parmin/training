@@ -9,4 +9,8 @@ description: |
 file: /exercises/aggregation-exercises
 description: |
   Aggregation labs
+---
+file: /exercises/graphlookup-exercise
+description: |
+  $graphLookup lab
 ...
