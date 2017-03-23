@@ -1,5 +1,5 @@
 ==================
-Contributers Guide
+Contributors Guide
 ==================
 
 Contributions
@@ -208,6 +208,12 @@ In the included file you would then have a section something like the following.
 Using Figures
 -------------
 
+There is an official page in our `docs <https://docs.mongodb.com/meta/images-guide/>`_
+to help on the use of figures:
+
+
+However, I will go in a little more details, especially for this repository.
+
 You will find figures used in training in both the `<source/figures>`_ and `<source/images>`_ subdirectories.
 
 `<source/figures>`_ is linked to the *docs-assets* repository, using the *training* branch.
@@ -278,7 +284,7 @@ Here a quick checklist of the steps I used to create the figures for the schema 
 
   - 'web' section is for the HTML and Slides modes
   - 'offset' section is for the PDF
-  
+
 - add a line like the following in the rST files
 
   - .. include:: /images/pattern-cache.rst
