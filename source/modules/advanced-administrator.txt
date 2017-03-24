@@ -165,9 +165,11 @@ Within your team configuration file you should have:
     - check that everyone is able to run command ``ls /share``
 
     You may want to explain to the students that:
+
     - each team works in under their private vpc
-    - to navigate and configure the infrastructure, students should be using the
-      ``/etc/hosts`` defined names
+
+    - to navigate and configure the infrastructure, students should be using
+      the ``/etc/hosts`` defined names
 
 .. include:: /includes/student-notes.rst
 

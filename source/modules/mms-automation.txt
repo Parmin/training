@@ -39,7 +39,7 @@ How Does Automation Work?
 Automation Agents
 -----------------
 
-.. include:: /images/mms-automation.rst
+.. include:: /figures_local_meta/opsmanager-automation.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -123,8 +123,8 @@ Demo
 - Reference documentation:
 
 - `The Automation Agent <https://docs.cloud.mongodb.com/tutorial/nav/automation-agent/>`_
-  - `The Automation API <https://docs.cloud.mongodb.com/api/>`_
-  - `Configuring the Automation Agent <https://docs.cloud.mongodb.com/reference/automation-agent/>`_
+- `The Automation API <https://docs.cloud.mongodb.com/api/>`_
+- `Configuring the Automation Agent <https://docs.cloud.mongodb.com/reference/automation-agent/>`_
 
 
 .. include:: /includes/student-notes.rst

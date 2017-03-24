@@ -34,17 +34,19 @@ using MongoDB as a backend.
     Show students the different components of this workshop.
 
     - The application code
+
       - how to launch it
 
     - The AWS instances where the backend should be running
     - The set of available files:
+
       - X509 certificates
       - MongoDB binaries
       - Configuration files
 
-    .. code-block::
+    .. code-block:: sh
 
-        ls /share/downloads
+      ls /share/downloads
 
 
 Exercise: Check Connection to MongoDB
@@ -145,10 +147,13 @@ To do this, you will have to decide:
     suits their needs.
 
     Ask questions like:
+
     - Which authentication mechanisms should we be setting up?
+
       - Remind students that we will want the application to be fully encrypted
 
     - Which systems should we have in place to manage users?
+
       - What happens if we decide to have more than one application in this system?
       - What will happen if we need to remove
 

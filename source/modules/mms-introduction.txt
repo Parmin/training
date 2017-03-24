@@ -37,7 +37,7 @@ Deployment Options
 Architecture
 ------------
 
-.. include:: /images/mms-introduction.rst
+.. include:: /figures_local_meta/opsmanager-architecture.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -81,9 +81,3 @@ Creating a Cloud Manager Account
 Free account at https://www.mongodb.com/cloud
 
 .. include:: /includes/student-notes.rst
-
-
-
-
-
-

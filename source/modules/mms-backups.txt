@@ -69,7 +69,7 @@ Restoring from Cloud / Ops Manager
 Architecture
 ------------
 
-.. include:: /images/mms-backups.rst
+.. include:: /figures_local_meta/opsmanager-backupdiagram.txt
 
 .. include:: /includes/student-notes.rst
 

@@ -1,0 +1,37 @@
+
+.. only:: latex and not offset
+
+   .. figure:: /figures/opsmanager-automation.png
+      :alt: Ops Manager Automation
+      :align: center
+      :figwidth: 1600px
+
+.. only:: website and slides
+
+   .. figure:: /figures/opsmanager-automation.png
+      :alt: Ops Manager Automation
+      :align: center
+      :figwidth: 500px
+
+.. only:: website and html
+
+   .. figure:: /figures/opsmanager-automation.png
+      :alt: Ops Manager Architecture Diagram
+      :align: center
+      :figwidth: 700px
+
+.. only:: website and not (html or slides)
+
+   .. raw:: html
+
+      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_figures/opsmanager-architecture.png" alt="Ops Manager Architecture Diagram"></img><p>Ops Manager Architecture Diagram</p></div>
+
+
+.. only:: latex and offset
+
+   .. raw:: latex
+
+      \begin{figure}[h!]
+      \centering
+      \includegraphics[width=400px]{opsmanager-automation.eps}
+      \end{figure}

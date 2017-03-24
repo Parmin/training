@@ -80,7 +80,7 @@ Open a new shell, connecting to the primary.
 
 .. code-block:: javascript
 
-   mongo --port 31000
+   mongo --port 20000
 
 .. include:: /includes/student-notes.rst
 

@@ -82,4 +82,3 @@ Configuration Management
 Use the automation API to integrate with existing configuration management tools (such as Chef or Puppet) to automate creating and maintaining environments.
 
 .. include:: /includes/student-notes.rst
-
