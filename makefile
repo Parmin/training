@@ -10,11 +10,12 @@ noop:
 	$(info   student-package      build the material for the students)
 	$(info   latex                build the PDFs for all classes)
 	$(info   )
+	$(info   diff-aws             diff workspace files with the dev area in S3)
+	$(info   )
 	$(info   internal-package     NHTT only: build the course for the instructor)
 	$(info   internal-pdfs        NHTT only: build the PDFs for the students)
 	$(info   )
 	$(info   set EDU_VERBOSITY to 'info' or 'debug' to increase the verbosity):
-	$(info   diff-aws 	      diff workspace files with the dev area in S3)
 	@true
 
 %:
@@ -43,7 +44,7 @@ student-package:
 	rsync $(osverbosity) -r build/$(branch)/slides-student/ build/$@/slides/
 	tar $(osverbosity) -C build/ -czf build/$@.tar.gz $@/
 
-internal-package: 
+internal-package:
 	rm -f conf.py
 	ln conf-internal.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
