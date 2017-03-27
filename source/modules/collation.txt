@@ -1,0 +1,152 @@
+==========
+Collations
+==========
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- What collations are
+- How they are defined in MongoDB
+- How to to use collations on queries
+- How to use collations on indexes
+- How collations work with views
+
+.. include:: /includes/student-notes.rst
+
+
+What Collation is
+-----------------
+
+Collation allows users to specify language-specific rules for string comparison,
+such as rules for lettercase and accent marks.
+
+- Consider how we would sort "bøhm" and "brown" using Norwegian grammar rules.
+
+.. include:: /includes/student-notes.rst
+
+
+How Collations are defined in MongoDB
+-------------------------------------
+
+- Defined using a Collation Document with the following form:
+
+.. code-block:: javascript
+
+   {
+     locale: <string>,
+     caseLevel: <boolean>,
+     caseFirst: <string>,
+     strength: <int>,
+     numericOrdering: <boolean>,
+     alternate: <string>,
+     maxVariable: <string>,
+     backwards: <boolean>
+   }
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         `Collation Document <https://docs.mongodb.com/manual/reference/collation/#collation-document>`_
+
+.. include:: /includes/student-notes.rst
+
+The Collation Document
+----------------------
+
+- locale: The International Components for Unicode (ICU) locale. A full list of supported locales can be found `here <https://docs.mongodb.com/manual/reference/collation-locales-defaults/#collation-languages-locales>`_
+- strength: Optional. The level of comparison to perform, corresponding to `ICU Comparison Levels <http://userguide.icu-project.org/collation/concepts#TOC-Comparison-Levels>`_
+- caseLevel: Optional. Flag that determines whether to include case comparison.
+- caseFirst: Optional. Flag that determines sort order of case differences during tertiary level comparisons.
+
+.. only:: instructor
+
+   .. note::
+
+      Some collation locales have variants, which employ special language-specific rules. `Documentation here <https://docs.mongodb.com/manual/reference/collation/#behavior>`_
+
+.. include:: /includes/student-notes.rst
+
+The Collation Document Continued
+--------------------------------
+
+- numericOrdering: Optional. Flag that determines whether to compare numeric strings as numbers or strings.
+- alternate: Optional. Field that determines whether collation should consider whitespace and punctuation as base characters for purposes of comparison.
+- maxVariable: Optional. Field that determines up to which characters are considered ignorable when ``alternate: "shifted"``
+- backwards: Optional. Flag that determines whether strings with diacritics sort from back of the string, such as with some French dictionary ordering. Default is false
+- normalization: Optional. Flag that determines whether to check if text require normalization and to perform normalization. Default is false.
+
+.. include:: /includes/student-notes.rst
+
+Using Collation with Queries
+----------------------------
+
+Collation can be used with numerous queries and operators in MongoDB:
+
+- findAndModify
+- find
+- aggregate
+- update
+- `many more <https://docs.mongodb.com/manual/reference/collation/#operations-that-support-collation>`_
+
+.. only:: instructor
+
+   .. note::
+
+      Only one collation can be specified per operation
+
+.. include:: /includes/student-notes.rst
+
+Collation and Queries Example
+-----------------------------
+
+.. code-block:: javascript
+
+   db.testColl.find().collation( { locale: "fr" } ).sort( { firstName: 1 } )
+
+- This would return objects in the ``testColl`` collection sorted by ``firstname`` according to French grammar rules
+
+.. include:: /includes/student-notes.rst
+
+Collation with Indexes
+----------------------
+
+To create an index using collation:
+
+.. code-block:: javascript
+
+   db.testColl.createIndex( { firstName: 1 }, { collation: { locale: "fr" } } )
+
+- To use the index, operations must specify the same collation. Unspecified queries will use simple binary comparison, and not the index.
+
+.. only:: instructor
+
+   .. note::
+
+      For a compound index where the index prefix keys are not strings, arrays, and embedded documents,
+      an operation that specifies a different collation can still use the index to support comparisons on the index prefix keys.
+      Detailed documentation can be found `here <https://docs.mongodb.com/manual/reference/collation/#collation-and-index-use>`_
+
+.. include:: /includes/student-notes.rst
+
+Collation and Views
+-------------------
+
+- You can specify a default collation for a view at creation time
+- String comparisons on the view use the view's default collation
+- If creating a view from another view, you **cannot** specify a different collations than the source
+- If performing an aggregation that involves multiple views such as with **$graphLookup** or **$lookup**, the view must have the same collation
+
+.. only:: instructor
+
+   .. note::
+
+      - If no collation is specified, simple binary string comparison is the default.
+      - Views do not inherit their source collection's default collation
+
+.. include:: /includes/student-notes.rst
