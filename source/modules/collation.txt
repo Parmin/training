@@ -1,6 +1,6 @@
-==========
-Collations
-==========
+=========
+Collation
+=========
 
 
 Learning Objectives
@@ -8,7 +8,7 @@ Learning Objectives
 
 Upon completing this module students should understand:
 
-- What collations are
+- What collation is
 - How they are defined in MongoDB
 - How to to use collations on queries
 - How to use collations on indexes
@@ -50,9 +50,7 @@ How Collations are defined in MongoDB
 
    .. note::
 
-      .. code-block:: javascript
-
-         `Collation Document <https://docs.mongodb.com/manual/reference/collation/#collation-document>`_
+      `Collation Document <https://docs.mongodb.com/manual/reference/collation/#collation-document>`_
 
 .. include:: /includes/student-notes.rst
 
@@ -63,6 +61,7 @@ The Collation Document
 - strength: Optional. The level of comparison to perform, corresponding to `ICU Comparison Levels <http://userguide.icu-project.org/collation/concepts#TOC-Comparison-Levels>`_
 - caseLevel: Optional. Flag that determines whether to include case comparison.
 - caseFirst: Optional. Flag that determines sort order of case differences during tertiary level comparisons.
+- numericOrdering: Optional. Flag that determines whether to compare numeric strings as numbers or strings.
 
 .. only:: instructor
 
@@ -75,7 +74,6 @@ The Collation Document
 The Collation Document Continued
 --------------------------------
 
-- numericOrdering: Optional. Flag that determines whether to compare numeric strings as numbers or strings.
 - alternate: Optional. Field that determines whether collation should consider whitespace and punctuation as base characters for purposes of comparison.
 - maxVariable: Optional. Field that determines up to which characters are considered ignorable when ``alternate: "shifted"``
 - backwards: Optional. Flag that determines whether strings with diacritics sort from back of the string, such as with some French dictionary ordering. Default is false

@@ -26,6 +26,10 @@ file: /modules/nav/views
 description: |
   Views in MongoDB
 ---
+file: /modules/nav/collation
+description: |
+  Collation in MongoDB
+---
 file: /modules/nav/schema-design-intro
 description: |
   Data modeling in MongoDB.
