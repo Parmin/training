@@ -38,10 +38,52 @@ If you do not have pip installed for python, run: ::
     easy_install pip
 
 All other dependencies are Python packages that are dependencies of
-`giza <https://pypi.python.org/pypi/giza>`_. Install this package in a
-*virtual env* (preferred), or system wide using ``pip``: ::
+`giza <https://pypi.python.org/pypi/giza>`_. You'll also need the `aws-cli
+<https://github.com/aws/aws-cli>`_. Install these packages in a *virtual env*
+(preferred), or system wide using ``pip``: ::
 
   pip install giza
+  pip install awscli
+
+Configuring AWS
+---------------
+
+We use S3 on AWS to store different files that need to be downloaded by
+students or instructors. Because of this you'll need to configure the ``aws``
+command line tool with your AWS credentials. You can ask `curriculum@10gen.com
+<mailto:curriculum@10gen.com>`_ to add you to the **training-aws** account and
+issue you your AWS Key ID and Secret Key.
+
+After you have your access key id and secret you can run the following command to
+update your ``~/.aws/config`` and ``~/.aws/credentials``.
+
+.. code-block:: bash
+
+  $ aws configure
+  AWS Access Key ID: <AWS ACCESS KEY ID>
+  AWS Secret Access Key: <AWS SECRET ACCESS KEY>
+  Default region name [us-west-2]: us-west-2
+  Default output format [None]: json
+
+Updating VMs
+------------
+
+Part of our build process with ``make`` diffs tarballs of Vagrant virtual
+machines on S3 against what's locally avaliable inside the ``vms`` directory.
+If your build is failing because of this, then there are two things you can do
+to resolve the build failure:
+
+1. Someone has updated the ``mongodb-training/vms`` S3 bucket and now your
+   local repo is out of sync.
+
+   **Solution:** Rebase your branch with master to get the new changes.
+
+2. You've update the ``vms`` directory and the ``mongodb-tranining/vms`` S3
+   bucket is now out of sync with your local repo.
+
+   **Solution:** Copy the tarball out of ``build/vms`` and replace it with the
+   old tarball on the ``mongodb-training/vms`` S3 bucket. Make sure to make the
+   tarball public on S3 so anyone can download it.
 
 Build Resources
 ---------------
