@@ -2,13 +2,12 @@
 MongoDB - The Company
 =====================
 
-Contents
---------
+Learning Objectives
+-------------------
 
-- Training (goal, logistics and history)
-- History of the company
-- Business Model
-- MongoDB Releases
+- Knowing the history of the company
+- Understanding our Business Model
+- Knowing contents of the MongoDB Releases
 
 .. include:: /includes/student-notes.rst
 
@@ -42,9 +41,9 @@ Logistics
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Except for the day where Dev generally comes to greet all other special guests will be confirmed as one at 17:00, and one at 17:30.
+      - Except for the day where Dev generally comes in, all other guests speakers will be confirmed as one at 17:00, and one at 17:30.
 
 
 Schedule
@@ -137,8 +136,9 @@ Goal of the Training
 
     - NHTT history
 
+      - we are restructuring the class
       - At the beginning of MongoDB, every technical person was involved in support
-        Training started around 2012, running for 4 years
+        Training started around 2012, running for 5 years
         Now, we are more specialized, support mainly done by Technical Support Engineers, consultation by Consulting Engineers, …
 
 
@@ -151,7 +151,7 @@ Company History
 - 2013: 10gen renamed to MongoDB (250 people)
 - 2014: Acquired WiredTiger (425 people)
 - 2016: Atlas (700 people)
-- 2017:
+- 2017: Atlas Free Tier, and ...
 
 .. include:: /includes/student-notes.rst
 
@@ -210,13 +210,13 @@ MongoDB Company Overview
   .. note::
 
     - The picture is a little old
-    - 700 employees in Jan 2017
+    - 700 employees in March 2017
 
 
 Database Popularity Index
 -------------------------
 
-.. include:: /figures_local_meta/db-engines-ranking.txt
+.. include:: /figures_local/db-engines-ranking.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -267,6 +267,8 @@ Business Model (continued)
 - **Cloud Manager**
 
 - **Atlas**
+
+  - looking at becoming 50% of the business in 4 years
 
 .. include:: /includes/student-notes.rst
 
@@ -402,7 +404,6 @@ Open Source Model
   - **Database** is open source
   - **Drivers** are open source
 
-
 - What is *not* open source?
 
   - Ops Manager and Agents
@@ -439,7 +440,7 @@ Open Source Model (continued)
 
     - If I embed MongoDB on a binary? is this a violation of our license?
 
-      - No, but they cannot sell support on that component of their product. Generally we will get a OEM license model for these situations
+      - ?, but they cannot sell support on that component of their product. Generally we will get a OEM license model for these situations
 
 .. include:: /includes/student-notes.rst
 
@@ -469,7 +470,7 @@ How to work at MongoDB
 - System we are using: `Systems Check List`_
 - Jira Projects:
 
-  - SF (Commercial Support)
+  - SFSC (Commercial Support)
   - MMSSUPPORT (Atlas and Cloud Manager)
   - SUPPORT (Community Private, costumer to sign soon)
   - FREE (Community Support)

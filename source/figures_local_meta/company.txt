@@ -1,21 +1,21 @@
 
 .. only:: latex and not offset
 
-   .. figure:: /figures/company.png
+   .. figure:: /images/company.png
       :alt: Company
       :align: center
       :figwidth: 1600px
 
 .. only:: website and slides
 
-   .. figure:: /figures/company.png
+   .. figure:: /images/company.png
       :alt: Company
       :align: center
       :figwidth: 700px
 
 .. only:: website and html
 
-   .. figure:: /figures/company.png
+   .. figure:: /images/company.png
       :alt: Company
       :align: center
       :figwidth: 700px
@@ -24,7 +24,7 @@
 
    .. raw:: html
 
-      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_figures/company.png" alt="Company"></img><p>Company</p></div>
+      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_images/company.png" alt="Company"></img><p>Company</p></div>
 
 
 .. only:: latex and offset
