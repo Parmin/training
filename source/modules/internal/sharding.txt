@@ -7,17 +7,73 @@ This chapter is incomplete and still under development
 ------------------------------------------------------
 
 
+Notes from Alex's session
+-------------------------
+
+- sharding components
+  - shards
+  - config metadata
+  - shard key
+  - mongos
+  - balancer
+
+- I will show you where to find the information, instead of dropping it on you.
+
+- why we use sharding?
+  - scaling
+  - read locality, write locality
+  - time to restore a shard, may be smaller than a large db
+
+- reasonable limit: 2-5 TB before sharding
+
+- replica set is about the same perf as 1.5 shards
+
+- the field for the shard key can not be null for any document
+
+- which type of index can you use for a shard key, or not (geo, text, )
+
+- create 100 chunks (empty), see how long it takes to transfer 50 of them
+
+- exercise good shard key (no context apart from address book)
+
+- use one lookup collection to trade 1 scatter/gather for 2 targeted queries
+
+
+What was missing from his presentation
+--------------------------------------
+
+- initial sync of 5TB could be long in 3.2 and less
+- we use sharding for offloading old data to old/smaller hardware
+- don't read from secondaries in a sharded cluster (was covered at the end)
+- uniqueness of index on sharded clusters
+- good schema to show that scatter gather does not scale
+- if you have:
+  - write heavy system, the worst shard key is monotically increasing
+  - read only system, the worst shard key is not targeting queries
+
+
 Learning Objectives
 -------------------
+
+- lost functionality with sharding
+
 
 Common Issues
 -------------
 
+What we lose with sharding
+--------------------------
+
+- secondary indexes may not scale, because they are scatter-gather
+
+
 Main Differences in Versions prior to 3.4
 -----------------------------------------
 
+
 References
 ----------
+
 
 To Know More
 ------------

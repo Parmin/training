@@ -1,21 +1,21 @@
 
 .. only:: latex and not offset
 
-   .. figure:: /figures/it-cheat-sheet.png
+   .. figure:: /images/it-cheat-sheet.png
       :alt: IT Cheat Sheet
       :align: center
       :figwidth: 1600px
 
 .. only:: website and slides
 
-   .. figure:: /figures/it-cheat-sheet.png
+   .. figure:: /images/it-cheat-sheet.png
       :alt: IT Cheat Sheet
       :align: center
       :figwidth: 700px
 
 .. only:: website and html
 
-   .. figure:: /figures/it-cheat-sheet.png
+   .. figure:: /images/it-cheat-sheet.png
       :alt: IT Cheat Sheet
       :align: center
       :figwidth: 700px
@@ -24,7 +24,7 @@
 
    .. raw:: html
 
-      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_figures/it-cheat-sheet.png" alt="IT Cheat Sheet"></img><p>IT Cheat Sheet</p></div>
+      <div class="figure align-center" style="max-width:700px;"><img src="http://docs.mongodb.org/training/master/_images/it-cheat-sheet.png" alt="IT Cheat Sheet"></img><p>IT Cheat Sheet</p></div>
 
 
 .. only:: latex and offset
