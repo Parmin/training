@@ -23,6 +23,10 @@ Simple workflow
 
   This will create 3 opsmgr instances, one node1 for a data node and a load balancer, all as 't2.micro'. Obviously, those will not support Ops Manager, but you are likely testing CloudFormation at this point.
 
+  If you want to create the minimum number of instances for your test, pass also the --noom for NO Ops Manager nodes:
+
+    ./deploy.py --region us-east-1 --teams 1 --testmode --run dcoupal-test4 --noom
+
 - Destroy a stack
 
     ./teardown.py --profile training-west --provider aws-cf --run dctest
@@ -80,3 +84,12 @@ Additional notes
    make s3-prod
    OR
    make s3-devel
+
+Base images in AWS (AMI)
+------------------------
+
+If you need to make a change to the base VM image (AMI), do it in the 'us-east-1'
+region, then copy this AMI to all regions listed in 'regions.txt'
+You can make all your changes in the 'devel' environment by setting the version
+number in the 'advadmin-host.template' file.
+For historical purpose, you can find the old AMI in the 'us-west-2' region.

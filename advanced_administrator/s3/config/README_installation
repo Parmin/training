@@ -1,0 +1,23 @@
+Some useful docs:
+
+- installing MongoDB on CentOS
+  https://docs.mongodb.com/v3.0/tutorial/install-mongodb-enterprise-on-red-hat/
+
+Some commands for CentOS:
+
+- Listing the currently installed MongoDB packages
+  yum list installed
+
+- Installing only the server, no shell, from an available download on the host
+  cd /data/downloads
+  sudo yum install -y mongodb-enterprise-server-3.4.2-1.el7.x86_64.rpm
+
+- Installing all MongoDB packages, through the Yum repository
+  sudo yum install -y mongodb-enterprise
+
+- Starting the MongoDB service
+  sudo service mongod start
+  sudo service mongod stop
+
+- Removing a previous MongoDB Enterprise version
+  sudo yum erase $(rpm -qa | grep mongodb-enterprise)
