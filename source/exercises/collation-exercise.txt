@@ -6,34 +6,26 @@ Lab: Collation with Views
 Exercise Step: Inserting the data
 ---------------------------------
 
-Creating a view with collation allows us to specify a collation other than the default,
-or if no default to simplify our queries.
+Creating a view with collation allows us to specify a collation other than "simple",
+useful for
 
 - Let's go ahead and create a view with a collation on a collection that doesn't have a default.
-- Start by inserting the necessary dataset from ``usb_drive/names.json``. Copy the contents of the file and then:
+- Start by inserting the necessary dataset. There are 18 entries.
 
-.. code-block:: javascript
+.. code-block:: bash
 
-   mongo
-   > use names
-   > db.unspecified.insertMany(...) // paste the contents of the file here
-
-.. only:: instructor
-
-   .. note::
-
-      .. code-block:: javascript
-
-         db.unspecified.find().sort( { name: 1 } )
+   mongoimport --jsonArray -d names -c unspecified usb_drive/names.json
 
 .. include:: /includes/student-notes.rst
 
 Exercise : View Creation Instructions
 -------------------------------------
 
-Once you've verified the data insertion was successful, create a view that returns names sorted according to Portuguese rules.
+Once you've verified the data insertion was successful, create a view named "portuguese" that:
 
-- Verify your work by querying the view and sorting on the name property
+- Only contains the **name** field
+- Uses Portuguese rules
+- Verify your work by querying the view and finding all names that begin with "b", case-insensitive
 
 .. only:: instructor
 
@@ -41,13 +33,14 @@ Once you've verified the data insertion was successful, create a view that retur
 
       .. code-block:: javascript
 
-      	use names;
-        db.createView("portuguese", "unspecified", [
-            { $match: { } }
-          ],
-          { collation: { locale: "pt" } }
-        )
-        db.portuguese.find().sort({name: 1})
+      	 use names;
+         db.createView("portuguese", "unspecified", [
+             { $match: { } },
+             { $project: { _id: 0, name: 1 } },
+           ],
+           { collation: { locale: "pt" } }
+         )
+         db.portuguese.find({name: /^b/i } } )
 
 .. include:: /includes/student-notes.rst
 
@@ -59,45 +52,35 @@ If we run our query on the view using ``explain("executionStats")``, we will see
 - Create an index on the source collection that specifies the Portuguese collation
 - Use ``explain`` to see the query performance of the view
 
+.. note::
+
+   - Keep in mind that if a view is created with a specified collation that differs from the collation on the index, it will **not** use the index.
+   - You cannot specify different collation indexes on the same collection using the same key/s
+
 .. only:: instructor
 
   .. note::
 
      .. code-block:: javascript
 
-      	use names;
+        db.portuguese.find({name: /^b/i } } ).explain("executionStats") // output showing COLLSCAN
         db.unspecified.createIndex( {name: 1}, { collation: { locale: "pt" } } )
 
-     Although the index is created, the view should not benefit from this yet. The students will have to destroy the view and create a new one
-     that benefits from this index
+     .. note::
 
-Exercise: Using an underlying Collation Index with a view
----------------------------------------------------------
-
-- Destroy the ``portuguese`` view and create a new view that benefits from the index
-- Verify that there is no ``COLLSCAN`` or ``SORT_KEY_GENERATOR``
-
-.. only:: instructor
-
-   .. note::
-
-      .. code-block:: javascript
-
-         db.createView("portuguese", "unspecified", [
-            { $match: {name: { $exists: true } } },
-            { $project: { _id: 0, name: 1 } }
-           ],
-           { collation: { locale: "pt" } }
-         )
+        When querying a collection, if no collation was specified during creation that also matches the collation of the index,
+        the query must specify the collation to use the index.
+        ``db.unspecified.find({name: /^b/i}).collation({locale: "pt"})``
 
 .. include:: /includes/student-notes.rst
 
 Exercise: Create a Case Insensitive Index
 -----------------------------------------
 
-It can be useful to create a case-insensitive index with Collation.
+It can be useful to create a case-insensitive index with Collation. For example, we may choose to .
 
-- Delete the existing index, and create a new case-insensitive index for the view to use
+- Delete the existing index, and create a new case-insensitive index for ordering an index in a book or encyclopedia
+- Query the view to find that all names that begin with "b" are now returned in a case-insensitive order
 
 .. only:: instructor
 
@@ -109,5 +92,6 @@ It can be useful to create a case-insensitive index with Collation.
 
          db.unspecified.dropIndex( { name: 1 } )
          db.unspecified.createIndex( { name: 1 }, { collation: { locale: "pt", strength: 1 } } )
+         db.portuguese.find({name: /^b/i } } )
 
 .. include:: /includes/student-notes.rst

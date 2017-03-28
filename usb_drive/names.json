@@ -6,6 +6,7 @@
   { name: "Bárbora" },
   { name: "Débora" },
   { name: "Deborah" },
+  { name: "Debbora"},
   { name: "Desidéria" },
   { name: "Desidaera" },
   { name: "andréa" },
@@ -15,6 +16,7 @@
   { name: "bárbora" },
   { name: "débora" },
   { name: "deborah" },
+  { name: "debbora"},
   { name: "desidéria" },
   { name: "desideria" }
 ]

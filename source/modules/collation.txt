@@ -25,6 +25,10 @@ such as rules for lettercase and accent marks.
 
 - Consider how we would sort "bøhm" and "brown" using Norwegian grammar rules.
 
+.. code-block:: javascript
+
+   db.testColl.find({word: /b/i}).collation({locale: "nb"}).sort({word: 1})
+
 .. include:: /includes/student-notes.rst
 
 
@@ -57,11 +61,11 @@ How Collations are defined in MongoDB
 The Collation Document
 ----------------------
 
-- locale: The International Components for Unicode (ICU) locale. A full list of supported locales can be found `here <https://docs.mongodb.com/manual/reference/collation-locales-defaults/#collation-languages-locales>`_
-- strength: Optional. The level of comparison to perform, corresponding to `ICU Comparison Levels <http://userguide.icu-project.org/collation/concepts#TOC-Comparison-Levels>`_
-- caseLevel: Optional. Flag that determines whether to include case comparison.
-- caseFirst: Optional. Flag that determines sort order of case differences during tertiary level comparisons.
-- numericOrdering: Optional. Flag that determines whether to compare numeric strings as numbers or strings.
+- **locale**: The International Components for Unicode (ICU) locale. A full list of supported locales can be found `here <https://docs.mongodb.com/manual/reference/collation-locales-defaults/#collation-languages-locales>`_
+- *strength*: Optional. The level of comparison to perform, corresponding to `ICU Comparison Levels <http://userguide.icu-project.org/collation/concepts#TOC-Comparison-Levels>`_
+- *caseLevel*: Optional. Flag that determines whether to include case comparison.
+- *caseFirst*: Optional. Flag that determines sort order of case differences during tertiary level comparisons.
+- *numericOrdering*: Optional. Flag that determines whether to compare numeric strings as numbers or strings.
 
 .. only:: instructor
 
@@ -74,10 +78,10 @@ The Collation Document
 The Collation Document Continued
 --------------------------------
 
-- alternate: Optional. Field that determines whether collation should consider whitespace and punctuation as base characters for purposes of comparison.
-- maxVariable: Optional. Field that determines up to which characters are considered ignorable when ``alternate: "shifted"``
-- backwards: Optional. Flag that determines whether strings with diacritics sort from back of the string, such as with some French dictionary ordering. Default is false
-- normalization: Optional. Flag that determines whether to check if text require normalization and to perform normalization. Default is false.
+- *alternate*: Optional. Field that determines whether collation should consider whitespace and punctuation as base characters for purposes of comparison.
+- *maxVariable*: Optional. Field that determines up to which characters are considered ignorable when ``alternate: "shifted"``
+- *backwards*: Optional. Flag that determines whether strings with diacritics sort from back of the string, such as with some French dictionary ordering. Default is false
+- *normalization*: Optional. Flag that determines whether to check if text require normalization and to perform normalization. Default is false.
 
 .. include:: /includes/student-notes.rst
 
@@ -103,7 +107,7 @@ Collation can be used with numerous queries and operators in MongoDB:
 Collation and Queries Example
 -----------------------------
 
-To specify a default collation:
+To specify a default collation for a collection:
 
 .. code-block:: javascript
 
@@ -114,6 +118,12 @@ To query a collection with a collation other than the default, or if there is no
 .. code-block:: javascript
 
    db.testColl.find().collation( { locale: "fr" } ).sort( { firstName: 1 } )
+
+.. only:: instructor
+
+   .. note::
+
+      All collections can be thought of as having a default collation, the "simple" binary (ASCII) collation.
 
 .. include:: /includes/student-notes.rst
 
@@ -126,7 +136,8 @@ To create an index using collation:
 
    db.testColl.createIndex( { firstName: 1 }, { collation: { locale: "fr" } } )
 
-- To use the index, operations must specify the same collation. Unspecified queries will use simple binary comparison, not the index.
+- To use the index, operations must specify the same collation.
+- Unspecified queries will use simple binary comparison, not the index.
 
 .. only:: instructor
 
@@ -141,8 +152,8 @@ To create an index using collation:
 Collation and Views
 -------------------
 
-- You can specify a default collation for a view at creation time
-- String comparisons on the view use the view's default collation
+- You can specify a collation for a view at creation time
+- String comparisons on the view use the view's specified collation
 - If creating a view from another view, you **cannot** specify a different collations than the source
 - If performing an aggregation that involves multiple views such as with **$graphLookup** or **$lookup**, the view must have the same collation
 
