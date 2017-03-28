@@ -37,10 +37,11 @@ Once you've verified the data insertion was successful, create a view named "por
          db.createView("portuguese", "unspecified", [
              { $match: { } },
              { $project: { _id: 0, name: 1 } },
+             { $sort: { name: 1 } }
            ],
            { collation: { locale: "pt" } }
          )
-         db.portuguese.find({name: /^b/i } } )
+         db.portuguese.find({name: /^b/i } )
 
 .. include:: /includes/student-notes.rst
 
@@ -82,7 +83,7 @@ If we run our query on the view using ``explain("executionStats")``, we will see
 Exercise: Create a Case Insensitive Index
 -----------------------------------------
 
-It can be useful to create a case-insensitive index with Collation. For example, we may choose to .
+It can be useful to create a case-insensitive index with Collation. For example, we may be creating an index for an encyclopedia.
 
 - Delete the existing index, and create a new case-insensitive index for ordering an index in a book or encyclopedia
 - Query the view to find that all names that begin with "b" are now returned in a case-insensitive order
@@ -96,7 +97,7 @@ It can be useful to create a case-insensitive index with Collation. For example,
       .. code-block:: javascript
 
          db.unspecified.dropIndex( { name: 1 } )
-         db.unspecified.createIndex( { name: 1 }, { collation: { locale: "pt", strength: 1 } } )
+         db.unspecified.createIndex( { name: 1 }, { collation: { locale: "pt", strength: 2 } } )
          db.portuguese.find({name: /^b/i } } )
 
 .. include:: /includes/student-notes.rst

@@ -23,11 +23,12 @@ What Collation is
 Collation allows users to specify language-specific rules for string comparison,
 such as rules for lettercase and accent marks.
 
-- Consider how we would sort "bøhm" and "brown" using Norwegian grammar rules.
+- Consider the differences in sorting "bøhm" and "brown" using Norwegian grammar rules and English grammar rules.
 
 .. code-block:: javascript
 
-   db.testColl.find({word: /b/i}).collation({locale: "nb"})
+   db.testColl.find({word: /b/i}).collation({locale: "nb"}).sort({word: 1})
+   db.testColl.find({word: /b/i}).collation({locale: "en"}).sort({word: 1})
 
 .. include:: /includes/student-notes.rst
 
