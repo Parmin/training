@@ -84,3 +84,12 @@ Additional notes
    make s3-prod
    OR
    make s3-devel
+
+Base images in AWS (AMI)
+------------------------
+
+If you need to make a change to the base VM image (AMI), do it in the 'us-east-1'
+region, then copy this AMI to all regions listed in 'regions.txt'
+You can make all your changes in the 'devel' environment by setting the version
+number in the 'advadmin-host.template' file.
+For historical purpose, you can find the old AMI in the 'us-west-2' region.

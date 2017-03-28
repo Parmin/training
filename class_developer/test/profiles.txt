@@ -1,7 +1,7 @@
 training-us-east-1
 training-us-west-1
+training-us-west-2
 training-eu-central-1
 training-eu-west-1
 training-ap-south-1
 training-ap-southeast-2
-
