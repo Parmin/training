@@ -27,7 +27,7 @@ such as rules for lettercase and accent marks.
 
 .. code-block:: javascript
 
-   db.testColl.find({word: /b/i}).collation({locale: "nb"}).sort({word: 1})
+   db.testColl.find({word: /b/i}).collation({locale: "nb"})
 
 .. include:: /includes/student-notes.rst
 

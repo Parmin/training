@@ -52,6 +52,10 @@ If we run our query on the view using ``explain("executionStats")``, we will see
 - Create an index on the source collection that specifies the Portuguese collation
 - Use ``explain`` to see the query performance of the view
 
+.. code-block:: javascript
+
+   db.portuguese.find({name: /^b/i } } ).explain("executionStats")
+
 .. note::
 
    - Keep in mind that if a view is created with a specified collation that differs from the collation on the index, it will **not** use the index.
@@ -65,6 +69,7 @@ If we run our query on the view using ``explain("executionStats")``, we will see
 
         db.portuguese.find({name: /^b/i } } ).explain("executionStats") // output showing COLLSCAN
         db.unspecified.createIndex( {name: 1}, { collation: { locale: "pt" } } )
+        db.portuguese.find({name: /^b/i } } ).explain("executionStats") // output showing IXSCAN
 
      .. note::
 
