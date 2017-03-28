@@ -103,11 +103,17 @@ Collation can be used with numerous queries and operators in MongoDB:
 Collation and Queries Example
 -----------------------------
 
+To specify a default collation:
+
+.. code-block:: javascript
+
+   db.createCollection("testColl", { collation: { locale: "en" } } )
+
+To query a collection with a collation other than the default, or if there is no default:
+
 .. code-block:: javascript
 
    db.testColl.find().collation( { locale: "fr" } ).sort( { firstName: 1 } )
-
-- This would return objects in the ``testColl`` collection sorted by ``firstname`` according to French grammar rules
 
 .. include:: /includes/student-notes.rst
 
@@ -120,7 +126,7 @@ To create an index using collation:
 
    db.testColl.createIndex( { firstName: 1 }, { collation: { locale: "fr" } } )
 
-- To use the index, operations must specify the same collation. Unspecified queries will use simple binary comparison, and not the index.
+- To use the index, operations must specify the same collation. Unspecified queries will use simple binary comparison, not the index.
 
 .. only:: instructor
 
