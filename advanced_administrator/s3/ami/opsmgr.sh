@@ -14,8 +14,13 @@ BUCKETFOLDERS=(
 )
 FILES=(
     https://downloads.mongodb.com/on-prem-mms/rpm/mongodb-mms-3.4.3.402-1.x86_64.rpm
+    https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.2.12.tgz
+    https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-rhel70-3.2.12.tgz
+    https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/3.4/x86_64/RPMS/mongodb-enterprise-3.2.12-1.el7.x86_64.rpm
+    https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/3.4/x86_64/RPMS/mongodb-enterprise-server-3.2.12-1.el7.x86_64.rpm
     https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.2.tgz
     https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-rhel70-3.4.2.tgz
+    https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/3.4/x86_64/RPMS/mongodb-enterprise-3.4.2-1.el7.x86_64.rpm
     https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/3.4/x86_64/RPMS/mongodb-enterprise-server-3.4.2-1.el7.x86_64.rpm
     https://s3.amazonaws.com/mongodb-training/advadmin/datasets/usb_drive.zip
     https://s3.amazonaws.com/mongodb-training/security_lab/security_lab.tgz
@@ -75,8 +80,6 @@ mkdir -p /data/cache
 chmod 777 /data/cache
 rm /share
 ln -s /data /share
-# stop the already installed mongod on the old AMI
-service mongod stop
 
 # move config files to /share/etc
 cp /share/downloads/appdb.cnf /share/etc/appdb.conf

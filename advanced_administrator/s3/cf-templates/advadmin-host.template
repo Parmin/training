@@ -52,29 +52,36 @@
     "AWSRegion2AMI": {
       "us-east-1": {
         "v9": "ami-75aa6518",
-        "v10": "ami-990c648e"
+        "v10": "ami-990c648e",
+        "v11": "ami-b668d6a0"
       },
       "us-west-1": {
         "v9": "ami-12cb8f72",
-        "v10": "ami-a1dc94c1"
+        "v10": "ami-a1dc94c1",
+        "v11": "ami-bfbfe4df"
       },
       "us-west-2": {
         "v9": "ami-919751f1",
-        "v10": "ami-5665c036"
+        "v10": "ami-5665c036",
+        "v11": "ami-5e71e43e"
       },
       "eu-central-1": {
         "v9": "ami-78b25917",
-        "v10": "ami-5fd82130"
+        "v10": "ami-5fd82130",
+        "v11": "ami-995180f6"
       },
       "eu-west-1": {
         "v9": "ami-aea53edd",
-        "v10": "ami-01672872"
+        "v10": "ami-01672872",
+        "v11": "ami-bd8fb2db"
       },
       "ap-south-1": {
-        "v10": "ami-1360147c"
+        "v10": "ami-1360147c",
+        "v11": "ami-820774ed"
       },
       "ap-southeast-2": {
-        "v10": "ami-37754854"
+        "v10": "ami-37754854",
+        "v11": "ami-76545b15"
       }
     },
     "Params": {
@@ -107,7 +114,7 @@
             {
               "Ref": "AWS::Region"
             },
-            "v10"
+            "v11"
           ]
         },
         "KeyName": {

@@ -12,7 +12,7 @@ for profile in ${PROFILES[@]}; do
   echo Creating Run for Region: $profile
   # TODO - make the string unique
   RUN=systest-${USER}
-  ${ADVADMINDIR}/deploy.py --profile ${profile} --run ${RUN} --keypair ${KEYPAIR} --teams 1 --testmode
+  ${ADVADMINDIR}/deploy.py --profile ${profile} --run ${RUN} --teams 1 --testmode --noom
   echo ""
 done
 

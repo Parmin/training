@@ -90,7 +90,7 @@ def main():
     training_run = args.training_run
     awsprofile = args.awsprofile
     awsregion = args.awsregion
-    if args.noom == True and args.instances == 12:
+    if args.testmode == True and args.instances == 12:
         args.instances = 1
 
     logger.debug("Going to deploy new traing run")

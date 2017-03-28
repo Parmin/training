@@ -23,6 +23,10 @@ Simple workflow
 
   This will create 3 opsmgr instances, one node1 for a data node and a load balancer, all as 't2.micro'. Obviously, those will not support Ops Manager, but you are likely testing CloudFormation at this point.
 
+  If you want to create the minimum number of instances for your test, pass also the --noom for NO Ops Manager nodes:
+
+    ./deploy.py --region us-east-1 --teams 1 --testmode --run dcoupal-test4 --noom
+
 - Destroy a stack
 
     ./teardown.py --profile training-west --provider aws-cf --run dctest
