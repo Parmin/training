@@ -35,13 +35,12 @@ Once you've verified the data insertion was successful, create a view named "por
 
       	 use names;
          db.createView("portuguese", "unspecified", [
-             { $match: { } },
              { $project: { _id: 0, name: 1 } },
              { $sort: { name: 1 } }
            ],
            { collation: { locale: "pt" } }
          )
-         db.portuguese.find({name: /^b/i } )
+         db.portuguese.find( {name: /^b/i } )
 
 .. include:: /includes/student-notes.rst
 
@@ -53,14 +52,20 @@ If we run our query on the view using ``explain("executionStats")``, we will see
 - Create an index on the source collection that specifies the Portuguese collation
 - Use ``explain`` to see the query performance of the view
 
+.. only:: instructor
+
+  .. note::
+
+     When querying a collection, if no collation was specified during creation that also matches the collation of the index,
+     the query must specify the collation to use the index.
+     ``db.unspecified.find({name: /^b/i}).collation({locale: "pt"})``
+
 .. code-block:: javascript
 
    db.portuguese.find({name: /^b/i } } ).explain("executionStats")
 
-.. note::
-
-   - Keep in mind that if a view is created with a specified collation that differs from the collation on the index, it will **not** use the index.
-   - You cannot specify different collation indexes on the same collection using the same key/s
+- Keep in mind that if a view is created with a specified collation that differs from the collation on the index, it will **not** use the index.
+- You cannot specify different collation indexes on the same collection using the same key/s
 
 .. only:: instructor
 
@@ -68,15 +73,9 @@ If we run our query on the view using ``explain("executionStats")``, we will see
 
      .. code-block:: javascript
 
-        db.portuguese.find({name: /^b/i } } ).explain("executionStats") // output showing COLLSCAN
+        db.portuguese.find( {name: /^b/i } ).explain("executionStats") // output showing COLLSCAN
         db.unspecified.createIndex( {name: 1}, { collation: { locale: "pt" } } )
-        db.portuguese.find({name: /^b/i } } ).explain("executionStats") // output showing IXSCAN
-
-     .. note::
-
-        When querying a collection, if no collation was specified during creation that also matches the collation of the index,
-        the query must specify the collation to use the index.
-        ``db.unspecified.find({name: /^b/i}).collation({locale: "pt"})``
+        db.portuguese.find( {name: /^b/i } ).explain("executionStats") // output showing IXSCAN
 
 .. include:: /includes/student-notes.rst
 
@@ -98,6 +97,6 @@ It can be useful to create a case-insensitive index with Collation. For example,
 
          db.unspecified.dropIndex( { name: 1 } )
          db.unspecified.createIndex( { name: 1 }, { collation: { locale: "pt", strength: 2 } } )
-         db.portuguese.find({name: /^b/i } } )
+         db.portuguese.find( { name: /^b/i } )
 
 .. include:: /includes/student-notes.rst
