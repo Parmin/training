@@ -1,0 +1,102 @@
+=========================
+Lab: Collation with Views
+=========================
+
+
+Exercise Step: Inserting the data
+---------------------------------
+
+Creating a view with collation allows us to specify a collation other than "simple",
+useful for
+
+- Let's go ahead and create a view with a collation on a collection that doesn't have a default.
+- Start by inserting the necessary dataset. There are 18 entries.
+
+.. code-block:: bash
+
+   mongoimport --jsonArray -d names -c unspecified usb_drive/names.json
+
+.. include:: /includes/student-notes.rst
+
+Exercise : View Creation Instructions
+-------------------------------------
+
+Once you've verified the data insertion was successful, create a view named "portuguese" that:
+
+- Only contains the **name** field
+- Uses Portuguese rules
+- Verify your work by querying the view and finding all names that begin with "b", case-insensitive
+
+.. only:: instructor
+
+  .. note::
+
+      .. code-block:: javascript
+
+      	 use names;
+         db.createView("portuguese", "unspecified", [
+             { $project: { _id: 0, name: 1 } },
+             { $sort: { name: 1 } }
+           ],
+           { collation: { locale: "pt" } }
+         )
+         db.portuguese.find( {name: /^b/i } )
+
+.. include:: /includes/student-notes.rst
+
+Exercise : Index creation with Collation
+----------------------------------------
+
+If we run our query on the view using ``explain("executionStats")``, we will see that the query is grossly inefficient.
+
+- Create an index on the source collection that specifies the Portuguese collation
+- Use ``explain`` to see the query performance of the view
+
+.. only:: instructor
+
+  .. note::
+
+     When querying a collection for string comparison, the query planner will only use the index if the query collation matches the index collation.
+
+     ``db.unspecified.find({name: /^b/i}).collation({locale: "pt"})``
+
+.. code-block:: javascript
+
+   db.portuguese.find({name: /^b/i } } ).explain("executionStats")
+
+- Keep in mind that if a view is created with a specified collation that differs from the collation on the index, it will **not** use the index.
+- Unlike other index options, you can create multiple indexes on the same key(s) with different collations. To create indexes with the same key pattern but different collations, you must supply unique index names.
+
+.. only:: instructor
+
+  .. note::
+
+     .. code-block:: javascript
+
+        db.portuguese.find( {name: /^b/i } ).explain("executionStats") // output showing COLLSCAN
+        db.unspecified.createIndex( {name: 1}, { collation: { locale: "pt" } } )
+        db.portuguese.find( {name: /^b/i } ).explain("executionStats") // output showing IXSCAN
+
+.. include:: /includes/student-notes.rst
+
+Exercise: Create a Case Insensitive Index
+-----------------------------------------
+
+It can be useful to create a case-insensitive index with Collation. For example, we may be creating an index for an encyclopedia.
+
+- Delete the existing index, and create a new case-insensitive index for ordering an index in a book or encyclopedia
+- Query the view to find that all names that begin with "b" are now returned in a case-insensitive order
+
+.. only:: instructor
+
+   .. note::
+
+      Documentation `here <https://docs.mongodb.com/manual/reference/method/db.collection.createIndex/#collation-and-index-use>`_
+
+      .. code-block:: javascript
+
+         db.unspecified.dropIndex( { name: 1 } )
+         db.unspecified.createIndex( { name: 1 }, { collation: { locale: "pt", strength: 2 } } )
+         db.portuguese.find( { name: /^b/i } )
+
+.. include:: /includes/student-notes.rst

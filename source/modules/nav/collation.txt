@@ -1,0 +1,9 @@
+=========
+Collation
+=========
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-collation.rst
+
+.. include:: /includes/toc/collation.rst
