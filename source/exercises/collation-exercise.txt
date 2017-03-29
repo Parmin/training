@@ -56,8 +56,8 @@ If we run our query on the view using ``explain("executionStats")``, we will see
 
   .. note::
 
-     When querying a collection, if no collation was specified during creation that also matches the collation of the index,
-     the query must specify the collation to use the index.
+     When querying a collection for string comparison, the query planner will only use the index if the query collation matches the index collation.
+
      ``db.unspecified.find({name: /^b/i}).collation({locale: "pt"})``
 
 .. code-block:: javascript
@@ -65,7 +65,7 @@ If we run our query on the view using ``explain("executionStats")``, we will see
    db.portuguese.find({name: /^b/i } } ).explain("executionStats")
 
 - Keep in mind that if a view is created with a specified collation that differs from the collation on the index, it will **not** use the index.
-- You cannot specify different collation indexes on the same collection using the same key/s
+- Unlike other index options, you can create multiple indexes on the same key(s) with different collations. To create indexes with the same key pattern but different collations, you must supply unique index names.
 
 .. only:: instructor
 
