@@ -150,8 +150,6 @@ Entity Relationship Diagram Example
 
 .. include:: /includes/student-notes.rst
 
-.. include:: /includes/student-notes.rst
-
 .. only:: instructor
 
    .. note::

@@ -70,6 +70,40 @@ Atlas
       - [STORY] *Atlas* was coined by a new hire (Daniel Farrell) while attending NHTT. He did not like the names on the ballot, so he submitted *Atlas*, and got enough other people to back up his choice, that we had a second ballot.
 
 
+Atlas Geographical Availability
+-------------------------------
+
+.. include:: /figures_meta/atlas-aws-regions.txt
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      EMEA AWS regions supported:
+
+        - Dublin
+        - London
+        - Frankfurt
+
+      APAC AWS regions supported:
+
+        - Sydney
+        - Singapore
+        - Mumbai
+        - Tokyo
+        - Seoul
+
+      Americas AWS regions supported:
+
+        - Oregon
+        - N. Virginia
+        - Ohio
+        - N. California
+        - Canada
+        - São Paulo
+
 Ops Manager
 -----------
 
