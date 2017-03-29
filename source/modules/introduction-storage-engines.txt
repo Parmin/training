@@ -19,7 +19,7 @@ Upon completing this module, students should be familiar with:
 What is a Database Storage Engine?
 ----------------------------------
 
-.. include:: /images/storage-engine-architecture.rst
+.. include:: /figures_local_meta/storage-engine-architecture.txt
 
 .. include:: /includes/student-notes.rst
 

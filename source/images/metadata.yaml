@@ -351,7 +351,7 @@ output:
     dpi: 300
     width: 1600
   - type: web
-    dpi: 72
+    dpi: 300
     width: 700
   - type: 'offset'
     tag: 'offset'
@@ -396,7 +396,7 @@ output:
     dpi: 300
     width: 1600
   - type: web
-    dpi: 72
+    dpi: 300
     width: 600
   - type: 'offset'
     tag: 'offset'
@@ -411,7 +411,7 @@ output:
     dpi: 300
     width: 1600
   - type: web
-    dpi: 72
+    dpi: 300
     width: 600
   - type: 'offset'
     tag: 'offset'
@@ -426,12 +426,12 @@ output:
     dpi: 300
     width: 1600
   - type: web
-    dpi: 72
+    dpi: 300
     width: 600
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 200
 ---
 name: replica-set-three-data-centers-votes-exercise
 alt: "Five Data Nodes Distributed Across 3 Data Centers"
@@ -441,7 +441,7 @@ output:
     dpi: 300
     width: 1600
   - type: web
-    dpi: 72
+    dpi: 300
     width: 600
   - type: 'offset'
     tag: 'offset'
@@ -456,12 +456,12 @@ output:
     dpi: 300
     width: 1600
   - type: web
-    dpi: 72
-    width: 200
+    dpi: 300
+    width: 300
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 100
+    width: 200
 ---
 name: replica-set-4nodes-2dc-cant-elect
 alt: "4 nodes in 2 data centers following a network partition."
@@ -471,7 +471,7 @@ output:
     dpi: 300
     width: 1600
   - type: web
-    dpi: 72
+    dpi: 300
     width: 600
   - type: 'offset'
     tag: 'offset'
@@ -486,7 +486,7 @@ output:
     dpi: 300
     width: 1600
   - type: web
-    dpi: 72
+    dpi: 300
     width: 600
   - type: 'offset'
     tag: 'offset'
@@ -546,8 +546,8 @@ output:
     dpi: 300
     width: 1600
   - type: web
-    dpi: 72
-    width: 700
+    dpi: 300
+    width: 600
   - type: 'offset'
     tag: 'offset'
     dpi: 300
