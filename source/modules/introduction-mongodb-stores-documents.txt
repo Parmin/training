@@ -11,7 +11,6 @@ Upon completing this module, students should understand:
 - JSON
 - BSON basics
 - That documents are organized into collections
-- ObjectIds
 
 .. include:: /includes/student-notes.rst
 
@@ -79,6 +78,7 @@ Example Field Values
       "AAPL",
       23,
       { "name" : "city", "value" : "Cupertino" },
+      { "name" : "stockPrice", "value": NumberDecimal("143.51")},
       [ "Electronics", "Computers" ]
     ]
   }
@@ -181,24 +181,3 @@ The ``_id`` Field
 - The ``_id`` field is unique to a collection (namespace).
 
 .. include:: /includes/student-notes.rst
-
-
-ObjectIds
----------
-
-.. include:: /images/objectId.rst
-
-.. include:: /includes/student-notes.rst
-
-
-.. only:: instructor
-
-   .. note::
-
-      - An ObjectId is a 12-byte value.
-      - The first 4 bytes are a datetime reflecting when the ObjectID was created.
-      - The next 3 bytes are the MAC address of the server.
-      - Then a 2-byte process ID
-      - Finally, 3 bytes that are monotonically increasing for each new ObjectId created within a collection.
-
-
