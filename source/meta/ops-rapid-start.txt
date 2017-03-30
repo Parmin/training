@@ -1,0 +1,16 @@
+:orphan:
+
+===============
+Ops Rapid Start
+===============
+
+.. toctree::
+
+   /modules/nav/introduction
+   /modules/nav/crud-ops
+   /modules/nav/indexes-ops
+   /modules/nav/replica-sets-ops
+   /modules/nav/sharding-ops
+   /modules/nav/security-ops
+   /modules/nav/performance-essentials
+   /modules/nav/backup-essentials
