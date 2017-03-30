@@ -13,7 +13,8 @@ By the end of this module, students should understand:
 What is BSON?
 -------------
 
-BSON is a binary serialization of JSON, used to store documents and make remote procedure calls in MongoDB.
+BSON is a binary serialization of JSON, used to store documents and make remote
+procedure calls in MongoDB.
 For more in-depth coverage of BSON, specifically refer to `bsonspec.org <http://bsonspec.org/>`_
 
 .. note::
@@ -25,8 +26,9 @@ For more in-depth coverage of BSON, specifically refer to `bsonspec.org <http://
 BSON types
 ----------
 
-MongoDB supports a wide range of BSON types. Each data type has a corresponding number and string alias
-that can be used with the ``$type`` operator to query documents by BSON type.
+MongoDB supports a wide range of BSON types. Each data type has a corresponding
+number and string alias that can be used with the ``$type`` operator to query
+documents by BSON type.
 
 :Double: 1 "double"
 :String: 2 "string"
@@ -45,7 +47,7 @@ BSON types continued
 
 :Regular Expression: 11 "regex"
 :JavaScript: 13 "javascript"
-:JavaScript (with scope):	15 "javascriptWithScope"
+:JavaScript (w/ scope):	15 "javascriptWithScope"
 :32-bit integer: 16 "int"
 :Timestamp:	17 "timestamp"
 :64-bit integer: 18	"long"
@@ -54,6 +56,24 @@ BSON types continued
 :Max key:	127	"maxKey"
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Take the opportunity to show students how to query using ``$type``
+      operator:
+
+      .. code-block:: js
+
+          use datatypes
+          db.sample.insertMany([
+            {a: 1, b: "hello"},
+            {a: 1.2, b: { c: "goodbye"}}
+          ])
+
+          db.sample.find({b: {$type: 'string'}})
+          db.sample.find({b: {$type: 3}})
 
 ObjectId
 --------
@@ -103,16 +123,21 @@ Decimal
 
 In MongoDB 3.4, support was added for 128-bit decimals.
 
-- The **decimal** BSON type uses the decimal128 decimal-based floating-point numbering format.
-- This supports 34 significant digits and an exponent range of -6143 to +6144.
-- Intended for applications that handle monetary and scientific data that requires exact precision.
+- The **decimal** BSON type uses the decimal128 decimal-based floating-point
+  numbering format.
+- This supports 34 significant digits and an exponent range of **-6143** to
+  **+6144**.
+- Intended for applications that handle monetary and scientific data that
+  requires exact precision.
 
 .. include:: /includes/student-notes.rst
 
 How to use Decimal
 ------------------
 
-For specific information about how your preferred driver supports decimal128, click `here <https://docs.mongodb.com/ecosystem/drivers/>`_
+For specific information about how your preferred driver supports decimal128,
+click `here <https://docs.mongodb.com/ecosystem/drivers/>`_.
+
 In the Mongo shell, we use the `NumberDecimal()` constructor.
 
 - Can be created with a string argument or a double
@@ -131,7 +156,8 @@ In the Mongo shell, we use the `NumberDecimal()` constructor.
 
    .. note::
 
-      Using a double as the argument can lead to loss of precision. A string argument is preferred.
+      Using a double as the argument can lead to loss of precision. A string
+      argument is preferred.
 
       .. code-block:: javascript
 
@@ -143,9 +169,14 @@ In the Mongo shell, we use the `NumberDecimal()` constructor.
 Decimal Considerations
 -------------------------
 
-- If upgrading an existing database to use **decimal128**, it is recommended a new field be added to reflect the new type. The old field may be deleted after verifying consistency
-- If any fields contain **decimal128** data, they will not be compatible with previous versions of MongoDB. There is no support for downgrading datafiles containing decimals
-- **decimal** types are not strictly equal to their **double** representations, so use the **NumberDecimal** constructor in queries.
+- If upgrading an existing database to use **decimal128**, it is recommended a
+  new field be added to reflect the new type. The old field may be deleted after
+  verifying consistency
+- If any fields contain **decimal128** data, they will not be compatible with
+  previous versions of MongoDB. There is no support for downgrading datafiles
+  containing decimals
+- **decimal** types are not strictly equal to their **double** representations,
+  so use the **NumberDecimal** constructor in queries.
 
 .. include:: /includes/student-notes.rst
 
