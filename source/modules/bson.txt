@@ -1,13 +1,13 @@
-====================
-Supported BSON Types
-====================
+==================
+MongoDB Data Types
+==================
 
 Learning Objectives
 -------------------
 
 By the end of this module, students should understand:
 
-- What BSON types MongoDB supports
+- What data types MongoDB supports
 - Special consideration for some BSON types
 
 What is BSON?
@@ -22,8 +22,8 @@ For more in-depth coverage of BSON, specifically refer to `bsonspec.org <http://
 
 .. include:: /includes/student-notes.rst
 
-Supported BSON types
---------------------
+BSON types
+----------
 
 MongoDB supports a wide range of BSON types. Each data type has a corresponding number and string alias
 that can be used with the ``$type`` operator to query documents by BSON type.
@@ -94,8 +94,7 @@ This results in a representable date range of about 290 million years into the p
 
 .. code-block:: javascript
 
-   var date1 = new Date() // using the Date() constructor
-   var date2 = ISODate() // using the ISODate constructor
+   var today = ISODate() // using the ISODate constructor
 
 .. include:: /includes/student-notes.rst
 
