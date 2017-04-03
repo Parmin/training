@@ -1,0 +1,100 @@
+:orphan:
+
+=========================
+MongoDB In-Person Courses
+=========================
+
+.. default-domain:: mongodb
+
+
+General Courses
+---------------
+
+- |agenda_Essentials| |contents_Essentials|
+
+.. |agenda_Essentials| raw:: html
+
+   <a href="modules/agenda-essentials-4-days.html">MongoDB Essentials - 4 days</a>
+
+.. |contents_Essentials| raw:: html
+
+   <a href="meta/essentials-four-day.html">(contents)</a>
+
+
+Developer Courses
+-----------------
+
+- |agenda_Developer| |contents_Developer|
+- |agenda_AdvancedDeveloper| |contents_AdvancedDeveloper|
+
+.. |agenda_Developer| raw:: html
+
+   <a href="modules/agenda-developer-3-days.html">MongoDB for Developers - 3 days</a>
+
+.. |contents_Developer| raw:: html
+
+   <a href="meta/developer-three-day.html">(contents)</a>
+
+.. |agenda_AdvancedDeveloper| raw:: html
+
+   <a href="modules/agenda-developer-advanced.html">MongoDB Advanced Developer Training</a>
+
+.. |contents_AdvancedDeveloper| raw:: html
+
+   <a href="meta/advanced-developer.html">(contents)</a>
+
+
+Admin/Ops Courses
+-----------------
+
+- |agenda_Administrator| |contents_Administrator|
+- |agenda_AdvancedAdministrator| |contents_AdvancedAdministrator|
+- |agenda_OpsRapidStart| |contents_OpsRapidStart|
+
+
+.. |agenda_Administrator| raw:: html
+
+   <a href="modules/agenda-dba-3-days.html">MongoDB for Administrators - 3 days</a>
+
+.. |contents_Administrator| raw:: html
+
+   <a href="meta/advanced-administrator.html">(contents)</a>
+
+.. |agenda_AdvancedAdministrator| raw:: html
+
+   <a href="modules/agenda-dba-advanced.html">MongoDB Advanced Administrator Training</a>
+
+.. |contents_AdvancedAdministrator| raw:: html
+
+   <a href="meta/advanced-administrator.html">(contents)</a>
+
+.. |agenda_OpsRapidStart| raw:: html
+
+   <a href="modules/agenda-ops-rapid-start.html">Ops Rapid Start  AGENDA IS MISSING</a>
+
+.. |contents_OpsRapidStart| raw:: html
+
+   <a href="meta/ops-rapid-start.html">(contents)</a>
+
+
+Education Internal Courses
+--------------------------
+
+- |agenda_NHTT| |contents_NHTT|
+- |agenda_TrainTheTrainor| |contents_TrainTheTrainor|
+
+.. |agenda_NHTT| raw:: html
+
+   <a href="modules/internal/agenda-nhtt.html">NHTT</a>
+
+.. |contents_NHTT| raw:: html
+
+   <a href="meta/nhtt.html">(contents is MISSING)</a>
+
+.. |agenda_TrainTheTrainor| raw:: html
+
+   <a href="modules/agenda-train-the-trainer.html">Train The Trainors - 5 days</a>
+
+.. |contents_TrainTheTrainor| raw:: html
+
+   <a href="meta/train-the-trainer.html">(contents)</a>
