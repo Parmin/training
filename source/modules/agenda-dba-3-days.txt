@@ -160,14 +160,12 @@ Backup and Recovery (1 hour)
 - :doc:`/modules/backup`
 
 
-
-
 Day 3 (Afternoon)
 -----------------
 
 - Security (1 hour)
 - Cloud/Ops Manager (2 hours)
-- Additional Topics (time permitting)
+- MongoDB Connector for BI (optional)
 
 .. include:: /includes/student-notes.rst
 
@@ -214,9 +212,9 @@ Cloud/Ops Manager (2 hours)
 .. include:: /includes/student-notes.rst
 
 
-Additional Topics (time permitting)
+MongoDB Connector for BI (optional)
 -----------------------------------
 
-- Additional topics, application specific topics from class
+- :doc:`/modules/bi-connector`
 
 .. include:: /includes/student-notes.rst

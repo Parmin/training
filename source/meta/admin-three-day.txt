@@ -18,3 +18,4 @@ MongoDB Administrator Training
    /modules/nav/backup-essentials
    /modules/nav/mms
    /modules/nav/mms-advanced
+   /modules/nav/biconnector

@@ -30,6 +30,10 @@ file: /modules/nav/collation
 description: |
   Collation in MongoDB
 ---
+file: /modules/nav/biconnector
+description: |
+  MongoDB Connector for BI
+---
 file: /modules/nav/schema-design-intro
 description: |
   Data modeling in MongoDB.

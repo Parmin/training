@@ -957,4 +957,34 @@ output:
     tag: 'offset'
     dpi: 300
     width: 400
+---
+name: bi-connector-encryption
+alt: "BI Connector encryption options"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 120
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 200
+---
+name: bi-connector
+alt: "BI Connector Diagram"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 1200
+  - type: web
+    dpi: 300
+    width: 700
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 120
+    width: 200
 ...

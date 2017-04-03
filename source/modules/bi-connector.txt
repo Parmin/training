@@ -1,0 +1,344 @@
+========================
+MongoDB Connector for BI
+========================
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The different tools included in the MongoDB BI Connector package
+- The different configuration files required by the BI Connector
+- The supported SQL statements version
+- How to launch ``mongosqld``
+- Run SQL statements in a MongoDB server instance
+
+.. include:: /includes/student-notes.rst
+
+MongoDB BI Connector: Introduction
+----------------------------------
+
+MongoDB Connector for BI enables the execution of SQL statements in a MongoDB
+server.
+
+It's a native connector implementation that enables Business Intelligence tools
+to read data from a MongoDB server.
+
+.. include:: /images/bi-connector.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+     This a good opportunity to show the students how to download the bi
+     connector:
+
+     - `BI Connector download`_
+     - It's available with Enterprise subscription
+     - Free download for evaluation
+
+How it works
+------------
+
+The MongoDB Connector for BI executes in the following mode:
+
+- Generates a  Document-Relational Definition Language (DRDL) file that defines
+  a map between a given collection shape to a relational schema
+- Once the ``drdl`` file is generate, BI tools are able to request the
+  correspondant relational sql and express queries
+- After receiving and processing a SQL statement, provides back results in
+  tabular format, native to BI Tools.
+- The BI connector also functions as a pass-through authentication proxy.
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+     You can simplify the lingo by defining the connector as a sql proxy that
+     understand SQL and is able to map it back to a collection shape.
+
+
+
+BI Connector Package
+--------------------
+
+BI Connector is a composite of the connector *daemon* and a schema definition
+utility.
+
+- ``mongosqld`` : Runs as a server *daemon* and responds to incoming SQL queries
+- ``mongodrdl``: Utility that generates ``drdl`` files from the databases and
+  colletions in MongoDB
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - First we connect to a MongoDB instance using mongodrdl to generate the
+        ``drdl`` file
+      - Them we launch ``mongosqld`` using the previously generated ``drdl``
+        file
+
+
+The ``mongodrdl``
+-----------------
+
+``mongodrdl`` generates a Document-Relation Definition Language file.
+
+- The ``drdl`` file is a mapping between a given collection(s) shape
+  and it's corresponding relational schema
+
+.. code-block:: yaml
+
+  schema:
+  - db: <database name>
+  tables:
+  - table: <SQL table name>
+    collection: <MongoDB collection name>
+    pipeline:
+    - <optional pipeline elements>
+    columns:
+    - Name: <MongoDB field name>
+      MongoType: <MongoDB field type>
+      SqlName: <mapped SQL column name>
+      SqlType: <mapped SQL column type>
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Make sure students are aware of:
+
+      - drdl file is a YAML base file defining the mapping structure
+      - the name of the fields exposed to the sql client can be edited
+
+        - by default we will keep the same naming
+
+      - for subdocuments and arrays, reference tables will be defined in the
+        sql mapping
+
+``mongodrdl`` Example
+---------------------
+
+To generate a ``drdl`` file we need to connect ``mongodrdl`` to a MongoDB
+instance:
+
+.. code-block:: sh
+
+  mongodrdl -d training -c zips --host localhost:27017
+  cat zips.drdl
+  schema:
+  - db: training
+    tables:
+    - table: zips
+      collection: zips
+      pipeline: []
+      columns:
+      - Name: _id
+        MongoType: bson.ObjectId
+        SqlName: _id
+        SqlType: varchar
+      ...
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+     ``mongodrdl`` implements all authentication mechanisms supported by mongodb
+
+     - By default, ``mongodrdl`` analyses **1000** documents of the target
+       collection, to determine the shapes of your documents
+
+      - a larger sample size can be defined by setting ``--sample`` option
+
+    - If no collection ``-c`` is defined, the output file will contain all
+      collections of the database.
+
+    .. code-block:: sh
+
+      mongodrdl -d training -o zips.drdl
+
+    - ``mongodrdl`` will expose all fields of a given collection or view
+
+      - We can remove any given field from being exposed to the SQL client by
+        manually editing the *drdl* file
+
+Custom Filtering
+----------------
+
+``mongodrdl`` allows you to define a ``--customFilter`` field in case we need to
+express MongoDB native queries from within our SQL query expression.
+
+.. code-block:: sh
+
+  mongodrdl -c zips -d training -o zips.drdl --customFilterField "mongoqueryfield"
+
+For example, executing a geospatial query:
+
+.. code-block:: sql
+
+    SELECT * FROM zips
+    WHERE mongoqueryfield = "{'loc': {'$geoNear': [30, 48, 100]}}"
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+     We can express any arbitrary MongoDB query. This feature becomes
+     extremely useful when combined with non-standard SQL functionality, like
+     geospatial queries that are natively supported by MongoDB.
+
+     .. code-block:: js
+
+       db.zips.createIndex({'loc': '2d'})
+
+       db.zips.find({'loc': {'$geoNear': [30, 48, 100]}})
+
+``mongosqld`` Daemon
+--------------------
+
+``mongosqld`` runs as a server *daemon* and responds to incoming SQL queries.
+
+.. code-block:: sh
+
+      mongosqld --mongo-uri mongodb://localhost:27017 --schema zips.drdl
+
+- By default ``mongosqld`` will be listening for incoming requests on ``127.0.0.1:3307``
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      We can overide the default configurations like:
+
+      - ``--addr`` : host address
+      - ``--schemaDirectory`` : defines a directory istead of a single *drdl*
+        file
+      - Different socket permissions
+      - Different authentication mechanisms
+
+
+``mongosqld`` Authentication & Authorization
+--------------------------------------------
+
+The BI Connector offers integration for three different authentication
+mechanisms:
+
+- SCRAM-SHA-1
+- MONGODB-CR
+- PLAIN *(LDAP Authentication)*
+
+And external LDAP Authorization:
+
+- requires defining the **source** attribute in the user name string
+
+.. code-block:: sh
+
+  grace?mechanism=PLAIN&source=$external
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+     Note that Kerberos is currently not supported.
+
+     - internal authentication and external LDAP authz are supported
+
+``mongosqld`` Encryption
+------------------------
+
+BI Connector supports network encrytpion on all segments of the connection.
+
+.. include:: /images/bi-connector-encryption.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+       Make sure to reinforce that:
+
+       - we can encrypt all network segments
+
+        - from BI tool <-> mongosqld
+        - from mongosqld <-> mongod
+
+      - Although they should be set together, we can choose to encrypt only one
+        network segment.
+
+SQL Compatibalility
+-------------------
+
+- BI Connector version 2.0 is compatible with `SQL-99 SELECT`_ statements
+- Uses MySQL wire protocol
+
+.. code-block:: sh
+
+    mysql --protocol tcp --port 3307
+
+- This means we can use a SQL client like ``mysql`` to query data on MongoDB
+
+.. code-block:: SQL
+
+      use training;
+      SELECT * FROM zips;
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+     Demonstrate these instructions to students:
+
+     - run ``mongod``
+     - import ``zips.json`` dataset
+     - generate *drdl* file
+
+     .. code-block:: sh
+
+        mkdir connector
+        mongod --dbpath connector --logpath connector/mongod.log --fork
+        mongoimport -d training -c zips usb_drive/zips.json
+        mongodrdl -d training -c zips -o zips.drdl
+
+    - run ``mongosqld`` using the *zips.drdl* file
+    - connect to ``mongosqld`` from a ``mysql`` client
+
+    .. code-block:: sh
+
+          mongosqld --schema zips.drld
+          mysql --host 127.0.0.1:3307
+
+    - run the following SQL query (and others)
+
+    .. code-block:: sql
+
+        use training;
+        DESC ZIPS;
+        SELECT zip, pop, state FROM zips WHERE state = "NY";
+
+
+
+.. _`MongoDB Connector for BI`: https://www.mongodb.com/products/bi-connector
+.. _`BI Connector download`: https://www.mongodb.com/download-center#bi-connector
+.. _`SQL-99 SELECT`: https://docs.mongodb.com/bi-connector/master/supported-operations/

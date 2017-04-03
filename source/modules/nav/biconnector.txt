@@ -1,0 +1,9 @@
+====================================
+Introduction to MongoDB BI Connector
+====================================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-biconnector.rst
+
+.. include:: /includes/toc/biconnector.rst
