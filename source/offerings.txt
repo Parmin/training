@@ -93,8 +93,8 @@ Education Internal Courses
 
 .. |agenda_TrainTheTrainor| raw:: html
 
-   <a href="modules/agenda-train-the-trainer.html">Train The Trainors - 5 days</a>
+   <a href="modules/agenda-train-the-trainer.html">Train The Trainers - 5 days</a>
 
-.. |contents_TrainTheTrainor| raw:: html
+.. |contents_TrainTheTrainer| raw:: html
 
    <a href="meta/train-the-trainer.html">(contents)</a>
