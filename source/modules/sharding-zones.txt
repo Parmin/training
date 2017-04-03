@@ -83,6 +83,6 @@ Zones - Caveats
 
   - You're not only worrying about your overall server load, you're worrying about server load for each of your tags.
 
-- Your chunks will evenly distribute themselves across the available chunks. You cannot control things more fine grained than your tags.
+- Your chunks will evenly distribute themselves across the available zones. You cannot control things more fine grained than your tags.
 
 .. include:: /includes/student-notes.rst

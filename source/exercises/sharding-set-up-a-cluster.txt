@@ -322,10 +322,10 @@ Now our mongos's. We need to tell them about our config servers.
 .. code-block:: bash
 
    mongos --logpath ~/data/cluster/s0/mongos.log --fork --port 27017 \
-          --configdb $HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219
+          --configdb "csrs/$HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219"
 
    mongos --logpath ~/data/cluster/s1/mongos.log --fork --port 27018 \
-          --configdb $HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219
+          --configdb "csrs/$HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219"
 
 .. include:: /includes/student-notes.rst
 
