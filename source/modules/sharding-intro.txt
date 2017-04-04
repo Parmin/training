@@ -235,7 +235,7 @@ Config Servers
       - Use three config servers in production.
       - In MongoDB 3.2, support for config server replica set (CSRS) was introduced.
       - In MongoDB 3.4, mirrored (SCCC) config servers were deprecated. Config servers must now be set up in CSRS.
-      - In MongoDB 3.4, the balancing process was moved from the ``mongos`` server and is now the responsibility of the **primary** config server
+      - In MongoDB 3.4, the balancing process was moved from the ``mongos`` server and is the responsibility of the **primary** config server
       - These hold only metadata about the sharded collections.
 
         - Where your mongos servers are

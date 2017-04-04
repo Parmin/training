@@ -27,6 +27,7 @@ Zones - Overview
 - Shard zones allow you to "tie" data to one or more shards.
 - A shard zone describes a range of shard key values.
 - If a chunk is in the shard tag range, it will live on a shard with that tag.
+- Shard tag ranges cannot overlap. In the case we try to define overlapping ranges an error will occur during creation.
 
 .. include:: /includes/student-notes.rst
 
@@ -35,8 +36,8 @@ Example: DateTime
 -----------------
 
 - Documents older than one year need to be kept, but are rarely used.
-- You set the shard key as the ISODate of document creation.
-- You specify a zone range of older than a year in your Long Term Storage shard.
+- You set a part of the shard key as the ISODate of document creation.
+- Add shards to the LTS zone.
 - These shards can be on cheaper, slower machines.
 - Invest in high-performance servers for more frequently accessed data.
 
@@ -50,6 +51,7 @@ Example: Location
 - You include the country in the shard tag.
 - Maintain data centers within each country that house the appropriate shards.
 - Meets the country requirement but allows all servers to be part of the same system.
+- As documents age and pass into a new zone range, the balancer will migrate them automatically.
 
 .. include:: /includes/student-notes.rst
 
