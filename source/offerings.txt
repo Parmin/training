@@ -81,7 +81,7 @@ Education Internal Courses
 --------------------------
 
 - |agenda_NHTT| |contents_NHTT|
-- |agenda_TrainTheTrainor| |contents_TrainTheTrainor|
+- |agenda_TrainTheTrainer| |contents_TrainTheTrainer|
 
 .. |agenda_NHTT| raw:: html
 
@@ -91,7 +91,7 @@ Education Internal Courses
 
    <a href="meta/nhtt.html">(contents is MISSING)</a>
 
-.. |agenda_TrainTheTrainor| raw:: html
+.. |agenda_TrainTheTrainer| raw:: html
 
    <a href="modules/agenda-train-the-trainer.html">Train The Trainers - 5 days</a>
 

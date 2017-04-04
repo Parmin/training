@@ -8,7 +8,6 @@ MongoDB Train The Trainer
    /modules/nav/indexes
    /modules/nav/schema-design-intro
    /modules/nav/mms
-   /modules/nav/mms-advanced
    /modules/nav/replica-sets
    /modules/nav/sharding
    /modules/nav/security
