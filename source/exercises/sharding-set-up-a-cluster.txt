@@ -264,18 +264,26 @@ Launch Config Servers (Linux/MacOS)
 
    mongod
           --dbpath ~/data/cluster/config/c0 \
+          --replSet csrs \
           --logpath ~/data/cluster/config/c0/mongod.log \
           --fork --port 27217 --configsvr
 
    mongod
           --dbpath ~/data/cluster/config/c1 \
+          --replSet csrs \
           --logpath ~/data/cluster/config/c1/mongod.log \
           --fork --port 27218 --configsvr
 
    mongod
           --dbpath ~/data/cluster/config/c2 \
+          --replSet csrs \
           --logpath ~/data/cluster/config/c2/mongod.log \
           --fork --port 27219 --configsvr
+
+  mongo --port 27217 --eval "\
+      rs.initiate(); sleep(3000);\
+      rs.add   ('<HOSTNAME>:27218');\
+      rs.add   ('<HOSTNAME>:27219')"
 
 .. include:: /includes/student-notes.rst
 
@@ -284,16 +292,24 @@ Launch Config Servers (Windows)
 .. code-block:: bash
 
    mongod --dbpath c:\data\cluster\config\c0 \
+          --replSet csrs \
           --logpath c:\data\cluster\config\c0\mongod.log \
           --port 27217 --configsvr
 
    mongod --dbpath c:\data\cluster\config\c1 \
+          --replSet csrs \
           --logpath c:\data\cluster\config\c1\mongod.log \
           --port 27218 --configsvr
 
    mongod --dbpath c:\data\cluster\config\c2 \
+          --replSet csrs \
           --logpath c:\data\cluster\config\c2\mongod.log \
           --port 27219 --configsvr
+
+   mongo --port 27217 --eval "\
+       rs.initiate(); sleep(3000);\
+       rs.add   ('<HOSTNAME>:27218');\
+       rs.add   ('<HOSTNAME>:27219')"
 
 .. include:: /includes/student-notes.rst
 
@@ -306,10 +322,10 @@ Now our mongos's. We need to tell them about our config servers.
 .. code-block:: bash
 
    mongos --logpath ~/data/cluster/s0/mongos.log --fork --port 27017 \
-          --configdb $HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219
+          --configdb "csrs/$HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219"
 
    mongos --logpath ~/data/cluster/s1/mongos.log --fork --port 27018 \
-          --configdb $HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219
+          --configdb "csrs/$HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219"
 
 .. include:: /includes/student-notes.rst
 
@@ -328,12 +344,12 @@ Now our mongos's. We need to tell them about our config servers.
 
 .. code-block:: bash
 
-   configseedlist="$HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219"
+   configseedlist="csrs/$HOSTNAME:27217,$HOSTNAME:27218,$HOSTNAME:27219"
    mongos --logpath c:\data\cluster\s0\mongos.log --port 27017 \
           --configdb $configseedlist
 
    mongos --logpath c:\data\cluster\s1\mongos.log --port 27018 \
-          --configdb localhost:27217,localhost:27218,localhost:27219
+          --configdb csrs/localhost:27217,localhost:27218,localhost:27219
 
 .. include:: /includes/student-notes.rst
 
