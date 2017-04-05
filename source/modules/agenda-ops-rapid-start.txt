@@ -1,7 +1,137 @@
-===============
-Ops Rapid Start
-===============
+========================
+Ops Rapid Start (2 Days)
+========================
 
 
 Day 1 (Morning)
 ---------------
+- Introduction (30 minutes)
+- Lab: Installing MongoDB (30 minutes)
+- CRUD (2 hours)
+
+
+Introduction (30 minutes)
+-------------------------
+
+- :doc:`/modules/introduction-warmup`
+- :doc:`/modules/introduction-overview`
+- :doc:`/modules/introduction-mongodb-stores-documents`
+- :doc:`/modules/bson`
+- :doc:`/modules/introduction-storage-engines`
+
+Lab: Installing MongoDB (30 minutes)
+------------------------------------
+
+- :doc:`/exercises/mongodb-installation`
+- Review setup
+
+
+CRUD (2 hours)
+--------------
+
+- :doc:`/modules/crud-creating-and-deleting-documents`
+- :doc:`/modules/crud-reading-documents`
+- :doc:`/modules/crud-query-operators`
+- :doc:`/modules/crud-updating-documents`
+
+
+------------
+
+
+Day 1 (Afternoon)
+-----------------
+
+- Indexes (2 hours)
+- Lab: Building and Examining Indexes (30 minutes)
+- Lab: Finding and Addressing Slow Operations (15 minutes)
+- Lab: Using Explain (15 minutes)
+
+
+Indexes (2 hours)
+-----------------
+
+- :doc:`/modules/indexes-fundamentals`
+- :doc:`/modules/indexes-compound`
+- :doc:`/modules/indexes-multikey`
+
+
+Lab: Optimizing an Index (30 minutes)
+-------------------------------------
+
+- :doc:`/exercises/indexes-optimizing-an-index`
+- Review answers
+
+
+Lab: Finding Slow Operations (15 minutes)
+-----------------------------------------
+
+- :doc:`/exercises/indexes-finding-slow-operations`
+- Review answers
+
+
+Lab: Using ``explain()`` (15 minutes)
+-------------------------------------
+
+- :doc:`/exercises/indexes-using-explain`
+- Review answers
+
+
+------------
+
+
+Day 2 (Morning)
+---------------
+
+- Replica Sets (2.5 hours)
+- Lab: Setting Up a Replica Set (30 minutes)
+
+
+Replica Sets, Part 1 (2.5 hours)
+--------------------------------
+
+- :doc:`/modules/replica-set-introduction`
+- :doc:`/modules/replica-set-elections`
+- :doc:`/modules/replica-set-roles-and-configuration`
+- :doc:`/modules/replica-set-oplog`
+- :doc:`/modules/replica-set-write-concern`
+- :doc:`/modules/replica-set-read-preference`
+
+
+Lab: Setting up a Replica Set (30 minutes)
+------------------------------------------
+- :doc:`/exercises/replica-set-oplog`
+- Review configuration
+
+
+------------
+
+
+Day 2 (Afternoon)
+-----------------
+
+- Sharding (1 hour)
+- Security (1 hour)
+- Performance and Backup Essentials (1 hour)
+
+
+Sharding (1 hour)
+-----------------
+
+- :doc:`/modules/sharding-intro`
+- :doc:`/modules/sharding-balancing`
+- :doc:`/modules/sharding-tags`
+
+
+Security (1 hour)
+-----------------
+
+- :doc:`/modules/security-authorization`
+- :doc:`/modules/security-authentication`
+- :doc:`/modules/security-audit`
+- :doc:`/modules/security-encryption`
+
+
+Performance and Backup (1 hour)
+-------------------------------
+- :doc:`/modules/performance`
+- :doc:`/modules/backup-file-system`

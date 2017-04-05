@@ -70,7 +70,7 @@ Admin/Ops Courses
 
 .. |agenda_OpsRapidStart| raw:: html
 
-   <a href="modules/agenda-ops-rapid-start.html">Ops Rapid Start  AGENDA IS MISSING</a>
+   <a href="modules/agenda-ops-rapid-start.html">Ops Rapid Start</a>
 
 .. |contents_OpsRapidStart| raw:: html
 

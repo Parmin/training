@@ -1,33 +1,3 @@
-#name: data-modeling-documents-include-useless-data
-#alt: "Fits only 8 documents in memory, including data you don't need."
-#output:
-#   - type: 'print'
-#     tag: 'print'
-#     dpi: 300
-#     width: 1600
-#   - type: 'web'
-#     dpi: 72
-#     width: 800
-#   - type: 'offset'
-#     tag: 'offset'
-#     dpi: 300
-#     width: 300
-#---
-#name: data-modeling-documents-include-only-useful-data
-#alt: "This now fits 12 documents in the same amount of memory, with everything you need."
-#output:
-#   - type: 'print'
-#     tag: 'print'
-#     dpi: 300
-#     width: 1600
-#   - type: 'web'
-#     dpi: 72
-#     width: 800
-#   - type: 'offset'
-#     tag: 'offset'
-#     dpi: 300
-#     width: 300
-#---
 name: crud-write-concern-ack
 alt: "Write operation to a ``mongod`` instance with write concern of ``acknowledged``. The client waits for acknowledgment of success or exception."
 output:
@@ -401,7 +371,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 500
 ---
 name: replica-set-3nodes-2dc-network-partition
 alt: "3 data nodes in 2 data centers after a network partition"
@@ -416,7 +386,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 200
+    width: 400
 ---
 name: replica-set-three-data-centers-votes
 alt: "3 Data Nodes Distributed Across 3 Data Centers"
@@ -431,22 +401,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 200
----
-name: replica-set-three-data-centers-votes-exercise
-alt: "Five Data Nodes Distributed Across 3 Data Centers"
-output:
-  - type: print
-    tag: 'print'
-    dpi: 300
-    width: 1600
-  - type: web
-    dpi: 300
-    width: 600
-  - type: 'offset'
-    tag: 'offset'
-    dpi: 300
-    width: 200
+    width: 500
 ---
 name: replica-set-1dc-primary-down
 alt: "3 data nodes in 1 data center and the primary has gone down."
@@ -476,7 +431,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 200
+    width: 400
 ---
 name: replica-set-4nodes-1arbiter-2datacenters
 alt: "4 data nodes and an arbiter in 2 data centers following a network partition."
@@ -491,7 +446,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 200
+    width: 400
 ---
 name: btree-index
 alt: "Index on x."
@@ -551,7 +506,7 @@ output:
   - type: 'offset'
     tag: 'offset'
     dpi: 300
-    width: 300
+    width: 400
 ---
 name: introduction-storage-engines
 alt: "Storage engines"
