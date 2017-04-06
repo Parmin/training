@@ -64,7 +64,7 @@
     "CreateNode5" : { "Fn::Or": [ {"Condition": "CreateNode6"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "5"]} ] },
     "CreateNode4" : { "Fn::Or": [ {"Condition": "CreateNode5"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "4"]} ] },
     "CreateNode3" : { "Fn::Or": [ {"Condition": "CreateNode4"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "3"]} ] },
-    "CreateNode2" : { "Fn::Or": [ {"Condition": "CreateNode4"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "2"]} ] },
+    "CreateNode2" : { "Fn::Or": [ {"Condition": "CreateNode3"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "2"]} ] },
     "CreateNode1" : { "Fn::Or": [ {"Condition": "CreateNode2"}, {"Fn::Equals": [{"Ref": "NbNodes"}, "1"]} ] },
     "hasMissingInstanceTypes": {"Fn::Equals": [{"Ref": "AWS::Region" }, "ap-south-1"]}
   },
