@@ -19,9 +19,9 @@ Upon completing this module, students will be able to:
 Read Concerns
 -------------
 
-- :Local: *Default*
-- :Majority: Added in MongoDB 3.2, requires WiredTiger and election protocol version 1
-- :Linearizable: Added in MongoDB 3.4, works with MMAP or WiredTiger
+- **Local**: *Default*
+- **Majority**: Added in MongoDB 3.2, requires WiredTiger and election protocol version 1
+- **Linearizable**: Added in MongoDB 3.4, works with MMAP or WiredTiger
 
 Local
 -----
@@ -303,6 +303,7 @@ Example: Using Read Concern (Continued)
 ---------------------------------------
 
 .. literalinclude:: /includes/read-concern.sh
+
    :language: bash
    :lines: 1-11
 
@@ -329,7 +330,7 @@ What must you do in order to make the database return documents that have been r
 
   .. note::
 
-    Answer:
+     Answer:
 
       - Invoke the mongod with ``--enableMajorityReadConcern``
       - Use ``cursor.readConcern("majority")`` on a read
