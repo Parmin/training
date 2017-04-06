@@ -86,7 +86,7 @@ Pre-Splitting Chunks
 Start of a Balancing Round
 --------------------------
 
-- A balancing round may be initiated by any mongos in the cluster.
+- A balancing round is initiated by the balancer process on the primary config server.
 - This happens when the difference in the number of chunks between two shards becomes to large.
 - Specifically, the difference between the shard with the most chunks and the shard with the fewest.
 - A balancing round starts when the imbalance reaches:
@@ -102,9 +102,19 @@ Balancing is Resource Intensive
 -------------------------------
 
 - Chunk migration requires copying all the data in the chunk from one shard to another.
-- MonogDB can migrate only a single chunk at a time.
+- Each individual shard can be involved in one migration at a time. Parallel migrations can occur for each shard migration pair (source + destination).
+- The amount of possible parallel chunk migrations for *n* shards is *n*/2 rounded down.
 - MongoDB creates splits only after an insert operation.
 - For these reasons, it is possible to define a balancing window to ensure the balancer will only run during scheduled times.
+
+.. only:: instructor
+
+   .. note::
+
+      As of MongoDB 3.4, deployments using WiredTiger will see increased balancing speed.
+      The default value **secondaryThrottle** is **false**, so the balancer will not wait
+      for replication before proceeding to the next chunk during migration. This is the default now
+      because MongoDB now has a dedicated balancing migration thread
 
 .. include:: /includes/student-notes.rst
 

@@ -216,7 +216,7 @@ MongoDB Company Overview
 Database Popularity Index
 -------------------------
 
-.. include:: /figures_local/db-engines-ranking.txt
+.. include:: /figures_meta/db-engines-ranking.txt
 
 .. include:: /includes/student-notes.rst
 

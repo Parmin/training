@@ -1,0 +1,51 @@
+==================
+Train The Trainors
+==================
+
+
+Day 1
+-----
+
+- Introduction on Train the Trainer
+- Indexing
+- Schema Design
+- Ops Manager / Cloud Manager / Atlas
+
+.. include:: /includes/student-notes.rst
+
+
+Day 2
+-----
+
+- Replication
+- Sharding
+
+.. include:: /includes/student-notes.rst
+
+
+Day 3
+-----
+
+- Schema Design part 2
+- Security
+
+.. include:: /includes/student-notes.rst
+
+
+Day 4
+-----
+
+- Storage Engines
+- Server Tools
+- Production Best Practices
+
+.. include:: /includes/student-notes.rst
+
+
+Day 5
+-----
+
+- Tools
+- Drivers
+
+.. include:: /includes/student-notes.rst

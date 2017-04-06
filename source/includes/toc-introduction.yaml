@@ -10,6 +10,10 @@ file: /modules/introduction-mongodb-stores-documents
 description: |
   The structure of data in MongoDB
 ---
+file: /modules/bson
+description: |
+  An overview of BSON data types in MongoDB
+---
 file: /exercises/mongodb-installation
 description: |
   Install MongoDB and experiment with a few operations.

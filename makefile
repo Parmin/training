@@ -24,6 +24,9 @@ noop:
 stage giza-stage:
 	@giza push --deploy stage-student stage-instructor --builder latex dirhtml html singlehtml slides --serial_sphinx --edition instructor student
 
+clean:
+	rm -rf build
+
 instructor-package: diff-aws-vms
 	rm -f conf.py
 	ln conf-default.py conf.py

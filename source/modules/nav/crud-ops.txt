@@ -1,0 +1,9 @@
+====
+CRUD
+====
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-crud-ops.rst
+
+.. include:: /includes/toc/crud-ops.rst

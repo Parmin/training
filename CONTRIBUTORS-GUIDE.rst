@@ -282,8 +282,25 @@ Here a quick checklist of the steps I used to create the figures for the schema 
 - link the svg from ``source/images``
 - add the image to ``source/images/metadata.yaml``
 
-  - 'web' section is for the HTML and Slides modes
-  - 'offset' section is for the PDF
+  - a typical 'output' section would look like::
+
+        output:
+           - type: print
+             tag: 'print'
+             dpi: 300
+             width: 1600
+           - type: 'web'
+             dpi: 72
+             width: 450
+           - type: 'offset'
+             tag: 'offset'
+             dpi: 300
+             width: 200
+
+  - no worry about adding or not quotes for the values, as it is not needed in YAML
+  - the 'web' type is for the HTML and Slides modes
+  - the 'offset' type is to generate the EPS image that goes in the PDF
+  - the 'print' type is for generating PNG (from svg). We are not sure if this is used
 
 - add a line like the following in the rST files
 
@@ -310,6 +327,7 @@ If you want to preview the *rST* files with `Atom`_:
 
   which will require that you also install the plugin *language-restructuredtext* and the command line tool *Pandoc*. See the above plugin documentation for more details on how to install those dependencies.
 
+- install Pandoc with: brew install pandoc
 - ensure the file that is opened in the editor is recognized as *reStructuredText*. If not, click on the type at the right bottom of the window and select *reStructuredText*.
 - Using the keys ``Shift + Control + E`` should open a window to the right of the page and display it in *rST*, minor the pre-processing stuff that should be handled by *Giza*.
 

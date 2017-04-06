@@ -1,0 +1,216 @@
+==================
+MongoDB Data Types
+==================
+
+Learning Objectives
+-------------------
+
+By the end of this module, students should understand:
+
+- What data types MongoDB supports
+- Special consideration for some BSON types
+
+What is BSON?
+-------------
+
+BSON is a binary serialization of JSON, used to store documents and make remote
+procedure calls in MongoDB.
+For more in-depth coverage of BSON, specifically refer to `bsonspec.org <http://bsonspec.org/>`_
+
+.. note::
+
+   All official MongoDB drivers map BSON to native types and data structures
+
+.. include:: /includes/student-notes.rst
+
+BSON types
+----------
+
+MongoDB supports a wide range of BSON types. Each data type has a corresponding
+number and string alias that can be used with the ``$type`` operator to query
+documents by BSON type.
+
+:Double: 1 "double"
+:String: 2 "string"
+:Object: 3 "object"
+:Array: 4 "array"
+:Binary data: 5 "binData"
+:ObjectId: 7 "objectId"
+:Boolean: 8 "bool"
+:Date: 9 "date"
+:Null: 10 "null"
+
+.. include:: /includes/student-notes.rst
+
+BSON types continued
+--------------------
+
+:Regular Expression: 11 "regex"
+:JavaScript: 13 "javascript"
+:JavaScript (w/ scope):	15 "javascriptWithScope"
+:32-bit integer: 16 "int"
+:Timestamp:	17 "timestamp"
+:64-bit integer: 18	"long"
+:Decimal128: 19 "decimal"
+:Min key:	-1 "minKey"
+:Max key:	127	"maxKey"
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Take the opportunity to show students how to query using ``$type``
+      operator:
+
+      .. code-block:: js
+
+          use datatypes
+          db.sample.insertMany([
+            {a: 1, b: "hello"},
+            {a: 1.2, b: { c: "goodbye"}}
+          ])
+
+          db.sample.find({b: {$type: 'string'}})
+          db.sample.find({b: {$type: 3}})
+
+ObjectId
+--------
+
+.. include:: /images/objectId.rst
+
+.. code-block:: javascript
+
+   > ObjectId()
+   ObjectId("58dc309ce3f39998099d6275")
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+   .. note::
+
+      - An ObjectId is a 12-byte value.
+      - The first 4 bytes are a datetime reflecting when the ObjectID was created.
+      - The next 3 bytes are the MAC address of the server.
+      - Then a 2-byte process ID
+      - Finally, 3 bytes that are monotonically increasing for each new ObjectId created within a collection.
+
+Timestamps
+----------
+
+BSON has a special timestamp type for *internal* MongoDB use and is **not** associated with the regular Date type.
+
+Date
+----
+
+BSON Date is a 64-bit integer that represents the number of milliseconds since the Unix epoch (Jan 1, 1970).
+This results in a representable date range of about 290 million years into the past and future.
+
+- Official BSON spec refers to the BSON Date type as UTC datetime
+- Signed data type. Negative values represent dates before 1970.
+
+.. code-block:: javascript
+
+   var today = ISODate() // using the ISODate constructor
+
+.. include:: /includes/student-notes.rst
+
+Decimal
+-------
+
+In MongoDB 3.4, support was added for 128-bit decimals.
+
+- The **decimal** BSON type uses the decimal128 decimal-based floating-point
+  numbering format.
+- This supports 34 significant digits and an exponent range of **-6143** to
+  **+6144**.
+- Intended for applications that handle monetary and scientific data that
+  requires exact precision.
+
+.. include:: /includes/student-notes.rst
+
+How to use Decimal
+------------------
+
+For specific information about how your preferred driver supports decimal128,
+click `here <https://docs.mongodb.com/ecosystem/drivers/>`_.
+
+In the Mongo shell, we use the `NumberDecimal()` constructor.
+
+- Can be created with a string argument or a double
+- Stored in the database as `NumberDecimal("999.4999")`
+
+.. code-block:: javascript
+
+   > NumberDecimal("999.4999")
+   NumberDecimal("999.4999")
+   > NumberDecimal(999.4999)
+   NumberDecimal("999.4999")
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Using a double as the argument can lead to loss of precision. A string
+      argument is preferred.
+
+      .. code-block:: javascript
+
+         MongoDB Enterprise > NumberDecimal("999.4999999999999")
+         NumberDecimal("999.4999999999999")
+         MongoDB Enterprise > NumberDecimal(999.4999999999999)
+         NumberDecimal("999.500000000000")
+
+Decimal Considerations
+-------------------------
+
+- If upgrading an existing database to use **decimal128**, it is recommended a
+  new field be added to reflect the new type. The old field may be deleted after
+  verifying consistency
+- If any fields contain **decimal128** data, they will not be compatible with
+  previous versions of MongoDB. There is no support for downgrading datafiles
+  containing decimals
+- **decimal** types are not strictly equal to their **double** representations,
+  so use the **NumberDecimal** constructor in queries.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Show the following example:
+
+      .. code-block:: javascript
+
+         MongoDB Enterprise > use foo
+         MongoDB Enterprise > db.numbers.insertMany([
+           { "_id" : 1, "val" : NumberDecimal( "9.99" ), "description" : "Decimal" },
+           { "_id" : 2, "val" : 9.99, "description" : "Double" },
+           { "_id" : 3, "val" : 10, "description" : "Double" },
+           { "_id" : 4, "val" : NumberLong(10), "description" : "Long" },
+           { "_id" : 5, "val" : NumberDecimal( "10.0" ), "description" : "Decimal" }
+         ])
+
+         MongoDB Enterprise > db.numbers.find().sort({"val": 1})
+         { "_id" : 1, "val" : NumberDecimal("9.99"), "description" : "Decimal" }
+         { "_id" : 2, "val" : 9.99, "description" : "Double" }
+         { "_id" : 3, "val" : 10, "description" : "Double" }
+         { "_id" : 4, "val" : NumberLong(10), "description" : "Long" }
+         { "_id" : 5, "val" : NumberDecimal("10.0"), "description" : "Decimal" }
+
+         MongoDB Enterprise > db.numbers.find({"val": NumberDecimal("10")}).sort({"val": 1})
+         { "_id" : 3, "val" : 10, "description" : "Double" }
+         { "_id" : 4, "val" : NumberLong(10), "description" : "Long" }
+         { "_id" : 5, "val" : NumberDecimal("10.0"), "description" : "Decimal" }
+
+         MongoDB Enterprise > db.numbers.find({"val": NumberDecimal("9.99")}).sort({"val": 1})
+         { "_id" : 1, "val" : NumberDecimal("9.99"), "description" : "Decimal" }
+
+         MongoDB Enterprise > db.numbers.find({"val": 9.99}).sort({"val": 1})
+         { "_id" : 2, "val" : 9.99, "description" : "Double" }

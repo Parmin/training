@@ -1,0 +1,9 @@
+========
+Security
+========
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-security-ops.rst
+
+.. include:: /includes/toc/security-ops.rst

@@ -1,0 +1,90 @@
+===========
+Shard Zones
+===========
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The purpose for shard zones
+- Advantages of using shard zones
+- Potential drawbacks of shard zones
+
+.. only:: instructor
+
+   .. note::
+
+      MongoDB 3.4 introduced Zones, which supersedes tag-aware sharding available in earlier versions.
+
+.. include:: /includes/student-notes.rst
+
+
+Zones - Overview
+---------------
+
+- Shard zones allow you to "tie" data to one or more shards.
+- A shard zone describes a range of shard key values.
+- If a chunk is in the shard tag range, it will live on a shard with that tag.
+- Shard tag ranges cannot overlap. In the case we try to define overlapping ranges an error will occur during creation.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: DateTime
+-----------------
+
+- Documents older than one year need to be kept, but are rarely used.
+- You set a part of the shard key as the ISODate of document creation.
+- Add shards to the LTS zone.
+- These shards can be on cheaper, slower machines.
+- Invest in high-performance servers for more frequently accessed data.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Location
+-----------------
+
+- You are required to keep certain data in its home country.
+- You include the country in the shard tag.
+- Maintain data centers within each country that house the appropriate shards.
+- Meets the country requirement but allows all servers to be part of the same system.
+- As documents age and pass into a new zone range, the balancer will migrate them automatically.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Premium Tier
+---------------------
+
+- You have customers who want to pay for a "premium" tier.
+- The shard key permits you to distinguish one customer's documents from all others.
+- Tag the document ranges for each customer so that their documents will be located on shards of the appropriate tier (zone).
+- Shards tagged as premium tier run on high performance servers.
+- Other shards run on commodity hardware.
+- See :manual:`Manage Shard Tags</tutorial/administer-shard-tags/>`
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - As customers move from one tier to another it will be necessary to execute commands that either add a given customer's shard key range to the premium tag or remove that range from those tagged as "premium".
+      - During balancing rounds, if the balancer detects that any chunks are not on the correct shards per configured tags, the balancer migrates chunks in tagged ranges to shards associated with those tags.
+      - After re-configuring tags with a shard key range, and associating it with a shard or shards, the cluster may take some time to balance the data among the shards.
+      - See: `Tiered Storage Models in MongoDB: Optimizing Latency and Cost <http://blog.mongodb.org/post/85721044164/tiered-storage-models-in-mongodb-optimizing-latency>`_.
+
+
+Zones - Caveats
+--------------
+
+- Because tagged chunks will only be on certain servers, if you tag more than those servers can handle, you'll have a problem.
+
+  - You're not only worrying about your overall server load, you're worrying about server load for each of your tags.
+
+- Your chunks will evenly distribute themselves across the available zones. You cannot control things more fine grained than your tags.
+
+.. include:: /includes/student-notes.rst

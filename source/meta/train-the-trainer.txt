@@ -1,0 +1,16 @@
+=========================
+MongoDB Train The Trainer
+=========================
+
+.. toctree::
+
+   /modules/nav/introduction
+   /modules/nav/indexes
+   /modules/nav/schema-design-intro
+   /modules/nav/mms
+   /modules/nav/replica-sets
+   /modules/nav/sharding
+   /modules/nav/security
+   /modules/nav/storage
+   /modules/nav/performance-essentials
+   /modules/nav/drivers
