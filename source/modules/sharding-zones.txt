@@ -64,7 +64,7 @@ Example: Premium Tier
 - Tag the document ranges for each customer so that their documents will be located on shards of the appropriate tier (zone).
 - Shards tagged as premium tier run on high performance servers.
 - Other shards run on commodity hardware.
-- See :manual:`Manage Shard Tags</tutorial/administer-shard-zone/>`
+- See :manual:`Manage Shard Zone</tutorial/manage-shard-zone/>`
 
 .. include:: /includes/student-notes.rst
 
