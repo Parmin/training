@@ -41,7 +41,7 @@ Linearizable
 ------------
 
 - Available with MongoDB versions > 3.4
-- Will read latest data acknowledged with ``w: majority``, or block until replica set acknowledges a recent write with ``w: majority``
+- Will read latest data acknowledged with ``w: majority``, or block until replica set acknowledges a write in progress with ``w: majority``
 - Can result in **very slow** queries. Always use **maxTimeMS** with **linearizable**
 - Only guaranteed to be a linearizable read when the query fetches a single document
 
@@ -117,9 +117,9 @@ Background: Stale Reads
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Stale reads see a view of the data that was in place at some point recently
+      - Stale reads see a view of the data that was in place at some point recently
 
 
 Stale Reads on a Primary
@@ -142,13 +142,13 @@ Stale Reads on a Primary
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - The scenario described here might happen if, for example, the other primary freezes for some time, then resumes operation
-    - This slide is for the benefit of engineers who are very knowledgeable about isolation, and who are concerned about isolation levels
+      - The scenario described here might happen if, for example, the other primary freezes for some time, then resumes operation
+      - This slide is for the benefit of engineers who are very knowledgeable about isolation, and who are concerned about isolation levels
 
-      - Telling them that primaries prevent stale reads is not completely accurate
-      - With ``linearizable``, the query will verify with the secondaries that the primary being queried can acknowledge ``w: majority``.
+        - Telling them that primaries prevent stale reads is not completely accurate
+        - With ``linearizable``, the query will verify with the secondaries that the primary being queried can acknowledge ``w: majority``.
 
 
 Background: Dirty Reads
@@ -168,14 +168,14 @@ Background: Dirty Reads
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - There is no way to know during a dirty read if its view of the data includes a write that will be rolled back
-    - Here is a good time to ask when writes can get rolled back
-    - Answers:
+      - There is no way to know during a dirty read if its view of the data includes a write that will be rolled back
+      - Here is a good time to ask when writes can get rolled back
+      - Answers:
 
-      - If a network partition isolates the primary, a new one will be elected
-      - If the primary crashes, a new one will be elected and the old primary's writes will be rolled back
+        - If a network partition isolates the primary, a new one will be elected
+        - If the primary crashes, a new one will be elected and the old primary's writes will be rolled back
 
 
 Dirty Reads and Write Concern
@@ -192,18 +192,18 @@ Dirty Reads and Write Concern
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Might be a good time to ask how many ways dirty reads can happen.
-    - Answers:
+     - Might be a good time to ask how many ways dirty reads can happen.
+     - Answers:
 
-      - Primary gets a write, but crashes before the oplog sends data to the secondary
-      - Primary and one secondary both get the write, but both crash before it gets to disk on either
-      - Primary gets the write, but there is a network partition separating it from the secondaries; they elect a new primary
+       - Primary gets a write, but crashes before the oplog sends data to the secondary
+       - Primary and one secondary both get the write, but both crash before it gets to disk on either
+       - Primary gets the write, but there is a network partition separating it from the secondaries; they elect a new primary
 
-        - Write gets rolled back, so it's not in your data set unless manually added
+         - Write gets rolled back, so it's not in your data set unless manually added
 
-    - Don't let the students conflate read concern with `read preference <https://docs.mongodb.com/manual/core/read-preference/>`_
+     - Don't let the students conflate read concern with `read preference <https://docs.mongodb.com/manual/core/read-preference/>`_
 
 
 
@@ -216,10 +216,10 @@ What is the difference between a dirty read and a stale read?
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - Dirty read means you see a write that may not persist
-    - Stale read means you don't see a write that has occurred
+      - Dirty read means you see a write that may not persist
+      - Stale read means you don't see a write that has occurred
 
 
 Read Concern and Read Preference
@@ -269,10 +269,10 @@ Using Read Concern
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    - If running with read concern level: "majority" but not write concern ``{ w: "majority" }``, it would be possible to insert a document, get it acknowledged, and then try to read it back, but not see it.
-    - Obviously, users should not do this.
+      - If running with read concern level: "majority" but not write concern ``{ w: "majority" }``, it would be possible to insert a document, get it acknowledged, and then try to read it back, but not see it.
+      - Obviously, users should not do this.
 
 
 Example: Using Read Concern
@@ -285,8 +285,7 @@ Example: Using Read Concern
 - A script is in the `shell_scripts` directory of the USB drive.
 
   .. code-block:: bash
-
-    ./launch_replset_for_majority_read_concern.sh
+     ./launch_replset_for_majority_read_concern.sh
 
 .. include:: /includes/student-notes.rst
 
