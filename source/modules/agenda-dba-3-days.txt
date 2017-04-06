@@ -130,7 +130,7 @@ Sharding (2.5 hours)
 
 - :doc:`/modules/sharding-intro`
 - :doc:`/modules/sharding-balancing`
-- :doc:`/modules/sharding-tags`
+- :doc:`/modules/sharding-zones`
 
 
 Day 3 (Morning)

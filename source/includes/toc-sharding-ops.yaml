@@ -6,7 +6,7 @@ file: /modules/sharding-balancing
 description: |
   Balancing Shards
 ---
-file: /modules/sharding-tags
+file: /modules/sharding-zones
 description: |
   Brief introduction to Shard Tagging
 ...

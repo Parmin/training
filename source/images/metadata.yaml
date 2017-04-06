@@ -553,21 +553,6 @@ output:
     dpi: 300
     width: 400
 ---
-name: storage-engine-architecture
-alt: "Storage Engine Architecture"
-output:
-  - type: print
-    tag: 'print'
-    dpi: 300
-    width: 1600
-  - type: web
-    dpi: 72
-    width: 700
-  - type: 'offset'
-    tag: 'offset'
-    dpi: 300
-    width: 400
----
 name: mms-backups
 alt: "MMS Backups"
 output:

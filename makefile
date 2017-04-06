@@ -31,7 +31,7 @@ instructor-package: diff-aws-vms
 	rm -f conf.py
 	ln conf-default.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
-	giza $(gizaverbosity) sphinx --builder slides html --serial_sphinx --edition instructor
+	giza $(gizaverbosity) sphinx --builder slides html --serial_sphinx --edition instructor 2>&1 | grep -v "isn't included in any toctree" | grep -v "/internal/" || true
 	mkdir -p build/$@/slides/
 	rsync $(osverbosity) -r build/$(branch)/html-instructor/ build/$@/
 	rsync $(osverbosity) -r build/$(branch)/slides-instructor/ build/$@/slides/

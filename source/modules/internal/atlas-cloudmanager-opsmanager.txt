@@ -5,6 +5,12 @@ Atlas, Cloud Manager and Ops Manager
 This chapter is incomplete and still under development
 ------------------------------------------------------
 
+.. only:: instructor
+
+   .. note::
+
+      - add slide on Data Explorer (new in March 2017)
+
 
 Learning Objectives
 -------------------
@@ -81,6 +87,8 @@ Atlas Geographical Availability
 
    .. note::
 
+      Atlas available in all AWS regions (except China and GovCloud).
+      
       EMEA AWS regions supported:
 
         - Dublin

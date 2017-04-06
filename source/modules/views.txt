@@ -56,7 +56,7 @@ How to create and drop a view
 
       - Views do not have any data, nor do they cache their data.
       - Views can only be created from another view. In order to combine data from
-      multiple collections, users can use the familiar aggregation operator `$lookup`
+        multiple collections, users can use the familiar aggregation operator `$lookup`
 
 Example - Creating a view
 -------------------------

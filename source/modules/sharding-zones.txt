@@ -22,7 +22,7 @@ Upon completing this module students should understand:
 
 
 Zones - Overview
----------------
+----------------
 
 - Shard zones allow you to "tie" data to one or more shards.
 - A shard zone describes a range of shard key values.
@@ -79,7 +79,7 @@ Example: Premium Tier
 
 
 Zones - Caveats
---------------
+---------------
 
 - Because tagged chunks will only be on certain servers, if you tag more than those servers can handle, you'll have a problem.
 
