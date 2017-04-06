@@ -22,6 +22,10 @@ file: /modules/replica-set-write-concern
 description: |
   Balancing performance and durability of writes
 ---
+file: /modules/replica-set-read-concern
+description: |
+  Settings to minimize/prevent stale and dirty reads
+---
 file: /modules/replica-set-read-preference
 description: |
   Configuring clients to read from specific members of a replica set
