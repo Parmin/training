@@ -5,6 +5,12 @@ Atlas, Cloud Manager and Ops Manager
 This chapter is incomplete and still under development
 ------------------------------------------------------
 
+.. only:: instructor
+
+   .. note::
+
+      - add slide on Data Explorer (new in March 2017)
+
 
 Learning Objectives
 -------------------
@@ -68,6 +74,47 @@ Atlas
    .. note::
 
       - [STORY] *Atlas* was coined by a new hire (Daniel Farrell) while attending NHTT. He did not like the names on the ballot, so he submitted *Atlas*, and got enough other people to back up his choice, that we had a second ballot.
+
+
+Atlas Geographical Availability
+-------------------------------
+
+.. include:: /figures_meta/atlas-aws-regions.txt
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      Atlas available in all AWS regions (except China and GovCloud).
+
+      Up to date list at `<https://www.mongodb.com/cloud/atlas/faq#where-available>`_
+
+      EMEA AWS regions supported:
+
+        - Dublin
+        - London
+        - Frankfurt
+
+      APAC AWS regions supported:
+
+        - Sydney
+        - Singapore
+        - Mumbai
+        - Tokyo
+        - Seoul
+
+      Americas AWS regions supported:
+
+        - Oregon
+        - N. Virginia
+        - Ohio
+        - N. California
+        - Canada
+        - São Paulo
+
+      Note that if the image goes out of date, we should simply remove it.
 
 
 Ops Manager

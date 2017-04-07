@@ -119,7 +119,7 @@ Sharding (1 hour)
 
 - :doc:`/modules/sharding-intro`
 - :doc:`/modules/sharding-balancing`
-- :doc:`/modules/sharding-tags`
+- :doc:`/modules/sharding-zones`
 
 
 Security (1 hour)

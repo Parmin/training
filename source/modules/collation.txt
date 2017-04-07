@@ -62,7 +62,7 @@ How Collations are defined in MongoDB
 The Collation Document
 ----------------------
 
-- **locale** : The only required field, all others are optional. The International Components for Unicode (ICU) locale. A full list of supported locales can be found `here <https://docs.mongodb.com/manual/reference/collation-locales-defaults/#collation-languages-locales>`_
+- **locale** : The only required field, all others are optional. The International Components for Unicode (ICU) locale. A `full list of supported locales can be found here <https://docs.mongodb.com/manual/reference/collation-locales-defaults/#collation-languages-locales>`_
 - *strength* : The level of comparison to perform, corresponding to `ICU Comparison Levels <http://userguide.icu-project.org/collation/concepts#TOC-Comparison-Levels>`_
 - *caseLevel* : Flag that determines whether to include case comparison.
 - *caseFirst* : Flag that determines sort order of case differences during tertiary level comparisons.
@@ -72,7 +72,7 @@ The Collation Document
 
    .. note::
 
-      Some collation locales have variants, which employ special language-specific rules. `Documentation here <https://docs.mongodb.com/manual/reference/collation/#behavior>`_
+      Some collation locales have variants, which employ special language-specific rules. `Documentation can be found here <https://docs.mongodb.com/manual/reference/collation/#behavior>`_
 
 .. include:: /includes/student-notes.rst
 
@@ -146,7 +146,7 @@ To create an index using collation:
 
       For a compound index where the index prefix keys are not strings, arrays, and embedded documents,
       an operation that specifies a different collation can still use the index to support comparisons on the index prefix keys.
-      Detailed documentation can be found `here <https://docs.mongodb.com/manual/reference/collation/#collation-and-index-use>`_
+      `Detailed documentation can be found here <https://docs.mongodb.com/manual/reference/collation/#collation-and-index-use>`_
 
 .. include:: /includes/student-notes.rst
 
