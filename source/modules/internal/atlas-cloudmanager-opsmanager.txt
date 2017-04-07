@@ -88,7 +88,9 @@ Atlas Geographical Availability
    .. note::
 
       Atlas available in all AWS regions (except China and GovCloud).
-      
+
+      Up to date list at `<https://www.mongodb.com/cloud/atlas/faq#where-available>`_
+
       EMEA AWS regions supported:
 
         - Dublin
@@ -111,6 +113,9 @@ Atlas Geographical Availability
         - N. California
         - Canada
         - São Paulo
+
+      Note that if the image goes out of date, we should simply remove it.
+
 
 Ops Manager
 -----------
