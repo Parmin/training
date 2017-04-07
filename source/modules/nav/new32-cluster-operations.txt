@@ -1,9 +1,0 @@
-======================
-3.2 Cluster Operations
-======================
-
-.. default-domain:: mongodb
-
-.. include:: /includes/toc/dfn-list-new32-cluster-operations.rst
-
-.. include:: /includes/toc/new32-cluster-operations.rst

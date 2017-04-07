@@ -2,10 +2,6 @@ file: /modules/new32-aggregation
 description: |
   Improvements to the aggregation pipeline
 ---
-file: /modules/new32-cluster-operations
-description: |
-  Changes to replication and sharding
----
 file: /modules/new32-document-validation
 description: |
   Introducing document validation

@@ -15,5 +15,3 @@ MongoDB Developer Training
    /modules/nav/replica-sets-rapid-start
    /modules/nav/sharding-dev
    /modules/nav/mms-developer
-   /modules/nav/new-in-3-2
-

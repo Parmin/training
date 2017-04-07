@@ -15,6 +15,3 @@ MongoDB Administrator Training
    /modules/nav/backup-essentials
    /modules/nav/security-essentials
    /modules/nav/mms-developer
-   /modules/nav/new-in-3-2
-
-
