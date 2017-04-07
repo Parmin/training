@@ -61,11 +61,17 @@ Calling Elections
 Selecting a New Primary
 -----------------------
 
-Three factors are important in the selection of a primary:
+- Depends on which replication protocol version is in use
+- PV0
 
-- Priority
-- Optime
-- Connections
+  - Priority
+  - Optime
+  - Connections
+
+- PV1
+
+  - Optime
+  - Connections
 
 .. include:: /includes/student-notes.rst
 
@@ -73,6 +79,7 @@ Three factors are important in the selection of a primary:
 Priority
 --------
 
+- PV0 factors priority into voting.
 - The higher its priority, the more likely a member is to become primary.
 - The default is 1.
 - Servers with a priority of 0 will never become primary.
@@ -89,6 +96,7 @@ Priority
       - And where writes will be directed in case of failover.
       - Generally all identical nodes in a datacenter should have the same priority to avoid unnecessary failovers. For example, when a higher priority node rejoins the replica set after a maintenance or failure event, it will trigger a failover (during which by default there will be no reads and writes) even though it is unnecessary.
       - More on this in a later module.
+      - PV1 does not factor priority into elections. However, after the replica set is stable, a secondary with higher priority will call for a new election to make itself the new primary. This increases the chance of there always being a primary, at the cost of potentially more elections.
 
 
 Optime
