@@ -42,7 +42,10 @@ Linearizable
 
 - Available with MongoDB versions > 3.4
 - Will read latest data acknowledged with ``w: majority``, or block until replica set acknowledges a write in progress with ``w: majority``
-- Can result in **very slow** queries. Always use **maxTimeMS** with **linearizable**
+- Can result in **very slow** queries.
+
+  - Always use **maxTimeMS** with **linearizable**
+
 - Only guaranteed to be a linearizable read when the query fetches a single document
 
 .. only:: instructor
@@ -285,6 +288,7 @@ Example: Using Read Concern
 - A script is in the `shell_scripts` directory of the USB drive.
 
   .. code-block:: bash
+  
      ./launch_replset_for_majority_read_concern.sh
 
 .. include:: /includes/student-notes.rst

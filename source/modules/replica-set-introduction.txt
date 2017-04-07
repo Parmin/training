@@ -87,7 +87,7 @@ Large Replica Sets
 
 Functional segregation can be further exploited by using large replica sets.
 
-- 50 node replica set limit, 7 voting members
+- 50 node replica set limit with a maximum of 7 voting members
 - Useful for deployments with a large number of data centers or offices
 - Read only workloads can position secondaries in data centers around the world (closer to application servers)
 
@@ -201,7 +201,7 @@ The Oplog
 Initial Sync
 ------------
 
-- Occurs when a new server is added to a replica set
+- Occurs when a new server is added to a replica set, or we erase the underlying data of an existing server (--dbpath)
 - All existing collections except the *local* collection are copied
 - As of MongoDB >= 3.4, all indexes are built while data is copied
 - As of MongoDB >= 3.4, initial sync is more resilient to intermittent network failure/degradation

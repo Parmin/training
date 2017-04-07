@@ -139,7 +139,7 @@ Other Write Concerns
 - You may specify any integer as the value of the ``w`` field for write concern.
 - This guarantees that write operations have propagated to the specified number of members.
 - E.g., ``{ w : 3 }``, ``{ w : 4}``, etc.
-- When using PV1 (replication protocol version 1), ``writeConcernMajorityJournalDefault`` is on by default for versions >= 3.4
+- When using PV1 (replication protocol version 1), :manual:`writeConcernMajorityJournalDefault</reference/replica-configuration/#rsconf.writeConcernMajorityJournalDefault>` is on by default for versions >= 3.4
 
   - Ensures writes are written to disk before being acknowledge from secondaries.
 
