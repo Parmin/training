@@ -17,4 +17,3 @@ MongoDB Essentials Training
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
    /modules/nav/security-essentials
-   /modules/nav/new-in-3-2
