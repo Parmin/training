@@ -197,3 +197,11 @@ The Oplog
       Remind students that capped collections are collections that do not indefinitely expand. Once their maximum size is reached they were roll back to the beginning (oldest insert) and start overwriting data.
 
 .. include:: /includes/student-notes.rst
+
+Initial Sync
+------------
+
+- Occurs when a new server is added to a replica set
+- All existing collections except the *local* collection are copied
+- As of MongoDB >= 3.4, all indexes are built while data is copied
+- As of MongoDB >= 3.4, initial sync is more resilient to intermittent network failure/degradation
