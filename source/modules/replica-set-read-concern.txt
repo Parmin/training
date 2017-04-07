@@ -288,7 +288,7 @@ Example: Using Read Concern
 - A script is in the `shell_scripts` directory of the USB drive.
 
   .. code-block:: bash
-  
+
      ./launch_replset_for_majority_read_concern.sh
 
 .. include:: /includes/student-notes.rst
@@ -388,9 +388,22 @@ Replication Protocol Version 1 (continued)
       - Previously, secondaries would acknowledge writes before those writes were journaled
       - A short ``electionTimeoutMillis`` can result in lots of elections, especially with a flaky network
       - A long ``electionTimeoutMillis`` can result in lower availability due to longer failover time
+      - When to use PV0 and PV1?
+      
+        - >= 3.4.2
 
-Advantages of PV0 to PV1
-------------------------
+          - Pv1: should always be recommended. All known issues with Arbiters, priorities, and rollbacks have been mitigated.
+          - Pv0: No known cases where Pv0 is materially superior.
+
+        - 3.2.12+
+
+          - Pv1: Should be recommended if customer is primarily using w:majority writes. Can safely be used with Arbiters, Priorities, and other topologies with minimal impact on failover. Non-majority writes can still be rolled back on failover as there is no "catch up" period implemented in 3.2. However, priority take overs (a leading cause of large rollbacks) have been limited to only occur if the higher priority node is with 10 seconds of the current primary.
+          - Pv0: Should be recommended if customer is primarily using non-majority writes.
+
+        - 3.2.11/3.4.1 or lower
+
+          - Pv1: Should only be recommended if an application is exclusively using w:majority writes without priorities or arbiters. This is due to rollback bugs and large rollbacks of non-majority writes caused by mishandling of priorities.
+          - Pv0: Should be recommended whenever non-majority writes are being used. Particularly, if a customer is using priorities.
 
 
 Quiz
