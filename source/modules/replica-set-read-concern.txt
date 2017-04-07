@@ -336,19 +336,28 @@ What must you do in order to make the database return documents that have been r
 
         - Alternatively, use read concern level "majority" with a driver's connection pool
 
+Replication Protocol Version 0
+------------------------------
+
+- Better data consistency when using arbiters and ``w: 1`` writes
+- Does not support ``majority`` read concern
+- 30 second buffer between elections
+- Supports vetoes based on **priority**
+
+  - Should have fewer elections, and fewer ``w: 1`` rollbacks.
+
+.. include:: /includes/student-notes.rst
 
 Replication Protocol Version 1
 ------------------------------
 
-- MongoDB 3.2 introduced a new replication protocol.
-
-  - Replication protocol version 1 is the new protocol.
-  - Replication protocol version 0 was used in earlier versions of MongoDB.
-
+- Version 1 is the default in MongoDB >=3.2.
 - With version 1, secondaries now write to disk before acknowledging writes.
 - ``{ w : "majority" }`` now implies ``{ j : true }``
+
+  - Can be disabled by setting ``writeConcernMajorityJournalDefault`` to false for versions >= 3.4
+
 - Set the replication protocol version using the ``protocolVersion`` parameter in your replica set configuration.
-- Version 1 is the default in MongoDB >=3.2.
 
 .. include:: /includes/student-notes.rst
 
@@ -372,10 +381,13 @@ Replication Protocol Version 1 (continued)
 
    .. note::
 
-      - The old replication protocol is now known as replication protocol 0
       - Previously, secondaries would acknowledge writes before those writes were journaled
       - A short ``electionTimeoutMillis`` can result in lots of elections, especially with a flaky network
       - A long ``electionTimeoutMillis`` can result in lower availability due to longer failover time
+
+Advantages of PV0 to PV1
+------------------------
+
 
 Quiz
 ----
