@@ -2,6 +2,19 @@
 Lab: Security Workshop
 ======================
 
+.. only:: instructor
+
+  .. note::
+
+     - we assume you are familiar with the provisioning scripts. If not start with:
+       https://docs.google.com/document/d/1vhA6NvlTsPe1rw_fb7N5NrYzJ78odiHWBd5yf9vPd64
+
+     - you would provision 3 nodes per team, using the provisioning script.
+       For example, for a 6 teams exercise at MongoDB World, you would run:
+
+       deploy.py --run mdbw2017 --teams 6 --instances 3 --noom
+
+
 Learning Objectives
 -------------------
 
@@ -23,7 +36,7 @@ using MongoDB as a backend.
 - We are going to secure the backend communications using TLS/SSL
 - Enable authorization on the backend side
 - Encrypt the storage layer
-- Make sure that there are no *"leaks"* of information to
+- Make sure that there are no *"leaks"* of information
 
 .. include:: /includes/student-notes.rst
 
@@ -31,33 +44,100 @@ using MongoDB as a backend.
 
   .. note::
 
-    Show students the different components of this workshop.
+    Describe to the students the different components of this workshop.
 
-    - The application code
-
-      - how to launch it
-
-    - The AWS instances where the backend should be running
-    - The set of available files:
+    - The application code in "security-lab/mongo-messenger"
+    - The 3 AWS instances where the backend should be running
+    - The set of available files in "/share/downloads":
 
       - X509 certificates
       - MongoDB binaries
       - Configuration files
 
-    .. code-block:: sh
+    - How to install and start MongoDB 3.4 on the instances using the package
+    - Provide the students with the following files:
 
-      ls /share/downloads
+      - AdvancedAdministrator.pem
+      - Info per team about IPs, hostnames, ... from running "describe.py --run mdbw2017"
+      - certs.tgz
 
 
-Exercise: Check Connection to MongoDB
--------------------------------------
+Exercise: Accessing your instances
+----------------------------------
 
-Let's connect to our running MongoDB cluster and check if we can connect.
+  - get your .pem file to ssh into your instances
+
+  .. code-block:: sh
+
+     mv ~/Downloads/AdvancedAdministrator.pem ~/.ssh/.
+     chmod 600 ~/.ssh/AdvancedAdministrator.pem
+
+  - enable the keychain
+
+  .. code-block:: sh
+
+     ssh-add -K ~/.ssh/AdvancedAdministrator.pem
+
+  - ssh into 'node1', propagating your credentials
+
+  .. code-block:: sh
+
+     ssh -i ~/.ssh/AdvancedAdministrator.pem -A centos@54.235.1.1
+
+  - ssh into 'node2'
+
+  .. code-block:: sh
+
+     ssh -A node2
+
+
+Exercise: Starting MongoDB and configuring the replica set
+----------------------------------------------------------
+
+- ``/share/downloads`` contains MongoDB 3.2 and 3.4
+- installation instructions are at:
+
+  - https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-red-hat/
+
+- configure the 3 nodes as a replica set named **SECURED**
+- use ``node``, ``node2`` and ``node3`` for your host names
+
+
+Solution: Starting MongoDB and configuring the replica set
+----------------------------------------------------------
+
+- installation
+
+  .. code-block:: sh
+
+     sudo yum install -y mongodb-enterprise
+     sudo vi /etc/mongod.conf
+     sudo service mongod start
+
+- configure the 3 nodes as a replica set named **SECURED**
+
+  .. code-block:: sh
+
+     replication:
+         replSetName: SECURED
+
+- disable "bindIp"
+
+  .. code-block:: sh
+
+    cfg = { _id: "SECURED", version: 1, members: [ {_id: 0, host: "node1:27017"}, {_id: 1, host: "node2:27017"}, {_id:2, host: "node3:27017"} ] }
+    rs.initiate(cfg)
+    rs.status()
+
+
+Exercise: Check the Connection to MongoDB
+-----------------------------------------
+
+Let's try to connect to our running MongoDB cluster.
 
 .. code-block:: sh
 
     mongo --host SECURED/node1,node2,node3
-
 
 .. include:: /includes/student-notes.rst
 
@@ -69,23 +149,31 @@ Let's connect to our running MongoDB cluster and check if we can connect.
     cluster.
 
 
-Exercise: Launch Sample Application
------------------------------------
+Exercise: Launch the Client Application
+---------------------------------------
 
-Now that we know that we can connect to MongoDB through the ``mongo`` shell,
-it's time connect our sample application.
+It's time connect our client application.
 
-To do so, we need to install the application:
+- install node.js
 
 .. code-block:: sh
 
+    sudo yum install epel-release
+    sudo yum install nodejs
+
+- install the application:
+
+.. code-block:: sh
+
+    cd ~
     tar xzvf /share/downloads/security_lab.tgz
     cd mongo-messenger
     npm install
     npm start
 
-
 .. include:: /includes/student-notes.rst
+
+- connect to your application with a browser on port 8080
 
 .. only:: instructor
 
@@ -100,16 +188,29 @@ To do so, we need to install the application:
 
     Also, make sure all instances have nodejs installed.
 
-Exercise: Checking your app
----------------------------
 
-Throughout the lab duration the instructor will be checking on your app!
+How is the client application connecting to the database
+--------------------------------------------------------
 
-This checking is done by running a few checks into your machine that will verify
-if you have completely secured, or not, your applications backend.
+- the connection string used by the application is in ``message.js`` and looks like this:
+
+.. code-block:: sh
+
+   const url = 'mongodb://node1:27017,node2:27017,node3:27017/
+       security-lab?replicaSet=SECURED'
+
+- this is good for now, however you may have to change it later in the lab
+
+
+WARNING: Spying your deployment!
+--------------------------------
+
+Throughout the lab, the instructor will be spying on your deployment!
+
+This checking is done by running a few scripts on your machines that will verify
+if you have completely secured, or not, your deployment.
 
 We will come back to this later on.
-
 
 .. only:: instructor
 
@@ -120,6 +221,37 @@ We will come back to this later on.
 
     TODO: add instructions to run the scripts
 
+
+Exercise: Enable SSL between the nodes
+--------------------------------------
+
+- we removed "bindIp" earlier, this is no good
+- let's ensure we limit the connections to a list of nodes we control
+
+  - let's use SSL certificates
+  - they are in ``/share/downloads``
+
+
+.. only:: instructor
+
+   Solution: Enable SSL between the nodes
+   --------------------------------------
+
+   - add SSL
+
+     .. code-block:: sh
+
+        net:
+          ssl:
+            mode: requireSSL
+            PEMKeyFile: /etc/ssl/node1.pem
+            CAFile: /etc/ssl/ca.pem
+
+   - connect with the client
+
+     .. code-block:: sh
+
+        mongo --ssl --host node1 --sslCAFile /etc/ssl/ca.pem --sslPEMKeyFile /etc/ssl/node1.pem
 
 
 Exercise: Enable ``auth`` in your MongoDB cluster
@@ -161,6 +293,11 @@ To do this, you will have to decide:
 .. _`MongoDB authentication`: https://docs.mongodb.com/manual/core/authentication/
 
 
+.. only:: instructor
+
+   Solution: Enable ``auth`` in your MongoDB cluster
+   -------------------------------------------------
+
 
 Exercise: Encrypt communications between app and database
 ---------------------------------------------------------
@@ -178,7 +315,6 @@ the backend side.
 
     Run ``mongoreplay`` and show the students that you can in fact see what their
     comms are looking like, between the application and the MongoDB cluster.
-
 
     TODO: instructions for ``mongoreplay``
 
@@ -217,6 +353,7 @@ Make sure that you do not have any data leaks into your logs.
 
     - Give "extra kudos" to students that managed to do this and also clearing
       any information on previous logs
+
 
 Exercise: Encrypt Storage Layer
 -------------------------------
