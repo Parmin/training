@@ -13,7 +13,7 @@ $ npm start
 ```
 
 It will take up to a minute for the server to start running. From there you can
-visit the app at [localhost:3000](http://localhost:3000).
+visit the app at [localhost:8080](http://localhost:8080).
 
 Updating the connection to MongoDB
 ----------------------------------
