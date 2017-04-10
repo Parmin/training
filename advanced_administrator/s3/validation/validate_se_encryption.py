@@ -2,6 +2,9 @@
 
 # Validate that a storage engine is running encryption
 
+# TODOs
+#  - support cmd line options, instead of just config files
+
 import argparse
 import commands
 import logging
@@ -9,7 +12,7 @@ import os
 import os.path
 import re
 
-Default_Config_File = '/data/downloads/security.cnf'
+Default_Config_File = '/etc/mongod.cnf'
 
 log = logging.getLogger(__name__)
 log.setLevel('DEBUG')
@@ -24,7 +27,7 @@ def get_string(regex, string):
     if m:
         found = m.group(1)
     else:
-        raise("Can't extract regex {} in string {}".format(regex, string))
+        raise Exception("Can't extract regex {} in string {}".format(regex, string))
     return found
 
 class Validator(object):
@@ -40,7 +43,7 @@ class Validator(object):
 
         with open(self.configfile) as f:
             file_contents = f.read()
-        dbpath = get_string("\sdbPath:\s+['\"]?(.+?)['\"]?\s", file_contents)
+        dbpath = get_string("\sdbPath\s*:\s*['\"]?(.+?)['\"]?\s", file_contents)
         assert dbpath, "Can't identify DB path"
 
         # Look for non-encrypted data in the DB files
@@ -64,10 +67,22 @@ class Validator(object):
 
         return True
 
+    def get_configfile(self):
+        if self.configfile is None:
+            (ret, out) = commands.getstatusoutput("ps -eaf | grep mongod")
+            m = re.match("^.*(-f|--config)\s+(\S+).*", out)
+            if m:
+                self.configfile = m.group(2)
+                if self.verbose:
+                    print("Config file from the cmd line is: {}".format(self.configfile))
+            else:
+                raise Exception("Can't extract config file name for mongod process")
+        return
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Verify Lab: Database is encrypted')
-    parser.add_argument('--configfile', dest='configfile', default=Default_Config_File,
+    parser.add_argument('--configfile', dest='configfile',
         help='ops manager host', type=str)
     parser.add_argument('--verbose', dest='verbose', action='store_true',
         help='display more info')
@@ -80,7 +95,7 @@ def main():
     args = parse_arguments()
 
     v = Validator(args.configfile, args.verbose)
-
+    v.get_configfile()
     res = v.validate_encryption()
 
     assert res, "not all tests passed!"

@@ -94,3 +94,6 @@ chmod 777 -R /var/log/mongodb
 # adding datapaths
 mkdir -p /mongod-data/{appdb,backupdb}/data
 chmod 777 -R /mongod-data
+
+# some Python modules
+pip install simplejson

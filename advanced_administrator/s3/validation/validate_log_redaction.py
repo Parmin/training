@@ -3,6 +3,9 @@
 # Validate that log redaction has been enabled for a given MongoDB node
 #  --redactClientLogData
 
+# TODOs
+#  - support cmd line options, instead of just config files
+
 import argparse
 import commands
 import logging
@@ -10,7 +13,7 @@ import os
 import os.path
 import re
 
-Default_Config_File = '/data/downloads/security.cnf'
+Default_Config_File = '/etc/mongod.cnf'
 
 log = logging.getLogger(__name__)
 log.setLevel('DEBUG')
@@ -25,7 +28,7 @@ def get_string(regex, string):
     if m:
         found = m.group(1)
     else:
-        raise("Can't extract regex {} in string {}".format(regex, string))
+        raise Exception("Can't extract regex {} in string {}".format(regex, string))
     return found
 
 class Validator(object):
@@ -41,7 +44,7 @@ class Validator(object):
 
         with open(self.configfile) as f:
             file_contents = f.read()
-        logpath = get_string("\spath:\s+['\"]?(.+?)['\"]?\s", file_contents)
+        logpath = get_string("\spath\s*:\s*['\"]?(.+?)['\"]?\s", file_contents)
         assert logpath, "Can't identify log path"
 
         # Look for non-redacted data in the log files
@@ -55,17 +58,30 @@ class Validator(object):
             print("OUT: {}".format(out[0:256]))
 
         if len(out) > 0:
-            assert False, "Found non-redacted log entries files {0}".format(logpath)
+            assert False, "Found non-redacted log entries in {0}".format(logpath)
 
         if ret != 256:
-            assert False, "Could not check for log files {0}".format(logpath)
+            assert False, "Could not check for log file {0}".format(logpath)
 
         return True
 
 
+    def get_configfile(self):
+        if self.configfile is None:
+            (ret, out) = commands.getstatusoutput("ps -eaf | grep mongod")
+            m = re.match("^.*(-f|--config)\s+(\S+).*", out)
+            if m:
+                self.configfile = m.group(2)
+                if self.verbose:
+                    print("Config file from the cmd line is: {}".format(self.configfile))
+            else:
+                raise Exception("Can't extract config file name for mongod process")
+        return
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Verify Lab: Log redaction is enabled')
-    parser.add_argument('--configfile', dest='configfile', default=Default_Config_File,
+    parser.add_argument('--configfile', dest='configfile',
         help='ops manager host', type=str)
     parser.add_argument('--verbose', dest='verbose', action='store_true',
         help='display more info')
@@ -78,7 +94,7 @@ def main():
     args = parse_arguments()
 
     v = Validator(args.configfile, args.verbose)
-
+    v.get_configfile()
     res = v.validate_redaction()
 
     assert res, "not all tests passed!"
