@@ -33,4 +33,8 @@ description: |
 file: /exercises/ldap-authz
 description: |
   Authentication & authorization with LDAP
+---
+file: /exercises/security-workshop
+description: |
+  Securing a full deployment
 ...

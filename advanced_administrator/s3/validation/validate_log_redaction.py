@@ -5,6 +5,9 @@
 
 # TODOs
 #  - support cmd line options, instead of just config files
+#  - report result for:
+#    a) the current log
+#    b) all the logs in the same dir, to see if they removed the non-redacted logs
 
 import argparse
 import commands
@@ -48,7 +51,7 @@ class Validator(object):
         assert logpath, "Can't identify log path"
 
         # Look for non-redacted data in the log files
-        cmd = "/usr/bin/grep '_id: \"[^#]' " + logpath + " 2>&1"
+        cmd = "/usr/bin/grep '_id: \"#' " + logpath + " 2>&1"
         if self.verbose:
             print("Running cmd: {}".format(cmd))
             print("in dir: {}".format(logpath))
@@ -57,10 +60,10 @@ class Validator(object):
             print("RET: {}".format(ret))
             print("OUT: {}".format(out[0:256]))
 
-        if len(out) > 0:
-            assert False, "Found non-redacted log entries in {0}".format(logpath)
+        if len(out) == 0:
+            assert False, "Did not find redacted log entries in {0}".format(logpath)
 
-        if ret != 256:
+        if ret != 0:
             assert False, "Could not check for log file {0}".format(logpath)
 
         return True

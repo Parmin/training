@@ -240,38 +240,6 @@ We will come back to this later on.
          ./manage.py --run mdbw2017 --teams all --roles node1 --cmd "sudo python /share/downloads/validate_se_encryption.py"
 
 
-Exercise: Enable SSL between the nodes
---------------------------------------
-
-- we removed "bindIp" earlier, this is no good
-- let's ensure we limit the connections to a list of nodes we control
-
-  - let's use SSL certificates
-  - they are in ``/share/downloads``
-
-
-.. only:: instructor
-
-  Solution: Enable SSL between the nodes
-  --------------------------------------
-
-  - add SSL
-
-  .. code-block:: sh
-
-     net:
-       ssl:
-         mode: requireSSL
-         PEMKeyFile: /etc/ssl/node1.pem
-         CAFile: /etc/ssl/ca.pem
-
-  - connect with the client
-
-  .. code-block:: sh
-
-     mongo --ssl --host node1 --sslCAFile /etc/ssl/ca.pem --sslPEMKeyFile /etc/ssl/node1.pem
-
-
 Exercise: Enable ``auth`` in your MongoDB cluster
 -------------------------------------------------
 
@@ -322,6 +290,65 @@ To do this, you will have to decide:
   - need to change "Mongo Messenger" to auth with a given user
 
 
+Exercise: Enable SSL between the nodes
+--------------------------------------
+
+- we removed "bindIp" earlier, this is no good
+- let's ensure we limit the connections to a list of nodes we control
+
+  - let's use SSL certificates
+  - they are in ``/share/downloads``
+
+- http://mongodb.github.io/node-mongodb-native/2.2/tutorials/connect/ssl/
+
+.. only:: instructor
+
+  Solution: Enable SSL between the nodes
+  --------------------------------------
+
+  - add SSL
+
+  .. code-block:: sh
+
+     net:
+       ssl:
+         mode: requireSSL
+         PEMKeyFile: /etc/ssl/node1.pem
+         CAFile: /etc/ssl/ca.pem
+
+  - connect with the client
+
+  .. code-block:: sh
+
+     mongo --ssl --host node1 --sslCAFile /etc/ssl/ca.pem --sslPEMKeyFile /etc/ssl/node1.pem
+
+  Solution: Enable SSL with the client
+  ------------------------------------
+
+  .. code-block:: javascript
+
+      const url = 'mongodb://node1:27017,node2:27017,node3:27017/
+          security-lab?replicaSet=SECURED&ssl=true'
+      var fs = require('fs');
+      // Read the certificates
+      var ca = [fs.readFileSync("/etc/ssl/ca.pem")];
+      var cert = fs.readFileSync("/etc/ssl/node1.pem");
+      var key = fs.readFileSync("/etc/ssl/node1.pem");
+      options = {
+        sslValidate:true,
+        sslCA:ca,
+        sslCert:cert,
+        sslKey:key
+      }
+
+      let messages = null;
+
+      MongoClient.connect(url, options, (err, db) => {
+        assert.equal(null, err)
+        messages = db.collection('messages')
+      })
+
+
 Exercise: Encrypt Storage Layer
 -------------------------------
 
@@ -347,9 +374,14 @@ Don't let him do so!!!
 
      security:
        enableEncryption: true
-       ...
+       encryptionKeyFile: /etc/ssl/mongodb-keyfile
 
-  - different options, however for this lab a simple keyfile should have been enough
+  - different options to manage encryption keys, however for this lab a simple keyfile should have been enough
+
+  .. code-block:: ssh
+
+     openssl rand -base64 32 > mongodb-keyfile
+     chmod 600 mongodb-keyfile
 
   https://docs.mongodb.com/manual/tutorial/configure-encryption/
 
@@ -394,6 +426,12 @@ This should be done without downtime
      security:
        redactClientLogData: true
 
+  .. code-block:: sh
+
+     db.adminCommand(
+       { setParameter: 1, redactClientLogData : true }
+     )
+
 
 Putting it together
 -------------------
@@ -416,10 +454,10 @@ Putting it together
 Summary
 -------
 
-We
+What we did:
 
-- used SSL certificates
 - enabled basic authorization
+- used SSL certificates
 - encrypted the database at rest
 - redacted the mongod logs
 
