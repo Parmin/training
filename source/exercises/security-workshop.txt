@@ -12,7 +12,7 @@ Lab: Security Workshop
      - you would provision 3 nodes per team, using the provisioning script.
        For example, for a 6 teams exercise at MongoDB World, you would run:
 
-       deploy.py --run mdbw2017 --teams 6 --instances 3 --noom
+       deploy.py --run security_workshop --teams 6 --instances 3 --noom
 
     - Basically, the teams will have to:
 
@@ -61,11 +61,11 @@ using MongoDB as a backend.
       - MongoDB binaries
       - Configuration files
 
-    - How to install and start MongoDB 3.4 on the instances using the package
+    - How to install and start MongoDB on the instances using the package
     - Provide the students with the following files:
 
       - AdvancedAdministrator.pem
-      - Info per team about IPs, hostnames, ... from running "describe.py --run mdbw2017"
+      - Info per team about IPs, hostnames, ... from running "describe.py --run security_workshop"
       - certs.tgz
 
 
@@ -76,20 +76,19 @@ Exercise: Accessing your instances
 
   .. code-block:: sh
 
-     mv ~/Downloads/AdvancedAdministrator.pem ~/.ssh/.
-     chmod 600 ~/.ssh/AdvancedAdministrator.pem
+     chmod 600 AdvancedAdministrator.pem
 
   - enable the keychain
 
   .. code-block:: sh
 
-     ssh-add -K ~/.ssh/AdvancedAdministrator.pem
+     ssh-add -K AdvancedAdministrator.pem
 
   - ssh into 'node1', propagating your credentials
 
   .. code-block:: sh
 
-     ssh -i ~/.ssh/AdvancedAdministrator.pem -A centos@54.235.1.1
+     ssh -i AdvancedAdministrator.pem -A centos@54.235.1.1
 
   - ssh into 'node2'
 
@@ -234,10 +233,10 @@ We will come back to this later on.
 
       .. code-block:: sh
 
-         ./manage.py --run mdbw2017 --teams all --roles all --cmd "/bin/hostname -f"
+         ./manage.py --run security_workshop --teams all --roles all --cmd "/bin/hostname -f"
 
-         ./manage.py --run mdbw2017 --teams all --roles all --cmd "sudo python /share/downloads/validate_log_redaction.py"
-         ./manage.py --run mdbw2017 --teams all --roles node1 --cmd "sudo python /share/downloads/validate_se_encryption.py"
+         ./manage.py --run security_workshop --teams all --roles all --cmd "python /share/downloads/validate_log_redaction.py"
+         ./manage.py --run security_workshop --teams all --roles node1 --cmd "sudo python /share/downloads/validate_se_encryption.py"
 
 
 Exercise: Enable ``auth`` in your MongoDB cluster
@@ -431,6 +430,8 @@ This should be done without downtime
      db.adminCommand(
        { setParameter: 1, redactClientLogData : true }
      )
+
+  - and you need a way to prove/show that redaction worked
 
 
 Putting it together
