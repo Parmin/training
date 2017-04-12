@@ -1,0 +1,74 @@
+===============
+MongoDB Compass
+===============
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- What Compass is
+- How to connect to a MongoDB server
+- A high level overview of Compass features
+
+
+What Compass is
+---------------
+
+MongoDB Compass is designed to allow users to easily analyze and understand the
+contents of their data collections within MongoDB and perform queries,
+without requiring knowledge of MongoDB query syntax.
+
+- View Schemas
+- Find/Insert documents
+- View/Create indexes
+- Visually display Explain plans
+- View/Create/Update document validation
+- Visualize server performance
+
+
+How to connect to a MongoDB Server
+----------------------------------
+
+Begin by `downloading Compass<https://www.mongodb.com/download-center?jmp=docs#compass>`_
+
+Before we begin exploring the features of Compass, import the `posts.json` dataset from the USB drive
+into a new database called **compass** on your local computer with a mongod running on port **27017**
+
+.. code-block::
+
+  mongoimport --drop -d compass -c posts posts.json
+
+- Once, the data has been successfully imported, launch Compass and you should see the default screen.
+- Since we're connecting to localhost on the default port with no security enabled, click connect without changing any settings.
+
+.. only:: instructor
+
+   .. note::
+
+      Demonstrate connecting to your localhost to the students.
+
+
+The features of Compass
+-----------------------
+
+- View available databases
+- Visualize performance
+- View Collections in a database
+- View Collection Schema, execute queries, view and create indexes, visualize ``explain()``, document validation
+
+.. only:: instructor
+
+   .. note::
+
+      Take this time to visually demonstrate to students the various features of compass. Ensure you explore:
+
+      - The databases tab that shows all databases on the server
+      - The performance tab that shows real time performance
+      - Click on the compass database to show the display of collections
+      - The schema tab
+      - The documents tab. Execute a sample query ``{ body: { $regex: "^Amendment I"} }``
+      - The indexes tab. Demonstrate creating an index on both author and title, ascending.
+      - The explain plan tab. Execute the following query `` { author: "machine", title: "Bill of Rights" }``
+      - The document validation tab. Explain that it supports document validation, and that more will be covered during that content.

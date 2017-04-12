@@ -246,6 +246,18 @@ Now that the ``employees`` validator has been updated, some of the already-inser
 
             db.runCommand({"collMod":"employees", "validationLevel":"moderate"})
 
+Exercise: Use Compass to Create and Change validation rules
+-----------------------------------------------------------
+
+Now that we've explored document validation in the Mongo shell, let's explore how easy it is to do with MongoDB Compass.
+
+- Click below for an overview of MongoDB Compass.
+
+:doc:`/modules/compass`
+
+- Connect to your local database with Compass
+- Open the employees collection, and view the validation rules.
+
 Exercise: Bypass validation
 ---------------------------
 

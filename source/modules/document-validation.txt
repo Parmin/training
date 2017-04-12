@@ -261,7 +261,7 @@ Bypassing Document Validation
 
   - On a per-operation basis
   - Might be useful when:
-  
+
     - Restoring a backup
     - Re-inserting an accidentally deleted document
 
