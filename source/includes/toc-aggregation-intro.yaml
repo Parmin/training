@@ -1,0 +1,4 @@
+file: /modules/aggregation-intro
+description: |
+  An introduction to the the aggregation framework, pipeline concept, and select stages
+...

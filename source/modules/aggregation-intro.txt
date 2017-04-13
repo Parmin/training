@@ -1,0 +1,368 @@
+====================
+Intro to Aggregation
+====================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The concept of the aggregation pipeline
+- Key stages of the aggregation pipeline
+- How to use aggregation operators
+- The fundamentals of using aggregation for data analysis
+- Group aggregation operators
+- Using the same operator in multiple stages of an aggregation pipeline
+
+
+Aggregation Basics
+------------------
+
+- Use the aggregation framework to transform and analyze data in MongoDB collections.
+- For those who are used to SQL, aggregation can be similar to ``GROUP BY``.
+- The aggregation framework is based on the concept of a pipeline.
+
+Aggregation Expressions and Variables
+-------------------------------------
+
+- Used to refer to data within an aggregation stage
+- Expressions
+
+  - Use field path to access fields in input documents, *e.g.* ``"$field"``
+
+- Variables
+
+  - Can be both user-defined and system variables
+  - Can hold any type of BSON data
+  - Accessed like expressions, but with two $, *e.g.* ``"$$<variable>"``
+  - For more information about variables in aggregation expressions, click `here <https://docs.mongodb.com/manual/reference/aggregation-variables/>`_
+
+  .. only:: instructor
+
+     .. note::
+
+        - Explain to students that this is a brief overview
+        - Point out the use of expressions during the examples in this module
+
+The Aggregation Pipeline
+------------------------
+
+- An aggregation pipeline in analogous to a UNIX pipeline.
+- Each stage of the pipeline:
+
+  - Receives a set of documents as input.
+  - Performs an operation on those documents.
+  - Produces a set of documents for use by the following stage.
+
+- A pipeline has the following syntax:
+
+  .. code-block:: javascript
+
+     db.<COLLECTION>.aggregate( [ { stage1 }, { stage2 }, ... ],
+                              { options } )
+
+.. include:: /includes/student-notes.rst
+
+
+Aggregation Stages
+------------------
+
+- There are many aggregation stages.
+- In this introductory lesson, we'll cover:
+
+  - ``$match``: Similar to ``find()``
+  - ``$project``: Shape documents
+  - ``$sort``: Like the cursor method of the same name
+  - ``$group``: Used to aggregate field values from multiple documents
+  - ``$limit``: Used to limit the amount of documents returned
+
+
+The Match Stage
+---------------
+
+- The ``$match`` operator works like the query phase of ``find()``
+- Documents in the pipeline that match the query document will be passed to subsequent stages.
+- ``$match`` is often the first operator used in an aggregation stage.
+- Like other aggregation operators, ``$match`` can occur multiple times in a single pipeline.
+
+
+The Project Stage
+-----------------
+
+- $project allows you to shape the documents into what you need for the next stage.
+
+  - The simplest form of shaping is using $project to select only the fields you are interested in.
+  - $project can also create new fields from other fields in the input document.
+
+    - *E.g.*, you can pull a value out of an embedded document and put it at the top level.
+    - *E.g.*, you can create a ratio from the values of two fields as pass along as a single field.
+
+- $project produces 1 output document for every input document it sees.
+
+
+A Twitter Dataset
+-----------------
+
+- Let's look at some examples that illustrate the MongoDB aggregation framework.
+- These examples operate on a collection of tweets.
+
+  - As with any dataset of this type, it's a snapshot in time.
+  - It may not reflect the structure of Twitter feeds as they look today.
+
+.. include:: /includes/student-notes.rst
+
+
+Tweets Data Model
+-----------------
+
+.. code-block:: javascript
+
+   {
+       "text" : "Something interesting ...",
+       "entities" : {
+	   "user_mentions" : [
+	       {
+		   "screen_name" : "somebody_else",
+		   ...
+	       }
+	   ],
+	   "urls" : [ ],
+	   "hashtags" : [ ]
+       },
+       "user" : {
+	   "friends_count" : 544,
+	   "screen_name" : "somebody",
+	   "followers_count" : 100,
+	   ...
+       },
+   }
+
+
+Analyzing Tweets
+----------------
+
+- Imagine the types of analyses one might want to do on tweets.
+- It's common to analyze the behavior of users and the networks involved.
+- Our examples will focus on this type of analysis
+
+.. only:: instructor
+
+   .. note::
+
+      - We should also mention that our tweet documents actually contain many more fields.
+      - We are showing just those fields relevant to the aggregations we'll do.
+
+
+Friends and Followers
+---------------------
+
+- Let's look again at two stages we touched on earlier:
+
+  - ``$match``
+  - ``$project``
+
+- In our dataset:
+
+  - ``friends`` are those a user follows.
+  - ``followers`` are others that follow a users.
+
+- Using these operators we will write an aggregation pipeline that will:
+
+  - Ignore anyone with no friends and no followers.
+  - Calculate who has the highest followers to friends ratio.
+
+
+Exercise: Friends and Followers
+-------------------------------
+
+.. code-block:: javascript
+
+   db.tweets.aggregate( [
+       { $match: { "user.friends_count": { $gt: 0 },
+		   "user.followers_count": { $gt: 0 } } },
+       { $project: { ratio: {$divide: ["$user.followers_count",
+		 		       "$user.friends_count"]},
+		     screen_name : "$user.screen_name"} },
+       { $sort: { ratio: -1 } },
+       { $limit: 1 } ] )
+
+.. only:: instructor
+
+   .. note::
+
+      - Discuss the $match stage
+      - Discuss the $project stage as a whole
+      - Remember that with project we can pull a value out of an embedded document and put it at the top level.
+      - Discuss the ratio projection
+      - Discuss screen_name projection
+      - Give an overview of other operators we might use in projections
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: $match and $project
+-----------------------------
+
+- Of the users in the "Brasilia" timezone who have tweeted 100 times or more, who has the largest number of followers?
+- Time zone is found in the “time_zone” field of the user object in each tweet.
+- The number of tweets for each user is found in the “statuses_count” field.
+- A result document should look something like the following:
+
+  .. code-block:: javascript
+
+     { _id        : ObjectId('52fd2490bac3fa1975477702'),
+       followers  : 2597,
+       screen_name: 'marbles',
+       tweets     : 12334
+     }
+
+
+.. only:: instructor
+
+   .. note::
+
+      .. code-block:: javascript
+
+         [ { "$match" : { "user.time_zone" : "Brasilia",
+	 		  "user.statuses_count" : {"$gte" : 100} } },
+           { "$project" : { "followers" : "$user.followers_count",
+                            "tweets" : "$user.statuses_count",
+                            "screen_name" : "$user.screen_name" } },
+           { "$sort" : { "followers" : -1 } },
+           { "$limit" : 1 } ]
+
+.. include:: /includes/student-notes.rst
+
+
+The Group Stage
+----------------
+
+- For those coming from the relational world, ``$group`` is similar to the SQL ``GROUP BY`` statement.
+- $group operations require that we specify which field to group on.
+- Documents with the same identifier will be aggregated together.
+- With $group, we aggregate values using :manual:`accumulators</meta/aggregation-quick-reference/#accumulators>`.
+
+.. include:: /includes/student-notes.rst
+
+
+Tweet Source
+------------
+
+- The tweets in our twitter collection have a field called ``source``.
+- This field describes the application that was used to create the tweet.
+- Let's write an aggregation pipeline that identifies the applications most frequently used to publish tweets.
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Tweet Source
+----------------------
+
+.. code-block:: javascript
+
+   db.tweets.aggregate( [
+       { "$group" : { "_id" : "$source",
+		      "count" : { "$sum" : 1 } } },
+       { "$sort" : { "count" : -1 } }
+   ] )
+
+.. include:: /includes/student-notes.rst
+
+
+Group Aggregation Accumulators
+------------------------------
+
+Accumulators available in the group stage:
+
+- $sum
+- $avg
+- $first
+- $last
+- $max
+- $min
+- $push
+- $addToSet
+
+.. include:: /includes/student-notes.rst
+
+
+
+Rank Users by Number of Tweets
+------------------------------
+
+- One common task is to rank users based on some metric.
+- Let's look at who tweets the most.
+- Earlier we did the same thing for tweet source.
+
+  - Group together all tweets by a user for every user in our collection
+  - Count the tweets for each user
+  - Sort in decreasing order
+
+- Let's add the list of tweets to the output documents.
+- Need to use an accumulator that works with arrays.
+- Can use either $addToSet or $push.
+
+.. include:: /includes/student-notes.rst
+
+
+Exercise: Adding List of Tweets
+-------------------------------
+
+For each user, aggregate all their tweets into a single array.
+
+.. code-block:: javascript
+
+   db.tweets.aggregate( [
+      { "$group" : { "_id" : "$user.screen_name",
+                     "tweet_texts" : { "$push" : "$text" },
+                     "count" : { "$sum" : 1 } } },
+      { "$sort" : { "count" : -1 } },
+      { "$limit" : 3 }
+   ] )
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - $group operations require that we specify which field to group on.
+      - In this case, we group documents based on the user's screen name.
+      - With $group, we aggregate values using arithmetic or array operators.
+      - Here we are counting the number of documents for each screen name.
+      - We do that by using the $sum operator
+      - This will add 1 to the count field for each document produced by the $group stage.
+      - Note that there will be one document produced by $group for each screen name.
+      - The $sort stage receives these documents as input and sorts them by the value of the count field
+
+
+The Sort Stage
+--------------
+
+- Uses the $sort operator
+- Works like the ``sort()`` cursor method
+- 1 to sort ascending; -1 to sort descending
+- E.g, db.testcol.aggregate( [ { $sort : { b : 1, a : -1 } } ] )
+
+
+The Skip Stage
+--------------
+
+- Uses the $skip operator
+- Works like the ``skip()`` cursor method.
+- Value is an integer specifying the number of documents to skip.
+- E.g, the following will pass all but the first 3 documents to the next stage in the pipeline.
+
+  - db.testcol.aggregate( [ { $skip : 3 }, ... ] )
+
+
+The Limit Stage
+---------------
+
+- Used to limit the number of documents passed to the next aggregation stage.
+- Works like the ``limit()`` cursor method.
+- Value is an integer.
+- E.g., the following will only pass 3 documents to the stage that comes next in the pipeline.
+
+  - db.testcol.aggregate( [ { $limit: 3 }, ... ] )
