@@ -36,7 +36,7 @@ Begin by `downloading Compass <https://www.mongodb.com/download-center?jmp=docs#
 Before we begin exploring the features of Compass, import the `posts.json` dataset from the USB drive
 into a new database called **compass** on your local computer with a mongod running on port **27017**
 
-.. code-block::
+.. code-block:: sh
 
   mongoimport --drop -d compass -c posts posts.json
 
