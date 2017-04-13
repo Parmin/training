@@ -6,9 +6,15 @@ file: /modules/schema-design-application-lifetime
 description: |
   Considerations for evolving a MongoDB schema design over an application's lifetime
 ---
+file: /modules/document-validation
+description: |
+  An introduction to document validation in MongoDB
+---
+file: /exercises/document-validation
+description: |
+  An exercise on document validation
+---
 file: /modules/schema-design-common-design-patterns
 description: |
   Common design patterns for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB
 ...
-
-
