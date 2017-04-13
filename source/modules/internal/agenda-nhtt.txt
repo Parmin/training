@@ -32,7 +32,7 @@ Day 3
   - :doc:`/modules/nav/opsmanager`
   - Alternative PPT presentation on `Atlas, Cloud and OpsManager`_
 
-- `Ops Manager Lab`_
+- :doc:`/exercises/security-workshop`
 
 Day 4
 -----

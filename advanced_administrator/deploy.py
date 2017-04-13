@@ -29,6 +29,8 @@
 #   - running out of instances?
 #     - under 'events' for the instance stack, you will see: "Your quota allows for 0 more running instance(s). You requested at least 1"
 #     - describe-stack-resources => "StackResources" => "ResourceStatus": "CREATE_FAILED" and "ResourceStatusReason": "Your quota allows for 0 more running instance(s). You requested at least 1"
+#   - add the ability to pick different scripts to run per type of lab,
+#     basically a concept of 'lab type' or config that may include the number of instances, ...
 
 import logging
 import argparse

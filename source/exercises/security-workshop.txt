@@ -2,6 +2,28 @@
 Lab: Security Workshop
 ======================
 
+.. only:: instructor
+
+  .. note::
+
+     - We assume you are familiar with the provisioning scripts. If not start with:
+       https://docs.google.com/document/d/1vhA6NvlTsPe1rw_fb7N5NrYzJ78odiHWBd5yf9vPd64
+
+     - You would provision 3 nodes per team, using the provisioning script.
+       For example, for a 6 teams exercise at MongoDB World, you would run:
+
+       .. code-block:: sh
+
+          deploy.py --run security_workshop --teams 6 --instances 3 --noom
+
+    - The teams will have to:
+
+      - setup SSL with the client certificates
+      - setup auth
+      - enable encryption at rest
+      - enable log redaction
+
+
 Learning Objectives
 -------------------
 
@@ -23,7 +45,7 @@ using MongoDB as a backend.
 - We are going to secure the backend communications using TLS/SSL
 - Enable authorization on the backend side
 - Encrypt the storage layer
-- Make sure that there are no *"leaks"* of information to
+- Make sure that there are no *"leaks"* of information
 
 .. include:: /includes/student-notes.rst
 
@@ -31,33 +53,100 @@ using MongoDB as a backend.
 
   .. note::
 
-    Show students the different components of this workshop.
+    Describe to the students the different components of this workshop.
 
-    - The application code
-
-      - how to launch it
-
-    - The AWS instances where the backend should be running
-    - The set of available files:
+    - The application code in "security-lab/mongo-messenger"
+    - The 3 AWS instances where the backend should be running
+    - The set of available files in "/share/downloads":
 
       - X509 certificates
       - MongoDB binaries
       - Configuration files
 
-    .. code-block:: sh
+    - How to install and start MongoDB on the instances using the package
+    - Provide the students with the following files:
 
-      ls /share/downloads
+      - AdvancedAdministrator.pem
+      - Info per team about IPs, hostnames, ... from running "describe.py --run security_workshop"
+      - certs.tgz
 
 
-Exercise: Check Connection to MongoDB
--------------------------------------
+Exercise: Accessing your instances
+----------------------------------
 
-Let's connect to our running MongoDB cluster and check if we can connect.
+  - get your .pem file to ssh into your instances
+
+  .. code-block:: sh
+
+     chmod 600 AdvancedAdministrator.pem
+
+  - enable the keychain
+
+  .. code-block:: sh
+
+     ssh-add -K AdvancedAdministrator.pem
+
+  - ssh into 'node1', propagating your credentials
+
+  .. code-block:: sh
+
+     ssh -i AdvancedAdministrator.pem -A centos@54.235.1.1
+
+  - ssh into 'node2'
+
+  .. code-block:: sh
+
+     ssh -A node2
+
+
+Exercise: Starting MongoDB and configuring the replica set
+----------------------------------------------------------
+
+- ``/share/downloads`` contains MongoDB 3.2 and 3.4
+- installation instructions are at:
+
+  - https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-red-hat/
+
+- configure the 3 nodes as a replica set named **SECURED**
+- use ``node``, ``node2`` and ``node3`` for your host names
+
+
+Solution: Starting MongoDB and configuring the replica set
+----------------------------------------------------------
+
+- installation
+
+  .. code-block:: sh
+
+     sudo yum install -y mongodb-enterprise
+     sudo vi /etc/mongod.conf
+     sudo service mongod start
+
+- you *MUST* use a config file
+- configure the 3 nodes as a replica set named **SECURED**.
+
+  .. code-block:: sh
+
+     replication:
+         replSetName: SECURED
+
+- disable "bindIp"
+
+  .. code-block:: sh
+
+    cfg = { _id: "SECURED", version: 1, members: [ {_id: 0, host: "node1:27017"}, {_id: 1, host: "node2:27017"}, {_id:2, host: "node3:27017"} ] }
+    rs.initiate(cfg)
+    rs.status()
+
+
+Exercise: Check the Connection to MongoDB
+-----------------------------------------
+
+Let's try to connect to our running MongoDB cluster.
 
 .. code-block:: sh
 
     mongo --host SECURED/node1,node2,node3
-
 
 .. include:: /includes/student-notes.rst
 
@@ -69,21 +158,29 @@ Let's connect to our running MongoDB cluster and check if we can connect.
     cluster.
 
 
-Exercise: Launch Sample Application
------------------------------------
+Exercise: Launch the Client Application
+---------------------------------------
 
-Now that we know that we can connect to MongoDB through the ``mongo`` shell,
-it's time connect our sample application.
+It's time connect our client application.
 
-To do so, we need to install the application:
+- install node.js
 
 .. code-block:: sh
 
+    sudo yum install epel-release
+    sudo yum install nodejs
+
+- install the application:
+
+.. code-block:: sh
+
+    cd ~
     tar xzvf /share/downloads/security_lab.tgz
     cd mongo-messenger
     npm install
     npm start
 
+- connect to your application with a browser on port 8080
 
 .. include:: /includes/student-notes.rst
 
@@ -100,16 +197,31 @@ To do so, we need to install the application:
 
     Also, make sure all instances have nodejs installed.
 
-Exercise: Checking your app
----------------------------
 
-Throughout the lab duration the instructor will be checking on your app!
+How is the client application connecting to the database?
+---------------------------------------------------------
 
-This checking is done by running a few checks into your machine that will verify
-if you have completely secured, or not, your applications backend.
+- the connection string used by the application is in ``message.js`` and looks like this:
+
+.. code-block:: sh
+
+   const url = 'mongodb://node1:27017,node2:27017,node3:27017/
+       security-lab?replicaSet=SECURED'
+
+- this is good for now, however you may have to change it later in the lab
+
+
+WARNING: Spying your deployment!
+--------------------------------
+
+Throughout the lab, the instructor will be spying on your deployment!
+
+This checking is done by running a few scripts on your machines that will verify
+if you have completely secured, or not, your deployment.
 
 We will come back to this later on.
 
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -118,8 +230,15 @@ We will come back to this later on.
     At this point you should run the lab validation scripts against one of the
     students environment to test which things are not yet secured.
 
-    TODO: add instructions to run the scripts
+    - run any arbitrary command. Try the following first, as that first run may
+      fail due to the fact that is has to add the hostname to ```known_hosts``.
 
+      .. code-block:: sh
+
+         ./manage.py --run security_workshop --teams all --roles all --cmd "/bin/hostname -f"
+
+         ./manage.py --run security_workshop --teams all --roles all --cmd "python /share/downloads/validate_log_redaction.py"
+         ./manage.py --run security_workshop --teams all --roles node1 --cmd "sudo python /share/downloads/validate_se_encryption.py"
 
 
 Exercise: Enable ``auth`` in your MongoDB cluster
@@ -135,6 +254,8 @@ To do this, you will have to decide:
 - Which authentication mechanism to use
 - Which authorization support will you use
 - Set of users required to operate this system
+
+.. _`MongoDB authentication`: https://docs.mongodb.com/manual/core/authentication/
 
 .. include:: /includes/student-notes.rst
 
@@ -158,65 +279,76 @@ To do this, you will have to decide:
       - What will happen if we need to remove
 
 
-.. _`MongoDB authentication`: https://docs.mongodb.com/manual/core/authentication/
+.. only:: instructor
+
+  Solution: Enable ``auth`` in your MongoDB cluster
+  -------------------------------------------------
+
+  - using the localhost exception, create the first user
+
+    - must be able to create other users
+
+  - need to change "Mongo Messenger" to auth with a given user
 
 
+Exercise: Enable SSL between the nodes
+--------------------------------------
 
-Exercise: Encrypt communications between app and database
----------------------------------------------------------
+- we removed "bindIp" earlier, this is no good
+- let's ensure we limit the connections to a list of nodes we control
 
-You instructor has been eavesdropping on your application!
+  - let's use SSL certificates
+  - they are in ``/share/downloads``
 
-Make sure he is not able to do so by encrypting your application connections on
-the backend side.
-
-.. include:: /includes/student-notes.rst
+- http://mongodb.github.io/node-mongodb-native/2.2/tutorials/connect/ssl/
 
 .. only:: instructor
 
-  .. note::
+  Solution: Enable SSL between the nodes
+  --------------------------------------
 
-    Run ``mongoreplay`` and show the students that you can in fact see what their
-    comms are looking like, between the application and the MongoDB cluster.
+  - add SSL
 
+  .. code-block:: sh
 
-    TODO: instructions for ``mongoreplay``
+     net:
+       ssl:
+         mode: requireSSL
+         PEMKeyFile: /etc/ssl/node1.pem
+         CAFile: /etc/ssl/ca.pem
 
+  - connect with the client
 
-Exercise: Avoid any log leaks
------------------------------
+  .. code-block:: sh
 
-Logs are an important asset of your system.
+     mongo --ssl --host node1 --sslCAFile /etc/ssl/ca.pem --sslPEMKeyFile /etc/ssl/node1.pem
 
-Allow us to understand any potential issue with our cluster or deployment.
-But they can also **leak** some confidential information!
+  Solution: Enable SSL with the client
+  ------------------------------------
 
-Make sure that you do not have any data leaks into your logs.
+  .. code-block:: javascript
 
+      const url = 'mongodb://node1:27017,node2:27017,node3:27017/
+          security-lab?replicaSet=SECURED&ssl=true'
+      var fs = require('fs');
+      // Read the certificates
+      var ca = [fs.readFileSync("/etc/ssl/ca.pem")];
+      var cert = fs.readFileSync("/etc/ssl/node1.pem");
+      var key = fs.readFileSync("/etc/ssl/node1.pem");
+      options = {
+        sslValidate:true,
+        sslCA:ca,
+        sslCert:cert,
+        sslKey:key
+      }
 
-.. include:: /includes/student-notes.rst
+      let messages = null;
 
-.. only:: instructor
+      MongoClient.connect(url, options, (err, db) => {
+        assert.equal(null, err)
+        messages = db.collection('messages')
+      })
 
-  .. note::
-
-    At this point students should enable log redaction in their cluster nodes.
-
-    To accomplish this students should do the following:
-
-    - relaunch all nodes enabling client log data redaction
-
-      .. code-block:: yaml
-
-        ...
-        security:
-          redactClientLogData: true
-        ...
-
-    - this should be done without downtime
-
-    - Give "extra kudos" to students that managed to do this and also clearing
-      any information on previous logs
 
 Exercise: Encrypt Storage Layer
 -------------------------------
@@ -231,12 +363,119 @@ Don't let him do so!!!
 
 .. include:: /includes/student-notes.rst
 
+
+.. only:: instructor
+
+  Solution: Encrypt Storage Layer
+  -------------------------------
+
+  - enable encryption on the storage engine
+
+  .. code-block:: yaml
+
+     security:
+       enableEncryption: true
+       encryptionKeyFile: /etc/ssl/mongodb-keyfile
+
+  - different options to manage encryption keys, however for this lab a simple keyfile should have been enough
+
+  .. code-block:: ssh
+
+     openssl rand -base64 32 > mongodb-keyfile
+     chmod 600 mongodb-keyfile
+
+  https://docs.mongodb.com/manual/tutorial/configure-encryption/
+
+
+Exercise: Avoid any log leaks
+-----------------------------
+
+Logs are an important asset of your system.
+
+Allow us to understand any potential issue with our cluster or deployment.
+But they can also **leak** some confidential information!
+
+Make sure that you do not have any data leaks into your logs.
+
+This should be done without downtime
+
+.. include:: /includes/student-notes.rst
+
 .. only:: instructor
 
   .. note::
 
-    Here we are asking students to enable the encryption storage engine:
+     At this point students should enable log redaction in their cluster nodes.
 
-    https://docs.mongodb.com/manual/tutorial/configure-encryption/
+     To accomplish this students should do the following:
 
-    TODO: instructions to enable encrypted storage engine.
+     - relaunch all nodes enabling client log data redaction
+
+     - Give "extra kudos" to students that managed to do this and also clearing
+       any information on previous logs
+
+
+.. only:: instructor
+
+  Solution: Avoid any log leaks
+  -----------------------------
+
+  by setting up log redaction
+
+  .. code-block:: yaml
+
+     security:
+       redactClientLogData: true
+
+  .. code-block:: sh
+
+     db.adminCommand(
+       { setParameter: 1, redactClientLogData : true }
+     )
+
+  - and you need a way to prove/show that redaction worked
+
+
+Putting it together
+-------------------
+
+.. code-block:: yaml
+
+   net:
+     ssl:
+       mode: requireSSL
+       PEMKeyFile: /etc/ssl/node1.pem
+       CAFile: /etc/ssl/ca.pem
+
+   security:
+     authorization: enabled
+     enableEncryption : true
+     encryptionKeyFile : /etc/ssl/mongodb-keyfile
+     redactClientLogData: true
+
+
+Summary
+-------
+
+What we did:
+
+- enabled basic authorization
+- used SSL certificates
+- encrypted the database at rest
+- redacted the mongod logs
+
+.. only:: instructor
+
+  .. note::
+
+    Ask what else could be done?
+
+    - MongoDB
+
+      - link authorization and authentication to outside system like LDAP or Kerberos
+      - enable redaction of results
+
+    - Infrastructure
+
+      - use security groups if in AWS
+      - use firewall

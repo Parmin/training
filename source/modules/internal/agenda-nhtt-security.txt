@@ -2,7 +2,6 @@
 Security
 ========
 
-
 .. image:: /images/security.jpg
   :align: right
 
@@ -19,7 +18,6 @@ Authentication
 .. include:: /includes/student-notes.rst
 
 
-
 Authorization
 -------------
 
@@ -32,6 +30,7 @@ Authorization
   :align: right
 
 .. include:: /includes/student-notes.rst
+
 
 Audit & Encryption
 ------------------

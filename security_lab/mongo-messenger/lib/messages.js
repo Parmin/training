@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient
 const assert = require('assert')
 
-const url = 'mongodb://node1:27001/security-lab?replicaSet=APPDB'
+const url = 'mongodb://node1:27017,node2:27017,node3:27017/security-lab?replicaSet=SECURED'
 let messages = null;
 
 MongoClient.connect(url, (err, db) => {
