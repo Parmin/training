@@ -31,7 +31,7 @@ without requiring knowledge of MongoDB query syntax.
 How to connect to a MongoDB Server
 ----------------------------------
 
-Begin by `downloading Compass<https://www.mongodb.com/download-center?jmp=docs#compass>`_
+Begin by `downloading Compass <https://www.mongodb.com/download-center?jmp=docs#compass>`_
 
 Before we begin exploring the features of Compass, import the `posts.json` dataset from the USB drive
 into a new database called **compass** on your local computer with a mongod running on port **27017**
