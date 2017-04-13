@@ -109,6 +109,7 @@ Exercise: Starting MongoDB and configuring the replica set
 
 - configure the 3 nodes as a replica set named **SECURED**
 - use ``node``, ``node2`` and ``node3`` for your host names
+- you *MUST* use a config file
 
 
 Solution: Starting MongoDB and configuring the replica set
@@ -122,7 +123,6 @@ Solution: Starting MongoDB and configuring the replica set
      sudo vi /etc/mongod.conf
      sudo service mongod start
 
-- you *MUST* use a config file
 - configure the 3 nodes as a replica set named **SECURED**.
 
   .. code-block:: sh
