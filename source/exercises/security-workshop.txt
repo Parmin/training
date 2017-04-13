@@ -6,15 +6,17 @@ Lab: Security Workshop
 
   .. note::
 
-     - we assume you are familiar with the provisioning scripts. If not start with:
+     - We assume you are familiar with the provisioning scripts. If not start with:
        https://docs.google.com/document/d/1vhA6NvlTsPe1rw_fb7N5NrYzJ78odiHWBd5yf9vPd64
 
-     - you would provision 3 nodes per team, using the provisioning script.
+     - You would provision 3 nodes per team, using the provisioning script.
        For example, for a 6 teams exercise at MongoDB World, you would run:
 
-       deploy.py --run security_workshop --teams 6 --instances 3 --noom
+       .. code-block:: sh
 
-    - Basically, the teams will have to:
+          deploy.py --run security_workshop --teams 6 --instances 3 --noom
+
+    - The teams will have to:
 
       - setup SSL with the client certificates
       - setup auth
