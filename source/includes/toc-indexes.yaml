@@ -30,6 +30,10 @@ file: /modules/indexes-text
 description: |
   Free text indexes on string fields
 ---
+file: /modules/partial-indexes
+description: |
+  Partial indexes in MongoDB
+---
 file: /exercises/indexes-finding-slow-operations
 description: |
   Lab on finding and addressing slow queries
@@ -38,5 +42,3 @@ file: /exercises/indexes-using-explain
 description: |
   Lab on using the explain operation to review execution stats
 ...
-
-
