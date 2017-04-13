@@ -239,8 +239,8 @@ Now that we've explored document validation in the Mongo shell, let's explore ho
 - Connect to your local database with Compass
 - Open the employees collection, and view the validation rules.
 
-Exercise: Compass Validation continued
---------------------------------------
+Exercise: Compass Validation (continued)
+----------------------------------------
 
 - From a Mongo shell, create a new collection called ``employees_v2``
 - Implement the initial validation rules for the ``employees`` collection on ``employees_v2`` using Compass

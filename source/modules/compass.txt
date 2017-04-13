@@ -68,7 +68,21 @@ The features of Compass
       - The performance tab that shows real time performance
       - Click on the compass database to show the display of collections
       - The schema tab
-      - The documents tab. Execute a sample query ``{ body: { $regex: "^Amendment I"} }``
+      - The documents tab. Execute a sample query:
+
+
+      .. code-block:: js
+
+         { body: { $regex: "^Amendment I"} }
+
+
       - The indexes tab. Demonstrate creating an index on both author and title, ascending.
-      - The explain plan tab. Execute the following query `` { author: "machine", title: "Bill of Rights" }``
+      - The explain plan tab. Execute the following query:
+
+
+      .. code-block:: js
+
+         { author: "machine", title: "Bill of Rights" }``
+
+
       - The document validation tab. Explain that it supports document validation, and that more will be covered during that content.
