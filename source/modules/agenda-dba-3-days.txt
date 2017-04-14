@@ -172,14 +172,14 @@ Day 3 (Afternoon)
 .. include:: /includes/student-notes.rst
 
 
-Introduction to Aggregation
----------------------------
+Introduction to Aggregation (15 minutes)
+----------------------------------------
 
 - :doc:`/modules/aggregation-intro`
 
 
-Views
------
+Views (15 minutes)
+------------------
 
 - :doc:`/modules/views`
 
