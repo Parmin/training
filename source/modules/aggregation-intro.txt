@@ -9,8 +9,8 @@ Learning Objectives
 Upon completing this module students should understand:
 
 - The concept of the aggregation pipeline
-- What aggregation expressions and variables are
 - Key stages of the aggregation pipeline
+- What aggregation expressions and variables are
 - The fundamentals of using aggregation for data analysis
 
 
@@ -18,8 +18,41 @@ Aggregation Basics
 ------------------
 
 - Use the aggregation framework to transform and analyze data in MongoDB collections.
-- For those who are used to SQL, aggregation can be similar to ``GROUP BY``.
+- For those who are used to SQL, aggregation comprehends the functionality of several SQL clauses like ``GROUP_BY``, ``JOIN``, ``AS``, and several other operations that allow us to compute datasets.
 - The aggregation framework is based on the concept of a pipeline.
+
+
+The Aggregation Pipeline
+------------------------
+
+- An aggregation pipeline in analogous to a UNIX pipeline.
+- Each stage of the pipeline:
+
+  - Receives a set of documents as input.
+  - Performs an operation on those documents.
+  - Produces a set of documents for use by the following stage.
+
+- A pipeline has the following syntax:
+
+  .. code-block:: javascript
+
+     pipeline = [$stage1, $stage2, ...$stageN]
+     db.<COLLECTION>.aggregate( pipeline, { options } )
+
+
+Aggregation Stages
+------------------
+
+- There are many aggregation stages.
+- In this introductory lesson, we'll cover:
+
+  - ``$match``: Similar to ``find()``
+  - ``$project``: Shape documents
+  - ``$sort``: Like the cursor method of the same name
+  - ``$group``: Used to aggregate field values from multiple documents
+  - ``$limit``: Used to limit the amount of documents returned
+  - ``$lookup``: Replicates an SQL left outer-join
+
 
 Aggregation Expressions and Variables
 -------------------------------------
@@ -42,38 +75,6 @@ Aggregation Expressions and Variables
 
         - Explain to students that this is a brief overview
         - Point out the use of expressions during the examples in this module
-
-The Aggregation Pipeline
-------------------------
-
-- An aggregation pipeline in analogous to a UNIX pipeline.
-- Each stage of the pipeline:
-
-  - Receives a set of documents as input.
-  - Performs an operation on those documents.
-  - Produces a set of documents for use by the following stage.
-
-- A pipeline has the following syntax:
-
-  .. code-block:: javascript
-
-     db.<COLLECTION>.aggregate( [ { stage1 }, { stage2 }, ... ],
-                              { options } )
-
-.. include:: /includes/student-notes.rst
-
-
-Aggregation Stages
-------------------
-
-- There are many aggregation stages.
-- In this introductory lesson, we'll cover:
-
-  - ``$match``: Similar to ``find()``
-  - ``$project``: Shape documents
-  - ``$sort``: Like the cursor method of the same name
-  - ``$group``: Used to aggregate field values from multiple documents
-  - ``$limit``: Used to limit the amount of documents returned
 
 
 The Match Stage
@@ -364,3 +365,50 @@ The Limit Stage
 - E.g., the following will only pass 3 documents to the stage that comes next in the pipeline.
 
   - db.testcol.aggregate( [ { $limit: 3 }, ... ] )
+
+
+  The Lookup Stage
+  ----------------
+
+  - Pulls documents from a second collection into the pipeline
+
+    - The second collection must be in the same database
+    - The second collection cannot be sharded
+
+  - Documents based on a matching field in each collection
+  - Previously, you could get this behavior with two separate queries
+
+
+  The Lookup Stage (continued)
+  ----------------------------
+
+  - Documents based on a matching field in each collection
+  - Previously, you could get this behavior with two separate queries
+
+    - One to the collection that contains reference values
+    - The other to the collection containing the documents referenced
+
+  .. only:: instructor
+
+    .. note::
+
+      - When following with ``$unwind``, if you use ``preserveNullAndEmptyArrays: true`` then it remains a left outer join.
+
+
+  Example: Using ``$lookup``
+  --------------------------
+
+  - Import the companies dataset into a collection called **companies**
+  - Create a separate collection for ``$lookup``
+
+  .. literalinclude:: /includes/aggregation_scripts.js
+    :language: javascript
+    :lines: 22-33
+
+
+  Example: Using ``$lookup`` (Continued)
+  --------------------------------------
+
+  .. literalinclude:: /includes/aggregation_scripts.js
+    :language: javascript
+    :lines: 34-44

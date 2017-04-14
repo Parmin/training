@@ -163,11 +163,18 @@ Backup and Recovery (1 hour)
 Day 3 (Afternoon)
 -----------------
 
+- Introduction to Aggregation (15 minutes)
 - Security (1 hour)
 - Cloud/Ops Manager (2 hours)
 - MongoDB Connector for BI (optional)
 
 .. include:: /includes/student-notes.rst
+
+
+Introduction to Aggregation
+---------------------------
+
+- :doc:`/modules/aggregation-intro`
 
 
 Security (1 hour)
