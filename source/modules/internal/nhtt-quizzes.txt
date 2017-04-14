@@ -350,11 +350,11 @@ Security Assessment
 
 - :red:`mongo --user me --password XXX`
 - :red:`use db2; db.auth("me","XXX")`
-- :green:`as 'me': use db3; db.colA.findOne()`
-- :red:`as 'me': use db2; db.colA.insert({fieldA:1})`
-- :red:`as root user: use admin; db.getUser("me")`
-- :green:`as root user: use db1; db.getUser("me")`
-- :green:`as root user: use admin; db.system.users.find({user:"me"})`
+- :green:`as user 'me': use db3; db.colA.findOne()`
+- :red:`as user 'me': use db2; db.colA.insert({fieldA:1})`
+- :red:`as 'root' user: use admin; db.getUser("me")`
+- :green:`as 'root' user: use db1; db.getUser("me")`
+- :green:`as 'root' user: use admin; db.system.users.find({user:"me"})`
 
 .. only:: instructor
 
@@ -483,7 +483,7 @@ Storage Engines Assessment
 - :red:`Rock DB`
 - :red:`TokuMX`
 - :red:`In-Memory storage engine`
-- :red:`column based storage engine`
+- :red:`Column based storage engine`
 
 .. only:: instructor
 
@@ -561,10 +561,10 @@ Tools Assessment
 
 - used *mongorestore* to load data in MongoDB?
 - used *mongoimport* to load data in MongoDB?
-- used a tool to generate documents with a specific shape? If so, which one?
-- used third party tools to manage data and clusters in MongoDB? If so, which ones?
 - have pull MongoDB repositories from GitHub?
 - have use the Profiler in MongoDB
+- used a tool to generate documents with a specific shape?
+- used third party tools to manage data and clusters in MongoDB? If so, list them on the following line?
 
 
 2. You have a 3-member replica set, capturing time-series data and serving queries
