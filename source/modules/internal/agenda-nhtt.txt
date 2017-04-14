@@ -47,6 +47,11 @@ Day 5
 - Tools and Methodologies
 - Misc
 
+Quizzes
+-------
+
+- :doc:`/modules/internal/nhtt-quizzes`
+
 
 .. _`Atlas, Cloud and OpsManager` : https://drive.google.com/open?id=0B-_GyywmjjWBRUNkc25WMmk1ZG8
 .. _`Applications and Drivers`: https://drive.google.com/open?id=0B-_GyywmjjWBV1FidjRtR1NvQUk
