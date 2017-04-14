@@ -14,6 +14,10 @@ NHTT Quizzes
 
        https://drive.google.com/drive/folders/0B-_GyywmjjWBNzlEOGUwWGZsMm8
 
+    - From the `Google Form`, click the `SEND` button in order to retrieve a
+      link you can post in the Slack channel
+    - Click 'Responses' on the source Form to see the results
+
 
 Assessment Quizzes
 ------------------
@@ -279,18 +283,20 @@ Sharding Assessment
 - :red:`Replace the spinning disks with SSDs`
 - :red:`Stop the balancer`
 - :red:`Upgrade to the latest MongoDB version`
+- :green:`Examine the distribution of writes and reads per shard`
+- :green:`Review the shard key`
+- :red:`Add one or more shards`
 
 .. only:: instructor
 
   .. note::
-
-    If you skip this question, you are lucky because none are right
 
     1. you don't know what the problem is
     2. Don't read from secondaries in sharded clusters!!! That should have been clear in M201.
     3. still need to access the root cause
     4. ... yes if you know that this is the problem
     5. That may help, but not the first thing to do
+    8. Again, trying to fix an issue without knowing the cause
 
 
 2. For MongoDB 3.4, when you perform a query on a sharded cluster that involves an explicit sort stage
