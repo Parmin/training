@@ -77,6 +77,47 @@ Admin/Ops Courses
    <a href="meta/ops-rapid-start.html">(contents)</a>
 
 
+MongoDB World 2017 Workshops
+----------------------------
+
+- |agenda_mdbw_security| |contents_mdbw_security|
+- |agenda_mdbw_cleansing| |contents_mdbw_cleansing|
+- |agenda_mdbw_data_modeling| |contents_mdbw_data_modeling|
+- |agenda_mdbw_ops_manager| |contents_mdbw_ops_manager|
+
+.. |agenda_mdbw_security| raw:: html
+
+   <a href="modules/agenda-null.html">MongoDB Security</a>
+
+.. |contents_mdbw_security| raw:: html
+
+   <a href="meta/null.html">(contents is not ready yet)</a>
+
+.. |agenda_mdbw_cleansing| raw:: html
+
+   <a href="modules/agenda-null.html">Cleansing Time</a>
+
+.. |contents_mdbw_cleansing| raw:: html
+
+   <a href="meta/null.html">(contents is not ready yet)</a>
+
+.. |agenda_mdbw_data_modeling| raw:: html
+
+   <a href="modules/agenda-null.html">Data Modeling</a>
+
+.. |contents_mdbw_data_modeling| raw:: html
+
+   <a href="meta/null.html">(contents is not ready yet)</a>
+
+.. |agenda_mdbw_ops_manager| raw:: html
+
+   <a href="modules/agenda-null.html">Getting Started with MongoDB Ops Manager</a>
+
+.. |contents_mdbw_ops_manager| raw:: html
+
+   <a href="meta/null.html">(contents is not ready yet)</a>
+
+
 Education Internal Courses
 --------------------------
 
