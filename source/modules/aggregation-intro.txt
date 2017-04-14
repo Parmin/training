@@ -9,11 +9,9 @@ Learning Objectives
 Upon completing this module students should understand:
 
 - The concept of the aggregation pipeline
+- What aggregation expressions and variables are
 - Key stages of the aggregation pipeline
-- How to use aggregation operators
 - The fundamentals of using aggregation for data analysis
-- Group aggregation operators
-- Using the same operator in multiple stages of an aggregation pipeline
 
 
 Aggregation Basics
