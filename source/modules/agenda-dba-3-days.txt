@@ -164,6 +164,7 @@ Day 3 (Afternoon)
 -----------------
 
 - Introduction to Aggregation (15 minutes)
+- Views (15 minutes)
 - Security (1 hour)
 - Cloud/Ops Manager (2 hours)
 - MongoDB Connector for BI (optional)
@@ -175,6 +176,12 @@ Introduction to Aggregation
 ---------------------------
 
 - :doc:`/modules/aggregation-intro`
+
+
+Views
+-----
+
+- :doc:`/modules/views`
 
 
 Security (1 hour)
