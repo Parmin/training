@@ -13,6 +13,7 @@ MongoDB Administrator Training
    /modules/nav/replica-sets
    /modules/nav/sharding
    /modules/nav/security
+   /modules/nav/aggregation-intro
    /modules/nav/views
    /modules/nav/performance-essentials
    /modules/nav/backup-essentials
