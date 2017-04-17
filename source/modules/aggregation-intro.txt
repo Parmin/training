@@ -367,8 +367,8 @@ The Limit Stage
   - db.testcol.aggregate( [ { $limit: 3 }, ... ] )
 
 
-  The Lookup Stage
-  ----------------
+The Lookup Stage
+----------------
 
   - Pulls documents from a second collection into the pipeline
 
@@ -379,8 +379,8 @@ The Limit Stage
   - Previously, you could get this behavior with two separate queries
 
 
-  The Lookup Stage (continued)
-  ----------------------------
+The Lookup Stage (continued)
+----------------------------
 
   - Documents based on a matching field in each collection
   - Previously, you could get this behavior with two separate queries
@@ -395,8 +395,8 @@ The Limit Stage
       - When following with ``$unwind``, if you use ``preserveNullAndEmptyArrays: true`` then it remains a left outer join.
 
 
-  Example: Using ``$lookup``
-  --------------------------
+Example: Using ``$lookup``
+--------------------------
 
   - Import the companies dataset into a collection called **companies**
   - Create a separate collection for ``$lookup``
@@ -406,8 +406,8 @@ The Limit Stage
     :lines: 22-33
 
 
-  Example: Using ``$lookup`` (Continued)
-  --------------------------------------
+Example: Using ``$lookup`` (Continued)
+--------------------------------------
 
   .. literalinclude:: /includes/aggregation_scripts.js
     :language: javascript
