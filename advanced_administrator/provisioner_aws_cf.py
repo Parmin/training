@@ -131,21 +131,24 @@ class Provisioner_aws_cf(object):
             # TODO - remove all the files that would match this run, and for all teams
             (run_info, teams_info) = self.get_run_info(printit=True, perteam=True)
             if self.args.out:
-                try:
-                    f = open(self.args.out, 'w')
-                    contents = json.dumps(run_info, indent=2)
+                outfiles = self.args.out
+            else:
+                outfiles = "/tmp/" + self.training_run
+            try:
+                f = open(outfiles, 'w')
+                contents = json.dumps(run_info, indent=2)
+                f.write(contents + "\n")
+                f.close()
+                for key in teams_info.keys():
+                    team_info = teams_info[key].get_dict()
+                    f = open(outfiles + "-" + key, 'w')
+                    contents = json.dumps(team_info, indent=2)
                     f.write(contents + "\n")
                     f.close()
-                    for key in teams_info.keys():
-                        team_info = teams_info[key].get_dict()
-                        f = open(self.args.out + "-" + key, 'w')
-                        contents = json.dumps(team_info, indent=2)
-                        f.write(contents + "\n")
-                        f.close()
-                except Exception, e:
-                    fatal(1, e.__str__())
-                print("\nJSON file for the above run has been saved in: {}".format(self.args.out))
-                print("There is also one file per team saved in: {}-<teamNumber>".format(self.args.out))
+            except Exception, e:
+                fatal(1, e.__str__())
+            print("\nJSON file for the above run has been saved in: {}".format(outfiles))
+            print("There is also one file per team saved in: {}-<teamNumber>".format(outfiles))
 
 
     def destroy(self):

@@ -62,7 +62,7 @@ Admin/Ops Courses
 
 .. |agenda_AdvancedAdministrator| raw:: html
 
-   <a href="modules/agenda-dba-advanced.html">MongoDB Advanced Administrator Training</a>
+   <a href="modules/agenda-advanced-administrator.html">MongoDB Advanced Administrator Training</a>
 
 .. |contents_AdvancedAdministrator| raw:: html
 

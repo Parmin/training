@@ -67,8 +67,8 @@ def main():
     parser.add_argument('--ips', dest='ips', type=str,
       help="List of IPs for which the instances are considered")
 
-    parser.add_argument('--out', dest='out', type=str,
-      help="File in which to store the output, NOT IMPLEMENTED YET")
+    parser.add_argument('--info', dest='info', type=str,
+      help="File to use to retreive the info regarding the run, replaces the 'run' and the 'profile/region'")
 
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
       help="AWS profile that will launch the environment")
@@ -79,7 +79,7 @@ def main():
     parser.add_argument('--roles', dest='roles', type=str,
       help="List of roles (or regexes) to match the hosts to manage")
 
-    parser.add_argument('--run', dest='training_run', type=str, required=True,
+    parser.add_argument('--run', dest='training_run', type=str,
       help="environment training run identifier")
 
     parser.add_argument('--script', dest='script', type=str,
@@ -100,11 +100,17 @@ def main():
 
     pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile, aws_region=awsregion)
 
+    if  args.info is not None:
+        fatal(1, "--info is not implemented yet")
+
+    if args.info is None and args.run is None:
+        fatal(1, "You must provide either --run or --info to specify the run to consider")
+
     if args.cmd is None and args.script is None and args.etchosts is None:
-      fatal(1, "You must provide a --cmd or a --script to execute on the remote hosts, or --etchosts")
+        fatal(1, "You must provide a --cmd or a --script to execute on the remote hosts, or --etchosts")
 
     if (args.teams is None or args.roles is None) and args.ips is None:
-      fatal(1, "You must provide either --teams/--roles or --ips to specify the hosts to consider")
+        fatal(1, "You must provide either --teams/--roles or --ips to specify the hosts to consider")
 
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")

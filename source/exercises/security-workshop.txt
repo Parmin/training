@@ -86,13 +86,13 @@ Exercise: Accessing your instances
 
      ssh-add -K AdvancedAdministrator.pem
 
-  - ssh into 'node1', propagating your credentials
+  - ssh into ``node1``, propagating your credentials
 
   .. code-block:: sh
 
      ssh -i AdvancedAdministrator.pem -A centos@54.235.1.1
 
-  - ssh into 'node2'
+  - ssh into ``node2``
 
   .. code-block:: sh
 
@@ -195,7 +195,7 @@ It's time connect our client application.
 
         curl -O https://s3.amazonaws.com/mongodb-training/security_lab/security_lab.tgz
 
-    Also, make sure all instances have nodejs installed.
+    Also, make sure all instances have ``nodejs`` installed.
 
 
 How is the client application connecting to the database?
@@ -205,8 +205,8 @@ How is the client application connecting to the database?
 
 .. code-block:: sh
 
-   const url = 'mongodb://node1:27017,node2:27017,node3:27017/
-       security-lab?replicaSet=SECURED'
+   const url = "mongodb://node1:27017,node2:27017,node3:27017/
+       security-lab?replicaSet=SECURED"
 
 - this is good for now, however you may have to change it later in the lab
 
@@ -328,9 +328,9 @@ Exercise: Enable SSL between the nodes
 
   .. code-block:: javascript
 
-      const url = 'mongodb://node1:27017,node2:27017,node3:27017/
-          security-lab?replicaSet=SECURED&ssl=true'
-      var fs = require('fs');
+      const url = "mongodb://node1:27017,node2:27017,node3:27017/
+          security-lab?replicaSet=SECURED&ssl=true"
+      var fs = require("fs");
       // Read the certificates
       var ca = [fs.readFileSync("/etc/ssl/ca.pem")];
       var cert = fs.readFileSync("/etc/ssl/node1.pem");
@@ -346,7 +346,7 @@ Exercise: Enable SSL between the nodes
 
       MongoClient.connect(url, options, (err, db) => {
         assert.equal(null, err)
-        messages = db.collection('messages')
+        messages = db.collection("messages")
       })
 
 
@@ -379,7 +379,7 @@ Don't let him do so!!!
 
   - different options to manage encryption keys, however for this lab a simple keyfile should have been enough
 
-  .. code-block:: ssh
+  .. code-block:: sh
 
      openssl rand -base64 32 > mongodb-keyfile
      chmod 600 mongodb-keyfile
@@ -479,3 +479,7 @@ What we did:
 
       - use security groups if in AWS
       - use firewall
+
+   - Application
+
+     - security at the application level

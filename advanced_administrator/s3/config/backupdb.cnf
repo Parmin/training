@@ -1,13 +1,14 @@
 processManagement:
   fork: true
+  pidFilePath: /var/run/mongodb/mongod27002.pid
 systemLog:
   destination: file
-  path: '/var/log/mongodb/backupdb.log'
+  path: /var/log/mongodb/backupdb.log
 replication:
-  replSetName: "BACKUPDB"
+  replSetName: BACKUPDB
   oplogSizeMB: 100
 storage:
-  dbPath: '/mongod-data/backupdb/data'
+  dbPath: /mongod-data/backupdb/data
   wiredTiger:
     engineConfig:
       cacheSizeGB: 2

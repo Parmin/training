@@ -56,9 +56,6 @@ def main():
 
     parser = argparse.ArgumentParser(description='Deploy AWS training environment')
 
-    parser.add_argument('--dir', dest='dir', default=".",
-      type=str, help="Output build directory path")
-
     parser.add_argument('--duration', dest='duration', default=3,
       type=int, help="Duration of the training run in days")
 
