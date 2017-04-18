@@ -1,13 +1,14 @@
 processManagement:
   fork: true
+  pidFilePath: /var/run/mongodb/mongod27001.pid
 systemLog:
   destination: file
-  path: '/var/log/mongodb/appdb.log'
+  path: /var/log/mongodb/appdb.log
 replication:
-  replSetName: "APPDB"
+  replSetName: APPDB
   oplogSizeMB: 100
 storage:
-  dbPath: '/mongod-data/appdb/data'
+  dbPath: /mongod-data/appdb/data
   wiredTiger:
     engineConfig:
       cacheSizeGB: 2

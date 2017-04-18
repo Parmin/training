@@ -1,7 +1,4 @@
 TODOs/questions/design
 ======================
 
-1) should we keep creating a team '0' for the teacher?
-   Is it confusing, and would be better to let the teacher keep one for him if he wants?
-
-2)
+1) 

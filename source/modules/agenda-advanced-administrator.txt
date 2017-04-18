@@ -1,0 +1,19 @@
+========================================
+Advanced Administrator Training (2 Days)
+========================================
+
+Day 1
+-----
+
+- :doc:`/modules/advanced-administrator`
+- :doc:`/exercises/opsmanager-installation`
+- :doc:`/exercises/opsmanager-enabling-api`
+- :doc:`/exercises/opsmanager-user-administration`
+
+Day 2
+-----
+
+- :doc:`/exercises/opsmanager-secure-replicaset`
+- :doc:`/exercises/opsmanager-replicaset-reconfig`
+- :doc:`/exercises/adv-ops-agg`
+- :doc:`/exercises/adv-ops-backup`

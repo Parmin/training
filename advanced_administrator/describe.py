@@ -83,7 +83,7 @@ def main():
     parser.add_argument('--run', dest='training_run', type=str,
       help="environment training run identifier, or none to see all the runs")
 
-    parser.add_argument('--out', dest='out', default="/tmp/advadm-run", type=str,
+    parser.add_argument('--out', dest='out', type=str,
       help="Path in which to store the output. For each team, a -X is added to the name. Defaults to '/tmp/advadm-run'")
 
     parser.add_argument('--profile', dest='awsprofile', default='default', type=str,
@@ -101,7 +101,7 @@ def main():
     training_run = args.training_run
     awsprofile = args.awsprofile
     awsregion = args.awsregion
-    
+
     provisioner_values = ["aws-cf"]
 
     pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile, aws_region=awsregion)

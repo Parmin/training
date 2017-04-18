@@ -1,6 +1,6 @@
-=======================================
-Lab: Cloud Manager Point-in-Time Backup
-=======================================
+=====================================
+Lab: Ops Manager Point-in-Time Backup
+=====================================
 
 
 
@@ -23,7 +23,7 @@ regardless of the drop, should be 20,000.
 
     In the ``/shared/`` folder students can find a script called ``inject20k``.
     This is an executable that will insert 20K documents and will drop the
-    datbase at a random point in time.
+    database at a random point in time.
 
     Students will have to:
     - Determine the which data was lost

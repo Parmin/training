@@ -1,12 +1,12 @@
-======================
-Advanced Administrator
-======================
+=============================
+Advanced Administrator Course
+=============================
 
 
 Learning Objectives
 -------------------
 
-Upon completing this training students should understand:
+Upon completing this training, students should understand:
 
 - How to install and configure a highly available Ops Manager deployment
 - Understand all the necessary components and architecture choices for an Ops
@@ -25,7 +25,7 @@ This training is a full hands-on experience.
 - You will be given access to a set of AWS instances.
 - All the necessary software will be available within those same instances
 - However, all architecture decisions and configuration steps will be made by
-  students
+  the students
 - You are expected to work in teams. So you will be sharing a set of machines
   with your colleagues.
 - Use the instructor for guidance and advice but he should mostly be there for
@@ -73,7 +73,7 @@ this course:
 - Understand the necessary infrastructure needed to run Ops Manager
 - Understand the different architecture choices and their tradeoffs in different
   deployments
-- Understand the different options that Ops Manager allows for backup
+- Understand the different options that Ops Manager offers for backup
 - Clear understanding of the benefits of using Ops Manager to manage different
   clusters
 - Deploy secured, monitored, and fully managed infrastructure for your application
@@ -106,8 +106,8 @@ this course:
 Take your time, ask questions
 -----------------------------
 
-It's important to foster the discussion of different options and review options
-so:
+It's important to foster the discussion of different options and review
+those options so:
 
 - Use the whiteboard (if available)
 - Talk to your team members to defined clear tasks and responsibilities
@@ -174,6 +174,36 @@ Within your team configuration file you should have:
 .. include:: /includes/student-notes.rst
 
 
+Exercise: Accessing your instances
+----------------------------------
+
+  - get your .pem file to ssh into your instances
+
+  .. code-block:: sh
+
+     chmod 600 AdvancedAdministrator.pem
+
+  - enable the keychain
+
+  .. code-block:: sh
+
+     ssh-add -K AdvancedAdministrator.pem
+
+  - ssh into ``node1``, propagating your credentials
+
+  .. code-block:: sh
+
+     ssh -i AdvancedAdministrator.pem -A centos@54.235.1.1
+
+  - ssh into ``node2``
+
+  .. code-block:: sh
+
+     ssh -A node2
+
+.. include:: /includes/student-notes.rst
+
+
 Within our instances ...
 ------------------------
 
@@ -183,18 +213,11 @@ In our machines we will have access to all nodes in the deployment:
 
     cat /etc/hosts
 
-A ``/share`` folder with all necessary software downloaded
+A ``/share/downloads`` folder with all necessary software downloaded
 
 .. code-block:: sh
 
-    ls /share
-
-And you should have MongoDB installed in your instances:
-
-.. code-block:: sh
-
-    mongod --version
-
+    ls /share/downloads
 
 .. only:: instructor
 

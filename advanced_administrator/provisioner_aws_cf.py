@@ -103,9 +103,8 @@ class Provisioner_aws_cf(object):
             self.client = self.session.client('cloudformation')
             self.ec2 = self.session.client('ec2')
         except ProfileNotFound, e:
-            log.error("\nFATAL - Could not find the AWS profile '{0}'".format(self.aws_profile))
-            log.error("Check the ~/.aws/config file and/or configure with 'aws configure'")
-            sys.exit(1)
+            fatal(1, "Could not find the AWS profile '{0}' \n".format(self.aws_profile) +
+                "Check the ~/.aws/config file and/or configure with 'aws configure'")
 
     def describe(self):
         if self.training_run is None:
@@ -131,21 +130,24 @@ class Provisioner_aws_cf(object):
             # TODO - remove all the files that would match this run, and for all teams
             (run_info, teams_info) = self.get_run_info(printit=True, perteam=True)
             if self.args.out:
-                try:
-                    f = open(self.args.out, 'w')
-                    contents = json.dumps(run_info, indent=2)
+                outfiles = self.args.out
+            else:
+                outfiles = "/tmp/" + self.training_run
+            try:
+                f = open(outfiles, 'w')
+                contents = json.dumps(run_info, indent=2)
+                f.write(contents + "\n")
+                f.close()
+                for key in teams_info.keys():
+                    team_info = teams_info[key].get_dict()
+                    f = open(outfiles + "-" + key, 'w')
+                    contents = json.dumps(team_info, indent=2)
                     f.write(contents + "\n")
                     f.close()
-                    for key in teams_info.keys():
-                        team_info = teams_info[key].get_dict()
-                        f = open(self.args.out + "-" + key, 'w')
-                        contents = json.dumps(team_info, indent=2)
-                        f.write(contents + "\n")
-                        f.close()
-                except Exception, e:
-                    fatal(1, e.__str__())
-                print("\nJSON file for the above run has been saved in: {}".format(self.args.out))
-                print("There is also one file per team saved in: {}-<teamNumber>".format(self.args.out))
+            except Exception, e:
+                fatal(1, e.__str__())
+            print("\nJSON file for the above run has been saved in: {}".format(outfiles))
+            print("There is also one file per team saved in: {}-<teamNumber>".format(outfiles))
 
 
     def destroy(self):
@@ -162,7 +164,7 @@ class Provisioner_aws_cf(object):
         # Can't describe a run in 'CREATE_IN_PROGRESS'
         run_description = self._describe_stack(self.training_run)
         if run_description['StackStatus'] == 'CREATE_IN_PROGRESS':
-            print("\nERROR - Can't describe a stack in 'CREATE_IN_PROGRESS' state")
+            fatal(1, "Can't describe a stack in 'CREATE_IN_PROGRESS' state")
         else:
             run_resources = self._describe_stack_resources(self.training_run)
             runinfo = self._get_outputs_for_stack(self.training_run)
@@ -230,7 +232,14 @@ class Provisioner_aws_cf(object):
         """
         etchosts_filename = "/tmp/hosts"
         # Get the list of hosts from the deployment
-        (run_info, _) = self.get_run_info(printit=False, perteam=False)
+        if self.args.info is None:
+            (run_info, _) = self.get_run_info(printit=False, perteam=False)
+        else:
+            print("Loading cached information from {}".format(self.args.info))
+            with open(self.args.info) as json_data:
+                run_info = json.load(json_data)
+
+        # With the info about the run, let's take the actions on the desired hosts
         keypair = run_info['KeyPair']
         for team in run_info['Teams']:
             if (self.args.ips is not None) or (self.args.teams == "all") or (self.args.teams is not None and team['Id'] in self.args.teams):

@@ -56,9 +56,6 @@ def main():
 
     parser = argparse.ArgumentParser(description='Deploy AWS training environment')
 
-    parser.add_argument('--dir', dest='dir', default=".",
-      type=str, help="Output build directory path")
-
     parser.add_argument('--duration', dest='duration', default=3,
       type=int, help="Duration of the training run in days")
 
@@ -109,7 +106,6 @@ def main():
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
     logger.debug("Building {0} stack".format(build_id))
-    pr.basedir = args.dir
     pr.number_of_instances = args.instances
     pr.build(build_id, args.testmode)
     logger.debug("All teams:".format(pr.teams))
