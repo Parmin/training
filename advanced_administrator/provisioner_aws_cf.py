@@ -165,7 +165,7 @@ class Provisioner_aws_cf(object):
         # Can't describe a run in 'CREATE_IN_PROGRESS'
         run_description = self._describe_stack(self.training_run)
         if run_description['StackStatus'] == 'CREATE_IN_PROGRESS':
-            print("\nERROR - Can't describe a stack in 'CREATE_IN_PROGRESS' state")
+            fatal(1, "Can't describe a stack in 'CREATE_IN_PROGRESS' state")
         else:
             run_resources = self._describe_stack_resources(self.training_run)
             runinfo = self._get_outputs_for_stack(self.training_run)
@@ -233,7 +233,14 @@ class Provisioner_aws_cf(object):
         """
         etchosts_filename = "/tmp/hosts"
         # Get the list of hosts from the deployment
-        (run_info, _) = self.get_run_info(printit=False, perteam=False)
+        if self.args.info is None:
+            (run_info, _) = self.get_run_info(printit=False, perteam=False)
+        else:
+            print("Loading cached information from {}".format(self.args.info))
+            with open(self.args.info) as json_data:
+                run_info = json.load(json_data)
+
+        # With the info about the run, let's take the actions on the desired hosts
         keypair = run_info['KeyPair']
         for team in run_info['Teams']:
             if (self.args.ips is not None) or (self.args.teams == "all") or (self.args.teams is not None and team['Id'] in self.args.teams):

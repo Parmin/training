@@ -100,10 +100,7 @@ def main():
 
     pr = Provisioner_aws_cf(args, training_run, aws_profile=awsprofile, aws_region=awsregion)
 
-    if  args.info is not None:
-        fatal(1, "--info is not implemented yet")
-
-    if args.info is None and args.run is None:
+    if args.info is None and args.training_run is None:
         fatal(1, "You must provide either --run or --info to specify the run to consider")
 
     if args.cmd is None and args.script is None and args.etchosts is None:

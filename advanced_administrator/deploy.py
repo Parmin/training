@@ -106,7 +106,6 @@ def main():
     pr.connect()
     build_id = date.today().strftime("%Y-%m-%d:%H:%M:%S")
     logger.debug("Building {0} stack".format(build_id))
-    pr.basedir = args.dir
     pr.number_of_instances = args.instances
     pr.build(build_id, args.testmode)
     logger.debug("All teams:".format(pr.teams))
