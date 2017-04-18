@@ -103,9 +103,8 @@ class Provisioner_aws_cf(object):
             self.client = self.session.client('cloudformation')
             self.ec2 = self.session.client('ec2')
         except ProfileNotFound, e:
-            log.error("\nFATAL - Could not find the AWS profile '{0}'".format(self.aws_profile))
-            log.error("Check the ~/.aws/config file and/or configure with 'aws configure'")
-            sys.exit(1)
+            fatal(1, "Could not find the AWS profile '{0}' \n".format(self.aws_profile) +
+                "Check the ~/.aws/config file and/or configure with 'aws configure'")
 
     def describe(self):
         if self.training_run is None:
