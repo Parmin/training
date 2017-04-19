@@ -14,10 +14,10 @@ if [ -z $MMSAUTAGENT ] || [ -z $MMSURL ] || [ -z $MMSGROUP ] || [ -z $MMSAPI ]; 
   echo some vars are not set in MMSAUTAGENT, MMSURL, MMSGROUP, MMSAPI
 else
   echo installing and configuring automation agent
-  cd /share/downloads
+  cd /share/downloads/opsmgr_packages
   sudo curl -OL $MMSURL/download/agent/automation/$MMSAUTAGENT 2>&1
   echo ""
-  sudo rpm -U /data/downloads/$MMSAUTAGENT 2>&1
+  sudo rpm -U /share/downloads/opsmgr_packages/$MMSAUTAGENT 2>&1
   # configure the automation agent
   sudo chmod 644 /etc/mongodb-mms/automation-agent.config
   sudo sed -i.bak "s@^\(mmsGroupId=\).*@\1$MMSGROUP@" /etc/mongodb-mms/automation-agent.config

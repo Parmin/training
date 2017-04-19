@@ -60,6 +60,7 @@ for line in ${BUCKETFOLDERS[@]}; do
     for file in ${BUCKETFILES[@]}; do
         echo Downloading file $file into ${tgtsrc[0]}
         mkdir -p ${tgtsrc[0]}
+        chmod 777 ${tgtsrc[0]}
         (cd ${tgtsrc[0]}; curl https://s3.amazonaws.com/mongodb-training/${file} --create-dirs -O)
     done
 done
@@ -70,6 +71,7 @@ for line in ${FILES[@]}; do
     tgtsrc=(${line//,/ })
     echo Downloading file ${tgtsrc[1]} into ${tgtsrc[0]}
     mkdir -p ${tgtsrc[0]}
+    chmod 777 ${tgtsrc[0]}
     (cd ${tgtsrc[0]}; curl ${tgtsrc[1]} --create-dirs -O)
 done
 
@@ -104,11 +106,11 @@ rm /share
 ln -s /data /share
 
 # copy config files to /share/etc
-cp /share/downloads/appdb.cnf /share/etc/appdb.conf
-cp /share/downloads/backupdb.cnf /share/etc/backupdb.conf
+cp /share/downloads/config/appdb.cnf /share/etc/appdb.conf
+cp /share/downloads/config/backupdb.cnf /share/etc/backupdb.conf
 
 # add all the role names and their corresponding IPs to the /etc/hosts file
-cat /share/downloads/etchosts >> /etc/hosts
+cat /share/downloads/config/etchosts >> /etc/hosts
 
 # adding write permissions to /var/log/mongodb
 chmod 777 -R /var/log/mongodb
