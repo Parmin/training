@@ -163,7 +163,7 @@ We will need the following instances:
     - 2 possible solutions:
 
       - each ``opsmgr`` node gets App, BackupDaemon, AppDB and BackupDB
-      - ``opsmgr`` gets App, BackupDaemon and BackupDB, ``nodes`` get AppDB
+      - ``opsmgr`` gets App, BackupDaemon and BackupDB, ``nodeX`` get AppDB
 
 
 Configure Ops Manager Application Database
@@ -240,7 +240,7 @@ Now it's time to launch the **Ops Manager** service. For this you will need to:
 
   - Follow instructions to `install from rpm`_
 
-  - The file can be found at */share/downloads/mongodb-mms-XXX-X.x86_64.rpm*
+  - The file can be found at */share/downloads/mongodb_packages/mongodb-mms-XXX-X.x86_64.rpm*
 
   - Point these to the previously configured replica set: **APPDB**
   - Allow `offline binary access`_
@@ -267,7 +267,7 @@ Now it's time to launch the **Ops Manager** service. For this you will need to:
 
       ssh -A centos@opsmgr1
       #Install ops manager server
-      yum install -y /share/downloads/mongodb-mms-2.0.6.363-1.x86_64.rpm
+      yum install -y /share/downloads/mongodb_packages/mongodb-mms-2.0.6.363-1.x86_64.rpm
       #Edit the configuration options
       vi /opt/mongodb/mms/conf/conf-mms.properties
       #Generate a gen.key file

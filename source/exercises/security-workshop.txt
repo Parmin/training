@@ -59,9 +59,9 @@ using MongoDB as a backend.
     - The 3 AWS instances where the backend should be running
     - The set of available files in "/share/downloads":
 
-      - X509 certificates
-      - MongoDB binaries
-      - Configuration files
+      - mongodb_packages => MongoDB binaries
+      - certs  => X509 certificates
+      - config =>Configuration files
 
     - How to install and start MongoDB on the instances using the package
     - Provide the students with the following files:
@@ -102,7 +102,7 @@ Exercise: Accessing your instances
 Exercise: Starting MongoDB and configuring the replica set
 ----------------------------------------------------------
 
-- ``/share/downloads`` contains MongoDB 3.2 and 3.4
+- ``/share/downloads/mongodb_packages`` contains MongoDB 3.2 and 3.4
 - installation instructions are at:
 
   - https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-red-hat/
@@ -175,7 +175,7 @@ It's time connect our client application.
 .. code-block:: sh
 
     cd ~
-    tar xzvf /share/downloads/security_lab.tgz
+    tar xzvf /share/downloads/apps/security_lab.tgz
     cd mongo-messenger
     npm install
     npm start
@@ -237,8 +237,8 @@ We will come back to this later on.
 
          ./manage.py --run security_workshop --teams all --roles all --cmd "/bin/hostname -f"
 
-         ./manage.py --run security_workshop --teams all --roles all --cmd "python /share/downloads/validate_log_redaction.py"
-         ./manage.py --run security_workshop --teams all --roles node1 --cmd "sudo python /share/downloads/validate_se_encryption.py"
+         ./manage.py --run security_workshop --teams all --roles all --cmd "python /share/downloads/validation/validate_log_redaction.py"
+         ./manage.py --run security_workshop --teams all --roles node1 --cmd "sudo python /share/downloads/validation/validate_se_encryption.py"
 
 
 Exercise: Enable ``auth`` in your MongoDB cluster

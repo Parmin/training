@@ -9,7 +9,7 @@ Some commands for CentOS:
   yum list installed
 
 - Installing only the server, no shell, from an available download on the host
-  cd /data/downloads
+  cd /share/downloads/mongodb_packages
   sudo yum install -y mongodb-enterprise-server-3.4.2-1.el7.x86_64.rpm
 
 - Installing all MongoDB packages, through the Yum repository
