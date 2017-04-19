@@ -12,8 +12,18 @@ This repository contains the MongoDB training materials used for the following c
 -  MongoDB Admin Training
 -  MongoDB Advanced Developer Training
 
-Instructor and student materials are in the `<presentation-3.2>`_ directory of the repo. See the `Using Instructor Materials`_ section below.
+Instructor and student materials are in the `<presentation-3.2/3.4>`_ directories of the repo.
+See the `Using Instructor Materials`_ section below.
 
+Feedback
+--------
+
+If, as an instructor, you have any feedback about the courses, please make the effort
+to collect the information and give it to us.
+Different ways to provide us feedback are listed on the following Wiki page:
+
+  https://wiki.mongodb.com/display/DE/How+to+Submit+Feedback+on+MongoDB+Courses
+  
 Objectives
 ----------
 
@@ -34,12 +44,12 @@ Objectives
 Using Instructor Materials
 --------------------------
 
-Instructor materials are provided in `<presentation-3.2/instructor-package.tar.gz>`_. As an instructor you will primarily use:
+Instructor materials are provided in `<presentation-3.4/instructor-package.tar.gz>`_. As an instructor you will primarily use:
 
 - The Instructor Guide
 - Slides
 - The Presenter Console
-- Datasets (see `<presentation-3.2/usb_drive.zip>`_)
+- Datasets (see `<presentation-3.4/usb_drive.zip>`_)
 
 See below for examples of each.
 
