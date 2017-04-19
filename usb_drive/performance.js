@@ -21,7 +21,7 @@ performance.init = function () {
 
         var ts = new Date(2012,m%12,m%27+1);
 
-        t.insert( { _id : m, tstamp : ts, active : (a%77==0), x : 99 } );
+        t.insert( { _id : m, tstamp : ts, active : (a%77==0), x : Math.floor(Math.random() * 400 + 1)} );
 
         a += 3;
     }
