@@ -14,7 +14,7 @@ if [ -z $MMSAUTAGENT ] || [ -z $MMSURL ] || [ -z $MMSGROUP ] || [ -z $MMSAPI ]; 
   echo some vars are not set in MMSAUTAGENT, MMSURL, MMSGROUP, MMSAPI
 else
   echo installing and configuring automation agent
-  cd /data/downloads
+  cd /share/downloads
   sudo curl -OL $MMSURL/download/agent/automation/$MMSAUTAGENT 2>&1
   echo ""
   sudo rpm -U /data/downloads/$MMSAUTAGENT 2>&1

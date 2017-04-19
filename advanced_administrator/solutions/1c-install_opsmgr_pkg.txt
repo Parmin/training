@@ -3,7 +3,7 @@
 
 ### on opsmrg1, opsmgr2 and opsmgr3
 
-cd /data/downloads
+cd /share/downloads
 sudo rpm -ivh mongodb-mms-3.4.*.x86_64.rpm
 
 # construct the mongoUri, for example:
