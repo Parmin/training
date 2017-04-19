@@ -12,7 +12,7 @@ This repository contains the MongoDB training materials used for the following c
 -  MongoDB Admin Training
 -  MongoDB Advanced Developer Training
 
-Instructor and student materials are in the `<presentation-3.2/3.4>`_ directories of the repo.
+Instructor and student materials are in the `<presentation-3.4>`_ directories of the repo.
 See the `Using Instructor Materials`_ section below.
 
 Feedback
@@ -23,7 +23,7 @@ to collect the information and give it to us.
 Different ways to provide us feedback are listed on the following Wiki page:
 
   https://wiki.mongodb.com/display/DE/How+to+Submit+Feedback+on+MongoDB+Courses
-  
+
 Objectives
 ----------
 
