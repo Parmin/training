@@ -46,6 +46,9 @@ PACKAGES=(
 #            lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs
 #            tcp_wrappers-libs
 
+rm /share
+ln -s /data /share
+
 ### Download dirs and files
 [ -d $TARGETDIR ] || mkdir -p $TARGETDIR
 cd $TARGETDIR
@@ -76,8 +79,6 @@ for line in ${FILES[@]}; do
 done
 
 echo Done Downloading individual files
-# unzip the USB drive file
-/usr/bin/unzip -o usb_drive.zip
 
 # This means you are on Mac, the rest won't work, however you probably got your testing.
 dist=$(uname)
@@ -91,6 +92,9 @@ for package in ${PACKAGES[@]}; do
     yum install -y $package
 done
 
+# unzip the USB drive file
+/usr/bin/unzip -o usb_drive.zip
+
 ### Commands to run
 # disable SELINUX
 /bin/sed -i -e 's/^SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
@@ -102,8 +106,6 @@ chmod 777 /share/etc
 # create cache dir
 mkdir -p /share/cache
 chmod 777 /share/cache
-rm /share
-ln -s /data /share
 
 # copy config files to /share/etc
 cp /share/downloads/config/appdb.cnf /share/etc/appdb.conf
