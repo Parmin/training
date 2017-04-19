@@ -62,7 +62,7 @@ Admin/Ops Courses
 
 .. |agenda_AdvancedAdministrator| raw:: html
 
-   <a href="modules/agenda-advanced-administrator.html">MongoDB Advanced Administrator Training</a>
+   <a href="modules/agenda-advanced-administrator.html">MongoDB Advanced Administrator Training - 2 days</a>
 
 .. |contents_AdvancedAdministrator| raw:: html
 
@@ -70,7 +70,7 @@ Admin/Ops Courses
 
 .. |agenda_OpsRapidStart| raw:: html
 
-   <a href="modules/agenda-ops-rapid-start.html">Ops Rapid Start</a>
+   <a href="modules/agenda-ops-rapid-start.html">Ops Rapid Start - 2 days</a>
 
 .. |contents_OpsRapidStart| raw:: html
 
