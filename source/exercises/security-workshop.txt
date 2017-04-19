@@ -74,29 +74,51 @@ using MongoDB as a backend.
 Exercise: Accessing your instances
 ----------------------------------
 
-  - get your .pem file to ssh into your instances
+- get your .pem file and close the permissions on it
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     chmod 600 AdvancedAdministrator.pem
+   chmod 600 AdvancedAdministrator.pem
 
-  - enable the keychain
+- enable the keychain and ``ssh`` into ``node1``, propagating your credentials
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     ssh-add -K AdvancedAdministrator.pem
+   ssh-add -K AdvancedAdministrator.pem
+   ssh -i AdvancedAdministrator.pem -A centos@54.235.1.1
 
-  - ssh into ``node1``, propagating your credentials
+- ssh into ``node2`` from ``node1``
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     ssh -i AdvancedAdministrator.pem -A centos@54.235.1.1
+   ssh -A node2
 
-  - ssh into ``node2``
+.. include:: /includes/student-notes.rst
 
-  .. code-block:: sh
 
-     ssh -A node2
+Solution: Accessing your instances
+----------------------------------
+
+In our machines we will have access to all nodes in the deployment:
+
+.. code-block:: sh
+
+    cat /etc/hosts
+
+A ``/share/downloads`` folder with all necessary software downloaded
+
+.. code-block:: sh
+
+    ls /share/downloads
+
+.. only:: instructor
+
+  .. note::
+
+    - quickly describe the contents of the dirs under ``downloads``
+      Don't emphasis ``validation``, this is where your validation scripts are
+
+.. include:: /includes/student-notes.rst
 
 
 Exercise: Starting MongoDB and configuring the replica set
