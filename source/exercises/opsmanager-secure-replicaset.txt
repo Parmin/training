@@ -56,7 +56,7 @@ your group.
 All VMs have a set of certificates that you will be using to configure your
 secured deployment.
 
-In folder `/share/downloads/certs` you will find:
+In folder ``/share/downloads/certs`` (linked to ``/etc/ssl/mongodb``) you will find:
 
 - ``ca.pem``: SSL CA certificate
 - ``automation.pem``: Automation agent certificate
@@ -74,8 +74,7 @@ In folder `/share/downloads/certs` you will find:
 
     Ask students to list the files under ``/share/downloads/certs`` on instances to validate
     that their installation process is correct.
-    They can have the command refer to this directory, or they can copy the certificates
-    into another directory. All our answers will use ``/etc/ssl``
+    All our answers use ``/etc/ssl/mongodb`` which is linked to the above
 
     Make sure to highlight that:
 
@@ -144,7 +143,7 @@ Create a replica set named **SECURE** with the following configuration:
 
 - **clusterAuthMechanism**: x509
 - **sslMode**: requiredSSL
-- **sslPEMKeyFile**: `/etc/ssl/nodeX.pem`
+- **sslPEMKeyFile**: `/etc/ssl/mongodb/nodeX.pem`
 
 .. include:: /includes/student-notes.rst
 
@@ -168,7 +167,7 @@ Create a replica set named **SECURE** with the following configuration:
     - Once we have applied we now need to **Modify** the individual node members
       with the corresponding server **sslPEMKeyFile**
 
-      - node1: `/etc/ssl/node1.pem`
+      - node1: `/etc/ssl/mongodb/node1.pem`
 
     - ``nodeX.pem``: there should be a certificate file per each node.
     - This setting needs to be configured on a per instance level.
@@ -200,7 +199,7 @@ Time to create users that will authenticate using an X.509 certificate.
 
       .. code-block:: bash
 
-        openssl x509 -in /etc/ssl/dbadmin.pem -inform PEM -subject -nameopt RFC2253
+        openssl x509 -in /etc/ssl/mongodb/dbadmin.pem -inform PEM -subject -nameopt RFC2253
         subject= C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=dbadmin
         -----BEGIN CERTIFICATE-----
         MIIDezCCAmOgAwIBAgIDBZc1MA0GCSqGSIb3DQEBBQUAMGUxCzAJBgNVBAMTAkNB
@@ -213,7 +212,7 @@ Time to create users that will authenticate using an X.509 certificate.
 
       .. code-block:: bash
 
-        mongo --host PRIMARY_NODE --ssl --sslPEMKeyFile /etc/ssl/automation.pem --sslCAFile /etc/ssl/ca.pem
+        mongo --host PRIMARY_NODE --ssl --sslPEMKeyFile /etc/ssl/mongodb/automation.pem --sslCAFile /etc/ssl/mongodb/ca.pem
         > db.getSiblingDB("$external").auth({
           mechanism: "MONGODB-X509",
           user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=automation"
@@ -236,8 +235,8 @@ Time to create users that will authenticate using an X.509 certificate.
 
       .. code-block:: bash
 
-        mongo --host PRIMARY_NODE  --ssl --sslPEMKeyFile /etc/ssl/dbadmin.pem
-          --sslCAFile /etc/ssl/ca.pem
+        mongo --host PRIMARY_NODE  --ssl --sslPEMKeyFile /etc/ssl/mongodb/dbadmin.pem
+          --sslCAFile /etc/ssl/mongodb/ca.pem
 
     - Authenticate and create new database ``allgood``
 
