@@ -106,6 +106,8 @@ chmod 777 /share/etc
 # create cache dir
 mkdir -p /share/cache
 chmod 777 /share/cache
+# link the certificate directory
+ln -s /share/downloads/certs /etc/ssl/mongodb
 
 # copy config files to /share/etc
 cp /share/downloads/config/appdb.cnf /share/etc/appdb.conf

@@ -16,6 +16,27 @@ Upon completing this training, students should understand:
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    You should be familiar with the tools to setup the hosts for this course.
+    More details at:
+
+      - https://docs.google.com/document/d/1vhA6NvlTsPe1rw_fb7N5NrYzJ78odiHWBd5yf9vPd64
+
+    For this workshop, we will group students into teams.
+
+    - There will be a maximum of 9 teams!
+
+    At this point you should have created the infrastructure for the students
+    and be retrieving its configuration by running the following command that
+    will create the /tmp/<run>* files with all the info about IPs, LBs, VPCs:
+
+    .. code-block:: sh
+
+      ./describe.py --run <TRAINING-RUN> --out /tmp/advadmin
+
 
 Hands-on Approach
 -----------------
@@ -23,11 +44,11 @@ Hands-on Approach
 This training is a full hands-on experience.
 
 - You will be given access to a set of AWS instances.
+- You are expected to work in teams. So you will be sharing a set of machines
+  with your colleagues.
 - All the necessary software will be available within those same instances
 - However, all architecture decisions and configuration steps will be made by
   the students
-- You are expected to work in teams. So you will be sharing a set of machines
-  with your colleagues.
 - Use the instructor for guidance and advice but he should mostly be there for
   observation and time boxing the labs.
 
@@ -37,31 +58,7 @@ This training is a full hands-on experience.
 
   .. note::
 
-    At this point you should have created the infrastructure for the students
-    and be retrieving its configuration by running the following command that
-    will create the /tmp/advadm* files with all the info about IPs, LBs, VPCs:
-
-    .. code-block:: sh
-
-      ./describe.py --run <TRAINING-RUN> --out /tmp/advadmin
-
     - show the students how many teams have been created
-    - show how to install the machines key file in the ssh agent
-
-    .. code-block:: sh
-
-      ssh-add -K AdvancedAdministrator.pem
-
-    - exemplify how they have access to the machines by making an ssh connection
-      with key forwarding
-
-    .. code-block:: sh
-
-
-      ssh -A -i AdvancedAdministrator.pem centos@<AWS-INSTANCE-PUBLIC-IP>
-
-    - Access key file should be available through training portal files
-
 
 
 Expected Takeaways
@@ -98,9 +95,7 @@ this course:
 
     are very familiar to the them.
 
-
 .. include:: /includes/student-notes.rst
-
 
 
 Take your time, ask questions
@@ -113,7 +108,6 @@ those options so:
 - Talk to your team members to defined clear tasks and responsibilities
 - Use the instructor for guidance and ask for advice
 - Take chances, break stuff!
-
 
 .. only:: instructor
 
@@ -146,7 +140,6 @@ Within your team configuration file you should have:
 - Up to 12 `<node>` instances.
 - `AdvancedAdministrator.pem` key file to allow access to the instances.
 
-
 .. only:: instructor
 
   .. note::
@@ -156,13 +149,6 @@ Within your team configuration file you should have:
 
     - everyone should be assigned to one team, max of 3 person teams
     - check if everyone has their team configuration file
-    - check that everyone has their key file and successfully added the key to
-      their ssh-agents
-    - check that everyone is able to reach the AWS instances
-
-      - ask students to connect to one of their designated team instances.
-
-    - check that everyone is able to run command ``ls /share``
 
     You may want to explain to the students that:
 
@@ -177,35 +163,34 @@ Within your team configuration file you should have:
 Exercise: Accessing your instances
 ----------------------------------
 
-  - get your .pem file to ssh into your instances
+- get your .pem file and close the permissions on it
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     chmod 600 AdvancedAdministrator.pem
+   chmod 600 AdvancedAdministrator.pem
 
-  - enable the keychain
+- enable the keychain and ``ssh`` into ``node1``, propagating your credentials
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     ssh-add -K AdvancedAdministrator.pem
+   ssh-add -K AdvancedAdministrator.pem
+   ssh -i AdvancedAdministrator.pem -A centos@54.235.1.1
 
-  - ssh into ``node1``, propagating your credentials
+- ssh into ``node2`` from ``node1``
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     ssh -i AdvancedAdministrator.pem -A centos@54.235.1.1
-
-  - ssh into ``node2``
-
-  .. code-block:: sh
-
-     ssh -A node2
+   ssh -A node2
 
 .. include:: /includes/student-notes.rst
 
 
-Within our instances ...
-------------------------
+Exercise: Accessing your instances from a Windows client
+--------------------------------------------------------
+
+
+Solution: Accessing your instances
+----------------------------------
 
 In our machines we will have access to all nodes in the deployment:
 
@@ -223,25 +208,7 @@ A ``/share/downloads`` folder with all necessary software downloaded
 
   .. note::
 
-    Connect to one of the instances and run all the commands yourself.
-
-    .. code-block:: sh
-
-      ssh -A -i AdvancedAdministrator.pem centos@<AWS-INSTANCE-PUBLIC-IP>
-
-      ls /share
-      mongod --version
-
-    This is also a good opportunity to show that if you forward the ssh key you
-    will be able to jump to all machines of a given team.
-
-    .. code-block:: sh
-
-      ssh -A -i AdvancedAdministrator.pem centos@<AWS-INSTANCE-PUBLIC-IP>
-
-      ssh -A centos@10.0.0.101
-
-      ssh -A centos@10.0.0.22
-
+    - quickly describe the contents of the dirs under ``downloads``
+      Don't emphasis ``validation``, this is where your validation scripts are
 
 .. include:: /includes/student-notes.rst
