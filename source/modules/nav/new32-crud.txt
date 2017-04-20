@@ -1,9 +1,0 @@
-====
-CRUD
-====
-
-.. default-domain:: mongodb
-
-.. include:: /includes/toc/dfn-list-new32-crud.rst
-
-.. include:: /includes/toc/new32-crud.rst

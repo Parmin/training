@@ -1,8 +1,0 @@
-file: /modules/new32-aggregation
-description: |
-  Additions to the aggregation framework in MongoDB 3.2
----
-file: /exercises/new32-aggregation
-description: |
-  Exercises on using MongoDB 3.2 aggregation features
-...

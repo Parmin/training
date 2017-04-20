@@ -1,9 +1,0 @@
-=======
-Agendas
-=======
-
-.. default-domain:: mongodb
-
-.. include:: /includes/toc/dfn-list-agendas.rst
-
-.. include:: /includes/toc/agendas.rst

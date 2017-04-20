@@ -1,9 +1,0 @@
-===================
-Document Validation
-===================
-
-.. default-domain:: mongodb
-
-.. include:: /includes/toc/dfn-list-new32-document-validation.rst
-
-.. include:: /includes/toc/new32-document-validation.rst
