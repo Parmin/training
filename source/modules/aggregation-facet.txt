@@ -1,0 +1,124 @@
+========================
+Aggregation - ``$facet``
+========================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- How to use ``$facet``
+
+``$facet``
+----------
+
+- Processes multiple aggregation pipelines within a single stage
+- Each sub-pipeline has its own field in the output document
+- Extremely powerful for data browsing and analysis
+- Input documents are passed to ``$facet`` only once
+- Can be used to avoid retrieving input documents multiple times
+- Categorize and group incoming documents
+
+``$facet`` (cont)
+-----------------
+
+- Has the following form
+
+.. code-block:: js
+
+   { $facet:
+     {
+       <outputField1>: [ <stage1>, <stage2>, ...<stageN>],
+       <outputField2>: [ <stage1>, <stage2>, ...<stageN>],
+       ...
+     }
+   }
+
+Behavior
+--------
+
+ - Combined with ``$bucket``, ``$bucketAuto``, and ``$sortByCount`` performs a multi-faceted aggregation
+ - Can't be used with the following:
+
+   - ``$facet`` (Can't have a ``$facet`` within a ``$facet``)
+   - ``$out``
+   - ``$geoNear``
+   - ``$indexStats``
+   - ``$collStats``
+
+Behavior (cont)
+---------------
+
+- Each sub-pipeline receives the exact same set of input documents
+- Sub-pipelines are independent of each other
+- Output from one sub-pipeline can not be used as input to a different sub-pipeline within the same ``$facet``
+
+.. only:: instructor
+
+   .. note::
+
+      - It is possible to have multiple ``$facet`` stages within an overall aggregation.
+
+
+``$facet`` Exercise
+-------------------
+
+Using our twitter dataset, output a single document with the following fields:
+
+- **mostActive**: <User with the most **user.statuses_count** >
+
+  - **screenName**: <**user.screen_name**>
+  - **numTweetsAndRetweets**: <**user.statuses_count**>
+
+- **leastActive**: <Of users who have at least 1 tweet/retweet, user with the least **statuses_count** and lexicographically first screen_name>
+
+  - **screenName**: <**user.screen_name**>
+  - **numTweetsAndRetweets**: <**user.statuses_count**>
+
+
+``$facet`` Exercise (cont)
+--------------------------
+
+
+.. code-block:: js
+
+   {
+   	 "mostActive" : {
+   		 "name": "currentutc",
+   		 "numTweetsAndRetweets": 518702
+   	  },
+   	  "leastActive" : {
+   		  "name": "ACunninghamMP",
+   		  "numTweetsAndRetweets": 1
+   	  }
+   }
+
+.. only:: instructor
+
+   .. note::
+
+      - Students should create an index to speed up this pipeline, have them use ``{ explain: true }`` to see if they are using an index
+      - The fields will be returned as an array, remind students about ``$unwind``
+      - One solution is the following:
+
+      .. code-block:: js
+
+         db.tweets.createIndex( { "user.statuses_count": 1, "user.screen_name": 1 })
+         db.tweets.aggregate([
+           { $match: { "user.statuses_count": { $gt: 0 } } },
+           { $facet: {
+               mostActive: [
+                 { $sort: { "user.statuses_count": -1 } },
+                 { $limit: 1 },
+                 { $project: { _id: 0, name: "$user.screen_name", numTweetsAndRetweets: "$user.statuses_count" } }
+               ],
+               leastActive: [
+                 { $sort: { "user.statuses_count": 1, "user.screen_name": 1 } },
+                 { $limit: 1 },
+                 { $project: { _id: 0, name: "$user.screen_name", numTweetsAndRetweets: "$user.statuses_count" } }
+               ]
+           } },
+           { $unwind: "$mostActive" },
+           { $unwind: "$leastActive" }
+         ]).pretty()

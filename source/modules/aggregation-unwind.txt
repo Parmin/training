@@ -1,0 +1,114 @@
+====================
+Aggregation - Unwind
+====================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- How to use the ``$unwind`` stage and its behavior
+
+The Unwind Stage
+----------------
+
+- In many situations we want to aggregate using values in an array field.
+- In our tweets dataset we need to do this to answer the question:
+
+  - "Who includes the most user mentions in their tweets?"
+
+- User mentions are stored within an embedded document for entities.
+- This embedded document also lists any urls and hashtags used in the tweet.
+
+.. include:: /includes/student-notes.rst
+
+
+Example: User Mentions in a Tweet
+---------------------------------
+
+.. code-block:: javascript
+
+   ...
+   "entities" : {
+       "user_mentions" : [
+           {
+               "indices" : [
+                   28,
+                   44
+               ],
+               "screen_name" : "LatinsUnitedGSX",
+               "name" : "Henry Ramirez",
+               "id" : 102220662
+           }
+       ],
+       "urls" : [ ],
+       "hashtags" : [ ]
+    },
+    ...
+
+.. include:: /includes/student-notes.rst
+
+
+Using $unwind
+-------------
+
+Who includes the most user mentions in their tweets?
+
+.. code-block:: javascript
+
+   db.tweets.aggregate(
+       { $unwind: "$entities.user_mentions" },
+       { $group: { _id: "$user.screen_name",
+		   count: { $sum: 1 } } },
+       { $sort: { count: -1 } },
+       { $limit: 1 })
+
+.. only:: instructor
+
+   .. note::
+
+      - Many tweets contain multiple user mentions.
+      - We use unwind to produce one document for each user mention.
+      - Each of these documents is passed to the $group stage that follows.
+      - They will be grouped by the user who created the tweet and counted.
+      - As a result we will have a count of the total number of user mentions
+        made by any one tweeter.
+
+      ``$unwind`` also supports this form:
+
+      .. code-block:: javascript
+
+         {
+           $unwind:
+             {
+               path: <field path>,
+               includeArrayIndex: <string>,
+               preserveNullAndEmptyArrays: <boolean>
+             }
+         }
+
+.. include:: /includes/student-notes.rst
+
+
+``$unwind`` Behavior
+--------------------
+
+- ``$unwind`` no longer errors on non-array operands.
+- If the operand is not:
+
+  - An array,
+  - Missing
+  - null
+  - An empty array
+
+- $unwind treats the operand as a single element array.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Nullish values are ``null``, ``undefined``, empty array, and missing fields
+    - the `preserveNullAndEmptyArrays` option (see next slide) can keep the nullish values around with the $unwind.

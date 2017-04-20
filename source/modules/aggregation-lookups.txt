@@ -1,0 +1,227 @@
+=====================
+Aggregation - Lookups
+=====================
+
+
+The Lookup Stage
+----------------
+
+- Pulls documents from a second collection into the pipeline
+
+  - In SQL terms, performs a left outer join
+
+    - If you ``$lookup`` then immediately ``$unwind`` the field, it becomes an inner join
+
+  - The second collection must be in the same database
+  - The second collection cannot be sharded
+
+- Documents based on a matching field in each collection
+- Previously, you could get this behavior with two separate queries
+
+.. include:: /includes/student-notes.rst
+
+
+The Lookup Stage (continued)
+----------------------------
+
+- Documents based on a matching field in each collection
+- Previously, you could get this behavior with two separate queries
+
+  - One to the collection that contains reference values
+  - The other to the collection containing the documents referenced
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - When following with ``$unwind``, if you use ``preserveNullAndEmptyArrays: true`` then it remains a left outer join.
+
+
+Example: Using ``$lookup``
+--------------------------
+
+Create a separate collection for ``$lookup``
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 22-33
+
+
+.. include:: /includes/student-notes.rst
+
+
+Example: Using ``$lookup`` (Continued)
+--------------------------------------
+
+.. literalinclude:: /includes/aggregation_scripts.js
+  :language: javascript
+  :lines: 34-44
+
+.. include:: /includes/student-notes.rst
+
+
+The GraphLookup Stage
+---------------------
+
+- Used to perform a recursive search on a collection, with options for restricting the search by recursion depth and query filter.
+- Has the following prototype form:
+
+.. code-block:: javascript
+
+   $graphLookup: {
+      from: <collection>,
+      startWith: <expression>,
+      connectFromField: <string>,
+      connectToField: <string>,
+      as: <string>,
+      maxDepth: <number>,
+      depthField: <string>,
+      restrictSearchWithMatch: <document>
+   }
+
+.. only:: instructor
+
+   .. note::
+
+      `$graphLookup Documentation <https://docs.mongodb.com/manual/reference/operator/aggregation/graphLookup/>`_
+
+.. include:: /includes/student-notes.rst
+
+``$graphLookup`` Fields
+-----------------------
+
+- **from**: The target collection for ``$graphLookup`` to search
+- **startWith**: Expression that specifies the value of the connectFromField with which to start the recursive search
+- **connectFromField**: field name whose value $graphLookup uses to recursively match against the connectToField of other documents in the collection
+- **connectToField**: 	Field name in other documents against which to match the value of the field specified by the connectFromField parameter
+- **as**: Name of the array field added to each output document
+
+.. include:: /includes/student-notes.rst
+
+``$graphLookup`` Optional Fields
+--------------------------------
+
+- **maxDepth**: Optional. Non-negative integral number specifying the maximum recursion depth.
+- **depthField**: Optional. Name of the field to add to each traversed document in the search path. The value of this field is the recursion depth for the document
+- **restrictSearchWithMatch**: Optional. A document specifying additional conditions for the recursive search. The syntax is identical to query filter syntax.
+
+
+.. only:: instructor
+
+   .. note::
+
+      You cannot use any aggregation expression in this filter. For example, a query document such as
+
+      .. code-block:: javascript
+
+         { lastName: { $ne: "$lastName" } }
+
+      will not work in this context to find documents in which the lastName value is different from the lastName value of the input document,
+      because "$lastName" will act as a string literal, not a field path.
+
+`Query Documentation <https://docs.mongodb.com/manual/tutorial/query-documents/#read-operations-query-argument>`_
+
+.. include:: /includes/student-notes.rst
+
+``$graphLookup`` Search Process
+-------------------------------
+
+Input documents flow into the ``$graphLookup`` stage of an aggregation
+
+- ``$graphLookup`` targets the search to the collection designated by the ``from`` parameter
+
+For each input document, the search begins with the value designated by ``startWith``
+- ``$graphLookup`` matches the ``startWith`` value against the field designated by the ``connectToField`` in other documents in the ``from`` collection
+
+.. include:: /includes/student-notes.rst
+
+``$graphLookup`` Search Process (continued)
+-------------------------------------------
+
+For each matching document, ``$graphLookup`` takes the value of the ``connectFromField`` and checks every document in the ``from`` collection for a matching ``connectToField`` value
+
+- For each match, ``$graphLookup`` adds the matching document in the ``from`` collection to an array field named by the ``as`` parameter
+
+- This step continues recursively until no more matching documents are found, or until it reaches the recursion depth specified by ``maxDepth``
+
+.. include:: /includes/student-notes.rst
+
+``$graphLookup`` Considerations
+-------------------------------
+
+- The collection specified in ``from`` cannot be sharded.
+- Setting ``maxDepth`` to 0 is equivalent to ``$lookup``
+- The ``$graphLookup`` stage must stay within the 100 megabyte memory limit. ``$graphLookup`` will ignore ``allowDiskUse: true``
+- If performing an aggregation that involves multiple views, the views must have the same collation.
+
+.. only:: instructor
+
+   .. note::
+
+      Although ``$graphLookup`` ignores the **allowDiskUse** argument, other stages in the aggregation pipeline will use it.
+
+.. include:: /includes/student-notes.rst
+
+``$graphLookup`` Example
+------------------------
+
+Let's illustrate how ``$graphLookup`` works with an example.
+
+.. code-block:: javascript
+
+   use company;
+   db.employees.insertMany([
+     { "_id" : 1, "name" : "Dev" },
+     { "_id" : 2, "name" : "Eliot", "reportsTo" : "Dev" },
+     { "_id" : 3, "name" : "Ron", "reportsTo" : "Eliot" },
+     { "_id" : 4, "name" : "Andrew", "reportsTo" : "Eliot" },
+     { "_id" : 5, "name" : "Asya", "reportsTo" : "Ron" },
+     { "_id" : 6, "name" : "Dan", "reportsTo" : "Andrew" }
+   ])
+
+.. include:: /includes/student-notes.rst
+
+``$graphLookup`` Example (continued)
+------------------------------------
+
+With the sample data inserted, perform the following aggregation:
+
+.. code-block:: javascript
+
+   db.employees.aggregate([
+     {
+       $match: { "name": "Dan" }
+     }, {
+       $graphLookup: {
+         from: "employees",
+         startWith: "$reportsTo",
+         connectFromField: "reportsTo",
+         connectToField: "name",
+         as: "reportingHierarchy"
+        }
+     }
+   ]).pretty()
+
+.. include:: /includes/student-notes.rst
+
+``$graphLookup`` Example Results
+--------------------------------
+
+The previous ``$graphLookup`` operation will produce the following:
+
+.. code-block:: javascript
+
+   {
+     "_id" : 6,
+     "name" : "Dan",
+     "reportsTo" : "Andrew",
+     "reportingHierarchy" : [
+       { "_id" : 1, "name" : "Dev" },
+       { "_id" : 2, "name" : "Eliot", "reportsTo" : "Dev" },
+       { "_id" : 4, "name" : "Andrew", "reportsTo" : "Eliot" }
+     ]
+   }
+
+.. include:: /includes/student-notes.rst
