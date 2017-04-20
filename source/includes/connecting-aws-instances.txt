@@ -1,0 +1,82 @@
+Exercise: Accessing your instances from Windows
+-----------------------------------------------
+
+- Download and install Putty from **http://www.putty.org/**
+- Start Putty with: **All Programs > PuTTY > PuTTY**
+- In **Session**:
+
+  - In the **Host Name** box, enter **centos@<publicIP>**
+  - Under **Connection type**, select **SSH**
+
+- In **Connection/SSH/Auth**,
+
+  - Browse to the **AdvancedAdministrator.ppk** file
+
+- Click **Open**
+- Detailed info at: `Connect to AWS with Putty`_
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    [TODO] fix agent forwarding.
+
+    You can convert .pem files on Mac by:
+
+    - brew install putty
+    - puttygen mykey.pem -o mykey.ppk
+
+
+.. _`Connect to AWS with Putty`: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html
+
+Exercise: Accessing your instances from Linux or Mac
+----------------------------------------------------
+
+- get your .pem file and close the permissions on it
+
+.. code-block:: sh
+
+   chmod 600 AdvancedAdministrator.pem
+
+- enable the keychain and ``ssh`` into ``node1``, propagating your credentials
+
+.. code-block:: sh
+
+   ssh-add -K AdvancedAdministrator.pem
+   ssh -i AdvancedAdministrator.pem -A centos@54.235.1.1
+
+- ssh into ``node2`` from ``node1``
+
+.. code-block:: sh
+
+   ssh -A node2
+
+.. include:: /includes/student-notes.rst
+
+
+Solution: Accessing your instances
+----------------------------------
+
+In our machines we will have access to all nodes in the deployment:
+
+.. code-block:: sh
+
+    cat /etc/hosts
+
+A ``/share/downloads`` folder with all necessary software downloaded
+
+.. code-block:: sh
+
+    ls /share/downloads
+    ls /etc/ssl/mongodb
+
+.. only:: instructor
+
+  .. note::
+
+    - quickly describe the contents of the dirs under ``downloads``
+      Don't emphasis ``validation``, this is where your validation scripts are
+
+.. include:: /includes/student-notes.rst

@@ -1,0 +1,9 @@
+=================
+Security Workshop
+=================
+
+
+Day 1
+-----
+
+- :doc:`/exercises/security-workshop`
