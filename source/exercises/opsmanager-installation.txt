@@ -299,7 +299,6 @@ For this you will need to:
 - Edit Ops Manager configuration ``conf-mms.properties``:
 
   - Point the config to the replica set: **APPDB**
-  - Allow `offline binary access`_
 
 - Launch the Ops Manager service
 - Hint: there is a common keyfile shared by all 3 instances
