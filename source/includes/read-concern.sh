@@ -1,3 +1,4 @@
+# BEGIN SCRIPT
 #!/usr/bin/env bash
 echo 'db.testCollection.drop();' | mongo --port 27017 readConcernTest; wait
 echo 'db.testCollection.insertOne({message: "probably on a secondary." } );' |
@@ -13,3 +14,4 @@ echo 'db.testCollection.find(); // read concern "local"' |
 echo 'db.fsyncUnlock()' | mongo --port 27018; wait
 echo 'db.fsyncUnlock()' | mongo --port 27019; wait
 echo 'db.testCollection.drop();' | mongo --port 27017 readConcernTest
+# END SCRIPT

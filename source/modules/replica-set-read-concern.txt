@@ -299,16 +299,16 @@ Example: Using Read Concern
 
     - This will allow them to launch a replica set that can use majority read concern.
 
-    .. include:: /includes/launch_replset_for_majority_read_concern.sh
+    .. literalinclude:: /includes/launch_replset_for_majority_read_concern.sh
 
 
 Example: Using Read Concern (Continued)
 ---------------------------------------
 
 .. literalinclude:: /includes/read-concern.sh
-
    :language: bash
-   :lines: 1-11
+   :start-after: # BEGIN SCRIPT
+   :end-before: # END SCRIPT
 
 .. include:: /includes/student-notes.rst
 
