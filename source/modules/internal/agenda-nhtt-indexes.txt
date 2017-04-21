@@ -9,10 +9,6 @@ Internal Discussion of Indexes
 
   - Discussion of indexing topics of interest to new employees
 
-- :doc:`/modules/new32-partial-indexes`
-
-  - New in MongoDB 3.2; wasn't in the courseware
-
 - :doc:`/modules/indexes-compound`
 
   - For optimal ordering of indexes for a query

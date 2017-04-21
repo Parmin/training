@@ -389,7 +389,7 @@ Replication Protocol Version 1 (continued)
       - A short ``electionTimeoutMillis`` can result in lots of elections, especially with a flaky network
       - A long ``electionTimeoutMillis`` can result in lower availability due to longer failover time
       - When to use PV0 and PV1?
-      
+
         - >= 3.4.2
 
           - Pv1: should always be recommended. All known issues with Arbiters, priorities, and rollbacks have been mitigated.

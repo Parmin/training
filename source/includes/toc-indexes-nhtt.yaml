@@ -2,10 +2,6 @@ file: /modules/internal/indexes
 description: |
   Internal discussion of indexes
 ---
-file: /modules/new32-partial-indexes
-description: |
-  Partial Indexes (New in 3.2)
----
 file: /modules/indexes-fundamentals
 description: |
   Fundamentals (for reference)
