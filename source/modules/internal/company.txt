@@ -27,51 +27,15 @@ Learning Objectives
 Logistics
 ---------
 
-- ~8:30 Breakfast
-- 9:00-17:00 Sessions
-- 17:00-18:00 Guest Speakers
+- Schedule:
 
-- ~13:00 Break for Lunch (45 min)
+  - ~8:30 Breakfast
+  - 9:00-17:00 Sessions
+  - 17:00-18:00 Guest Speakers
+  - ~12:00 Break for Lunch (45 min)
+  - Break every 1 hour (~10min)
 
-- Break every 1 hour (~10min)
-
-- Wifi: xgen or xgen_public
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - Except for the day where Dev generally comes in, all other guests speakers will be confirmed as one at 17:00, and one at 17:30.
-
-
-Schedule
---------
-
-.. list-table::
-   :header-rows: 1
-   :widths: 30 80 80
-   :stub-columns: 1
-
-   * - Day
-     - 09:00 - 13:00
-     - 14:00 - 17:00
-   * - Monday
-     - Introduction / Indexing
-     - Security
-   * - Tuesday
-     - Storage Engines
-     - Schema Design
-   * - Wednesday
-     - Atlas, Cloud Manager and Ops Manager
-     - Ops Manager Lab
-   * - Thursday
-     - Replication
-     - Sharding
-   * - Friday
-     - Drivers and Wire Protocol
-     - Tools and Methodologies
+- WiFi: mongodbinc
 
 .. include:: /includes/student-notes.rst
 
@@ -79,8 +43,8 @@ Schedule
 
    .. note::
 
-     - Unless you updated this page, use the Wiki page for the schedule
-     - https://wiki.mongodb.com/display/10GEN/New+Hire+Technical+Training
+     - Except for the day where Dev generally comes in, all other guests speakers will be confirmed as one at 17:00, and one at 17:30.
+     - Schedule at https://wiki.mongodb.com/display/10GEN/New+Hire+Technical+Training
 
 
 Hi! I'm ...
@@ -151,7 +115,7 @@ Company History
 - 2013: 10gen renamed to MongoDB (250 people)
 - 2014: Acquired WiredTiger (425 people)
 - 2016: Atlas (700 people)
-- 2017: Atlas Free Tier, and ...
+- 2017: Atlas Free Tier, DBaaS and ...
 
 .. include:: /includes/student-notes.rst
 
@@ -457,6 +421,7 @@ Company Mission and Values
   - Think Big, Go Far
   - Make It Matter
   - Build Together
+  - Embrace the Power of Differences
   - Be Intellectually Honest
   - Own What You Do
 
@@ -484,7 +449,8 @@ How to work at MongoDB
 
   .. note::
 
-    Note that Barrie/Ramon will present on this topic in more detail
+    Note that Barrie/Ramon will present on this topic in more detail as guest speakers,
+    likely Monday or Tuesday at 17:00
 
 
 How to work at MongoDB(continued)
