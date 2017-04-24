@@ -21,7 +21,7 @@ The ``$bucket`` stage
 - Each bucket is represented as a document in the output.
 - Each _id field in the output specifies the inclusive lower bound
 - The count field is included by default when the output is not specified.
-- A list of accumulators that can be used with buckets can be found `here <https://docs.mongodb.com/manual/meta/aggregation-quick-reference/#agg-quick-reference-accumulators>`_
+- A list of accumulators that can be used with buckets can be found here. `Accumulators <https://docs.mongodb.com/manual/meta/aggregation-quick-reference/#agg-quick-reference-accumulators>`_
 
 
 ``$bucket`` Form
@@ -86,7 +86,7 @@ The ``$bucket`` stage
 - Bucket boundaries are determined by MongoDB in an attempt to evenly distribute the data
 
   - A number series can be specified as an argument to **granularity** for boundary edges.
-  - More information about this can be found `here <https://docs.mongodb.com/manual/reference/operator/aggregation/bucketAuto/#granularity>`_
+  - More information about this can be found here. `Granularity and number series <https://docs.mongodb.com/manual/reference/operator/aggregation/bucketAuto/#granularity>`_
 
 
 ``$bucketAuto`` Form
@@ -124,14 +124,16 @@ The ``$bucket`` stage
 
    .. note::
 
-      db.tweets.aggregate([
-        {
-          $bucketAuto: {
-            groupBy: "$user.statuses_count",
-            buckets: 5,
-          }
-        }
-      ])
+      .. code-block:: js
+
+         db.tweets.aggregate([
+           {
+             $bucketAuto: {
+               groupBy: "$user.statuses_count",
+               buckets: 5,
+             }
+           }
+         ])
 
 
 ``$facet``
@@ -142,6 +144,7 @@ The ``$bucket`` stage
 - Input documents are passed to ``$facet`` only once
 - Can be used to avoid retrieving input documents multiple times
 - Categorize and group incoming documents
+
 
 ``$facet`` (cont)
 -----------------
@@ -161,14 +164,15 @@ The ``$bucket`` stage
 Behavior
 --------
 
- - Combined with ``$bucket``, ``$bucketAuto``, and ``$sortByCount`` performs a multi-faceted aggregation
- - Can't be used with the following:
+- Combined with ``$bucket``, ``$bucketAuto``, and ``$sortByCount`` performs a multi-faceted aggregation
+- Can't be used with the following:
 
-   - ``$facet`` (Can't have a ``$facet`` within a ``$facet``)
-   - ``$out``
-   - ``$geoNear``
-   - ``$indexStats``
-   - ``$collStats``
+  - ``$facet`` (Can't have a ``$facet`` within a ``$facet``)
+  - ``$out``
+  - ``$geoNear``
+  - ``$indexStats``
+  - ``$collStats``
+
 
 Behavior (cont)
 ---------------
@@ -218,6 +222,7 @@ Using our twitter dataset, output a single document with the following fields:
    	  }
    }
 
+
 .. only:: instructor
 
    .. note::
@@ -246,6 +251,7 @@ Using our twitter dataset, output a single document with the following fields:
            { $unwind: "$mostActive" },
            { $unwind: "$leastActive" }
          ]).pretty()
+
 
 Multi-faceted Aggregation Exercise (Optional)
 ---------------------------------------------

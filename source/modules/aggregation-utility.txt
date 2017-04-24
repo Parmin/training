@@ -70,15 +70,13 @@ The ``$sample`` Stage
 
 - Can use ``$sample`` only as a first stage of the pipeline
 
-.. include:: /includes/student-notes.rst
-
- .. only:: instructor
+.. only:: instructor
 
    .. note::
 
-     - The exact method is in the documentation.
+      - The exact method is in the documentation.
 
-       - `Link here <https://docs.mongodb.com/manual/reference/operator/aggregation/sample/>`_
+        - `Link here <https://docs.mongodb.com/manual/reference/operator/aggregation/sample/>`_
 
 
 Example: ``$sample``
@@ -135,16 +133,16 @@ Issue each of the following commands in the mongo shell, one at a time.
 
    .. note::
 
-     - Point out the "accesses" doc, with ops, is 0 for the new index initially.
-     - Ops incremented to 2 from the two find() queries.
-     - The ``.next()`` operations are to get the DB to actually execute the query.
-     - _id did not increment because we weren't using that index
-     - Neither query changed its "since" field in the "accesses" doc
-     - If using replication, the oplog will query on _id when replicating.
+      - Point out the "accesses" doc, with ops, is 0 for the new index initially.
+      - Ops incremented to 2 from the two find() queries.
+      - The ``.next()`` operations are to get the DB to actually execute the query.
+      - _id did not increment because we weren't using that index
+      - Neither query changed its "since" field in the "accesses" doc
+      - If using replication, the oplog will query on _id when replicating.
 
 
 The ``$out`` Stage
--------------
+------------------
 
 - Creates a new collection from the output of the aggregation pipeline.
 - Can only be the last stage in the pipeline.
