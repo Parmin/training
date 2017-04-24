@@ -26,7 +26,8 @@ Aggregation Stages
 - ``$unwind``: Used for working with arrays
 - ``$group``: Used to aggregate field values from multiple documents
 - ``$lookup``: Performs a left outer join to another collection
-...
+- ...(more on next slide)
+
 
 
 Aggregation Stages (continued)
@@ -117,7 +118,7 @@ A Sample Dataset
    { "month" : "December", "sales" : 5498463 }])
 
 Data Analytics with Aggregation
------------------------------
+-------------------------------
 
 - Using a combination of operators, it is possible to query and transform our data into useful ways for study and interpretation.
 - For example, given sales data for a year, identify the months that over and under performed with some statistical significance.
