@@ -191,12 +191,12 @@ Using our twitter dataset, output a single document with the following fields:
 
 - **mostActive**: <User with the most **user.statuses_count** >
 
-  - **screenName**: <**user.screen_name**>
+  - **name**: <**user.screen_name**>
   - **numTweetsAndRetweets**: <**user.statuses_count**>
 
 - **leastActive**: <Of users who have at least 1 tweet/retweet, user with the least **statuses_count** and lexicographically first screen_name>
 
-  - **screenName**: <**user.screen_name**>
+  - **name**: <**user.screen_name**>
   - **numTweetsAndRetweets**: <**user.statuses_count**>
 
 
