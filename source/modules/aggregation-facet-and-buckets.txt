@@ -19,8 +19,9 @@ The ``$bucket`` stage
 
 - Groups documents based on a specified expression and bucket boundaries.
 - Each bucket is represented as a document in the output.
-- Each output document contains an _id field, whose value specifies the inclusive lower bound
+- Each _id field in the output specifies the inclusive lower bound
 - The count field is included by default when the output is not specified.
+- A list of accumulators that can be used with buckets can be found `here <https://docs.mongodb.com/manual/meta/aggregation-quick-reference/#agg-quick-reference-accumulators>`_
 
 
 ``$bucket`` Form
@@ -83,6 +84,27 @@ The ``$bucket`` stage
 
 - Groups documents into buckets much like ``$bucket``
 - Bucket boundaries are determined by MongoDB in an attempt to evenly distribute the data
+
+  - A number series can be specified as an argument to **granularity** for boundary edges.
+  - More information about this can be found `here <https://docs.mongodb.com/manual/reference/operator/aggregation/bucketAuto/#granularity>`_
+
+
+``$bucketAuto`` Form
+--------------------
+
+.. code-block:: js
+
+   {
+     $bucketAuto: {
+        groupBy: <expression>,
+        buckets: <number>,
+        output: {
+           <output1>: { <$accumulator expression> },
+           ...
+        }
+        granularity: <string>
+     }
+   }
 
 
 ``$bucketAuto`` Exercise
@@ -225,8 +247,8 @@ Using our twitter dataset, output a single document with the following fields:
            { $unwind: "$leastActive" }
          ]).pretty()
 
-Multi-faceted Aggregation Exercise
-----------------------------------
+Multi-faceted Aggregation Exercise (Optional)
+---------------------------------------------
 
 - Using the twitter dataset, determine how many unique users are in both the top ~10% by tweets/retweets and the top ~10% by number of followers
 
@@ -234,6 +256,7 @@ Multi-faceted Aggregation Exercise
 
    .. note::
 
+      - This is an optional exercise and is considered advanced. Use your judgement on whether to run students through this, or merely demonstrate it to them
       - Encourage students to open the documentation as this will require using accumulator operators not explicitly covered in this lesson
       - If students become stuck on uniqueness, suggest they look towards ``$addToSet`` `here <https://docs.mongodb.com/manual/reference/operator/update/addToSet/>`_
       - If students get stuck thinking of ways to find the top 10%, remind them how ``$bucketAuto`` works
