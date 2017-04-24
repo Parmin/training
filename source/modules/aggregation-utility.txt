@@ -3,37 +3,40 @@ Aggregation - Utility
 =====================
 
 
-The Sort Stage
---------------
+The ``$sort`` Stage
+-------------------
 
-- Uses the $sort operator
-- Works like the ``sort()`` cursor method
+- Works like the ``.sort()`` cursor method
 - 1 to sort ascending; -1 to sort descending
-- E.g, db.testcol.aggregate( [ { $sort : { b : 1, a : -1 } } ] )
+
+.. code-block:: js
+
+   db.testcol.aggregate( [ { $sort : { b : 1, a : -1 } } ] )
 
 .. include:: /includes/student-notes.rst
 
 
-The Skip Stage
---------------
+The ``$skip`` Stage
+-------------------
 
-- Uses the $skip operator
-- Works like the ``skip()`` cursor method.
+- Works like the ``.skip()`` cursor method.
 - Value is an integer specifying the number of documents to skip.
-- E.g, the following will pass all but the first 3 documents to the next stage in the pipeline.
+- The following will pass all but the first 3 documents to the next stage in the pipeline:
 
-  - db.testcol.aggregate( [ { $skip : 3 }, ... ] )
+.. code-block:: js
+
+   db.testcol.aggregate( [ { $skip : 3 }, ... ] )
 
 .. include:: /includes/student-notes.rst
 
 
-The Limit Stage
----------------
+The ``$limit`` Stage
+--------------------
 
 - Used to limit the number of documents passed to the next aggregation stage.
-- Works like the ``limit()`` cursor method.
+- Works like the ``.limit()`` cursor method.
 - Value is an integer.
-- E.g., the following will only pass 3 documents to the stage that comes next in the pipeline.
+- The following will only pass 3 documents to the stage that comes next in the pipeline:
 
 .. code-block:: js
 
@@ -42,8 +45,8 @@ The Limit Stage
 .. include:: /includes/student-notes.rst
 
 
-The Count Stage
----------------
+The ``$count`` Stage
+--------------------
 
 - Used to count the number of documents that this stage receives in input
 - The following would count all documents in a **users** collection with a **firstName** field set to "Mary"
@@ -55,13 +58,13 @@ The Count Stage
      { $count: "usersNamedMary" }
    ])
 
-The Sample Stage
-----------------
+The ``$sample`` Stage
+---------------------
 
 - Randomized sample of documents
 - Useful for calculating statistics
 - ``$sample`` provides an efficient means of sampling a data set
-- Though if the sample size requested is larger than 5% of the collection ``$sample`` will perform a collection scan
+- If the sample size requested is larger than 5% of the collection ``$sample`` will perform a collection scan
 
    - Also happens if collection has fewer than 100 documents
 
@@ -83,7 +86,8 @@ Example: ``$sample``
 
 .. literalinclude:: /includes/aggregation_scripts.js
    :language: javascript
-   :lines: 5-8
+   :start-after: begin sample example
+   :end-before: end sample example
 
 
 .. include:: /includes/student-notes.rst
@@ -97,12 +101,11 @@ Example: ``$sample``
      - A statistician may be required for determining how much is enough; it
        depends on the distribution of data
 
-The IndexStats Stage
---------------------
+The ``$indexStats`` Stage
+-------------------------
 
 - Tells you how many times each index has been used since the server process began
 - Must be the first stage of the pipeline
-- You can use other stages to aggregate the data
 - Returns one document per index
 - The ``accesses.ops`` field reports the number of times an index was used
 
@@ -124,7 +127,8 @@ Issue each of the following commands in the mongo shell, one at a time.
 
 .. literalinclude:: /includes/aggregation_scripts.js
    :language: javascript
-   :lines: 11-18
+   :start-after: begin indexStats example
+   :end-before: end indexStats example
 
 
 .. only:: instructor
@@ -139,13 +143,22 @@ Issue each of the following commands in the mongo shell, one at a time.
      - If using replication, the oplog will query on _id when replicating.
 
 
-The Out Stage
+The ``$out`` Stage
 -------------
 
-- Used to create a new collection from the output of the aggregation pipeline.
+- Creates a new collection from the output of the aggregation pipeline.
 - Can only be the last stage in the pipeline.
 - If a collection by the name already exists, it replaces that collection.
-- Syntax is { $out : "collection_name" }
 
+  - Will keep existing indexes in place
+
+
+Example: ``$out``
+-----------------
+
+.. literalinclude :: /includes/aggregation_scripts.js
+   :language: javascript
+   :start-after: begin out example
+   :end-before: end out example
 
 .. include:: /includes/student-notes.rst

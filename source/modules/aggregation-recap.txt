@@ -12,6 +12,7 @@ Upon completing this module students should understand:
 - How to use aggregation operators
 - Using the same operator in multiple stages of an aggregation pipeline
 - The fundamentals of using aggregation for data analysis
+- Aggregation on sharded clusters
 
 
 Aggregation Stages
@@ -25,12 +26,13 @@ Aggregation Stages
 - ``$unwind``: Used for working with arrays
 - ``$group``: Used to aggregate field values from multiple documents
 - ``$lookup``: Performs a left outer join to another collection
-- ``$sample``: Randomly selects the specified number of documents from its input.
+...
 
 
 Aggregation Stages (continued)
 ------------------------------
 
+- ``$sample``: Randomly selects the specified number of documents from its input.
 - ``$graphLookup``: Performs a recursive search on a collection
 - ``$indexStats``: Returns statistics regarding the use of each index for the
   collection
@@ -48,14 +50,13 @@ documentation page.
 Data Processing Pipelines
 -------------------------
 
-- The aggregation framework allows you to create a data processing pipeline.
-- You can include as many stages as necessary to achieve your goal.
+- The aggregation framework creates a data processing pipeline.
 - For each stage consider:
 
-  - What input that stage must receive
+  - What input that stage will receive
   - What output it should produce.
 
-- Many tasks require us to include more than one stage using a given operator.
+- Many tasks include more than one stage using a given operator.
 
 .. include:: /includes/student-notes.rst
 
@@ -63,38 +64,31 @@ Data Processing Pipelines
 Most Unique User Mentions
 -------------------------
 
-- We frequently need multiple group stages to achieve our goal.
+- We frequently need multiple ``$group`` stages to achieve our goal.
 - We've seen a pipeline to find the tweeter that mentioned the most users.
-- Let's change this so that it is more of a question about a tweeter's active network.
-- We might ask which tweeter has mentioned the most unique users in their tweets.
+- Let's change this to examine a tweeter's active network.
 
 .. include:: /includes/student-notes.rst
 
 
-Same Operator , Multiple Stages
+Same Operator, Multiple Stages
 -------------------------------
 
 Which tweeter has mentioned the most unique users in their tweets?
 
 .. code-block:: javascript
 
-   db.tweets.aggregate( [
-       { $unwind: "$entities.user_mentions" },
-       { $group: {
-           _id: "$user.screen_name",
-	   mset: { $addToSet: "$entities.user_mentions.screen_name"  } } },
-       { $unwind: "$mset"},
-       { $group: { _id: "$_id", count: { $sum: 1 } } },
-       { $sort: { count: -1 } },
-       { $limit: 1 }
-   ] )
+.. literalinclude:: /includes/aggregation_scripts.js
+   :language: javascript
+   :start-after: begin same operator multiple stages example
+   :end-before: end same operator multiple stages example
 
 .. only:: instructor
 
    .. note::
 
       - We begin as by unwinding user mentions.
-      - Instead of simple counting them, we aggregate using $addToSet.
+      - Instead of simple counting them, we aggregate using ``$addToSet``.
       - This produces documents that include only unique user mentions.
       - We then do another unwind stage to produce a document for each unique user mention.
       - And count these in a second $group stage.
@@ -166,5 +160,9 @@ Data Analytics with Aggregation
           { $match: { outsideVariance: true } }
         ])
 
+Aggregation on Sharded Clusters
+-------------------------------
 
-.. include:: /includes/student-notes.rst
+- Pipelines that begin with an exact ``$match`` on a shard key will run on that shard only
+- For operations that must run on multiple shards, grouping and merging will route to a random shard unless they require running on the primary shard. This avoids overloading the primary shard
+- The ``$out`` and ``$lookup`` stages require running on the primary shard

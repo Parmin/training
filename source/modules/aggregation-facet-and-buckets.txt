@@ -1,6 +1,6 @@
-====================================
-Aggregation - ``$facet`` and Buckets
-====================================
+==========================================================
+Aggregation - ``$facet``, ``$bucket``, and ``$bucketAuto``
+==========================================================
 
 
 Learning Objectives
@@ -74,7 +74,6 @@ The ``$bucket`` stage
                groupBy: "$user.statuses_count",
                boundaries: [0, 100, 500, 2000, 5000, 10000, 25000, Infinity],
                default: "Other",
-               output: { "count": { $sum: 1 } }
              }
            }
          ])
@@ -108,9 +107,6 @@ The ``$bucket`` stage
           $bucketAuto: {
             groupBy: "$user.statuses_count",
             buckets: 5,
-            output: {
-              count: { $sum: 1 }
-            }
           }
         }
       ])
@@ -121,7 +117,6 @@ The ``$bucket`` stage
 
 - Processes multiple aggregation pipelines within a single stage
 - Each sub-pipeline has its own field in the output document
-- Extremely powerful for data browsing and analysis
 - Input documents are passed to ``$facet`` only once
 - Can be used to avoid retrieving input documents multiple times
 - Categorize and group incoming documents
@@ -186,6 +181,7 @@ Using our twitter dataset, output a single document with the following fields:
 ``$facet`` Exercise (cont)
 --------------------------
 
+- Your aggregation should produce the following results:
 
 .. code-block:: js
 
@@ -231,3 +227,89 @@ Using our twitter dataset, output a single document with the following fields:
 
 Multi-faceted Aggregation Exercise
 ----------------------------------
+
+- Using the twitter dataset, determine how many unique users are in both the top ~10% by tweets/retweets and the top ~10% by number of followers
+
+.. only:: instructor
+
+   .. note::
+
+      - Encourage students to open the documentation as this will require using accumulator operators not explicitly covered in this lesson
+      - If students become stuck on uniqueness, suggest they look towards ``$addToSet`` `here <https://docs.mongodb.com/manual/reference/operator/update/addToSet/>`_
+      - If students get stuck thinking of ways to find the top 10%, remind them how ``$bucketAuto`` works
+      - The following is a potential solution, that gives ~1411
+
+      .. code-block:: js
+
+         db.tweets.aggregate([{
+             $facet: {
+               usersByActivity: [{
+                 $bucketAuto: {
+                   groupBy: "$user.statuses_count",
+                   buckets: 10,
+                   output: {
+                     users: {
+                       $addToSet: "$user.screen_name"
+                     }
+                   }
+                 }
+               }, {
+                 $group: {
+                   _id: null,
+                   usersByActivity: {
+                     $push: "$$CURRENT"
+                   }
+                 }
+               }, {
+                 $project: {
+                   topUsersByActivity: {
+                     $arrayElemAt: ["$usersByActivity.users", -1]
+                   }
+                 }
+               }],
+               usersByFollower: [{
+                 $bucketAuto: {
+                   groupBy: "$user.followers_count",
+                   buckets: 10,
+                   output: {
+                     users: {
+                       $addToSet: "$user.screen_name"
+                     }
+                   }
+                 }
+               }, {
+                 $group: {
+                   _id: null,
+                   usersByFollower: {
+                     $push: "$$CURRENT"
+                   }
+                 }
+               }, {
+                 $project: {
+                   topUsersByFollowers: {
+                     $arrayElemAt: ["$usersByFollower.users", -1]
+                   }
+                 }
+               }]
+             }
+           },
+           {
+             $unwind: "$usersByActivity"
+           },
+           {
+             $unwind: "$usersByFollower"
+           },
+           {
+             $project: {
+               intersection: {
+                 $setIntersection: ["$usersByActivity.topUsersByActivity", "$usersByFollower.topUsersByFollowers"]
+               }
+             }
+           },
+           {
+             $unwind: "$intersection"
+           },
+           {
+             $count: "intersection"
+           }
+         ])

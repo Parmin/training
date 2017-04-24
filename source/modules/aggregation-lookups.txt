@@ -1,9 +1,9 @@
-=====================
-Aggregation - Lookups
-=====================
+==============================================
+Aggregation - ``$lookup`` and ``$graphLookup``
+==============================================
 
 
-The Lookup Stage
+The ``$lookup`` Stage
 ----------------
 
 - Pulls documents from a second collection into the pipeline
@@ -15,14 +15,9 @@ The Lookup Stage
   - The second collection must be in the same database
   - The second collection cannot be sharded
 
-- Documents based on a matching field in each collection
-- Previously, you could get this behavior with two separate queries
 
-.. include:: /includes/student-notes.rst
-
-
-The Lookup Stage (continued)
-----------------------------
+The ``$lookup`` Stage (cont)
+-----------------------
 
 - Documents based on a matching field in each collection
 - Previously, you could get this behavior with two separate queries
@@ -46,10 +41,8 @@ Create a separate collection for ``$lookup``
 
 .. literalinclude:: /includes/aggregation_scripts.js
   :language: javascript
-  :lines: 22-33
-
-
-.. include:: /includes/student-notes.rst
+  :start-after: lookup example insert
+  :end-before: end lookup example insert
 
 
 Example: Using ``$lookup`` (Continued)
@@ -57,9 +50,8 @@ Example: Using ``$lookup`` (Continued)
 
 .. literalinclude:: /includes/aggregation_scripts.js
   :language: javascript
-  :lines: 34-44
-
-.. include:: /includes/student-notes.rst
+  :start-after: lookup example aggregation
+  :end-before: end lookup example aggregation
 
 
 The GraphLookup Stage
@@ -153,14 +145,15 @@ For each matching document, ``$graphLookup`` takes the value of the ``connectFro
 
 - The collection specified in ``from`` cannot be sharded.
 - Setting ``maxDepth`` to 0 is equivalent to ``$lookup``
-- The ``$graphLookup`` stage must stay within the 100 megabyte memory limit. ``$graphLookup`` will ignore ``allowDiskUse: true``
-- If performing an aggregation that involves multiple views, the views must have the same collation.
+- The ``$graphLookup`` stage must stay within the 100 megabyte memory limit.
+- ``$graphLookup`` will ignore ``allowDiskUse: true``
 
 .. only:: instructor
 
    .. note::
 
-      Although ``$graphLookup`` ignores the **allowDiskUse** argument, other stages in the aggregation pipeline will use it.
+      - Although ``$graphLookup`` ignores the **allowDiskUse** argument, other stages in the aggregation pipeline will use it.
+      - If performing an aggregation that involves multiple views, the views must have the same collation.
 
 .. include:: /includes/student-notes.rst
 
@@ -169,17 +162,10 @@ For each matching document, ``$graphLookup`` takes the value of the ``connectFro
 
 Let's illustrate how ``$graphLookup`` works with an example.
 
-.. code-block:: javascript
-
-   use company;
-   db.employees.insertMany([
-     { "_id" : 1, "name" : "Dev" },
-     { "_id" : 2, "name" : "Eliot", "reportsTo" : "Dev" },
-     { "_id" : 3, "name" : "Ron", "reportsTo" : "Eliot" },
-     { "_id" : 4, "name" : "Andrew", "reportsTo" : "Eliot" },
-     { "_id" : 5, "name" : "Asya", "reportsTo" : "Ron" },
-     { "_id" : 6, "name" : "Dan", "reportsTo" : "Andrew" }
-   ])
+.. literalinclude:: /includes/aggregation_scripts.js
+   :language: javascript
+   :start-after: graphLookup illustration data
+   :end-before: end graphLookup illustration data
 
 .. include:: /includes/student-notes.rst
 

@@ -8,7 +8,7 @@ description: |
 ---
 file: /modules/aggregation-lookups
 description: |
-  Lookup stages in the aggregation pipeline
+  $lookup and $graphLookup in the aggregation pipeline
 ---
 file: /exercises/graphlookup-exercise
 description: |
@@ -16,15 +16,15 @@ description: |
 ---
 file: /modules/aggregation-unwind
 description: |
-  The unwind stage in depth
+  The $unwind stage in depth
 ---
 file: /exercises/aggregation-exercises
 description: |
   Aggregation labs
 ---
-file: /modules/aggregation-facet
+file: /modules/aggregation-facet-and-buckets
 description: |
-  The facet aggregation stage
+  The $facet, $bucket, and $bucketAuto stages
 ---
 file: /modules/aggregation-recap
 description: |
