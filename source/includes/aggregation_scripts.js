@@ -1,13 +1,14 @@
 // Mongo shell scripts for aggregation
 //
 
-// $sample example
+// begin sample example
 db.companies.aggregate( [
      { $sample : { size : 5 } },
      { $project : { _id : 0, number_of_employees: 1 } }
 ] )
+// end sample example
 
-// $indexStats example
+// begin indexStats example
 db.companies.dropIndexes()
 db.companies.createIndex( { number_of_employees : 1 } )
 db.companies.aggregate( [ { $indexStats: {} } ] )
@@ -16,9 +17,10 @@ db.companies.find( { number_of_employees : { $gte : 100 } },
 db.companies.find( { number_of_employees : { $gte : 100 } },
                    { number_of_employees: 1 } ).next()
 db.companies.aggregate( [ { $indexStats: {} } ] )
+// end indexStats example
 
 
-// $lookup example
+// lookup example insert
 db.commentOnEmployees.insertMany( [
     { employeeCount: 405000,
       comment: "Biggest company in the set." },
@@ -31,6 +33,8 @@ db.commentOnEmployees.insertMany( [
     { employeeCount: 99998,
       comment: "This isn't in the data set." }
     ] )
+// end lookup example insert
+// lookup example aggregation
 db.companies.aggregate( [
   { $match: { number_of_employees: { $in:
       [ 405000, 388000, 100000, 99999, 99998 ] } } },
@@ -42,6 +46,7 @@ db.companies.aggregate( [
       as: "example_comments"
   } },
   { $sort : { number_of_employees: -1 } } ] )
+// end lookup example aggregation
 
 
 // $stdevpop example
@@ -107,3 +112,43 @@ db.plants.insertMany( [
   { _id: "red plants", fruit: "strawberry", vegetable: "radish" } ] )
 db.plants.aggregate( [
   { $project: { plant_list: [ "$fruit", "$vegetable" ] } } ] )
+
+// graphLookup illustration data
+use company;
+db.employees.insertMany([
+  { "_id" : 1, "name" : "Dev" },
+  { "_id" : 2, "name" : "Eliot", "reportsTo" : "Dev" },
+  { "_id" : 3, "name" : "Ron", "reportsTo" : "Eliot" },
+  { "_id" : 4, "name" : "Andrew", "reportsTo" : "Eliot" },
+  { "_id" : 5, "name" : "Asya", "reportsTo" : "Ron" },
+  { "_id" : 6, "name" : "Dan", "reportsTo" : "Andrew" }
+])
+// end graphLookup illustration data
+// begin same operator multiple stages example
+db.tweets.aggregate([
+    { $unwind: "$entities.user_mentions" },
+    { $group: {
+        _id: "$user.screen_name",
+  mset: { $addToSet: "$entities.user_mentions.screen_name"  } } },
+    { $unwind: "$mset"},
+    { $group: { _id: "$_id", count: { $sum: 1 } } },
+    { $sort: { count: -1 } },
+    { $limit: 1 }
+])
+// end same operator multiple stages example
+
+// begin out example
+db.tweets.aggregate([
+  { $group: {
+    _id: null,
+    users: { $push: {
+      user: "$$CURRENT.user.screen_name",
+      activity: "$$CURRENT.user.statuses_count"
+    }}
+  }},
+  { $unwind: "$users" },
+  { $project: { _id: 0, user: "$users.user", activity: "$users.activity" } },
+  { $sort: { activity: -1 } },
+  { $out: "usersByActivity"}
+])
+// end out example

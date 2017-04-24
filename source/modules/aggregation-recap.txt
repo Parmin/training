@@ -1,0 +1,168 @@
+===================
+Aggregation - Recap
+===================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The stages of the aggregation pipeline
+- How to use aggregation operators
+- Using the same operator in multiple stages of an aggregation pipeline
+- The fundamentals of using aggregation for data analysis
+- Aggregation on sharded clusters
+
+
+Aggregation Stages
+------------------
+
+- ``$match``: Similar to ``find()``
+- ``$project``: Shape documents
+- ``$sort``: Like the cursor method of the same name
+- ``$skip``: Like the cursor method of the same name
+- ``$limit``: Like the cursor method of the same name
+- ``$unwind``: Used for working with arrays
+- ``$group``: Used to aggregate field values from multiple documents
+- ``$lookup``: Performs a left outer join to another collection
+...
+
+
+Aggregation Stages (continued)
+------------------------------
+
+- ``$sample``: Randomly selects the specified number of documents from its input.
+- ``$graphLookup``: Performs a recursive search on a collection
+- ``$indexStats``: Returns statistics regarding the use of each index for the
+  collection
+- ``$out``: Creates a new collection from the output of an aggregation
+  pipeline
+- ``$facet``: Allows multiple independent aggregation stages to happen concurrently
+- Even more stages available!
+
+For more information please check the `aggregation framework stages`_
+documentation page.
+
+.. _`aggregation framework stages`: https://docs.mongodb.com/manual/reference/operator/aggregation/#stage-operators
+
+
+Data Processing Pipelines
+-------------------------
+
+- The aggregation framework creates a data processing pipeline.
+- For each stage consider:
+
+  - What input that stage will receive
+  - What output it should produce.
+
+- Many tasks include more than one stage using a given operator.
+
+.. include:: /includes/student-notes.rst
+
+
+Most Unique User Mentions
+-------------------------
+
+- We frequently need multiple ``$group`` stages to achieve our goal.
+- We've seen a pipeline to find the tweeter that mentioned the most users.
+- Let's change this to examine a tweeter's active network.
+
+.. include:: /includes/student-notes.rst
+
+
+Same Operator, Multiple Stages
+-------------------------------
+
+Which tweeter has mentioned the most unique users in their tweets?
+
+.. code-block:: javascript
+
+.. literalinclude:: /includes/aggregation_scripts.js
+   :language: javascript
+   :start-after: begin same operator multiple stages example
+   :end-before: end same operator multiple stages example
+
+.. only:: instructor
+
+   .. note::
+
+      - We begin as by unwinding user mentions.
+      - Instead of simple counting them, we aggregate using ``$addToSet``.
+      - This produces documents that include only unique user mentions.
+      - We then do another unwind stage to produce a document for each unique user mention.
+      - And count these in a second $group stage.
+
+.. include:: /includes/student-notes.rst
+
+
+A Sample Dataset
+----------------
+
+- Insert the following documents into a collection called sales. We'll be using them for the next few sections.
+
+.. code-block:: js
+
+   db.sales.insertMany([{ "month" : "January", "sales" : 4712348 },
+   { "month" : "February", "sales" : 4109822 },
+   { "month" : "March", "sales" : 5423843 },
+   { "month" : "April", "sales" : 6789314 },
+   { "month" : "May", "sales" : 4824326 },
+   { "month" : "June", "sales" : 3455466 },
+   { "month" : "July", "sales" : 5579351 },
+   { "month" : "August", "sales" : 4973550 },
+   { "month" : "September", "sales" : 5032479 },
+   { "month" : "October", "sales" : 8675309 },
+   { "month" : "Novemember", "sales" : 4265357 },
+   { "month" : "December", "sales" : 5498463 }])
+
+Data Analytics with Aggregation
+-----------------------------
+
+- Using a combination of operators, it is possible to query and transform our data into useful ways for study and interpretation.
+- For example, given sales data for a year, identify the months that over and under performed with some statistical significance.
+
+.. code-block:: js
+
+
+   db.sales.aggregate([...])
+   { "_id" : ObjectId("58f552fef704abcdc99b737b"), "month" : "April", "sales" : 6789314, "outsideVariance" : true }
+   { "_id" : ObjectId("58f552fef704abcdc99b737d"), "month" : "June", "sales" : 3455466, "outsideVariance" : true }
+   { "_id" : ObjectId("58f552fef704abcdc99b7381"), "month" : "October", "sales" : 8675309, "outsideVariance" : true }
+
+.. only:: instructor
+
+   .. note::
+
+      - The following is one query that would produce these results:
+
+      .. code-block:: js
+
+         db.sales.aggregate([
+           { $group: { _id: null, avg: { "$avg": "$sales" }, stdDev: { "$stdDevPop": "$sales" } } },
+           { $lookup: {
+               from: "sales",
+               localField: "any",
+               foreignField: "any",
+               as: "variance"
+             }
+           },
+           { $unwind: "$variance" },
+           { $project: {
+               _id: "$variance._id",
+               month: "$variance.month",
+               sales: "$variance.sales",
+               outsideVariance: {
+                 $gt: [ { $abs: { $subtract: ["$variance.sales", "$avg"] } }, "$stdDev" ]
+               }
+             }
+          },
+          { $match: { outsideVariance: true } }
+        ])
+
+Aggregation on Sharded Clusters
+-------------------------------
+
+- Pipelines that begin with an exact ``$match`` on a shard key will run on that shard only
+- For operations that must run on multiple shards, grouping and merging will route to a random shard unless they require running on the primary shard. This avoids overloading the primary shard
+- The ``$out`` and ``$lookup`` stages require running on the primary shard

@@ -1,0 +1,338 @@
+==========================================================
+Aggregation - ``$facet``, ``$bucket``, and ``$bucketAuto``
+==========================================================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- How to use ``$bucket``
+- How to use ``$bucketAuto``
+- How to use ``$facet``
+- How to combine ``$facet`` with buckets for a multi-faceted view
+
+
+The ``$bucket`` stage
+---------------------
+
+- Groups documents based on a specified expression and bucket boundaries.
+- Each bucket is represented as a document in the output.
+- Each _id field in the output specifies the inclusive lower bound
+- The count field is included by default when the output is not specified.
+- A list of accumulators that can be used with buckets can be found `here <https://docs.mongodb.com/manual/meta/aggregation-quick-reference/#agg-quick-reference-accumulators>`_
+
+
+``$bucket`` Form
+----------------
+
+.. code-block:: js
+
+   {
+     $bucket: {
+        groupBy: <expression>,
+        boundaries: [ <lowerbound1>, <lowerbound2>, ... ],
+        default: <literal>,
+        output: {
+           <output1>: { <$accumulator expression> },
+           ...
+           <outputN>: { <$accumulator expression> }
+        }
+     }
+   }
+
+
+``$bucket`` Exercise
+--------------------
+
+- Using our twitter dataset, let's group users by their tweet/retweet activity
+- The bounds should be 0, 100, 500, 2000, 5000, 10000, and 25000
+- Produce the following results
+
+.. code-block:: js
+
+   { "_id" : 0, "count" : 5036 }
+   { "_id" : 100, "count" : 7711 }
+   { "_id" : 500, "count" : 12205 }
+   { "_id" : 2000, "count" : 9916 }
+   { "_id" : 5000, "count" : 7229 }
+   { "_id" : 10000, "count" : 6679 }
+   { "_id" : 25000, "count" : 2652 }
+
+.. only:: instructor
+
+   .. note::
+
+      - Can be read as 0-99, 100-499, ...
+      - Lower bound is inclusive, upper bound is exclusive
+
+      .. code-block:: js
+
+         db.tweets.aggregate([
+           {
+             $bucket: {
+               groupBy: "$user.statuses_count",
+               boundaries: [0, 100, 500, 2000, 5000, 10000, 25000, Infinity],
+               default: "Other",
+             }
+           }
+         ])
+
+``$bucketAuto``
+---------------
+
+- Groups documents into buckets much like ``$bucket``
+- Bucket boundaries are determined by MongoDB in an attempt to evenly distribute the data
+
+  - A number series can be specified as an argument to **granularity** for boundary edges.
+  - More information about this can be found `here <https://docs.mongodb.com/manual/reference/operator/aggregation/bucketAuto/#granularity>`_
+
+
+``$bucketAuto`` Form
+--------------------
+
+.. code-block:: js
+
+   {
+     $bucketAuto: {
+        groupBy: <expression>,
+        buckets: <number>,
+        output: {
+           <output1>: { <$accumulator expression> },
+           ...
+        }
+        granularity: <string>
+     }
+   }
+
+
+``$bucketAuto`` Exercise
+------------------------
+
+- Using our twitter dataset, use ``$bucketAuto`` to group documents into the following result
+
+.. code-block:: js
+
+   { "_id" : { "min" : 1, "max" : 342 }, "count" : 10287 }
+   { "_id" : { "min" : 342, "max" : 1300 }, "count" : 10293 }
+   { "_id" : { "min" : 1300, "max" : 3492 }, "count" : 10287 }
+   { "_id" : { "min" : 3492, "max" : 9075 }, "count" : 10286 }
+   { "_id" : { "min" : 9075, "max" : 518702 }, "count" : 10275 }
+
+.. only:: instructor
+
+   .. note::
+
+      db.tweets.aggregate([
+        {
+          $bucketAuto: {
+            groupBy: "$user.statuses_count",
+            buckets: 5,
+          }
+        }
+      ])
+
+
+``$facet``
+----------
+
+- Processes multiple aggregation pipelines within a single stage
+- Each sub-pipeline has its own field in the output document
+- Input documents are passed to ``$facet`` only once
+- Can be used to avoid retrieving input documents multiple times
+- Categorize and group incoming documents
+
+``$facet`` (cont)
+-----------------
+
+- Has the following form
+
+.. code-block:: js
+
+   { $facet:
+     {
+       <outputField1>: [ <stage1>, <stage2>, ...<stageN>],
+       <outputField2>: [ <stage1>, <stage2>, ...<stageN>],
+       ...
+     }
+   }
+
+Behavior
+--------
+
+ - Combined with ``$bucket``, ``$bucketAuto``, and ``$sortByCount`` performs a multi-faceted aggregation
+ - Can't be used with the following:
+
+   - ``$facet`` (Can't have a ``$facet`` within a ``$facet``)
+   - ``$out``
+   - ``$geoNear``
+   - ``$indexStats``
+   - ``$collStats``
+
+Behavior (cont)
+---------------
+
+- Each sub-pipeline receives the exact same set of input documents
+- Sub-pipelines are independent of each other
+- Output from one sub-pipeline can not be used as input to a different sub-pipeline within the same ``$facet``
+
+.. only:: instructor
+
+   .. note::
+
+      - It is possible to have multiple ``$facet`` stages within an overall aggregation.
+
+
+``$facet`` Exercise
+-------------------
+
+Using our twitter dataset, output a single document with the following fields:
+
+- **mostActive**: <User with the most **user.statuses_count** >
+
+  - **name**: <**user.screen_name**>
+  - **numTweetsAndRetweets**: <**user.statuses_count**>
+
+- **leastActive**: <Of users who have at least 1 tweet/retweet, user with the least **statuses_count** and lexicographically first screen_name>
+
+  - **name**: <**user.screen_name**>
+  - **numTweetsAndRetweets**: <**user.statuses_count**>
+
+
+``$facet`` Exercise (cont)
+--------------------------
+
+- Your aggregation should produce the following results:
+
+.. code-block:: js
+
+   {
+   	 "mostActive" : {
+   		 "name": "currentutc",
+   		 "numTweetsAndRetweets": 518702
+   	  },
+   	  "leastActive" : {
+   		  "name": "ACunninghamMP",
+   		  "numTweetsAndRetweets": 1
+   	  }
+   }
+
+.. only:: instructor
+
+   .. note::
+
+      - Students should create an index to speed up this pipeline, have them use ``{ explain: true }`` to see if they are using an index
+      - The fields will be returned as an array, remind students about ``$unwind``
+      - One solution is the following:
+
+      .. code-block:: js
+
+         db.tweets.createIndex( { "user.statuses_count": 1, "user.screen_name": 1 })
+         db.tweets.aggregate([
+           { $match: { "user.statuses_count": { $gt: 0 } } },
+           { $facet: {
+               mostActive: [
+                 { $sort: { "user.statuses_count": -1 } },
+                 { $limit: 1 },
+                 { $project: { _id: 0, name: "$user.screen_name", numTweetsAndRetweets: "$user.statuses_count" } }
+               ],
+               leastActive: [
+                 { $sort: { "user.statuses_count": 1, "user.screen_name": 1 } },
+                 { $limit: 1 },
+                 { $project: { _id: 0, name: "$user.screen_name", numTweetsAndRetweets: "$user.statuses_count" } }
+               ]
+           } },
+           { $unwind: "$mostActive" },
+           { $unwind: "$leastActive" }
+         ]).pretty()
+
+Multi-faceted Aggregation Exercise (Optional)
+---------------------------------------------
+
+- Using the twitter dataset, determine how many unique users are in both the top ~10% by tweets/retweets and the top ~10% by number of followers
+
+.. only:: instructor
+
+   .. note::
+
+      - This is an optional exercise and is considered advanced. Use your judgement on whether to run students through this, or merely demonstrate it to them
+      - Encourage students to open the documentation as this will require using accumulator operators not explicitly covered in this lesson
+      - If students become stuck on uniqueness, suggest they look towards ``$addToSet`` `here <https://docs.mongodb.com/manual/reference/operator/update/addToSet/>`_
+      - If students get stuck thinking of ways to find the top 10%, remind them how ``$bucketAuto`` works
+      - The following is a potential solution, that gives ~1411
+
+      .. code-block:: js
+
+         db.tweets.aggregate([{
+             $facet: {
+               usersByActivity: [{
+                 $bucketAuto: {
+                   groupBy: "$user.statuses_count",
+                   buckets: 10,
+                   output: {
+                     users: {
+                       $addToSet: "$user.screen_name"
+                     }
+                   }
+                 }
+               }, {
+                 $group: {
+                   _id: null,
+                   usersByActivity: {
+                     $push: "$$CURRENT"
+                   }
+                 }
+               }, {
+                 $project: {
+                   topUsersByActivity: {
+                     $arrayElemAt: ["$usersByActivity.users", -1]
+                   }
+                 }
+               }],
+               usersByFollower: [{
+                 $bucketAuto: {
+                   groupBy: "$user.followers_count",
+                   buckets: 10,
+                   output: {
+                     users: {
+                       $addToSet: "$user.screen_name"
+                     }
+                   }
+                 }
+               }, {
+                 $group: {
+                   _id: null,
+                   usersByFollower: {
+                     $push: "$$CURRENT"
+                   }
+                 }
+               }, {
+                 $project: {
+                   topUsersByFollowers: {
+                     $arrayElemAt: ["$usersByFollower.users", -1]
+                   }
+                 }
+               }]
+             }
+           },
+           {
+             $unwind: "$usersByActivity"
+           },
+           {
+             $unwind: "$usersByFollower"
+           },
+           {
+             $project: {
+               intersection: {
+                 $setIntersection: ["$usersByActivity.topUsersByActivity", "$usersByFollower.topUsersByFollowers"]
+               }
+             }
+           },
+           {
+             $unwind: "$intersection"
+           },
+           {
+             $count: "intersection"
+           }
+         ])

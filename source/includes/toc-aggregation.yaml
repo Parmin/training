@@ -1,16 +1,32 @@
-file: /modules/aggregation
+file: /modules/aggregation-intro
 description: |
   An introduction to the the aggregation framework, pipeline concept, and stages
 ---
-file: /modules/aggregation-optimization
+file: /modules/aggregation-utility
 description: |
-  Resource management in the aggregation pipeline
+  Utility stages in the aggregation pipeline
+---
+file: /modules/aggregation-lookups
+description: |
+  $lookup and $graphLookup in the aggregation pipeline
+---
+file: /exercises/graphlookup-exercise
+description: |
+  $graphLookup lab
+---
+file: /modules/aggregation-unwind
+description: |
+  The $unwind stage in depth
 ---
 file: /exercises/aggregation-exercises
 description: |
   Aggregation labs
 ---
-file: /exercises/graphlookup-exercise
+file: /modules/aggregation-facet-and-buckets
 description: |
-  $graphLookup lab
+  The $facet, $bucket, and $bucketAuto stages
+---
+file: /modules/aggregation-recap
+description: |
+  Recap of the aggregation framework
 ...
