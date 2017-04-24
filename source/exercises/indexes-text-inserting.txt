@@ -5,7 +5,7 @@ Let's add some documents to our montyPython collection.
 
 .. code-block:: javascript
 
-   db.montyPython.insert( [
+   db.montyPython.insertMany( [
    { _id : 1,
      dialog : "What is the air-speed velocity of an unladen swallow?" },
    { _id : 2,
