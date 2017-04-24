@@ -449,6 +449,32 @@ Defining Unique Indexes
     { field_name : 1 },
     { unique : true } )
 
+.. only:: instructor
+
+   .. note::
+
+      - Unique indexes do not work well with multikey indexes
+      - The following would produce a collision and return an error
+
+      .. code-block:: js
+
+         db.test.insertMany([
+           {a: [1, 2, 3]},
+           {a: [2, 4, 6]}
+         ])
+         db.test.createIndex({a: 1}, {unique: true})
+
+      - Unique indexes do not evaluate subdocument contents
+      - The following would **not** produce an error
+
+      .. code-block:: js
+
+         db.test.insertMany([
+           {a: {b: 2, c: 3}},
+           {a: {c: 3, b: 2}}
+         ])
+         db.test.createIndex({a: 1}, {unique: true})
+
 .. include:: /includes/student-notes.rst
 
 

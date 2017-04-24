@@ -55,7 +55,7 @@ Example: Array of Numbers
 Exercise: Array of Documents, Part 1
 ------------------------------------
 
-Create a collection and add an index on the ``x`` field:
+Create a collection and add an index on the ``comments.rating`` field:
 
 .. code-block:: javascript
 
@@ -239,4 +239,3 @@ Example: Multikey Indexes on Multiple Fields
    db.testcol.insertOne( { _id : 4, x : [ 1, 2 ], y : [ 1, 2 ] } )
 
 .. include:: /includes/student-notes.rst
-
