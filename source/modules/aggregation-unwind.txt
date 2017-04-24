@@ -111,4 +111,4 @@ Who includes the most user mentions in their tweets?
   .. note::
 
     - Nullish values are ``null``, ``undefined``, empty array, and missing fields
-    - the `preserveNullAndEmptyArrays` option (see next slide) can keep the nullish values around with the $unwind.
+    - the ``preserveNullAndEmptyArrays`` option can keep the nullish values around with the ``$unwind``.
