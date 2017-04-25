@@ -23,6 +23,12 @@ ul {
     padding: 0px;
 }
 
+.longlist > li {
+    font-size: 0.80em;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
 pre {
   font-family: 'Courier New', monospace;
   font-size: 0.60em;
@@ -60,4 +66,12 @@ pre {
   margin-left: 20px;
   margin-top: 50px;
   margin-right: 150px;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
 }

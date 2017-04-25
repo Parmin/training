@@ -427,6 +427,13 @@ Company Mission and Values
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    Here is a mnemonic to remember our core values.
+    A trademark of being bold: (TM) BE BOld
+
 
 How to work at MongoDB
 ----------------------

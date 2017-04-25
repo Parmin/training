@@ -90,6 +90,8 @@ Exercise: Starting MongoDB and configuring the replica set
 Solution: Starting MongoDB and configuring the replica set
 ----------------------------------------------------------
 
+.. rst-class:: longlist
+
 - installation
 
   .. code-block:: sh
@@ -98,20 +100,23 @@ Solution: Starting MongoDB and configuring the replica set
      sudo vi /etc/mongod.conf
      sudo service mongod start
 
-- configure the 3 nodes as a replica set named **SECURED**.
+- configure the 3 nodes as a replica set named **SECURED**,
+  change **bindIp** to the **10.0.0.X** address, plus **127.0.0.1**
 
   .. code-block:: sh
 
      replication:
          replSetName: SECURED
+     net:
+         bindIp: 10.0.0.101,127.0.0.1
 
-- disable "bindIp"
+- initiate the replica set
 
   .. code-block:: sh
 
-    cfg = { _id: "SECURED", version: 1, members: [ {_id: 0, host: "node1:27017"}, {_id: 1, host: "node2:27017"}, {_id:2, host: "node3:27017"} ] }
-    rs.initiate(cfg)
-    rs.status()
+     cfg = { _id: "SECURED", version: 1, members: [ {_id: 0, host: "node1:27017"}, {_id: 1, host: "node2:27017"}, {_id:2, host: "node3:27017"} ] }
+     rs.initiate(cfg)
+     rs.status()
 
 
 Exercise: Check the Connection to MongoDB
@@ -269,7 +274,8 @@ To do this, you will have to decide:
 Exercise: Enable SSL between the nodes
 --------------------------------------
 
-- we removed "bindIp" earlier, this is no good
+- we restricted "bindIp" to a local network interface,
+  however if this was an outside address, it would not be good enough
 - let's ensure we limit the connections to a list of nodes we control
 
   - let's use SSL certificates
