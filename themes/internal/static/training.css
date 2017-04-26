@@ -19,11 +19,7 @@
 
 ul {
     list-style: none outside none;
-#    margin: 20px 0px 0px 0.75em;
-    margin-top: 20px;
-    margin-right: 0px;
-    margin-bottom: 0px;
-    margin-left: 20px;
+    margin: 20px 0px 0px 0.75em;
     padding: 0px;
 }
 
