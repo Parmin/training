@@ -1,0 +1,173 @@
+=====================
+Security Introduction
+=====================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The high-level overview of security in MongoDB
+- Security options for MongoDB
+
+  - Authentication
+  - Authorization
+  - TLS/SSL
+  - Enterprise only features
+
+
+Overview
+--------
+
+.. include:: /images/security-architecture.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - MongoDB provides numerous security features, to include:
+
+      - Authentication
+
+        - SCRAM-SHA-1
+        - x.509 Certificate Authentication
+
+      - Authorization
+
+        - Role-Based Access Control
+
+      - TLS/SSL
+      - Enterprise Only Features
+
+        - Kerberos Authentication
+        - LDAP Proxy Authentication
+        - Encryption at Rest
+        - Auditing
+
+    - You should only run MongoDB in a trusted environment.
+    - You should run MongoDB from a non-root user.
+    - You are welcome to use any features you desire, or none.
+    - All security is off by default. This will change, and versions >= 3.6 will be restricted to localhost by default
+
+
+Authentication Options
+----------------------
+
+- Challenge/response authentication using SCRAM-SHA-1 (username & password)
+- x.509 Authentication (using x.509 Certificates)
+- Kerberos (through an Enterprise subscription)
+- LDAP
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Although there is a SCRAM-SHA-2 algorithm that addressed some vulnerabilities in SCRAM-SHA-1, it would not benefit MongoDB.
+
+
+Authorization via MongoDB
+-------------------------
+
+- Each user has a set of potential roles
+
+  - read, readWrite, dbAdmin, etc.
+
+- Each role applies to *one* database
+
+  - A single user can have roles on each database.
+  - Some roles apply to all databases.
+  - You can also create custom roles.
+
+.. include:: /includes/student-notes.rst
+
+
+External authorization via LDAP (MongoDB Enterprise)
+----------------------------------------------------
+
+- Query LDAP server for groups to which a user belongs.
+- Distinguised names (DN) are mapped to roles on the ``admin`` database.
+- Requires external authentication (x.509, LDAP, or Kerberos).
+
+.. only:: instructor
+
+  .. note::
+
+    - Checkout the `LDAP Authorization documentation`_ to learn more!
+
+
+Network Exposure Options
+------------------------
+
+- bindIp limits the ip addresses the server listens on.
+- Using a non-standard port can provide a layer of obscurity.
+- MongoDB should still be run only in a trusted environment.
+
+
+Encryption (SSL)
+----------------
+
+- MongoDB can be configured at build time to run with SSL.
+- Alternatively, use MongoDB Enterprise.
+- Allows you to use public key encryption.
+- You can also validate with x.509 certificates.
+
+
+Native MongoDB Auth
+-------------------
+
+- Uses SCRAM-SHA-1 for challenge/response
+- Sometimes called MongoDB-CR
+- Start a mongod instance with ``--auth`` to enable this feature
+- You can initially login using localhost
+
+  - Called the "localhost exception".
+  - Stops working when you create a user.
+
+.. only:: instructor
+
+  .. note::
+
+    - Be careful to create a user who can create other users.
+    - Otherwise you'll be stuck with the users you initially create.
+    - When upgrading a node to 3.0, it will still use the legacy challenge response mechanism until authSchemaUpgrade is run
+    - When creating a new user on 3.0, you will not be able to connect to the node via a 2.6 shell (the 2.6 shell doesn't use SCRAM-SHA-1)
+
+
+Using MongoDB Roles
+-------------------
+
+- Each user logs in on *one* database.
+- The user inputs their password on login.
+
+  - Use the -u flag for username.
+  - Use the -p flag to enter the password.
+
+- userAdmins may create other users
+- But they cannot read/write without other roles.
+
+.. only:: instructor
+
+  .. note::
+
+    - Users must specify the db when logging in.
+    - Trying to log into another db won't work
+    - Users may follow ``-p`` with the password
+    - They may also enter the password after hitting enter.
+    - The ``mongo`` command will prompt for the password before launching the shell.
+
+.. include:: /includes/student-notes.rst
+
+
+MongoDB Custom User Roles
+-------------------------
+
+- You can create custom user roles in MongoDB.
+- You do this by modifying the system.roles collection.
+- You can also inherit privileges from other roles into a given role.
+- You won't remember how to do this, so if you need it, consult the :manual:`docs </core/security-introduction/>`.
+
+
+.. _LDAP Authorization documentation : https://docs.mongodb.com/manual/core/security-ldap-external/
