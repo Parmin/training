@@ -1,0 +1,123 @@
+=============
+Log Redaction
+=============
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- What log redaction is
+- How to enable and disable log redaction
+
+
+What is log redaction?
+----------------------
+
+- Log redaction, when enabled, prevents the following
+
+  - Informational message details about specific queries from showing in the log when ``verbose`` mode is enabled
+  - Specific information about queries from showing in the log when an operation triggers a profiling event (a slow query, for example)
+
+.. only:: instructor
+
+   .. note::
+
+      - Diagnosing issues may be more difficult with log redaction enabled due to lack of data
+      - Enable log redaction on each ``mongod`` and ``mongos``
+      - Log redaction will **not** redact information in the ``system.profile`` collection, or the oplog in a replica set
+      - Restrict access with `collection-level access control <https://docs.mongodb.com/manual/core/collection-level-access-control/>`_
+
+Enabling Log Redaction
+----------------------
+
+- There are several ways to enable log redaction
+
+  - In the configuration file via ``redactClientLogData: true`` under ``security``
+  - Passing the command line argument ``--redactClientLogData`` when starting a ``mongod`` or ``mongos``
+  - Connecting to a ``mongod`` or ``mongos`` and running
+
+  .. code-block:: js
+
+     db.adminCommand({
+       setParameter: 1, redactClientLogData: true
+     })
+
+Exercise: Enable Log Redaction Setup
+------------------------------------
+
+For this exercise we're going to start a ``mongod`` process with verbose logging enabled and then enable log redaction
+
+- Start a ``mongod`` with verbose logging enabled
+
+.. code-block:: sh
+
+   mkdir -p data/db
+   mongod -v --dbpath data/db --logpath data/mongod.log --logappend --port 31000 --fork
+
+
+- In another terminal, tail the ``mongod.log`` to view realtime logging events
+
+.. code-block:: sh
+
+   tail -f data/mongod.log
+
+
+Exercise: Enable Log Redaction (cont)
+-------------------------------------
+
+- Connect to your ``mongod`` process from the shell.
+- Use a database called ``rd`` and insert a document, observing the output in ``mongod.log`` with ``tail``.
+
+.. code-block:: js
+
+   mongo --port 31000
+   use rd
+   db.foo.insertOne({name: "bob", medicalCondition: "SENSITIVE, should not be logged"})
+
+- In the log output, you should see something similar to the following:
+
+.. code-block:: sh
+
+  2017-04-28T09:39:41.629-0700 I COMMAND  [conn1] command rd.foo appName: "MongoDB Shell" command: insert {
+  insert: "foo", documents: [ { _id: ObjectId('5903704d2482ced24904c8a6'),
+  name: "bob", medicalCondition: "SENSITIVE, should not be logged"
+  } ],
+  ...
+
+Exercise: Enable Log Redaction (cont)
+-------------------------------------
+
+- From the mongo shell, enable log redaction
+- Insert another document
+
+.. code-block:: js
+
+   mongo --port 31000
+   use rd
+   db.foo.insertOne({name: "mary", medicalCondition: "SENSITIVE, should not be logged"})
+
+- Verify that the document is being redacted in the log
+
+.. code-block:: sh
+
+   2017-04-28T12:23:07.111-0700 I COMMAND  [conn1] command rd.foo appName: "MongoDB Shell" command: insert {
+   insert: "###", documents: [ { _id: "###", name: "###", medicalCondition: "###" } ],
+   ...
+
+.. only:: instructor
+
+   .. note::
+
+      - Students can either restart the ``mongod`` process and pass the cli argumenet ``redactClientLogData`` or enable redaction via
+
+      .. code-block:: js
+
+         db.adminCommand({
+           setParameter: 1, redactClientLogData: true
+         })
+
+      - Students can also enable redaction from a configuration file
+      - If enabling on a replica set, all members must be configured to redact log data
+      - If running a sharded cluster, the ``mongos`` must also be configured to redact information. The same arguments will work for both ``mongod`` and ``mongos``
