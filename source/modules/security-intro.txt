@@ -63,7 +63,6 @@ Authentication Options
 
 - Enterprise
 
-  - All of Community
   - Kerberos
   - LDAP
 
