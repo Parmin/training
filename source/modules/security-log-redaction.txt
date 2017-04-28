@@ -110,7 +110,7 @@ Exercise: Enable Log Redaction (cont)
 
    .. note::
 
-      - Students can either restart the ``mongod`` process and pass the cli argumenet ``redactClientLogData`` or enable redaction via
+      - Students can either restart the ``mongod`` process and pass the cli argument ``redactClientLogData`` or enable redaction via
 
       .. code-block:: js
 
