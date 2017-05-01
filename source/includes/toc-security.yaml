@@ -26,6 +26,10 @@ file: /modules/security-encryption
 description: |
   Encryption at rest in MongoDB
 ---
+file: /modules/security-log-redaction
+description: |
+  Enabling log redaction in MongoDB
+---
 file: /exercises/secured-replicaset
 description: |
   Using keyfiles to secure a replica set
