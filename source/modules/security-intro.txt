@@ -17,10 +17,15 @@ Upon completing this module students should understand:
   - Enterprise only features
 
 
-Overview
---------
+A High Level Overview
+---------------------
 
 .. include:: /images/security-architecture.rst
+
+Security Mechanisms
+-------------------
+
+.. include:: /images/security-mechanisms.rst
 
 .. only:: instructor
 
@@ -108,6 +113,25 @@ Network Exposure Options
 - ``bindIp`` limits the ip addresses the server listens on.
 - Using a non-standard port can provide a layer of obscurity.
 - MongoDB should still be run only in a trusted environment.
+
+Security Flow
+-------------
+
+.. include:: /images/security-flow.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - A robust and secure applicate architecture can be created by using the provided security features and following `this checklist <https://docs.mongodb.com/manual/administration/security-checklist/>`_
+      - The overall strength of the security protocols in place is only as strong as the weakest link.
+
+        - Use authentication
+        - Use role-based authorization; limit users to what they need
+        - Transmit data using TLS/SSL
+        - Encrypt data at rest
+        - Use valid certificates signed by a trusted certificate authority
+        - Ensure all ``mongod`` and ``mongos`` servers are configured properly
 
 
 .. _LDAP Authorization documentation : https://docs.mongodb.com/manual/core/security-ldap-external/

@@ -44,7 +44,37 @@ output:
 #     width: 300
 #---
 name: security-architecture
-alt: "An overview of the MongoDB security architecture"
+alt: "An overview of the MongoDB security mechanisms and flow"
+output:
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 1600
+   - type: 'web'
+     dpi: 72
+     width: 800
+   - type: 'offset'
+     tag: 'offset'
+     dpi: 300
+     width: 200
+---
+name: security-mechanisms
+alt: "An overview of the MongoDB security mechanisms"
+output:
+   - type: 'print'
+     tag: 'print'
+     dpi: 300
+     width: 1600
+   - type: 'web'
+     dpi: 72
+     width: 800
+   - type: 'offset'
+     tag: 'offset'
+     dpi: 300
+     width: 200
+---
+name: security-flow
+alt: "An overview of the MongoDB security flow"
 output:
    - type: 'print'
      tag: 'print'
