@@ -55,9 +55,9 @@ db.movies.updateOne( { title: "Batman" },
 db.movies.updateOne( { title: "Home Alone" }, { $min: { budget: 5 } } )
 db.movies.updateOne( { title: "Home Alone" },
       { $currentDate : { last_updated: { $type: "timestamp" } } } )
-// increment movie mentions by 10
-db.movie_mentions.updateOne( { title: "E.T." },
-      { $inc:  { "mentions_per_hour.5" : 10 } } )
+// increment movie rating by 1
+db.movie_mentions.updateOne( { title: "Batman" },
+      { $inc:  { "imdb_rating" : 1 } } )
 
 
 
@@ -88,7 +88,7 @@ db.movie_mentions.insertOne(
 // update all mentions for the fifth hour of the day
 db.movie_mentions.updateOne(
     { "title" : "E.T." } ,
-    { $set :  { "mentions_per_hour.5" : 2300 } } )
+    { "$set" :  { "mentions_per_hour.5" : 2300 } } )
 
 
 
