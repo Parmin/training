@@ -1,0 +1,137 @@
+=====================
+Security Introduction
+=====================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should understand:
+
+- The high-level overview of security in MongoDB
+- Security options for MongoDB
+
+  - Authentication
+  - Authorization
+  - Transport Encryption
+  - Enterprise only features
+
+
+A High Level Overview
+---------------------
+
+.. include:: /images/security-architecture.rst
+
+Security Mechanisms
+-------------------
+
+.. include:: /images/security-mechanisms.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - MongoDB provides numerous security features, to include:
+
+      - Authentication
+
+        - SCRAM-SHA-1
+        - x.509 Certificate Authentication
+
+      - Authorization
+
+        - Role-Based Access Control
+
+      - Transport Encryption
+      - Enterprise Only Features
+
+        - Kerberos Authentication
+        - LDAP Proxy Authentication
+        - Encryption at Rest
+        - Auditing
+
+      - Network Exposure Settings
+
+    - You should only run MongoDB in a trusted environment.
+    - You should run MongoDB from a non-root user.
+    - You are welcome to use any features you desire, or none.
+    - All security is off by default. This will change, and versions >= 3.6 will be restricted to localhost by default
+
+
+Authentication Options
+----------------------
+
+- Community
+
+  - Challenge/response authentication using SCRAM-SHA-1 (username & password)
+  - X.509 Authentication (using X.509 Certificates)
+
+- Enterprise
+
+  - Kerberos
+  - LDAP
+
+.. only:: instructor
+
+  .. note::
+
+    - Although there is a SCRAM-SHA-2 algorithm that addressed some vulnerabilities in SCRAM-SHA-1, it would not benefit MongoDB
+    - By cracking either algorithm an attacker would have to have access to the ``db.users`` collection and associated metadata
+
+
+Authorization via MongoDB
+-------------------------
+
+- Predefined roles
+- Custom roles
+- LDAP authorization (MongoDB Enterprise)
+
+  - Query LDAP server for groups to which a user belongs.
+  - Distinguished names (DN) are mapped to roles on the ``admin`` database.
+  - Requires external authentication (x.509, LDAP, or Kerberos).
+
+
+Transport Encryption
+--------------------
+
+- TLS/SSL
+
+  - May use certificates signed by a certificate authority or self-signed.
+
+- FIPS (MongoDB Enterprise)
+
+.. only:: instructor
+
+   .. note::
+
+      - FIPS (Federal Information Processing Standard)
+      - Users should use a certificate from a certificate authority in order for clients to verify the server's identity
+
+Network Exposure Options
+------------------------
+
+- ``bindIp`` limits the ip addresses the server listens on.
+- Using a non-standard port can provide a layer of obscurity.
+- MongoDB should still be run only in a trusted environment.
+
+Security Flow
+-------------
+
+.. include:: /images/security-flow.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - A robust and secure applicate architecture can be created by using the provided security features and following `this checklist <https://docs.mongodb.com/manual/administration/security-checklist/>`_
+      - The overall strength of the security protocols in place is only as strong as the weakest link.
+
+        - Use authentication
+        - Use role-based authorization; limit users to what they need
+        - Transmit data using TLS/SSL
+        - Encrypt data at rest
+        - Use valid certificates signed by a trusted certificate authority
+        - Ensure all ``mongod`` and ``mongos`` servers are configured properly
+
+
+.. _LDAP Authorization documentation : https://docs.mongodb.com/manual/core/security-ldap-external/

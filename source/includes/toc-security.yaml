@@ -1,3 +1,7 @@
+file: /modules/security-intro
+description: |
+  A high level overview of security in MongoDB
+---
 file: /modules/security-authorization
 description: |
   Authorization in MongoDB
