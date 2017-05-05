@@ -235,6 +235,30 @@ Note that trying to install ``imagemagick`` with ``brew`` may conflict with ``ma
     brew install imagemagick
     convert temp.png eps3:temp.eps
 
+If you are converting multiple files, you can use the following shell script to save on typing. Just add it to your ``.bashrc`` or ``.zshrc``
+
+.. code::
+
+   function converteps() {
+    if [ -z $1 ]
+    then
+        echo usage:
+        echo "\t\$ $0 <imagename>"
+    else
+        fname=$(echo $1 | cut -f 1 -d '.')
+        extension=".eps"
+        echo "converting $1 to $fname$extension"
+        convert $1 eps3:$fname$extension
+        ls
+    fi
+   }
+
+And then simply
+
+.. code::
+
+   converteps temp.png
+
 Again, if the file is to be shared by the MongoDB documentation, it should go in the ``docs-assets`` repository (`<source/figures>`_).
 If the file is not be shared, you should checked it in `<source/images>`_
 
