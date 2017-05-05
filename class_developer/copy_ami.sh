@@ -4,7 +4,7 @@
 
 AMI="$1"
 
-REGIONS=`cat regions.txt`
+REGIONS=`cat test/regions.txt`
 MAIN_REGION=us-east-1
 MAIN_REGION_PROFILE=training-us-east-1
 KEYPAIR=AdvancedAdministrator
@@ -32,5 +32,3 @@ for region in ${REGIONS[@]}; do
   fi
   echo ""
 done
-
-
