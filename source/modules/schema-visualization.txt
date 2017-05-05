@@ -25,7 +25,7 @@ Using Compass to Visualize Schema
 ---------------------------------
 
 - Schema tab shows an overview of document schema, to include types
-- Based on a sample of the overall collection, up to 1000 documents
+- Based on a `$sample <https://docs.mongodb.com/manual/reference/operator/aggregation/sample/>`_ of the overall collection, up to 1000 documents
 - Fields can be clicked for interactive query and further visualization
 
 
