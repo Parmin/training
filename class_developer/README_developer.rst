@@ -56,6 +56,7 @@ So, creating a class with 4 teams (4 teams + team 0) will create:
 - 5 * 3 = 15 hosts for Ops Manager installations
 - 5 * 12 = 60 hosts for MongoDB clusters
 
+
 Browsing the artifacts in AWS
 -----------------------------
 
@@ -71,6 +72,38 @@ Stacks are browsed under the "CloudFormation" section
   - owner
 Also, look for the 'Output' tab under a stack to see the important information about the created artifacts.
 
+
+Base images in AWS (AMI)
+------------------------
+
+If you need to make a change to the base VM image (AMI), do it in the 'us-east-1'
+region, then copy this AMI to all regions listed in 'test/regions.txt'
+You can make all your changes in the 'devel' environment by setting the version
+number in the 'advadmin-host.template' file.
+For historical purpose, you can find the old AMI in the 'us-west-2' region.
+
+
+Cost and count for instances in some regions
+--------------------------------------------
+
+opsmgr (70 = 2 sessions x 10 teams x 3 hosts + 10 as margin )
+
+- r3.large	2	6.5	15	1 x 32 SSD
+
+  - us-east-1: $0.166 per Hour
+  - India:     $0.19 per Hour
+
+node (250 = 2 sessions x 10 teams x 12 hosts + 10 as margin)
+
+- m3.medium	1	3	3.75	1 x 4 SSD
+
+  - us-east-1: $0.067 per Hour
+
+- t2.medium	2	Variable	4	EBS Only
+
+  - India: $0.059 per Hour
+
+
 Additional notes
 ----------------
 1) Uploading new version of files in 'ami' or 'datasets' requires that you make those files 'public'
@@ -84,12 +117,3 @@ Additional notes
    make s3-prod
    OR
    make s3-devel
-
-Base images in AWS (AMI)
-------------------------
-
-If you need to make a change to the base VM image (AMI), do it in the 'us-east-1'
-region, then copy this AMI to all regions listed in 'regions.txt'
-You can make all your changes in the 'devel' environment by setting the version
-number in the 'advadmin-host.template' file.
-For historical purpose, you can find the old AMI in the 'us-west-2' region.
