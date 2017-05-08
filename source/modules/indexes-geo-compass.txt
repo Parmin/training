@@ -67,19 +67,19 @@ Execute Query (cont)
 geoJSON Query Example
 ---------------------
 
-.. figure:: /images/compass-geo-query.png
+.. figure:: /images/compass-geo-query.jpg
 
 
 geoJSON Query Explain Plan
 --------------------------
 
-.. figure:: /images/compass-geo-explain.png
+.. figure:: /images/compass-geo-explain.jpg
 
 
 geoJSON Query Explain Detail
 ----------------------------
 
-.. figure:: /images/compass-geo-explain-close.png
+.. figure:: /images/compass-geo-explain-close.jpg
 
 
 Query Explain (cont)
@@ -113,13 +113,13 @@ Creating an Index Using Compass
 The Index Tab
 -------------
 
-.. figure:: /images/compass-geo-indexes.png
+.. figure:: /images/compass-geo-indexes.jpg
 
 
 Creating an Index Example
 -------------------------
 
-.. figure:: /images/compass-geo-createIndex.png
+.. figure:: /images/compass-geo-createIndex.jpg
 
 
 Verifying the Index
@@ -142,7 +142,7 @@ Verifying the Index
 Index Performance
 -----------------
 
-.. figure:: /images/compass-geo-index-explain-results.png
+.. figure:: /images/compass-geo-index-explain-results.jpg
 
 .. only:: instructor
 
