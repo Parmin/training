@@ -1,0 +1,154 @@
+==========================
+Using Compass with Indexes
+==========================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- How to view index usage with Compass
+- How to create indexes with Compass
+
+Introduction
+------------
+
+- Compass provides a user friendly interface for interacting with MongoDB
+- If you are unfamiliar with Compass, click below for a high level overview
+
+:doc:`/modules/compass`
+
+
+Execute a geoJSON query with Compass
+------------------------------------
+
+- Import the ``trips.json`` dataset into a database called citibike and a collection called trips
+- Execute a geoSpatial query finding all trips that
+
+  - Begin within a 1.2 mile radius (1.93 kilometers) of the middle of Central Park
+  - Use the coordinates ``-73.97062540054321, 40.776398033956916`` for Central Park
+  - End within a 0.25 mile radius (.40 kilometers) of Madison Square Park
+  - Use the coordinates ``-73.9879247077942, 40.742201076382784`` for Madison Square Park
+
+
+Execute Query (cont)
+--------------------
+
+- Importing the data
+
+.. code-block:: sh
+
+   mongoimport --drop -d citibike -c trips trips.json
+
+- In Compass, executing the query
+
+.. code-block:: sh
+
+   {
+    "start station location": { "$geoWithin": { "$centerSphere": [
+    [ -73.97062540054321, 40.776398033956916 ], 0.000302786 ] } },
+    "end station location": { "$geoWithin": { "$centerSphere": [
+    [ -73.9879247077942, 40.742201076382784 ], 0.00006308 ] } }
+   }
+
+.. only:: instructor
+
+   .. note::
+
+      - The equatorial radius of the earth is 6378.2 kilometers, or 3963.2 miles
+      - How did we calculate the radians we wanted?
+
+        - desired distance / equatorial radius
+        - 1.93 / 6378.2 and .40/6378.2 for kilometers
+        - 1.2 / 3963.2 and .25/3963.2 for miles
+
+
+geoJSON Query Example
+---------------------
+
+.. figure:: /images/compass-geo-query.png
+
+
+geoJSON Query Explain Plan
+--------------------------
+
+.. figure:: /images/compass-geo-explain.png
+
+
+geoJSON Query Explain Detail
+----------------------------
+
+.. figure:: /images/compass-geo-explain-close.png
+
+
+Query Explain (cont)
+--------------------
+
+- Our explain visualizer is telling us key details
+
+  - Documents returned, index keys examined, documents examined
+  - Query execution time, sorting information, and **if an index was available**
+  - A visualization of the query plan
+
+
+Creating an Index Using Compass
+-------------------------------
+
+- Navigate to the Indexes tab
+- Create a new index named "geospatial_start_end"
+- Select the "start station location" field and choose "2dsphere"
+- Add another field
+- Select the "end station location" field and choose "2dsphere"
+- Click "Create"
+
+.. only:: instructor
+
+   .. note::
+
+      - The index view shows helpful information about the indexes
+      - The index name and type
+      - Size, usage, and index properties
+
+The Index Tab
+-------------
+
+.. figure:: /images/compass-geo-indexes.png
+
+
+Creating an Index Example
+-------------------------
+
+.. figure:: /images/compass-geo-createIndex.png
+
+
+Verifying the Index
+-------------------
+
+- Navigate to the "Schema" tab
+- Reset the query bar, and then re-run our geo query
+- Navigate to the "Explain" tab
+
+.. code-block:: sh
+
+   {
+    "start station location": { "$geoWithin": { "$centerSphere": [
+    [ -73.97062540054321, 40.776398033956916 ], 0.000302786 ] } },
+    "end station location": { "$geoWithin": { "$centerSphere": [
+    [ -73.9879247077942, 40.742201076382784 ], 0.00006308 ] } }
+   }
+
+
+Index Performance
+-----------------
+
+.. figure:: /images/compass-geo-index-explain-results.png
+
+.. only:: instructor
+
+   .. note::
+
+      - Highlight the differences now that our index is being used
+      - Actual Query Time is dramatically reduced
+      - The view detail now shows the stages
+      - "Query used the following index" shows the index used

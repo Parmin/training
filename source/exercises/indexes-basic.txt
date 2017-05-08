@@ -1,0 +1,64 @@
+==================
+Lab: Basic Indexes
+==================
+
+
+Exercise: Creating a Basic Index
+--------------------------------
+
+- Begin by importing the routes collection from the usb drive into a running ``mongod`` process
+- You should import 66985
+
+.. code-block:: sh
+
+   # if no mongod running
+   mkdir -p data/db
+   mongod --port 30000 --dbpath data/db --logpath data/mongod.log --append --fork
+   # end if no mongod running
+   mongoimport --drop -d airlines -c routes routes.json
+
+
+
+Executing a Query
+-----------------
+
+- With the documents inserted, perform the following two queries, finding all routes for Delta
+
+.. code-block:: js
+
+   db.routes.find({"airline.id": 2009})
+   db.routes.find({"airline.id": 2009}).explain("executionStats")
+
+.. only:: instructor
+
+   .. note::
+
+      - Help students understand the output from explain
+      - Specifically highlight:
+
+        - That this required a COLLSCAN
+        - ``totalDocsExamined`` vs ``nReturned``
+        - Note ``executionTimeMillisEstimate``
+
+
+Creating an Index
+-----------------
+
+- Create an index on the ``routes`` collection
+- The index should be on the ``"airline.id"`` key, in descending order
+- Rerun the query with ``explain``
+- Verify that the newly created index supports the query
+
+.. only:: instructor
+
+   .. note::
+
+      - Highlight and discuss the following:
+
+        - That this was an IXSCAN
+        - ``totalDocsExamined``, ``totalKeysExamined``, and ``nReturned``
+        - ``executionTimeMillisEstimate``
+
+      .. code-block:: js
+
+         db.routes.createIndex({"airlines.id": -1})
