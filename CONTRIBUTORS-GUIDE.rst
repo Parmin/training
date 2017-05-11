@@ -230,6 +230,11 @@ If you are given a ``.png`` or ``.jpg``, you will need to generate the correspon
 See the following example on how to generate a ``.eps`` file from a ``.png`` on your Mac.
 Note that trying to install ``imagemagick`` with ``brew`` may conflict with ``macports``, if you are using the latter.
 
+Aside from generating a ``.eps`` file for your non-SVG images, you will also need to create a ``.rst`` file and provide some metadata.
+Look in the ``figures_local_meta`` folder for examples. After creating this ``.rst`` file, you include your image with ``.. include:: /figures_local_meta/corresponding-image.rst``
+
+Alternatively, you can execute the ``build_images.py`` script in the source directory of the images you want to include. Do **NOT** do this in ``source/images``. This script will generate a ``.eps`` and a ``.rst`` file for every ``.jpg`` or ``.png`` file found in the directory you run it in. You will then need to copy all of the files to the appropriate directories.
+
 .. code::
 
     brew install imagemagick
