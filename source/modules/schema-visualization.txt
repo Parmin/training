@@ -41,10 +41,10 @@ Lesson Setup
 - Connect to your ``mongod`` with Compass and select the trips collection
 
 
-Compass Visualization
----------------------
+Schema Visualization
+--------------------
 
-.. figure:: /images/schema-overview.svg
+.. include:: /figures_local_meta/schema-overview.rst
 
 .. only:: instructor
 
@@ -52,11 +52,17 @@ Compass Visualization
 
       - This is only a sample, scroll down to show the full schema
 
+Schema Visualization Detail
+---------------------------
+
+.. include:: /figures_local_meta/schema-details.rst
+
 
 Compass Interactive Queries
 ---------------------------
 
-.. figure:: /images/schema-selection.svg
+.. include:: /figures_local_meta/schema-selection.rst
+
 
 .. only:: instructor
 
@@ -70,7 +76,13 @@ Compass Interactive Queries
 Visualizing geoJSON
 -------------------
 
-.. figure:: /images/geoJson-visualization.svg
+.. include:: /figures_local_meta/geoJson-visualization.rst
+
+
+Visualizing geoJSON Detail
+--------------------------
+
+.. include:: /figures_local_meta/geo-vis-detail.rst
 
 .. only:: instructor
 
@@ -94,7 +106,7 @@ Interactively Build a geoJSON query
 geoJSON Query Results
 ---------------------
 
-.. figure:: /images/building-geoJson-query.svg
+.. include:: /figures_local_meta/building-geoJson-query.rst
 
 .. only:: instructor
 
@@ -116,13 +128,13 @@ Documents Explorer
 Documents Explorer Example
 --------------------------
 
-.. figure:: /images/documents-tab.svg
+.. include:: /figures_local_meta/documents-tab.rst
 
 
 Updating a Document
 -------------------
 
-.. figure:: /images/document-update.svg
+.. include:: /figures_local_meta/document-update.rst
 
 
 Updating Detail
