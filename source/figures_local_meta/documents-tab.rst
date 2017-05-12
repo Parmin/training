@@ -2,21 +2,21 @@
 .. only:: latex and not offset
 
   .. figure:: /images/documents-tab.jpg
-        :alt: TODO - add desc
+        :alt: An overview of the documents tab in Compass
         :align: center
         :figwidth: 1600px
 
 .. only:: website and slides
 
   .. figure:: /images/documents-tab.jpg
-        :alt: TODO - add desc
+        :alt: An overview of the documents tab in Compass
         :align: center
         :figwidth: 700px
 
 .. only:: website and html
 
   .. figure:: /images/documents-tab.jpg
-        :alt: TODO - add desc
+        :alt: An overview of the documents tab in Compass
         :align: center
         :figwidth: 700px
 

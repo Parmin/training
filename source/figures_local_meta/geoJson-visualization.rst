@@ -2,21 +2,21 @@
 .. only:: latex and not offset
 
   .. figure:: /images/geoJson-visualization.jpg
-        :alt: TODO - add desc
+        :alt: A highlight of geo visualization in Compass
         :align: center
         :figwidth: 1600px
 
 .. only:: website and slides
 
   .. figure:: /images/geoJson-visualization.jpg
-        :alt: TODO - add desc
+        :alt: A highlight of geo visualization in Compass
         :align: center
         :figwidth: 700px
 
 .. only:: website and html
 
   .. figure:: /images/geoJson-visualization.jpg
-        :alt: TODO - add desc
+        :alt: A highlight of geo visualization in Compass
         :align: center
         :figwidth: 700px
 

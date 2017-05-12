@@ -2,21 +2,21 @@
 .. only:: latex and not offset
 
   .. figure:: /images/schema-selection.jpg
-        :alt: TODO - add desc
+        :alt: Schema selection in Compass
         :align: center
         :figwidth: 1600px
 
 .. only:: website and slides
 
   .. figure:: /images/schema-selection.jpg
-        :alt: TODO - add desc
+        :alt: Schema selection in Compass
         :align: center
         :figwidth: 700px
 
 .. only:: website and html
 
   .. figure:: /images/schema-selection.jpg
-        :alt: TODO - add desc
+        :alt: Schema selection in Compass
         :align: center
         :figwidth: 700px
 

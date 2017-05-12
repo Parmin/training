@@ -2,21 +2,21 @@
 .. only:: latex and not offset
 
   .. figure:: /images/document-update.jpg
-        :alt: TODO - add desc
+        :alt: Document updating in Compass
         :align: center
         :figwidth: 1600px
 
 .. only:: website and slides
 
   .. figure:: /images/document-update.jpg
-        :alt: TODO - add desc
+        :alt: Document updating in Compass
         :align: center
         :figwidth: 700px
 
 .. only:: website and html
 
   .. figure:: /images/document-update.jpg
-        :alt: TODO - add desc
+        :alt: Document updating in Compass
         :align: center
         :figwidth: 700px
 
