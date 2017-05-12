@@ -2,6 +2,10 @@ file: /modules/indexes-fundamentals
 description: |
   An introduction to MongoDB indexes
 ---
+file: /exercises/indexes-basic
+description: |
+  A short exercise on the basic of index usage
+---
 file: /modules/indexes-compound
 description: |
   Indexes on two or more fields
@@ -21,6 +25,10 @@ description: |
 file: /modules/indexes-geo
 description: |
   Geospatial indexes: both those on legacy coordinate pairs and those supporting queries that calculate geometries on an earth-like sphere.
+---
+file: /modules/indexes-geo-compass
+description: |
+  Using Compass to create a geospatial index
 ---
 file: /modules/indexes-TTL
 description: |
