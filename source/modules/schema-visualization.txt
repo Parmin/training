@@ -1,0 +1,154 @@
+=================================
+Schema Visualization With Compass
+=================================
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should understand:
+
+- How to use Compass to explore and visualize schema
+- Point and click queries
+- GeoJSON queries
+- How to use Compass to update a document
+
+.. only:: instructor
+
+   .. note::
+
+      - If you have not covered the basics of compass, click below to give the students a brief overview
+
+      :doc:`/modules/compass`
+
+Using Compass to Visualize Schema
+---------------------------------
+
+- Schema tab shows an overview of document schema, to include types
+- Based on a `$sample <https://docs.mongodb.com/manual/reference/operator/aggregation/sample/>`_ of the overall collection, up to 1000 documents
+- Fields can be clicked for interactive query and further visualization
+
+
+Lesson Setup
+------------
+
+- Import the ``trips.json`` collection to a running ``mongod``
+
+.. code-block:: js
+
+   mongoimport --drop -d citibike -c trips trips.json
+
+- Connect to your ``mongod`` with Compass and select the trips collection
+
+
+Schema Visualization
+--------------------
+
+.. include:: /figures_local_meta/schema-overview.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - This is only a sample, scroll down to show the full schema
+
+Schema Visualization Detail
+---------------------------
+
+.. include:: /figures_local_meta/schema-details.rst
+
+
+Compass Interactive Queries
+---------------------------
+
+.. include:: /figures_local_meta/schema-selection.rst
+
+
+.. only:: instructor
+
+   .. note::
+
+      - In the image, we've selected the largest distribution of ``"start station name"`` by clicking on the bar
+      - Students will see the bar highlight orange when it is selected
+      - After students have made the selection instruct them to click the apply button, illustrating point and click queries
+
+
+Visualizing geoJSON
+-------------------
+
+.. include:: /figures_local_meta/geoJson-visualization.rst
+
+
+Visualizing geoJSON Detail
+--------------------------
+
+.. include:: /figures_local_meta/geo-vis-detail.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - The image shows the result of the previous point and click query
+      - It also shows the schema and values of a sample of the returned documents, in this case all of them
+      - This is because our returned result set is smaller than the default sample size
+      - The map is fully interactive. Pan and zoom in/out
+
+Interactively Build a geoJSON query
+-----------------------------------
+
+- Select the "``start station location``" visualizer
+- Pan the map around and find a location that interests you
+- If you are unfamiliar with New York and Manhattan, pan down to Battery Park on the furthest most southwest tip of Manhattan
+- Center your mouse in your area of interest, hold shift, click and drag outwards
+- You will see an orange circle appear, and the filter/query bar being updated to include a ``$geoWithin`` query
+- When you are satisfied, click apply to see the results
+
+geoJSON Query Results
+---------------------
+
+.. include:: /figures_local_meta/building-geoJson-query.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - In this image we've centered on Union Square and expanded our circle to encompass the 3 closest stations
+
+
+Documents Explorer
+------------------
+
+- After executing your query, navigate to the ``documents`` tab
+- Mouse over one of the documents
+- In the upper right corner of the results window you'll see a toolbar
+- This allows us to expand, edit, delete, or clone the document with a single click
+- Click the pencil icon
+
+
+Documents Explorer Example
+--------------------------
+
+.. include:: /figures_local_meta/documents-tab.rst
+
+
+Updating a Document
+-------------------
+
+.. include:: /figures_local_meta/document-update.rst
+
+
+Updating Detail
+---------------
+
+- Document update allows many things, including:
+
+  - Adding or deleting fields
+  - Changing the value of fields
+  - Changing the type of fields, for example from *Int32* to *Int64* or *Decimal128*
+
+.. only:: instructor
+
+   .. note::
+
+      - If you have covered document validation, have students enable strict validation on one of the fields
+      - Then, have students try to update that field to a different type
