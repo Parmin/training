@@ -23,13 +23,18 @@ Introduction
 Execute a geoJSON query with Compass
 ------------------------------------
 
-- Import the ``trips.json`` dataset into a database called citibike and a collection called trips
+- Import the ``trips.json`` dataset into a database called citibike and a 
+  collection called trips
 - Execute a geoSpatial query finding all trips that
 
-  - Begin within a 1.2 mile radius (1.93 kilometers) of the middle of Central Park
-  - Use the coordinates ``-73.97062540054321, 40.776398033956916`` for Central Park
-  - End within a 0.25 mile radius (.40 kilometers) of Madison Square Park
-  - Use the coordinates ``-73.9879247077942, 40.742201076382784`` for Madison Square Park
+  - Begin within a 1.2 mile radius (1.93 kilometers) of the middle of Central 
+    Park:
+    
+    - ``[ -73.97062540054321, 40.776398033956916]``
+  
+  - End within a 0.25 mile radius (.40 kilometers) of Madison Square Park:
+    
+    - ``[-73.9879247077942, 40.742201076382784]``
 
 
 Execute Query (cont)
@@ -95,10 +100,10 @@ Creating an Index Using Compass
 -------------------------------
 
 - Navigate to the Indexes tab
-- Create a new index named "geospatial_start_end"
-- Select the "start station location" field and choose "2dsphere"
+- Create a new index named ``geospatial_start_end``
+- Select the "start station location" field and choose ``2dsphere``
 - Add another field
-- Select the "end station location" field and choose "2dsphere"
+- Select the "``end station location`` field and choose *2dsphere*
 - Click "Create"
 
 .. only:: instructor
@@ -124,9 +129,9 @@ Creating an Index Example
 Verifying the Index
 -------------------
 
-- Navigate to the "Schema" tab
+- Navigate to the *Schema* tab
 - Reset the query bar, and then re-run our geo query
-- Navigate to the "Explain" tab
+- Navigate to the *Explain* tab
 
 .. code-block:: sh
 
@@ -151,4 +156,4 @@ Index Performance
       - Highlight the differences now that our index is being used
       - Actual Query Time is dramatically reduced
       - The view detail now shows the stages
-      - "Query used the following index" shows the index used
+      - *Query used the following index* shows the index used
