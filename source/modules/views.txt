@@ -55,14 +55,14 @@ How to create and drop a view
    .. note::
 
       - Views do not have any data, nor do they cache their data.
-      - Views can only be created from another view. In order to combine data from
+      - Views can only be created from another view or single collection. In order to combine data from
         multiple collections, users can use the familiar aggregation operator `$lookup`
 
 Example - Creating a view
 -------------------------
-.. code-block:: javascript
+.. code-block:: sh
 
-  // db.createView(<name>, <source>, <pipeline>, <collation>)
+  # db.createView(<name>, <source>, <pipeline>, <collation>)
   db.createView("contact_info", "patients", [
     { $project: {
       _id: 0,
@@ -74,6 +74,10 @@ Example - Creating a view
       }
     }
   ])
+  # views are shown along with other collections
+  show collections
+  # views metadata is stored in the system.views collection
+  db.system.views.find()
 
 .. only:: instructor
 
@@ -110,6 +114,7 @@ Views can be thought of as a predefined aggregation. As such:
 - Views will benefit greatly from indexes on the source collection in their ``$match`` stage
 - Views are considered sharded if their underlying collection is sharded.
 - Views are immutable, and cannot be renamed
+- A view will not be removed if the underlying collection is removed
 
 .. only:: instructor
 
@@ -117,6 +122,7 @@ Views can be thought of as a predefined aggregation. As such:
 
     - The aggregation to create the view is ran every time the view is queried
     - Creating views from views can be slow, as we are cascading aggregations.
+    - Views are shown just like other collections via ``show collections``
 
       - MongoDB will neither check collection fields nor existence before creating a view.
       - If there is no collection, the view will return an empty cursor
