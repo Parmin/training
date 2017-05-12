@@ -96,7 +96,7 @@ Visualizing geoJSON Detail
 Interactively Build a geoJSON query
 -----------------------------------
 
-- Select the "start station location" visualizer
+- Select the "``start station location``" visualizer
 - Pan the map around and find a location that interests you
 - If you are unfamiliar with New York and Manhattan, pan down to Battery Park on the furthest most southwest tip of Manhattan
 - Center your mouse in your area of interest, hold shift, click and drag outwards
@@ -144,7 +144,7 @@ Updating Detail
 
   - Adding or deleting fields
   - Changing the value of fields
-  - Changing the type of fields, for example from Int32 to Int64 or Decimal128
+  - Changing the type of fields, for example from *Int32* to *Int64* or *Decimal128*
 
 .. only:: instructor
 
