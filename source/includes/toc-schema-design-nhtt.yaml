@@ -4,7 +4,7 @@ description: |
 ---
 file: /modules/schema-design-common-design-patterns
 description: |
-  Common design patterns for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB
+  Common design models for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB
 ---
 file: /modules/schema-design-application-lifetime
 description: |

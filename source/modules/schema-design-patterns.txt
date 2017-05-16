@@ -1,0 +1,254 @@
+======================
+Schema Design Patterns
+======================
+
+.. only:: instructor
+
+   .. note::
+
+      Avoid using the term **pattern** as it is used for representing
+      partial solutions, like the Gang of Four uses it for software design patterns
+
+
+Leaning Objectives
+------------------
+
+Be able to:
+
+- Identify schema design patterns
+
+
+Patterns
+--------
+
+- They are not:
+
+  - Modeling of relationships
+  - The full "solution" of a problem
+
+- They only address a precise use case in a problem
+
+  - Similar to the GoF (Gang of Four) with their patterns for Object Oriented Design
+
+.. include:: /includes/student-notes.rst
+
+
+Pattern Characteristics
+-----------------------
+
+- NoSQL patterns ...
+
+  - Often address performance concerns
+
+    - Like reducing the number of reads
+
+  - May create duplication
+
+.. include:: /includes/student-notes.rst
+
+
+Pattern #1
+----------
+
+- You want to display dependent information, however only part of it
+- The rest of the data is fetch only if needed
+- Examples:
+
+  - Last 10 comments on an article
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Example #1
+----------
+
+.. include:: /images/pattern-subset.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern #2
+----------
+
+- You want to display dependent data
+- Does not have to be up to date
+- Too expensive to update the document all the time
+- Updates can be done in batch
+- Examples:
+
+  - Top reviews on a movie
+  - Top reviews on a product
+  - Number of seats available on a flight
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Example #2
+----------
+
+.. include:: /images/pattern-cache.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern #3
+----------
+
+- A lot of different and predictable values
+- Need to index the attributes
+- Examples:
+
+  - Catalog items
+
+    - A shirt is XL, blue, iron-free
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Example #3
+----------
+
+.. include:: /images/pattern-attributes.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern #4
+----------
+
+- One document shows a sum of data from other documents
+- Examples:
+
+  - Cumulative sales from many theaters
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Example #4
+----------
+
+.. include:: /images/pattern-aggregate.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Tree as Nodes
+-----------------------
+
+.. include:: /images/pattern-tree-as-nodes.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Node is defined by itself and its parent
+      - Likely need recursive lookup to build it
+
+
+Pattern - Tree as Children
+--------------------------
+
+.. include:: /images/pattern-tree-as-children.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Node is defined by itself and its children
+
+
+Pattern - Tree as Ancestors
+---------------------------
+
+.. include:: /images/pattern-tree-as-ancestors.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Node is defined by itself and all its parent/ancestors
+
+
+Comparing Tree Patterns
+-----------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 70 40 40 50
+
+   * -
+     - Nodes
+     - Children
+     - Ancestors
+   * - Restructure tree
+       (num of updates)
+     - One per moved node
+     - One per moved node
+     - Many updates per moved node
+   * - Information per document
+     - Very little
+     - Very little
+     - Much more
+
+.. include:: /includes/student-notes.rst
+
+
+Future work
+-----------
+
+- More work on patterns coming out soon
+- New class on **Data Modeling** likely before the end of the year

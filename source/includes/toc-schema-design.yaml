@@ -8,7 +8,7 @@ description: |
 ---
 file: /modules/schema-design-common-design-patterns
 description: |
-  Common design patterns for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB
+  Common design models for representing 1-1, 1-M, and M-M relationships and tree structures in MongoDB
 ---
 file: /modules/schema-design-case-study-time-series
 description: |
@@ -26,9 +26,7 @@ file: /modules/schema-design-case-study-shopping-cart
 description: |
   Case Study: Shopping Cart
 ---
-file: /exercises/schema-group-exercise
+file: /exercises/schema-design-exercise-ecommerce
 description: |
-  Schema design group exercise
+  Schema design group exercise for an E-commerce site
 ...
-
-

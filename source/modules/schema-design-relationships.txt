@@ -1,0 +1,280 @@
+===========================
+Schema Design Relationships
+===========================
+
+Leaning Objectives
+------------------
+
+Be able to:
+
+- Model 1-1, 1-N and N-N relationships
+- Create a model for some common problems
+
+
+Entity Relationship Diagram Example
+-----------------------------------
+
+.. include:: /figures_meta/schema-design-sql-er.txt
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - [ASK] Which ER diagram methodologies they are familiar with.
+      - This is the ER diagram of movies/actors/viewers/...
+      - It will serve as our base for all the following examples in this session.
+      - Explain the different entities/collections, so they are understood for the following examples.
+
+
+Relationship - 1 to 1, embedding
+--------------------------------
+
+.. include:: /images/relationship-1to1-embed.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - We keep all the information together for a given entity
+        This is the simplest model
+
+
+Relationship - 1 to 1, reference to the children
+------------------------------------------------
+
+.. include:: /images/relationship-1to1-ref-to-children.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Even if it is a 1:1 relationship, we are putting some information
+        of an entity into another collection.
+      - [ASK] what is the use case?
+
+        - You don't need the information put in the children that often
+        - Examples:
+
+          - Detailed description for a given product
+
+
+Relationship - 1 to 1, reference to the parent
+----------------------------------------------
+
+.. include:: /images/relationship-1to1-ref-to-parent.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Similar to the reference to the children, however we want to query
+        directly the children collection for a given movie
+      - Again, you can always link both ways.
+
+        - We will not show examples of linking both ways, those are done by simply
+          using the fields from the 2 single side examples.
+
+
+Embed or Store Separately
+-------------------------
+
+Given MongoDB hierarchical schema the question around *embed* or *separate document* is very common.
+
+A few tips on how to approach these discussions:
+
+.. rst-class:: longlist
+
+- **You cannot perform atomic updates on more than one document**
+- Combine objects that you will use together
+
+  - Efficiency for reads
+  - Atomicity for writes
+  - Avoid application level joins
+
+- Store documents in separate collections when
+
+  - Read pattern are different
+
+- Different lifecycle between relationships
+
+.. include:: /includes/student-notes.rst
+
+
+Retrieving the Documents
+------------------------
+
+In a 1-N or N-N relationship, do you need to consider:
+
+- How to identify the referencing documents without doing another query?
+- How many documents do you want to update when the relationship changes?
+
+  - Nested arrays, usually bad if you want to query in the embedded array
+
+- Can use bi-directional referencing if it optimizes your schema and you are willing to live without atomic updates
+- Growing documents is an important consideration when using MMAPv1
+
+.. include:: /includes/student-notes.rst
+
+
+Cardinality of Relationships
+----------------------------
+
+- 1 to 1
+- 1 to N
+- N to N
+- 1 to zillions and  N to **zillions**
+
+  - Let's add a new notation for **zillions**!
+
+.. include:: /images/relationship-to-zillions.rst
+
+.. include:: /includes/student-notes.rst
+
+
+Representing the Cardinalities
+------------------------------
+
+- [10]
+
+  - Exactly 10 elements
+
+- [0, 20]
+
+  - Minimum of 0 elements
+  - Maximum of 20 elements
+
+- [0, 10, 1000000]
+
+  - Minimum of 0 elements
+  - Median of 10 elements
+  - Maximum of 1000000 elements
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - You often get a push back that those numbers may be difficult to estimate,
+        however it is worth the effort, even if you are way off.
+
+
+Relationship - 1 to N, embedding
+--------------------------------
+
+.. include:: /images/relationship-1toN-embed.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - 1 to N, reference to the children
+------------------------------------------------
+
+.. include:: /images/relationship-1toN-ref-to-children.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - 1 to N, reference to the parent
+----------------------------------------------
+
+.. include:: /images/relationship-1toN-ref-to-parent.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - N to N, embedding
+--------------------------------
+
+.. include:: /images/relationship-NtoN-embed.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - N to N, reference to the children
+------------------------------------------------
+
+.. include:: /images/relationship-NtoN-ref-to-children.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationship - N to N, reference to the parent
+----------------------------------------------
+
+.. include:: /images/relationship-NtoN-ref-to-parent.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Relationships - Summary
+-----------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 40 40 40
+
+   * - relation type
+     - 1 to 1
+     - 1 to N
+     - N to N
+   * - Embed
+     - one read
+     - no join
+     - no join, however duplication of data
+   * - Reference
+     - smaller reads, more read ops
+     - smaller reads, more read ops
+     - smaller reads, avoid duplication
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TODO - add the summary for each cell

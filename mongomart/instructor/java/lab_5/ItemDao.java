@@ -192,33 +192,36 @@ public class ItemDao {
      *
      * @return
      */
-    public ArrayList<Category> getCategoriesAndNumProducts() {
-        ArrayList<Category> categories = new ArrayList<>();
+     public ArrayList<Category> getCategoriesAndNumProducts() {
+         ArrayList<Category> categories = new ArrayList<>();
 
-        // db.item.aggregate( { $group : { "_id" : "$category", "num" : { "$sum" : 1 } } }, { $sort : { "_id" : 1 } })
-        Document groupStage = new Document("$group",
-                (new Document( "_id", "$category")).append("num", new Document("$sum", 1)));
-        Document sortStage = new Document("$sort", new Document("_id", 1));
+         // db.item.aggregate( { $group : { "_id" : "$category", "count" : { "$sum" : 1 } } }, { $sort : { "_id" : 1 } })
+         //Document groupStage = new Document("$group",
+         //        (new Document( "_id", "$category")).append("count", new Document("$sum", 1)));
+         //Document sortStage = new Document("$sort", new Document("_id", 1));
+         //db.item.aggregate( [{$sortByCount: '$category'}]
+         Document sortByCount = new Document("$sortByCount", "$category");
 
-        List<Document> aggregateStages = new ArrayList<Document>();
-        aggregateStages.add(groupStage);
-        aggregateStages.add(sortStage);
+         List<Document> aggregateStages = new ArrayList<Document>();
+         //aggregateStages.add(groupStage);
+         //aggregateStages.add(sortStage);
+         aggregateStages.add(sortByCount);
 
-        MongoCursor<Document> cursor = itemCollection.aggregate(aggregateStages, Document.class).useCursor(true).iterator();
+         MongoCursor<Document> cursor = itemCollection.aggregate(aggregateStages, Document.class).useCursor(true).iterator();
 
-        int total_count = 0;
-        while (cursor.hasNext()) {
-            Document resultDoc = cursor.next();
-            Category category = new Category(resultDoc.getString("_id"), resultDoc.getInteger("num"));
-            categories.add(category);
-            total_count += resultDoc.getInteger("num");
-        }
+         int total_count = 0;
+         while (cursor.hasNext()) {
+             Document resultDoc = cursor.next();
+             Category category = new Category(resultDoc.getString("_id"), resultDoc.getInteger("count"));
+             categories.add(category);
+             total_count += resultDoc.getInteger("count");
+         }
 
-        // All category to display at the top of the category list
-        categories.add(0, new Category("All", total_count));
+         // All category to display at the top of the category list
+         categories.add(0, new Category("All", total_count));
 
-        return categories;
-    }
+         return categories;
+     }
 
     /**
      * Add a review to an item

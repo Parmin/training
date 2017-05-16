@@ -2,14 +2,17 @@ package mongomart;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.client.MongoDatabase;
 import freemarker.template.Configuration;
 import mongomart.controller.AdminController;
 import mongomart.controller.CartController;
 import mongomart.controller.LocationsController;
 import mongomart.controller.StoreController;
+import org.bson.Document;
 
 import java.io.IOException;
+
 
 import static spark.SparkBase.port;
 import static spark.SparkBase.staticFileLocation;
@@ -49,7 +52,6 @@ public class MongoMart {
      */
 
     public MongoMart(String mongoURIString) throws IOException {
-        // Create MongoDB connection
         final MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoURIString));
         final MongoDatabase itemDatabase = mongoClient.getDatabase("mongomart");
 

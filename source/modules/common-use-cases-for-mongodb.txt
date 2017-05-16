@@ -1,0 +1,137 @@
+============================
+Common Use Cases for MongoDB
+============================
+
+.. only:: instructor
+
+   .. note::
+
+     TODOs:
+     - some links are only visible to MongoDB employees, copy some contents to slides
+
+
+Learning Objectives
+-------------------
+
+Upon completing this module students should be able to:
+
+- recognize the best use cases of MongoDB vs Relational databases
+- locate existing references for specific use cases
+- distinguish between the different ways to develop/operate MongoDB clusters
+
+.. include:: /includes/student-notes.rst
+
+
+Some common use cases
+---------------------
+
+- Single View (MetLife)
+- Internet of Things (Bosch)
+- Mobile (ADP, Foursquare)
+- Real-Time Analytics (Intuit)
+- Personalization (eHarmony)
+- Catalog (GAP)
+- Contents Management (Business Insider)
+
+References:
+
+- `Details on use cases <https://www.mongodb.com/use-cases>`_
+- `Some public customers <https://www.mongodb.com/who-uses-mongodb>`_
+
+.. only:: instructor
+
+   .. note::
+
+     Other notable ones:
+
+     - Critical Apps: Medtronic
+     - Banks: most of the world largest banks are customers
+
+     We also have a lot of additional resources:
+
+     - white paper: https://www.mongodb.com/collateral/10-step-methodology-to-creating-a-single-view-of-your-business
+
+
+... however, MongoDB could be used for any database need
+--------------------------------------------------------
+
+- some companies want to have only of database solution
+- MongoDB is more versatile than a Relational database
+
+  - more "data" is not "square", than it is "square"
+
+    - fit better in "documents", than in "tables"
+
+
+How to run MongoDB?
+-------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60 60
+
+   * - License Type
+     - Development
+     - Production
+   * - Community version
+     -
+       - low cost of entry
+       - may still benefit from support
+     -
+       - support available
+   * - Atlas
+     -
+       - low cost of entry for project,
+       - may still benefit from support
+     -
+       - instances are managed by MongoDB
+       - support available
+   * - Subscription(s)
+     -
+       - on-demand training
+       - support for development
+     -
+       - support
+       - suite of tools for efficiency in production
+
+
+MongoDB Atlas
+-------------
+
+Database as a Service with the following features:
+
+- Managed: no maintenance of hosts, versions, ...
+- Automated: few clicks to change settings
+- Secured: can't forget to deploy security
+- Cloud Manager Features: backups, alerts, ...
+- `Offerings and Pricing <https://www.mongodb.com/cloud/atlas/pricing>`_
+
+  - billed by the hour through Cloud providers
+  - inexpensive, close to base AWS AMI costs
+
+
+MongoDB Subscriptions
+---------------------
+
+- Development
+- Professional Support
+- Enterprise Advanced
+
+  - Ops Manager or Cloud Manager Premium
+
+    - best way to backup a sharded cluster
+
+  - Non-AGPL license
+  - Compass, BI Connector, ...
+
+
+**Our Technical Support Engineers are Awesome!**
+
+**... and they know the MongoDB developers**
+
+.. only:: instructor
+
+   .. note::
+
+     Details visible by MongoDB employees:
+     https://drive.google.com/file/d/0B_sWioZZ9pTyanZMcVh5a0o2bFE/view?pli=1

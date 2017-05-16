@@ -6,14 +6,20 @@ gizaverbosity := $(shell if [ -z $(EDU_VERBOSITY) ]; then echo --level warning; 
 
 noop:
 	$(info *** Some available targets: ***)
+	$(info   )
 	$(info   instructor-package   build the courses with instructor notes)
 	$(info   student-package      build the material for the students)
 	$(info   latex                build the PDFs for all classes)
+	$(info   pdfs                 build the PDFs for all classes, with less warnings than 'latex')
 	$(info   )
-	$(info   diff-aws             diff workspace files with the dev area in S3)
+	$(info   archive-vms          copy VMS files to S3)
+	$(info   diff-aws-vms         diff VMS files with the copy on S3)
 	$(info   )
 	$(info   internal-package     NHTT only: build the course for the instructor)
 	$(info   internal-pdfs        NHTT only: build the PDFs for the students)
+	$(info   )
+	$(info   clean                Remove 'build')
+	$(info   keep                 Make a copy of 'build' as 'build.keep'. Add after your current target)
 	$(info   )
 	$(info   set EDU_VERBOSITY to 'info' or 'debug' to increase the verbosity):
 	@true
@@ -21,13 +27,20 @@ noop:
 %:
 	giza make $@
 
-stage giza-stage:
-	@giza push --deploy stage-student stage-instructor --builder latex dirhtml html singlehtml slides --serial_sphinx --edition instructor student
-
 clean:
 	rm -rf build
 
-instructor-package: diff-aws-vms
+keep:
+	rm -rf build.old
+	touch build.keep
+	mv build.keep build.old
+	mv build build.keep
+	rm -rf build.old
+
+stage giza-stage:
+	@giza push --deploy stage-student stage-instructor --builder latex dirhtml html singlehtml slides --serial_sphinx --edition instructor student
+
+instructor-package:
 	rm -f conf.py
 	ln conf-default.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
@@ -60,13 +73,19 @@ internal-package:
 	ln -s $@/_images build/_images
 	ln -s ../_static build/$@/slides/modules/_static
 
+pdfs:
+	rm -f conf.py
+	ln conf-default.py conf.py
+	rm -rf build/$@/ build/$@.tar.gz
+	giza $(gizaverbosity) sphinx --builder latex --serial_sphinx --edition student 2>&1 | grep -v "isn't included in any toctree" || true
+
 internal-pdfs:
 	rm -f conf.py
 	ln conf-internal.py conf.py
 	rm -rf build/$@/ build/$@.tar.gz
 	# TODO - remove the next 2 lines once everyone in the team uses Giza version 0.5.10 (Dec 2016)
-	mkdir -p build/$(branch)/latex-internal
-	cp source/images/*.eps build/$(branch)/latex-internal/.
+	#mkdir -p build/$(branch)/latex-internal
+	#cp source/images/*.eps build/$(branch)/latex-internal/.
 	# TODO Copy the PDFs we still generate manually from PowerPoint slides
 	giza $(gizaverbosity) sphinx --builder latex --serial_sphinx --edition internal 2>&1 | grep -v "isn't included in any toctree" || true
 

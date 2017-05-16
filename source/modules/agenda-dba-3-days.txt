@@ -13,6 +13,7 @@ Introduction (30 minutes)
 -------------------------
 
 - :doc:`/modules/introduction-warmup`
+- :doc:`/modules/introduction-mongodb-company`
 - :doc:`/modules/introduction-overview`
 - :doc:`/modules/introduction-mongodb-stores-documents`
 - :doc:`/modules/introduction-storage-engines`

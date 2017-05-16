@@ -5,7 +5,8 @@ Advanced Developer Training (2 Days)
 Day 1 (Morning)
 ---------------
 
-- |intro_link| (.5 hours)
+- |intro_link| (.25 hours)
+- |intro_mongodb_company| (.25 hours)
 - |indexes_link| (1.5 hours)
 - |cms_schema_link| (1 hour)
 - |cart_schema_link| (1 hour)
@@ -13,6 +14,10 @@ Day 1 (Morning)
 .. |intro_link| raw:: html
 
    <a href="introduction-warmup.html">Introduction</a>
+
+.. |intro_mongodb_company| raw:: html
+
+   <a href="introduction-mongodb-company.html">MongoDB - the Company</a>
 
 .. |indexes_link| raw:: html
 

@@ -14,6 +14,7 @@ mongodb-domain.yaml
 composite-pages.yaml
 meta.yaml
 build
+build.keep
 *~
 source/reference/*/*.rst
 source/reference/*/*/*.rst

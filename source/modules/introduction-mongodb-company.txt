@@ -1,0 +1,33 @@
+=====================
+MongoDB - The Company
+=====================
+
+.. toctree::
+   :titlesonly:
+
+
+10gen
+-----
+
+- MongoDB was initially created in 2008 as part of a hosted application stack.
+- The company was originally called 10gen.
+- As part of their overarching plan to create the 10gen platform, the company built a database.
+- Suddenly everybody said: "I like that! Give me that database!"
+
+.. include:: /includes/student-notes.rst
+
+
+Origin of MongoDB
+-----------------
+
+- 10gen became a database company.
+- In 2013, the company rebranded as MongoDB, Inc.
+- The founders have other startups to their credit: DoubleClick, ShopWiki, Gilt.
+- The motivation for the database came from observing the following pattern with application development.
+
+  - The user base grows.
+  - The associated body of data grows.
+  - Eventually the application outgrows the database.
+  - Meeting performance requirements becomes difficult.
+
+.. include:: /includes/student-notes.rst

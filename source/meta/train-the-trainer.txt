@@ -4,13 +4,18 @@ MongoDB Train The Trainer
 
 .. toctree::
 
-   /modules/nav/introduction
+   /modules/nav/introduction-ttt
+   /modules/nav/common-use-cases
    /modules/nav/indexes
    /modules/nav/schema-design-intro
-   /modules/nav/mms
+   /modules/schema-design-relationships
+   /modules/schema-design-patterns
+   /modules/nav/schema-design-advanced
    /modules/nav/replica-sets
    /modules/nav/sharding
+   /modules/nav/mms
    /modules/nav/security
+   /modules/nav/application-development
    /modules/nav/storage
+   /modules/nav/application-engineering-java
    /modules/nav/performance-essentials
-   /modules/nav/drivers

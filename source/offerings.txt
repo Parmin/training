@@ -18,7 +18,7 @@ General Courses
 
 .. |contents_Essentials| raw:: html
 
-   <a href="meta/essentials-four-day.html">(contents)</a>
+   <a href="meta/essentials-four-day.html">(book contents)</a>
 
 
 Developer Courses
@@ -33,15 +33,15 @@ Developer Courses
 
 .. |contents_Developer| raw:: html
 
-   <a href="meta/developer-three-day.html">(contents)</a>
+   <a href="meta/developer-three-day.html">(book contents)</a>
 
 .. |agenda_AdvancedDeveloper| raw:: html
 
-   <a href="modules/agenda-developer-advanced.html">MongoDB Advanced Developer Training</a>
+   <a href="modules/agenda-developer-advanced.html">MongoDB Advanced Developer - 2 days</a>
 
 .. |contents_AdvancedDeveloper| raw:: html
 
-   <a href="meta/advanced-developer.html">(contents)</a>
+   <a href="meta/advanced-developer.html">(book contents)</a>
 
 
 Admin/Ops Courses
@@ -58,15 +58,15 @@ Admin/Ops Courses
 
 .. |contents_Administrator| raw:: html
 
-   <a href="meta/advanced-administrator.html">(contents)</a>
+   <a href="meta/advanced-administrator.html">(book contents)</a>
 
 .. |agenda_AdvancedAdministrator| raw:: html
 
-   <a href="modules/agenda-advanced-administrator.html">MongoDB Advanced Administrator Training - 2 days</a>
+   <a href="modules/agenda-advanced-administrator.html">MongoDB Advanced Administrator - 2 days</a>
 
 .. |contents_AdvancedAdministrator| raw:: html
 
-   <a href="meta/advanced-administrator.html">(contents)</a>
+   <a href="meta/advanced-administrator.html">(book contents)</a>
 
 .. |agenda_OpsRapidStart| raw:: html
 
@@ -74,7 +74,7 @@ Admin/Ops Courses
 
 .. |contents_OpsRapidStart| raw:: html
 
-   <a href="meta/ops-rapid-start.html">(contents)</a>
+   <a href="meta/ops-rapid-start.html">(book contents)</a>
 
 
 MongoDB World 2017 Workshops
@@ -87,7 +87,7 @@ MongoDB World 2017 Workshops
 
 .. |agenda_mdbw_security| raw:: html
 
-   <a href="modules/agenda-workshop-security.html">MongoDB Security</a>
+   <a href="modules/agenda-workshop-security.html">MongoDB Security - 1 day</a>
 
 .. |contents_mdbw_security| raw:: html
 
@@ -95,7 +95,7 @@ MongoDB World 2017 Workshops
 
 .. |agenda_mdbw_cleansing| raw:: html
 
-   <a href="modules/agenda-null.html">Cleansing Time</a>
+   <a href="modules/agenda-null.html">Cleansing Time - 1 day</a>
 
 .. |contents_mdbw_cleansing| raw:: html
 
@@ -103,7 +103,7 @@ MongoDB World 2017 Workshops
 
 .. |agenda_mdbw_data_modeling| raw:: html
 
-   <a href="modules/agenda-null.html">Data Modeling</a>
+   <a href="modules/agenda-workshop-data-modeling.html">Data Modeling - 1 day</a>
 
 .. |contents_mdbw_data_modeling| raw:: html
 
@@ -111,7 +111,7 @@ MongoDB World 2017 Workshops
 
 .. |agenda_mdbw_ops_manager| raw:: html
 
-   <a href="modules/agenda-null.html">Getting Started with MongoDB Ops Manager</a>
+   <a href="modules/agenda-null.html">Getting Started with MongoDB Ops Manager - 1 day</a>
 
 .. |contents_mdbw_ops_manager| raw:: html
 
@@ -126,7 +126,7 @@ Education Internal Courses
 
 .. |agenda_NHTT| raw:: html
 
-   <a href="modules/internal/agenda-nhtt.html">NHTT</a>
+   <a href="modules/internal/agenda-nhtt.html">NHTT - 5 days</a>
 
 .. |contents_NHTT| raw:: html
 
@@ -138,4 +138,4 @@ Education Internal Courses
 
 .. |contents_TrainTheTrainer| raw:: html
 
-   <a href="meta/train-the-trainer.html">(contents)</a>
+   <a href="meta/train-the-trainer.html">(book contents)</a>

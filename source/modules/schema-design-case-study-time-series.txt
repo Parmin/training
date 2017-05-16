@@ -26,10 +26,7 @@ Upon completing this module, students should understand:
 Time Series Use Cases
 ---------------------
 
-- Silver Spring Networks, the leading provider of smart grid infrastructure, analyzes utility meter data in MongoDB.
-- EnerNOC analyzes billions of energy data points per month to help utilities and private companies optimize their systems, ensure availability and reduce costs.
-- Server Density uses MongoDB to collect server monitoring statistics.
-- Appboy, the leading platform for mobile relationship management, uses MongoDB to track and analyze billions of data points on user behavior.
+- Atlas/Cloud Manager/Ops Manager pre-record a lot of stats in time series fields
 
 .. include:: /includes/student-notes.rst
 
@@ -38,6 +35,7 @@ Time Series Use Cases
    .. note::
 
       - Mention there are a lot of MongoDB customers using MongoDB for time series data
+      - may want to add Man AHL: https://www.mongodb.com/press/man-ahl-arctic-open-source
 
 
 Building a Database Monitoring Tool
@@ -300,6 +298,3 @@ Look through some charts in MongoDB's Cloud Manager, how would you represent the
 
          // 1 minute granularity for 48 hours
          db.metrics.aggregate({ match: {})
-
-
-

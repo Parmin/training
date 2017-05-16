@@ -2,50 +2,62 @@
 New Hire Technical Training
 ===========================
 
+
 Day 1
 -----
 
 - Welcome
 - :doc:`/modules/internal/company`
-- Indexing
+- Indexing (`Assessment`_)
 
   - :doc:`/modules/internal/agenda-nhtt-indexes`
   - Alternative presentation on `Indexing`_
 
-- :doc:`/modules/internal/agenda-nhtt-security`
+- Schema Design
+
+  - :doc:`/modules/internal/schema-design`
+  - Alternative presentation on `Schema Design`_
+  - :doc:`/exercises/schema-design-exercise-ecommerce`
+
 
 Day 2
 -----
 
-- Storage Engines and Internals
+- `Replication`_ (`Assessment`_)
 
-  - :doc:`/modules/internal/storage-engines-mmapv1`
-  - :doc:`/modules/internal/storage-engines-wired-tiger`
+- Security and Lab (`Assessment`_)
 
-- `Schema Design`_
+  - :doc:`/modules/internal/agenda-nhtt-security`
+
 
 Day 3
 -----
 
-- Atlas, Cloud Manager and Ops Manager
+- `Sharding`_ (`Assessment`_)
+
+- Atlas, Cloud Manager and Ops Manager (`Assessment`_)
 
   - :doc:`/modules/nav/opsmanager`
   - Alternative PPT presentation on `Atlas, Cloud and OpsManager`_
 
-- :doc:`/exercises/security-workshop`
 
 Day 4
 -----
 
-- `Replication`_
-- `Sharding`_
+- Storage Engines (`Assessment`_)
+
+  - :doc:`/modules/internal/storage-engines-mmapv1`
+  - :doc:`/modules/internal/storage-engines-wired-tiger`
+
+- `Applications and Drivers`_
+
 
 Day 5
 -----
 
-- `Applications and Drivers`_
-- Tools and Methodologies
+- Tools and Methodologies (`Assessment`_)
 - Misc
+
 
 Quizzes
 -------
@@ -53,7 +65,8 @@ Quizzes
 - :doc:`/modules/internal/nhtt-quizzes`
 
 
-.. _`Atlas, Cloud and OpsManager` : https://drive.google.com/open?id=0B-_GyywmjjWBRUNkc25WMmk1ZG8
+.. _`Assessment`: https://drive.google.com/drive/folders/0B-_GyywmjjWBNzlEOGUwWGZsMm8
+.. _`Atlas, Cloud and OpsManager`: https://drive.google.com/open?id=0B-_GyywmjjWBRUNkc25WMmk1ZG8
 .. _`Applications and Drivers`: https://drive.google.com/open?id=0B-_GyywmjjWBV1FidjRtR1NvQUk
 .. _`Indexing`: https://drive.google.com/open?id=0B-_GyywmjjWBaElvOVZqUUQweHc
 .. _`Ops Manager Lab`: https://drive.google.com/open?id=0B-_GyywmjjWBMzZJWHotdmF2Wlk

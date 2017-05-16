@@ -1,0 +1,106 @@
+==========================
+"Train The Trainer" Course
+==========================
+
+.. toctree::
+   :titlesonly:
+
+
+.. only:: instructor
+
+   .. note::
+
+     Unless you are training people who will become MongoDB trainers, skip this section
+
+
+Objectives
+----------
+
+Upon completing this module students should be able to:
+
+- locate appropriate MongoDB resources
+- identify gaps in knowledge
+- deliver MongoDB trainings
+
+
+Important things to consider
+----------------------------
+
+- Identifying your audience
+- You can't teach everything on MongoDB
+- It is OK to not know, better than a wrong answer
+- Keep learning, the product is changing a lot in each major release
+
+
+MongoDB resources
+-----------------
+
+- Docs: docs.mongodb.com
+- Tutorials: docs.mongodb.com/manual/tutorial
+- On-line Courses: university.mongodb.com
+- Presentations: mongodb.com/presentations
+- Consulting packages: mongodb.com/products/consulting
+
+.. only:: instructor
+
+   .. note::
+
+     - Same thing for us, we will not be able to teach you everything
+     - We have an internal training course our employees take after completing
+       a lot of prerequisites and we feel that we have just scratched the surface.
+
+
+Identify your audience
+----------------------
+
+- Developers or administrators?
+- Already MongoDB certified?
+- Level of experience and knowledge
+- Target usage of MongoDB in their job
+
+
+Identify your audience knowledge
+--------------------------------
+
+- Ask questions
+- Have quizzes
+
+  - have they grasped the important concepts?
+  - we will have some quizzes for you in the class :)
+
+
+Exercise: Find some information
+-------------------------------
+
+.. rst-class:: build
+
+- As teams of 2
+- find the best information for
+- ... learning about 'good shard keys'
+
+.. only:: instructor
+
+   .. note::
+
+     - Expect a range of answers from documentation, tutorial, presentations.
+       Have the students justify their choices
+
+
+Delivering the contents
+-----------------------
+
+.. rst-class:: build
+
+This week, we will not be the only trainers
+
+You will also participate
+
+Every day from 17:00 to 18:00
+
+It is your turn to deliver
+
+- 5 minutes presentations
+- 5 minutes feedback
+- 7 presentations per day
+- => each of you will present twice in the week
+- we will give you the topics a little ahead of time

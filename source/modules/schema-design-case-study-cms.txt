@@ -1,6 +1,6 @@
-===============
-Case Study: CMS
-===============
+=====================================
+Case Study: Content Management System
+=====================================
 
 
 Learning Objectives
@@ -8,7 +8,8 @@ Learning Objectives
 
 Upon completing this module, students should understand:
 
-- Various methods for effectively designing a CMS schema in MongoDB
+- Various methods for effectively designing the schema for a
+  Content Management System (CMS) in MongoDB
 - Optimizations to the schema, and their tradeoffs
 
 .. only:: instructor
@@ -21,8 +22,9 @@ Upon completing this module, students should understand:
       - How do we handle the potential for inconsistency between the comments collection and an individual article.
 
         - Don't pre-aggregate; just do two queries.
-	- Do this on read -- two queries and, possibly and update or message queues.
-	- Handle pre-joining all in one place. Background process identifies top comments.
+
+	    - Do this on read -- two queries and, possibly and update or message queues.
+	    - Handle pre-joining all in one place. Background process identifies top comments.
 
 .. include:: /includes/student-notes.rst
 
@@ -30,9 +32,11 @@ Upon completing this module, students should understand:
 Building a CMS with MongoDB
 ---------------------------
 
-- CMS stands for content management system.
-- nytimes.com, cnn.com, and huffingtonpost.com are good examples to explore.
-- For the purposes of this case study, let's use any article page from huffingtonpost.com.
+- CMS stands for Content Management System.
+- `nytimes.com <http://nytimes.com>`_, `cnn.com <http://cnn.com>`_, and
+  `huffingtonpost.com <http://huffingtonpost.com>`_ are good examples to explore.
+- For the purposes of this case study, let's use any article page from
+  `huffingtonpost.com <http://huffingtonpost.com>`_.
 
 .. include:: /includes/student-notes.rst
 
@@ -63,66 +67,66 @@ Potential tables
 
         - id
         - headline
-	- author_id
-	- body
-	- summary
-	- region
-	- published (timestamp)
-	- edited (timestamp)
+      	- author_id
+      	- body
+      	- summary
+      	- region
+      	- published (timestamp)
+      	- edited (timestamp)
 
       - Author:
 
         - id
         - name
-	- title
+
+	    - title
 
       - Comment
 
         - id
-	- article_id
-	- user_id
-	- sentiments
-	- responded
-	- updated
+      	- article_id
+      	- user_id
+      	- sentiments
+      	- responded
+      	- updated
 
       - User
 
         - id
-	- username
-	- user_email
-	- user_password
+      	- username
+      	- user_email
+      	- user_password
 
       - Tag
 
         - id
-	- label
-	- type
+      	- label
+      	- type
 
       - Article_Tag
 
         - id
-	- article_id
-	- tag_id
-	- tagged (timestamp)
+      	- article_id
+      	- tag_id
+      	- tagged (timestamp)
 
       - Article_Article
 
         - article_newer_id
-	- article_older_id
+	      - article_older_id
 
       - Front_Page
 
         - article_id
-	- added_timestamp
+	      - added_timestamp
 
       - Article_Stats
 
         - views
-	- favorited
-	- emailed
-	- shared
-	- commented
-
+      	- favorited
+      	- emailed
+      	- shared
+      	- commented
 
 
 Building a CMS in MongoDB
@@ -149,7 +153,6 @@ Building a CMS in MongoDB
     ]
   }
 
-
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
@@ -158,7 +161,6 @@ Building a CMS in MongoDB
 
       - Spend a lot of time on the pros/cons of these two designs (RDBMS vs Mongo)
       - One design optimized for reads, another design optimized for writes
-
 
 
 Benefits of the Relational Design
@@ -173,25 +175,25 @@ With Normalized Data:
 .. include:: /includes/student-notes.rst
 
 
-Benefits of the MongoDB Design
-------------------------------
+Benefits of the Design with MongoDB
+-----------------------------------
 
 - Much faster reads
 - One query to load a page
 - The relational model would require multiple queries.
 
-
 .. include:: /includes/student-notes.rst
 
-Every System Has Tradeoffs
+
+Every System has Tradeoffs
 --------------------------
 
 - Relational design will provide more efficient writes for some data.
 - MongoDB design will provide efficient reads for common query patterns.
 - A typical CMS may see 1000 reads (or more) for every article created (write).
 
-
 .. include:: /includes/student-notes.rst
+
 
 Optimizations
 -------------
@@ -289,6 +291,7 @@ Include More Information With Each Tag
 
 .. include:: /includes/student-notes.rst
 
+
 Include More Information With Each Tag
 --------------------------------------
 
@@ -304,7 +307,6 @@ Include More Information With Each Tag
       }
     }
   } )
-
 
 .. include:: /includes/student-notes.rst
 
@@ -339,9 +341,7 @@ Fields specific to an article may be added to the document.
     }
   }
 
-
 .. include:: /includes/student-notes.rst
-
 
 .. only:: instructor
 
@@ -353,7 +353,7 @@ Fields specific to an article may be added to the document.
       - Examples of more fields specific to a particular type of article:
 
         - http://www.nytimes.com/interactive/2015/07/13/science/space/13after-pluto.html?ref=space
-	- http://www.nytimes.com/interactive/2015/06/18/world/europe/encyclical-laudato-si.html?ref=earth
+	      - http://www.nytimes.com/interactive/2015/06/18/world/europe/encyclical-laudato-si.html?ref=earth
 
 
 Class Exercise 1
@@ -362,12 +362,12 @@ Class Exercise 1
 Design a CMS (similar to above) with the following additional requirements:
 
 - Articles may be in one of three states: "draft", "copy edit", "final"
-- History of articles as they move between states must be captured, as well as comments by the person moving the article to a different state
-- Within each state, every article must be versioned.  In case there is a problem, the editor can quickly revert to the previous version.
-
+- History of articles as they move between states must be captured,
+  as well as comments by the person moving the article to a different state
+- Within each state, every article must be versioned.
+  In case there is a problem, the editor can quickly revert to the previous version.
 
 .. include:: /includes/student-notes.rst
-
 
 .. only:: instructor
 
@@ -416,11 +416,11 @@ Class Exercise 3
 ----------------
 
 - Consider a production deployment of our CMS.
-- Assuming replication across multiple datacenters, how might we shard our articles collection to reduce latency?
-
+- Assuming replication across multiple data centers, how might we shard
+  our articles collection to reduce latency?
 
 .. only:: instructor
 
    .. note::
 
-      - Can pin documents to shard by region
+      - Can pin documents to shard by region with **zone sharding**

@@ -111,6 +111,14 @@ slide_theme_path = [ os.path.join(conf.paths.projectroot, 'themes') ]
 
 slide_numbers = True
 
+slide_link_html_to_slides = True
+slide_relative_path = "slides/"
+slide_link_to_html = True
+slide_html_relative_path = "../"
+
+# To add
+#slide_footer = "MongoDB Internal Contents - Confidential"   # Default is right aligned, need centered
+#slide_relative_path = "../slides/"   #default
 
 # -- Options for HTML output ---------------------------------------------------
 

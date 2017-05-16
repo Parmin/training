@@ -1,0 +1,27 @@
+======================
+Data Modeling Workshop
+======================
+
+
+Day 1
+-----
+
+- :doc:`/modules/nav/schema-design-intro`
+- :doc:`/modules/schema-design-relationships`
+- :doc:`/modules/schema-design-patterns`
+- Case Studies:
+
+  - :doc:`/modules/schema-design-case-study-cms`
+  - :doc:`/modules/schema-design-case-study-social-network`
+  - :doc:`/modules/schema-design-case-study-time-series`
+  - :doc:`/modules/schema-design-case-study-shopping-cart`
+
+- Exercises:
+
+  - :doc:`/exercises/schema-design-exercise-ecommerce`
+  - Single View exercise
+  - Internet of Things exercise
+  - Mobile exercise
+  - Real-Time Analytics exercise
+  - Personalization exercise
+  - Contents Management exercise

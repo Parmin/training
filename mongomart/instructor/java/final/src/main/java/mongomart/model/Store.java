@@ -13,6 +13,15 @@ public class Store {
     private final Address address;
     private final double distanceFromPoint;
 
+    public Store(){
+      this.id = new ObjectId();
+      this.storeId = "";
+      this.name = "";
+      this.geo = null;
+      this.address = null;
+      this.distanceFromPoint = 0;
+    }
+
     public Store(final ObjectId id, final String storeId, final String name,
                  final Geo geo, final Address address,
                  final double distanceFromPoint) {

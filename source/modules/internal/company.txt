@@ -112,6 +112,7 @@ Company History
 - 2007: 10gen is founded
 - 2008: Business model changed from full stack SAAS to focus on storage layer
 - 2009: MongoDB v1.0 is released (9 people)
+- 2010: MongoSF and MongoNY
 - 2013: 10gen renamed to MongoDB (250 people)
 - 2014: Acquired WiredTiger (425 people)
 - 2016: Atlas (700 people)

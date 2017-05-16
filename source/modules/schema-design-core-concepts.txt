@@ -2,6 +2,23 @@
 Schema Design Core Concepts
 ===========================
 
+.. only:: instructor
+
+   .. note::
+
+     There are a lot of exercises to chose from.
+     You are likely to only go through a subset of those in the class.
+     Either, you already know which ones are appropriate for the class,
+     or you can ask them to vote.
+
+     Some exercises are precedeed by a lot of context and examples of
+     queries/code. Those are labelled "case studies".
+     Otherwise you have the pure exercises that only have the statement
+     of the problem.
+
+     Some of the exercises come with the elements of the solution in
+     the instructor notes on the last page.
+
 
 Learning Objectives
 -------------------
@@ -438,5 +455,3 @@ Schema Design Use Cases with GridsFS
 - Medical record attachments (x-rays, reports, etc.)
 
 .. include:: /includes/student-notes.rst
-
-

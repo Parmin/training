@@ -14,15 +14,16 @@ Upon completing this module, students should understand:
 .. include:: /includes/student-notes.rst
 
 
-Shopping Cart Objectives
-------------------------
+Shopping Cart Requirements
+--------------------------
 
 - Shopping cart size will stay relatively small (less than 100 items in most cases)
-- Expire the shopping cart after 20 minutes of in-activity
+- Expire the shopping cart after 20 minutes of inactivity
 
 .. include:: /includes/student-notes.rst
 
-Advantages of Using MongoDB for a Shopping Cart
+
+Advantages of using MongoDB for a Shopping Cart
 -----------------------------------------------
 
 - One simple document per cart (note: optimization for large carts below)
@@ -30,6 +31,7 @@ Advantages of Using MongoDB for a Shopping Cart
 - Dynamic schema for specific styles/values of an item in a cart (e.g. "Red Sweater", "17 Inch MacBook Pro 20GB RAM")
 
 .. include:: /includes/student-notes.rst
+
 
 Modeling the Shopping Cart
 --------------------------
@@ -60,6 +62,7 @@ Modeling the Shopping Cart
 
 .. include:: /includes/student-notes.rst
 
+
 Modeling the Shopping Cart
 --------------------------
 
@@ -70,12 +73,13 @@ Modeling the Shopping Cart
 
 .. include:: /includes/student-notes.rst
 
+
 Add an Item to a User's Cart
 ----------------------------
 
 .. code-block:: javascript
 
-  db.cart.updateOne( {
+  db.cart.updateOne({
       "_id": ObjectId("55932ef370c32e23e6552ced")
     }, {
       $push : {
@@ -89,9 +93,12 @@ Add an Item to a User's Cart
       },
       $set : {
         "last_activity" : ISODate()
-      } } )
+      }
+    }
+  )
 
 .. include:: /includes/student-notes.rst
+
 
 Updating an Item in a Cart
 --------------------------
@@ -102,16 +109,18 @@ Updating an Item in a Cart
 
 .. code-block:: javascript
 
-  db.cart.updateOne( {
+  db.cart.updateOne({
       "_id": ObjectId("55932ef370c32e23e6552ced"),
       "items.itemid" : 4567
     }, {
       $set : {
         "items.$.quantity" : 5,
         "last_activity" : ISODate()
-    } } )
+    }
+  })
 
 .. include:: /includes/student-notes.rst
+
 
 Remove an Item from a User's Cart
 ---------------------------------
@@ -126,7 +135,8 @@ Remove an Item from a User's Cart
       },
       $set : {
         "last_activity" : ISODate()
-    } } )
+    }
+  })
 
 .. include:: /includes/student-notes.rst
 
@@ -275,5 +285,3 @@ Design a shopping cart schema for a concert ticket sales site:
 
 
 .. include:: /includes/student-notes.rst
-
-

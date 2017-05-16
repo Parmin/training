@@ -10,7 +10,7 @@ Day 1
 
 - Welcome
 - :doc:`/modules/internal/company`
-- :doc:`/modules/internal/advanced-schema-design`
+- :doc:`/modules/internal/schema-design`
 - :doc:`/modules/internal/applications-and-drivers`
 
 .. include:: /includes/student-notes.rst

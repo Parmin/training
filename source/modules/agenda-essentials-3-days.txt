@@ -16,6 +16,7 @@ Introduction (30 minutes)
 -------------------------
 
 - |link_warmup|
+- |intro_mongodb_company|
 - |link_overview|
 - |link_stores|
 - |link_storage|
@@ -23,6 +24,10 @@ Introduction (30 minutes)
 .. |link_warmup| raw:: html
 
    <a href="introduction-warmup.html">Warm Up</a>
+
+.. |intro_mongodb_company| raw:: html
+
+   <a href="introduction-mongodb-company.html">MongoDB - the Company</a>
 
 .. |link_overview| raw:: html
 
@@ -190,7 +195,7 @@ Schema Design (3 hours)
 
 .. |schema_lab_link| raw:: html
 
-   <a href="../exercises/schema-group-exercise.html">Group Lab: Data Model for an E-Commerce Site</a>
+   <a href="../exercises/schema-design-exercise-ecommerce.html">Group Lab: Data Model for an E-Commerce Site</a>
 
 .. include:: /includes/student-notes.rst
 
@@ -407,5 +412,3 @@ Additional Topics (2 hours)
 - Additional topics, application specific topics from class
 
 .. include:: /includes/student-notes.rst
-
-

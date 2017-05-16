@@ -1,0 +1,594 @@
+============
+NHTT Quizzes
+============
+
+.. role:: green
+.. role:: red
+
+.. only:: instructor
+
+  .. note::
+
+     - This is a subset of the NHTT quizzes.
+       Only use/copy a non NHTT quiz, as we may have different questions for our internal classes
+
+     - "Assessment" quizzes should be taken before the sessions
+     - quizzes are in the following folder:
+
+       https://drive.google.com/drive/folders/0B-_GyywmjjWBNzlEOGUwWGZsMm8
+
+    - From the `Google Form`, click the `SEND` button in order to retrieve a
+      link you can post in the Slack channel
+    - Click 'Responses' on the source Form to see the results
+
+    - If you are making modifications to the questions in this file,
+      you will need to also modify the corresponding `Google Form`.
+
+    - If you want to share with non-MongoDB people, in settings:
+
+      - clear "Restrict to 10gen users"
+      - limit to 1 response
+
+List of Quizzes
+---------------
+
+- `Atlas, Cloud Manager and Ops Manager Assessment`_
+- `Indexing Assessment`_
+- `Replication Assessment`_
+- `Security Assessment`_
+- `Sharding Assessment`_
+- `Storage Engines Assessment`_
+- `Tools Assessment`_
+
+
+Assessment Quizzes
+------------------
+
+- Unless said otherwise, the questions apply only to MongoDB version 3.4
+- There is stuff we don't expect you to know in those quizzes.
+  Don't sweat it.
+  This information is helpful to see what to cover in more
+  details in this NHTT session.
+
+
+Atlas, Cloud Manager and Ops Manager Assessment
+-----------------------------------------------
+
+
+Which of the following have you done?
+-------------------------------------
+
+
+Indexing Assessment
+-------------------
+
+.. only:: instructor
+
+  .. note::
+
+     - The old version of this Quiz is in SurveyMonkey:
+
+       - url to take quiz: https://www.research.net/r/XGDFBJQ
+       - url to edit quiz: https://www.surveymonkey.com/summary/7pFpOSfaY9uUMCZUDj2wOcgRWwBI4Mg9GNnjmSRp6ljAHTZZkWRRMM2hqSPg5sMP
+
+        - we need a different dataset to explain equality/sort/range.
+          It would be good to have 1-N relationships for each level (not a 1-1 like city to zipcode)
+
+       - let's not use boolean fields, unless the purpose is to show low cardinality
+
+
+1.
+--
+
+.. code-block:: javascript
+
+   db.users.find( { username : <string> } )
+   db.users.find( { isActive : true, username: <string> } )
+
+.. code-block:: javascript
+
+  { username : 1, isActive : 1 }
+
+An alternative might be two indexes:
+
+.. code-block:: javascript
+
+  { username : 1 }
+  { isActive : 1, username : 1 }, { partialFilterExpression : { isActive : true } }
+
+but the overhead of maintaining two indexes might not be worth it.
+
+.. only:: instructor
+
+  .. note::
+
+    - Descending is OK, too.
+
+    - This has to be the ordering, however, because if it were { isActive : 1, username : 1 },
+      then the index couldn't be used for the first query.
+
+
+2.
+--
+
+.. code-block:: javascript
+
+  db.zips.find( { city : { $in : [ <string>, <string>, <string> ] },
+                  state : <string> } ).sort( { zip_code : 1 } )
+
+Any of the following:
+
+.. code-block:: javascript
+
+  { state : 1, zip_code: 1, city : 1 }
+  { state : 1, zip_code: 1, city : -1 }
+  { state : 1, zip_code: -1, city : 1 }
+  { state : 1, zip_code: -1, city : -1 }
+  { state : -1, zip_code: 1, city : 1 }
+  { state : -1, zip_code: 1, city : -1 }
+  { state : -1, zip_code: -1, city : 1 }
+  { state : -1, zip_code: -1, city : -1 }
+
+Descending is OK too, in any or all of the fields.
+
+The order, however, is important. State needs to come first in order to
+efficiently use the index, and zip_code needs to come second in order to use
+the index for the sort.
+
+
+3.
+--
+
+.. code-block:: javascript
+
+  db.accounts.updateMany( { lastLogin : { $gte : ISODate( "2016-10-01" ) },
+                            isActive : true },
+                          { $inc : { balanceDue : NumberDecimal(10.00) } } )
+
+any of the following:
+
+.. code-block:: javascript
+
+  { isActive : 1, lastLogin : 1 }
+  { isActive : 1, lastLogin : -1 }
+  { isActive : -1, lastLogin : 1 }
+  { isActive : -1, lastLogin : -1 }
+
+
+4.
+--
+
+.. code-block:: javascript
+
+  db.people.insertOne( { username : "will@mongodb.com", password : "12345",
+                         employer : "MongoDB" } )
+
+No index is required for this. Insertions don't benefit from indexes, and are actually slowed down by them.
+
+
+5.
+--
+
+.. code-block:: javascript
+
+  db.users.find( { isActive : true } ).sort( { lastLogin : -1, lastName : 1,
+                                               firstName : 1 } )
+
+Any of the following will work:
+
+.. code-block:: javascript
+
+  { isActive : 1, lastLogin : -1, lastName: 1, firstName: 1 }
+  { isActive : -1, lastLogin : -1, lastName: 1, firstName: 1 }
+  { isActive : 1, lastLogin : 1, lastName: -1, firstName: -1 }
+  { isActive : -1, lastLogin : 1, lastName: -1, firstName: -1 }
+
+
+6.
+--
+
+.. code-block:: javascript
+
+  db.accounts.find( { accountBalance : { $gte : NumberDecimal(100000.00) } },
+                      city: "New York" ).sort( { lastName: 1, firstName: 1 } )
+
+.. code-block:: javascript
+
+   { city: 1, lastName: 1, firstName: 1, accountBalance: 1 }
+
+(order doesn't matter, except that lastName and firstName must be aligned).
+
+
+Replication Assessment
+----------------------
+
+
+1. Which of the following is/are true of the Oplog?
+---------------------------------------------------
+
+- :green:`The Oplog can be transmitted from one secondary to another`
+- :red:`The Oplog can be transmitted from a secondary to the primary`
+- :red:`The Oplog includes all server log information`
+- :red:`When 2 nodes are in sync, they contain the same last Oplog entry and the same first Oplog entry`
+- :green:`Oplog entries can safely be applied more than once, but not skipped`
+
+.. only:: instructor
+
+  .. note::
+
+    - 4. Oplog sizes can be different, so you would have the same end only.
+
+
+2. Which of the following is/are best practice reasons to read from secondaries?
+--------------------------------------------------------------------------------
+
+- :red:`To increase read throughput when the primary is under heavy write load`
+- :green:`To offload batch processing work from the primary (e.g., data analytics)`
+- :green:`To provide local reads in geographically distributed replica sets`
+- :red:`The application server runs on the same host as the secondary`
+
+.. only:: instructor
+
+  .. note::
+
+    - 1. all members do the same amount of writes
+    - 4. that is a poor design to start with. Don't run the app on the same node as a mongod server
+
+
+3. When is an election called?
+------------------------------
+
+- :red:`When a write with no known Primary comes in`
+- :green:`When there is no Primary`
+- :red:`When Oplog entries must be replicated`
+- When no other server has called for an election
+
+.. only:: instructor
+
+  .. note::
+
+    - 4. False/tricky, the fact that no server has called for an election is not enough
+
+
+4. Which statements are true in MongoDB 3.4 regarding replication?
+------------------------------------------------------------------
+
+- :red:`There is a maximum of 13 voting members in a replica set`
+- :green:`There is a maximum of 50 nodes in a replica set`
+- :red:`Arbiters have an Oplog`
+- :red:`Some nodes can have more than one vote`
+- :red:`Only the members in the following states can vote: PRIMARY, SECONDARY, STARTUP2, ARBITER`
+
+.. only:: instructor
+
+  .. note::
+
+    - 1. max of 7 voting nodes
+    - 4. That was true in old releases (2.6?)
+    - 5. STARTUP2 is invalid, need to go to the next state RECOVERING. ROLLBACK can also vote
+
+
+5. The following would likely be observed if you change w=1 to w=majority
+-------------------------------------------------------------------------
+
+- :green:`Operations would take longer to complete from the client point of view`
+- :red:`The Primary would process less operations per second`
+- :green:`You would see an increase of active connections on the Primary`
+- :red:`In a Primary/Sec/Sec/Arb/Arb config, only one secondary would have to acknowledge the write`
+- :green:`Even with 25 nodes in the replica set, the server would only wait for a max of 7 nodes`
+
+.. only:: instructor
+
+  .. note::
+
+    - 1. yes, waiting on confirmation from the secondaries
+    - 2. the Primary is not doing addition writes, so the performance should be the same
+    - 3. connections have to wait longer, so you need more of them
+    - 4. arbiters also count in the nodes, even if they can't do writes. Prevents 2 arbs electing a node without the data.
+    - 5. write concerns only apply to voting members, so yes 7 is the max majority possible
+
+
+Security Assessment
+-------------------
+
+
+1. Which authentication modes are available in the MongoDB Community version
+----------------------------------------------------------------------------
+
+- :red:`Authentication through LDAP`
+- :red:`Authentication through Kerberos`
+- :green:`Authentication through SCRAM-SHA1`
+- :green:`Authentication through x509`
+- :red:`Two factor authentication`
+
+.. only:: instructor
+
+  .. note::
+
+    - 1 and 2 are available in the Enterprise version
+
+
+2. Which of the following are true regarding TLS/SSL and MongoDB?
+-----------------------------------------------------------------
+
+- :red:`TLS/SSL gives transport compression between the client and the server`
+- :green:`TLS/SSL gives  transport encryption between the client and the server`
+- :green:`TLS/SSL can help restricting which clients can connect the mongod processes`
+- :green:`TLS/SSL can be deployed between the mongod processes without downtime`
+- :red:`Using SSL certificates is a guarantee against man-in-the-middle attack`
+
+.. only:: instructor
+
+  .. note::
+
+    - 1 most of the time you will get compression, however it is not guaranteed,
+      it depends on the library
+    - 5 not if you use self-signed certificates. However CA-signed certificates
+      will protect against a man-in-the-middle attack
+
+
+3. Which of the following represent 'authorization' actions, not 'authentication'?
+----------------------------------------------------------------------------------
+
+- :green:`listing databases`
+- :green:`creating a role`
+- :red:`connecting to a mongod node`
+- turning on *--auth*
+- adding a user
+
+.. only:: instructor
+
+  .. note::
+
+    - 4 is a little tricky. '--auth' is turning on 'authorization', however
+      it will also require that you authenticate as the user before being
+      able to access the resources you have been authorized to access
+    - 5 is also a little tricky. You need the appropriate role (being authorized)
+      to add a user, however you are adding a user that can be 'authenticated' against.
+
+
+4. If I create a user with the following command, which of the following are appropriate commands?
+--------------------------------------------------------------------------------------------------
+
+.. code-block:: javascript
+
+   use db1; db.createUser({user:"me",pwd:"XXX",
+            roles:[{role:"read",db:"db2"},{role:"readWrite",db:"db3"}]})
+
+- :red:`mongo --user me --password XXX`
+- :red:`use db2; db.auth("me","XXX")`
+- :green:`as user 'me': use db3; db.colA.findOne()`
+- :red:`as user 'me': use db2; db.colA.insert({fieldA:1})`
+- :red:`as 'root' user: use admin; db.getUser("me")`
+- :green:`as 'root' user: use db1; db.getUser("me")`
+- :green:`as 'root' user: use admin; db.system.users.find({user:"me"})`
+
+.. only:: instructor
+
+  .. note::
+
+    - 1, you need to specify the database to authenticate against
+    - 2, the user has privileges in 'db2' and 'db3', however was created in 'db1',
+      so must 'authenticate' against this database
+    - 4, 'me' has only 'read' access in 'db2'
+    - 5, even if all users are kept in 'admin', 'getUser' only show the ones
+      that are created against that database
+    - 7, unlike '5', querying the 'system.users' collection will show you all users.
+
+
+5. Which of the following statements are true?
+----------------------------------------------
+
+- :green:`FIPS stands for Federal Information Processing Standard`
+- :green:`SCRAM stands for Salted Challenge Response Authentication Mechanism`
+- :green:`HIPAA stands for Health Insurance Portability and Accountability Act`
+- :green:`TLS/SSL stands for Transport Layer Security/Secure Sockets Layer`
+- :red:`CRUD stands for Certified Restricted User of Data`
+
+.. only:: instructor
+
+  .. note::
+
+    - Hopefully no one got CRUD wrong...
+
+
+Sharding Assessment
+-------------------
+
+
+1. You have a sharded cluster that does not perform well, what should be the first actions to take?
+---------------------------------------------------------------------------------------------------
+
+- :red:`Add memory to the hosts`
+- :red:`Move some of your reads from the Primaries to the Secondaries`
+- :red:`Replace the spinning disks with SSDs`
+- :red:`Stop the balancer`
+- :red:`Upgrade to the latest MongoDB version`
+- :green:`Examine the distribution of writes and reads per shard`
+- :green:`Review the shard key`
+- :red:`Add one or more shards`
+
+.. only:: instructor
+
+  .. note::
+
+    - 1. you don't know what the problem is
+    - 2. Don't read from secondaries in sharded clusters!!! That should have been clear in M201.
+    - 3. still need to access the root cause
+    - 4. ... yes if you know that this is the problem
+    - 5. That may help, but not the first thing to do
+    - 8. Again, trying to fix an issue without knowing the cause
+
+
+2. For MongoDB 3.4, when you perform a query on a sharded cluster that involves an explicit sort stage
+------------------------------------------------------------------------------------------------------
+
+(ie, the sort isn't handled by the index ordering), where does the sorting take place?
+
+- :green:`On those shards that contain documents to return`
+- On a random shard
+- :red:`On the mongos that routed your query`
+- :green:`On the primary shard for the given database`
+
+.. only:: instructor
+
+  .. note::
+
+    REF: https://docs.mongodb.com/manual/core/sharded-cluster-query-router/
+
+    - 2. on a random shard if aggregation query
+    - 3. Used to be up to 3.2. Changed in 3.4
+
+
+3. You are running a 3-member replica set, with one server in each of your 3 data centers
+-----------------------------------------------------------------------------------------
+
+Which of the following are good times to shard? Check all that apply.
+
+- :green:`Your disk I/O is limiting you. Your current servers cost $8,000 each, and replacing servers to double throughput would cost $50,000 per server.`
+- :red:`You are getting a lot of page faults, are running on $500 servers and doubling the RAM on each server would cost $200.`
+- :red:`You are running on servers that cost $8,000 each, and your working set fits in RAM, but you would like to increase the speed of your read queries.`
+
+
+4. If the shard key is not included in a find operation on a cluster
+--------------------------------------------------------------------
+
+where there are 3 shards, each one a replica set with 5 members.
+How many server processes will see the find operation?
+(Do not count the mongos that routes the query.)
+
+- :green:`3`
+
+
+5. In the context of a sharded cluster, which of the following are NOT true of chunks?
+--------------------------------------------------------------------------------------
+
+- :red:`Chunks may exist that contain no documents`
+- :red:`Chunk ranges are inclusive of the lower boundary and exclusive of the upper boundary`
+- :green:`Documents have a metadata field referencing the chunk they belong to`
+- :red:`Every chunk is assigned to a particular shard`
+- :green:`The default chunk size changes automatically to meet the needs of an application`
+
+.. only:: instructor
+
+  .. note::
+
+    - 3. from the value of the shard key, you would search the chunk it belongs to.
+         There is no direct link, it would be too expensive to update on splits
+    - 5. Default is 64MB, you must change it in the 'settings' if needed
+
+
+Storage Engines Assessment
+--------------------------
+
+
+1. Which of the following storage engines are available in the MongoDB Community Version?
+-----------------------------------------------------------------------------------------
+
+- :green:`MMAP v1 - Memory Map storage engine`
+- :green:`Wired Tiger`
+- :red:`Rock DB`
+- :red:`TokuMX`
+- :red:`In-Memory storage engine`
+- :red:`Column based storage engine`
+
+.. only:: instructor
+
+  .. note::
+
+    - 3. is open source, mostly written by Facebook
+    - 4. SE using fractal index, acquired by Percona
+    - 5. is only available in the Enterprise version
+    - 6. does not exist yet, however Eliot is interested in having it
+
+
+2. Which of the following apply to both MMAPv1 and Wired Tiger?
+---------------------------------------------------------------
+
+- :red:`More CPU cores gives a better performance`
+- :green:`Using a separate disk for the journal gives better performance`
+- :red:`Support for the read concern 'majority'`
+- :green:`Support for the read concern 'linearizable'`
+- :red:`Native support for at rest encryption`
+- :red:`Native support for on-disk compression`
+
+.. only:: instructor
+
+  .. note::
+
+    - 1,3,5 and 6 are only supported by Wired Tiger
+    - 5 and 6 can be achieved by third party software
+
+
+3. Which of the following statements are true for Wired Tiger in MongoDB 3.4?
+-----------------------------------------------------------------------------
+
+- :red:`The default WT cache size is 60% minus 1GB`
+- :green:`Checkpoints are created every 60 seconds and stored on disk`
+- :red:`Incrementing a value on a field only result in that location being updated in memory and on disk`
+- :red:`Because of checkpoints, a cursor on a query will never see newer documents as it return them`
+- :green:`The file system cache is still usually important for good performance`
+
+.. only:: instructor
+
+  .. note::
+
+    - 1 this was for 3.2. In 3.0 and 3.4 it is 50%-1GB.
+      It highlights the difficulty we have in coming up with the right number.
+    - 3 full documents are written in new area for all modification.
+      The described behavior is for MMAPv1
+    - 4 there is no guarantee that documents not read yet are not going to be updated.
+      Cursors could take hours to go over their result set and WT does not keep many checkpoints
+
+
+4. For the WiredTiger cache, which of the following represent the differences between on-disk pages and pages in the cache?
+---------------------------------------------------------------------------------------------------------------------------
+
+- :green:`Presence of a page-specific index`
+- :green:`Compression and encryption`
+- :green:`Update list`
+- :red:`Ordering of documents (for a clean page)`
+
+
+5. For WiredTiger, what are the differences between collections and indexes?
+----------------------------------------------------------------------------
+
+- :red:`Indexes are stored in b-trees, but collections are stored in flat data structures`
+- :red:`There is (almost) no difference between indexes and collections`
+- :green:`An index is (usually) smaller than a collection`
+- :red:`They use the same type of compression`
+- :green:`Index look the same in the WT cache and memory`
+
+
+Tools Assessment
+----------------
+
+1. Have you used the tools in the following manner
+--------------------------------------------------
+
+- used *mongorestore* to load data in MongoDB?
+- used *mongoimport* to load data in MongoDB?
+- have pull MongoDB repositories from GitHub?
+- have use the Profiler in MongoDB
+- used a tool to generate documents with a specific shape?
+- used third party tools to manage data and clusters in MongoDB? If so, list them on the following line?
+
+
+2. You have a 3-member replica set, capturing time-series data and serving queries
+----------------------------------------------------------------------------------
+
+You find that the application sees high response time on its queries. What action should you take?
+
+- :green:`Look up for disk saturation`
+- :red:`Change the spinning disks for SSDs`
+- :green:`Turn off profiling, if on`
+- Look for a replication lag on the secondaries
+- :red:`Move all the read queries to a secondary`
+
+.. only:: instructor
+
+  .. note::
+
+    - 2. You don't even know what the problem is.
+    - 4. Could be if you use w=majority, however bad design for time series
+    - 5. don't scale by doing reads on secondaries

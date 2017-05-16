@@ -1,6 +1,6 @@
-========================================
-MongoDB Cloud & Ops Manager Fundamentals
-========================================
+===============================================
+MongoDB Atlas, Cloud & Ops Manager Fundamentals
+===============================================
 
 .. default-domain:: mongodb
 

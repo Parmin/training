@@ -1,0 +1,9 @@
+================
+Common Use Cases
+================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-common-use-cases.rst
+
+.. include:: /includes/toc/common-use-cases.rst

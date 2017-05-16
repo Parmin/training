@@ -14,7 +14,7 @@ file: /modules/schema-design-case-study-shopping-cart
 description: |
   Case Study: Shopping Cart
 ---
-file: /exercises/schema-group-exercise
+file: /exercises/schema-design-exercise-ecommerce
 description: |
   Schema design group exercise
 ---

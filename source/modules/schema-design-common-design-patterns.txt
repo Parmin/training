@@ -1,12 +1,12 @@
-=============================
-Common Schema Design Patterns
-=============================
+===========================
+Common Schema Design Models
+===========================
 
 
 Learning Objectives
 -------------------
 
-Upon completing this module students should understand common design patterns for modeling:
+Upon completing this module students should understand common design for modeling:
 
 - One-to-One Relationships
 - One-to-Many Relationships
@@ -335,4 +335,3 @@ Summary
 - It's about the entire lifetime of your application.
 
 .. include:: /includes/student-notes.rst
-

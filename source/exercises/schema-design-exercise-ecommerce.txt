@@ -1,0 +1,106 @@
+======================================
+Lab: Data Model for an E-Commerce Site
+======================================
+
+Introduction
+------------
+
+- In this group exercise, we're going to take what we've learned about MongoDB and develop a basic but reasonable data model for an e-commerce site.
+- For users of RDBMSs, the most challenging part of the exercise will be figuring out how to construct a data model when joins aren't allowed.
+- We're going to model for several entities and features.
+
+
+Product Catalog
+---------------
+
+- **Products.** Products vary quite a bit. In addition to the standard production attributes, we will allow for variations of product type and custom attributes. E.g., users may search for blue jackets, 11-inch macbooks, or size 12 shoes. The product catalog will contain millions of products.
+- **Product pricing.** Current prices as well as price histories.
+- **Product categories.** Every e-commerce site includes a category hierarchy. We need to allow for both that hierarchy and the many-to-many relationship between products and categories.
+- **Product reviews.** Every product has zero or more reviews and each review can receive votes and comments.
+
+.. only:: instructor
+
+   .. note::
+
+      - The most difficult part to this exercise is querying on arbitrary attributes, e.g. macbooks with 11 inch screens.  Something like "tags" : [ { "key" : "screen_size", "value" : 11}, { "key" : "brand", "value" : "Apple" } ] can be used, but $elemMatch is extremely important here!
+      - Representing the category hierarchy is also interesting
+
+.. include:: /includes/student-notes.rst
+
+
+Product Metrics
+---------------
+
+- **Product views and purchases.** Keep track of the number of times each product is viewed and when each product is purchased.
+- **Top 10 lists.** Create queries for top 10 viewed products, top 10 purchased products.
+- **Graph historical trends.** Create a query to graph how a product is viewed/purchased over the past.
+- **30 days with 1 hour granularity.** This graph will appear on every product page, the query must be very fast.
+
+.. only:: instructor
+
+   .. note::
+
+      - Use arrays here (for hour/day granularity), and aggregate the arrays for other reports
+
+.. include:: /includes/student-notes.rst
+
+
+Deliverables
+------------
+
+Break into groups of two or three and work together to create the following deliverables:
+
+- Sample document and schema for each collection
+- Queries the application will use
+- Index definitions
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   Solution - Collections
+   ----------------------
+
+   - Products
+
+     - Cached reviews
+
+   - Reviews
+
+     - Cached comments and ratings
+
+   - Comments and ratings
+   - Prices History
+   - Views and Purchases
+
+
+   Solution - Considerations
+   -------------------------
+
+   - Caching last reviews, and comments
+   - Prices: currency, representing decimals,
+   - Product categories: tree, list of parents
+   - Keeping track of views, increment by ten every ten views
+   - Updates to ‘caching pattern’ done in batch
+
+   Products
+   --------
+
+   .. code-block:: javascript
+
+      {
+      	_id: ObjectId(),
+      	name: "MongoDB Logo T-Shirt",
+      	current_price: 14.99,
+      	price_history: [ 10.99, 11.99, 12.99, 13.99 ],
+      	parent_category: "Shirts",
+      	ancestor_categories: [ "Apparel", "Mens", "Shirts" ],
+      	tags: [ { key: "color", value: "gray" }, { key: "size", value: "Large" } ],
+      	top_reviews: [
+      	  { review: "I love this shirt.", upvotes: 30, downvotes: 3, comments: [
+      	    "totally agree",
+      	    "my favorite shirt" ] },
+      	  ...
+      	]
+      }

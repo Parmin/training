@@ -6,10 +6,17 @@ Train The Trainers
 Day 1
 -----
 
-- Introduction on Train the Trainer
-- Indexing
+- :doc:`/modules/nav/introduction-ttt`
+- :doc:`/modules/common-use-cases-for-mongodb`
+- :doc:`/modules/nav/indexes`
 - Schema Design
-- Ops Manager / Cloud Manager / Atlas
+
+  - :doc:`/modules/nav/schema-design-intro`
+  - :doc:`/modules/schema-design-relationships`
+  - :doc:`/modules/schema-design-patterns`
+  - :doc:`/modules/nav/schema-design-advanced`
+
+- Role Play
 
 .. include:: /includes/student-notes.rst
 
@@ -17,8 +24,11 @@ Day 1
 Day 2
 -----
 
-- Replication
-- Sharding
+- :doc:`/modules/nav/replica-sets`
+- :doc:`/modules/nav/sharding`
+- :doc:`/modules/nav/mms`
+- Role Play
+
 
 .. include:: /includes/student-notes.rst
 
@@ -26,18 +36,30 @@ Day 2
 Day 3
 -----
 
-- Schema Design part 2
-- Security
+- :doc:`/modules/nav/security`
+- |application_development_and_drivers|
+- Role Play
+
+.. |application_development_and_drivers| raw:: html
+
+   <a href="nav/application-development.html">Application Development and Drivers</a>
 
 .. include:: /includes/student-notes.rst
+
+.. only:: class_developer
+
+  .. note::
+
+    The above reference could have been done with :doc:, however it shows how you
+    could rename a section, not using the default title on the target section
 
 
 Day 4
 -----
 
-- Storage Engines
-- Server Tools
-- Production Best Practices
+- :doc:`/modules/nav/storage`
+- :doc:`/modules/nav/application-engineering-java`
+- Role Play
 
 .. include:: /includes/student-notes.rst
 
@@ -45,7 +67,13 @@ Day 4
 Day 5
 -----
 
-- Tools
-- Drivers
+- Production Best Practices
+- Server Tools
 
 .. include:: /includes/student-notes.rst
+
+
+Quizzes
+-------
+
+- :doc:`/exercises/quizzes`
