@@ -1,0 +1,31 @@
+=============================================
+Lab: Data Model for an Internet of Things App
+=============================================
+
+Introduction
+------------
+
+- In this group exercise, we're going to take what we've learned about MongoDB
+  and develop a basic but reasonable data model for an "internet of things"
+  app.
+- The **thing** will be a pill bottle, which will weigh its contents and keep
+  track of how many pills it contains.
+- This is useful for medical patients, as forgetting to take a pill is a common
+  problem. The bottle will light up and the user will get a text message if
+  they are late in taking a pill.
+
+.. include:: /includes/student-notes.rst
+
+
+Pill Bottle Information
+-----------------------
+
+- **pill** The type of pill contained in the bottle.
+- **mass** The mass of the bottle's contents
+- **mass per pill** The mass of the pill contained in the bottle
+- **number of pills** The number of pills in the bottle
+- **history** History of when pills have been added to, or taken from, the bottle.
+
+This information will be stored and logged over time.
+
+Design a schema for this application.
