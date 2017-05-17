@@ -35,7 +35,15 @@ Design Considerations
 
    .. note::
 
-    - Mention how the Facebook newsfeed works
+      Mention how the Facebook newsfeed works:
+
+      - You get stories ranked by importance, determined by an algorithm.
+      - Examples:
+
+        - Your sister got married
+        - Major news story of the day
+        - Someone RSVP'd for an event
+
 
 User Relationships
 ------------------
@@ -44,14 +52,23 @@ What are the problems with the following approach?
 
 .. code-block:: javascript
 
+  db.users.find()
   {
     "_id" : "bigbird",
     "fullname" : "Big Bird",
     "followers" : [ "oscar", "elmo"],
-    "following" : [ "elmo", "bert"]
+    "following" : [ "elmo", "bert"],
+    ...
   }
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+     Ask them what the performance impact will be for someone with a lot of followers.
+
 
 User Relationships
 ------------------
@@ -71,6 +88,7 @@ Relationships must be split into separate documents:
    .. note::
 
     - Relationships from work should have different privacy settings, etc.
+
 
 User Relationships
 ------------------
@@ -116,7 +134,9 @@ Counting User Relationships
 ---------------------------
 
 - Counts across a large number of documents may be slow
-- May want to maintain an active count in the user profile
+
+  - Option: maintain an active count in the user profile
+
 - An active count of followers and folowees will be more expensive for creating relationships
 
 .. include:: /includes/student-notes.rst
@@ -126,11 +146,13 @@ Counting User Relationships
 
 .. code-block:: javascript
 
+  > db.users.find()
   {
     "_id" : "bigbird",
     "fullname" : "Big Bird",
     "followers" : 2,
-    "following" : 2
+    "following" : 2,
+    ...
   }
 
 
@@ -140,7 +162,14 @@ Counting User Relationships
 
    .. note::
 
-      - Maintain counts in the user profile to make it less expensive to display the total number of followers for a user on their profile page (if the profile page is heavily viewed)
+      - Maintaining counts in the user profile will make it less expensive to
+        display the total number of followers for a user on their profile page
+        (if the profile page is heavily viewed).
+      - However, it will also mean 3 writes each time one user follows another.
+
+        - One for the user, one for the user it's following, and one for the
+          followers collection entry.
+
 
 User Relationship Traversal
 ---------------------------
@@ -148,9 +177,13 @@ User Relationship Traversal
 - Index needed on (followers.user, followers.following)
 - For reverse lookups, index needed on (followers.following, followers.user)
 - Covered queries should be used in graph lookups (via projection)
+
+  - Alternatively, you might use ``$lookup`` or ``$graphLookup``
+
 - May also want to maintain two separate collections: followers, followees
 
 .. include:: /includes/student-notes.rst
+
 
 User Relationships
 ------------------
@@ -158,6 +191,7 @@ User Relationships
 - We've created a simple, scalable model for storing user relationships
 
 .. include:: /includes/student-notes.rst
+
 
 Building a Feed Service
 -----------------------
@@ -171,6 +205,8 @@ Building a Feed Service
 
 Feed Service Design Considerations
 ----------------------------------
+
+Two options:
 
 - Fanout on Read
 - Fanout on Write
@@ -188,6 +224,7 @@ Fanout on Read
 
 .. include:: /includes/student-notes.rst
 
+
 When to Use Fanout on Read
 --------------------------
 
@@ -196,6 +233,7 @@ When to Use Fanout on Read
 - Historic timeline information is commonly viewed
 
 .. include:: /includes/student-notes.rst
+
 
 Fanout on Write
 ---------------
@@ -212,7 +250,8 @@ Fanout on Write
 
    .. note::
 
-      - This is actually what the large scale social networks have to do, fanout on read is far too expensive
+      - This is actually what the large-scale social networks have to do, fanout on read is far too expensive
+
 
 Fanout on Write
 ---------------
@@ -342,18 +381,10 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
           "user" : "mongodb",
           "tweet" : "The call for #MDBDays speakers closes tomorrow! Submit a proposal here http://spr.ly/6012B1Q8r",
           "date" : ISODate(),
-	  // can duplicate info or refer to the original tweet directly,
-	  // which would require another query
+          // can duplicate info or refer to the original tweet directly,
+          // which would require another query
           "tweet_id" : 1234,
           "retweet" : false,
           "retweet_tweetid" : null // used for displaying retweet status
           ...
         }
-
-
-
-
-
-
-
-
