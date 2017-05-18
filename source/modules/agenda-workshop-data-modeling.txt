@@ -6,7 +6,7 @@ Data Modeling Workshop
 Day 1
 -----
 
-- :doc:`/modules/nav/schema-design-intro`
+- :doc:`/modules/schema-design-core-concepts`
 - :doc:`/modules/schema-design-relationships`
 - :doc:`/modules/schema-design-patterns`
 - Case Studies:
@@ -25,3 +25,10 @@ Day 1
   - Real-Time Analytics exercise
   - Personalization exercise
   - Contents Management exercise
+
+- Additional topics
+
+  - :doc:`/modules/schema-design-application-lifetime`
+  - :doc:`/modules/document-validation`
+  - :doc:`/exercises/document-validation`
+  - :doc:`/modules/schema-visualization`
