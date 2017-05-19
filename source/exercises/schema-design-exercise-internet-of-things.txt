@@ -24,8 +24,348 @@ Pill Bottle Information
 - **mass** The mass of the bottle's contents
 - **mass per pill** The mass of the pill contained in the bottle
 - **number of pills** The number of pills in the bottle
-- **history** History of when pills have been added to, or taken from, the bottle.
+- **Event timestamps** Recording when the bottle is opened or closed, and how
+  many pills have been added or removed.
+- **Heartbeat** registering that the pill bottle is connected to wi-fi
 
-This information will be stored and logged over time.
+This information will be stored and logged regularly
 
-Design a schema for this application.
+.. include:: /includes/student-notes.rst
+
+
+Pill Bottle Queries
+-------------------
+
+Each pill bottle will perform the following queries:
+
+- A query to find which user it's associated with, and which medication and dosage.
+
+  - Frequency: very rarely; assume it would change 1/year.
+  - Information: username, medication ID, medication mass per pill, frequency of dosage
+
+- A query to store information on the weight of its contents, and to act as a hearbeat.
+
+  - Frequency: 1/minute
+
+- A query to store information on when the bottle is opened or closed, what the
+  weight of the contents was before, what the weight of the contents is after,
+  and the estimated number of pills now present, and the number of pills
+  added/taken away, and whether or not it is estimated that a new type of pill
+  has been added.
+
+  - Frequency: 2-6 times per bottle per day
+
+
+Back-End Application Queries
+----------------------------
+
+There will also be a centralized application server which will do the following:
+
+- Query 1/hour to determine:
+
+  - Which customers are more than an hour late in taking their pill.
+  - Which pill bottles have not called in for a heartbeat.
+
+- Query when user logs in to a web site to generate a calendar showing which
+  days they take their pills and which days they miss one or more
+
+- Insert query when user inputs their contact information, bottle information, etc.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - If one of the students asks if it's even necessary to optimize this,
+      remind them that any product will face two possible paths down the line:
+      it will scale, or it will fail.
+
+      - If demand never picks up, the product will be dropped, and nothing will
+        matter.
+      - If demand does pick up, they'll want the system to work as efficiently
+        as possible for any given load.
+
+
+Deliverables
+------------
+
+Break into groups of two or three and work together to create the following
+deliverables:
+
+- Sample documents for each collection you're creating
+- Queries the application will use
+- Index creation commands
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+    Solution - Collections
+    ----------------------
+
+    - Users
+
+      - Contact Information
+      - Bottles they're linked to, and medication associated with each bottle
+      - Medications they take
+
+        - Frequency of medication
+
+    - Bottles
+
+      - Medication associated with the bottle
+      - Mass of contents
+      - Estimated number of pills
+      - Timestamp of measurement
+
+    - Medications
+
+      - Link to an image of the medication
+      - Type of medication (pill, capsule, or liquid)
+      - Information on the medication (string)
+
+    - Notifications
+
+      - Timestamp
+      - Type (SMS, email)
+      - Message
+      - To
+
+    Solution - Considerations
+    -------------------------
+
+    - There will be duplication of information between the ``Medications``
+      collection and the ``Users`` collection.
+    - The "heartbeat" will be the most common query, and we should optimize for
+      that.
+
+    Documents: Users
+    ----------------
+
+    .. code-block:: javascript
+
+      {
+        _id : "willcross",
+        password_hash : "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        user: {
+          last_name : "Cross",
+          first_name : "William",
+          honorific : "Dr.",
+        },
+        contact_info : {
+          addresses: [ 
+          {
+            number : "229",
+            street : "West 43rd Street",
+            floor : "5",
+            city : "New York",
+            state : "NY",
+            zip : "07302",
+            type : "work",
+            primary : true
+          }
+        ],
+        phone_numbers : [ 
+          { 
+            type : "cell",
+            number : "(555)555-5555",
+            send_notifications : true
+          }
+        ],
+        email : [ 
+          {
+            address : "will@mongodb.com",
+            send_notifications : true,
+          },
+          {
+            address : "will@mailinator.com",
+            send_notifications : false
+          }
+        ]
+      },
+      bottles : [
+        {
+          _id : ObjectId(...),
+          medication_id : ObjectId(...),
+          medication_name : "Cordrazine",
+          medication_dosage : {
+            quantity : 1,
+            unit : "pill",
+            times_per_day : 2
+          },
+          mass_in_grams : 1.77,
+          image : "http://s.quickmeme.com/img/94/945bdf761cb888c7c8e829878ed3b5a0221fd0d10db7b5697834ded0ad592c93.jpg"
+        }, {
+          _id : ObjectId(...),
+          medication_id : ObjectId(...),
+          medication_name : "Felicium",
+          medication_dosage : {
+            quantity : 2,
+            unit : "pill",
+            times_per_day : 3
+          },
+          mass_in_grams : 2.7,
+          image : "http://www.ex-astris-scientia.org/gallery/factfiles/felicium-dispenser-symbiosis.jpg"
+        }
+      ]
+    }
+
+    Document - Bottles
+    ------------------
+
+    .. code-block:: javascript
+
+      {
+        _id : ObjectId(...),
+        bottle_id : ObjectId(...),
+        mass_of_contents : 44.25,
+        number_of_pills : 25,
+        time : ISODate(...),
+        action : "bottle closed",
+        pills_taken : 0
+      }
+
+    Document - Notifications
+    ------------------------
+
+    .. code-block:: javascript
+
+      {
+        _id : ObjectId(...),
+        user_id : ObjectId(...),
+        time_sent : ISODate(...),
+        type : "SMS",
+        target : "(555) 555-5555",
+        message : "You missed a dose of Cordrazine this morning..."
+      }
+
+    Document - Medications
+    ----------------------
+
+    .. code-block:: javascript
+
+      { 
+        _id : ObjectId(...),
+        name : "Cordrazine",
+        dosage_type : "pill",
+        dosage_mass_in_grams : 1.77,
+        image : "http://s.quickmeme.com/img/94/945bdf761cb888c7c8e829878ed3b5a0221fd0d10db7b5697834ded0ad592c93.jpg",
+        info : "Cordrazine is a strong chemical stimulant useful for...",
+        interactions : [ { medication_id : ObjectId(...), name : "Bio-Memetic Gel" }, { ... }, ... ],
+        manufacturer : "Ferengi Pharmaceuticals"
+      }
+
+    Query - Pill Bottle, Heartbeat
+    ------------------------------
+
+    .. code-block:: javascript
+
+      db.bottles.insertOne( 
+      {
+        bottle_id : ObjectId(...),
+        mass_of_contents : 44.25,
+        number_of_pills : 25,
+        time : ISODate(),
+        action : "heartbeat"
+      }
+
+    Query - Pill Bottle, Opened
+    ---------------------------
+
+    .. code-block:: javascript
+
+      db.bottles.insertOne( 
+      {
+        bottle_id : ObjectId(...),
+        mass_of_contents : 44.25,
+        number_of_pills : 25,
+        time : ISODate(),
+        action : "bottle opened"
+      }
+
+    Query - Pill Bottle, Closed
+    ---------------------------
+
+    .. code-block:: javascript
+
+      db.bottles.insertOne( 
+      {
+        bottle_id : ObjectId(...),
+        user_id : "willcross"
+        mass_of_contents : 42.48,
+        number_of_pills : 24,
+        time : ISODate(),
+        action : "bottle closed",
+        pills_taken : 1
+      } )
+
+    Query - Web Server, User Created
+    --------------------------------
+    
+    .. code-block:: javascript
+
+      db.users.insertOne( 
+      { <user doc; see above> }
+
+    Query - Web Server, User Information Updated
+    --------------------------------------------
+
+    .. code-block:: javascript
+    
+      db.users.updateOne( 
+      {
+        _id : "willcross"
+      }, {
+        $set : {
+            bottles = [ { ... }, ... ]
+        }
+      } )
+
+    Query - Web Server, Fetch User Information
+    ------------------------------------------
+
+    .. code-block:: javascript
+    
+      db.users.findOne( { _id : ObjectId(...), password_hash : "..." },
+                        { user : 1, contact_info : 1, bottles : 1 } )
+
+    Query - Web Server, Fetch History of Pills Taken for the Month
+    --------------------------------------------------------------
+
+    .. code-block:: javascript
+    
+      db.bottles.find(
+        { user_id : "username", action : "bottle closed" },
+        { bottle_id : 1, time : 1, pills_taken : 1 }
+      ).sort( { bottle_id : 1, time : 1 } )
+
+    Query - Notification Server, checking for Pills Not Taken or Heartbeat Not Received
+    -----------------------------------------------------------------------------------
+
+    .. code-block:: javascript
+    
+      db.bottles.find( { bottle_id : ObjectId(...), time : { $gte : ISODate(...), $lte : ISODate(...) } },
+                       { time : 1, action : 1, pills_taken : 1 } ).sort( { time : 1 } ) 
+
+      db.notifications.insertOne( 
+        {
+          _id : ObjectId(...),
+          user_id : ObjectId(...),
+          time_sent : ISODate(...),
+          type : "SMS",
+          target : "(555) 555-5555",
+          message : "You missed a dose of Cordrazine this morning..."
+        } )
+
+    Indexes
+    -------
+
+    .. code-block:: javascript
+    
+      db.users.createIndex( { user_id : 1, action : 1, bottle_id : 1, time : 1, pills_taken : 1 } )
+      // Allows for a covered query of db.bottles.find
+
+      db.bottles.createIndex( { bottle_id : 1, time : 1, action : 1, pills_taken : 1 } )
+
+      // The _id index is sufficent to limit us to just one document for the user queries
