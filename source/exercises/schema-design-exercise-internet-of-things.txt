@@ -6,9 +6,9 @@ Introduction
 ------------
 
 - In this group exercise, we're going to take what we've learned about MongoDB
-  and develop a basic but reasonable data model for an "internet of things"
+  and develop a basic but reasonable data model for an "Internet Of Things"
   app.
-- The **thing** will be a pill bottle, which will weigh its contents and keep
+- The **Thing** will be a pill bottle, which will weigh its contents and keep
   track of how many pills it contains.
 - This is useful for medical patients, as forgetting to take a pill is a common
   problem. The bottle will light up and the user will get a text message if
@@ -20,34 +20,42 @@ Introduction
 Pill Bottle Information
 -----------------------
 
-- **pill** The type of pill contained in the bottle.
-- **mass** The mass of the bottle's contents
-- **mass per pill** The mass of the pill contained in the bottle
-- **number of pills** The number of pills in the bottle
-- **Event timestamps** Recording when the bottle is opened or closed, and how
+- **pill** - the type of pill contained in the bottle.
+- **mass** - the mass of the bottle's contents
+- **mass per pill** - the mass of one of the pills contained in the bottle
+- **number of pills**  - the number of pills in the bottle
+- **Event timestamps** - recording when the bottle is opened or closed, and how
   many pills have been added or removed.
-- **Heartbeat** registering that the pill bottle is connected to wi-fi
+- **Heartbeat** - registering that the pill bottle is connected to wi-fi
 
 This information will be stored and logged regularly
 
 .. include:: /includes/student-notes.rst
 
 
-Pill Bottle Queries
--------------------
+Pill Bottle Operations
+----------------------
 
 Each pill bottle will perform the following queries:
 
-- A query to find which user it's associated with, and which medication and dosage.
+.. rst-class:: longlist
+
+- An operation to find which user it's associated with, and which medication and dosage.
 
   - Frequency: very rarely; assume it would change 1/year.
   - Information: username, medication ID, medication mass per pill, frequency of dosage
 
-- A query to store information on the weight of its contents, and to act as a hearbeat.
+- An operation to store information on the weight of its contents, and to act as a heartbeat.
 
-  - Frequency: 1/minute
+  - Frequency: once every 10 minutes
 
-- A query to store information on when the bottle is opened or closed, what the
+
+Pill Bottle Operations (con't)
+------------------------------
+
+.. rst-class:: longlist
+
+- An operation to store information on when the bottle is opened or closed, what the
   weight of the contents was before, what the weight of the contents is after,
   and the estimated number of pills now present, and the number of pills
   added/taken away, and whether or not it is estimated that a new type of pill
@@ -56,8 +64,8 @@ Each pill bottle will perform the following queries:
   - Frequency: 2-6 times per bottle per day
 
 
-Back-End Application Queries
-----------------------------
+Back-End Application Operations
+-------------------------------
 
 There will also be a centralized application server which will do the following:
 
@@ -66,10 +74,10 @@ There will also be a centralized application server which will do the following:
   - Which customers are more than an hour late in taking their pill.
   - Which pill bottles have not called in for a heartbeat.
 
-- Query when user logs in to a web site to generate a calendar showing which
-  days they take their pills and which days they miss one or more
+- Query when user or doctor logs in to a web site to generate a calendar showing
+  which days they take their pills and which days they miss one or more
 
-- Insert query when user inputs their contact information, bottle information, etc.
+- Insert commands when user inputs their contact information, bottle information, etc.
 
 .. include:: /includes/student-notes.rst
 
@@ -93,18 +101,39 @@ Deliverables
 Break into groups of two or three and work together to create the following
 deliverables:
 
+- Assumptions about sizing
+
+  - number of documents per collection
+  - frequency of requests
+
 - Sample documents for each collection you're creating
 - Queries the application will use
 - Index creation commands
+- Should you shard some collections? Now? Later?
 
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
+    Solution - Sizing
+    -----------------
+
+    - 100M customers in the first 3 years (up to 1B later)
+    - average of 3 bottles per customer
+    - operations:
+
+      - 3 * 100M / 600 sec = 5M heartbeats per second
+
+    - data size:
+
+      - 300M bottles * 100 bytes = 30GB
+      - 100M customers * 1000 bytes = 100GB
+
+
     Solution - Collections
     ----------------------
 
-    - Users
+    - users
 
       - Contact Information
       - Bottles they're linked to, and medication associated with each bottle
@@ -112,36 +141,46 @@ deliverables:
 
         - Frequency of medication
 
-    - Bottles
+    - bottles
 
       - Medication associated with the bottle
       - Mass of contents
       - Estimated number of pills
       - Timestamp of measurement
 
-    - Medications
+
+    Solution - Collections (con't)
+    ------------------------------
+
+    - medications
 
       - Link to an image of the medication
       - Type of medication (pill, capsule, or liquid)
       - Information on the medication (string)
 
-    - Notifications
+    - notifications
 
       - Timestamp
       - Type (SMS, email)
       - Message
       - To
 
+
     Solution - Considerations
     -------------------------
 
     - There will be duplication of information between the ``Medications``
       collection and the ``Users`` collection.
-    - The "heartbeat" will be the most common query, and we should optimize for
-      that.
+    - Capturing the "heartbeat" will be the most common operation,
+      and we should optimize for that.
+    - Are there any health data regulation that requires us to keep the
+      last X heartbeats or actions from a user for a period of time?
 
-    Documents: Users
+
+    Document - users
     ----------------
+
+    [DC] not sure how to fit that on a page
 
     .. code-block:: javascript
 
@@ -154,7 +193,7 @@ deliverables:
           honorific : "Dr.",
         },
         contact_info : {
-          addresses: [ 
+          addresses: [
           {
             number : "229",
             street : "West 43rd Street",
@@ -166,14 +205,14 @@ deliverables:
             primary : true
           }
         ],
-        phone_numbers : [ 
-          { 
+        phone_numbers : [
+          {
             type : "cell",
             number : "(555)555-5555",
             send_notifications : true
           }
         ],
-        email : [ 
+        email : [
           {
             address : "will@mongodb.com",
             send_notifications : true,
@@ -211,7 +250,8 @@ deliverables:
       ]
     }
 
-    Document - Bottles
+
+    Document - bottles
     ------------------
 
     .. code-block:: javascript
@@ -226,7 +266,8 @@ deliverables:
         pills_taken : 0
       }
 
-    Document - Notifications
+
+    Document - notifications
     ------------------------
 
     .. code-block:: javascript
@@ -240,12 +281,13 @@ deliverables:
         message : "You missed a dose of Cordrazine this morning..."
       }
 
-    Document - Medications
+
+    Document - medications
     ----------------------
 
     .. code-block:: javascript
 
-      { 
+      {
         _id : ObjectId(...),
         name : "Cordrazine",
         dosage_type : "pill",
@@ -256,12 +298,15 @@ deliverables:
         manufacturer : "Ferengi Pharmaceuticals"
       }
 
-    Query - Pill Bottle, Heartbeat
-    ------------------------------
+
+    Write - heartbeat for a Pill Bottle
+    -----------------------------------
+
+    [DC] are the next 3 insert commands on the 'bottle' collection?
 
     .. code-block:: javascript
 
-      db.bottles.insertOne( 
+      db.bottles.insertOne(
       {
         bottle_id : ObjectId(...),
         mass_of_contents : 44.25,
@@ -270,12 +315,15 @@ deliverables:
         action : "heartbeat"
       }
 
-    Query - Pill Bottle, Opened
+    [DC] I don't see the 'heartbeat' in the document definitions
+
+
+    Write - Pill Bottle, Opened
     ---------------------------
 
     .. code-block:: javascript
 
-      db.bottles.insertOne( 
+      db.bottles.insertOne(
       {
         bottle_id : ObjectId(...),
         mass_of_contents : 44.25,
@@ -284,12 +332,13 @@ deliverables:
         action : "bottle opened"
       }
 
-    Query - Pill Bottle, Closed
+
+    Write - Pill Bottle, Closed
     ---------------------------
 
     .. code-block:: javascript
 
-      db.bottles.insertOne( 
+      db.bottles.insertOne(
       {
         bottle_id : ObjectId(...),
         user_id : "willcross"
@@ -300,20 +349,22 @@ deliverables:
         pills_taken : 1
       } )
 
-    Query - Web Server, User Created
+
+    Write - Web Server, User Created
     --------------------------------
-    
+
     .. code-block:: javascript
 
-      db.users.insertOne( 
+      db.users.insertOne(
       { <user doc; see above> }
 
-    Query - Web Server, User Information Updated
+
+    Write - Web Server, User Information Updated
     --------------------------------------------
 
     .. code-block:: javascript
-    
-      db.users.updateOne( 
+
+      db.users.updateOne(
       {
         _id : "willcross"
       }, {
@@ -322,33 +373,36 @@ deliverables:
         }
       } )
 
+
     Query - Web Server, Fetch User Information
     ------------------------------------------
 
     .. code-block:: javascript
-    
+
       db.users.findOne( { _id : ObjectId(...), password_hash : "..." },
                         { user : 1, contact_info : 1, bottles : 1 } )
+
 
     Query - Web Server, Fetch History of Pills Taken for the Month
     --------------------------------------------------------------
 
     .. code-block:: javascript
-    
+
       db.bottles.find(
         { user_id : "username", action : "bottle closed" },
         { bottle_id : 1, time : 1, pills_taken : 1 }
       ).sort( { bottle_id : 1, time : 1 } )
 
+
     Query - Notification Server, checking for Pills Not Taken or Heartbeat Not Received
     -----------------------------------------------------------------------------------
 
     .. code-block:: javascript
-    
-      db.bottles.find( { bottle_id : ObjectId(...), time : { $gte : ISODate(...), $lte : ISODate(...) } },
-                       { time : 1, action : 1, pills_taken : 1 } ).sort( { time : 1 } ) 
 
-      db.notifications.insertOne( 
+      db.bottles.find( { bottle_id : ObjectId(...), time : { $gte : ISODate(...), $lte : ISODate(...) } },
+                       { time : 1, action : 1, pills_taken : 1 } ).sort( { time : 1 } )
+
+      db.notifications.insertOne(
         {
           _id : ObjectId(...),
           user_id : ObjectId(...),
@@ -358,14 +412,53 @@ deliverables:
           message : "You missed a dose of Cordrazine this morning..."
         } )
 
+
     Indexes
     -------
 
     .. code-block:: javascript
-    
+
       db.users.createIndex( { user_id : 1, action : 1, bottle_id : 1, time : 1, pills_taken : 1 } )
       // Allows for a covered query of db.bottles.find
+      [DC] a lot of those fields don't exist in the document
 
       db.bottles.createIndex( { bottle_id : 1, time : 1, action : 1, pills_taken : 1 } )
+      // The _id index is sufficient to limit us to just one document for the user queries
 
-      // The _id index is sufficent to limit us to just one document for the user queries
+
+    Sharding
+    --------
+
+    From a data point of view:
+
+    - not needed for: bottles or users
+    - needed to keep heartbeats over a long period of time
+
+    From an operation point of view:
+
+    - 5M writes per seconds is a lot for a simple replica set.
+      Either shard, or reduce the number of writes
+
+
+    Good shard key
+    --------------
+
+    A) user + bottle_id
+
+      - user is not part of the bottle info!
+      - would have made a great shard key for the reads
+
+    B) bottle_id
+
+    What if my bottle_id starts with a user_id?
+
+
+    [DC] summary of issues we need to fix
+    -------------------------------------
+
+    - where do we put the heartbeat
+    - 5M writes per seconds is a lot
+
+      - be careful about the number of indexes associated with the heartbeat
+
+    - detail the ratio of reads/writes per collection

@@ -16,7 +16,7 @@ Day 1 (Afternoon)
 -----------------
 
 - :doc:`/modules/schema-design-case-study-time-series`
-- Internet of Things exercise
+- :doc:`/exercises/schema-design-exercise-internet-of-things`
 
 - Additional Case Studies:
 

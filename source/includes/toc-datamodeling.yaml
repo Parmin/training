@@ -45,4 +45,8 @@ description: |
 file: /exercises/schema-design-exercise-ecommerce
 description: |
   Exercice of designing an E-commerce site
+---
+file: /exercises/schema-design-exercise-internet-of-things
+description: |
+  Exercice of designing a soltion for an Internet Of Things problem
 ...
