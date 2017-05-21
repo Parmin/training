@@ -1,11 +1,11 @@
-=============================================
-Lab: Data Model for an Internet of Things App
-=============================================
+===============================================
+Lab: Data Model for an "Internet of Things" App
+===============================================
 
 Introduction
 ------------
 
-- Consier a an internet-connected pill bottle.
+- Consier an internet-connected pill bottle.
 - It will:
 
   - Weigh its contents.
@@ -22,9 +22,11 @@ Pill Bottle Information
 - **mass** - the mass of the bottle's contents
 - **mass per pill** - the mass of one of the pills contained in the bottle
 - **number of pills**  - the number of pills in the bottle
-- **Events** - When the bottle is opened or closed, how many pills
-  added/removed
-- **Heartbeat** - registering that the pill bottle is connected to wi-fi
+
+  - estimated by the bottle
+
+- **Events** - When the bottle is opened/closed, how many pills added/removed
+- **Heartbeat** - Confirming that the bottle is connected to wi-fi
 
 .. include:: /includes/student-notes.rst
 
@@ -36,26 +38,29 @@ Each pill bottle will perform the following queries:
 
 .. rst-class:: longlist
 
-- A query to find the user it's associated with, plus the medication and
-  dosage.
+  - A query to find the user it's associated with, plus the medication and
+    dosage.
+  
+    - Frequency: very rarely; assume it would change 1/year.
+    - Information: username, medication ID, medication mass per pill, frequency
+      of dosage
+  
+  - A heartbeat.
+  
+    - Frequency: once every 10 minutes
 
-  - Frequency: very rarely; assume it would change 1/year.
-  - Information: username, medication ID, medication mass per pill, frequency
-    of dosage
-
-- An operation to store information on the weight of its contents, and to act
-  as a heartbeat.
-
-  - Frequency: once every 10 minutes
+.. include:: /includes/student-notes.rst
 
 
-Pill Bottle Operations (con't)
-------------------------------
+Pill Bottle Operations (cont'd)
+-------------------------------
 
 - An operation to log the time, the mass, the estimated number of pills in
   the bottle, and the number of pills taken while the botle was opened.
 
   - Frequency: 1-6 times per bottle per day (assume an average of 3)
+
+.. include:: /includes/student-notes.rst
 
 
 Other Application Operations
@@ -63,15 +68,17 @@ Other Application Operations
 
 There will also be a web and notification server which will do the following:
 
-- Query 1/hour to determine:
+.. rst-class:: longlist
 
-  - Which customers are more than an hour late in taking their pill.
-  - Which pill bottles have not called in for a heartbeat for an hour.
-
-- Query when user logs in to a web site to generate a calendar showing on which
-  days they take their pills and which days they miss one or more
-
-  - Assume an average of 1/week
+  - For each bottle, query 1/hour to determine:
+  
+    - Which customers are more than an hour late in taking a pill
+    - Which pill bottles have not called in for a heartbeat for over an hour
+  
+  - Query each time user logs in to a web site to generate a calendar showing
+    on which days they take their pills and which days they miss one or more
+  
+    - Assume an average of 1/week
 
 .. include:: /includes/student-notes.rst
 
@@ -82,7 +89,7 @@ Other Application Operations (cont'd)
 - Store user contact information, bottle information, etc. when an account is
   created
 
-  - Insert 1/year
+  - Assume an average user has been on the system for 1 year, so 1/year.
 
 .. include:: /includes/student-notes.rst
 
@@ -122,21 +129,48 @@ deliverables:
 .. include:: /includes/student-notes.rst
 
 
-Solution - Sizing
------------------
+Solution
+--------
 
-- 100M customers in the first 3 years (up to 1B later)
-- average of 3 bottles per customer
-- operations:
-
-  - 3 * 100M / 600 sec = 5M heartbeats per second
-
-- data size:
-
-  - 300M bottles * 100 bytes = 30GB
-  - 100M customers * 1000 bytes = 100GB
+All slides from now on should be shown only after a solution is found by the
+groups & presented.
 
 .. include:: /includes/student-notes.rst
+
+
+Solution - Sizing for Operations
+--------------------------------
+
+- Assume 100M customers in the first 3 years (up to 1B later)
+- Average of 3 bottles per customer
+- Operations:
+
+  - 3 * 100M / 600 sec = 5M heartbeats per second (inserts)
+  - 3 * 100M / 3600 sec = 86K checks per second for most recent heartbeat
+  - 3 * 100M * 3 pills / day / 86400 seconds per day = 10K checks per second
+    for missed pills
+
+    - Might be more, because not every user will have taken their pill
+
+  - If 1 percent of users miss a pill per day, and it takes an average of 2
+    notifications before they take it, then there might be 200 more
+    notifications per second, plus checks for when that gets in place.
+
+.. include:: /includes/student-notes.rst
+
+
+Solution - Sizing for Data
+--------------------------
+
+Data size:
+
+- Bottle information: 300M bottles * 100 bytes = 30GB
+- User information: 100M customers * 1000 bytes = 100GB
+- Heartbeats: 300M bottles * 1008 documents/week * 100 bytes
+  = 30TB/week 
+
+.. include:: /includes/student-notes.rst
+
 
 Solution - Collections
 ----------------------
@@ -151,23 +185,37 @@ Solution - Collections
 
 .. include:: /includes/student-notes.rst
 
-Solution - Collections (con't)
-------------------------------
 
+Solution - Collections (cont'd)
+-------------------------------
 
-- bottles
+- bottle_actions
 
   - Medication associated with the bottle
   - Mass of contents
   - Estimated number of pills
   - Timestamp of measurement
-  - Action: heartbeat, bottle opened, or bottle closed
-  - If bottle closed, number of pills added/removed
+  - Action: opened, or closed
+  - If closed, number of pills added/removed
 
 .. include:: /includes/student-notes.rst
 
-Solution - Collections (con't)
-------------------------------
+
+Solution - Collections (cont'd)
+-------------------------------
+
+- bottle_heartbeats
+
+  - ``bottle_id``
+  - Medication associated with the bottle
+  - ``user_id``
+  - timestamp
+
+.. include:: /includes/student-notes.rst
+
+
+Solution - Collections (cont'd)
+-------------------------------
 
 - medications
 
@@ -180,17 +228,18 @@ Solution - Collections (con't)
   - Timestamp
   - Type (SMS, email)
   - Message
-  - To
+  - Email or phone it's getting sent to
 
 .. include:: /includes/student-notes.rst
+
 
 Solution - Considerations
 -------------------------
 
 - There will be duplication of information between the ``Medications``
   collection and the ``Users`` collection.
-- Capturing the "heartbeat" will be the most common operation,
-  and we should optimize for that.
+- Capturing the most recent "heartbeat" will be the most common operation, and
+  we should optimize for that.
   
   - However, it's an insert. Optimizing for it
     consists of keeping the number of indexes small.
@@ -275,8 +324,8 @@ Solution: Document - users (3 of 3)
 .. include:: /includes/student-notes.rst
 
 
-Solution: Document - bottles
-----------------------------
+Solution: Document - bottle_action
+----------------------------------
 
 .. code-block:: javascript
 
@@ -287,8 +336,24 @@ Solution: Document - bottles
     mass_of_contents : 44.25,
     number_of_pills : 25,
     time : ISODate(...),
-    action : "bottle closed",  // other options: "heartbeat", "bottle opened"
+    action : "closed",  // other possible value: "opened"
     pills_taken : 1
+  }  // pills_taken will be present only for the "closed" action.
+
+.. include:: /includes/student-notes.rst
+
+
+Solution: Document - bottle_heartbeats
+--------------------------------------
+
+.. code-block:: javascript
+
+  {
+    _id : ObjectId(...),
+    bottle_id : ObjectId(...),
+    medication : "Cordrazine",
+    user_id : "...",
+    time : ISODate(...)
   }
 
 .. include:: /includes/student-notes.rst
@@ -323,7 +388,10 @@ Solution: Document - medications
     dosage_mass_in_grams : 1.77,
     image : "http://s.quickmeme.com/img/94/945bdf761cb888c7c8e829878ed3b5a0221fd0d10db7b5697834ded0ad592c93.jpg",
     info : "Cordrazine is a strong chemical stimulant useful for...",
-    interactions : [ { medication_id : ObjectId(...), name : "Bio-Memetic Gel" }, { ... }, ... ],
+    interactions : [
+      { medication_id : ObjectId(...), name : "Bio-Memetic Gel" },
+      { ... }, ...
+    ],
     manufacturer : "Ferengi Pharmaceuticals"
   }
 
@@ -335,13 +403,12 @@ Solution: Write - heartbeat for a Pill Bottle
 
 .. code-block:: javascript
 
-  db.bottles.insertOne(
+  db.bottle_heartbeats.insertOne(
   {
     bottle_id : ObjectId(...),
-    mass_of_contents : 44.25,
-    number_of_pills : 25,
-    time : ISODate(),
-    action : "heartbeat"
+    medication : "Cordrazine",
+    user_id : "...",
+    time : ISODate()
   }
 
 .. include:: /includes/student-notes.rst
@@ -352,13 +419,14 @@ Solution: Write - Pill Bottle, Opened
 
 .. code-block:: javascript
 
-  db.bottles.insertOne(
+  db.bottle_actions.insertOne(
   {
     bottle_id : ObjectId(...),
+    user_id : "...",
     mass_of_contents : 44.25,
     number_of_pills : 25,
     time : ISODate(),
-    action : "bottle opened"
+    action : "opened"
   }
 
 .. include:: /includes/student-notes.rst
@@ -372,11 +440,11 @@ Solution: Write - Pill Bottle, Closed
   db.bottles.insertOne(
   {
     bottle_id : ObjectId(...),
-    user_id : "willcross"
+    user_id : "willcross",
     mass_of_contents : 42.48,
     number_of_pills : 24,
     time : ISODate(),
-    action : "bottle closed",
+    action : "closed",
     pills_taken : 1
   } )
 
@@ -422,13 +490,14 @@ Solution: Query - Web Server, Fetch User Information
 
 .. include:: /includes/student-notes.rst
 
+
 Solution: Query - Web Server, Fetch History of Pills Taken for the Month
 ------------------------------------------------------------------------
 
 .. code-block:: javascript
 
-  db.bottles.find(
-    { user_id : "username", action : "bottle closed" },
+  db.bottle_actions.find(
+    { user_id : "username", time : { $gte : <one month ago> } },
     { _id : 0, bottle_id : 1, time : 1, pills_taken : 1 }
   ).sort( { bottle_id : 1, time : 1 } )
 
@@ -438,10 +507,10 @@ Solution: Query - Server, checking for Pills Not Taken
 
 .. code-block:: javascript
 
-  db.bottles.find(
+  db.bottle_actions.find(
   { bottle_id : ObjectId(...),
     time : { $gte : ISODate(...), $lte : ISODate(...) },
-    action : "bottle closed" },
+    action : "closed" },
   { _id : 0, time : 1, action : 1, pills_taken : 1 }
   ).sort( { time : 1 } )
 
@@ -459,27 +528,36 @@ Solution: Query - Server, checking for Pills Not Taken
 .. include:: /includes/student-notes.rst
 
 
+Solution: Query - Server, checking for Last Heartbeat
+-----------------------------------------------------
+
+.. code-block:: javascript
+
+  db.bottle_heartbeats.find(
+    {
+      user_id : ObjectId(...),
+      bottle_id : ObjectId(...)
+    }, { time : 1 }
+  ).sort( { time : -1 } ).limit(1)
+
+
 Solution: Indexes
 -----------------
 
 .. code-block:: javascript
 
-  db.bottles.createIndex(
-  { user_id : 1, action : 1, bottle_id : 1, time : 1, pills_taken : 1 },
-  { partialFilterExpression :{
-    action : { $gte : "bottle closed", $lte : "bottle opened" } } }
-  ) // Allows for a covered query when finding pills taken (or not).
+  db.bottle_actions.createIndex( {
+      user_id : 1, action : 1, bottle_id : 1,
+      time : 1, pills_taken : 1
+    } ) 
 
-  db.bottles.createIndex( { bottle_id : 1, time : 1,
-                            action : 1, pills_taken : 1 }
-  )  // The _id index is sufficient to limit us to just one document
-     // for the user queries
+  db.bottle_heartbeats.createIndex(
+    { time : 1 }, { expireAfterSeconds : 604800 }
+  ) // TTL: Delete the heartbeats after 1 week.
 
-  db.bottles.createIndex(
-    { time : 1 },
-    { partialFilterExpression : { action : "heartbeat" } },
-      expireAfterSeconds : 604800 }
-  ) // Delete the heartbeats after 1 week.
+  db.bottle_heartbeats.createIndex(
+    { user_id : 1, bottle_id : 1, time : 1 }
+  )
 
 .. include:: /includes/student-notes.rst
 
@@ -487,18 +565,9 @@ Solution: Indexes
 
   .. note::
 
-    The first index is a partial index. This ensures that the index entries are
-    only created for ``"bottle closed"`` or ``"bottle opened"``, but not
-    ``"heartbeat"``., making for a much smaller index that doesn't include
-    heartbeats, and which doesn't need to be updated every time a heartbeat
-    comes in.
-
-    Also, there's no need to create an index on the ``users`` collection, since
+    There's no need to create an index on the ``users`` collection, since
     we're querying by _id (which is unique) in the find/updates, and indexes
     don't help with inserts.
-
-    Finally, the partialFilterExpression ensures that only the heartbeats get
-    deleted after one week.
 
 
 Sharding
@@ -506,8 +575,9 @@ Sharding
 
 From a data point of view:
 
-- not needed for: userdata, medications
-- needed to keep heartbeats over a long period of time
+- Not needed for userdata or medications.
+- Would be needed to keep heartbeats over a long period of time, if we couldn't
+  use a TTL index to delete them.
 
 From an operation point of view:
 
@@ -517,12 +587,16 @@ From an operation point of view:
 .. include:: /includes/student-notes.rst
 
 
-Good shard key for "bottles" collection
----------------------------------------
+Good shard key for "bottle_heartbeats" collection
+-------------------------------------------------
+
+Good options:
 
 A) ``{ user_id: 1,  bottle_id : 1, time : 1 }``
 
 B) ``{ bottle_id: 1, time : 1 }``
+
+Since we already have an index that matches ``A.``, let's use that.
 
 .. note::
 
@@ -549,8 +623,7 @@ B) ``{ bottle_id: 1, time : 1 }``
 
 - do we want to move the heartbeat?
 
-  - [WC] - put it in the bottles collection, and made a partial index to avoid
-    indexing it for operations that don't require it.
+  - [WC] - Broke it out into a separate collection.
 
   - [WC] - also gave it a TTL index so we don't keep those heartbeats for ever.
 
