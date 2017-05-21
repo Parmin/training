@@ -116,6 +116,9 @@ deliverables:
 - Index creation commands
 - Should you shard some collections? Now? Later?
 
+  - Let's assume that you'd like for it to take off, and the market is up to 1
+    billion customers, worldwide.
+
 .. include:: /includes/student-notes.rst
 
 
@@ -188,47 +191,92 @@ Solution - Considerations
   collection and the ``Users`` collection.
 - Capturing the "heartbeat" will be the most common operation,
   and we should optimize for that.
+  
+  - However, it's an insert. Optimizing for it
+    consists of keeping the number of indexes small.
+
+  - Another common operation is checking to see if there were any heartbeats
+    in the last hour. Optimize for that, instead.
+
 - Are there any health data regulation that requires us to keep the
   last X heartbeats or actions from a user for a period of time?
 
 .. include:: /includes/student-notes.rst
 
-Document - users
-----------------
+
+Solution: Document - users (1 of 3)
+-----------------------------------
 
 .. code-block:: javascript
 
   {
     _id : "willcross", password_hash : "...",
-    user: { last_name : "Cross", first_name : "William", honorific : "Dr." },
+    user: {
+      last_name : "Cross",
+      first_name : "William",
+      honorific : "Dr."
+    },  ... // continued on next slide
+
+.. include:: /includes/student-notes.rst
+
+
+Solution: Document - users (2 of 3)
+-----------------------------------
+
+.. code-block:: javascript
+
+  { 
+    ... ,
     contact_info : {
       addresses: [ {
-        street : "229 West 43rd Street, 5th Floor", city : "New York", state : "NY",
-        zip : "07302", type : "work", primary : true } ],
-    phone_numbers : [ {
-        type : "cell", number : "(555)555-5555", send_notifications : true } ],
-    email : [ {
-        address : "will@mongodb.com", send_notifications : true,
-      }, {
-        address : "will@mailinator.com",
-        send_notifications : false } ]
-    },
+        street : "229 West 43rd Street, 5th Floor",
+        city : "New York",
+        state : "NY",
+        zip : "07302",
+        type : "work",
+        primary : true
+      } ],
+      phone_numbers : [ {
+        type : "cell",
+        number : "(555)555-5555",
+        send_notifications : true
+      } ],
+      email : [ { address : "will@mongodb.com", send_notifications : true },
+                { address : "will@mailinator.com", send_notifications : false } ]
+    }, ...  // continued on next slide
+
+.. include:: /includes/student-notes.rst
+
+
+Solution: Document - users (3 of 3)
+-----------------------------------
+
+.. code-block:: javascript
+
+  {
+    ... ,
     bottles : [ {
-        _id : ObjectId(...), medication_id : ObjectId(...), medication_name : "Cordrazine",
-        medication_dosage : { quantity : 1, unit : "pill", times_per_day : 2 }, mass_in_grams : 1.77,
+        _id : ObjectId(...),
+        medication_id : ObjectId(...),
+        medication_name : "Cordrazine",
+        medication_dosage : { quantity : 1, unit : "pill", times_per_day : 2 },
+        mass_in_grams : 1.77,
         image : "http://s.quickmeme.com/img/94/945bdf761cb888c7c8e829878ed3b5a0221fd0d10db7b5697834ded0ad592c93.jpg"
       }, {
-        _id : ObjectId(...), medication_id : ObjectId(...), medication_name : "Felicium",
+        _id : ObjectId(...),
+        medication_id : ObjectId(...),
+        medication_name : "Felicium",
         medication_dosage : { quantity : 2, unit : "pill", times_per_day : 3 },
         mass_in_grams : 2.7,
         image : "http://www.ex-astris-scientia.org/gallery/factfiles/felicium-dispenser-symbiosis.jpg"
       } ]
-  }
+  }  // End of the users document
 
 .. include:: /includes/student-notes.rst
 
-Document - bottles
-------------------
+
+Solution: Document - bottles
+----------------------------
 
 .. code-block:: javascript
 
@@ -245,8 +293,9 @@ Document - bottles
 
 .. include:: /includes/student-notes.rst
 
-Document - notifications
-------------------------
+
+Solution: Document - notifications
+----------------------------------
 
 .. code-block:: javascript
 
@@ -261,8 +310,9 @@ Document - notifications
 
 .. include:: /includes/student-notes.rst
 
-Document - medications
-----------------------
+
+Solution: Document - medications
+--------------------------------
 
 .. code-block:: javascript
 
@@ -279,8 +329,9 @@ Document - medications
 
 .. include:: /includes/student-notes.rst
 
-Write - heartbeat for a Pill Bottle
------------------------------------
+
+Solution: Write - heartbeat for a Pill Bottle
+---------------------------------------------
 
 .. code-block:: javascript
 
@@ -295,8 +346,9 @@ Write - heartbeat for a Pill Bottle
 
 .. include:: /includes/student-notes.rst
 
-Write - Pill Bottle, Opened
----------------------------
+
+Solution: Write - Pill Bottle, Opened
+-------------------------------------
 
 .. code-block:: javascript
 
@@ -311,8 +363,9 @@ Write - Pill Bottle, Opened
 
 .. include:: /includes/student-notes.rst
 
-Write - Pill Bottle, Closed
----------------------------
+
+Solution: Write - Pill Bottle, Closed
+-------------------------------------
 
 .. code-block:: javascript
 
@@ -329,14 +382,16 @@ Write - Pill Bottle, Closed
 
 .. include:: /includes/student-notes.rst
 
-Write - Web Server, Create User
--------------------------------
+
+Solution: Write - Web Server, Create User
+-----------------------------------------
 
 .. code-block:: javascript
 
   db.users.insertOne( { <user doc; see above> } )
 
 .. include:: /includes/student-notes.rst
+
 
 Write - Web Server, User Update
 -------------------------------
@@ -348,41 +403,49 @@ Write - Web Server, User Update
     $set : { bottles = [ { ... }, ... ] }
   } )
 
+Examples: 
+
+- User buys a new bottle
+- User changes a medication in a bottle
+- User changes contact information
+
 .. include:: /includes/student-notes.rst
 
 
-Query - Web Server, Fetch User Information
-------------------------------------------
+Solution: Query - Web Server, Fetch User Information
+----------------------------------------------------
 
 .. code-block:: javascript
 
   db.users.findOne( { _id : ObjectId(...), password_hash : "..." },
-                    { user : 1, contact_info : 1, bottles : 1 } )
+                    { _id : 0, user : 1, contact_info : 1, bottles : 1 } )
 
 .. include:: /includes/student-notes.rst
 
-Query - Web Server, Fetch History of Pills Taken for the Month
---------------------------------------------------------------
+Solution: Query - Web Server, Fetch History of Pills Taken for the Month
+------------------------------------------------------------------------
 
 .. code-block:: javascript
 
   db.bottles.find(
     { user_id : "username", action : "bottle closed" },
-    { bottle_id : 1, time : 1, pills_taken : 1 }
+    { _id : 0, bottle_id : 1, time : 1, pills_taken : 1 }
   ).sort( { bottle_id : 1, time : 1 } )
 
 
-Query - Server, checking for Pills Not Taken or Heartbeat Not Received
-----------------------------------------------------------------------
+Solution: Query - Server, checking for Pills Not Taken
+------------------------------------------------------
 
 .. code-block:: javascript
 
   db.bottles.find(
   { bottle_id : ObjectId(...),
-    time : { $gte : ISODate(...), $lte : ISODate(...) } },
-  { time : 1, action : 1, pills_taken : 1 }
+    time : { $gte : ISODate(...), $lte : ISODate(...) },
+    action : "bottle closed" },
+  { _id : 0, time : 1, action : 1, pills_taken : 1 }
   ).sort( { time : 1 } )
 
+  // if pill hasn't been taken:
   db.notifications.insertOne(
     {
       _id : ObjectId(...),
@@ -396,20 +459,46 @@ Query - Server, checking for Pills Not Taken or Heartbeat Not Received
 .. include:: /includes/student-notes.rst
 
 
-Indexes
--------
+Solution: Indexes
+-----------------
 
 .. code-block:: javascript
 
   db.bottles.createIndex(
   { user_id : 1, action : 1, bottle_id : 1, time : 1, pills_taken : 1 },
-  { partialFilterExpression : { action : "bottle closed" } }
+  { partialFilterExpression :{
+    action : { $gte : "bottle closed", $lte : "bottle opened" } } }
   ) // Allows for a covered query when finding pills taken (or not).
 
-  db.bottles.createIndex( { bottle_id : 1, time : 1, action : 1, pills_taken : 1 } )
-  // The _id index is sufficient to limit us to just one document for the user queries
+  db.bottles.createIndex( { bottle_id : 1, time : 1,
+                            action : 1, pills_taken : 1 }
+  )  // The _id index is sufficient to limit us to just one document
+     // for the user queries
+
+  db.bottles.createIndex(
+    { time : 1 },
+    { partialFilterExpression : { action : "heartbeat" } },
+      expireAfterSeconds : 604800 }
+  ) // Delete the heartbeats after 1 week.
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    The first index is a partial index. This ensures that the index entries are
+    only created for ``"bottle closed"`` or ``"bottle opened"``, but not
+    ``"heartbeat"``., making for a much smaller index that doesn't include
+    heartbeats, and which doesn't need to be updated every time a heartbeat
+    comes in.
+
+    Also, there's no need to create an index on the ``users`` collection, since
+    we're querying by _id (which is unique) in the find/updates, and indexes
+    don't help with inserts.
+
+    Finally, the partialFilterExpression ensures that only the heartbeats get
+    deleted after one week.
 
 
 Sharding
@@ -428,20 +517,43 @@ From an operation point of view:
 .. include:: /includes/student-notes.rst
 
 
-Good shard key
---------------
+Good shard key for "bottles" collection
+---------------------------------------
 
-A) { user_id: 1,  bottle_id }
+A) ``{ user_id: 1,  bottle_id : 1, time : 1 }``
 
-B) { bottle_id: 1 }
+B) ``{ bottle_id: 1, time : 1 }``
+
+.. note::
+
+  - Including the ``time`` field ensures good cardinality.
+  - Putting the time field after another field ensures that there will never be
+    a "hot" server for the inserts.
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
 
-[DC] summary of issues we need to fix
--------------------------------------
+  .. note::
 
-- where do we put the heartbeat
+    "Hot" servers happen in cases where a shard key has values that are
+    monotonically increasing with time. In these cases, one chunk will include
+    the range from ``<some point in the past>`` to ``MaxKey``, and all inserts
+    will go to that server.
+
+    Reference: https://docs.mongodb.com/manual/core/sharding-shard-key/#monotonically-changing-shard-keys
+
+
+[WC/DC] summary of issues to Work On
+------------------------------------
+
+- do we want to move the heartbeat?
+
+  - [WC] - put it in the bottles collection, and made a partial index to avoid
+    indexing it for operations that don't require it.
+
+  - [WC] - also gave it a TTL index so we don't keep those heartbeats for ever.
+
 - 5M writes per seconds is a lot
 
   - be careful about the number of indexes associated with the heartbeat
