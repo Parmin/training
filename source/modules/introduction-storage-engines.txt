@@ -233,7 +233,6 @@ Journaling in MMAPv1 vs. WiredTiger
 -----------------------------------
 - MMAPv1 uses write-ahead journaling to ensure consistency.
 - WiredTiger uses a write-ahead transaction log in combination with checkpoints to ensure durability.
-- With WiredTiger, the replication process may provide sufficient durability guarantees.
 
 
 MMMAPv1 Journaling Mechanics
