@@ -204,14 +204,14 @@ Name this replica set **APPDB**
   .. code-block:: bash
 
     mongo --host opsmgr1:27001
-    > rs.initiate(
+    > rs.initiate({
       _id: "APPDB",
       members: [
         {_id: 1, host:"opsmgr1:27001"},
         {_id: 2, host:"opsmgr2:27001"},
         {_id: 3, host:"opsmgr3:27001"}
       ]
-    )
+    })
 
   .. note::
 
@@ -275,14 +275,14 @@ Name this replica set **BACKUPDB**
   .. code-block:: bash
 
     mongo --host opsmgr1:27002
-    > rs.initiate(
+    > rs.initiate({
       _id: "BACKUPDB",
       members: [
         {_id: 1, host:"opsmgr1:27002"},
         {_id: 2, host:"opsmgr2:27002"},
         {_id: 3, host:"opsmgr3:27002"}
       ]
-    )
+    })
 
 
 Exercise: Install, Configure and Launch the Ops Manager Service
