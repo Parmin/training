@@ -1,8 +1,6 @@
 package mongomart;
 
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import freemarker.template.Configuration;
 import mongomart.controller.AdminController;
 import mongomart.controller.CartController;
@@ -34,7 +32,7 @@ public class MongoMart {
 
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
-            new MongoMart("mongodb://localhost:27017");
+            new MongoMart("mongodb://localhost");
         }
         else {
             new MongoMart(args[0]);
@@ -58,9 +56,7 @@ public class MongoMart {
          * HINT: You'll need to create a MongoClient object first, the "mongoURIString" may also be used
          *
          */
-         MongoClientURI uri = new MongoClientURI(mongoURIString);
-         MongoClient mc = new MongoClient(uri);
-         final MongoDatabase itemDatabase = mc.getDatabase("mongomart");
+        final MongoDatabase itemDatabase = null;
 
         /**
          * TODO-lab1 Replace all code above
