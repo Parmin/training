@@ -5,7 +5,7 @@ Lab: Data Model for an "Internet of Things" App
 Introduction
 ------------
 
-- Consier an internet-connected pill bottle.
+- Consider an internet-connected pill bottle.
 - It will:
 
   - Weigh its contents.
@@ -40,13 +40,13 @@ Each pill bottle will perform the following queries:
 
   - A query to find the user it's associated with, plus the medication and
     dosage.
-  
+
     - Frequency: very rarely; assume it would change 1/year.
     - Information: username, medication ID, medication mass per pill, frequency
       of dosage
-  
+
   - A heartbeat.
-  
+
     - Frequency: once every 10 minutes
 
 .. include:: /includes/student-notes.rst
@@ -56,7 +56,7 @@ Pill Bottle Operations (cont'd)
 -------------------------------
 
 - An operation to log the time, the mass, the estimated number of pills in
-  the bottle, and the number of pills taken while the botle was opened.
+  the bottle, and the number of pills taken while the bottle was opened.
 
   - Frequency: 1-6 times per bottle per day (assume an average of 3)
 
@@ -71,13 +71,13 @@ There will also be a web and notification server which will do the following:
 .. rst-class:: longlist
 
   - For each bottle, query 1/hour to determine:
-  
+
     - Which customers are more than an hour late in taking a pill
     - Which pill bottles have not called in for a heartbeat for over an hour
-  
+
   - Query each time user logs in to a web site to generate a calendar showing
     on which days they take their pills and which days they miss one or more
-  
+
     - Assume an average of 1/week
 
 .. include:: /includes/student-notes.rst
@@ -167,7 +167,7 @@ Data size:
 - Bottle information: 300M bottles * 100 bytes = 30GB
 - User information: 100M customers * 1000 bytes = 100GB
 - Heartbeats: 300M bottles * 1008 documents/week * 100 bytes
-  = 30TB/week 
+  = 30TB/week
 
 .. include:: /includes/student-notes.rst
 
@@ -240,7 +240,7 @@ Solution - Considerations
   collection and the ``Users`` collection.
 - Capturing the most recent "heartbeat" will be the most common operation, and
   we should optimize for that.
-  
+
   - However, it's an insert. Optimizing for it
     consists of keeping the number of indexes small.
 
@@ -274,7 +274,7 @@ Solution: Document - users (2 of 3)
 
 .. code-block:: javascript
 
-  { 
+  {
     ... ,
     contact_info : {
       addresses: [ {
@@ -471,7 +471,7 @@ Write - Web Server, User Update
     $set : { bottles = [ { ... }, ... ] }
   } )
 
-Examples: 
+Examples:
 
 - User buys a new bottle
 - User changes a medication in a bottle
@@ -549,7 +549,7 @@ Solution: Indexes
   db.bottle_actions.createIndex( {
       user_id : 1, action : 1, bottle_id : 1,
       time : 1, pills_taken : 1
-    } ) 
+    } )
 
   db.bottle_heartbeats.createIndex(
     { time : 1 }, { expireAfterSeconds : 604800 }
