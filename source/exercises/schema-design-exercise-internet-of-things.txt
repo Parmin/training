@@ -2,24 +2,37 @@
 Lab: Data Model for an "Internet of Things" App
 ===============================================
 
-Introduction
-------------
+Introduction (1 of 2)
+---------------------
 
-Consier an internet-connected pill bottle. It will:
+Consier an internet-connected pill bottle.
 
-- Weigh its contents.
-- Track how many pills it contains, when pills are removed, and how many.
-- Send heartbeats to confirm it's connected to wi-fi
+- It will:
 
-There will also be a "notification" server. It will:
+  - Weigh its contents.
+  - Log the following when it is opened or closed:
+  
+    - the time
+    - the weight of its contents
+    - how many pills are removed (if it's being closed)
 
-- Query periodically to find out:
+  - Log heartbeats periodically (every 1 minute)
+
+.. include:: /includes/student-notes.rst
+
+
+Introduction (2 of 2)
+---------------------
+
+There will also be a "notification" server.
+
+- It will query periodically to find, for each bottle:
 
   - Which users are late in taking a pill
   - Which bottles are left open
-  - Which bottles are not logging heartbeats
+  - Which bottles are *not* logging heartbeats
 
-- Notify the appropriate users, and log the notifications
+- It will then notify the appropriate users
 
 .. include:: /includes/student-notes.rst
 
@@ -27,21 +40,18 @@ There will also be a "notification" server. It will:
 Information Outside of the Scope of this Problem
 ------------------------------------------------
 
-To keep the scope of the problem contained, you **don't** need to model this
-data:
+To limit scope of this lab, you should *not* model the following data:
 
-- A ``users`` collection with information on the user (including which bottles
-  they own and what they contain)
-- A ``bottles`` collection with information on the bottle (including which
-  medication it contains, how much each pill weighs, etc.)
-- A ``notifications`` collection to record the history of notifications sent to
-  a user
+- userdata 
+- mediation info
+- notification records.
 
-You can reference a ``bottle_id`` or ``user_id`` or anything else if you think
-it should be associated with any of the data you *are* modeling.
+You can:
 
-Assume that the notification server knows where to send notifications for each
-user once it has a user_id.
+- pretend they exist in some other collection 
+- reference a ``bottle_id`` or ``user_id`` or anything else you need
+
+But just worry about the bottle logs and queries of *that* data
 
 .. include:: /includes/student-notes.rst
 
@@ -49,22 +59,17 @@ user once it has a user_id.
 Pill Bottle Operations
 ----------------------
 
-For simplicity, we will focus on just queries and writes from the bottles and from the
-notification server.
-
 Each pill bottle will perform the following queries:
 
-.. rst-class:: longlist
+- A heartbeat
 
-  - A heartbeat
-  
-    - Frequency: once every 10 minutes
+  - Frequency: once every minute
 
-- An operation to log relevant information when the bottle is opened or closed:
+- An operation to log when the bottle is opened or closed.
 
+  - Its contents' weight
+  - If closed, how many pills were removed
   - Frequency: 1-6 times per bottle per day (assume an average of 2)
-  - Enough information for the server to know when a medication dosage has
-    been missed, and which user it's from.
 
 .. include:: /includes/student-notes.rst
 
@@ -72,12 +77,13 @@ Each pill bottle will perform the following queries:
 Notifcation Server Operations
 -----------------------------
 
-The notification server will query the data from the pill bottles to determine:
+The notification server will run queries to determine:
 
-- Whether any given bottle is late in dispensing a dosage
+- Whether any given bottle is > 1 hour late in dispensing a dosage
 - Whether any given bottle has not sent a heartbeat for over an hour
+- Whether any given bottle has been left open
 
-In either case, the server will need to know:
+Regardless, the server will also need to know:
 
 - Which user the bottle is associated with
 - Which medication the bottle contains
@@ -88,22 +94,23 @@ In either case, the server will need to know:
 Deliverables
 ------------
 
-Break into groups of two or three and work together to create the following
-deliverables:
+Break into groups of two or three.
 
-- Assumptions about sizing
+Work together to create the following deliverables:
 
-  - Number of documents per collection
-  - Estimated data size
-  - Frequency of requests
+.. rst-class:: longlist
 
-- Sample documents for each collection you're creating
-- Queries the application will use
-- Index creation commands
-- Should you shard some collections? Now? Later?
+  - Sizing estimates, including:
+  
+    - Data size for each collection
+    - Frequency of requests
+  
+  - Sample documents for each collection
+  - Queries (read AND write) that the applications will use
+  - Index creation commands
+  - Should you shard a collection? Now? Later?
 
-  - Let's assume that you'd like for it to take off, and the market is up to 1
-    billion customers, worldwide. It's at 100 million today.
+    - Assume a user base of 100M to 1 billion to answer this
 
 .. include:: /includes/student-notes.rst
 
@@ -117,59 +124,130 @@ groups & presented.
 .. include:: /includes/student-notes.rst
 
 
-Solution - Sizing for Operations
---------------------------------
+Solution - Assumptions
+----------------------
 
-- Assume 100M customers in the first 3 years (up to 1B later)
+- Assume 100M customers in the first 3 years
+
+  - 1 billion later
+
 - Average of 3 bottles per customer
-- Average of 2 times per day for users to take their pills (bottle open &
-  bottle closed), so 4 actions get logged
+- Average of 2 dosages per day
 
-Bottle Operations:
+  - Log bottle open and bottle closed for each
 
-- Record bottle heartbeats:
-
-  - 3 bottles per user * 100M users / 600 sec per heartbeat = 5M heartbeats per second (inserts)
-
-- Record bottles opened/closed:
-
-  - 3 bottles per user * 100M users * 2 dosages per day * 2 actions per dosage
-    (open & close) / 86400 seconds per day = 14K actions per second (inserts)
-
-Notifcation Server Operations:
-
-- Query for Missing Heartbeats every hour:
-
-  - 3 bottles per user * 100M users / 3600 sec in 10 minutes = 80K checks per
-    second for most recent heartbeat
-
-- Query for Missing Dosages every Hour (check the last 3 dosages)
-
-  - 3 bottles per user * 100M users / 3600 seconds between checks = 80k checks
-    per second 
-
-- Query for Leaving a Bottle Open every 10 Minutes
-
-  - 3 bottles per user * 100M users / 600 sec per heartbeat = 500K checks per
-    second
+- Log a heartbeat every 10 minutes
 
 .. include:: /includes/student-notes.rst
 
 
-Solution - Sizing for Data
---------------------------
+Solution - Sizing: Bottle Operations (1 of 2)
+---------------------------------------------
 
-Data size:
+Record bottle heartbeats:
 
-- Heartbeats: 300M bottles * 1000 documents per week * 100 bytes per doc = 
-  ``30TB per week``
-- Open/close: 300M bottles * 2 dosages per day * 2 actions per dose * 100 bytes
-  per doc = ``60 GB per week``, or ``3 TB per year``
-- Indexes will take up additional space
+.. rst-class:: longlist
+
+  - 3 bottles per user 
+  - times 100M users (300 M bottles)
+  - divide by 60 sec per heartbeat
+  - ... so 5M heartbeats per second (inserts)
+
+.. include:: /includes/student-notes.rst
+
+
+Solution - Sizing: Bottle Operations (1 of 2)
+---------------------------------------------
+
+Record bottles opened/closed:
+
+.. rst-class:: longlist
+
+  - 3 bottles per user 
+  - times 100M users 
+  - times 2 dosages per day 
+  - times 2 actions per dosage (open + closed)
+  - divide by 86400 seconds per day 
+  - ... so 14K actions per second (inserts)
+
+.. include:: /includes/student-notes.rst
+
+
+Solution - Sizing: Notification Server Operations (1 of 2)
+----------------------------------------------------------
+
+Query for Missing Heartbeats every hour:
+
+.. rst-class:: longlist
+
+  - 3 bottles per user 
+  - times 100M users 
+  - divided by 3600 seconds in 10 minutes 
+  - ... so 80K checks per
+    second for most recent heartbeat
+
+.. include:: /includes/student-notes.rst
+
+
+Solution - Sizing: Notification Server Operations (2 of 2)
+----------------------------------------------------------
+
+Query for Missing Dosages every Hour (check the last 3 dosages)
+
+.. rst-class:: longlist
+
+  - 3 bottles per user 
+  - times 100M users 
+  - divided by 3600 seconds between checks 
+  - ... so 80k checks per second 
+
+Query for Leaving a Bottle Open every 10 Minutes
+
+.. rst-class:: longlist
+
+  - 3 bottles per user 
+  - times 100M users 
+  - divided by 600 sec per heartbeat 
+  - ... so 500K checks per second
+
+.. include:: /includes/student-notes.rst
+
+
+Solution - Sizing: Data (1 of 2)
+--------------------------------
+
+Heartbeats:
+
+.. rst-class:: longlist
+
+  - 3 bottles per user
+  - times 100M users 
+  - times 1000 documents per week 
+  - times 100 bytes per doc
+  - ... so ``30TB per week``
+
+.. include:: /includes/student-notes.rst
+
+
+Solution - Sizing: Data (2 of 2)
+--------------------------------
+
+Opening & Closing Bottles:
+
+.. rst-class:: longlist
+
+  - 3 bottles / user
+  - times 100M users 
+  - times 2 dosages per day 
+  - times 2 actions per dose 
+  - times 100 bytes
+  - ... so  ``60GB per week``
+  - Indexes will take up additional space
 
 .. note::
 
-  Document sizes are approximate, and here to give us 
+  Document sizes are approximate, and here to give us an "order of magnitude"
+  sense of things.
 
 .. include:: /includes/student-notes.rst
 
@@ -177,7 +255,7 @@ Data size:
 Solution - Collections (1 of 2)
 -------------------------------
 
-``bottle_actions``
+Collection: ``bottle_actions``
 
 - Bottle it's associated with
 - Medication in the bottle
@@ -196,7 +274,7 @@ Solution - Collections (1 of 2)
 Solution - Collections (2 of 2)
 -------------------------------
 
-``bottle_heartbeats``
+Collection: ``bottle_heartbeats``
 
   - Bottle sending in the heartbeat
   - Medication in the bottle
@@ -215,11 +293,11 @@ Solution - Considerations
   - The heartbeat inserts don't benefit from an index, and are hurt by having
     too many indexes
 
-- Are there any health data regulation that requires us to keep the
-  last X heartbeats or actions from a user for a period of time?
+- Are there health regulations that requires us to keep the
+  last N heartbeats or actions from a user for a period of time?
 
-  - This solution will assume we keep the heartbeats for 1 week, and actions
-    (opened/closed) will be kept for ever.
+  - Assume we keep the heartbeats for 1 week
+  - Keep "actions" (opened/closed) for ever
 
 .. include:: /includes/student-notes.rst
 
@@ -240,7 +318,7 @@ Solution: Document (1 of 2)
     number_of_pills : 25,
     time : ISODate(...),
     action : "closed",  // other possible value: "opened"
-    pills_taken : 2  // pills_taken will be present only for the "closed" action.
+    pills_taken : 2  // if action is "closed"
   }
 
 .. include:: /includes/student-notes.rst
@@ -262,6 +340,15 @@ Solution: Document (2 of 2)
   }
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    The students may point out that this is a fairly flat data structure.
+    
+    - This happens sometimes.
+    - There is still clever optomizations to be done; see below.
 
 
 Solution: Pill Bottle Write (1 of 3)
@@ -328,7 +415,7 @@ send heartbeat every 10 minutes
 Solution: Query (1 of 3)
 ------------------------
 
-Looking at the last 3 dosages taken to check for a missing one
+Check last 3 dosages for a skipped one
 
 .. code-block:: javascript
 
@@ -342,12 +429,27 @@ Looking at the last 3 dosages taken to check for a missing one
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - This finds hte last 3 times the bottle was closed
+    - When the bottle is closed, it records the number of pills taken out while
+      it was open
+
 
 Solution: Query (2 of 3)
 ------------------------
 
-Looking at the last action (to see if it is "opened"), and the timestamp (to
-see if it was more than 10 minutes ago) to check for an open bottle
+Find:
+
+- the last action
+
+  - to see if ``action`` is ``"opened"``
+
+- and its timestamp 
+
+  - to see if it was more than 10 minutes ago
 
 .. code-block:: javascript
 
@@ -376,8 +478,8 @@ Check last heartbeat to see if it has been >10 minutes
 .. include:: /includes/student-notes.rst
 
 
-Solution: Indexes
------------------
+Solution: Indexes (1 of 2)
+--------------------------
 
 .. code-block:: javascript
 
@@ -393,16 +495,6 @@ Solution: Indexes
     { bottle_id : 1, time : 1, action : 1, user_id : 1, medication : 1 },
     { name : "find_open_bottles" }
   )  // optimizes Query 2, AND allows for covered queries
-
-  db.bottle_heartbeats.createIndex(
-    { bottle_id : 1, time : 1, user_id : 1, medication : 1 },
-    { name : "find_last_heartbeat" }
-  )  // optimizes Query 3, AND allows for covered queries
-
-  db.bottle_heartbeats.createIndex(
-    { time : 1 }, { expireAfterSeconds : 604800 },
-    { name : "TTL" }
-  ) // TTL Index: Delete the heartbeats after 1 week
 
 .. include:: /includes/student-notes.rst
 
@@ -428,6 +520,28 @@ Solution: Indexes
       - Projection also returns ``action``, ``user_id``, and ``medication``, so
         those fields are included to make it a covered query.
 
+
+Solution: Indexes (2 of 2)
+--------------------------
+
+.. code-block:: javascript
+
+  db.bottle_heartbeats.createIndex(
+    { bottle_id : 1, time : 1, user_id : 1, medication : 1 },
+    { name : "find_last_heartbeat" }
+  )  // optimizes Query 3, AND allows for covered queries
+
+  db.bottle_heartbeats.createIndex(
+    { time : 1 }, { expireAfterSeconds : 604800 },
+    { name : "TTL" }
+  ) // TTL Index: Delete the heartbeats after 1 week
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
     - ``find_last_heartbeat``
 
       - Exact match on ``bottle_id``, so that comes first
@@ -447,12 +561,14 @@ From a data storage point of view:
 
 - Sharding *would* be needed to keep heartbeats over a long period of time, if
   we didn't delete them.
-- For the actions, this is just a few terabytes per year; no real need to shard.
+- The actions log just a few terabytes per year; no real need to shard.
 
 From an operation point of view:
 
 - 5M writes per seconds is a *lot* for a simple replica set. Either shard, or
   reduce the number of writes
+
+  - We'll sharrd the ``bottle_heartbeats`` collection.
 
 .. include:: /includes/student-notes.rst
 
@@ -466,8 +582,8 @@ A) ``{ user_id : 1, time : 1 }``
 
 B) ``{ bottle_id : 1, time : 1 }``
 
-- We can see that the index named ``find_last_heartbeat`` has a prefix that matches ``B.``, so
-  that's our shard key.
+- We can see that the index named ``find_last_heartbeat`` has a prefix that
+  matches ``B.``, so that will be our shard key.
 
 .. note::
 
