@@ -23,6 +23,19 @@ Lab: Security Workshop
       - enable encryption at rest
       - enable log redaction
 
+    - Instead of having them complete all those by themselves, have them
+      do one lab, then go over the solution with them.
+      Especially the setting up of the replica set (they have the solution
+      in their book), for which we want to ensure everyone got that right
+      before going any further.
+
+    - TODOs:
+
+      - consider "Solution: Enable SSL with the client" being a separate exercise
+        that is done later, as it is more difficult
+      - consider adding "bonus exercises" for people who finish earlier: things
+        like generating your own certificates
+
 
 Learning Objectives
 -------------------
@@ -83,7 +96,7 @@ Exercise: Starting MongoDB and configuring the replica set
   - https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-red-hat/
 
 - configure the 3 nodes as a replica set named **SECURED**
-- use ``node``, ``node2`` and ``node3`` for your host names
+- use ``node1``, ``node2`` and ``node3`` for your host names
 - you *MUST* use a config file
 
 
@@ -297,6 +310,8 @@ Exercise: Enable SSL between the nodes
          mode: requireSSL
          PEMKeyFile: /etc/ssl/mongodb/node1.pem
          CAFile: /etc/ssl/mongodb/ca.pem
+     security:
+       clusterAuthMode: x509
 
   - connect with the client
 
@@ -430,6 +445,7 @@ Putting it together
 
    security:
      authorization: enabled
+     clusterAuthMode: x509
      enableEncryption : true
      encryptionKeyFile : /etc/ssl/mongodb/mongodb-keyfile
      redactClientLogData: true
