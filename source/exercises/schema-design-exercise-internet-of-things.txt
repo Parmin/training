@@ -48,10 +48,8 @@ To limit scope of this lab, you should *not* model the following data:
 
 You can:
 
-- pretend they exist in some other collection 
-- reference a ``bottle_id`` or ``user_id`` or anything else you need
-
-But just worry about the bottle logs and queries of *that* data
+- assume they exist in some other collection 
+- reference a ``bottle_id``, ``user_id`` or anything else needed
 
 .. include:: /includes/student-notes.rst
 
@@ -69,7 +67,7 @@ Each pill bottle will perform the following queries:
 
   - Its contents' weight
   - If closed, how many pills were removed
-  - Frequency: 1-6 times per bottle per day (assume an average of 2)
+  - Frequency: Assume an average of 2 times per day
 
 .. include:: /includes/student-notes.rst
 
@@ -150,14 +148,14 @@ Record bottle heartbeats:
 
   - 3 bottles per user 
   - times 100M users (300 M bottles)
-  - divide by 60 sec per heartbeat
-  - ... so 5M heartbeats per second (inserts)
+  - divide by 600 sec per heartbeat
+  - ... so 500K heartbeats per second (inserts)
 
 .. include:: /includes/student-notes.rst
 
 
-Solution - Sizing: Bottle Operations (1 of 2)
----------------------------------------------
+Solution - Sizing: Bottle Ops (1 of 2)
+--------------------------------------
 
 Record bottles opened/closed:
 
@@ -166,31 +164,30 @@ Record bottles opened/closed:
   - 3 bottles per user 
   - times 100M users 
   - times 2 dosages per day 
-  - times 2 actions per dosage (open + closed)
+  - times 2 entries per dosage (open + closed)
   - divide by 86400 seconds per day 
-  - ... so 14K actions per second (inserts)
+  - ... so 14K entries per second (inserts)
 
 .. include:: /includes/student-notes.rst
 
 
-Solution - Sizing: Notification Server Operations (1 of 2)
-----------------------------------------------------------
+Solution - Sizing: Notification Server Ops (1 of 2)
+---------------------------------------------------
 
-Query for Missing Heartbeats every hour:
+Query for last heartbeat every hour:
 
 .. rst-class:: longlist
 
   - 3 bottles per user 
   - times 100M users 
-  - divided by 3600 seconds in 10 minutes 
-  - ... so 80K checks per
-    second for most recent heartbeat
+  - divided by 3600 seconds per hour
+  - ... so 80K checks per second for most recent heartbeat
 
 .. include:: /includes/student-notes.rst
 
 
-Solution - Sizing: Notification Server Operations (2 of 2)
-----------------------------------------------------------
+Solution - Sizing: Notification Server Ops (2 of 2)
+---------------------------------------------------
 
 Query for Missing Dosages every Hour (check the last 3 dosages)
 
@@ -207,7 +204,7 @@ Query for Leaving a Bottle Open every 10 Minutes
 
   - 3 bottles per user 
   - times 100M users 
-  - divided by 600 sec per heartbeat 
+  - divided by 600 seconds between checks
   - ... so 500K checks per second
 
 .. include:: /includes/student-notes.rst
@@ -226,6 +223,10 @@ Heartbeats:
   - times 100 bytes per doc
   - ... so ``30TB per week``
 
+    - plus indexes
+    - we will want to shard this
+    - and possibly delete them
+
 .. include:: /includes/student-notes.rst
 
 
@@ -239,7 +240,7 @@ Opening & Closing Bottles:
   - 3 bottles / user
   - times 100M users 
   - times 2 dosages per day 
-  - times 2 actions per dose 
+  - times 2 entries per dose 
   - times 100 bytes
   - ... so  ``60GB per week``
   - Indexes will take up additional space
@@ -287,17 +288,21 @@ Collection: ``bottle_heartbeats``
 Solution - Considerations
 -------------------------
 
-- Finding the most recent "heartbeat" will be the *most* common query
-  operation, so we should optimize for that.
 
-  - The heartbeat inserts don't benefit from an index, and are hurt by having
-    too many indexes
+.. rst-class:: longlist
 
-- Are there health regulations that requires us to keep the
-  last N heartbeats or actions from a user for a period of time?
+  - Finding open bottles is the *most* common query
 
-  - Assume we keep the heartbeats for 1 week
-  - Keep "actions" (opened/closed) for ever
+    - optimize for that
+
+  - The heartbeat inserts are also frequent 
+
+    - ... but don't benefit from an index
+
+  - Are there health regulations that require us to keep any data?
+
+    - Assume we keep the heartbeats for 1 week
+    - Keep "actions" (opened/closed) for ever
 
 .. include:: /includes/student-notes.rst
 
@@ -397,7 +402,7 @@ pill bottle closed
 Solution: Pill Bottle Write (3 of 3)
 ------------------------------------
 
-send heartbeat every 10 minutes
+log the heartbeat
 
 .. code-block:: javascript
 
@@ -422,10 +427,12 @@ Check last 3 dosages for a skipped one
   db.bottle_actions.find(
     {
       bottle_id : ObjectId(...),
-      action : "closed", pills_taken : { $gt : 0 }
+      action : "closed",
+      pills_taken : { $gt : 0 },
+      time : { $gte : <two days ago> }
     },
     { _id : 0, time : 1, pills_taken : 1, user_id : 1, medication : 1 }
-  ).sort( { time : -1 } ).limit(3)
+  )
 
 .. include:: /includes/student-notes.rst
 
@@ -433,7 +440,7 @@ Check last 3 dosages for a skipped one
 
   .. note::
 
-    - This finds hte last 3 times the bottle was closed
+    - This finds the last two days' records
     - When the bottle is closed, it records the number of pills taken out while
       it was open
 
@@ -441,15 +448,7 @@ Check last 3 dosages for a skipped one
 Solution: Query (2 of 3)
 ------------------------
 
-Find:
-
-- the last action
-
-  - to see if ``action`` is ``"opened"``
-
-- and its timestamp 
-
-  - to see if it was more than 10 minutes ago
+Determine if the bottle was left open
 
 .. code-block:: javascript
 
@@ -460,23 +459,30 @@ Find:
     { _id : 0, time : 1, action : 1, user_id : 1, medication : 1 }
   ).sort( { time : -1 } ).limit(1)
 
+If the last action was ``"opened"`` and the time was >10 minutes ago, it's been
+left open.
+
 .. include:: /includes/student-notes.rst
 
 
 Solution: Query (3 of 3)
 ------------------------
 
-Check last heartbeat to see if it has been >10 minutes
+Check last heartbeat to see if it has been >60 minutes
 
 .. code-block:: javascript
 
   db.bottle_heartbeats.find(
-    { bottle_id : ObjectId(...) },
+    {
+        bottle_id : ObjectId(...),
+        time : { $gte : ISODate( <1 hour ago> ) }
+    },
     { _id : 0, time : 1, user_id : 1, medication : 1 }
-  ).sort( { time : -1 } ).limit(1)
+  ).sort( { time : -1 } ).limit(1).count()
+
+If it's 0, then the bottle is disconnected from wi-fi
 
 .. include:: /includes/student-notes.rst
-
 
 Solution: Indexes (1 of 2)
 --------------------------
@@ -494,7 +500,7 @@ Solution: Indexes (1 of 2)
   db.bottle_actions.createIndex(
     { bottle_id : 1, time : 1, action : 1, user_id : 1, medication : 1 },
     { name : "find_open_bottles" }
-  )  // optimizes Query 2, AND allows for covered queries
+  )  // optimizes Query 2 for filtering/sorting, *and* allows for covered queries
 
 .. include:: /includes/student-notes.rst
 
@@ -507,10 +513,11 @@ Solution: Indexes (1 of 2)
     - ``find_missed_dosages``
 
       - Exact match on ``bottle_id`` and ``action``, so those come first
-      - Sort by ``time``, so that comes next
-      - Range match on ``pills_taken``, so that comes *after* the sort field
-        (``time``)
-      - Projection also requires ``user_id`` and ``medication``, so those are
+      - Range match on ``time`` and ``pills_taken``, so those come next
+
+        - ``time`` is more discriminating, which matters for a range query
+
+      - Projection requires ``user_id`` and ``medication``, so those are
         added to make it a covered query.
 
     - ``find_open_bottles``
@@ -529,7 +536,7 @@ Solution: Indexes (2 of 2)
   db.bottle_heartbeats.createIndex(
     { bottle_id : 1, time : 1, user_id : 1, medication : 1 },
     { name : "find_last_heartbeat" }
-  )  // optimizes Query 3, AND allows for covered queries
+  )  // optimizes Query 3 for filtering/sort, *and* allows for covered queries
 
   db.bottle_heartbeats.createIndex(
     { time : 1 }, { expireAfterSeconds : 604800 },
@@ -545,7 +552,7 @@ Solution: Indexes (2 of 2)
     - ``find_last_heartbeat``
 
       - Exact match on ``bottle_id``, so that comes first
-      - Sort by ``time``, so that comes next
+      - Sort by ``time`` (along with a range), so that comes next
       - Add ``user_id`` and  ``medication`` to make it a covered query.
 
     - ``name : "TTL"``
@@ -559,16 +566,15 @@ Sharding
 
 From a data storage point of view:
 
-- Sharding *would* be needed to keep heartbeats over a long period of time, if
-  we didn't delete them.
-- The actions log just a few terabytes per year; no real need to shard.
+- Sharding needed to keep heartbeats over a long period of time (30 TB / week)
+- The open & close log entries are just a few terabytes per year; no real need to shard.
 
 From an operation point of view:
 
-- 5M writes per seconds is a *lot* for a simple replica set. Either shard, or
+- 500K writes per second is a lot for a simple replica set. Either shard, or
   reduce the number of writes
 
-  - We'll sharrd the ``bottle_heartbeats`` collection.
+  - We'll shard the ``bottle_heartbeats`` collection.
 
 .. include:: /includes/student-notes.rst
 
