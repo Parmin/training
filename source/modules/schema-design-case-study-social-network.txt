@@ -41,8 +41,8 @@ Design Considerations
       - Examples:
 
         - Your sister got married
-        - Major news story of the day
-        - Someone RSVP'd for an event
+        - Major news story people are linking to
+        - Someone RSVP'd for an event you're hosting
 
 
 User Relationships
@@ -78,7 +78,11 @@ Relationships must be split into separate documents:
 - This will provide performance benefits.
 - Other motivations:
 
-  - E.g., celebrity users may have millions of followers.
+  - Some users (e.g., celebrities) will have millions of followers.
+
+    - Embedding a "followers" array would literally break the app: documents
+      are limited to 16 MB.
+
   - Different types of relationships may have different fields and requirements.
 
 .. include:: /includes/student-notes.rst
@@ -139,6 +143,10 @@ Counting User Relationships
 
 - An active count of followers and folowees will be more expensive for creating relationships
 
+  - Requires an update to both user documents (plus a relationship document)
+    each time a relationship is changed
+  - For a read-heavy system, this cost may be worth paying
+
 .. include:: /includes/student-notes.rst
 
 Counting User Relationships
@@ -177,12 +185,19 @@ User Relationship Traversal
 - Index needed on (followers.user, followers.following)
 - For reverse lookups, index needed on (followers.following, followers.user)
 - Covered queries should be used in graph lookups (via projection)
-
-  - Alternatively, you might use ``$lookup`` or ``$graphLookup``
-
 - May also want to maintain two separate collections: followers, followees
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - If someone asks about $lookup or $graphLookup, tell them not to use it.
+
+      - They're not terribly performant
+      - They can't look up documents from sharded collections. Only the initial
+        source collections can be sharded.
 
 
 User Relationships
@@ -328,9 +343,17 @@ Class Exercise
 
 Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
 
-- Design a schema for the user graph
-- Design a schema for a Twitter user's newsfeed (including retweets, favorites, and replies)
+- Create an example document for a user's tweets
+- Design a partial schema just for for a Twitter user's newsfeed (including
+  retweets, favorites, and replies)
+- What would the queries be for the user's newsfeed?
 
+  - Initial query
+  - Later query if they scroll down to see more
+
+- What indexes would the user need?
+- Don't worry about constructing the newsfeed; assume an application is
+  creating entries, and just worry about displaying it.
 
 .. include:: /includes/student-notes.rst
 
@@ -338,28 +361,12 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
 
    .. note::
 
-     - First consideration is what to optimize for: reads of the user's profile vs writes
-     - Storing a count of the user's followers removes the need to count followers for each pageload
-     - Working through the various pages in the MongoDB Twitter profile should follow a similar theme, design the schema for reads and perform more work in the background every time a new tweet occurs
-     - The @MongoDB profile may have the following form
+     - First consideration is what to optimize for: reads of the user's feed vs writes
+     - Working through the various pages in the MongoDB Twitter profile should
+       follow a similar theme, design the schema for reads and perform more
+       work in the background every time a new tweet occurs
 
-
-       .. code-block:: javascript
-
-          {
-            "username" : "mongodb",
-            "username_display" : "MongoDB",
-            "description" : "The world's fastest-growing database.",
-            "url" : "http://mongodb.com"
-            "tweets" : 7901,
-            "following" : 1975,
-            "followers" : 186000,
-            "favorites" : 1046,
-            "lists" : 2,
-            ...
-          }
-
-    - Tweets from @MongoDB may have the following form (used to construct the @MongoDB profile page)
+    - Tweets could have the following form
 
       .. code-block:: javascript
 
@@ -367,11 +374,11 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
           _id : 1234
           "username" : "mongodb",
           "tweet" : "The Call for Speakers for #MDBDays closes tomorrow! Submit a talk proposal for a chance to speak at our events http://spr.ly/6012B1Q8r",
-          "date" : ISODate()
+          "date" : ISODate(),
           ...
         }
 
-    - Each user's feed may have the following form (tweets they see when they log in)
+    - Each user's feed could have the following form (tweets they see when they log in)
 
       .. code-block:: javascript
 
@@ -388,3 +395,54 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
           "retweet_tweetid" : null // used for displaying retweet status
           ...
         }
+
+    - There would be a number of such documents for each user.
+    - If this is the schema, you could perform the following query to load the feed:
+
+    .. code-block:: javascript
+
+      db.user_feeds.find( 
+        { for_user : "jason" }
+      ).sort( { date : -1 } ).limit(10)
+
+    - Later loads might look like this:
+
+    .. code-block:: javascript
+
+      db.user_feeds.find(
+        {
+          for_user : "jason",
+          date : { $lt : <date of last tweet visible in feed> }
+        }
+      ).sort( { date : -1 } )
+
+    - You would want to build the following index:
+
+    .. code-block:: javascript
+
+      db.user_feeds.createIndex( { for_user : 1, date : 1 } )
+
+    - For a shard key, this is a good candidate:
+
+    .. code-block:: javascript
+
+      {
+        for_user : 1,
+        date : 1
+      }
+
+    - Shard key considerations:
+
+      - Putting ``for_user`` first avoids a monotonically increasing shard key.
+      - Putting ``date`` in the shard key ensures high cardinality
+      - Since you're query uses the shard key, it will be targeted
+
+    - There would be other collections needed to build the full application:
+
+      - user documents
+      - relationships
+      - etc.
+
+    - Another process would need to go through and delete old documents in the feed.
+
+      - Alternatively, there could be a TTL index on the user_feed's ``date`` field.
