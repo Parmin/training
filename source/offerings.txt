@@ -91,7 +91,7 @@ MongoDB World 2017 Workshops
 
 .. |contents_mdbw_security| raw:: html
 
-   <a href="meta/null.html">(contents is not ready yet)</a>
+   <a href="meta/security-workshop.html">(book contents)</a>
 
 .. |agenda_mdbw_cleansing| raw:: html
 

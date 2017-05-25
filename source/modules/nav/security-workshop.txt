@@ -1,0 +1,9 @@
+=================
+Security Workshop
+=================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-security-workshop.rst
+
+.. include:: /includes/toc/security-workshop.rst

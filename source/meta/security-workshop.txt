@@ -1,0 +1,11 @@
+:orphan:
+
+=========================
+MongoDB Security Workshop
+=========================
+
+.. toctree::
+
+   /modules/nav/security-workshop
+
+

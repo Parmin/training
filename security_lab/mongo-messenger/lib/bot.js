@@ -2,16 +2,16 @@ const fs = require('fs')
 const markov = require('markov')
 
 const m = markov(2) // 2nd order markov chain generator
-const consultingChat = fs.readFileSync(__dirname + '/consulting-chat.txt')
+const senateBills = fs.readFileSync(__dirname + '/senate-bills.txt')
 
-m.seed(consultingChat)
+m.seed(senateBills)
 
 exports.send = callback => {
   (function generateRandomMessage () {
     _randomly(() => {
       const msg = _generateRandomMessage()
       callback({
-        from: 'consulting engineer',
+        from: 'unidentified senator',
         body: msg,
       })
       generateRandomMessage()

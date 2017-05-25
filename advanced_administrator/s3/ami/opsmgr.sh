@@ -38,6 +38,9 @@ PACKAGES=(
     unzip
     gcc
     gcc-c++
+    epel-release
+    nodejs
+
 )
 
 # Those are not downloaded, neither installed
