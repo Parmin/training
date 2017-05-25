@@ -87,7 +87,7 @@ MongoDB World 2017 Workshops
 
 .. |agenda_mdbw_security| raw:: html
 
-   <a href="modules/agenda-security-workshop.html">MongoDB Security - 1 day</a>
+   <a href="modules/agenda-workshop-security.html">MongoDB Security - 1 day</a>
 
 .. |contents_mdbw_security| raw:: html
 
