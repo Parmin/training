@@ -26,9 +26,9 @@ Lab: Security Workshop
       - enable log redaction
 
      - Each successive objective of this workshop requires full completion of previous objectives.
-     Ensure all participants have met the requirements of a specific section before proceeding.
+       Ensure all participants have met the requirements of a specific section before proceeding.
 
-    - TODOs:
+     - TODOs:
 
       - consider "Solution: Enable SSL with the client" being a separate exercise
         that is done later, as it is more difficult
@@ -92,6 +92,8 @@ servers running in AWS.
 Exercise: Starting MongoDB and configuring the replica set
 ----------------------------------------------------------
 
+..rst-class:: longlist
+
 - ``/share/downloads/mongodb_packages`` contains MongoDB 3.2 and 3.4
 - installation instructions are at:
 
@@ -99,7 +101,9 @@ Exercise: Starting MongoDB and configuring the replica set
 
 - configure the 3 nodes as a replica set named **SECURED**
 - use ``node1``, ``node2`` and ``node3`` for your host names
-- you *MUST* use a config file
+- you *MUST* use a `config file`_
+
+.. _`config file`: https://docs.mongodb.com/manual/reference/configuration-options/
 
 
 Starting MongoDB and configuring the replica set (cont)
@@ -150,16 +154,16 @@ Let's try to connect to our running MongoDB cluster.
   .. note::
 
     - Here we want to make sure everyone can connect correctly to the MongoDB
-    cluster.
+      cluster.
     - A student may ask why there are no primaries in the replica set. This is
-    most likely because they've reached this step quickly and an election is still
-    taking place
+      most likely because they've reached this step quickly and an election is still
+      taking place
 
 
 Exercise: Launch the Client Application
 ---------------------------------------
 
-It's time connect our client application.
+It's time to connect our client application.
 
 - install the application:
 
@@ -171,7 +175,9 @@ It's time connect our client application.
     npm install
     npm start
 
-- connect to your application with a browser on port 8080
+- Connect to the public ip of your ``node4`` instance, port 8080
+
+  - ``http://34.174.289.914:8080``
 
 .. include:: /includes/student-notes.rst
 
@@ -199,8 +205,7 @@ How is the client application connecting to the database?
    const url = "mongodb://node1:27017,node2:27017,node3:27017/
        security-lab?replicaSet=SECURED"
 
-- this is good for now, however you may have to change it later in the lab
-
+- this will work, for now...
 
 WARNING: Spying your deployment!
 --------------------------------
@@ -272,30 +277,30 @@ To do this, you will have to decide:
 
 .. only:: instructor
 
-  Solution: Enable authorization
-  ------------------------------
+   Solution: Enable authorization
+   ------------------------------
 
-  - using the localhost exception, create the first user
+   - using the localhost exception, create the first user
 
-  .. code-block:: sh
+     .. code-block:: sh
 
-     use admin
-     db.createUser({
-       user: "foo",
-       pwd: "bar",
-       roles: [{role: "root", db: "admin"}]
-     })
-     use security-lab
-     db.createUser({
-       user: "mongo-messenger",
-       pwd: "nodejs",
-       roles: [{role: "readWrite", db: "security-lab"}]
-     })
+        use admin
+        db.createUser({
+          user: "foo",
+          pwd: "bar",
+          roles: [{role: "root", db: "admin"}]
+        })
+        use security-lab
+        db.createUser({
+          user: "mongo-messenger",
+          pwd: "nodejs",
+          roles: [{role: "readWrite", db: "security-lab"}]
+        })
 
 
-    - must be able to create other users
+     - must be able to create other users
 
-  - need to change "Mongo Messenger" to auth with a given user
+   - need to change "Mongo Messenger" to auth with a given user
 
 
 Exercise: Enable SSL between the nodes
@@ -312,60 +317,74 @@ Exercise: Enable SSL between the nodes
 
 .. only:: instructor
 
-  Solution: Enable SSL between the nodes
-  --------------------------------------
+   Solution: Enable SSL between the nodes
+   --------------------------------------
+ 
+   - add SSL
+ 
+   .. code-block:: sh
+ 
+      net:
+        ssl:
+          mode: requireSSL
+          PEMKeyFile: /etc/ssl/mongodb/node1.pem
+          CAFile: /etc/ssl/mongodb/ca.pem
+      security:
+        clusterAuthMode: x509
+ 
+   - restart all running mongod's
+   - connect with the client
+   - why no ``authorization: enabled`` in the config file?
+ 
+     - Enabling clusterAuth implicity enables authorization
+ 
+   .. code-block:: sh
+ 
+      mongo --ssl --host node1 --sslCAFile /etc/ssl/mongodb/ca.pem --sslPEMKeyFile /etc/ssl/mongodb/node1.pem
+ 
+   Solution: Enable SSL with the client
+   ------------------------------------
+ 
+   - In ``~/mongo-messenger/messages.js``
+ 
+   .. code-block:: javascript
+           
+       const fs = require('fs');
+ 
+       // Read the certificates and create ssl options object
+       let ca = [fs.readFileSync('/etc/ssl/mongodb/ca.pem')];
+       let cert = fs.readFileSync('/etc/ssl/mongodb/node1.pem');
+       let key = fs.readFileSync('/etc/ssl/mongodb/node1.pem');
+       let options = {
+         sslValidate:true,
+         sslCA:ca,
+         sslCert:cert,
+         sslKey:key
+       }
+       // mongo-messenger user
+       let user = encodeURIComponent('mongo-messenger');
+       let pass = encodeURIComponent('nodejs');
+       let db = 'security-lab';
+       const url = `mongodb://${user}:${pass}@node1:27017,node2:27017,node3:27017/${db}?authSource=${db}&replicaSet=SECURED&ssl=true`
+ 
+       let messages = null;
+ 
+       MongoClient.connect(url, options, (err, db) => {
+         assert.equal(null, err)
+         messages = db.collection("messages")
+       })
+ 
+   Troubleshooting
+   ---------------
 
-  - add SSL
+   - Student receives an error that the primary can't be found
 
-  .. code-block:: sh
+     - Their connection url is most likely malformed.
 
-     net:
-       ssl:
-         mode: requireSSL
-         PEMKeyFile: /etc/ssl/mongodb/node1.pem
-         CAFile: /etc/ssl/mongodb/ca.pem
-     security:
-       clusterAuthMode: x509
+   - Student receives an error that they don't have permission on the collection
 
-  - restart all running mongod's
-  - connect with the client
-
-  .. code-block:: sh
-
-     mongo --ssl --host node1 --sslCAFile /etc/ssl/mongodb/ca.pem --sslPEMKeyFile /etc/ssl/mongodb/node1.pem
-
-  Solution: Enable SSL with the client
-  ------------------------------------
-
-  - In ``~/mongo-messenger/messages.js``
-
-  .. code-block:: javascript
-          
-      const fs = require('fs');
-
-      // Read the certificates and create ssl options object
-      let ca = [fs.readFileSync('/etc/ssl/mongodb/ca.pem')];
-      let cert = fs.readFileSync('/etc/ssl/mongodb/node1.pem');
-      let key = fs.readFileSync('/etc/ssl/mongodb/node1.pem');
-      let options = {
-        sslValidate:true,
-        sslCA:ca,
-        sslCert:cert,
-        sslKey:key
-      }
-      // mongo-messenger user
-      let user = encodeURIComponent('mongo-messenger');
-      let pass = encodeURIComponent('nodejs');
-      let db = 'security-lab';
-      const url = `mongodb://${user}:${pass}@node1:27017,node2:27017,node3:27017/${db}?authSource=${db}&replicaSet=SECURED&ssl=true`
-
-      let messages = null;
-
-      MongoClient.connect(url, options, (err, db) => {
-        assert.equal(null, err)
-        messages = db.collection("messages")
-      })
-
+     - If they've correctly set up authorization and role-based access control,
+       they need to add the application user credentials and specify an ``authSource``
 
 Exercise: Encrypt Storage Layer
 -------------------------------
@@ -464,7 +483,6 @@ Putting it together
        CAFile: /etc/ssl/mongodb/ca.pem
 
    security:
-     authorization: enabled
      clusterAuthMode: x509
      enableEncryption : true
      encryptionKeyFile : /etc/ssl/mongodb/mongodb-keyfile
@@ -483,20 +501,20 @@ What we did:
 
 .. only:: instructor
 
-  .. note::
+   .. note::
 
-    Ask what else could be done?
+      Ask what else could be done?
 
-    - MongoDB
+      - MongoDB
 
-      - link authorization and authentication to outside system like LDAP or Kerberos
-      - enable redaction of results
+        - link authorization and authentication to outside system like LDAP or Kerberos
+        - enable redaction of results
 
-    - Infrastructure
+      - Infrastructure
 
-      - use security groups if in AWS
-      - use firewall
+        - use security groups if in AWS
+        - use firewall
 
-   - Application
+      - Application
 
-     - security at the application level
+        - security at the application level
