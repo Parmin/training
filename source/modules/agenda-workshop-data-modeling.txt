@@ -6,6 +6,7 @@ Data Modeling Workshop
 Day 1 (Morning)
 ---------------
 
+- :doc:`/modules/schema-design-why-do-it`
 - :doc:`/modules/schema-design-core-concepts`
 - :doc:`/modules/schema-design-relationships`
 - :doc:`/modules/schema-design-case-study-social-network`
