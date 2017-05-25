@@ -1,0 +1,55 @@
+========================================
+Getting Started with MongoDB Ops Manager
+========================================
+
+
+Day 1 (Morning)
+---------------
+- Introduction (30 minutes)
+- Lab: Ops Manager Installation (2.5 hours)
+
+
+Introduction (30 minutes)
+-------------------------
+
+- :doc:`/modules/introduction-warmup`
+- :doc:`/modules/introduction-mongodb-company`
+
+
+Lab: Ops Manager Installation (2.5 hours)
+---------------------------------------
+
+- :doc:`/exercises/opsmanager-installation`
+- Review setup
+
+
+------------
+
+
+Day 1 (Afternoon)
+-----------------
+
+- Lab: Enable the Ops Manager Public API (30 minutes)
+- Lab: Ops Manager User Administration (1 hour)
+- Lab: Secure Replica Set (1.5 hours)
+
+
+Lab: Enable the Ops Manager Public API (30 minutes)
+---------------------------------------------------
+
+- :doc:`/exercises/opsmanager-enabling-api`
+- Review answers
+
+
+Lab: Ops Manager User Administration (1 hour)
+---------------------------------------------
+
+- :doc:`/exercises/opsmanager-user-administration`
+- Review answers
+
+
+Lab: Secure Replica Set (1.5 hours)
+-----------------------------------
+
+- :doc:`/exercises/opsmanager-secure-replicaset`
+- Review answers

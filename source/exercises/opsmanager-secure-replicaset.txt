@@ -50,20 +50,23 @@ encryption.
 Ops Manager Group SSL and Auth
 ------------------------------
 
-To build secured MongoDB deployments you first need to `enable Auth and SSL`_ on
-your group.
+To build secured MongoDB deployments you first need to `enable Auth and SSL`_
+on your group.
 
 All VMs have a set of certificates that you will be using to configure your
 secured deployment.
 
-In folder ``/share/downloads/certs`` (linked to ``/etc/ssl/mongodb``) you will find:
+In folder ``/share/downloads/certs`` (linked to ``/etc/ssl/mongodb``) you will
+find:
 
-- ``ca.pem``: SSL CA certificate
-- ``automation.pem``: Automation agent certificate
-- ``backup.pem``: Backup agent certificate
-- ``monitor.pem``: Monitoring agent certificate
-- ``nodeX.pem``: Replica set member certificates (X)
-- ``dbadmin.pem``: MongoDB DB Admin certificate
+.. rst-class:: longlist
+
+  - ``ca.pem``: SSL CA certificate
+  - ``automation.pem``: Automation agent certificate
+  - ``backup.pem``: Backup agent certificate
+  - ``monitor.pem``: Monitoring agent certificate
+  - ``nodeX.pem``: Replica set member certificates (X)
+  - ``dbadmin.pem``: MongoDB DB Admin certificate
 
 
 .. include:: /includes/student-notes.rst
@@ -72,9 +75,9 @@ In folder ``/share/downloads/certs`` (linked to ``/etc/ssl/mongodb``) you will f
 
   .. note::
 
-    Ask students to list the files under ``/share/downloads/certs`` on instances to validate
-    that their installation process is correct.
-    All our answers use ``/etc/ssl/mongodb`` which is linked to the above
+    Ask students to list the files under ``/share/downloads/certs`` on
+    instances to validate that their installation process is correct. All our
+    answers use ``/etc/ssl/mongodb`` which is linked to the above.
 
     Make sure to highlight that:
 
@@ -85,8 +88,8 @@ In folder ``/share/downloads/certs`` (linked to ``/etc/ssl/mongodb``) you will f
     - Create the required agent users
 
 
-``VERYSAFE`` Group
-------------------
+Exercise: ``VERYSAFE`` Group
+----------------------------
 
 Let's start by creating a group called ``VERYSAFE`` that has SSL enabled.
 
@@ -98,7 +101,7 @@ Let's start by creating a group called ``VERYSAFE`` that has SSL enabled.
   * Backup Agent
   * Automation Agent
 
-- **The existing certificates do not have any decryption password!**
+- **The existing certificates do not have a decryption password!**
 
 .. include:: /includes/student-notes.rst
 
@@ -109,7 +112,8 @@ Let's start by creating a group called ``VERYSAFE`` that has SSL enabled.
     This might be a bit hard for students that are not experienced with Ops /
     Cloud Manager
 
-    - Take the time to navigate users through the UI to configure these settings
+    - Take the time to navigate users through the UI to configure these
+      settings
     - Make sure that students do not provide a decypher password for the
       certificates
 
@@ -122,14 +126,17 @@ Let's start by creating a group called ``VERYSAFE`` that has SSL enabled.
     .. code-block:: bash
 
       sudo service mongodb-mms-automation-agent stop
-      #edit /etc/mongodb-mms/automation-agent.config and add new APIKey and GroupId
+
+      # edit /etc/mongodb-mms/automation-agent.config and add new APIKey and GroupId
+
       sudo service mongodb-mms-automation-agent start
 
-    - students will find the corresponding instructions on
+    - Students will find the corresponding instructions on
       `Settings -> Agents -> Host Version Agent`
 
-Secure Replica Set Deploy
--------------------------
+
+Exercise: Secure Replica Set Deployment
+---------------------------------------
 
 Once the automation agent has been reconfigured and servers are detected on your
 deployment, it's then time to deploy our secure replica set.
@@ -141,7 +148,6 @@ Create a replica set named **SECURE** with the following configuration:
   - **node1**, **node2** and **node3**
   - Port `27000`
 
-- **clusterAuthMechanism**: x509
 - **sslMode**: requiredSSL
 - **sslPEMKeyFile**: `/etc/ssl/mongodb/nodeX.pem`
 
@@ -160,12 +166,11 @@ Create a replica set named **SECURE** with the following configuration:
       - Name: SECURE
       - Port Range: **27000**
       - DB Path Prefix: ``/data``
-      - clusterAuthMechanism: **x509**
       - sslMode: ``requiredSSL``
       - Apply
 
-    - Once we have applied we now need to **Modify** the individual node members
-      with the corresponding server **sslPEMKeyFile**
+    - Before the replica set is created, we need to **Modify** the individual
+      node members with the corresponding server **sslPEMKeyFile**
 
       - node1: `/etc/ssl/mongodb/node1.pem`
 
@@ -173,16 +178,16 @@ Create a replica set named **SECURE** with the following configuration:
     - This setting needs to be configured on a per instance level.
 
 
-X509 Users
-----------
+Exercise: X509 Users
+--------------------
 
 Time to create users that will authenticate using an X.509 certificate.
 
-- Go ahead and create a `dbAdminAnyDatabase`_ user that authenticates using
+- Go ahead and create a `dbAdminAnyDatabase`_ user that authenticates using the
   ``dbadmin.pem`` certificate.
 
 - To create users that authenticate using X509 certificates you should check
-  `Certificate Subject as user`_ docs
+  the `Certificate Subject as user`_ documentation.
 
 - After the user has been created, connect to the *Primary* node of the replica
   set and create database "``allgood``".
@@ -195,28 +200,24 @@ Time to create users that will authenticate using an X.509 certificate.
 
     - Students might not be familiar with this mechanism so point them to
       `Certificate Subject as user`_.
+
     - Students will have to extract the certificate ``subject`` info
 
       .. code-block:: bash
 
-        openssl x509 -in /etc/ssl/mongodb/dbadmin.pem -inform PEM -subject -nameopt RFC2253
-        subject= C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=dbadmin
-        -----BEGIN CERTIFICATE-----
-        MIIDezCCAmOgAwIBAgIDBZc1MA0GCSqGSIb3DQEBBQUAMGUxCzAJBgNVBAMTAkNB
+        $ openssl x509 -in /etc/ssl/mongodb/dbadmin.pem -inform PEM -subject -nameopt RFC2253
 
       and use that subject info to create the required user.
 
-    - We can create this user using the Ops Manager UI or we can connect to the
-      replica set and perform the following operations:
-    - Authenticate to primary node using automation agent certificate
+    - We can create this user by connecting to the replica set and perform the
+      following operations:
+
+    - Authenticate to primary node using automation agent certificate (students
+      can do this from a opsmgrX machine, where ``mongo`` is installed)
 
       .. code-block:: bash
 
         mongo --host PRIMARY_NODE --ssl --sslPEMKeyFile /etc/ssl/mongodb/automation.pem --sslCAFile /etc/ssl/mongodb/ca.pem
-        > db.getSiblingDB("$external").auth({
-          mechanism: "MONGODB-X509",
-          user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=automation"
-          })
 
     - Create the new ``dbAdminAnyDatabase`` user with the ``dbadmin.pem``
       certificate
@@ -224,7 +225,7 @@ Time to create users that will authenticate using an X.509 certificate.
       .. code-block:: javascript
 
         db.getSiblingDB("$external").runCommand({
-          createUser: "C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=dbadmin",
+          createUser: "C=US,ST=New York,L=New York City,O=MongoDB,OU=USERS,CN=dbadmin",
           roles: [
             { role: 'dbAdminAnyDatabase', db: 'admin' }
           ],
@@ -244,7 +245,7 @@ Time to create users that will authenticate using an X.509 certificate.
 
         db.getSiblingDB("$external").auth({
           mechanism: "MONGODB-X509",
-          user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=EDUCATION,CN=dbadmin"
+          user:"C=US,ST=New York,L=New York City,O=MongoDB,OU=USERS,CN=dbadmin"
         })
 
         db.createDatabase("allgood")

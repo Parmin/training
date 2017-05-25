@@ -75,3 +75,7 @@ pre {
 .red {
   color: red;
 }
+
+.longcode pre {
+  line-height: 1.2em;
+}

@@ -9,68 +9,29 @@ Learning Objectives
 Upon completing this lab, students will be able to:
 
 * Understand the requirements for enabling Ops Manager Public API
-* Configure Ops Manager groups to allow Public API requests
 
+Exercise: Enable Public API Access
+----------------------------------
 
-Exercise: Selective Node Rest Client
-------------------------------------
+Ops Manager, for most users, is primarily controlled via it's web UI, but it
+has an API that supports most of the operations that users perform.
 
-Ops Manager enables administrators to determine from where Public
-API calls are allowed. From which client nodes it accepts such interface requests.
-
-Enable your deployment of Ops Manager to allow only one specific client to perform API calls.
+Enable your deployment of Ops Manager to allow API calls.
 
 - Generate an API Key called "generic"
-- Add CIDR block for ip whitelisting enabling
+
+To verify that you've done this properly you can make the following request:
+
+.. rst-class:: longcode
+
+  .. code-block:: sh
+
+    curl -u "$EMAIL:$APIKEY" --digest \
+      -i "$OPSMGRURL/api/public/v1.0/groups"
 
 .. only:: instructor
 
   .. note::
 
-    Enabling the Public API Ops Manager will require an ip whitelist CIDR block.
-
-    - The most permissive CIDR Block is 0.0.0.0/0
-    - for this exercise students should choose
-
-      - a particular machine
-      - or set of machines to accept API requests only from such nodes.
-
-    ex:
-
-    .. code-block:: bash
-
-      // accept only from 120.10.10.132
-      120.10.10.132/32
-
-      // from 123.10.10.132 to 123.10.10.135
-      123.10.10.132/30
-
-Exercise: Enable Group Public API
----------------------------------
-
-Groups are more than just sets of machines and MongoDB instances.
-Groups also enclose security considerations.
-
-Administrators have the ability to enable the Public API interface on a per group basis.
-
-For this exercise go ahead and:
-
-- Create a group called "LOVE_API_CALLS"
-- Enable Public API for this group
-
-.. only:: instructor
-
-  .. note::
-
-    Students should
-
-    - create the group
-    - enable the API calls
-
-    To validate this you should ask students to submit the following request
-
-    .. code-block:: sh
-
-      // set APIKEY with generic key value
-      curl -u "admin@localhost.com:$APIKEY" --digest
-        -i "http://opsmgr.training/api/public/v1.0/groups"
+    Enabling the Public API on Ops Manager enables it across all groups.
+    Previously, the API had to be enabled on a group by group basis.

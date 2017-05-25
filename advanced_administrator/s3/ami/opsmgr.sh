@@ -128,3 +128,19 @@ chmod 777 -R /mongod-data
 
 # some Python modules
 pip install simplejson
+
+# change the hostname on the nodeX machines
+ip=`hostname --ip-address`
+
+if [ ${#ip} == 10 ]; then
+  last_two_ip_num=${ip:8:2}
+  node_num=${last_two_ip_num#0}
+  node=node$node_num
+else
+  node_num=${ip:8:1}
+  node=opsmgr$node_num
+fi
+
+sudo hostnamectl set-hostname $node
+sudo echo 'preserve_hostname: true' >> /etc/cloud/cloud.cfg
+sudo reboot
