@@ -77,6 +77,6 @@ A ``/share/downloads`` folder with all necessary software downloaded
   .. note::
 
     - quickly describe the contents of the dirs under ``downloads``
-      Don't emphasis ``validation``, this is where your validation scripts are
+      Don't emphasize ``validation``, this is where your validation scripts are
 
 .. include:: /includes/student-notes.rst
