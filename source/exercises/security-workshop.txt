@@ -92,7 +92,7 @@ servers running in AWS.
 Exercise: Starting MongoDB and configuring the replica set
 ----------------------------------------------------------
 
-..rst-class:: longlist
+.. rst-class:: longlist
 
 - ``/share/downloads/mongodb_packages`` contains MongoDB 3.2 and 3.4
 - installation instructions are at:
