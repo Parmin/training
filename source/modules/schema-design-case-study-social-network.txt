@@ -343,17 +343,19 @@ Class Exercise
 
 Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
 
-- Create an example document for a user's tweets
-- Design a partial schema just for for a Twitter user's newsfeed (including
-  retweets, favorites, and replies)
-- Build the queries be for the user's newsfeed?
+.. rst-class:: longlist
 
-  - Initial query
-  - Later query if they scroll down to see more
-
-- What indexes would the user need?
-- Don't worry about creating the newsfeed documents; assume an application is
-  creating entries, and just worry about displaying it.
+  - Create an example document for a user's tweets
+  - Design a partial schema just for for a Twitter user's newsfeed (including
+    retweets, favorites, and replies)
+  - Build the queries be for the user's newsfeed?
+  
+    - Initial query
+    - Later query if they scroll down to see more
+  
+  - What indexes would the user need?
+  - Don't worry about creating the newsfeed documents; assume an application is
+    creating entries, and just worry about displaying it.
 
 .. include:: /includes/student-notes.rst
 
