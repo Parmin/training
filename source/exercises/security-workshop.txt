@@ -9,8 +9,8 @@ Lab: Security Workshop
      - We assume you are familiar with the provisioning scripts. If not start with:
        https://docs.google.com/document/d/17asAf_1lrj5lUynl6RdyrRekQeGbvsAW5ZV3F3FM3cA
 
-     - You will provision 4 nodes per team/attendee, using the provisioning script.
-       For example, for a 9 team/attendee exercise, you would run:
+     - You will provision 4 nodes per team or attendee, using the provisioning script.
+       For example, for a 9 team or attendee exercise, you would run:
 
        .. code-block:: sh
 
@@ -52,7 +52,7 @@ Upon completing this workshop, attendees will be able to:
 Introduction
 ------------
 
-In this workshop attendees will install and configure a secure replica set on 
+In this workshop, attendees will install and configure a secure replica set on 
 servers running in AWS.
 
 
@@ -177,7 +177,7 @@ It's time to connect our client application.
 
 - Connect to the public ip of your ``node4`` instance, port 8080
 
-  - ``http://34.174.289.914:8080``
+  - ``http://NODE4-public-IP:8080``
 
 .. include:: /includes/student-notes.rst
 
@@ -236,13 +236,13 @@ We will come back to this later on.
          ./manage.py --run NathanL-StetsonD --teams all --roles node1,node2,node3 --cmd "sudo python /share/downloads/validation/validate_se_encryption.py"
 
 
-Exercise: Set up Authentication and Authorization
--------------------------------------------------
+Exercise: Set up Authentication
+-------------------------------
 
 Once we have our sample application up an running is time to start securing the
 system.
 
-You should start by enabling `MongoDB authentication`_ and `MongoDB authorization`_
+You should start by enabling `MongoDB authentication`_
 
 To do this, you will have to decide:
 
@@ -251,7 +251,6 @@ To do this, you will have to decide:
 - Set of users required to operate this system
 
 .. _`MongoDB authentication`: https://docs.mongodb.com/manual/core/authentication/
-.. _`MongoDB authorization`: https://docs.mongodb.com/manual/core/authorization/
 
 .. include:: /includes/student-notes.rst
 
