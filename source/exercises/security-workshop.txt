@@ -161,13 +161,6 @@ Exercise: Launch the Client Application
 
 It's time connect our client application.
 
-- install node.js
-
-.. code-block:: sh
-
-    sudo yum install -y epel-release
-    sudo yum install -y nodejs
-
 - install the application:
 
 .. code-block:: sh
