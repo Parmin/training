@@ -25,14 +25,6 @@ Day 1 (Afternoon)
   - :doc:`/modules/schema-design-case-study-cms`
   - :doc:`/modules/schema-design-case-study-shopping-cart`
 
-- Additional Exercises:
-
-  - Single View exercise
-  - Mobile exercise
-  - Real-Time Analytics exercise
-  - Personalization exercise
-  - Contents Management exercise
-
 - Additional topics
 
   - :doc:`/modules/schema-design-application-lifetime`

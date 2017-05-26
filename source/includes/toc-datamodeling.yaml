@@ -1,7 +1,3 @@
-file: /modules/replica-set-performance
-description: |
-  Performance trade-offs in replica sets
----
 file: /modules/schema-design-why-do-it
 description: |
   Describes why schema design is important
@@ -17,6 +13,10 @@ description: |
 file: /modules/schema-design-patterns
 description: |
   Common Patterns in Schema Design Solutions
+---
+file: /modules/replica-set-performance
+description: |
+  Performance trade-offs in replica sets
 ---
 file: /modules/schema-design-application-lifetime
 description: |
