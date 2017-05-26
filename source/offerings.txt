@@ -43,6 +43,15 @@ Developer Courses
 
    <a href="meta/advanced-developer.html">(book contents)</a>
 
+.. |agenda_DeveloperRapidStart| raw:: html
+
+   <a href="modules/agenda-developer-rapid-start.html">Developer Rapid Start - 2 days</a>
+
+.. |contents_DeveloperRapidStart| raw:: html
+
+   <a href="meta/developer-rapid-start.html">(book contents)</a>
+
+
 
 Admin/Ops Courses
 -----------------
