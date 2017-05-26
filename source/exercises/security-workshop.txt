@@ -289,7 +289,6 @@ To do this, you will have to decide:
           pwd: "bar",
           roles: [{role: "root", db: "admin"}]
         })
-        use security-lab
         db.createUser({
           user: "mongo-messenger",
           pwd: "nodejs",
@@ -363,8 +362,7 @@ Exercise: Enable SSL between the nodes
        // mongo-messenger user
        let user = encodeURIComponent('mongo-messenger');
        let pass = encodeURIComponent('nodejs');
-       let db = 'security-lab';
-       const url = `mongodb://${user}:${pass}@node1:27017,node2:27017,node3:27017/${db}?authSource=${db}&replicaSet=SECURED&ssl=true`
+       const url = `mongodb://${user}:${pass}@node1:27017,node2:27017,node3:27017/security-lab?authSource=admin&replicaSet=SECURED&ssl=true`
  
        let messages = null;
  
@@ -469,6 +467,62 @@ This should be done without downtime
 
   - and you need a way to prove/show that redaction worked
 
+Auditing
+--------
+
+At this point we have a secured MongoDB deployment hardened against outside
+attacks, and used Role-Based Access Control to limit the access of users. The
+final step is to enable auditing, giving us a clear record of **who** performed
+an auditable action.
+
+
+Exercise: Enable Auditing
+-------------------------
+
+- Enable auditing for all operations, to include CRUD operations, for your
+  mongo-messenger user
+- Output the log file in JSON format
+- A log file has been created for you at ``/mongod-data/audit/SECURED/audit.json``
+- There are many `filter options`_
+
+.. _`filter options`: https://docs.mongodb.com/manual/tutorial/configure-audit-filters/
+
+.. only:: instructor
+
+   .. note::
+      
+      - Outputting to a BSON file will preserve the most information with the
+        best performance, however we are outputting in JSON so participants can
+        more easily parse the audit log.
+
+      - Take care when auditing CRUD operations, they are not redacted in the 
+        audit log 
+
+      - Talk to the students about the different audit formats and destinations,
+        touching on the pros and cons (e.g. readability, log trucation, and 
+        performance implications)
+
+        - JSON, BSON
+        - File, syslog, console
+
+      - Logging successful authentication actions is slower than logging just 
+        failed authentication actions
+
+      - Auditable actions can be fine-tuned in the audit filter parameter
+
+
+   Solution: Enable Auditing
+   -------------------------
+
+   .. code-block:: yaml
+
+      setParameter: { auditAuthorizationSuccess: true }
+
+      auditLog:
+        destination: "file"
+        format: "JSON"
+        path: /var/log/SECURED/audit.json
+        filter: '{ users: { user: "mongo-messenger", db: "security-lab" } }'
 
 Putting it together
 -------------------
@@ -487,6 +541,14 @@ Putting it together
      encryptionKeyFile : /etc/ssl/mongodb/mongodb-keyfile
      redactClientLogData: true
 
+   setParameter: { auditAuthorizationSuccess: true }
+
+   auditLog:
+     destination: "file"
+     format: "JSON"
+     path: /mongod-data/audit/SECURED/audit.json
+     filter: '{ users: { user: "mongo-messenger", db: "security-lab" } }'
+
 
 Summary
 -------
@@ -497,6 +559,7 @@ What we did:
 - used SSL certificates
 - encrypted the database at rest
 - redacted the mongod logs
+- configured auditing for a specific user
 
 .. only:: instructor
 
