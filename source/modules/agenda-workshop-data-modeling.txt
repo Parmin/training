@@ -16,6 +16,7 @@ Day 1 (Morning)
 Day 1 (Afternoon)
 -----------------
 
+- :doc:`/modules/replica-set-performance`
 - :doc:`/modules/schema-design-case-study-time-series`
 - :doc:`/exercises/schema-design-exercise-internet-of-things`
 

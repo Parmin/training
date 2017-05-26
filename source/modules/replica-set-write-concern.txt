@@ -64,15 +64,25 @@ Balancing Durability with Performance
 
 .. include:: /includes/student-notes.rst
 
+.. BEGIN DEFINING WRITE CONCERN
 
 Defining Write Concern
 ----------------------
+
+- MongoDB acknowledges its writes
+- Write concern determines when that acknowledgment occurs
+
+  - How many servers
+  - Whether on disk or not
 
 - Clients may define the write concern per write operation, if necessary.
 - Standardize on specific levels of write concerns for different classes of writes.
 - In the discussion that follows we will look at increasingly strict levels of write concern.
 
 .. include:: /includes/student-notes.rst
+
+.. END DEFINING WRITE CONCERN
+.. BEGIN WRITE CONCERN EXAMPLES
 
 
 Write Concern: ``{ w : 1 }``
@@ -132,16 +142,20 @@ Example: ``{ w : 2 }``
 
 .. include:: /includes/student-notes.rst
 
+.. END WRITE CONCERN EXAMPLES
 
 Other Write Concerns
 --------------------
 
-- You may specify any integer as the value of the ``w`` field for write concern.
-- This guarantees that write operations have propagated to the specified number of members.
-- E.g., ``{ w : 3 }``, ``{ w : 4}``, etc.
+- ``w`` can use any integer for write concern.
+- Acknowledgment guarantees the write has propagated to the specified number of voting members.
+
+  - E.g., ``{ w : 3 }``, ``{ w : 4}``, etc.
+
+- ``j : true`` ensures writes are also written to disk on the *primary* before being acknowledged
 - When using PV1 (replication protocol version 1), :manual:`writeConcernMajorityJournalDefault</reference/replica-configuration/#rsconf.writeConcernMajorityJournalDefault>` is on by default for versions >= 3.4
 
-  - Ensures writes are written to disk before being acknowledge from secondaries.
+  - so ``w : majority`` implies ``j : true``
 
 .. include:: /includes/student-notes.rst
 
@@ -150,7 +164,10 @@ Write Concern: ``{ w : "majority" }``
 -------------------------------------
 
 - Ensures the primary completed the write (in RAM).
-- Ensures write operations have propagated to a majority of a replica set's **voting** members.
+
+  - By default, also on disk
+
+- Ensures write operations have propagated to a majority of the **voting** members.
 - Avoids hard coding assumptions about the size of your replica set into your application.
 - Using majority trades off performance for durability.
 - It is suitable for critical writes and to avoid rollbacks.
@@ -196,3 +213,5 @@ Further Reading
 See :manual:`Write Concern Reference</reference/write-concern>` for more details on write concern configurations, including setting timeouts and identifying specific replica set members that must acknowledge writes (i.e. :manual:`tag sets</tutorial/configure-replica-set-tag-sets/#replica-set-configuration-tag-sets>`).
 
 .. include:: /includes/np.rst
+
+.. END WRITE CONCERN SECTION

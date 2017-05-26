@@ -321,6 +321,7 @@ Performance Improvement Techniques
 
 .. include:: /includes/student-notes.rst
 
+.. BEGIN WRITE CONCERN PERFORMANCE
 
 Performance Tips: Write Concern
 -------------------------------
@@ -328,9 +329,11 @@ Performance Tips: Write Concern
 - Increasing the write concern increases data safety.
 - This will have an impact on performance, however.
 - This is especially true when there are network issues.
+- You will want to balance business needs against speed.
 
 .. include:: /includes/student-notes.rst
 
+.. END WRITE CONCERN PERFORMANCE
 
 Bulk Operations
 ---------------

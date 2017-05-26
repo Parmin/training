@@ -2,19 +2,23 @@
 Read Concern
 ============
 
+.. BEGIN READ CONCERN LEARNING OBJECTIVES
 
 Learning Objectives
 -------------------
 
 Upon completing this module, students will be able to:
 
-- Understand what read concern is
+- Define read concern
 - Distinguish stale from dirty reads
 - Describe how read concern prevents dirty reads
 - Understand how to use read concern in MongoDB
 - Understand the differences between replication protocol version 0 and 1
 
 .. include:: /includes/student-notes.rst
+
+.. END READ CONCERN LEARNING OBJECTIVES
+.. BEGIN READ CONCERN CONTENT
 
 Read Concerns
 -------------
@@ -23,6 +27,9 @@ Read Concerns
 - **Majority**: Added in MongoDB 3.2, requires WiredTiger and election protocol version 1
 - **Linearizable**: Added in MongoDB 3.4, works with MMAP or WiredTiger
 
+.. include:: /includes/student-notes.rst
+
+
 Local
 -----
 
@@ -30,12 +37,21 @@ Local
 - Will return data from the primary.
 - Does not wait for the write to be replicated to other members of the replica set.
 
+.. include:: /includes/student-notes.rst
+
+
 Majority
 --------
 
 - Available only with WiredTiger.
 - Reads majority acknowledged writes from a snapshot.
 - Under certain circumstances (high volume, flaky network), can result in stale reads.
+
+.. include:: /includes/student-notes.rst
+
+.. END READ CONCERN CONTENT
+.. BEGIN LINEARIZABLE CONTENT
+
 
 Linearizable
 ------------
@@ -47,6 +63,8 @@ Linearizable
   - Always use **maxTimeMS** with **linearizable**
 
 - Only guaranteed to be a linearizable read when the query fetches a single document
+
+.. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
@@ -65,6 +83,8 @@ Linearizable
       - What can happen if I use a write concern of ``{ w: 1 }`` and read concern level of "majority"?
 
         - Answer: You will not have dirty reads ... but you may be unable to read your own writes
+
+.. END LINEARIZABLE CONTENT
 
 
 Example: Read Concern Level Majority
@@ -105,6 +125,7 @@ Example: Read Concern Level Majority
         - R0 is the initial state
         - R1 is the state after W1 has been committed
         - R2 is the state after W2 has been committed
+
 
 Background: Stale Reads
 -----------------------
@@ -254,7 +275,7 @@ Read Concern and Read Preference: Secondary
 Using Read Concern
 ------------------
 
-- To use ``majority`` read concern, you must:
+- To use ``level: majority`` read concern, you must:
 
   - Use WiredTiger on all members
   - Launch all mongods in the set with
@@ -340,6 +361,7 @@ What must you do in order to make the database return documents that have been r
 
         - Alternatively, use read concern level "majority" with a driver's connection pool
 
+
 Replication Protocol Version 0
 ------------------------------
 
@@ -351,6 +373,7 @@ Replication Protocol Version 0
   - Should have fewer elections, and fewer ``w: 1`` rollbacks.
 
 .. include:: /includes/student-notes.rst
+
 
 Replication Protocol Version 1
 ------------------------------

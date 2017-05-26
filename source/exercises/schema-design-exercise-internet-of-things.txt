@@ -16,7 +16,7 @@ Consier an internet-connected pill bottle.
     - the weight of its contents
     - how many pills are removed (if it's being closed)
 
-  - Log heartbeats periodically (every 1 minute)
+  - Log heartbeats periodically (every 30 minutes)
 
 .. include:: /includes/student-notes.rst
 
@@ -33,6 +33,8 @@ There will also be a "notification" server.
   - Which bottles are *not* logging heartbeats
 
 - It will then notify the appropriate users
+- The time between checks would depend on the frequency of dosage, but
+  typically 1/hour.
 
 .. include:: /includes/student-notes.rst
 
@@ -61,7 +63,7 @@ Each pill bottle will perform the following queries:
 
 - A heartbeat
 
-  - Frequency: once every minute
+  - Frequency: once every 30 minutes
 
 - An operation to log when the bottle is opened or closed.
 
@@ -77,14 +79,22 @@ Notifcation Server Operations
 
 The notification server will run queries to determine:
 
-- Whether any given bottle is > 1 hour late in dispensing a dosage
-- Whether any given bottle has not sent a heartbeat for over an hour
-- Whether any given bottle has been left open
+.. rst-class:: longlist
+
+  - Whether any given bottle is late in dispensing a dosage
+  
+    - Frequency of this depends on the medication
+    - Assume an *average* of 1 check per hour
+  
+  - Whether any given bottle has not sent a heartbeat for over an hour
+  - Whether any given bottle has been left open
 
 Regardless, the server will also need to know:
 
-- Which user the bottle is associated with
-- Which medication the bottle contains
+.. rst-class:: longlist
+
+  - Which user the bottle is associated with
+  - Which medication the bottle contains
 
 .. include:: /includes/student-notes.rst
 
@@ -108,7 +118,7 @@ Work together to create the following deliverables:
   - Index creation commands
   - Should you shard a collection? Now? Later?
 
-    - Assume a user base of 100M to 1 billion to answer this
+    - Assume a user base of 10M users with 3 bottles each
 
 .. include:: /includes/student-notes.rst
 
@@ -125,16 +135,13 @@ groups & presented.
 Solution - Assumptions
 ----------------------
 
-- Assume 100M customers in the first 3 years
-
-  - 1 billion later
-
+- Assume 10M customers
 - Average of 3 bottles per customer
 - Average of 2 dosages per day
 
   - Log bottle open and bottle closed for each
 
-- Log a heartbeat every 10 minutes
+- Log a heartbeat every 30 minutes
 
 .. include:: /includes/student-notes.rst
 
@@ -147,9 +154,9 @@ Record bottle heartbeats:
 .. rst-class:: longlist
 
   - 3 bottles per user 
-  - times 100M users (300 M bottles)
-  - divide by 600 sec per heartbeat
-  - ... so 500K heartbeats per second (inserts)
+  - times 10M users (30 M bottles)
+  - divide by 1800 sec per heartbeat
+  - ... so 17K heartbeats per second (inserts)
 
 .. include:: /includes/student-notes.rst
 
@@ -162,16 +169,16 @@ Record bottles opened/closed:
 .. rst-class:: longlist
 
   - 3 bottles per user 
-  - times 100M users 
+  - times 10M users 
   - times 2 dosages per day 
   - times 2 entries per dosage (open + closed)
   - divide by 86400 seconds per day 
-  - ... so 14K entries per second (inserts)
+  - ... so ~1400 entries per second (inserts)
 
 .. include:: /includes/student-notes.rst
 
 
-Solution - Sizing: Notification Server Ops (1 of 2)
+Solution - Sizing: Notification Server Ops (1 of 3)
 ---------------------------------------------------
 
 Query for last heartbeat every hour:
@@ -179,14 +186,14 @@ Query for last heartbeat every hour:
 .. rst-class:: longlist
 
   - 3 bottles per user 
-  - times 100M users 
+  - times 10M users 
   - divided by 3600 seconds per hour
-  - ... so 80K checks per second for most recent heartbeat
+  - ... so 8K checks per second for most recent heartbeat
 
 .. include:: /includes/student-notes.rst
 
 
-Solution - Sizing: Notification Server Ops (2 of 2)
+Solution - Sizing: Notification Server Ops (2 of 3)
 ---------------------------------------------------
 
 Query for Missing Dosages every Hour (check the last 3 dosages)
@@ -194,18 +201,27 @@ Query for Missing Dosages every Hour (check the last 3 dosages)
 .. rst-class:: longlist
 
   - 3 bottles per user 
-  - times 100M users 
-  - divided by 3600 seconds between checks 
-  - ... so 80k checks per second 
+  - times 10M users 
+  - divided by an average of 3600 seconds between checks 
+  - ... so about 8k checks per second 
 
-Query for Leaving a Bottle Open every 10 Minutes
+    - Some more often, some less
+
+.. include:: /includes/student-notes.rst
+
+
+Solution - Sizing: Notification Server Ops (3 of 3)
+---------------------------------------------------
+
+Query for leaving a bottle open
 
 .. rst-class:: longlist
 
+  - Assume a peak rate of 1 check every 10 minutes
   - 3 bottles per user 
-  - times 100M users 
+  - times 10M users 
   - divided by 600 seconds between checks
-  - ... so 500K checks per second
+  - ... so 50K checks per second at peak
 
 .. include:: /includes/student-notes.rst
 
@@ -218,14 +234,14 @@ Heartbeats:
 .. rst-class:: longlist
 
   - 3 bottles per user
-  - times 100M users 
+  - times 10M users 
   - times 1000 documents per week 
   - times 100 bytes per doc
-  - ... so ``30TB per week``
+  - ... so ``3TB per week``
 
     - plus indexes
     - we will want to shard this
-    - and possibly delete them
+    - and possibly delete old heartbeats
 
 .. include:: /includes/student-notes.rst
 
@@ -238,11 +254,11 @@ Opening & Closing Bottles:
 .. rst-class:: longlist
 
   - 3 bottles / user
-  - times 100M users 
+  - times 10M users 
   - times 2 dosages per day 
   - times 2 entries per dose 
   - times 100 bytes
-  - ... so  ``60GB per week``
+  - ... so ``6GB per week``
   - Indexes will take up additional space
 
 .. note::
@@ -301,7 +317,7 @@ Solution - Considerations
 
   - Are there health regulations that require us to keep any data?
 
-    - Assume we keep the heartbeats for 1 week
+    - Assume we keep the heartbeats for 2 weeks
     - Keep "actions" (opened/closed) for ever
 
 .. include:: /includes/student-notes.rst
@@ -459,8 +475,8 @@ Determine if the bottle was left open
     { _id : 0, time : 1, action : 1, user_id : 1, medication : 1 }
   ).sort( { time : -1 } ).limit(1)
 
-If the last action was ``"opened"`` and the time was >10 minutes ago, it's been
-left open.
+If the last action was ``"opened"`` and the time was >5 minutes ago, it's most
+likely been left open.
 
 .. include:: /includes/student-notes.rst
 
@@ -483,6 +499,7 @@ Check last heartbeat to see if it has been >60 minutes
 If it's 0, then the bottle is disconnected from wi-fi
 
 .. include:: /includes/student-notes.rst
+
 
 Solution: Indexes (1 of 2)
 --------------------------
@@ -539,9 +556,9 @@ Solution: Indexes (2 of 2)
   )  // optimizes Query 3 for filtering/sort, *and* allows for covered queries
 
   db.bottle_heartbeats.createIndex(
-    { time : 1 }, { expireAfterSeconds : 604800 },
+    { time : 1 }, { expireAfterSeconds : 1209600 },
     { name : "TTL" }
-  ) // TTL Index: Delete the heartbeats after 1 week
+  ) // TTL Index: Delete the heartbeats after 2 weeks
 
 .. include:: /includes/student-notes.rst
 
