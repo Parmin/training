@@ -1,58 +1,94 @@
-Student Exercise:
------------------
+================================
+Lab: Data Model for a Poker Game
+================================
 
+Introduction
+------------
+
+Consider an online poker game. The two main domain objects are players and the
+poker game itself.
+
+.. include:: /includes/student-notes.rst
+
+
+Definitions
+-----------
+
+- A **player** is the user. One player may be involved in many games, and
+  sometimes more than 1 game at a time. 
+- A **game** is a series of states created by players. It will include:
+
+  - One set of cards for each player
+  - A canonical ordering of players
+  - Some amount of money for each player
+  - Some amount of money in the "pot"
+  - At times, a "bet" and a list of how much each player has bet
+  - Information on which players have folded (left the game)
+  - Actions, such as the following:
+
+    - Add one or more cards to the hand of each player still in the game
+    - Calling a bet, raising a bet, or folding
+
+.. include:: /includes/student-notes.rst
+ 
 .. only:: instructor
 
-- MongoDB has “atomic operations” on documents.
+  - As of MongoDB 3.4, MongoDB has atomic operations only on documents.
+  
+    - This leads to consistent reads and writes... but only for a single document.
 
-  - When a document is updated, no other thread is updating it or reading it.
-  - This leads to consistent reads and writes.
-  - This feature provides document-level transactions.
-  - Any modification to any number of fields in a single document can be thought of as a transaction.
-  - Updates to a single document either entirely happen or they do not at all.
-  - There are no partial updates and no “dirty reads” at the document level.
 
-Imagine an online poker game.  The 2 main domain objects are players and the poker game itself.  A game is a series of actions and states created by players.  Players may be involved in many games and sometimes more than 1 game at a time.  Every game may host multiple players and each game will have many hands that can be played.  Different types of poker games may be played as well.  How might one model this?
+Deliverables
+------------
 
-.. only:: instructor
+Break into groups of two or three and work together to create the following
+deliverables:
 
-let students do exercise in small groups (20 minutes) and then discuss their ideas.
+- Sample document and schema for each collection
+- Queries the application will use
+- ``createIndex`` queries for any indexes
 
-When asking if a game “belongs to” a player we quickly see it does not - many players belong to the game.
+.. include:: /includes/student-notes.rst
 
-Then we would ask ourselves, should each player exist as a full entity in the game?
+.. only:: instructor:
 
-  - No, because players will be involved with many games and lots of player information is irrelevant to each game.
-  - This leads us to creating a single document for every player.
+  .. note::
 
-For each game there are many moves players make - they are dealt cards, they make wagers, new cards come out, etc.
-
-How to model the game?
-
-  - Possibility #1: There is a ``game`` collection which has meta data about the game and then a document for every action a player in the game makes.
-
-    - However, this creates a game which is not atomic and will possibly have lots of IO.
-
-  - Possibility #2: Model it atomicly
-
-    - Create an array of player actions.
-    - Each action is an embedded document.
-    - Certain player information is denormalized:
-
-      - Their name
-      - _id
-      - other useful information to the game.
-
-We end up with 2 collections - players and games.
-
-- A player:
-
-  - A single document that contains all their personal information, notes, history and meta data.
-
-- A game:
-
-  - All the actions that pertain to that game
-  - Certain player information is denormalized
-
-    - In the game, just one document needs to be accessed during gameplay
-    - This takes advantage of atomic ops.
+    When asking if a game "belongs to" a player we quickly see it does not - many players belong to the game.
+    
+    Then we would ask ourselves, should each player exist as a full entity in the game?
+    
+      - No, because players will be involved with many games and lots of player information is irrelevant to each game.
+      - This leads us to creating a single document for every player.
+    
+    For each game there are many moves players make - they are dealt cards, they make wagers, new cards come out, etc.
+    
+    How to model the game?
+    
+      - Possibility #1: There is a ``game`` collection which has meta data about the game and then a document for every action a player in the game makes.
+    
+        - However, this creates a game which is not atomic and will possibly have lots of IO.
+    
+      - Possibility #2: Model it atomicly
+    
+        - Create an array of player actions.
+        - Each action is an embedded document.
+        - Certain player information is denormalized:
+    
+          - Their name
+          - _id
+          - other useful information to the game.
+    
+    We end up with 2 collections - players and games.
+    
+    - A player:
+    
+      - A single document that contains all their personal information, notes, history and meta data.
+    
+    - A game:
+    
+      - All the actions that pertain to that game
+      - Certain player information is denormalized
+    
+        - In the game, just one document needs to be accessed during gameplay
+        - This takes advantage of atomic ops.

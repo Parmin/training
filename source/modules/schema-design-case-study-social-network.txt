@@ -35,7 +35,15 @@ Design Considerations
 
    .. note::
 
-    - Mention how the Facebook newsfeed works
+      Mention how the Facebook newsfeed works:
+
+      - You get stories ranked by importance, determined by an algorithm.
+      - Examples:
+
+        - Your sister got married
+        - Major news story people are linking to
+        - Someone RSVP'd for an event you're hosting
+
 
 User Relationships
 ------------------
@@ -44,14 +52,23 @@ What are the problems with the following approach?
 
 .. code-block:: javascript
 
+  db.users.find()
   {
     "_id" : "bigbird",
     "fullname" : "Big Bird",
     "followers" : [ "oscar", "elmo"],
-    "following" : [ "elmo", "bert"]
+    "following" : [ "elmo", "bert"],
+    ...
   }
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+     Ask them what the performance impact will be for someone with a lot of followers.
+
 
 User Relationships
 ------------------
@@ -61,7 +78,11 @@ Relationships must be split into separate documents:
 - This will provide performance benefits.
 - Other motivations:
 
-  - E.g., celebrity users may have millions of followers.
+  - Some users (e.g., celebrities) will have millions of followers.
+
+    - Embedding a "followers" array would literally break the app: documents
+      are limited to 16 MB.
+
   - Different types of relationships may have different fields and requirements.
 
 .. include:: /includes/student-notes.rst
@@ -71,6 +92,7 @@ Relationships must be split into separate documents:
    .. note::
 
     - Relationships from work should have different privacy settings, etc.
+
 
 User Relationships
 ------------------
@@ -116,8 +138,14 @@ Counting User Relationships
 ---------------------------
 
 - Counts across a large number of documents may be slow
-- May want to maintain an active count in the user profile
+
+  - Option: maintain an active count in the user profile
+
 - An active count of followers and folowees will be more expensive for creating relationships
+
+  - Requires an update to both user documents (plus a relationship document)
+    each time a relationship is changed
+  - For a read-heavy system, this cost may be worth paying
 
 .. include:: /includes/student-notes.rst
 
@@ -126,11 +154,13 @@ Counting User Relationships
 
 .. code-block:: javascript
 
+  > db.users.find()
   {
     "_id" : "bigbird",
     "fullname" : "Big Bird",
     "followers" : 2,
-    "following" : 2
+    "following" : 2,
+    ...
   }
 
 
@@ -140,7 +170,14 @@ Counting User Relationships
 
    .. note::
 
-      - Maintain counts in the user profile to make it less expensive to display the total number of followers for a user on their profile page (if the profile page is heavily viewed)
+      - Maintaining counts in the user profile will make it less expensive to
+        display the total number of followers for a user on their profile page
+        (if the profile page is heavily viewed).
+      - However, it will also mean 3 writes each time one user follows another.
+
+        - One for the user, one for the user it's following, and one for the
+          followers collection entry.
+
 
 User Relationship Traversal
 ---------------------------
@@ -152,12 +189,24 @@ User Relationship Traversal
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
+
+  .. note::
+
+    - If someone asks about $lookup or $graphLookup, tell them not to use it.
+
+      - They're not terribly performant
+      - They can't look up documents from sharded collections. Only the initial
+        source collections can be sharded.
+
+
 User Relationships
 ------------------
 
 - We've created a simple, scalable model for storing user relationships
 
 .. include:: /includes/student-notes.rst
+
 
 Building a Feed Service
 -----------------------
@@ -171,6 +220,8 @@ Building a Feed Service
 
 Feed Service Design Considerations
 ----------------------------------
+
+Two options:
 
 - Fanout on Read
 - Fanout on Write
@@ -188,6 +239,7 @@ Fanout on Read
 
 .. include:: /includes/student-notes.rst
 
+
 When to Use Fanout on Read
 --------------------------
 
@@ -196,6 +248,7 @@ When to Use Fanout on Read
 - Historic timeline information is commonly viewed
 
 .. include:: /includes/student-notes.rst
+
 
 Fanout on Write
 ---------------
@@ -212,7 +265,8 @@ Fanout on Write
 
    .. note::
 
-      - This is actually what the large scale social networks have to do, fanout on read is far too expensive
+      - This is actually what the large-scale social networks have to do, fanout on read is far too expensive
+
 
 Fanout on Write
 ---------------
@@ -289,9 +343,19 @@ Class Exercise
 
 Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
 
-- Design a schema for the user graph
-- Design a schema for a Twitter user's newsfeed (including retweets, favorites, and replies)
+.. rst-class:: longlist
 
+  - Create an example document for a user's tweets
+  - Design a partial schema just for for a Twitter user's newsfeed (including
+    retweets, favorites, and replies)
+  - Build the queries be for the user's newsfeed?
+  
+    - Initial query
+    - Later query if they scroll down to see more
+  
+  - What indexes would the user need?
+  - Don't worry about creating the newsfeed documents; assume an application is
+    creating entries, and just worry about displaying it.
 
 .. include:: /includes/student-notes.rst
 
@@ -299,28 +363,12 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
 
    .. note::
 
-     - First consideration is what to optimize for: reads of the user's profile vs writes
-     - Storing a count of the user's followers removes the need to count followers for each pageload
-     - Working through the various pages in the MongoDB Twitter profile should follow a similar theme, design the schema for reads and perform more work in the background every time a new tweet occurs
-     - The @MongoDB profile may have the following form
+     - First consideration is what to optimize for: reads of the user's feed vs writes
+     - Working through the various pages in the MongoDB Twitter profile should
+       follow a similar theme, design the schema for reads and perform more
+       work in the background every time a new tweet occurs
 
-
-       .. code-block:: javascript
-
-          {
-            "username" : "mongodb",
-            "username_display" : "MongoDB",
-            "description" : "The world's fastest-growing database.",
-            "url" : "http://mongodb.com"
-            "tweets" : 7901,
-            "following" : 1975,
-            "followers" : 186000,
-            "favorites" : 1046,
-            "lists" : 2,
-            ...
-          }
-
-    - Tweets from @MongoDB may have the following form (used to construct the @MongoDB profile page)
+    - Tweets could have the following form
 
       .. code-block:: javascript
 
@@ -328,11 +376,11 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
           _id : 1234
           "username" : "mongodb",
           "tweet" : "The Call for Speakers for #MDBDays closes tomorrow! Submit a talk proposal for a chance to speak at our events http://spr.ly/6012B1Q8r",
-          "date" : ISODate()
+          "date" : ISODate(),
           ...
         }
 
-    - Each user's feed may have the following form (tweets they see when they log in)
+    - Each user's feed could have the following form (tweets they see when they log in)
 
       .. code-block:: javascript
 
@@ -342,18 +390,61 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
           "user" : "mongodb",
           "tweet" : "The call for #MDBDays speakers closes tomorrow! Submit a proposal here http://spr.ly/6012B1Q8r",
           "date" : ISODate(),
-	  // can duplicate info or refer to the original tweet directly,
-	  // which would require another query
+          // can duplicate info or refer to the original tweet directly,
+          // which would require another query
           "tweet_id" : 1234,
           "retweet" : false,
           "retweet_tweetid" : null // used for displaying retweet status
           ...
         }
 
+    - There would be a number of such documents for each user.
+    - If this is the schema, you could perform the following query to load the feed:
 
+    .. code-block:: javascript
 
+      db.user_feeds.find( 
+        { for_user : "jason" }
+      ).sort( { date : -1 } ).limit(10)
 
+    - Later loads might look like this:
 
+    .. code-block:: javascript
 
+      db.user_feeds.find(
+        {
+          for_user : "jason",
+          date : { $lt : <date of last tweet visible in feed> }
+        }
+      ).sort( { date : -1 } )
 
+    - You would want to build the following index:
 
+    .. code-block:: javascript
+
+      db.user_feeds.createIndex( { for_user : 1, date : 1 } )
+
+    - For a shard key, this is a good candidate:
+
+    .. code-block:: javascript
+
+      {
+        for_user : 1,
+        date : 1
+      }
+
+    - Shard key considerations:
+
+      - Putting ``for_user`` first avoids a monotonically increasing shard key.
+      - Putting ``date`` in the shard key ensures high cardinality
+      - Since you're query uses the shard key, it will be targeted
+
+    - There would be other collections needed to build the full application:
+
+      - user documents
+      - relationships
+      - etc.
+
+    - Another process would need to go through and delete old documents in the feed.
+
+      - Alternatively, there could be a TTL index on the user_feed's ``date`` field.

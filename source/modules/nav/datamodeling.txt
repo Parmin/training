@@ -1,0 +1,9 @@
+=====================
+MongoDB Data Modeling
+=====================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-datamodeling.rst
+
+.. include:: /includes/toc/datamodeling.rst

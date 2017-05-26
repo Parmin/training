@@ -107,7 +107,7 @@ MongoDB World 2017 Workshops
 
 .. |contents_mdbw_data_modeling| raw:: html
 
-   <a href="meta/null.html">(contents is not ready yet)</a>
+   <a href="meta/data-modeling-workshop.html">(book contents)</a>
 
 .. |agenda_mdbw_ops_manager| raw:: html
 

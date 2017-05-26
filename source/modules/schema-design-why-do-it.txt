@@ -1,0 +1,117 @@
+====================================
+Underlying Reasons for Schema Design
+====================================
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students will be able to:
+
+- Explain what good schema design minimizes
+- Evaluate how different schemas will affect performance
+
+.. include:: /includes/student-notes.rst
+
+
+Why Learn Schema Design?
+------------------------
+
+- The structure of data affects performance.
+- A good schema can mean the difference between doing many queries, or few.
+- It can make the difference between having data in RAM, or touching the disk.
+- It can mean the difference between having a data store that scales out, and one that doesn't.
+
+.. include:: /includes/student-notes.rst
+
+
+What Affects the Speed of Reading Data?
+---------------------------------------
+
+- A server is limited in its RAM
+
+  - Going to disk is slower
+
+- Queries take time to make a round trip
+
+  - Serial round trips are even worse
+
+- Writing to disk takes time
+- Different schemas will produce different bottlenecks
+
+.. include:: /includes/student-notes.rst
+
+
+Goal: Minimize your Number of Queries
+-------------------------------------
+
+- Queries take a finite amount of time
+
+  - Especially if you need to make round-trips
+
+- Fewer queries for all the data is a net win
+- Good schema design tries to minimize the number of queries
+- Data that gets queried together should be stored in the same document
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Round trip example:
+    
+      - the application queries the "books" collection and finds a document that includes an "author_id"
+      - the application queries for the "authors" collection based on that "author_id" to find out more
+      - Improve this by putting all the author information you need into the book
+
+
+Goal: Avoid Touching Data you Won't Use
+---------------------------------------
+
+- Documents in RAM will get queried faster than documents not in RAM
+- The same is true of indexes
+- RAM is measured in bytes
+- Bytes of data you're not using will push out bytes of data you are
+
+.. include:: /includes/student-notes.rst
+
+
+Goal: Avoid Touching Data you Won't Use (cont'd)
+------------------------------------------------
+
+- Don't put data into documents if you won't use it
+- Push rarely-used data into a different collection
+
+  - This allows you to store more documents in RAM
+
+- Make use of covered queries
+
+  - The fastest read is the one that can be answered by the index
+
+.. include:: /includes/student-notes.rst
+
+
+What to Prioritize
+------------------
+
+- Prioritize for your most common queries
+
+  - Optimizing these at the expense  of others is a net win
+
+- The patterns you see today are ways of prioritizing different operations
+- Your schema depends on your access patterns.
+- To figure out what you need, start by writing your queries. *Then* arrange
+  the data so that they're answered efficiently.
+
+.. include:: /includes/student-notes.rst
+
+
+Summary
+-------
+
+- Minimize your number of queries
+- Minimize your document size
+- Optimize your most common use cases
+- Write your queries first to determine what to prioritize
+
+.. include:: /includes/student-notes.rst
