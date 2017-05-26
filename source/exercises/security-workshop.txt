@@ -475,11 +475,6 @@ attacks, and used Role-Based Access Control to limit the access of users. The
 final step is to enable auditing, giving us a clear record of **who** performed
 an auditable action.
 
-.. only:: instructor
-
-   .. note::
-
-      
 
 Exercise: Enable Auditing
 -------------------------
@@ -496,15 +491,16 @@ Exercise: Enable Auditing
 
    .. note::
       
-      - Outputing to a BSON file will preserve the most information with the
-        best performance, however we are outputing in JSON so participants can
+      - Outputting to a BSON file will preserve the most information with the
+        best performance, however we are outputting in JSON so participants can
         more easily parse the audit log.
 
       - Take care when auditing CRUD operations, they are not redacted in the 
         audit log 
 
       - Talk to the students about the different audit formats and destinations,
-        touching on the pros and cons (e.g. readability, log trucation)
+        touching on the pros and cons (e.g. readability, log trucation, and 
+        performance implications)
 
         - JSON, BSON
         - File, syslog, console
