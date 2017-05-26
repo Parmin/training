@@ -2,6 +2,8 @@
 Read Preference
 ===============
 
+.. BEGIN READ PREFERENCE CONTENT
+
 What is Read Preference?
 ------------------------
 
@@ -79,4 +81,4 @@ For example, in the mongo shell:
 
 .. include:: /includes/student-notes.rst
 
-
+.. END READ PREFERENCE CONTENT

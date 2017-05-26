@@ -1,3 +1,7 @@
+file: /modules/replica-set-performance
+description: |
+  Performance trade-offs in replica sets
+---
 file: /modules/schema-design-why-do-it
 description: |
   Describes why schema design is important

@@ -1,0 +1,44 @@
+============================
+Replica Sets and Performance
+============================
+
+.. default-domain:: mongodb
+
+Learning Objectives
+-------------------
+
+Upon completing this module, students should be able to:
+
+- Define write concern, read preference, read concern, and linearizable writes
+- Evaluate the performance tradeoffs that occur with increased durability guarantees
+
+.. include:: /includes/student-notes.rst
+
+.. include:: /modules/replica-set-write-concern.txt
+   :start-after: .. BEGIN DEFINING WRITE CONCERN
+   :end-before: .. END DEFINING WRITE CONCERN
+
+.. include:: /modules/performance.txt
+   :start-after: .. BEGIN WRITE CONCERN PERFORMANCE
+   :end-before: .. END WRITE CONCERN PERFORMANCE
+
+.. include:: /modules/replica-set-read-preference.txt
+   :start-after: .. BEGIN READ PREFERENCE CONTENT
+   :end-before: .. END READ PREFERENCE CONTENT
+
+.. include:: /modules/replica-set-read-concern.txt
+   :start-after: .. BEGIN READ CONCERN CONTENT
+   :end-before: .. END LINEARIZABLE CONTENT
+
+
+Replica Sets and Performance
+----------------------------
+
+.. rst-class:: longlist
+
+- You must balance performance costs against read/write guarantees
+- Write concern and read concern allow you to set this
+- Use the weakest guarantee your application can tolerate
+- Think about technical ways to get by with weaker guarantees
+
+.. include:: /includes/student-notes.rst
