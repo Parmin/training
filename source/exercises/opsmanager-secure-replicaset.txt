@@ -206,6 +206,10 @@ Time to create users that will authenticate using an X.509 certificate.
       .. code-block:: bash
 
         $ openssl x509 -in /etc/ssl/mongodb/dbadmin.pem -inform PEM -subject -nameopt RFC2253
+        subject= C=US,ST=New York,L=New York City,O=MongoDB,OU=USERS,CN=dbadmin
+        -----BEGIN CERTIFICATE-----
+        MIIDeDCCAmCgAwIBAgICmDQwDQYJKoZIhvcNAQEFBQAwcjESMBAGA1UEAxMJbG9j
+        ...
 
       and use that subject info to create the required user.
 
