@@ -1,3 +1,7 @@
+file: /modules/schema-design-why-do-it
+description: |
+  Describes why schema design is important
+---
 file: /modules/schema-design-core-concepts
 description: |
   An introduction to schema design in MongoDB

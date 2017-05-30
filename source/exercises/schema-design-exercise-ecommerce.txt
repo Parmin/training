@@ -9,6 +9,8 @@ Introduction
 - For users of RDBMSs, the most challenging part of the exercise will be figuring out how to construct a data model when joins aren't allowed.
 - We're going to model for several entities and features.
 
+.. include:: /includes/student-notes.rst
+
 
 Product Catalog
 ---------------
@@ -90,17 +92,17 @@ Break into groups of two or three and work together to create the following deli
    .. code-block:: javascript
 
       {
-      	_id: ObjectId(),
-      	name: "MongoDB Logo T-Shirt",
-      	current_price: 14.99,
-      	price_history: [ 10.99, 11.99, 12.99, 13.99 ],
-      	parent_category: "Shirts",
-      	ancestor_categories: [ "Apparel", "Mens", "Shirts" ],
-      	tags: [ { key: "color", value: "gray" }, { key: "size", value: "Large" } ],
-      	top_reviews: [
-      	  { review: "I love this shirt.", upvotes: 30, downvotes: 3, comments: [
-      	    "totally agree",
-      	    "my favorite shirt" ] },
-      	  ...
-      	]
+        _id: ObjectId(),
+        name: "MongoDB Logo T-Shirt",
+        current_price: 14.99,
+        price_history: [ 10.99, 11.99, 12.99, 13.99 ],
+        parent_category: "Shirts",
+        ancestor_categories: [ "Apparel", "Mens", "Shirts" ],
+        tags: [ { key: "color", value: "gray" }, { key: "size", value: "Large" } ],
+        top_reviews: [
+          { review: "I love this shirt.", upvotes: 30, downvotes: 3, comments: [
+            "totally agree",
+            "my favorite shirt" ] },
+          ...
+        ]
       }

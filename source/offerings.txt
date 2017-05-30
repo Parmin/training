@@ -43,6 +43,15 @@ Developer Courses
 
    <a href="meta/advanced-developer.html">(book contents)</a>
 
+.. |agenda_DeveloperRapidStart| raw:: html
+
+   <a href="modules/agenda-developer-rapid-start.html">Developer Rapid Start - 2 days</a>
+
+.. |contents_DeveloperRapidStart| raw:: html
+
+   <a href="meta/developer-rapid-start.html">(book contents)</a>
+
+
 
 Admin/Ops Courses
 -----------------
@@ -107,7 +116,7 @@ MongoDB World 2017 Workshops
 
 .. |contents_mdbw_data_modeling| raw:: html
 
-   <a href="meta/null.html">(contents is not ready yet)</a>
+   <a href="meta/data-modeling-workshop.html">(book contents)</a>
 
 .. |agenda_mdbw_ops_manager| raw:: html
 

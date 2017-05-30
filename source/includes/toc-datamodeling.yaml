@@ -1,0 +1,60 @@
+file: /modules/schema-design-why-do-it
+description: |
+  Describes why schema design is important
+---
+file: /modules/schema-design-core-concepts
+description: |
+  Introduction to Schema Design with MongoDB
+---
+file: /modules/schema-design-relationships
+description: |
+  Understanding Relationships
+---
+file: /modules/schema-design-patterns
+description: |
+  Common Patterns in Schema Design Solutions
+---
+file: /modules/replica-set-performance
+description: |
+  Performance trade-offs in replica sets
+---
+file: /modules/schema-design-application-lifetime
+description: |
+  Managing the lifecycle of the Schema Design
+---
+file: /modules/document-validation
+description: |
+  Document Validation
+---
+file: /exercises/document-validation
+description: |
+  Exercise of Document Validation
+---
+file: /modules/schema-visualization
+description: |
+  Schema visualization with Compass
+---
+file: /modules/schema-design-case-study-cms
+description: |
+  Case study of a Contents Management System
+---
+file: /modules/schema-design-case-study-social-network
+description: |
+  Case study of a Contents Management System
+---
+file: /modules/schema-design-case-study-time-series
+description: |
+  Case study of a Contents Management System
+---
+file: /modules/schema-design-case-study-shopping-cart
+description: |
+  Case study of a Contents Management System
+---
+file: /exercises/schema-design-exercise-ecommerce
+description: |
+  Exercice of designing an E-commerce site
+---
+file: /exercises/schema-design-exercise-internet-of-things
+description: |
+  Exercice of designing a soltion for an Internet Of Things problem
+...

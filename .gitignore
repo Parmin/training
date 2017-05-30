@@ -38,3 +38,4 @@ mongomart/student/java/.idea/workspace.xml
 */.idea/*
 giza.log
 venv/
+.vscode/*

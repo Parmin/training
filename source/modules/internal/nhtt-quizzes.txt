@@ -278,7 +278,7 @@ Replication Assessment
     - 2. the Primary is not doing addition writes, so the performance should be the same
     - 3. connections have to wait longer, so you need more of them
     - 4. arbiters also count in the nodes, even if they can't do writes. Prevents 2 arbs electing a node without the data.
-    - 5. write concerns only apply to voting members, so yes 7 is the max majority possible
+    - 5. write concerns only apply to voting members, so yes 4 is the max majority possible
 
 
 Security Assessment
