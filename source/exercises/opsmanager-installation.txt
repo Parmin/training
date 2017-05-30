@@ -57,7 +57,7 @@ Ops Manager Architecture Review
 
 Let's review the `Ops Manager architecture`_ :
 
-.. include:: opsmanager-network-diagram-fullsize.txt
+.. include:: /figures_local_meta/opsmanager-architecture.txt
 
 .. include:: /includes/student-notes.rst
 
@@ -136,7 +136,8 @@ As a team, make a plan for the following:
   - 2 possible solutions:
 
     - each ``opsmgr`` node gets App, BackupDaemon, AppDB and BackupDB
-    - ``opsmgr`` gets App, BackupDaemon and BackupDB, ``nodeX`` get AppDB
+    - each ``opsmgr`` node gets App, BackupDaemon and BackupDB, each ``nodeX``
+      node gets AppDB
 
   - Do we need a replica set to support the Backup Daemon?
 
@@ -152,9 +153,11 @@ Exercise: Configure Ops Manager Application Database
 
 Ops Manager needs to store data:
 
-- Configuration of nodes, groups, users
-- Metrics for monitoring
-- Backup metadata and job queries
+.. rst-class:: longlist
+
+  - Configuration of nodes, groups, users
+  - Metrics for monitoring
+  - Backup metadata and job queries
 
 Also consider relevant `security settings`_ for this database.
 
@@ -162,6 +165,12 @@ From the available machines go ahead and set up a replica set to support the
 *Application Database*.
 
 Name this replica set **APPDB**
+
+You can install MongoDB by running:
+
+.. code-block:: bash
+
+    yum install -y /share/downloads/mongodb_packages/mongodb-enterprise-3.4.2-1.el7.x86_64.rpm
 
 .. only:: instructor
 
@@ -215,10 +224,9 @@ Name this replica set **APPDB**
 
   .. note::
 
-    - To validate their deployment you should ask students to run validation
-      script
+    - To validate their deployment you should ask students to run
+      ``rs.status()`` on one of their APPDB members.
 
-      - ``validate_appdb.py``
 
 
 Exercise: Configure Ops Manager Backup Database
@@ -291,17 +299,25 @@ Exercise: Install, Configure and Launch the Ops Manager Service
 **Habemus Replica Sets!** Now it's time to launch the **Ops Manager** service.
 For this you will need to:
 
-- Install Ops Manager
+.. rst-class:: longlist
 
-  - The files can be found in /share/downloads/opsmgr_packages
-  - Follow the instructions to `install from rpm`_
+  - Install Ops Manager
 
-- Edit Ops Manager configuration ``conf-mms.properties``:
+    - The files can be found in /share/downloads/opsmgr_packages
+    - Follow the instructions to `install from rpm`_
 
-  - Point the config to the replica set: **APPDB**
+  - Edit Ops Manager configuration ``conf-mms.properties``:
 
-- Launch the Ops Manager service
-- Hint: there is a common keyfile shared by all 3 instances
+    - Point the config to the replica set: **APPDB**
+
+  - Launch the Ops Manager service
+  - Hint: there is a common keyfile shared by all 3 instances
+
+  - You can install Ops Manager by running:
+
+    .. code-block:: bash
+
+        yum install -y /share/downloads/opsmgr_packages/mongodb-mms-3.4.3.402-1.x86_64.rpm
 
 .. only:: instructor
 
@@ -312,35 +328,40 @@ For this you will need to:
 
     We are striving for an Highly Available Ops Manager deployment therefore:
 
-    - Before mentioning *again* the HA requirement you may ask students why we
-      need at least 2 ``opsmgr`` nodes?
+    - Before mentioning *again* the HA requirement you may ask students why do
+      we need at least 2 ``opsmgr`` nodes?
     - Make sure students use machines that are tagged with Ops Manager
 
 
-Solution: Install, Configure and Launch the Ops Manager Service
----------------------------------------------------------------
+  Solution: Install, Configure and Launch the Ops Manager Service
+  ---------------------------------------------------------------
 
-Details on how to configure HA `configure HA app`_
+  Details on how to configure HA `configure HA app`_
 
-Generate a keyfile ``gen.key`` for the 3 hosts:
+  Generate a keyfile ``gen.key`` for the 3 hosts:
 
-.. code-block:: bash
+  .. rst-class:: longcode
 
-  ssh -A centos@opsmgr1
-  #Install ops manager server
-  yum install -y /share/downloads/mongodb_packages/mongodb-mms-2.0.6.363-1.x86_64.rpm
-  #Edit the configuration options
-  vi /opt/mongodb/mms/conf/conf-mms.properties
-  #Generate a gen.key file
-  openssl rand 24 > /share/gen.key
-  cp /share/gen.key /etc/mongodb-mms/
+    .. code-block:: bash
 
-  #Copy this generated file to all opsmgr hosts
-  scp /share/gen.key centos@opsmgr2:/etc/mongodb-mms/opsmgr.key
-  scp /share/gen.key centos@opsmgr3:/etc/mongodb-mms/opsmgr.key
-  #Make sure you use replace opsmgr for the host ip
+      # Make sure you use replace opsmgr for the host ip
+      ssh -A centos@opsmgr1
 
-.. only:: instructor
+      # Install ops manager server
+      yum install -y /share/downloads/opsmgr_packages/mongodb-mms-3.4.3.402-1.x86_64.rpm
+
+      # Edit the configuration options
+      vi /opt/mongodb/mms/conf/conf-mms.properties
+
+      # Generate a gen.key file
+      openssl rand 24 > /share/gen.key
+      cp /share/gen.key /etc/mongodb-mms/
+
+      # Copy this generated file to all opsmgr hosts
+      # You might need to first scp to a folder you have permissions on
+      scp /share/gen.key centos@opsmgr2:/etc/mongodb-mms/
+      scp /share/gen.key centos@opsmgr3:/etc/mongodb-mms/
+
 
   Solution: Install, Configure and Launch the Ops Manager Service (con't)
   -----------------------------------------------------------------------
@@ -349,13 +370,12 @@ Generate a keyfile ``gen.key`` for the 3 hosts:
 
   .. code-block:: bash
 
-    #Replace mongo.mongoUri with APPDB replica set connection string
-    # mongodb://opsmgr1:27001,opsmgr2:27001,opsmgr3:27001/?replicaSet=APPDB
+    # Replace mongo.mongoUri with APPDB replica set connection string
+    # e.g., mongodb://opsmgr1:27001,opsmgr2:27001,opsmgr3:27001/?replicaSet=APPDB
     sed -i.bak "s/^\(mongo.mongoUri=\).*/\1mongodb:\/\/opsmgr1\:27001,opsmgr2\:27001, \
     opsmgr3\:27001\/\?replicaSet=APPDB/" /opt/mms/conf-mms.properties
-    #Or just use vi
 
-    #Repeat the operation on all opsmgr hosts
+    # Repeat the operation on all opsmgr hosts
 
   - Launch Ops Manager on all ``opsmgr`` hosts
 
@@ -369,17 +389,21 @@ Generate a keyfile ``gen.key`` for the 3 hosts:
 
     To validate this exercise the students should be able to:
 
+    - Connect to the Ops Manager Installation via their load balancer URL
     - Register admin user credentials and Ops Manager group
 
+    You can go ahead and walk them through the series of Ops Manager setup
+    screens.
 
-Install Ops Manager Automation Agents
--------------------------------------
+
+Exercise: Install Ops Manager Automation Agents
+-----------------------------------------------
 
 At this point **Ops Manager** should be up and running.
 Now it's time to install our `Automation Agents`_:
 
-- In the remaining VMs, install the automation agent
-- Make sure that all nodes are discoverable on the servers dashboard
+- In the remaining VMs (node1, node2, etc) install the automation agent
+- Make sure that all nodes are discoverable on the server's dashboard
 - Validate that all agents are reporting pings correctly
 
 .. only:: instructor
@@ -390,6 +414,10 @@ Now it's time to install our `Automation Agents`_:
 
     - Validate that all nodes are discoverable
     - All agents are reporting data without errors
+
+    You'll also want to make sure that students successfully changed their
+    instance hostnames to the ``nodeX`` form. This enables them to use the
+    certificates that are on the machines for later labs.
 
 
 .. _Ops Manager architecture : https://docs.opsmanager.mongodb.com/current/core/system-overview/

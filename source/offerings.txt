@@ -120,11 +120,11 @@ MongoDB World 2017 Workshops
 
 .. |agenda_mdbw_ops_manager| raw:: html
 
-   <a href="modules/agenda-null.html">Getting Started with MongoDB Ops Manager - 1 day</a>
+   <a href="modules/agenda-opsmanager-workshop.html">Getting Started with MongoDB Ops Manager - 1 day</a>
 
 .. |contents_mdbw_ops_manager| raw:: html
 
-   <a href="meta/null.html">(contents is not ready yet)</a>
+   <a href="meta/opsmanager-workshop.html">(book contents)</a>
 
 
 Education Internal Courses
