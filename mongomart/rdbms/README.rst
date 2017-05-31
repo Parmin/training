@@ -52,3 +52,15 @@ Make sure you MySQL server and shell client to interact with the database.
 .. code-block:: sh
 
   java -jar target/MongoMart-1.0-SNAPSHOT.jar
+
+Apply solutions
+---------------
+
+In order to get you moving through the exercises you can apply solutions to the 
+exercises/labs that you are working on.
+
+.. code-block:: sh
+  
+  ./solvethis.sh lab1
+
+Running this script will bring your current workspace to a proposed solution.
