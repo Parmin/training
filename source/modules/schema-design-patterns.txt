@@ -245,10 +245,3 @@ Comparing Tree Patterns
      - Much more
 
 .. include:: /includes/student-notes.rst
-
-
-Future work
------------
-
-- More work on patterns coming out soon
-- New class on **Data Modeling** likely before the end of the year

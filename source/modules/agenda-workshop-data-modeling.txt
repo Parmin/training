@@ -6,28 +6,37 @@ Data Modeling Workshop
 Day 1 (Morning)
 ---------------
 
-- :doc:`/modules/schema-design-why-do-it`
-- :doc:`/modules/schema-design-core-concepts`
-- :doc:`/modules/schema-design-relationships`
-- :doc:`/modules/schema-design-case-study-social-network`
-- :doc:`/modules/schema-design-patterns`
-- :doc:`/exercises/schema-design-exercise-ecommerce`
+- 9:00 - Welcome and Introductions (10 minutes)
+- 9:10 - :doc:`/modules/schema-design-why-do-it` (10 minutes)
+- 9:20 - :doc:`/modules/schema-design-core-concepts` (30 minutes)
+- 9:50 - Break (10 minutes)
+- 10:00 - :doc:`/modules/schema-design-relationships` (20 minutes)
+- 10:20 - :doc:`/modules/schema-design-case-study-social-network` (40 minutes)
+- 11:00 - Break (10 minutes)
+- 11:10 - :doc:`/modules/schema-design-patterns` (15 minutes)
+- 11:25 - :doc:`/exercises/schema-design-exercise-ecommerce` (1 hour)
+- 12:30 - Lunch (30 minutes)
 
 Day 1 (Afternoon)
 -----------------
 
-- :doc:`/modules/replica-set-performance`
-- :doc:`/modules/schema-design-case-study-time-series`
-- :doc:`/exercises/schema-design-exercise-internet-of-things`
+- 1:00 - :doc:`/modules/replica-set-performance` (15 minutes)
+- 1:15 - :doc:`/modules/schema-design-case-study-time-series` (35 minutes)
+- 1:50 - Break (10 minutes)
+- 2:00 - :doc:`/exercises/schema-design-exercise-internet-of-things` (1 hour)
+- 3:00 - Break (10 minutes)
+- 3:10 - Topics chosen from below (40 minutes)
+- 3:50 - Break (10 minutes)
+- 4:00 - Topics chosen from below (60 minutes)
 
 - Additional Case Studies:
 
-  - :doc:`/modules/schema-design-case-study-cms`
-  - :doc:`/modules/schema-design-case-study-shopping-cart`
+  - :doc:`/modules/schema-design-case-study-cms` (15 minutes, plus up to 3 exercises of 20 minutes each)
+  - :doc:`/modules/schema-design-case-study-shopping-cart` (20 minutes, plus 20 minute exercise)
 
 - Additional topics
 
-  - :doc:`/modules/schema-design-application-lifetime`
-  - :doc:`/modules/document-validation`
-  - :doc:`/exercises/document-validation`
-  - :doc:`/modules/schema-visualization`
+  - :doc:`/modules/schema-design-application-lifetime` (10 minutes, plus 1 exercise of 30 minutes)
+  - :doc:`/modules/document-validation` (25 minutes)
+  - :doc:`/exercises/document-validation` (up to 7 exercises, 5-10 minutes each)
+  - :doc:`/modules/schema-visualization` (15 minutes)
