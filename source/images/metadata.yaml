@@ -972,4 +972,94 @@ output:
     tag: 'offset'
     dpi: 120
     width: 200
+---
+name: mongomart-erd
+alt: "MongoMart RDBMS ERD"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 600
+  - type: web
+    dpi: 120
+    width: 1000
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 600
+---
+name: mongomart-stores-erd
+alt: "MongoMart Items ERD"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 600
+  - type: web
+    dpi: 120
+    width: 2000
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 600
+---
+name: mongomart-items-erd
+alt: "MongoMart Items ERD"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 600
+  - type: web
+    dpi: 120
+    width: 2000
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 600
+---
+name: database-migration
+alt: "Simple Database Migration"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 600
+  - type: web
+    dpi: 120
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 600
+---
+name: database-migration-etl
+alt: "ETL Process Diagram"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 600
+  - type: web
+    dpi: 120
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 600
+---
+name: database-migration-hybrid
+alt: "Hybrid Migration Diagram"
+output:
+  - type: print
+    tag: 'print'
+    dpi: 300
+    width: 600
+  - type: web
+    dpi: 120
+    width: 600
+  - type: 'offset'
+    tag: 'offset'
+    dpi: 300
+    width: 600
 ...

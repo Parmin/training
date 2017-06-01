@@ -1,0 +1,9 @@
+=========================
+RDBMS to MongoDB Workshop
+=========================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/toc/dfn-list-rdbms2mongodb.rst
+
+.. include:: /includes/toc/rdbms2mongodb.rst

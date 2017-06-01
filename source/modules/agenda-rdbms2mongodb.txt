@@ -1,0 +1,24 @@
+==========================================
+Cleansing Time - 99% SQL Free Applications
+==========================================
+
+
+Morning
+-------
+
+- :doc:`/modules/rdbms2mongodb/introduction`
+- :doc:`/modules/rdbms2mongodb/system-requirements`
+- :doc:`/modules/rdbms2mongodb/environment-setup`
+- Fresh Coffee Brewed
+- :doc:`/modules/rdbms2mongodb/mongomart-rdbms`
+- :doc:`/modules/rdbms2mongodb/migration-strategies`
+- :doc:`/modules/rdbms2mongodb/migrate-reviews`
+
+Afternoon
+---------
+
+- :doc:`/modules/rdbms2mongodb/migrate-items`
+- :doc:`/modules/rdbms2mongodb/migrate-cart`
+- Afternoon Break
+- :doc:`/modules/rdbms2mongodb/migrate-stores`
+- :doc:`/modules/rdbms2mongodb/final-version`

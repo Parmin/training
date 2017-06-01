@@ -26,8 +26,8 @@ public class ReviewDao {
         this.connection = connection;
     }
 
-    
-    /** 
+
+    /**
      * Returns the list of reviews for a given item
      * @param itemId
      * @return
@@ -35,25 +35,25 @@ public class ReviewDao {
     public List<Review> getItemReviews(int itemId){
     	List<Review> reviews = new ArrayList<Review>();
     	String sqlQuery = "SELECT * FROM reviews WHERE items_id = ?";
-    	
+
     	try {
     		PreparedStatement ps = this.connection.prepareStatement(sqlQuery);
             ps.setInt(1, itemId);
             ResultSet rs = ps.executeQuery();
-            
+
             while(rs.next()){
             	reviews.add(this.resultSetToReview(rs));
             }
-            
+
             rs.close();
             ps.close();
     	} catch (SQLException ex) {
     		log.error("Problem collecting reviews: " + ex.getMessage());
     	}
-    	
+
     	return reviews;
     }
-    
+
 
 
     /**
@@ -93,16 +93,16 @@ public class ReviewDao {
         double avg = 0.0;
 
         String sql = "SELECT AVG(stars) as avg FROM reviews WHERE items_id = ?";
-        
+
         try{
             PreparedStatement ps = this.connection.prepareStatement(sql);
             ps.setInt(1, itemid);
-            
+
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 avg = rs.getDouble("avg");
             }
-            
+
             rs.close();
             ps.close();
         } catch (SQLException ex) {
@@ -111,19 +111,19 @@ public class ReviewDao {
 
         return (int)avg;
     }
-    
+
     private Review resultSetToReview(ResultSet rs) throws SQLException{
     	Review rev = new Review();
-    	
+
     	if(rs != null){
     		rev.setComment(rs.getString("comment"));
-    		rev.setDate(rs.getDate("date"));
+    		rev.setDate(new Date(rs.getDate("date").getTime()));
     		rev.setId(rs.getInt("id"));
     		rev.setName(rs.getString("name"));
     		rev.setItemid(rs.getInt("items_id"));
     		rev.setStars(rs.getInt("stars"));
     	}
-    	
+
     	return rev;
     }
 }

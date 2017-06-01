@@ -1,0 +1,158 @@
+=================
+Environment Setup
+=================
+
+
+Setup Workshop Environment
+--------------------------
+
+After we completed the download of our workshop material, it is then time to
+bring our **MongoMart** up.
+
+To do so, we will need the following:
+
+- Unzip ``mongomart.zip`` file
+- Launch local MySQL server
+- Import dataset
+- Run ``mongomart`` process
+
+.. include:: /includes/student-notes.rst
+
+
+Unzip ``mongomart.zip``
+-----------------------
+
+After inflating the ``mongomart.zip`` file, we will find this directory
+structure:
+
+.. code-block:: sh
+
+  unzip mongomart.zip
+  ls mongomart
+  > README  dataset java
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Take some time to get the students acquainted with the directory structure.
+
+    - In case students are using an IDE let them known that they can import the
+      ``java`` folder as a Maven project.
+
+
+Launch local MySQL server
+-------------------------
+
+Time to launch our relational database server:
+
+- In your \*NIX system
+
+.. code-block:: sh
+
+  mysql.server start
+
+- Or Windows
+
+.. code-block:: bat
+
+  C:\> "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqld"
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Although students should have already checked that they do have MySQL
+    installed, make sure to ask around to get everyone up to speed.
+
+
+Import dataset
+--------------
+
+Within your ``mongomart`` folder, there is a ``dataset`` folder.
+
+This folder contains the dataset that we will be working with.
+
+To import this dataset:
+
+.. code-block:: sh
+
+  # creates the relational system schema
+  mysql -uroot < dataset/create_schema.sql
+  # imports previously generated dump
+  mysql -uroot < dataset/dump/mongomart.sql
+  # run a few checks - mandatory step!
+  mysql -uroot < dataset/check.sql
+
+And for our Windows friends:
+
+.. code-block:: bat
+
+  cmd.exe /c "mysql -u root < dataset\create_schema.sql"
+  cmd.exe /c "mysql -u root < dataset\dump\mongomart.sql"
+  cmd.exe /c "mysql -u root < dataset\check.sql"
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Take some time to let the students perform this operation.
+
+    - They might not be used to running shell commands, specially Windows people
+    - Files have been generated in a Unix system. There might be some incompatibilities between file formats.
+    - If so, have the students download the executable file available in this link:
+
+    http://www.efgh.com/software/unix2dos.htm
+
+    - Beware that `check.sql` is not optional. Make sure students do follow all
+      all the instructions.
+
+Run the ``mongomart`` app
+-------------------------
+
+Once we have our dataset fully imported it is time for us to give ``mongomart``
+a spin:
+
+- First we generate the java package
+
+.. code-block:: sh
+
+  cd mongomart/java
+  mvn package -Dmaven.test.skip=true
+
+- Then we run the application process
+
+.. code-block:: sh
+
+  java -jar target/MongoMart-1.0-SNAPSHOT.jar
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+      This might be a critical point for many students.
+      Specially if they have not properly installed maven.
+
+      - Make sure that everyone has correctly setup their $MAVEN_HOME and
+        $JAVA_HOME in their environment $PATH
+      - Students using the IDE and familiar with Maven might be running the
+        process from the IDE itself.
+
+        - Nevertheless it's nice to have students bring up the process, at least
+          once, from the command line.
+
+Final Step
+----------
+
+Once the process is correctly up and running, the final step is to connect to
+http://localhost:8080 using your system browser.
+
+.. include:: /figures_local_meta/mongomart-screenshot.rst

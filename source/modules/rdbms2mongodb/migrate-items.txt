@@ -1,0 +1,172 @@
+=========================
+Lab2: ``Items`` Migration
+=========================
+
+
+.. only:: instructor
+
+  .. note::
+
+    In this lab we will conducting 2 main learning objectives:
+
+    - After providing a new ``mongodb.ItemDao`` attendees should figure out the
+      controller changes on their own.
+    - Restructure the schema design to integrate the last *10* comments within the ``Items``
+      collection using the aggregation pipeline
+
+
+Learning Objectives
+-------------------
+
+In this lab we will be exploring the following operations:
+
+- Enforce a full migration using hybrid solution
+- Enable Text Search
+
+.. include:: /includes/student-notes.rst
+
+Step 1: Add ``dao.mongodb.ItemDao`` to **MongoMart**
+----------------------------------------------------
+
+After receiving this new ``ItemDao`` class you will have to:
+
+- Integrate this class within the **MongoMart** application
+
+  - ``StoreController`` is a good candidate for us to into!
+
+- Once this new Dao is integrated
+
+  - Validate that ``Items`` are getting stored into MongoDB
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Students will get the ``dao.mongodb.ItemDao`` file with solution for lab1:
+
+    - Students will have to integrate this new class into the ``StoreController``
+
+    .. code-block:: java
+
+      // StoreController.java
+      ...
+      ItemDao itemDao = new ItemDao(connection);
+		  mongomart.dao.mongodb.ItemDao mongoItemDao = new mongomart.dao.mongodb.ItemDao(mongoMartDatabase);
+      ...
+      get("/add-review", (request, response) -> {
+      ...
+        HashMap<String, Object> attributes = buildItemResponse(itemid, itemDao, mongoItemDao, reviewDao, mongoReviewDao);
+      ...
+      });
+
+      get("/add-review", (request, response) -> {
+      ...
+        HashMap<String, Object> attributes = buildItemResponse(itemid, itemDao, mongoItemDao, reviewDao, mongoReviewDao);
+      ...
+      });
+
+
+Step 2: Iterate over all ``Item``
+---------------------------------
+
+To migrate all items into MongoDB, we can simply run the following script:
+
+.. code-block:: sh
+
+  # iterate over all 23 items
+  for i in {1..23}
+  do
+    curl -I http://localhost:8080/item?id=$i
+  done
+
+... and for our Windows friends:
+
+.. code-block:: bat
+
+  FOR /L %%A IN (1,1,23) DO( curl -I http://localhost:8080/item?id=%%A )
+
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+  .. note::
+
+    This step is important to move all ``items`` data back to ``mongod``.
+    Import notes to touch base with students:
+
+    - We are using the internal code application to do the migration
+    - Once we know that the data is fully migrate we should start disconnecting
+      the *old* database, in this case MySQL.
+    - This makes the migration process easy to test
+    - Reduces the data impedance that can occur during migration process
+    - Reduces the need for external tools like ETL tools.
+
+
+Step 3: Enable Text Search
+--------------------------
+
+At this point, the `Text Search`_ functionality is not yet enabled.
+Time to get it up and running:
+
+.. rst-class:: longlist
+
+- Go ahead and enable `Text Search`_ on ``items`` collection.
+- This functionality is provided by MongoDB
+
+  - `Text Search`_ should be enabled in the following fields
+
+    - ``title``
+    - ``slogan``
+    - ``description``
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Students will have to connect to the MongoDB shell and create the required
+      Text Index:
+
+    .. code-block:: sh
+
+      mongo mongomart --eval 'db.item.createIndex( { "title" : "text", "slogan" : "text", "description" : "text" } )'
+
+    - And enable the commented ``/search`` route, present on ``StoreController``
+    - The Dao object to be used must be ``mongoItemDao``
+
+    .. code-block:: java
+
+      // Text search for an item, requires a text index
+      get("/search", (request, response) -> {
+        String query = request.queryParams("query");
+        String page = request.queryParams("page");
+
+        List<Item> items = mongoItemDao.textSearch(query, page);
+        long itemCount = mongoItemDao.textSearchCount(query);
+
+        // Determine the number of pages to display in the UI (pagination)
+        int num_pages = 0;
+        if (itemCount > mongoItemDao.getItemsPerPage()) {
+          num_pages = (int)Math.ceil(itemCount / mongoItemDao.getItemsPerPage());
+        }
+
+        HashMap<String, Object> attributes = new HashMap<>();
+        attributes.put("items", items);
+        attributes.put("item_count", itemCount);
+        attributes.put("query_string", query);
+        attributes.put("page", Utils.getIntFromString(page));
+        attributes.put("num_pages", num_pages);
+
+        return new ModelAndView(attributes, "search.ftl");
+      }, new FreeMarkerEngine(cfg));
+
+    - Show students that this works by opening the following url:
+
+    http://localhost:8080/search?query=mug
+
+.. _`Text Search`: https://docs.mongodb.com/manual/reference/operator/query/text/

@@ -1,0 +1,354 @@
+===========================
+Lab1: ``Reviews`` Migration
+===========================
+
+.. only:: instructor
+
+  .. note::
+
+    - Given that this is the first lab where students will have to do some
+      coding it would be useful to do a bit of hand-holding and complete the
+      exercise together
+    - We'll start by migrating the ``reviews`` table since the data is totally
+      user generated data, therefore we can easily integrate a hybrid mechanism
+    - Students will be asked to maintain the databases in place and define the
+      access pattern.
+    - The exercise proposed solution opts for:
+
+      - Find all reviews of an ``item`` in MongoDB.
+      - Find all reviews in the rdbms that are not present in MongoDB
+      - For each review in rdbms insert them into MongoDB
+      - Merge both list
+
+    - After a few iterations all reviews should have been moved to MongoDB
+    - Once all data is present in MongoDB we can remove the connection to the
+      RDBMS
+
+
+
+Learning Objectives
+-------------------
+
+In this lab, we'll be setting our application into an hybrid mode where both
+databases will be providing service.
+
+We will be covering:
+
+- Benefits of using an hybrid solution for migration purposes.
+- Implementation strategies to perform such migration.
+- Schema design review.
+
+.. include:: /includes/student-notes.rst
+
+
+Introduction
+------------
+
+Currently we have our ``ReviewsController`` using only one RDBMS system.
+
+For this lab we purpose that ``Reviews`` should be migrated to MongoDB.
+
+To do that we will change the ``ReviewsController`` to use both RDBMS and
+MognoDB.
+
+.. include:: /includes/student-notes.rst
+
+
+Strategy
+--------
+
+To do this, the data migration we will follow this approach:
+
+- For each ``item``, we will requests all ``reviews`` stored in MongoDB
+  **mongomart.review** collection.
+- Then, we will request all ``reviews`` from the RDBMS system that are not
+  present in MongoDB
+- For each ``review`` retrieved from RDBMS we will store a copy ``review`` in
+  MongoDB
+- All new reviews added to the system should be stored in MongoDB
+
+.. include:: /includes/student-notes.rst
+
+
+``review`` Collection Schema Design
+-----------------------------------
+
+In this collection we will be storing data in a format that reflects the
+``Reviews`` class.
+
+.. code-block:: js
+
+  {
+    "_id": <ObjectId>,
+    "id": <integer>,
+    "name": <string>,
+    "date" <ISODate>,
+    "comment": <string>,
+    "stars": <integer>,
+    "itemid": <integer>
+  }
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    You can bring the attention to the students that we are using ``_id``
+    along side the ``id`` field.
+
+    - This will be the correspondent primary key from the rdbms table
+    - since MongoDB does not have an auto-increment field, we need to keep the
+      compatibility between databases.
+
+
+Step 1: Connection to MongoDB
+-----------------------------
+
+In order for us to be able to store data into MongoDB we will have to establish
+a connection from our application to our server:
+
+- Bring up a MongoDB server instance
+
+.. code-block:: sh
+
+  # default dbpath for MongoDB
+  mkdir -p /data/db
+  # launch MongoDB
+  mongod
+
+Once the instance is up and running lets establish a connection from our
+application.
+
+- Change the ``MongoMart`` class to include a connection to MongoDB.
+
+.. include:: /includes/student-notes.rst
+
+
+.. only:: instructor
+
+  .. note::
+
+    Show the students how to do this:
+
+    - Edit java/mongomart/MongoMart.java file
+
+    .. code-block:: java
+
+      import com.mongodb.MongoClient;
+      ...
+      public MongoMart(String connectionString) throws IOException {
+        ...
+        // Create a Database connection
+        try{
+          ...
+          // MongoClient connection
+          MongoClient mongoClient = new MongoClient();
+          ...
+        }
+      }
+
+
+Step 2: Create ``mongodb.ReviewDao``
+------------------------------------
+
+To interact with MongoDB collection we will need to create a ``ReviewDao``
+class.
+
+.. rst-class:: longlist
+
+  - Create a new package ``/mongomart/dao/mongodb``
+  - Create the ``ReviewDao`` class within this new package
+    - ``mongomart.dao.mongodb.ReviewDao``
+
+  - This dao should reimplement all rdbms package public methods:
+
+    - ``getItemReviews(...)``
+    - ``avgStars(...)``
+    - ``numReviews(...)``
+
+  - And add the a new method
+
+    - ``documentToReview(...)``
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    A few things worth mentioning to students:
+
+    - Students need to make sure we have methods that translate BSON Document to
+      POJO classes
+
+    .. code-block:: java
+
+      public static Review documentToReview(Document doc){
+        Review review = new Review();
+
+        review.setId(doc.getInteger("id", "-120"));
+        review.setComment(doc.getString("comment"));
+        review.setName(doc.getString("name"));
+        review.setStars(doc.getInteger("stars"));
+        review.setDate(doc.getDate("date"));
+        review.setItemid(doc.getInteger("itemid"));
+        review.set_Id(doc.getObjectId("_id"));
+
+
+        return review;
+      }
+
+    - This method is analogous to ``resultSetToReview``, but for MongoDB. Parses
+      a ``Document`` instead of a ``ResultSet`` into a ``Review`` object.
+
+    - ``ReviewDao`` class needs to receive a ``Collection`` or ``Database`` object
+
+
+Step 3: Add ``addReview`` method
+--------------------------------
+
+As part of our strategy, we will need to add reviews to the ``review``
+collection.
+
+Our ``dao.mongodb.ReviewDao`` class should have a method that adds reviews to
+the collection
+
+- Implement an ``addReview()`` method
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Students will have to:
+
+    - create the ``addReview()`` method that takes a ``Review`` object and
+      inserts the corresponding document into MongoDB
+
+    .. code-block:: java
+
+      public void addReview(Review review) {
+        reviewCollection.insertOne(reviewToDoc(review));
+      }
+
+    - A method to unmarshal ``Review`` objects into ``bson.Document`` will also
+      be required
+
+    .. code-block:: java
+
+      public static Document reviewToDoc(Review review) {
+        Document document = new Document();
+        if(review.getId() >= 0){
+          document.append("id", review.getId());
+        }
+        document.append("name", review.getName());
+        document.append("date", review.getDate());
+        document.append("comment", review.getComment());
+        document.append("stars", review.getStars());
+        document.append("itemid", review.getItemid());
+        if (review.get_Id() != null){
+          document.append("_id", review.get_Id());
+        }
+        return document;
+      }
+
+
+Step 4: Integrate new Dao into ``StoreController``
+--------------------------------------------------
+
+After we've added our new ``dao.mongodb.ReviewDao`` we will need to start using
+it.
+
+The ``reviews`` table is access by the ``StoreController``. The corresponding
+MongoDB collection, will also be accessed from the same class.
+
+- ``StoreController`` constructor should receive a MongoDB database object
+- Use the new ``dao.mongodb.ReviewDao`` to find reviews in MongoDB
+- After collecting all reviews, insert those reviews into MongoDB.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Several different actions will need to be accomplished here:
+
+    - Change ``StoreController`` class to accept a ``MongoDatabase`` object
+
+    .. code-block:: java
+
+      public StoreController(Configuration cfg, Connection connection, MongoDatabase mongoMartDatabase) {
+        ReviewDao reviewDao = new ReviewDao(connection);
+        mongomart.dao.mongodb.ReviewDao revDao = new mongomart.dao.mongodb.ReviewDao(mongoMartDatabase);
+        ...
+      }
+
+    - For any call on ``dao.rbms.ReviewDao`` also call ``dao.mongodb.ReviewDao``
+
+    .. code-block:: java
+
+      private HashMap<String, Object> buildItemResponse(){...}
+
+      get("/add-review", (request, response) -> { ... });
+
+    - After collecting all item reviews, insert reviews into MognoDB collection
+
+    .. code-block:: java
+
+      private HashMap<String, Object> buildItemResponse(int itemid, ItemDao itemDao, ReviewDao reviewDao, mongomart.dao.mongodb.ReviewDao mongoRevDao) {
+        List<Item> related_items = itemDao.getItems("0");
+
+
+        Item item = itemDao.getItem(itemid);
+
+        // Get reviews from MongoDB
+        List<Review> reviews = mongoRevDao.getItemReviews(itemid);
+        // Get reviews from rdbms
+        for( Review rev : reviewDao.getItemReviews(itemid)){
+          // Remove duplicates
+          if (!reviews.contains(rev) ){
+            reviews.add(rev);
+            mongoRevDao.addReview( rev );
+          }
+        }
+
+        item.setReviews(reviews);
+
+        // Set num reviews for item
+        int num_reviews = reviewDao.numReviews(itemid) + mongoRevDao.numReviews(itemid);
+        item.setNum_reviews(num_reviews);
+
+        HashMap<String, Object> attributes = new HashMap<>();
+        attributes.put("item", item);
+        attributes.put("itemid", itemid);
+        attributes.put("related_items", related_items.subList(0, 4));
+        return attributes;
+      }
+
+
+Add Reviews to Items
+--------------------
+
+At this point you should have a fully functional **MongoMart** that stores all
+new reviews on ``Item`` into MongoDB.
+
+If that's not the case, don't worry, you can use the emergency eject script:
+
+.. code-block:: sh
+
+  ./solvethis.sh lab1
+
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    After giving the students a chance to try on their own, navigate over the
+    exercise solution code.
+
+    - ``mongomart/rdbms/solutions/lab1``

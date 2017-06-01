@@ -1,0 +1,202 @@
+====================
+Migration Strategies
+====================
+
+
+Learning Objectives
+-------------------
+
+In this module we will be covering the following topics:
+
+- Different strategies to deal with database migration
+- Different development implications of such strategies
+- Pros and cons of different strategies and approaches
+
+To extend your understanding about this topic, we recommend you to read our
+`Migration Guide White Paper`_ that explores this topic in detail.
+
+.. include:: /includes/student-notes.rst
+
+
+Migration Strategies
+--------------------
+
+When migrating between databases, there are two typical strategies that we can
+follow:
+
+- Full one stop shop migration
+- Step-by-step hybrid migration
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    There might be different variations of these approaches, but in essence
+    these are the typical approaches teams may opt to while doing a migration.
+
+    - **Full one stop shop migration** means that there's one event where data
+      is migrated to another system. This might be phased but it assumes that
+      all data will eventually by migrated.
+
+    - **Step-by-step hybrid migration** means that the two database systems
+      co-exist and provide service to the application for a period of time,
+      while the transition takes place.
+
+Database Migration Phases
+-------------------------
+
+But regardless of the strategy/approach taken, there are a few steps or phases
+that we need to attend:
+
+- Schema Design: Plan how our schema is going to look like in the new system
+- App Integration: What different libraries and CRUD operations will need to be modified.
+- Data Migration: The actual migration of our data between databases
+- Operations: All the backup/monitoring/management procedures will require a review.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Highlight that these phases can occur in parallel by different teams.
+
+Schema Design
+-------------
+
+The way that data is organized in a RDBMS system is considerably different from
+the one used by MongoDB.
+
+Having that in mind, we need to understand how to restructure our data structures
+to make the most out of the new system that we are migrating to.
+
+.. include:: /includes/student-notes.rst
+
+App Integration
+---------------
+
+New database means new libraries and new instructions to operate with:
+
+  - Review the list of components and classes that will be affected
+  - If you have clear architecture in place this tends to be easier
+  - New tests to be re-written (unit, integration, regression)
+  - Data types will have to considered
+
+    - How data is stored in one database might not have a direct translation
+      with the previous system and needs to be handled in the application
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Raise awareness to:
+
+    - This happens with any database migration, not particular of MongoDB
+    - Intensive testing will need to carried away to ensure the viability of the application
+    - Sometimes customers do this to clean and force a code refactoring of their products
+
+      - added benefit of any infrastructure change
+      - code ends up being reviewed and refactored
+
+
+Operations
+----------
+
+With new infrastructure like a database, the operations teams needs to bring
+into place new monitoring an management tools:
+
+  - New monitoring tools
+  - New alerting and stats diagrams
+  - Backup procedures will be different
+  - Management and operational procedures will need to be updated
+  - New APM tooling might be required
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Briefly introduce Ops/Cloud Manager
+
+    - https://cloud.mongodb.com/v2/57640e5ae4b07cb327ad53aa#metrics/host/a2d96b6d5f2fee00644f49fab7d19bc0/status
+
+    Use this link with extreme care. Don't expose any sensitive information.
+
+
+
+Full one stop shop migration
+----------------------------
+
+In a one stop shop migration, data is moved all at once:
+
+- We export a set of data that we want to see migrated
+
+.. include:: /images/database-migration.rst
+
+.. include:: /includes/student-notes.rst
+
+
+Full one stop shop migration (cont')
+------------------------------------
+
+Generally we use ETL tooling to support this type of migration strategy:
+
+- Different databases will export data into different formats
+- To handle database type impedance and schema issues we need to perform some
+  transformation
+- Loading data to the end destination will required a well defined process.
+
+.. include:: /images/database-migration-etl.rst
+
+.. only:: instructor
+
+  .. note::
+
+    In this scenario we can highlight that:
+
+    - This tends to be a process that requires lots of preparation and
+      pre-testing
+    - May cause service interruption while the migration is taking place
+
+Step-by-step hybrid migration
+-----------------------------
+
+In a hybrid solution we will have the application itself driving the migration
+process.
+
+.. rst-class:: longlist
+
+  - The application will be talking to both backends (RDBMS and MongoDB)
+  - Data will flow from one system to another based on the application
+    operational workload
+  - This strategy will increase your code complexity, however moving smaller
+    portions of code at a time
+
+.. include:: /images/database-migration-hybrid.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    We should mention that:
+
+    - This strategy is driven by the application code
+    - Can make our migration process longer
+    - The components that are being migrated might suffer some extended latency
+      given that we might be accessing two different databases for the same data
+    - The process is included within the release cycle and development practices
+    - Has code get's added, eventually some other code will be required to be
+      removed since it's function will be temporary
+
+    Also mention that we will be using both strategies, for different components,
+    throughout the workshop.
+
+
+.. _`Migration Guide White Paper`: https://www.mongodb.com/collateral/rdbms-mongodb-migration-guide

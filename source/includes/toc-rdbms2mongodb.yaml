@@ -1,0 +1,40 @@
+file: /modules/rdbms2mongodb/introduction
+description: |
+  Activities to get the workshop started
+---
+file: /modules/rdbms2mongodb/system-requirements
+description: |
+  Let's review our system requirements to run the workshop
+---
+file: /modules/rdbms2mongodb/environment-setup
+description: |
+  MongoMart supported by RDBMS backend
+---
+file: /modules/rdbms2mongodb/mongomart-rdbms
+description: |
+  MongoMart supported by RDBMS backend
+---
+file: /modules/rdbms2mongodb/migration-strategies
+description: |
+  Different Database migration strategies review.
+---
+file: /modules/rdbms2mongodb/migrate-reviews
+description: |
+  Migrate Reviews data to MongoDB
+---
+file: /modules/rdbms2mongodb/migrate-items
+description: |
+  Migrate Items data to MongoDB
+---
+file: /modules/rdbms2mongodb/migrate-cart
+description: |
+  Migrate Cart data to MongoDB
+---
+file: /modules/rdbms2mongodb/migrate-stores
+description: |
+  Migrate Stores data to MongoDB
+---
+file: /modules/rdbms2mongodb/final-version
+description: |
+  MongoMart fully migrated to MongoDB
+...

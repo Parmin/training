@@ -57,7 +57,6 @@ public class ReviewDao {
 
         // Create an aggregate query for average number of stars
         // db.review.aggregate({ $group : { "_id" : "$productid", "avg_stars" : { "$avg": "$stars" } } })
-
         Document matchStage = new Document( "$match", new Document("itemid", itemid));
         Document groupStage = new Document( "$group",
                                     new Document( "_id", "$itemid")

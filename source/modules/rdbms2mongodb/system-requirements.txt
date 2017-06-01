@@ -1,0 +1,70 @@
+===================
+System Requirements
+===================
+
+Before you get started
+----------------------
+
+Before we jump into coding and making a migration plan let's review the list of
+software components required to run this workshop.
+
+In this workshop we will be using a set of software requirements apart from the
+actual code and workbooks.
+
+.. include:: /includes/student-notes.rst
+
+Mongomart Java Version
+-----------------------
+
+- `Java 8`_
+- `Apache Maven`_
+
+Code has been tested using `Java 8`_ and built using `Apache Maven`_ 3.5.0 .
+
+Other versions may function correctly but we cannot provide efficient support.
+
+.. include:: /includes/student-notes.rst
+
+Mongomart Databases
+-------------------
+
+- `MongoDB 3.4`_
+- `MySQL`_
+
+We will be using `MySQL`_ Ver 5.7.18 and `MongoDB 3.4`_.
+
+.. include:: /includes/student-notes.rst
+
+
+System Editor or IDE
+--------------------
+
+During the course of the workshop we will be requiring some code changes and
+recompilations.
+
+Make sure to have your prefered editor or java IDE.
+
+Otherwise take some time to download and install Eclipse_ or Intellij_.
+
+.. include:: /includes/student-notes.rst
+
+
+MongoDB Compass
+---------------
+
+To review and analyze the MongoDB documents schema we will be using
+`MongoDB Compass`_.
+
+Not mandatory for this workshop but highly recommended to be installed.
+
+:doc:`/modules/compass`
+
+.. include:: /includes/student-notes.rst
+
+.. _`Java 8`: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+.. _`Apache Maven`: https://maven.apache.org/install.html
+.. _`MySQL`: https://dev.mysql.com/downloads/installer/
+.. _`MongoDB 3.4`: https://docs.mongodb.com/manual/installation/
+.. _Intellij: https://www.jetbrains.com/idea/download
+.. _Eclipse: http://www.eclipse.org/downloads/eclipse-packages/?show_instructions=TRUE
+.. _`MongoDB Compass`: https://www.mongodb.com/products/compass
