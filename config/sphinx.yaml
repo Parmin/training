@@ -134,14 +134,10 @@ instructor-base:
   edition: 'instructor'
   excluded:
     - /modules/internal
-    - /scripts
 student-base:
   edition: 'student'
   excluded:
     - /modules/internal
-    - /scripts
 internal-base:
   edition: 'internal'
-  excluded:
-    - /scripts
 ...

@@ -26,10 +26,6 @@ file: /modules/document-validation
 description: |
   Document Validation
 ---
-file: /exercises/document-validation
-description: |
-  Exercise of Document Validation
----
 file: /modules/schema-visualization
 description: |
   Schema visualization with Compass
@@ -57,4 +53,8 @@ description: |
 file: /exercises/schema-design-exercise-internet-of-things
 description: |
   Exercice of designing a soltion for an Internet Of Things problem
+---
+file: /exercises/document-validation
+description: |
+  Exercise of Document Validation
 ...

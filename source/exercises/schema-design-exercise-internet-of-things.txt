@@ -1,17 +1,17 @@
-===============================================
-Lab: Data Model for an "Internet of Things" App
-===============================================
+=======================================================
+Lab: Data Model for an "Internet of Things" Application
+=======================================================
 
 Introduction (1 of 2)
 ---------------------
 
-Consier an internet-connected pill bottle.
+Consider an internet-connected pill bottle.
 
 - It will:
 
   - Weigh its contents.
   - Log the following when it is opened or closed:
-  
+
     - the time
     - the weight of its contents
     - how many pills are removed (if it's being closed)
@@ -44,13 +44,13 @@ Information Outside of the Scope of this Problem
 
 To limit scope of this lab, you should *not* model the following data:
 
-- userdata 
+- user data
 - mediation info
 - notification records.
 
 You can:
 
-- assume they exist in some other collection 
+- assume they exist in some other collection
 - reference a ``bottle_id``, ``user_id`` or anything else needed
 
 .. include:: /includes/student-notes.rst
@@ -74,18 +74,18 @@ Each pill bottle will perform the following queries:
 .. include:: /includes/student-notes.rst
 
 
-Notifcation Server Operations
------------------------------
+Notification Server Operations
+------------------------------
 
 The notification server will run queries to determine:
 
 .. rst-class:: longlist
 
   - Whether any given bottle is late in dispensing a dosage
-  
+
     - Frequency of this depends on the medication
     - Assume an *average* of 1 check per hour
-  
+
   - Whether any given bottle has not sent a heartbeat for over an hour
   - Whether any given bottle has been left open
 
@@ -109,10 +109,10 @@ Work together to create the following deliverables:
 .. rst-class:: longlist
 
   - Sizing estimates, including:
-  
+
     - Data size for each collection
     - Frequency of requests
-  
+
   - Sample documents for each collection
   - Queries (read AND write) that the applications will use
   - Index creation commands
@@ -146,17 +146,15 @@ Solution - Assumptions
 .. include:: /includes/student-notes.rst
 
 
-Solution - Sizing: Bottle Operations (1 of 2)
----------------------------------------------
+Solution - Sizing: Bottle Ops (1 of 2)
+--------------------------------------
 
 Record bottle heartbeats:
 
-.. rst-class:: longlist
-
-  - 3 bottles per user 
-  - times 10M users (30 M bottles)
-  - divide by 1800 sec per heartbeat
-  - ... so 17K heartbeats per second (inserts)
+- 3 bottles per user
+- times 10M users (30 M bottles)
+- divide by 1800 sec per heartbeat
+- ... so 17K heartbeats per second (inserts)
 
 .. include:: /includes/student-notes.rst
 
@@ -166,14 +164,12 @@ Solution - Sizing: Bottle Ops (1 of 2)
 
 Record bottles opened/closed:
 
-.. rst-class:: longlist
-
-  - 3 bottles per user 
-  - times 10M users 
-  - times 2 dosages per day 
-  - times 2 entries per dosage (open + closed)
-  - divide by 86400 seconds per day 
-  - ... so ~1400 entries per second (inserts)
+- 3 bottles per user
+- times 10M users
+- times 2 dosages per day
+- times 2 entries per dosage (open + closed)
+- divide by 86400 seconds per day
+- ... so ~1400 entries per second (inserts)
 
 .. include:: /includes/student-notes.rst
 
@@ -183,12 +179,10 @@ Solution - Sizing: Notification Server Ops (1 of 3)
 
 Query for last heartbeat every hour:
 
-.. rst-class:: longlist
-
-  - 3 bottles per user 
-  - times 10M users 
-  - divided by 3600 seconds per hour
-  - ... so 8K checks per second for most recent heartbeat
+- 3 bottles per user
+- times 10M users
+- divided by 3600 seconds per hour
+- ... so 8K checks per second for most recent heartbeat
 
 .. include:: /includes/student-notes.rst
 
@@ -198,14 +192,12 @@ Solution - Sizing: Notification Server Ops (2 of 3)
 
 Query for Missing Dosages every Hour (check the last 3 dosages)
 
-.. rst-class:: longlist
+- 3 bottles per user
+- times 10M users
+- divided by an average of 3600 seconds between checks
+- ... so about 8k checks per second
 
-  - 3 bottles per user 
-  - times 10M users 
-  - divided by an average of 3600 seconds between checks 
-  - ... so about 8k checks per second 
-
-    - Some more often, some less
+  - Some more often, some less
 
 .. include:: /includes/student-notes.rst
 
@@ -215,13 +207,11 @@ Solution - Sizing: Notification Server Ops (3 of 3)
 
 Query for leaving a bottle open
 
-.. rst-class:: longlist
-
-  - Assume a peak rate of 1 check every 10 minutes
-  - 3 bottles per user 
-  - times 10M users 
-  - divided by 600 seconds between checks
-  - ... so 50K checks per second at peak
+- Assume a peak rate of 1 check every 10 minutes
+- 3 bottles per user
+- times 10M users
+- divided by 600 seconds between checks
+- ... so 50K checks per second at peak
 
 .. include:: /includes/student-notes.rst
 
@@ -231,17 +221,19 @@ Solution - Sizing: Data (1 of 2)
 
 Heartbeats:
 
-.. rst-class:: longlist
+- 3 bottles per user
+- times 10M users
+- times 1000 documents per week
+- times 100 bytes per doc
+- ... so ``3TB per week`` or ``18GB per hour``
 
-  - 3 bottles per user
-  - times 10M users 
-  - times 1000 documents per week 
-  - times 100 bytes per doc
-  - ... so ``3TB per week``
+  - plus indexes
+  - we will want to shard this
+  - and possibly delete old heartbeats
 
-    - plus indexes
-    - we will want to shard this
-    - and possibly delete old heartbeats
+  .. note::
+
+    - "GB/hour" is useful to size the OpLog
 
 .. include:: /includes/student-notes.rst
 
@@ -251,22 +243,26 @@ Solution - Sizing: Data (2 of 2)
 
 Opening & Closing Bottles:
 
-.. rst-class:: longlist
-
-  - 3 bottles / user
-  - times 10M users 
-  - times 2 dosages per day 
-  - times 2 entries per dose 
-  - times 100 bytes
-  - ... so ``6GB per week``
-  - Indexes will take up additional space
+- 3 bottles / user
+- times 10M users
+- times 2 dosages per day
+- times 2 entries per dose
+- times 100 bytes
+- ... so ``6GB per week``, or ``36MB per hour``
+- Indexes will take up additional space
 
 .. note::
 
-  Document sizes are approximate, and here to give us an "order of magnitude"
-  sense of things.
+  - Document sizes are approximate, and here to give us an "order of magnitude"
+    sense of things.
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+     Note that this 6GB/week is dwarfed by the 3TB/week for the heartbeats
 
 
 Solution - Collections (1 of 2)
@@ -304,21 +300,18 @@ Collection: ``bottle_heartbeats``
 Solution - Considerations
 -------------------------
 
+- Finding open bottles is the *most* common query
 
-.. rst-class:: longlist
+  - optimize for that
 
-  - Finding open bottles is the *most* common query
+- The heartbeat inserts are also frequent
 
-    - optimize for that
+  - ... but don't benefit from an index
 
-  - The heartbeat inserts are also frequent 
+- Are there health regulations that require us to keep any data?
 
-    - ... but don't benefit from an index
-
-  - Are there health regulations that require us to keep any data?
-
-    - Assume we keep the heartbeats for 2 weeks
-    - Keep "actions" (opened/closed) for ever
+  - Assume we keep the heartbeats for 2 weeks
+  - Keep "actions" (opened/closed) for ever
 
 .. include:: /includes/student-notes.rst
 
@@ -367,9 +360,9 @@ Solution: Document (2 of 2)
   .. note::
 
     The students may point out that this is a fairly flat data structure.
-    
+
     - This happens sometimes.
-    - There is still clever optomizations to be done; see below.
+    - There is still clever optimizations to be done; see below.
 
 
 Solution: Pill Bottle Write (1 of 3)
@@ -616,7 +609,7 @@ B) ``{ bottle_id : 1, time : 1 }``
     that there will never be a "hot" server for the inserts.
 
     - The ``bottle_id`` field *is* an ObjectId, *but* once a bottle is created,
-      its heartbeats all have a fixed ``bottle_id``, so this is fine. 
+      its heartbeats all have a fixed ``bottle_id``, so this is fine.
 
 .. include:: /includes/student-notes.rst
 

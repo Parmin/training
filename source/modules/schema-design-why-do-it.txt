@@ -16,10 +16,12 @@ Upon completing this module, students will be able to:
 Why Learn Schema Design?
 ------------------------
 
-- The structure of data affects performance.
-- A good schema can mean the difference between doing many queries, or few.
-- It can make the difference between having data in RAM, or touching the disk.
-- It can mean the difference between having a data store that scales out, and one that doesn't.
+A good schema can mean the difference between:
+
+- Good, or poor performance.
+- Doing few queries, or too many.
+- Having data in RAM, or touching the disk.
+- Having a data store that scales out, and one that doesn't.
 
 .. include:: /includes/student-notes.rst
 
@@ -27,30 +29,15 @@ Why Learn Schema Design?
 What Affects the Speed of Reading Data?
 ---------------------------------------
 
-- A server is limited in its RAM
+- A server has a limited amount of RAM
 
   - Going to disk is slower
 
 - Queries take time to make a round trip
 
-  - Serial round trips are even worse
+  - Many consecutive queries (round trips) are even worse
 
-- Writing to disk takes time
 - Different schemas will produce different bottlenecks
-
-.. include:: /includes/student-notes.rst
-
-
-Goal: Minimize your Number of Queries
--------------------------------------
-
-- Queries take a finite amount of time
-
-  - Especially if you need to make round-trips
-
-- Fewer queries for all the data is a net win
-- Good schema design tries to minimize the number of queries
-- Data that gets queried together should be stored in the same document
 
 .. include:: /includes/student-notes.rst
 
@@ -58,15 +45,31 @@ Goal: Minimize your Number of Queries
 
   .. note::
 
-    - Round trip example:
-    
+    - Round trip examples:
+
       - the application queries the "books" collection and finds a document that includes an "author_id"
       - the application queries for the "authors" collection based on that "author_id" to find out more
       - Improve this by putting all the author information you need into the book
 
 
+Goal: Minimize your Number of Queries
+-------------------------------------
+
+- Queries take a finite amount of time
+
+  - Especially if you need to make round trips
+
+- Fewer queries for all the data is a net win
+- Good schema design tries to minimize the number of queries
+- Data that gets queried together should be stored in the same document
+
+.. include:: /includes/student-notes.rst
+
+
 Goal: Avoid Touching Data you Won't Use
 ---------------------------------------
+
+WiredTiger and MMAPv1 bring complete documents in RAM.
 
 - Documents in RAM will get queried faster than documents not in RAM
 - The same is true of indexes
@@ -86,7 +89,8 @@ Goal: Avoid Touching Data you Won't Use (cont'd)
 
 - Make use of covered queries
 
-  - The fastest read is the one that can be answered by the index
+  - The fastest read is the one that can be answered by only
+    looking at the index, without bringing the document in RAM
 
 .. include:: /includes/student-notes.rst
 
@@ -102,6 +106,20 @@ What to Prioritize
 - Your schema depends on your access patterns.
 - To figure out what you need, start by writing your queries. *Then* arrange
   the data so that they're answered efficiently.
+
+.. include:: /includes/student-notes.rst
+
+
+However ...
+-----------
+
+Everything we said is true if you try to optimize for Performance
+
+- limited resources on hardware
+- sharded clusters
+
+If you have resources to spare and model for simplicity, you will likely
+try to have few collections, matching the data model in your application
 
 .. include:: /includes/student-notes.rst
 
