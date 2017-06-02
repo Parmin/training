@@ -122,330 +122,295 @@ Work together to create the following deliverables:
 
 .. include:: /includes/student-notes.rst
 
+.. only:: instructor
 
-Solution
---------
+  Solution
+  --------
 
-All slides from now on should be shown only after a solution is found by the
-groups & presented.
-
-.. include:: /includes/student-notes.rst
-
-
-Solution - Assumptions
-----------------------
-
-- Assume 10M customers
-- Average of 3 bottles per customer
-- Average of 2 dosages per day
-
-  - Log bottle open and bottle closed for each
-
-- Log a heartbeat every 30 minutes
-
-.. include:: /includes/student-notes.rst
+  All slides from now on should be shown only after a solution is found by the
+  groups & presented.
 
 
-Solution - Sizing: Bottle Ops (1 of 2)
---------------------------------------
+  Solution - Assumptions
+  ----------------------
 
-Record bottle heartbeats:
+  - Assume 10M customers
+  - Average of 3 bottles per customer
+  - Average of 2 dosages per day
 
-- 3 bottles per user
-- times 10M users (30 M bottles)
-- divide by 1800 sec per heartbeat
-- ... so 17K heartbeats per second (inserts)
+    - Log bottle open and bottle closed for each
 
-.. include:: /includes/student-notes.rst
-
-
-Solution - Sizing: Bottle Ops (1 of 2)
---------------------------------------
-
-Record bottles opened/closed:
-
-- 3 bottles per user
-- times 10M users
-- times 2 dosages per day
-- times 2 entries per dosage (open + closed)
-- divide by 86400 seconds per day
-- ... so ~1400 entries per second (inserts)
-
-.. include:: /includes/student-notes.rst
+  - Log a heartbeat every 30 minutes
+  - "deactivating" a pill bottle triggers the appropriate cleaning
 
 
-Solution - Sizing: Notification Server Ops (1 of 3)
----------------------------------------------------
+  Solution - Sizing Ops: Bottle (1 of 2)
+  --------------------------------------
 
-Query for last heartbeat every hour:
+  Record bottles opened/closed:
 
-- 3 bottles per user
-- times 10M users
-- divided by 3600 seconds per hour
-- ... so 8K checks per second for most recent heartbeat
-
-.. include:: /includes/student-notes.rst
-
-
-Solution - Sizing: Notification Server Ops (2 of 3)
----------------------------------------------------
-
-Query for Missing Dosages every Hour (check the last 3 dosages)
-
-- 3 bottles per user
-- times 10M users
-- divided by an average of 3600 seconds between checks
-- ... so about 8k checks per second
-
-  - Some more often, some less
-
-.. include:: /includes/student-notes.rst
+  - 3 bottles per user
+  - times 10M users
+  - times 2 dosages per day
+  - times 2 entries per dosage (open + closed)
+  - divide by 86400 seconds per day
+  - ... so ~1400 entries per second (writes)
 
 
-Solution - Sizing: Notification Server Ops (3 of 3)
----------------------------------------------------
+  Solution - Sizing Ops: Bottle (2 of 2)
+  --------------------------------------
 
-Query for leaving a bottle open
+  Record bottle heartbeats:
 
-- Assume a peak rate of 1 check every 10 minutes
-- 3 bottles per user
-- times 10M users
-- divided by 600 seconds between checks
-- ... so 50K checks per second at peak
+  - 3 bottles per user
+  - times 10M users (30 M bottles)
+  - divide by 1800 sec per heartbeat
+  - ... so 17K heartbeats per second (writes)
 
-.. include:: /includes/student-notes.rst
+  This is a lot more than recording the bottle state changes
 
 
-Solution - Sizing: Data (1 of 2)
---------------------------------
+  Solution - Sizing Ops: Notification Server (1 of 3)
+  ---------------------------------------------------
 
-Heartbeats:
+  Query for last heartbeat every hour:
 
-- 3 bottles per user
-- times 10M users
-- times 1000 documents per week
-- times 100 bytes per doc
-- ... so ``3TB per week`` or ``18GB per hour``
+  - 3 bottles per user
+  - times 10M users
+  - divided by 3600 seconds per hour
+  - ... so 8K checks per second for most recent heartbeat
 
-  - plus indexes
-  - we will want to shard this
-  - and possibly delete old heartbeats
+
+  Solution - Sizing Ops: Notification Server (2 of 3)
+  ---------------------------------------------------
+
+  Query for Missing Dosages every Hour (check the last 3 dosages)
+
+  - 3 bottles per user
+  - times 10M users
+  - divided by an average of 3600 seconds between checks
+  - ... so about 8k checks per second
+
+
+  Solution - Sizing Ops: Notification Server (3 of 3)
+  ---------------------------------------------------
+
+  Query for leaving a bottle open
+
+  - Assume a peak rate of 1 check every 10 minutes
+  - 3 bottles per user
+  - times 10M users
+  - divided by 600 seconds between checks
+  - ... so 50K checks per second at peak
+
+
+  Solution - Sizing Data: Events
+  ------------------------------
+
+  Opening & Closing Bottles:
+
+  - 3 bottles / user
+  - times 10M users
+  - times 2 dosages per day
+  - times 2 entries per dose
+  - times 100 bytes
+  - ... so ``6GB per week``, or ``36MB per hour``
+  - Indexes will take up additional space
+
+  .. note::
+
+    - Document sizes are approximate, and here to give us an "order of magnitude"
+      sense of things.
+
+
+  Solution - Sizing Data: Heartbeats
+  ----------------------------------
+
+  Heartbeats:
+
+  - 3 bottles per user
+  - times 10M users
+  - times 100 bytes per heartbeat (may be less...)
+  - 48 heartbeats per day
+  - ... so ``144GB per day`` or ``6GB per hour``
+
+    - plus indexes
+    - we will want to shard this if we keep more than 1 day, or have more customers
 
   .. note::
 
     - "GB/hour" is useful to size the OpLog
 
-.. include:: /includes/student-notes.rst
 
+  Solution - Collections (1 of 2)
+  -------------------------------
 
-Solution - Sizing: Data (2 of 2)
---------------------------------
+  Collection: ``bottle_actions``
 
-Opening & Closing Bottles:
-
-- 3 bottles / user
-- times 10M users
-- times 2 dosages per day
-- times 2 entries per dose
-- times 100 bytes
-- ... so ``6GB per week``, or ``36MB per hour``
-- Indexes will take up additional space
-
-.. note::
-
-  - Document sizes are approximate, and here to give us an "order of magnitude"
-    sense of things.
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-     Note that this 6GB/week is dwarfed by the 3TB/week for the heartbeats
-
-
-Solution - Collections (1 of 2)
--------------------------------
-
-Collection: ``bottle_actions``
-
-- Bottle it's associated with
-- Medication in the bottle
-- User who owns the bottle
-- Mass of contents
-- Estimated number of pills
-- Timestamp of measurement
-- Action: ``"opened"``, or ``"closed"``
-
-  - If ``"closed"``, also store the number of pills taken while the bottle was
-    open
-
-.. include:: /includes/student-notes.rst
-
-
-Solution - Collections (2 of 2)
--------------------------------
-
-Collection: ``bottle_heartbeats``
-
-  - Bottle sending in the heartbeat
+  - Bottle it's associated with
   - Medication in the bottle
   - User who owns the bottle
-  - timestamp
+  - Mass of contents
+  - Estimated number of pills
+  - Timestamp of measurement
+  - Action: ``"opened"``, or ``"closed"``
 
-.. include:: /includes/student-notes.rst
-
-
-Solution - Considerations
--------------------------
-
-- Finding open bottles is the *most* common query
-
-  - optimize for that
-
-- The heartbeat inserts are also frequent
-
-  - ... but don't benefit from an index
-
-- Are there health regulations that require us to keep any data?
-
-  - Assume we keep the heartbeats for 2 weeks
-  - Keep "actions" (opened/closed) for ever
-
-.. include:: /includes/student-notes.rst
+    - If ``"closed"``, also store the number of pills taken while the bottle was
+      open
 
 
-Solution: Document (1 of 2)
----------------------------
+  Solution - Collections (2 of 2)
+  -------------------------------
 
-``bottle_action`` collection
+  Collection: ``bottle_heartbeats``
 
-.. code-block:: javascript
-
-  {
-    _id : ObjectId(...),
-    bottle_id : ObjectId(...),  // Which bottle it refers to
-    user_id : "willcross1024",
-    medication : "Cordrazine",
-    mass_of_contents : 44.25,
-    number_of_pills : 25,
-    time : ISODate(...),
-    action : "closed",  // other possible value: "opened"
-    pills_taken : 2  // if action is "closed"
-  }
-
-.. include:: /includes/student-notes.rst
+    - Bottle sending in the heartbeat
+    - last timestamp
+    - 48 last timestamps (24 hours)
 
 
-Solution: Document (2 of 2)
----------------------------
+  Solution - Considerations
+  -------------------------
 
-``bottle_heartbeats`` collection
+  - Finding open bottles is the *most* common query
 
-.. code-block:: javascript
+    - optimize for that
 
-  {
-    _id : ObjectId(...),
-    bottle_id : ObjectId(...),
-    user_id : "willcross1024",
-    medication : "Cordrazine",
-    time : ISODate(...)
-  }
+  - The heartbeat inserts are also frequent
 
-.. include:: /includes/student-notes.rst
+    - ... but don't benefit from an index
 
-.. only:: instructor
+  - Are there health regulations that require us to keep any data?
 
-  .. note::
-
-    The students may point out that this is a fairly flat data structure.
-
-    - This happens sometimes.
-    - There is still clever optimizations to be done; see below.
+    - We may need to keep the heartbeats for 2 weeks or more
+    - Should we keep "actions" (opened/closed) for ever
+    - Should we keep "notifications" for ever
 
 
-Solution: Pill Bottle Write (1 of 3)
-------------------------------------
+  Solution: Document (1 of 2)
+  ---------------------------
 
-pill bottle opened
+  ``bottle_action`` collection
 
-.. code-block:: javascript
+  .. code-block:: javascript
 
-  db.bottle_actions.insertOne(
-  {
-    bottle_id : ObjectId(...),
-    user_id : "williamcross1024",
-    medication : "Cordrazine",
-    mass_of_contents : 44.25,
-    number_of_pills : 25,
-    time : ISODate(...),
-    action : "opened"
-  }
-
-.. include:: /includes/student-notes.rst
-
-
-Solution: Pill Bottle Write (2 of 3)
-------------------------------------
-
-pill bottle closed
-
-.. code-block:: javascript
-
-  db.bottle_actions.insertOne(
-  {
-    bottle_id : ObjectId(...),
-    user_id : "willcross",
-    medication : "Cordrazine",
-    mass_of_contents : 40.48,
-    number_of_pills : 23,
-    time : ISODate(),
-    action : "closed",
-    pills_taken : 2
-  } )
-
-.. include:: /includes/student-notes.rst
+    {
+      _id : ObjectId(...),
+      bottle_id : ObjectId(...),  // Which bottle it refers to
+      user_id : "willcross1024",
+      medication : "Cordrazine",
+      mass_of_contents : 44.25,
+      number_of_pills : 25,
+      time : ISODate(...),
+      action : "closed",  // other possible value: "opened"
+      pills_taken : 2  // if action is "closed"
+    }
 
 
-Solution: Pill Bottle Write (3 of 3)
-------------------------------------
+  Solution: Document (2 of 2)
+  ---------------------------
 
-log the heartbeat
+  ``bottle_heartbeats`` collection
 
-.. code-block:: javascript
+  .. code-block:: javascript
 
-  db.bottle_heartbeats.insertOne(
-  {
-    bottle_id : ObjectId(...),
-    user_id : "williamcross1024",
-    medication : "Cordrazine",
-    time : ISODate(...)
-  }
+    {
+      _id : ObjectId(...),
+      bottle_id : ObjectId(...),
+      user_id : "williamcross1024",
+      medication : "Cordrazine",
+      last : ISODate(...)
+      previous: [ ISODate(...) ]
+    }
 
-.. include:: /includes/student-notes.rst
+  48 previous heartbeats, 2 per hour, for a day
+
+  Keeping a copy of ``last heartbeat`` makes it easier on the queries
+
+  8 bytes per timestamp
+
+  ``user_id`` and ``medication`` are nice to have, but not required
 
 
-Solution: Query (1 of 3)
-------------------------
+  Solution: Pill Bottle Write (1 of 3)
+  ------------------------------------
 
-Check last 3 dosages for a skipped one
+  pill bottle opened
 
-.. code-block:: javascript
+  .. code-block:: javascript
 
-  db.bottle_actions.find(
+    db.bottle_actions.insertOne(
     {
       bottle_id : ObjectId(...),
+      user_id : "williamcross1024",
+      medication : "Cordrazine",
+      mass_of_contents : 44.25,
+      number_of_pills : 25,
+      time : ISODate(...),
+      action : "opened"
+    }
+
+
+  Solution: Pill Bottle Write (2 of 3)
+  ------------------------------------
+
+  pill bottle closed
+
+  .. code-block:: javascript
+
+    db.bottle_actions.insertOne(
+    {
+      bottle_id : ObjectId(...),
+      user_id : "willcross",
+      medication : "Cordrazine",
+      mass_of_contents : 40.48,
+      number_of_pills : 23,
+      time : ISODate(),
       action : "closed",
-      pills_taken : { $gt : 0 },
-      time : { $gte : <two days ago> }
+      pills_taken : 2
+    } )
+
+
+  Solution: Pill Bottle Write (3 of 3)
+  ------------------------------------
+
+  log the heartbeat
+
+  .. code-block:: javascript
+
+    db.bottle_heartbeats.updateOne(
+    {
+      bottle_id : ObjectId(...)
     },
-    { _id : 0, time : 1, pills_taken : 1, user_id : 1, medication : 1 }
-  )
+    {
+      $set: {
+        last : <current_time>
+      },
+      $push: {
+        previous : {
+          $each: [ <current_time> ],
+          $slice: -48
+        }
+      }
+    }
 
-.. include:: /includes/student-notes.rst
 
-.. only:: instructor
+  Solution: Query (1 of 4)
+  ------------------------
+
+  Check last 3 dosages for a skipped one
+
+  .. code-block:: javascript
+
+    db.bottle_actions.find(
+      {
+        bottle_id : ObjectId(...),
+        action : "closed",
+        pills_taken : { $gt : 0 },
+        time : { $gte : <two days ago> }
+      },
+      { _id : 0, time : 1, pills_taken : 1, user_id : 1, medication : 1 }
+    )
 
   .. note::
 
@@ -454,67 +419,74 @@ Check last 3 dosages for a skipped one
       it was open
 
 
-Solution: Query (2 of 3)
-------------------------
+  Solution: Query (2 of 4)
+  ------------------------
 
-Determine if the bottle was left open
+  Determine if the bottle was left open
 
-.. code-block:: javascript
+  .. code-block:: javascript
 
-  db.bottle_actions.find(
-    {
-        bottle_id : ObjectId(...)
-    },
-    { _id : 0, time : 1, action : 1, user_id : 1, medication : 1 }
-  ).sort( { time : -1 } ).limit(1)
+    db.bottle_actions.find(
+      {
+          bottle_id : ObjectId(...)
+      },
+      { _id : 0, time : 1, action : 1, user_id : 1, medication : 1 }
+    ).sort( { time : -1 } ).limit(1)
 
-If the last action was ``"opened"`` and the time was >5 minutes ago, it's most
-likely been left open.
-
-.. include:: /includes/student-notes.rst
+  If the last action was ``"opened"`` and the time was >5 minutes ago, it's most
+  likely been left open.
 
 
-Solution: Query (3 of 3)
-------------------------
+  Solution: Query (3 of 4)
+  ------------------------
 
-Check last heartbeat to see if it has been >60 minutes
+  Check a specific bottle for a last heartbeat >60 minutes
 
-.. code-block:: javascript
+  .. code-block:: javascript
 
-  db.bottle_heartbeats.find(
-    {
-        bottle_id : ObjectId(...),
-        time : { $gte : ISODate( <1 hour ago> ) }
-    },
-    { _id : 0, time : 1, user_id : 1, medication : 1 }
-  ).sort( { time : -1 } ).limit(1).count()
+    db.bottle_heartbeats.find(
+      {
+          bottle_id : ObjectId(...),
+          last : { $gte : ISODate( <1 hour ago> ) }
+      }
+    ).count()
 
-If it's 0, then the bottle is disconnected from wi-fi
-
-.. include:: /includes/student-notes.rst
+  If it's 0, then the bottle is disconnected from wi-fi
 
 
-Solution: Indexes (1 of 2)
---------------------------
+  Solution: Query (4 of 4)
+  ------------------------
 
-.. code-block:: javascript
+  Check all bottles for a last heartbeat >60 minutes
 
-  db.bottle_actions.createIndex(
-    {
-        bottle_id : 1, action : 1, time : 1,
-        pills_taken : 1, user_id : 1, medication : 1
-    },
-    { name : "find_missed_dosages" }
-  )  // optimizes Query 1, AND allows for covered queries
+  .. code-block:: javascript
 
-  db.bottle_actions.createIndex(
-    { bottle_id : 1, time : 1, action : 1, user_id : 1, medication : 1 },
-    { name : "find_open_bottles" }
-  )  // optimizes Query 2 for filtering/sorting, *and* allows for covered queries
+    db.bottle_heartbeats.find(
+      {
+          last : { $lte : ISODate( <1 hour ago> ) }
+      }
+    )
 
-.. include:: /includes/student-notes.rst
 
-.. only:: instructor
+  Solution: Indexes (1 of 2)
+  --------------------------
+
+  .. code-block:: javascript
+
+    db.bottle_actions.createIndex(
+      {
+          bottle_id : 1, action : 1, time : 1,
+          pills_taken : 1, user_id : 1, medication : 1
+      },
+      { name : "find_missed_dosages" }
+    )  // optimizes Query 1, AND allows for covered queries
+
+    db.bottle_actions.createIndex(
+      { bottle_id : 1, time : 1, action : 1, user_id : 1, medication : 1 },
+      { name : "find_open_bottles" }
+    )  // optimizes Query 2 for filtering/sorting, *and* allows for covered queries
+
+  .. include:: /includes/student-notes.rst
 
   .. note::
 
@@ -538,88 +510,63 @@ Solution: Indexes (1 of 2)
         those fields are included to make it a covered query.
 
 
-Solution: Indexes (2 of 2)
---------------------------
+  Solution: Indexes (2 of 2)
+  --------------------------
 
-.. code-block:: javascript
+  .. code-block:: javascript
 
-  db.bottle_heartbeats.createIndex(
-    { bottle_id : 1, time : 1, user_id : 1, medication : 1 },
-    { name : "find_last_heartbeat" }
-  )  // optimizes Query 3 for filtering/sort, *and* allows for covered queries
+    db.bottle_heartbeats.createIndex(
+      { bottle_id : 1, last : 1 },
+      { name : "find_bottle_heartbeat" }
+    )  // Finding heartbeats for a given bottle
 
-  db.bottle_heartbeats.createIndex(
-    { time : 1 }, { expireAfterSeconds : 1209600 },
-    { name : "TTL" }
-  ) // TTL Index: Delete the heartbeats after 2 weeks
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
+    db.bottle_heartbeats.createIndex(
+      { last : 1 },
+      { name : "find_last_heartbeat" }
+    ) // Finding all heartbeats per last ones
 
   .. note::
 
-    - ``find_last_heartbeat``
+    - ``find_bottle_heartbeat``
 
       - Exact match on ``bottle_id``, so that comes first
       - Sort by ``time`` (along with a range), so that comes next
-      - Add ``user_id`` and  ``medication`` to make it a covered query.
-
-    - ``name : "TTL"``
-
-      - Not used in any queries
-      - TTL index: the database deletes the heartbeat documents after 1 week
 
 
-Sharding
---------
+  Sharding
+  --------
 
-From a data storage point of view:
+  From a data storage point of view:
 
-- Sharding needed to keep heartbeats over a long period of time (30 TB / week)
-- The open & close log entries are just a few terabytes per year; no real need to shard.
+  - Sharding needed to keep heartbeats over a long period of time (144GB / day for 10M users)
+  - The open & close log entries are just a few terabytes per year; no real need to shard.
 
-From an operation point of view:
+  From an operation point of view:
 
-- 500K writes per second is a lot for a simple replica set. Either shard, or
-  reduce the number of writes
+  - 17K writes per second is a lot for a simple replica set. Either shard, or
+    reduce the number of writes
 
-  - We'll shard the ``bottle_heartbeats`` collection.
-
-.. include:: /includes/student-notes.rst
+    - We'll shard the ``bottle_heartbeats`` collection.
 
 
-Good shard key for "bottle_heartbeats" collection
--------------------------------------------------
+  Good shard key for "bottle_heartbeats" collection
+  -------------------------------------------------
 
-Good options:
+  Good option:
 
-A) ``{ user_id : 1, time : 1 }``
+  A) ``{ bottle_id : 1, time : 1 }``
 
-B) ``{ bottle_id : 1, time : 1 }``
+  - We want a shard key that distributes our writes.
+  - Targeting the reads too would be good, but most frequent
+    queries are scatter gather anyway, building reports or
+    finding issues.
 
-- We can see that the index named ``find_last_heartbeat`` has a prefix that
-  matches ``B.``, so that will be our shard key.
+  - The ``bottle_id`` field *is* an ObjectId, *but* once a bottle is created,
+    its heartbeats all have a fixed ``bottle_id``, so this is fine.
 
-.. note::
+  "Hot" servers happen in cases where a shard key has values that are
+  monotonically increasing with time. In these cases, one chunk will include
+  the range from ``<some point in the past>`` to ``MaxKey``, and all inserts
+  will go to that server.
 
-  - Including the ``time`` field ensures good cardinality, even if we have a
-    *lot* of documents for each bottle (or each user).
-  - Putting the time field after a non-monotonically increasing field ensures
-    that there will never be a "hot" server for the inserts.
-
-    - The ``bottle_id`` field *is* an ObjectId, *but* once a bottle is created,
-      its heartbeats all have a fixed ``bottle_id``, so this is fine.
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-  .. note::
-
-    "Hot" servers happen in cases where a shard key has values that are
-    monotonically increasing with time. In these cases, one chunk will include
-    the range from ``<some point in the past>`` to ``MaxKey``, and all inserts
-    will go to that server.
-
-    Reference: https://docs.mongodb.com/manual/core/sharding-shard-key/#monotonically-changing-shard-keys
+  Reference: https://docs.mongodb.com/manual/core/sharding-shard-key/#monotonically-changing-shard-keys
