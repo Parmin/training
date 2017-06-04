@@ -28,6 +28,19 @@ public class CartDao {
 		cartCollection = mongoMartDatabase.getCollection("cart").withWriteConcern(WriteConcern.MAJORITY);
 	}
 
+
+	/**
+	 * Create initial cart
+	 *
+	 * @param userid
+	 */
+	public void initCart(String userId){
+		Document cartDoc = new Document("userid", userId);
+		cartDoc.append("_id", 1);
+		cartDoc.append("items", new ArrayList());
+		cartCollection.insertOne(cartDoc);
+	}
+
 	/**
 	 * Get a cart by userid
 	 *
@@ -37,6 +50,7 @@ public class CartDao {
 	public Cart getCart(String userid) {
 		return docToCart(cartCollection.find(eq("userid", userid)).first());
 	}
+
 
 	/**
 	 * Add an item to a cart
@@ -62,7 +76,7 @@ public class CartDao {
 					.append("quantity", item.getQuantity())
 					.append("img_url", item.getImg_url())));
 
-			cartCollection.updateOne(eq("userid", userid), push, new UpdateOptions().upsert(true));
+			cartCollection.updateOne(and(eq("userid", userid), eq("_id", 1)), push, new UpdateOptions().upsert(true));
 		}
 
 	}

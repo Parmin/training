@@ -1,0 +1,7 @@
+# RDBMS dataset CSV dump
+# Import this to your local `mongod` server using mongoimport
+
+mongoimport -d mongomart --type CSV --headerline -c geo_sql < geo_sql.csv
+mongoimport -d mongomart --type CSV --headerline -c address_sql < address_sql.csv
+mongoimport -d mongomart --type CSV --headerline -c store_sql < store_sql.csv
+mongoimport -d mongomart --type CSV --headerline -c zip_sql < dataset/csv/zip_sql.csv

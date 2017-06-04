@@ -18,7 +18,6 @@ Afternoon
 ---------
 
 - :doc:`/modules/rdbms2mongodb/migrate-items`
-- :doc:`/modules/rdbms2mongodb/migrate-cart`
 - Afternoon Break
-- :doc:`/modules/rdbms2mongodb/migrate-stores`
-- :doc:`/modules/rdbms2mongodb/final-version`
+- :doc:`/modules/rdbms2mongodb/migrate-full`
+- :doc:`/modules/rdbms2mongodb/migration-cleanup`

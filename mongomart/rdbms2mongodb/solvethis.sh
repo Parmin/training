@@ -44,7 +44,7 @@ function copy_files() {
 		die "Not possible to apply '$1' into folder '$2' since '$1' does not exist"
 	fi
 
-  cp -r $1/* $2/. 2>/dev/null
+  cp -r $1/* $2 2>/dev/null
 }
 
 function apply_solution(){
@@ -71,6 +71,7 @@ function apply_solution(){
 
 function revert(){
   if [ -d $backup_folder ]; then
+		rm -rf $ws/*
     copy_files $backup_folder $ws
   else
     die "Nothing to backup from! $backup_folder is empty"

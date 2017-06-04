@@ -1,0 +1,244 @@
+====================
+Lab3: Full Migration
+====================
+
+
+.. only:: instructor
+
+  .. note::
+
+    In this lab, we will import & transform our data.
+
+    - Students will first apply the code solution for **lab3**.
+    - Next, they will import the ``dataset/csv`` folder containing a RDBMS data
+      dump.
+
+      - Point them to the ``README`` file with import instructions.
+
+    Once the data is loaded, they will transform it using the aggregation
+    framework and views as follows:
+
+    - First, create the views.
+    - Next, use the ``$out`` aggregation stage to persist the data in that view.
+
+
+Learning Objectives
+-------------------
+
+In this lab, we will use MongoDB tools for the data migration. We will *not* use
+the standard ETL process.
+
+Do the following:
+
+- Import an RDBMS data dump into MongoDB using ``mongoimport``
+- Transform that data using **aggregation** and **views**
+- Use the ``$out`` stage of the aggregation framework to *materialize* the
+  schema design
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Make sure to clarify that the term `materialize` is unrelated to
+    *materialized views*.
+
+    - Instead, it means that after we create a view that reflects our schema,
+      we can store that data using the ``$out`` command.
+
+
+Step 1: Apply the Solution to **lab3**
+--------------------------------------
+
+Apply the solution to **lab3** to be sure we're all on the same page:
+
+.. code-block:: sh
+
+    ./solvethis.sh lab3
+
+We will give you the commands for importing the data, and you will focus on the
+data migration using data loading tools.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Students still have to compile their application after applying the code
+    solution.
+
+
+Step 2: Import RDBMS CSV Files
+------------------------------
+
+Go to the ``dataset/csv`` folder containing RDBMS data export files.
+
+- Use ``mongoimport`` to import the data contained in these files.
+
+.. code-block:: sh
+
+    mongoimport -d mongomart --type CSV --headerline -c geo_sql < dataset/csv/geo_sql.csv
+    mongoimport -d mongomart --type CSV --headerline -c address_sql < dataset/csv/address_sql.csv
+    mongoimport -d mongomart --type CSV --headerline -c store_sql < dataset/csv/store_sql.csv
+    mongoimport -d mongomart --type CSV --headerline -c zip_sql < dataset/csv/zip_sql.csv
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Ask the question:
+
+    - Is exporting/importing ``CSV`` the best way to migrate data between
+      databases?
+
+    The idea is to bring the students' attention to the fact that this
+    operation is only possible here because the data in this table is in easy
+    transferable data types, i.e., integers and strings.  If higher precision
+    data types were present, such as dates, binary data and others, the
+    migration would not be possible with ``mongoimport`` and would require for
+    ETL tools.
+
+    With this operation, data will be placed in MongoDB in a very denormalized
+    format, i.e., one MongoDB collection per table in MySQL.
+
+    We will transform this data into something more "application friendly,"
+    with hierarchy and nesting manifest in the data, which you can do with
+    MongoDB but not with relational databases.
+
+
+Step 3: Transform the Schema using ``Views``
+--------------------------------------------
+
+The relational schema we're importing is very normalized, and isn't a good
+schema design for ``mongodb.StoreDao``, as it doesn't take advantage of what
+MongoDB does well.
+
+Do the following:
+
+- Create a `view <../views.html>`_ that transforms the ``store`` collection
+  into the schema expected by ``mongodb.StoreDao``: (see next slide)
+
+.. include:: /includes/student-notes.rst
+
+
+Transform the Schema using ``Views`` (continued)
+------------------------------------------------
+
+.. code-block:: js
+
+    {
+      "_id": <ObjectID>,
+      "address": {
+        "address1": <string>,
+        "address2": <string>,
+        "city": <string>,
+        "zip": <string>,
+        "country": <string>,
+        "state": <string>,
+      }
+      "coords": [lon, lat]],
+      "name": <string>,
+      "storeId": <string>,
+
+    }
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    This is the primary challenge of this lab. We want students to use the
+    aggregation framework to execute the required transformation using only
+    MongoDB.
+
+    Do mention to students:
+
+    - This is a sub-optimal strategy that works *here* because we set it up to
+      work in this lab. In a real-world scenario, data would need to be
+      imported directly into the expected format.
+    - That said, this **is** a nice tool to have in their tool kit, **if** they
+      need to perform a data transformation on already-imported data.
+
+    The students may come up with their own pipeline, but it should be
+    functionally identical to (and probably similar to) the following:
+
+    .. code-block:: js
+
+      var view_pipeline = [
+        {"$lookup": { "from": "address_sql", "foreignField": "id", "localField": "address_id", "as": "addresses"  }} ,
+        {"$lookup": {"from": "geo_sql", "foreignField": "geo_id", "localField": "geo_id", "as": "coords" }},
+        {"$project": {"coords": {"$arrayElemAt": ["$coords", 0]}, "address": {"$arrayElemAt": ["$addresses", 0]}, "name": 1}},
+        {"$project":  {"address.id":0, "address._id": 0, "coords.geo_id": 0, "coords._id": 0} },
+        {"$project":  {"coords":["$coords.lon", "$coords.lat"], "name": 1, "address": 1} },
+      ];
+      db.createView("store", "store_sql", view_pipeline)
+
+
+
+Step 4: Persist the ``view`` using ``$out``
+-------------------------------------------
+
+Views are a good option to store an aggregation pipeline so that a
+transformation of the original data can be treated as a queryable object.
+
+They can be great tool for figuring out which data model to use.
+
+But views do not allow us to **change** the content of the data directly.
+We want to *transform* our data from the normalized collections, and
+maintain our transformation separately.
+
+- "Materialize" the view into a collection by using aggregation pipeline's
+  `$out stage`_.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - Persisting this data into is own collection makes more sense than to use
+      a view, since it will simplify our schema.
+    - The advantages of doing it this way are fewer collections to maintain, and
+      more efficiency in handling the data.
+
+      - Using a view with several ``$lookup`` stages would use system resources.
+
+    - Views should only be used as an intermediary stage, while we are figuring
+      out the schema that we want to use to support the application
+
+    To solve this step, students will have to run something like the following
+    script:
+
+    .. code-block:: js
+
+      db.store.drop()
+      var out_pipeline = [
+        {"$lookup": { "from": "address_sql", "foreignField": "id", "localField": "address_id", "as": "addresses"  }} ,
+        {"$lookup": {"from": "geo_sql", "foreignField": "geo_id", "localField": "geo_id", "as": "coords" }},
+        {"$project": {"coords": {"$arrayElemAt": ["$coords", 0]}, "address":
+        {"$arrayElemAt": ["$addresses", 0]}, "name": 1}}, {"$project":
+        {"address.id":0, "address._id": 0, "coords.geo_id": 0, "coords._id": 0}
+        }, {"$project":  {"coords":["$coords.lon", "$coords.lat"], "name": 1,
+        "address": 1} }, {"$out": "store"} ];
+
+      db.store_sql.aggregate(out_pipeline); db.getCollectionNames()
+
+    Another issue with using views to simulate a collection is that our
+    ``$geoNear`` stage would not work. ``$geoNear`` must be the first stage of
+    an aggregation pipeline, so persisting the view with ``$out`` is mandatory
+    here.
+
+    - When the view is done, have the students create the corresponding
+      ``2dSphere`` indexes.
+
+    .. code-block:: js
+
+      db.store.createIndex( { "coords" : "2dsphere" } )
+
+
+.. _`$out stage`: https://docs.mongodb.com/manual/reference/operator/aggregation/out/

@@ -1,0 +1,260 @@
+=============================
+Lab4: Final Migration Cleanup
+=============================
+
+.. only:: instructor
+
+  .. note::
+
+    This is the final lab of the workshop.  After completing this lab, it will
+    be safe to turn off the RDBMS system that we started with.
+
+    We will be looking into:
+
+    - Cleaning up the code post-migration
+    - Data handling operations, like making sure we create a backup of the
+      RDBMS system.
+    - Cleaning up any intermediate collections created during the loading and
+      data modeling phases.
+
+
+Learning Objectives
+-------------------
+
+This is the *final* lab of the workshop.
+Here, we will:
+
+- Clean up our environment (code, data)
+- Create a backup of the **legacy** database
+- Safely shut down the RDBMS system that we started with.
+- Build any indexes that could improve performance on the new database.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Tell the students that:
+
+    - They should fire up their text editors / IDE's to refactor and purge some
+      code.
+    - We will review our collections and check which can go, and what indexes
+      are missing from the ones we keep.
+    - Finally, we will shut down our **legacy** database.
+
+
+Step 1: Remove All ``dao.rdbms`` Calls
+--------------------------------------
+
+Let's review our controllers and pinpoint which calls to ``dao.rdbms``
+libraries and other RDBMS-specific objects are still floating around:
+
+- ``StoreController``
+- ``LocationController``
+- ``CartController``
+- ``ItemController``
+
+Your will remove all calls to *any* legacy RDBMS data access objects.
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+
+    Given that this is the final lab, if you are running out of time, jump
+    directly to the solution.
+    Otherwise, let the students dive into the code on their own for about
+    10 mins or so.
+
+    Students should:
+
+    - Start by replacing all ``import``s that include ``dao.rdbms`` libraries with
+      ``dao.mongodb`` ones.
+
+    .. code-block:: java
+
+      //StoreController.java
+      ...
+      import mongomart.config.Utils;
+      import mongomart.dao.mongodb.ItemDao;
+      import mongomart.dao.mongodb.ReviewDao;
+      import mongomart.model.Category;
+      ...
+
+    - Expunge references to these libraries and remove the extended path call
+      for ``dao.mongodb`` objects
+
+    .. code-block:: java
+
+      //StoreController.java
+      ...
+      // ItemDao itemDao = new ItemDao(connection);
+      ItemDao mongoItemDao = new ItemDao(mongoMartDatabase);
+      // ReviewDao reviewDao = new ReviewDao(connection);
+      ReviewDao mongoReviewDao = new ReviewDao(mongoMartDatabase);
+      ...
+      // replace itemDao with mongoItemDao
+
+    - Change the ``buildItemResponse`` method signature
+
+    .. code-block:: java
+
+      private HashMap<String, Object> buildItemResponse(int itemid, ItemDao mongoItemDao, ReviewDao mongoRevDao) { ... }
+
+
+Step 2: Change Controller Constructor Signatures
+------------------------------------------------
+
+Some of our controller objects are getting a ``Connection`` object in their
+constructors.
+
+They are no longer required.
+
+- Change the controllers constructors to expunge the reference to
+  ``java.sql.Connection``
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Without the need to instantiate the ``dao.rdbms`` objects, we no longer need
+    to pass the ``Connection`` object to controllers.
+
+    - Update ``StoreController`` constructor
+    - Update the ``MongoMart`` store controller call.
+
+    .. code-block:: java
+
+      //MongoMart.java
+      ...
+      StoreController storeController = new StoreController(cfg, mongoClient.getDatabase("mongomart"));
+      ...
+
+
+Step 3: Remove the RDBMS Connection Creation Code
+-------------------------------------------------
+
+Remove the code that creates the RBMS connection.
+
+- Specifically, remove the JDBC driver library and any associated connection
+  management code
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Remove all jdbc related code from ``MongoMart`` class and switch the
+    ``connectionString`` to a mongodb default URI
+
+    .. code-block:: java
+
+      // MongoMart.java
+      ...
+      import java.io.IOException;
+      //import java.sql.Connection;
+      //import java.sql.DriverManager;
+      //import java.sql.SQLException;
+      ...
+
+      try {
+          // The newInstance() call is a work around for some
+          // broken Java implementations
+          // Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+          String connectionString = "mongodb://localhost";
+          if (args.length != 0) {
+            connectionString = args[0];
+          }
+
+          new MongoMart(connectionString);
+
+      } catch (Exception ex) {
+          System.out.println("Bad things happen: " + ex.getMessage());
+      }
+
+      ...
+
+      // Create a Database connection
+      try{
+          // Connection connection = DriverManager.getConnection(connectionString);
+
+          ...
+
+          // MongoClient connection
+          mongoClient = new MongoClient();
+
+      ...
+
+
+Step 4: Stop the RDBMS Server
+-----------------------------
+
+Now that our code is clean, we can safely stop the legacy RDBMS server.
+
+.. code-block:: sh
+
+  mysql.server stop
+
+Validate that the application is fully functional... and celebrate!
+
+.. include:: /includes/student-notes.rst
+
+
+Step 5: Create an RDBMS Backup
+------------------------------
+
+Bring up the RBMS system for one last operation:
+
+.. code-block:: sh
+
+  mysql.server start
+
+- Create a backup
+
+.. code-block:: sh
+
+  mysqldump --databases mongomart > mongomart_backup.sql
+
+.. include:: /includes/student-notes.rst
+
+
+Step 6: Remove Temporary Collections
+------------------------------------
+
+In Lab3, we imported the relational data into a set of collections we no
+longer use.
+
+- Remove any collection of our ``mongomart`` database that is no longer used.
+
+.. code-block:: js
+
+  db.address_sql.drop()
+  db.geo_sql.drop()
+  db.store_sql.drop()
+
+- Create additional indexes to optimize for the **MongoMart** application
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    Ask students which indexes they should be creating:
+
+    - item: name, category
+    - address: city, country, zip
+
+Step 7: Have a Great Day!
+-------------------------
+
+Congratulations! Your work is done!
+
+.. include:: /includes/student-notes.rst

@@ -20,21 +20,17 @@ description: |
 ---
 file: /modules/rdbms2mongodb/migrate-reviews
 description: |
-  Migrate Reviews data to MongoDB
+  Lab1:Migrate Reviews data to MongoDB
 ---
 file: /modules/rdbms2mongodb/migrate-items
 description: |
-  Migrate Items data to MongoDB
+  Lab2:Migrate Items data to MongoDB
 ---
-file: /modules/rdbms2mongodb/migrate-cart
+file: /modules/rdbms2mongodb/migrate-full
 description: |
-  Migrate Cart data to MongoDB
+  Lab3:Full Data Migration
 ---
-file: /modules/rdbms2mongodb/migrate-stores
+file: /modules/rdbms2mongodb/migration-cleanup
 description: |
-  Migrate Stores data to MongoDB
----
-file: /modules/rdbms2mongodb/final-version
-description: |
-  MongoMart fully migrated to MongoDB
+  Final Migration Cleanup
 ...

@@ -42,8 +42,7 @@ Make sure you MySQL server and shell client to interact with the database.
 
 .. code-block:: sh
 
-  cd student/java
-  mvn package -Dmaven.test.skip=true
+  mvn package -f java/pom.xml -Dmaven.test.skip=true
 
 
 5 - Run Package
@@ -51,7 +50,7 @@ Make sure you MySQL server and shell client to interact with the database.
 
 .. code-block:: sh
 
-  java -jar target/MongoMart-1.0-SNAPSHOT.jar
+  java -jar java/target/MongoMart-1.0-SNAPSHOT.jar
 
 Apply solutions
 ---------------

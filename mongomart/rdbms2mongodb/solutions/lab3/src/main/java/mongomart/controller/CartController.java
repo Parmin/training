@@ -42,7 +42,10 @@ public class CartController {
 		// View cart
 		get("/cart", (request, response) -> {
 			Cart cart = cartDao.getCart(USERID);
-
+			if(cart.getId() == -1){
+				cartDao.initCart(USERID);
+				cart = cartDao.getCart(USERID);
+			}
 			HashMap<String, Object> attributes = new HashMap<>();
 			attributes.put("cart", cart);
 			attributes.put("total", calculateCartTotal(cart));

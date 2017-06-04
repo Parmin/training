@@ -4,15 +4,16 @@ import static spark.SparkBase.port;
 import static spark.SparkBase.staticFileLocation;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.sql.SQLException;
 
 import mongomart.controller.CartController;
 import mongomart.controller.LocationsController;
 import mongomart.controller.StoreController;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 
 import freemarker.template.Configuration;
 
@@ -40,11 +41,11 @@ public class MongoMart {
         try {
             // The newInstance() call is a work around for some
             // broken Java implementations
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-            String connectionString = "jdbc:mysql://localhost/mongomart?user=root";
+            String connectionString = "mongodb://localhost";
             if (args.length != 0) {
-                connectionString = args[0];
+               connectionString = args[0];
             }
 
             new MongoMart(connectionString);
@@ -66,23 +67,23 @@ public class MongoMart {
 
         // Create a Database connection
         try{
-            Connection connection = DriverManager.getConnection(connectionString);
+            // Connection connection = DriverManager.getConnection(connectionString);
             // Freemarker configuration
             final Configuration cfg = createFreemarkerConfiguration();
 
             // MongoClient connection
-            mongoClient = new MongoClient();
+            mongoClient = new MongoClient(new MongoClientURI(connectionString));
 
             port(HTTP_PORT);
             staticFileLocation("/assets");
 
             // Start controllers
             //AdminController adminController = new AdminController(cfg, itemDatabase);
-            StoreController storeController = new StoreController(cfg, connection, mongoClient.getDatabase("mongomart"));
+            StoreController storeController = new StoreController(cfg, mongoClient.getDatabase("mongomart"));
             CartController cartController = new CartController(cfg, mongoClient.getDatabase("mongomart"));
-            LocationsController locationsController = new LocationsController(cfg, connection);
+            LocationsController locationsController = new LocationsController(cfg, mongoClient.getDatabase("mongomart"));
 
-        }catch(SQLException ex){
+        }catch(Exception ex){
             System.out.println("Bad things happen: " + ex.getMessage());
         }
     }
