@@ -6,8 +6,9 @@ Schema Design Patterns
 
    .. note::
 
-      Avoid using the term **pattern** as it is used for representing
-      partial solutions, like the Gang of Four uses it for software design patterns
+      Avoid using the term **pattern** for complete solutions to problems.
+      Used for representing partial solutions, like the Gang of Four uses it
+      for software design patterns
 
 
 Leaning Objectives
@@ -16,6 +17,8 @@ Leaning Objectives
 Be able to:
 
 - Identify schema design patterns
+- Identify by a common name those patterns
+- Use those patterns as building blocks for their solutions
 
 
 Patterns
@@ -36,19 +39,27 @@ Patterns
 Pattern Characteristics
 -----------------------
 
-- NoSQL patterns ...
+NoSQL patterns ...
 
-  - Often address performance concerns
+.. rst-class:: longlist
 
-    - Like reducing the number of reads
+- Often address performance concerns
 
-  - May create duplication
+  - Like reducing the number of reads
+  - If performance is not an issue, you may want to design for simplicity
+
+- May create duplication in the data
+
+  - important aspect of the duplication of data is how and when you want to handle it
+
+    - is stale data fine for a while?
+    - should you batch the updates?
 
 .. include:: /includes/student-notes.rst
 
 
-Pattern #1
-----------
+Pattern - Subset
+----------------
 
 - You want to display dependent information, however only part of it
 - The rest of the data is fetch only if needed
@@ -65,8 +76,8 @@ Pattern #1
       - TBD
 
 
-Example #1
-----------
+Pattern - Example of Subset
+---------------------------
 
 .. include:: /images/pattern-subset.rst
 
@@ -79,44 +90,8 @@ Example #1
       - TBD
 
 
-Pattern #2
-----------
-
-- You want to display dependent data
-- Does not have to be up to date
-- Too expensive to update the document all the time
-- Updates can be done in batch
-- Examples:
-
-  - Top reviews on a movie
-  - Top reviews on a product
-  - Number of seats available on a flight
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - TBD
-
-
-Example #2
-----------
-
-.. include:: /images/pattern-cache.rst
-
-.. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - TBD
-
-
-Pattern #3
-----------
+Pattern - Attributes
+--------------------
 
 - A lot of different and predictable values
 - Need to index the attributes
@@ -135,8 +110,8 @@ Pattern #3
       - TBD
 
 
-Example #3
-----------
+Pattern - Example of Attributes
+-------------------------------
 
 .. include:: /images/pattern-attributes.rst
 
@@ -149,8 +124,8 @@ Example #3
       - TBD
 
 
-Pattern #4
-----------
+Pattern - Computed
+------------------
 
 - One document shows a sum of data from other documents
 - Examples:
@@ -166,10 +141,140 @@ Pattern #4
       - TBD
 
 
-Example #4
-----------
+Pattern - Example of Computed
+-----------------------------
 
 .. include:: /images/pattern-aggregate.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Bucket
+----------------
+
+- Embedding seems preferable to linking
+- Too much data to have one document for each piece
+- Too much data to fit as one array
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Since we share this picture with "Overflow", only focus
+        on the fact that we bucket the number of castAndCrew (or extras)
+
+
+Pattern - Example of Bucket
+---------------------------
+
+.. include:: /images/pattern-overflow.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TODO - have a separate image for bucket
+
+
+Pattern - Overflow
+------------------
+
+- Only a few documents are too big
+- Don’t want to model the relationship in a different way
+- Example:
+
+  - Justin Bieber has too many followers to fit into an array of refs
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Example of Overflow
+-----------------------------
+
+.. include:: /images/pattern-overflow.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Approximation
+-----------------------
+
+- Does not have to be exact
+- No source of truth
+- Examples:
+
+  - Population of a country
+  - Web page hits
+
+    - Only count once in 100, increment by 100
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Example of Approximation
+----------------------------------
+
+.. include:: /images/pattern-approximation.rst
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - TBD
+
+
+Pattern - Pre-allocation
+------------------------
+
+- Superset of “Time Series”
+- Examples:
+
+  - Metrics collected every minute
+  - Seats in a concert
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - "Time Series" are often represented using this pattern
+
+
+Pattern - Example of Pre-allocation
+-----------------------------------
+
+.. include:: /images/pattern-pre-allocation.rst
 
 .. include:: /includes/student-notes.rst
 
@@ -245,3 +350,38 @@ Comparing Tree Patterns
      - Much more
 
 .. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Node is defined by itself and its children
+
+
+Summary of Patterns
+-------------------
+
+.. KI learning_obj : list of patterns
+
+.. rst-class:: longlist
+
+* Subset
+* Attributes
+* Computed
+* Bucket
+* Overflow
+* Approximation
+* Pre-allocation
+* Tree
+
+  * Node
+  * Children
+  * Ancestors
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+   .. note::
+
+      - Should we consider 'versioning' as a pattern?
