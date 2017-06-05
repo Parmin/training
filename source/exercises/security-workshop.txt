@@ -9,31 +9,24 @@ Lab: Security Workshop
      - We assume you are familiar with the provisioning scripts. If not start with:
        https://docs.google.com/document/d/17asAf_1lrj5lUynl6RdyrRekQeGbvsAW5ZV3F3FM3cA
 
-     - You will provision 4 nodes per team or attendee, using the provisioning script.
+     - You will provision 4 nodes per team or attendee using the provisioning script.
        For example, for a 9 team or attendee exercise, you would run:
 
        .. code-block:: sh
 
-          deploy.py --profile mdbw-security --teams 9 --instances 4 --noom --run INSTRUCTOR-StetsonD
+          ./deploy.py --profile mdbw-security --teams 9 --instances 4 --noom --run INSTRUCTOR-StetsonD
 
      - 3 nodes for the replica set, 1 node for the client application
      - Replace INSTRUCTOR with your name, and StetsonD with the room you are presenting in
      - The attendees will have to:
 
-      - setup SSL with the client certificates
-      - setup auth
-      - enable encryption at rest
-      - enable log redaction
+       - Setup SSL with the client certificates
+       - Setup auth
+       - Enable encryption at rest
+       - Enable log redaction
 
      - Each successive objective of this workshop requires full completion of previous objectives.
        Ensure all participants have met the requirements of a specific section before proceeding.
-
-     - TODOs:
-
-      - consider "Solution: Enable SSL with the client" being a separate exercise
-        that is done later, as it is more difficult
-      - consider adding "bonus exercises" for people who finish earlier: things
-        like generating your own certificates
 
 
 Learning Objectives
@@ -44,6 +37,7 @@ Upon completing this workshop, attendees will be able to:
 - Secure application communication with MongoDB
 - Understand all security authentication and authorization options of MongoDB
 - Encrypt MongoDB data at rest using encrypted storage engine
+- Enable auditing and understand the performance implications
 - Feel comfortable deploying and securely configuring MongoDB
 
 .. include:: /includes/student-notes.rst
@@ -95,13 +89,13 @@ Exercise: Starting MongoDB and configuring the replica set
 .. rst-class:: longlist
 
 - ``/share/downloads/mongodb_packages`` contains MongoDB 3.2 and 3.4
-- installation instructions are at:
+- Installation instructions are at:
 
   - https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-red-hat/
 
-- configure the 3 nodes as a replica set named **SECURED**
-- use ``node1``, ``node2`` and ``node3`` for your host names
-- you *MUST* use a `config file`_
+- Configure the 3 nodes as a replica set named **SECURED**
+- Use ``node1``, ``node2`` and ``node3`` for your host names
+- You *MUST* use a `config file`_
 
 .. _`config file`: https://docs.mongodb.com/manual/reference/configuration-options/
 
@@ -111,7 +105,7 @@ Starting MongoDB and configuring the replica set (cont)
 
 .. rst-class:: longlist
 
-- installation
+- Installation
 
   .. code-block:: sh
 
@@ -119,7 +113,7 @@ Starting MongoDB and configuring the replica set (cont)
      sudo vi /etc/mongod.conf
      sudo service mongod start
 
-- configure the 3 nodes as a replica set named **SECURED**,
+- Configure the 3 nodes as a replica set named **SECURED**,
   change **bindIp** to the **10.0.0.X** address, plus **127.0.0.1**
 
   .. code-block:: sh
@@ -129,7 +123,9 @@ Starting MongoDB and configuring the replica set (cont)
      net:
          bindIp: 10.0.0.101,127.0.0.1
 
-- initiate the replica set
+
+Initiating The Replica Set
+--------------------------
 
   .. code-block:: sh
 
@@ -171,9 +167,7 @@ Let's try to connect to our running MongoDB cluster.
 Exercise: Launch the Client Application
 ---------------------------------------
 
-It's time to connect our client application. Install the application **node4**
-
-- install the application:
+It's time to connect our client application. Install the application on **node4**
 
 .. code-block:: sh
 
@@ -200,20 +194,18 @@ It's time to connect our client application. Install the application **node4**
 
         curl -O https://s3.amazonaws.com/mongodb-training/security_lab/security_lab.tgz
 
-    Also, make sure all instances have ``nodejs`` installed.
-
 
 How is the client application connecting to the database?
 ---------------------------------------------------------
 
-- the connection string used by the application is in ``message.js`` and looks like this:
+- The connection string used by the application is in ``message.js`` and looks like this:
 
 .. code-block:: sh
 
    const url = "mongodb://node1:27017,node2:27017,node3:27017/
        security-lab?replicaSet=SECURED"
 
-- this will work, for now...
+- This will work, for now...
 
 WARNING: Spying your deployment!
 --------------------------------
@@ -294,7 +286,9 @@ To do this, you will have to decide:
    Solution: Enable authorization
    ------------------------------
 
-   - using the localhost exception, create the first user
+   .. rst-class:: longlist
+
+   - Using the localhost exception, create the first user
 
      .. code-block:: sh
 
@@ -305,26 +299,42 @@ To do this, you will have to decide:
           roles: [{role: "root", db: "admin"}]
         })
         db.createUser({
+          user: "bar",
+          pwd: "baz",
+          roles: [{role: "userAdminAnyDatabase", db: "admin"}]
+        })
+        db.createUser({
           user: "mongo-messenger",
           pwd: "nodejs",
           roles: [{role: "readWrite", db: "security-lab"}]
         })
 
 
-     - must be able to create other users
+   - Must be able to create other users
+   - Need to change "Mongo Messenger" to auth with a given user
 
-   - need to change "Mongo Messenger" to auth with a given user
+   Authorization questions
+   -----------------------
+
+   Some suggested questions for authorization and `role-based access control`_
+
+   - What built-in roles are available?
+   - Remind the students about user-defined roles
+   - What roles should be given?
+   - Based on the users created previously, what are some potential weaknesses?
+
+   .. _`role-based access control`: https://docs.mongodb.com/manual/core/authorization/
 
 
 Exercise: Enable SSL between the nodes
 --------------------------------------
 
-- we restricted "bindIp" to a local network interface,
+- We restricted "bindIp" to a local network interface,
   however if this was an outside address, it would not be good enough
-- let's ensure we limit the connections to a list of nodes we control
+- Let's ensure we limit the connections to a list of nodes we control
 
-  - let's use SSL certificates
-  - they are in ``/share/downloads/certs``
+  - Let's use SSL certificates
+  - As a reminder, they are in ``/etc/ssl/mongodb/``
 
 - http://mongodb.github.io/node-mongodb-native/2.2/tutorials/connect/ssl/
 
@@ -333,7 +343,7 @@ Exercise: Enable SSL between the nodes
    Solution: Enable SSL between the nodes
    --------------------------------------
  
-   - add SSL
+   .. rst-class:: longlist
  
    .. code-block:: sh
  
@@ -345,11 +355,15 @@ Exercise: Enable SSL between the nodes
       security:
         clusterAuthMode: x509
  
-   - restart all running mongod's
-   - connect with the client
-   - why no ``authorization: enabled`` in the config file?
+   - Restart all running mongod's
+   - Connect with the client
+   - Why no ``authorization: enabled`` in the config file?
  
      - Enabling clusterAuth implicity enables authorization
+
+
+   Testing our SSL Connection from the mongo shell
+   -----------------------------------------------
  
    .. code-block:: sh
  
@@ -358,13 +372,14 @@ Exercise: Enable SSL between the nodes
    Solution: Enable SSL with the client
    ------------------------------------
  
+   .. rst-class:: longlist
+
    - In ``~/mongo-messenger/messages.js``
  
    .. code-block:: javascript
            
        const fs = require('fs');
  
-       // Read the certificates and create ssl options object
        let ca = [fs.readFileSync('/etc/ssl/mongodb/ca.pem')];
        let cert = fs.readFileSync('/etc/ssl/mongodb/node1.pem');
        let key = fs.readFileSync('/etc/ssl/mongodb/node1.pem');
@@ -374,13 +389,8 @@ Exercise: Enable SSL between the nodes
          sslCert:cert,
          sslKey:key
        }
-       // mongo-messenger user
-       let user = encodeURIComponent('mongo-messenger');
-       let pass = encodeURIComponent('nodejs');
-       const url = `mongodb://${user}:${pass}@node1:27017,node2:27017,node3:27017/security-lab?authSource=admin&replicaSet=SECURED&ssl=true`
- 
+       const url = `mongodb://mongo-messenger:node-js@node1:27017,node2:27017,node3:27017/security-lab?authSource=admin&replicaSet=SECURED&ssl=true`
        let messages = null;
- 
        MongoClient.connect(url, options, (err, db) => {
          assert.equal(null, err)
          messages = db.collection("messages")
@@ -406,7 +416,7 @@ instance files.
 Your instructor has some scripts that will enable him to have a peek into the
 your collection and indexes data files.
 
-Don't let him do so!!!
+Don't let them do so!!!
 
 .. include:: /includes/student-notes.rst
 
@@ -416,7 +426,11 @@ Don't let him do so!!!
   Solution: Encrypt Storage Layer
   -------------------------------
 
-  - enable encryption on the storage engine
+  .. rst-class:: longlist
+
+  - Remind students that encryption at rest is only available for WiredTiger
+  - Encryption at rest is also an Enterprise only feature
+  - Enable encryption on the storage engine
 
   .. code-block:: yaml
 
@@ -424,7 +438,7 @@ Don't let him do so!!!
        enableEncryption: true
        encryptionKeyFile: /etc/ssl/mongodb/mongodb-keyfile
 
-  - different options to manage encryption keys, however for this lab a simple keyfile should have been enough
+  - Different options to manage encryption keys, however for this lab a simple keyfile should have been enough
 
   .. code-block:: sh
 
@@ -467,7 +481,7 @@ This should be done without downtime
   Solution: Avoid any log leaks
   -----------------------------
 
-  by setting up log redaction
+  By setting up log redaction
 
   .. code-block:: yaml
 
@@ -480,15 +494,16 @@ This should be done without downtime
        { setParameter: 1, redactClientLogData : true }
      )
 
-  - and you need a way to prove/show that redaction worked
+  - And you need a way to prove/show that redaction worked
 
 Auditing
 --------
 
 At this point we have a secured MongoDB deployment hardened against outside
-attacks, and used Role-Based Access Control to limit the access of users. The
-final step is to enable auditing, giving us a clear record of **who** performed
-an auditable action.
+attacks, and used Role-Based Access Control to limit the access of users. 
+
+- The final step is to enable auditing, giving us a clear record of **who** 
+performed an auditable action.
 
 
 Exercise: Enable Auditing
@@ -497,7 +512,7 @@ Exercise: Enable Auditing
 - Enable auditing for all operations, to include CRUD operations, for your
   mongo-messenger user
 - Output the log file in JSON format
-- A log file has been created for you at ``/mongod-data/audit/SECURED/audit.json``
+- Output the log file to ``/mongod-data/audit/SECURED``
 - There are many `filter options`_
 
 .. _`filter options`: https://docs.mongodb.com/manual/tutorial/configure-audit-filters/
@@ -514,7 +529,7 @@ Exercise: Enable Auditing
         audit log 
 
       - Talk to the students about the different audit formats and destinations,
-        touching on the pros and cons (e.g. readability, log trucation, and 
+        touching on the pros and cons (e.g. readability, log truncation, and 
         performance implications)
 
         - JSON, BSON
@@ -525,6 +540,8 @@ Exercise: Enable Auditing
 
       - Auditable actions can be fine-tuned in the audit filter parameter
 
+
+.. only:: instructor
 
    Solution: Enable Auditing
    -------------------------
@@ -538,6 +555,7 @@ Exercise: Enable Auditing
         format: "JSON"
         path: /var/log/SECURED/audit.json
         filter: '{ users: { user: "mongo-messenger", db: "security-lab" } }'
+
 
 Putting it together
 -------------------
@@ -570,11 +588,11 @@ Summary
 
 What we did:
 
-- enabled basic authorization
-- used SSL certificates
-- encrypted the database at rest
-- redacted the mongod logs
-- configured auditing for a specific user
+- Enabled basic authorization
+- Used SSL certificates
+- Encrypted the database at rest
+- Redacted the mongod logs
+- Configured auditing for a specific user
 
 .. only:: instructor
 
@@ -584,14 +602,14 @@ What we did:
 
       - MongoDB
 
-        - link authorization and authentication to outside system like LDAP or Kerberos
-        - enable redaction of results
+        - Link authorization and authentication to outside system like LDAP or Kerberos
+        - Enable redaction of results
 
       - Infrastructure
 
-        - use security groups if in AWS
-        - use firewall
+        - Use security groups if in AWS
+        - Use firewall
 
       - Application
 
-        - security at the application level
+        - Security at the application level
