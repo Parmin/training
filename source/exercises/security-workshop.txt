@@ -413,6 +413,7 @@ Exercise: Encrypt Storage Layer
 
 To fully secure our MongoDB deployment we need to consider the actual MongoDB
 instance files.
+
 Your instructor has some scripts that will enable him to have a peek into the
 your collection and indexes data files.
 
