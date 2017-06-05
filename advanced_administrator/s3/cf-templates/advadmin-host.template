@@ -54,6 +54,10 @@
         "v10": "ami-990c648e",
         "v11": "ami-b668d6a0"
       },
+      "us-east-2": {
+        "v10": "ami-e8e5c38d",
+        "v11": "ami-83e0c6e6"
+      },
       "us-west-1": {
         "v10": "ami-a1dc94c1",
         "v11": "ami-bfbfe4df"
