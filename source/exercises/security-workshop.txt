@@ -503,7 +503,7 @@ At this point we have a secured MongoDB deployment hardened against outside
 attacks, and used Role-Based Access Control to limit the access of users. 
 
 - The final step is to enable auditing, giving us a clear record of **who** 
-performed an auditable action.
+  performed an auditable action.
 
 
 Exercise: Enable Auditing
