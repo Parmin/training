@@ -227,7 +227,7 @@ We will come back to this later on.
     students environment to test which things are not yet secured.
 
     - run any arbitrary command. Try the following first, as that first run may
-      fail due to the fact that is has to add the hostname to ```known_hosts``.
+      fail due to the fact that is has to add the hostname to ``known_hosts``.
 
       .. code-block:: sh
 
