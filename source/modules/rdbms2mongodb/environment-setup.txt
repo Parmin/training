@@ -11,24 +11,24 @@ bring our **MongoMart** up.
 
 To do so, we will need the following:
 
-- Unzip ``mongomart.zip`` file
+- Unzip the ``rdbms2mongodb.zip`` file
 - Launch local MySQL server
-- Import dataset
+- Import the dataset
 - Run ``mongomart`` process
 
 .. include:: /includes/student-notes.rst
 
 
-Unzip ``mongomart.zip``
------------------------
+Unzip ``rdbms2mongodb.zip``
+---------------------------
 
-After inflating the ``mongomart.zip`` file, we will find this directory
+After unpacking the ``rdbms2mongodb.zip`` file, you will find this directory
 structure:
 
 .. code-block:: sh
 
-  unzip mongomart.zip
-  ls mongomart
+  unzip rdbms2mongodb.zip
+  ls rdbms2mongodb
   > README  dataset java
 
 .. include:: /includes/student-notes.rst
@@ -43,10 +43,10 @@ structure:
       ``java`` folder as a Maven project.
 
 
-Launch local MySQL server
--------------------------
+Launch a Local MySQL Server
+---------------------------
 
-Time to launch our relational database server:
+Time to launch the relational database server we will be migrating from:
 
 - In your \*NIX system
 
@@ -70,12 +70,12 @@ Time to launch our relational database server:
     installed, make sure to ask around to get everyone up to speed.
 
 
-Import dataset
---------------
+Import the Data
+---------------
 
-Within your ``mongomart`` folder, there is a ``dataset`` folder.
+Look into the ``rdbms2mongodb/dataset`` folder.
 
-This folder contains the dataset that we will be working with.
+This contains the dataset that we will be working with.
 
 To import this dataset:
 
@@ -88,7 +88,7 @@ To import this dataset:
   # run a few checks - mandatory step!
   mysql -uroot < dataset/check.sql
 
-And for our Windows friends:
+And for those of you using Windows:
 
 .. code-block:: bat
 
@@ -113,7 +113,8 @@ And for our Windows friends:
     - Beware that `check.sql` is not optional. Make sure students do follow all
       all the instructions.
 
-Run the ``mongomart`` app
+
+Run the ``mongomart`` App
 -------------------------
 
 Once we have our dataset fully imported it is time for us to give ``mongomart``
@@ -123,14 +124,13 @@ a spin:
 
 .. code-block:: sh
 
-  cd mongomart/java
-  mvn package -Dmaven.test.skip=true
+  mvn package -f java/pom.xml
 
 - Then we run the application process
 
 .. code-block:: sh
 
-  java -jar target/MongoMart-1.0-SNAPSHOT.jar
+  java -jar java/target/MongoMart-1.0-SNAPSHOT.jar
 
 .. include:: /includes/student-notes.rst
 
@@ -152,7 +152,9 @@ a spin:
 Final Step
 ----------
 
-Once the process is correctly up and running, the final step is to connect to
+Once the process is up and running, the final step is to connect to
 http://localhost:8080 using your system browser.
 
 .. include:: /figures_local_meta/mongomart-screenshot.rst
+
+.. include:: /includes/student-notes.rst

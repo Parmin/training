@@ -70,7 +70,7 @@ After receiving this new ``ItemDao`` class, you will have to:
       });
 
 
-Step 2: Iterate over ``Item``s
+Step 2: Iterate over ``Items``
 ------------------------------
 
 First, migrate the items into MongoDB:
