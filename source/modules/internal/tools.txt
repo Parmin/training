@@ -10,14 +10,29 @@ This chapter is incomplete and still under development
 Learning Objectives
 -------------------
 
+
 Common Issues
 -------------
+
 
 Main Differences in Versions prior to 3.4
 -----------------------------------------
 
+
+m
+-
+
+
+mtools
+------
+
+
 mgenerate
 ---------
+
+
+Mongo Hacker
+------------
 
 
 References

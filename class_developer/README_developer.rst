@@ -83,6 +83,27 @@ number in the 'advadmin-host.template' file.
 For historical purpose, you can find the old AMI in the 'us-west-2' region.
 
 
+Adding a region
+---------------
+
+We do not support all AWS regions due to the work to test and propagate updates
+in all of them.
+If there is a real need to add one, these are the tasks/files to update
+
+- copy the AMI from us-east-1, using a name like: ami-advanced-training-v11
+- upload the PEM file to this region in "Key Pairs"
+- put the AMIs in "advadm-host.template"
+- if no 'm3.medium' in region, add to exception list in 'advadmin-team.template'
+- add it to "profiles.txt"
+- add it to "regions.txt"
+- "make s3-devel" to test in 'devel/--testmode', then push to prod
+- put a request with AWS to increase the quota for:
+  - VPCs  => 32
+  - 'opsmgr' instance type => 70 (typically r3.large)
+  - 'node' instance type  => 250 (typically m3.medium, some have t2.medium)
+
+
+
 Cost and count for instances in some regions
 --------------------------------------------
 
