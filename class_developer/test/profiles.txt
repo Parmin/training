@@ -1,4 +1,5 @@
 training-us-east-1
+training-us-east-2
 training-us-west-1
 training-us-west-2
 training-eu-central-1

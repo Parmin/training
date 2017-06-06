@@ -163,8 +163,10 @@ MongoDB Features History
 .. include:: /figures_local_meta/mongodb_features.txt
 
 
-MongoDB Company Overview
-------------------------
+MongoDB Company
+---------------
+
+`MongoDB in numbers <https://wiki.mongodb.com/pages/viewpage.action?spaceKey=mrkt&title=Current+Company+Stats>`_
 
 .. include:: /figures_local_meta/company.txt
 

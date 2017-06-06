@@ -17,7 +17,7 @@ Introduction (30 minutes)
 
 
 Lab: Ops Manager Installation (2.5 hours)
----------------------------------------
+-----------------------------------------
 
 - :doc:`/exercises/opsmanager-installation`
 - Review setup

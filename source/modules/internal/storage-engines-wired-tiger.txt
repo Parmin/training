@@ -40,6 +40,7 @@ What is WiredTiger?
         to commit changes to data and indexes together, not exposing
         transactions to the MongoDB user.
 
+
 Features of WiredTiger
 ----------------------
 
@@ -89,6 +90,7 @@ Concurrency in WT
 .. only:: todo
 
    - clarify "but cannot commit"
+
 
 Writes in WT
 ------------
@@ -313,6 +315,7 @@ WT Cache -- Reconciliation
       is a relatively heavy-weight operation, and can significantly increase I/O while
       decreasing overall throughput in I/O bound workloads.
 
+
 WT Cache -- Reconciliation (Continued)
 --------------------------------------
 
@@ -438,6 +441,7 @@ Pitfall: WT Without the Journal
 
    - does WT reduce the interval of the journal with ``{ j : true }`` for an operation, like MMAPv1 does?
 
+
 Compression in WT
 -----------------
 
@@ -539,6 +543,24 @@ Indexes in WT: Prefix Compression
    - screenshot showing a WiredTiger leaf page with index values, using prefix compression
 
 
+Other storage engines based on WiredTiger
+-----------------------------------------
+
+- Encrypted
+- In-Memory
+- Future ones? Columnar?
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+     - not many customers use the in-Memory storage engine, here are some...
+
+       - MyDealerLot
+
+
 Situations where MMAPv1 Performs better than WiredTiger
 -------------------------------------------------------
 
@@ -591,6 +613,7 @@ Main issues seen with WiredTiger
     - at 80%, eviction starts, by 4 thread
     - at 95%, the application threads also evict data, not processing requests anymore
 
+
 Troubleshooting WiredTiger
 --------------------------
 
@@ -617,6 +640,7 @@ Troubleshooting WiredTiger
 
     - [ACTION] Go to Bruce's page and show some of the time series graph
     - *tickets* can be seen as *threads*
+
 
 References on WiredTiger
 ------------------------

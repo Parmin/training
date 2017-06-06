@@ -9,7 +9,7 @@
     "NbTeams": {
       "Description": "Number of Teams to initially create (max 9), you can add more later",
       "Type": "String",
-      "AllowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
+      "AllowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" ]
     },
     "NbNodes": {
       "Description": "Number of node type hosts to create per team",
@@ -64,7 +64,13 @@
   },
 
   "Conditions" : {
-    "CreateTeam9" : { "Fn::Equals": [{"Ref": "NbTeams"}, "9"] },
+    "CreateTeam15" : { "Fn::Equals": [{"Ref": "NbTeams"}, "15"] },
+    "CreateTeam14" : { "Fn::Or": [ {"Condition": "CreateTeam15"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "14"]} ] },
+    "CreateTeam13" : { "Fn::Or": [ {"Condition": "CreateTeam14"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "13"]} ] },
+    "CreateTeam12" : { "Fn::Or": [ {"Condition": "CreateTeam13"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "12"]} ] },
+    "CreateTeam11" : { "Fn::Or": [ {"Condition": "CreateTeam12"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "11"]} ] },
+    "CreateTeam10" : { "Fn::Or": [ {"Condition": "CreateTeam11"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "10"]} ] },
+    "CreateTeam9" : { "Fn::Or": [ {"Condition": "CreateTeam10"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "9"]} ] },
     "CreateTeam8" : { "Fn::Or": [ {"Condition": "CreateTeam9"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "8"]} ] },
     "CreateTeam7" : { "Fn::Or": [ {"Condition": "CreateTeam8"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "7"]} ] },
     "CreateTeam6" : { "Fn::Or": [ {"Condition": "CreateTeam7"}, {"Fn::Equals": [{"Ref": "NbTeams"}, "6"]} ] },
@@ -263,6 +269,126 @@
         "TimeoutInMinutes": "10",
         "Tags": [
           { "Key": "Team", "Value": "9" }
+        ]
+      }
+    },
+
+    "Team10": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "CreateTeam10",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
+          "TeamNumber": "10",
+          "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "10" }
+        ]
+      }
+    },
+
+    "Team11": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "CreateTeam11",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
+          "TeamNumber": "11",
+          "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "11" }
+        ]
+      }
+    },
+
+    "Team12": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "CreateTeam12",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
+          "TeamNumber": "12",
+          "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "12" }
+        ]
+      }
+    },
+
+    "Team13": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "CreateTeam13",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
+          "TeamNumber": "13",
+          "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "13" }
+        ]
+      }
+    },
+
+    "Team14": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "CreateTeam14",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
+          "TeamNumber": "14",
+          "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "14" }
+        ]
+      }
+    },
+
+    "Team15": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Condition": "CreateTeam15",
+      "Properties": {
+        "TemplateURL": { "Fn::FindInMap" : [ "Params", "AddedTeamTemplate", { "Ref": "TestMode" } ] },
+        "Parameters": {
+          "RunName": { "Ref": "AWS::StackName" },
+          "TeamNumber": "15",
+          "KeyPair": { "Ref": "KeyPair" },
+          "NbNodes": { "Ref": "NbNodes" },
+          "OMMode": { "Ref": "OMMode" },
+          "TestMode": { "Ref": "TestMode" }
+        },
+        "TimeoutInMinutes": "10",
+        "Tags": [
+          { "Key": "Team", "Value": "15" }
         ]
       }
     }
