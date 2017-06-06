@@ -62,7 +62,7 @@ Pattern - Subset
 ----------------
 
 - You want to display dependent information, however only part of it
-- The rest of the data is fetch only if needed
+- The rest of the data is fetched only if needed
 - Examples:
 
   - Last 10 comments on an article
@@ -73,7 +73,9 @@ Pattern - Subset
 
    .. note::
 
-      - TBD
+      - There will be duplication of data
+      - Duplication may mean stale info if there are updates
+        However this is OK
 
 
 Pattern - Example of Subset
@@ -82,12 +84,6 @@ Pattern - Example of Subset
 .. include:: /images/pattern-subset.rst
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - TBD
 
 
 Pattern - Attributes
@@ -107,7 +103,8 @@ Pattern - Attributes
 
    .. note::
 
-      - TBD
+      - Emphasis on the fact that you would have to create
+        a new index for each new attribute, country in the movies example
 
 
 Pattern - Example of Attributes
@@ -116,12 +113,6 @@ Pattern - Example of Attributes
 .. include:: /images/pattern-attributes.rst
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - TBD
 
 
 Pattern - Computed
@@ -138,7 +129,10 @@ Pattern - Computed
 
    .. note::
 
-      - TBD
+      - Other synonyms:
+
+        - rolled-up
+        - CQRS - Command Query Responsibility Segregation
 
 
 Pattern - Example of Computed
@@ -147,12 +141,6 @@ Pattern - Example of Computed
 .. include:: /images/pattern-aggregate.rst
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - TBD
 
 
 Pattern - Bucket
@@ -195,13 +183,16 @@ Pattern - Overflow
 
   - Justin Bieber has too many followers to fit into an array of refs
 
+- Outliers should not drive the design, sacrificing performance for 99.9
+  percent of the use cases
+
 .. include:: /includes/student-notes.rst
 
 .. only:: instructor
 
    .. note::
 
-      - TBD
+      - In this example, we build on the 'bucket' pattern
 
 
 Pattern - Example of Overflow
@@ -210,12 +201,6 @@ Pattern - Example of Overflow
 .. include:: /images/pattern-overflow.rst
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - TBD
 
 
 Pattern - Approximation
@@ -236,7 +221,7 @@ Pattern - Approximation
 
    .. note::
 
-      - TBD
+      - No one gives a dawn if the value is exact
 
 
 Pattern - Example of Approximation
@@ -245,12 +230,6 @@ Pattern - Example of Approximation
 .. include:: /images/pattern-approximation.rst
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - TBD
 
 
 Pattern - Pre-allocation
@@ -277,12 +256,6 @@ Pattern - Example of Pre-allocation
 .. include:: /images/pattern-pre-allocation.rst
 
 .. include:: /includes/student-notes.rst
-
-.. only:: instructor
-
-   .. note::
-
-      - TBD
 
 
 Pattern - Tree as Nodes

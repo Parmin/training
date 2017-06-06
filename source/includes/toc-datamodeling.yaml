@@ -32,29 +32,29 @@ description: |
 ---
 file: /modules/schema-design-case-study-cms
 description: |
-  Case study of a Contents Management System
+  Case study: Contents Management System
 ---
 file: /modules/schema-design-case-study-social-network
 description: |
-  Case study of a Contents Management System
+  Case study: Social Network
 ---
 file: /modules/schema-design-case-study-time-series
 description: |
-  Case study of a Contents Management System
+  Case study: Time Series
 ---
 file: /modules/schema-design-case-study-shopping-cart
 description: |
-  Case study of a Contents Management System
+  Case study: Shopping Cart
 ---
 file: /exercises/schema-design-exercise-ecommerce
 description: |
-  Exercice of designing an E-commerce site
+  Exercice: designing an E-commerce site
 ---
 file: /exercises/schema-design-exercise-internet-of-things
 description: |
-  Exercice of designing a soltion for an Internet Of Things problem
+  Exercice: designing a soltion for an Internet Of Things problem
 ---
 file: /exercises/document-validation
 description: |
-  Exercise of Document Validation
+  Exercise: document Validation
 ...
