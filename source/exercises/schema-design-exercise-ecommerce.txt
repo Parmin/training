@@ -56,6 +56,13 @@ Break into groups of two or three and work together to create the following deli
 - Queries the application will use
 - Index definitions
 
+.. include:: /includes/student-notes.rst
+
+Solution
+--------
+
+All slides from now on should be shown only after a solution is found by the
+groups & presented.
 
 .. include:: /includes/student-notes.rst
 

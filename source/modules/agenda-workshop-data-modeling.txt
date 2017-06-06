@@ -6,28 +6,49 @@ Data Modeling Workshop
 Day 1 (Morning)
 ---------------
 
-- :doc:`/modules/schema-design-why-do-it`
-- :doc:`/modules/schema-design-core-concepts`
-- :doc:`/modules/schema-design-relationships`
-- :doc:`/modules/schema-design-case-study-social-network`
-- :doc:`/modules/schema-design-patterns`
-- :doc:`/exercises/schema-design-exercise-ecommerce`
+.. rst-class:: longlist
+
+  - 9:00 - Welcome and Introductions (10 minutes)
+  - 9:10 - :doc:`/modules/schema-design-why-do-it` (10 minutes)
+  - 9:20 - :doc:`/modules/schema-design-core-concepts` (30 minutes)
+  - 9:50 - Break (10 minutes)
+  - 10:00 - :doc:`/modules/schema-design-relationships` (20 minutes)
+  - 10:20 - :doc:`/modules/schema-design-case-study-social-network` (40 minutes)
+  - 11:00 - Break (10 minutes)
+  - 11:10 - :doc:`/modules/schema-design-patterns` (20 minutes)
+  - 11:30 - :doc:`/exercises/schema-design-exercise-ecommerce` (30 mins of 1 hour)
+  - 12:00 - Lunch (45 minutes)
 
 Day 1 (Afternoon)
 -----------------
 
-- :doc:`/modules/replica-set-performance`
-- :doc:`/modules/schema-design-case-study-time-series`
-- :doc:`/exercises/schema-design-exercise-internet-of-things`
+.. rst-class:: longlist
+
+  - 12:45 - Second part of E-Commerce site (30 minutes)
+  - 13:15 - Solutions for the E-Commerce site (30 minutes)
+  - 1:45 - :doc:`/modules/replica-set-performance` (15 minutes)
+  - 2:00 - Break (10 minutes)
+  - 2:10 - :doc:`/exercises/schema-design-exercise-internet-of-things` (1 hour)
+  - 3:10 - solutions for the Internet of Things exercise (30 minutes)
+  - 3:40 - Break (10 minutes)
+  - 3:50 - Topics chosen from the next page (70 minutes)
+
+Optional topics
+---------------
 
 - Additional Case Studies:
 
-  - :doc:`/modules/schema-design-case-study-cms`
-  - :doc:`/modules/schema-design-case-study-shopping-cart`
+.. rst-class:: longlist
 
-- Additional topics
+  - :doc:`/modules/schema-design-case-study-time-series` (35 minutes)
+  - :doc:`/modules/schema-design-case-study-cms` (15 minutes, plus up to 3 exercises of 20 minutes each)
+  - :doc:`/modules/schema-design-case-study-shopping-cart` (20 minutes, plus 20 minute exercise)
 
-  - :doc:`/modules/schema-design-application-lifetime`
-  - :doc:`/modules/document-validation`
-  - :doc:`/exercises/document-validation`
-  - :doc:`/modules/schema-visualization`
+- Additional Topics:
+
+.. rst-class:: longlist
+
+  - :doc:`/modules/schema-design-application-lifetime` (10 minutes, plus 1 exercise of 30 minutes)
+  - :doc:`/modules/document-validation` (25 minutes)
+  - :doc:`/exercises/document-validation` (up to 7 exercises, 5-10 minutes each)
+  - :doc:`/modules/schema-visualization` (15 minutes)

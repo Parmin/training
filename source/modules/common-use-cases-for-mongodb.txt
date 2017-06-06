@@ -49,9 +49,12 @@ References:
 
      We also have a lot of additional resources:
 
-     - white paper: https://www.mongodb.com/collateral/10-step-methodology-to-creating-a-single-view-of-your-business
+     - white papers/blogs:
 
-
+       - https://www.mongodb.com/collateral/10-step-methodology-to-creating-a-single-view-of-your-business
+       - https://www.mongodb.com/blog/post/qumram-migrates-to-mongodb-to-deliver-single-customer-view
+       - https://www.mongodb.com/blog/post/appsee-shapes-the-mobile-revolution-with-real-time-analytics-service-powered-by-mongodb
+       
 ... however, MongoDB could be used for any database need
 --------------------------------------------------------
 
