@@ -348,7 +348,7 @@ Look through a Twitter timeline.  E.g. http://twitter.com/mongodb
   - Create an example document for a user's tweets
   - Design a partial schema just for for a Twitter user's newsfeed (including
     retweets, favorites, and replies)
-  - Build the queries be for the user's newsfeed?
+  - Build the queries for the user's newsfeed
   
     - Initial query
     - Later query if they scroll down to see more
