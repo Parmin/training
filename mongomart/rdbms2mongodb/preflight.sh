@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# This script will run this rdbms2mongodb system requirements checks
+# This script will run system requirement checks for the rdbms2mongodb lab
+
 RED='\033[0;31m'
 NC='\033[0m'
 GREEN='\033[0;32m'
@@ -29,10 +30,9 @@ function check_version {
   else
     print_good "Correct version found: $version"
   fi
-  
 }
 
-function check_javaversion {
+function check_java_version {
   version=$( $1 -version 2>&1|head -1|awk '{ print $3 }'|awk -F\, '{ print $1}'|awk -F\. '{print $1"."$2}'| tr -d '"' )
   if [ "$version" != "$2" ]
   then
@@ -40,7 +40,6 @@ function check_javaversion {
   else
     print_good "Correct version found: $version"
   fi
-  
 }
 
 function check_mysql {
@@ -53,9 +52,7 @@ function check_mysql {
   else
     print_error "mysqld could not be found!"
   fi
-  
 }
-
 
 function check_mongodb {
   echo "Check for MongoDB installation and version: $expected_mongodb"
@@ -67,7 +64,6 @@ function check_mongodb {
   else
     print_error "mongod could not be found!"
   fi
-  
 }
 
 function check_java {
@@ -76,11 +72,10 @@ function check_java {
   if [ ! -z $jexec ]
   then
     print_good "Java installed: $jexec"
-    check_javaversion $jexec $expected_java
+    check_java_version $jexec $expected_java
   else
     print_error "java could not be found!"
   fi
-  
 }
 
 function check_maven {
@@ -93,8 +88,8 @@ function check_maven {
   else
     print_error "mvn could not be found!"
   fi
-  
 }
+
 check_mongodb
 check_mysql
 check_java
