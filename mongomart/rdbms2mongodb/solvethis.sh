@@ -28,7 +28,9 @@ function print_help() {
 }
 
 function create_backup() {
-	rm -rf $backup_folder
+	if [ -d $backup_folder ]; then
+	  rm -rf $backup_folder
+	fi
 	mkdir -p $backup_folder
   copy_files $1 $backup_folder
 }

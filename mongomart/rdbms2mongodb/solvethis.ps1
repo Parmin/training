@@ -36,7 +36,9 @@ function print_help() {
 }
 
 function create_backup($source) {
-	Remove-Item $backup_folder
+	if ( Test-Path -Path $backup_folder ) {
+		Remove-Item $backup_folder -Recurse
+	}
 	New-Item -ItemType Directory -path $backup_folder
   copy_files $source $backup_folder
 }
@@ -51,7 +53,7 @@ function copy_files($source, $target) {
 		die "Not possible to apply '$source' into folder '$target' since '$source' does not exist"
 	}
 	# copy files recursively
-  Copy-Item -path $source/* -destination $target -Recurse
+  Copy-Item -path $source/* -destination $target -Recurse -Force
 }
 
 function apply_solution() {
@@ -70,13 +72,13 @@ function apply_solution() {
   } else {
     echo "Could not find the '$lab' solution that you are looking for"
     echo "These are the available solutions:"
-    ((Gci $solutions | sort-object name)).fullname
+    ((Gci $folder_solutions | sort-object name)).fullname
   }
 }
 
 function revert() {
   if ( Test-Path -Path $backup_folder ) {
-		Remove-Item $ws/*
+		Remove-Item $ws/* -Recurse
     copy_files $backup_folder $ws
   } else {
     die "Nothing to backup from! $backup_folder is empty"
@@ -98,12 +100,12 @@ foreach ( $_key in $args ) {
 	}
 }
 
-if ( $positionals.Length -lt 1 ) {
+if ( $_positionals.Length -lt 1 ) {
   $_PRINT_HELP=yes
 	die "FATAL ERROR: Not enough positional arguments - we require exactly 1 (namely: $_required_args_string), but got only ${#_positionals[@]}." 1
 }
 
-if ( $positionals.Length -gt 1 ) {
+if ( $_positionals.Length -gt 1 ) {
 	$_PRINT_HELP=yes
 	die "FATAL ERROR: There were extra positional arguments --- we expect exactly 1 (namely: $_required_args_string), but got ${#_positionals[@]} (the last one was: '${_positionals[*]: -1}')." 1
 }
