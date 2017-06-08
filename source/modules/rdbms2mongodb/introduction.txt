@@ -5,13 +5,14 @@ RDBMS to MongoDB Introduction
 Welcome
 -------
 
-This is a full day workshop where we are going to be covering the following
-topics:
+This is a single-day workshop where we will cover the following:
 
-- Migration strategies
-- Architecture and application implications
-- Relation to Document modeling
-- MongoDB CRUD operations
+- Migrating from an RDBMS to MongoDB, including:
+
+  - Migration strategies
+  - Architecture and application implications
+  - Relation to Document modeling
+  - MongoDB CRUD operations
 
 .. include:: /includes/student-notes.rst
 
@@ -21,32 +22,30 @@ Where do we start?
 You will be given a fully functional application called **Mongomart** backed by
 a relational database.
 
-You will be tasked with defining the different tasks required to move this
-application to a MongoDB supported backend.
+You will perform a set of tasks to move this application to a MongoDB-supported
+back end.
 
-After each task the instructor will provide a solution for each of the
-labs/tasks.
+After each task, the instructor will provide a solution. This will ensure that
+everyone is working from the same starting point for each task.
 
 .. only:: instructor
 
   .. note::
 
-    Note to students that they will be given enough time to complete the tasks
-    on their own, however, to avoid leaving people behind we will be sharing
-    incremental solutions to the different purposed labs.
+    Tell the students that they **should*** be given enough time to complete
+    the tasks on their own. However, to keep everyone on the same page, we will be
+    sharing incremental solutions to the different purposed labs.
 
 .. include:: /includes/student-notes.rst
 
-How are we going to do that?
-----------------------------
 
-Given a migration strategy, defined by the instructor, we will migrating our
-application.
+Requirements
+------------
 
 We need to understand:
 
-- What's the relation schema looks like. *(ERD)*
-- How do we want to store the same information in a MongoDB document model.
+- What the relation schema looks like *(ERD)*
+- How we will store the **same** information in MongoDB
 
 .. only:: instructor
 
@@ -55,21 +54,21 @@ We need to understand:
     Bring students attention to:
 
     - different strategies might end up with different schemas
-    - the followed strategy might not apply to their real life scenarios
+    - the strategy we use in this workshop might not apply to other scenarios
     - this is an exercise that does not take into consideration actual
-      production level load. Something that should not be neglected in
-      production environments .
+      production load. This is something that should not be neglected in
+      production environments.
 
 .. include:: /includes/student-notes.rst
 
-What to expect by the end of the workshop?
-------------------------------------------
 
-By the end of this workshop you will be more suited to:
+Learning Objectives
+-------------------
 
-- Understand the practical tasks required to move a relational system to MongoDB
-- The benefits and tradeoffs of the different migration approaches
-- Considerations about schema design and relational to document mapping
+By the end of this workshop, you will be able to:
 
+- Perform all steps required to move a relational system to MongoDB
+- Evaluate the benefits and tradeoffs of the different migration approaches
+- Implement relational to document mapping
 
 .. include:: /includes/student-notes.rst
