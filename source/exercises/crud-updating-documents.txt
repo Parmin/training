@@ -73,6 +73,8 @@ Exercise: Give a pass to "MONGODB"
 - Today MongoDB got a visit from the inspectors.
 - We passed, of course.
 - So go ahead and update "MongoDB" and set the ``result`` to "AWESOME"
+- The inspector may not have uploaded the basic details for "MongoDB", so ensure
+  the update takes place even if "MongoDB" isn't in the collection
 - MongoDB's address is
 
   .. code-block:: javascript
@@ -140,6 +142,6 @@ Write an update statement to increment the number of backpacks sold on Friday by
 
           db.product_metrics.updateOne(
               {name: "backpack" },
-              {$inc: { "purchases_past_7_days.4" : 200 } } )
+              {$inc: { "purchasesPast7Days.4" : 200 } } )
 
 .. include:: /includes/student-notes.rst
