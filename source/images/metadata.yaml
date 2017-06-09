@@ -979,10 +979,10 @@ output:
   - type: print
     tag: 'print'
     dpi: 300
-    width: 600
+    width: 800
   - type: web
     dpi: 120
-    width: 1000
+    width: 600
   - type: 'offset'
     tag: 'offset'
     dpi: 300
@@ -997,7 +997,7 @@ output:
     width: 600
   - type: web
     dpi: 120
-    width: 2000
+    width: 600
   - type: 'offset'
     tag: 'offset'
     dpi: 300
@@ -1012,7 +1012,7 @@ output:
     width: 600
   - type: web
     dpi: 120
-    width: 2000
+    width: 600
   - type: 'offset'
     tag: 'offset'
     dpi: 300
