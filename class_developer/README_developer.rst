@@ -99,6 +99,7 @@ If there is a real need to add one, these are the tasks/files to update
 - "make s3-devel" to test in 'devel/--testmode', then push to prod
 - put a request with AWS to increase the quota for:
   - VPCs  => 32
+  - Classic Load Balancer => 100
   - 'opsmgr' instance type => 70 (typically r3.large)
   - 'node' instance type  => 250 (typically m3.medium, some have t2.medium)
 
