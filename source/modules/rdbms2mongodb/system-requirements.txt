@@ -5,13 +5,11 @@ System Requirements
 Before you get started
 ----------------------
 
-Before we jump into coding and making a migration plan let's review the list of
-software components required to run this workshop.
-
-In this workshop we will be using a set of software requirements apart from the
-actual code and workbooks.
+Before we jump in, let's go overthe software components required for this
+workshop.
 
 .. include:: /includes/student-notes.rst
+
 
 Mongomart Java Version
 -----------------------
@@ -25,11 +23,33 @@ Other versions may function correctly but we cannot provide efficient support.
 
 .. include:: /includes/student-notes.rst
 
+
 Mongomart Databases
 -------------------
 
 - `MongoDB 3.4`_
 - `MySQL`_
+
+You will also need to create data directories:
+
+Linux/Mac:
+
+.. code-block:: bash
+
+  mysqldata='...'  # probably something like '/usr/local/mysql-5.7.18-macos10.12-x86_64/data/'; find it by running mysqld
+  mkdir $mysqldata
+  mkdir -p /data/db
+
+You'll also need to give read/write permissions to your directory and its
+contents. A quick and dirty way to do this at the conference would be
+`chmod -R 777 $mysqldata` (or `/data/db`), but do this at your own risk. And
+don't leave those directories there with those permissions long-term.
+
+Windows:
+
+.. code-block:: bash
+
+  mkdir /data/db
 
 We will be using `MySQL`_ Ver 5.7.18 and `MongoDB 3.4`_.
 
