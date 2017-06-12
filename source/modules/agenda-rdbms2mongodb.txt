@@ -9,7 +9,7 @@ Morning
 - :doc:`/modules/rdbms2mongodb/introduction`
 - :doc:`/modules/rdbms2mongodb/system-requirements`
 - :doc:`/modules/rdbms2mongodb/environment-setup`
-- Fresh Coffee Brewed
+- Freshly Brewed Coffee
 - :doc:`/modules/rdbms2mongodb/mongomart-rdbms`
 - :doc:`/modules/rdbms2mongodb/migration-strategies`
 - :doc:`/modules/rdbms2mongodb/migrate-reviews`

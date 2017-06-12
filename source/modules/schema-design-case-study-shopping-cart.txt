@@ -152,7 +152,7 @@ Tracking Inventory for an Item
 
   {
     "_id": 8910,
-    "img_url": "eggs.jpg"
+    "img_url": "eggs.jpg",
     "quantity" : 2000,
     "quantity_in_carts" : 3
     ...
