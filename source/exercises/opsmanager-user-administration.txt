@@ -81,6 +81,7 @@ Using the `Ops Manager API`_ , create the following users:
 
 Exercise: Create Global Users
 -----------------------------
+
 In various different situations, we will need users with global roles.
 
 Please create, either through the API or web UI, the following users:
@@ -94,6 +95,10 @@ Please create, either through the API or web UI, the following users:
 
   - password: "c6ny3n4x*8"
   - role: `Global User Admin`_
+
+
+Exercise: Create Global Users (con't)
+-------------------------------------
 
 After creating these users, connect with the most appropriate user to change
 the password of the **CIRCUS_MAXIMUS** `Owner` user.
