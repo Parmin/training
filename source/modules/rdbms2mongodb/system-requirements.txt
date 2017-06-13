@@ -5,11 +5,11 @@ System Requirements
 Before you get started
 ----------------------
 
-Before we jump into coding and making a migration plan let's review the list of
-software components required to run this workshop.
+Before we jump in, we'll review the software components required for this
+workshop.
 
-In this workshop we will be using a set of software requirements apart from the
-actual code and workbooks.
+In this workshop we will be using software separate from the actual code and
+workbooks.
 
 .. include:: /includes/student-notes.rst
 
@@ -17,7 +17,7 @@ actual code and workbooks.
 Mongomart Java Version
 -----------------------
 
-- `Java 8`_
+- `Java 8 JDK`_
 - `Apache Maven`_
 
 Code has been tested using `Java 8`_ and built using `Apache Maven`_ 3.5.0 .
@@ -33,14 +33,15 @@ Mongomart Databases
 We will be using `MySQL`_ Ver 5.7.18 and `MongoDB 3.4`_.
 
 - `MongoDB 3.4`_
-- `MySQL`_
+- `MySQL`_ (as of this writing, the newest version is 5.7)
 
-  - On Windows
+On Windows:
 
-      - Don't worry about the installer complaining about some .NET dependencies
-      - You may have to add "C:\Program Files\MySQL\MySQL Server 5.7\bin"
-        to your PATH
+- Don't worry about the installer complaining about some .NET dependencies
+- You may have to add ``C:\Program Files\MySQL\MySQL Server 5.7\bin`` to
+  your PATH
 
+  - Similarly for Java and MongoDB, depending on how they were installed
 
 .. include:: /includes/student-notes.rst
 
@@ -48,19 +49,41 @@ We will be using `MySQL`_ Ver 5.7.18 and `MongoDB 3.4`_.
 
   .. note::
 
-    On Windows, MySQL may complain about bad dependencies like VisualStudio
+    On Windows, MySQL may complain about irrelevant dependencies like VisualStudio
     or Excel. Don't worry about those for this lab
+
+
+Directories
+-----------
+
+You'll need to make directories for:
+
+- MongoDB
+- MySQL
+
+On mac/linux, you'll need to ``chmod`` your way to read/write permissions
+
+.. include:: /includes/student-notes.rst
+
+.. only:: instructor
+
+  .. note::
+
+    - ``chmod -R 777`` will fix it for windows; if they do this, tell them to
+      delete the directories after the workshop
+    - Windows users may need to run PowerShell as an administrator
 
 
 System Editor or IDE
 --------------------
 
-During the course of the workshop we will be requiring some code changes and
-recompilations.
+During the course of the workshop we will be making some code changes and
+compiling code.
 
-Make sure to have your prefered editor or java IDE.
+Be sure to have your prefered editor or java IDE installed.
 
-Otherwise take some time to download and install Eclipse_ or Intellij_.
+IF you have never used a Java IDE, take some time to download and install
+Eclipse_ or Intellij_. They're both quite popular.
 
 .. include:: /includes/student-notes.rst
 
@@ -68,10 +91,10 @@ Otherwise take some time to download and install Eclipse_ or Intellij_.
 MongoDB Compass
 ---------------
 
-To review and analyze the MongoDB documents schema we will be using
+To review and analyze the MongoDB schema, we will be using
 `MongoDB Compass`_.
 
-Not mandatory for this workshop but highly recommended to be installed.
+It's not mandatory for this workshop, but it is highly recommended.
 
 :doc:`/modules/compass`
 
@@ -89,7 +112,7 @@ On Linux and MacOS
 
 On Windows
 
-.. code-block:: sh
+.. code-block:: powershell
 
   powershell -executionpolicy bypass -file .\preflight.ps1
 
