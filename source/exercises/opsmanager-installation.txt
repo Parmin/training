@@ -114,17 +114,19 @@ Exercise: Architect the Ops Manager Deployment
 It's time to set up the our Ops Manager Deployment.
 As a team, make a plan for the following:
 
-- Two replica sets of 3 nodes
+.. rst-class:: longlist
 
-  - Application Database replica set as **APPDB**
-  - Backup Database replica set as **BACKUPDB**
+  - Two replica sets of 3 nodes
 
-- A redundant service of the Ops Manager Application
+    - Application Database replica set as **APPDB**
+    - Backup Database replica set as **BACKUPDB**
 
-  - The hosts that will be supporting the OM App:
-    ``opsmgr1``, ``opsmgr2`` and ``opsmgr3``
-  - Load Balancer in front of those 3 instances
-  - The load balancer is already set up. The name is in the info file
+  - A redundant service of the Ops Manager Application
+
+    - The hosts that will be supporting the OM App:
+      ``opsmgr1``, ``opsmgr2`` and ``opsmgr3``
+    - Load Balancer in front of those 3 instances
+    - The load balancer is already set up. The name is in the info file
 
 .. include:: /includes/student-notes.rst
 
