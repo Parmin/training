@@ -58,13 +58,62 @@ Learning Objectives
 - lost functionality with sharding
 
 
+Splitting chunks vs moving chunks
+---------------------------------
+
+- Things changed a lot in 3.4
+- Splitting done by mongos, moving chunks done by config server
+
+
+How do you know a split must happen?
+------------------------------------
+
+
+How many mongos should a deployment have?
+-----------------------------------------
+
+The following are only guidelines:
+
+- one per app server
+- up to 50, after that one mongos for few app
+- run the mongos on the same machine as the app
+- specify few mongos in the connection string for high availability
+
+
+Where does a sort happen
+------------------------
+
+- agg vs non-agg
+- merge sort
+- last stage
+
+.. only:: instructor
+
+  .. note::
+
+    https://docs.mongodb.com/manual/core/sharded-cluster-query-router/#sorting
+
+
+Case study: Associated Press
+----------------------------
+
+- few writes
+- many reads
+- local reads per time zone
+
+What is a good shard key for the articles?
+
+
 Common Issues
 -------------
 
-What we lose with sharding
---------------------------
 
-- secondary indexes may not scale, because they are scatter-gather
+What functionality is lost by sharding
+--------------------------------------
+
+- secondary indexes may not scale, because they are scatter-gather if they don't start with the shard key
+- "unique" indexes
+- must manage the unicity of the _id at the application level
 
 
 Main Differences in Versions prior to 3.4

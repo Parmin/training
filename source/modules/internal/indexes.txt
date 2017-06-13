@@ -86,6 +86,17 @@ Other Index Limitations (continued)
     - Show them https://docs.mongodb.org/manual/reference/limits/#indexes
 
 
+How expensive are index writes?
+-------------------------------
+
+From Andre, one of our CEs:
+
+https://mongodb.slack.com/archives/C0V2M1UH3/p1494524773675318
+https://docs.google.com/spreadsheets/d/1o92z1bWbcCyBP6phNV_hpEe_nQ8awcMzwl2jsqhoTGE/edit#gid=0
+
+10 indexes does not lead to 10x write times.
+
+
 Story about Index Keys
 ----------------------
 
@@ -95,6 +106,7 @@ Story about Index Keys
   - Oops! But at least we logged it when it happened!
 
 .. include:: /includes/student-notes.rst
+
 
 Story about Index Keys (Continued)
 ----------------------------------
@@ -204,6 +216,7 @@ Query Planner Logic
     - "Evaluate Plan Performance" looks at how many "work cycles" required to originally build the index plan.
     - If the query burns through 10x as many work cycles, it hits the "no match" path on the diagram.
     - `Work cycles defined here <https://docs.mongodb.com/manual/reference/explain-results/#explain.executionStats.executionStages.works>`_
+
 
 Plan Caches
 -----------

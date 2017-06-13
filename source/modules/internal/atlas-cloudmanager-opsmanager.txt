@@ -68,6 +68,7 @@ Atlas
 - This is a key product of our strategy as a company
 - It scales easily
 - Can have tremendous growth
+- `Offerings and Pricing <https://www.mongodb.com/cloud/atlas/pricing>`_
 
 .. only:: instructor
 
@@ -114,9 +115,29 @@ Atlas Geographical Availability
         - Canada
         - São Paulo
 
+      Backups are supported in (June 2017):
+
+        - Eastern U.S.
+        - Ireland
+        - Sydney
+        - Frankfurt
+        - London
+
       Note that if the image goes out of date, we should simply remove it.
 
 
+Migrating to Atlas
+------------------
+
+https://docs.google.com/presentation/d/1VYbWtG1VGjfL20P4mU7a8zQl3x4Pm1b_gFvDQ9vfBXI/edit#slide=id.g1e2223d1b5_1_57
+
+.. only:: instructor
+
+   .. note::
+
+      Very nice presentation on how to migrate from an existing cluster to Atlas
+
+      
 Ops Manager
 -----------
 
@@ -343,6 +364,10 @@ Some details on our Cloud Manager deployment
 --------------------------------------------
 
 - `Cloud Manager Admin Console <https://cloud.mongodb.com/v2/admin#general/overview/servers>`_
+- Blockstores have been migrated from MongoDB databases to S3
+
+  - blocks are 64 MB
+  - fixes issue with Grooming process copying blocks
 
 
 Main Differences in Versions prior to 3.4
@@ -350,6 +375,12 @@ Main Differences in Versions prior to 3.4
 
 - no server pool, provision hosts individually
 - previous version of *Ops Manager* was 2.0
+
+
+Queryable Backups
+-----------------
+
+https://docs.google.com/presentation/d/1iE3u0Ygn-dM2Gy1cnGf1sCNDVbSbZtktxh1P4uqoOmI/edit#slide=id.g154fce8b0f_1_25
 
 
 Common Issues
