@@ -195,7 +195,7 @@ public class StoreController {
 		item.setReviews(reviews);
 
 		// Set num reviews for item
-		int num_reviews = reviewDao.numReviews(itemid) + mongoRevDao.numReviews(itemid);
+		int num_reviews = mongoRevDao.numReviews(itemid);
 		item.setNum_reviews(num_reviews);
 
 		HashMap<String, Object> attributes = new HashMap<>();

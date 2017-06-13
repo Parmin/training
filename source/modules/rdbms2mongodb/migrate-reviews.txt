@@ -44,12 +44,12 @@ We will be covering:
 Introduction
 ------------
 
-Currently we have our ``ReviewsController`` using only one RDBMS system.
+Currently, ``StoreController`` uses only the RDBMS system.
 
-For this lab we purpose that ``Reviews`` should be migrated to MongoDB.
+At this point, you will migrate ``Reviews`` to MongoDB.
 
-To do that we will change the ``ReviewsController`` to use both RDBMS and
-MognoDB.
+To do that, you will need to change the ``StoreController`` to use both RDBMS and
+MongoDB.
 
 .. include:: /includes/student-notes.rst
 
@@ -294,7 +294,7 @@ MongoDB collection, will also be accessed from the same class.
 
       get("/add-review", (request, response) -> { ... });
 
-    - After collecting all item reviews, insert reviews into MognoDB collection
+    - After collecting all item reviews, insert them into MongoDB
 
     .. code-block:: java
 

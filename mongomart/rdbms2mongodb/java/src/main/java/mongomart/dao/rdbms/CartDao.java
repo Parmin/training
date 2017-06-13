@@ -38,7 +38,7 @@ public class CartDao {
     public Cart getCart(String userId) {
         Cart cart = getCartDetails(userId);
 
-        if(cart.getId() < 0){
+        if(cart.getId() < 0) {
             createCart(userId);
             cart = getCartDetails(userId);
         }
@@ -47,17 +47,17 @@ public class CartDao {
     }
 
 
-    private Cart getCartDetails(String userId){
+    private Cart getCartDetails(String userId) {
         String sqlQuery = "SELECT * FROM carts WHERE user_id = ? LIMIT 1";
         Cart cart = new Cart();
         boolean cartFound = false;
-        try{
+        try {
 
             PreparedStatement ps = this.connection.prepareStatement(sqlQuery);
             ps.setString(1, userId);
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
+            while(rs.next()) {
                 cart = this.resultSetToCart(rs);
                 cartFound = true;
                 break;
@@ -69,7 +69,7 @@ public class CartDao {
             log.error("Problem wiht getCart: " + ex.getMessage());
         }
 
-        if (cartFound){
+        if (cartFound) {
             populateCartItems(cart);
         } else {
             log.info("NO CART FOUND ... creating one");
@@ -79,18 +79,18 @@ public class CartDao {
     }
 
 
-    private void populateCartItems(Cart cart){
+    private void populateCartItems(Cart cart) {
 
         String sqlQuery = "SELECT i.*, ci.quantity as QTY FROM carts_has_items ci, items i " +
             "WHERE i.id = ci.items_id AND ci.carts_id = ?";
 
-        try{
+        try {
 
             PreparedStatement ps = this.connection.prepareStatement(sqlQuery);
             ps.setInt(1, cart.getId());
             ResultSet rs = ps.executeQuery();
 
-            cart.setItems( this.resultSetToItems(rs) );
+            cart.setItems(this.resultSetToItems(rs));
 
             rs.close();
             ps.close();
@@ -110,24 +110,37 @@ public class CartDao {
 
     public void addToCart(Item item, String userid) {
         Cart cart = getCart(userid);
-        String sqlInsert = "INSERT INTO carts_has_items (items_id, carts_id, quantity) VALUES(?, ?, ?)";
 
-        try{
-            PreparedStatement ps = this.connection.prepareStatement(sqlInsert);
-            ps.setInt(1, item.getId());
-            ps.setInt(2, cart.getId());
-            ps.setInt(3, item.getQuantity());
-            ps.execute();
-            ps.close();
-        } catch (SQLException ex){
-            log.error("Problem adding to cart: " + ex.getMessage());
+        if (existsInCart(item.getId(), userid)) {
+            for (Item it : cart.getItems()) {
+              if (it == item) {
+                this.updateQuantity(it.getQuantity()+1, item.getId(), cart.getId() );
+                break;
+              }
+            }
+
+        } else {
+
+            String sqlInsert = "INSERT INTO carts_has_items (items_id, carts_id, quantity) VALUES(?, ?, ?)";
+
+            try {
+                PreparedStatement ps = this.connection.prepareStatement(sqlInsert);
+                ps.setInt(1, item.getId());
+                ps.setInt(2, cart.getId());
+                ps.setInt(3, item.getQuantity());
+                ps.execute();
+                ps.close();
+            } catch (SQLException ex) {
+                log.error("Problem adding to cart: " + ex.getMessage());
+            }
         }
     }
 
-    private void dropItem(int itemId, int cartId){
+
+    private void dropItem(int itemId, int cartId) {
         String sqlDelete = "DELETE FROM carts_has_items WHERE items_id = ? AND carts_id = ?";
 
-        try{
+        try {
             PreparedStatement ps  = this.connection.prepareStatement(sqlDelete);
             ps.setInt(1, itemId);
             ps.setInt(2, cartId);
@@ -139,7 +152,7 @@ public class CartDao {
     }
 
 
-    private void updateQuantity(int quantity, int itemId, int cartId){
+    private void updateQuantity(int quantity, int itemId, int cartId) {
         String sqlUpdate = "UPDATE carts_has_items SET quantity = ? WHERE items_id = ? AND carts_id = ?";
 
         try {
@@ -149,12 +162,12 @@ public class CartDao {
             ps.setInt(3, cartId);
             ps.execute();
             ps.close();
-        } catch(SQLException ex){
+        } catch(SQLException ex) {
             log.error("Problem updating quantity in cart: " + ex.getMessage());
         }
     }
 
-    private void addToCart(int quantity, int itemId, int cartId){
+    private void addToCart(int quantity, int itemId, int cartId) {
 
         String sqlInsert = "INSERT INTO carts_has_items (quantity, items_id, carts_id) VALUES (?, ?, ?)";
 
@@ -165,16 +178,16 @@ public class CartDao {
             ps.setInt(3, cartId);
             ps.execute();
             ps.close();
-        } catch(SQLException ex){
+        } catch(SQLException ex) {
             log.error("Problem updating quantity in cart: " + ex.getMessage());
         }
     }
 
 
-    public void createCart(String userId){
+    public void createCart(String userId) {
         String sqlInsert = "INSERT INTO carts (user_id, status, last_modified) VALUES (?,?,?)";
 
-        try{
+        try {
             Date now = new Date();
             PreparedStatement ps = this.connection.prepareStatement(sqlInsert);
             ps.setString(1, userId);
@@ -182,7 +195,7 @@ public class CartDao {
             ps.setDate(3,  new java.sql.Date(now.getTime()));
             ps.execute();
             ps.close();
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             log.error("Issue creating cart: "+ ex.getMessage());
         }
 
@@ -199,17 +212,17 @@ public class CartDao {
 
         Cart cart = getCart(userId);
 
-        if (cart.getId() < 1){
+        if (cart.getId() < 1) {
             createCart(userId);
             cart = getCart(userId);
         }
 
-        if(quantity < 1){
+        if(quantity < 1) {
             dropItem(itemId, cart.getId());
             return;
-        } 
+        }
 
-        if (existsInCart(itemId, userId)){
+        if (existsInCart(itemId, userId)) {
             updateQuantity(quantity, itemId, cart.getId());
             return;
         }
@@ -229,13 +242,13 @@ public class CartDao {
         String sqlQuery = "SELECT SUM(1) as sum FROM carts_has_items ci, carts c "+
             "WHERE ci.carts_id = c.id AND c.user_id = ? AND ci.items_id = ?";
 
-        try{
+        try {
             PreparedStatement ps = this.connection.prepareStatement(sqlQuery);
             ps.setString(1, userid);
             ps.setInt(2, itemid);
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
+            while(rs.next()) {
                 exists = rs.getInt("sum") >= 1;
                 break;
             }
@@ -252,7 +265,7 @@ public class CartDao {
     private List<Item> resultSetToItems(ResultSet rs) throws SQLException {
         List<Item> items = new ArrayList<Item>();
 
-        while(rs.next()){
+        while(rs.next()) {
             Item it = new Item();
             it.setId(rs.getInt("id"));
             it.setTitle(rs.getString("title"));
@@ -269,12 +282,12 @@ public class CartDao {
     }
 
 
-    private Cart resultSetToCart(ResultSet rs) throws SQLException{
+    private Cart resultSetToCart(ResultSet rs) throws SQLException {
         Cart cart = new Cart();
 
-        if (rs != null){
+        if (rs != null) {
             cart.setId(rs.getInt("id"));
-            cart.setLast_modified(new Date( rs.getDate("last_modified").getTime()));
+            cart.setLast_modified(new Date(rs.getDate("last_modified").getTime()));
             cart.setStatus(rs.getString("status"));
             cart.setUserid(rs.getString("user_id"));
         }

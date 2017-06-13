@@ -4,6 +4,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 import mongomart.model.Review;
 
@@ -137,7 +138,7 @@ public class ReviewDao {
 			document.append("id", review.getId());
 		}
 		document.append("name", review.getName());
-		document.append("date", review.getDate());
+		document.append("date", new Date(review.getDate().getTime()));
 		document.append("comment", review.getComment());
 		document.append("stars", review.getStars());
 		document.append("itemid", review.getItemid());

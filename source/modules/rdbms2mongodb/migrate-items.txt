@@ -23,6 +23,8 @@ In this lab, we will be exploring the following operations:
 - Implementing a full migration using a hybrid solution
 - Enabling Text Search
 
+We are keeping the RDBMS around while we are transitioning to MongoDB.
+
 .. include:: /includes/student-notes.rst
 
 
@@ -80,14 +82,14 @@ First, migrate the items into MongoDB:
   # iterate over all 23 items
   for i in {1..23}
   do
-    curl -I http://localhost:8080/item?id=$i
+    curl -X GET http://localhost:8080/item?id=$i
   done
 
 ... or for Windows:
 
-.. code-block:: bat
+.. code-block:: powershell
 
-  FOR /L %%A IN (1,1,23) DO( curl -I http://localhost:8080/item?id=%%A )
+  FOR /L %%A IN (1,1,23) DO( Invoke-RestMethod -Uri http://localhost:8080/item?id=%%A )
 
 
 .. include:: /includes/student-notes.rst
