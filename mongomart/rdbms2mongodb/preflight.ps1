@@ -9,6 +9,7 @@
 $expected_mysqlversion="5.7"
 $expected_mongodb="v3.4"
 $expected_java="1.8"
+$expected_javac="1.8"
 $expected_maven="3.5"
 
 $SOMETHING_MISSING=0
@@ -58,6 +59,18 @@ function check_java_version($cmd, $expected) {
   }
 }
 
+function check_javac_version($cmd, $expected) {
+  $out = & "$cmd" -version 2>&1
+  $outs = $out[0] -split " "
+  $version = $outs[1]
+  if ( -NOT $version.StartsWith($expected) )
+  {
+    print_error "Your current version $version is not the expected: $expected"
+  } else {
+    print_good "Correct version found: $version"
+  }
+}
+
 function check_mysql {
   echo "Check for MySQL installation and version: $expected_mysqlversion"
   $mysqld_exec=(Get-Command mysqld).Path
@@ -91,6 +104,15 @@ function check_java {
     check_java_version $jexec $expected_java
   } else {
     print_error "java could not be found!"
+  }
+  echo "Check for JDK installation and version: $expected_javac"
+  $jcexec=(Get-Command javac).Path
+  if ( $jcexec )
+  {
+    print_good "JDK installed: $jcexec"
+    check_javac_version $jcexec $expected_javac
+  } else {
+    print_error "javac could not be found!"
   }
 }
 

@@ -9,6 +9,7 @@ GREEN='\033[0;32m'
 expected_mysqlversion="5.7"
 expected_mongodb="v3.4"
 expected_java="1.8"
+expected_javac="1.8"
 expected_maven="3.5"
 
 SOMETHING_MISSING=0
@@ -34,6 +35,16 @@ function check_version {
 
 function check_java_version {
   version=$( $1 -version 2>&1|head -1|awk '{ print $3 }'|awk -F\, '{ print $1}'|awk -F\. '{print $1"."$2}'| tr -d '"' )
+  if [ "$version" != "$2" ]
+  then
+    print_error "Your current version $version is not the expected: $2"
+  else
+    print_good "Correct version found: $version"
+  fi
+}
+
+function check_javac_version {
+  version=$( $1 -version 2>&1|awk -F'[ ]'  '{ print $2 }'| awk -F\. '{print $1"."$2}'| tr -d '"' )
   if [ "$version" != "$2" ]
   then
     print_error "Your current version $version is not the expected: $2"
@@ -75,6 +86,15 @@ function check_java {
     check_java_version $jexec $expected_java
   else
     print_error "java could not be found!"
+  fi
+  echo "Check for JDK installation and version: $expected_javac"
+  jcexec=$(which javac)
+  if [ ! -z $jcexec ]
+  then
+    print_good "JDK installed: $jcexec"
+    check_javac_version $jcexec $expected_javac
+  else
+    print_error "javac could not be found!"
   fi
 }
 
