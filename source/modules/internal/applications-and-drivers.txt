@@ -10,6 +10,16 @@ This chapter is incomplete and still under development
 Learning Objectives
 -------------------
 
+ORM
+---
+
+- Morphia is the only maintained ORM by us.
+
+
+Using Python as a MongoDB shell
+-------------------------------
+
+
 Common Issues
 -------------
 

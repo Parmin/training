@@ -265,6 +265,18 @@ WT Data on Disk
     - Sometimes called the "Encrypted Storage Engine," but it's not a new storage engine, it's just WT with additional functionality
 
 
+WT Data on Disk (con't)
+-----------------------
+
+- `Storage mechanics in Wired Tiger <https://docs.google.com/presentation/d/1_OiNQtSLU00fXzKhAtWZqFfZaG7a2D097LADy-AWDes/edit#slide=id.p4>`_
+
+.. only:: instructor
+
+  .. note::
+
+    TODO - look at a checkpoint or indexes with 'wt dump'
+
+
 WT Cache - Pages
 ----------------
 
