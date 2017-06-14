@@ -22,8 +22,11 @@ CREATE TABLE IF NOT EXISTS `mongomart`.`reviews` (
 ENGINE = InnoDB;
 
 
-SELECT COUNT(1) FROM `mongomart`.`items`;
+SELECT COUNT(1) AS "Number of Items" FROM `mongomart`.`items`;
+SELECT "23" AS "Expected Number of Items";
 
-SELECT COUNT(1) FROM `mongomart`.`stores`;
+SELECT COUNT(1) AS "Number of Stores" FROM `mongomart`.`stores`;
+SELECT "116" AS "Expected Number of Stores";
 
-SELECT COUNT(1) FROM `mongomart`.`addresses`;
+SELECT COUNT(1) AS "Number of Addresses" FROM `mongomart`.`addresses`;
+SELECT "116" AS "Expected Number of Addresses";
