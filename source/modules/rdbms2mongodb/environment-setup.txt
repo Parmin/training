@@ -56,7 +56,7 @@ Time to launch the relational database server we will be migrating from:
 
 - Or Windows
 
-.. code-block:: bat
+.. code-block:: ps1
 
   C:\> "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqld"
 
@@ -67,7 +67,17 @@ Time to launch the relational database server we will be migrating from:
   .. note::
 
     Although students should have already checked that they do have MySQL
-    installed, make sure to ask around to get everyone up to speed.
+    installed, make sure to ensure everyone actually does have it installed,
+    and is able to complete these steps.
+
+    - If they are on Unix and aren't finding mysql.start, it's in ``/usr/local/mysql/support-files``
+    
+    - ``mysqld`` should be ``/usr/local/mysql/bin``
+
+    - If they installed on Mac using the installation files, they'll get some
+      permissions issues when they run ``mysql.server start``
+
+      - ``chmod -R 777 /usr/local/mysql/data`` should fix the problem.
 
 
 Import the Data
@@ -112,6 +122,33 @@ And for those of you using Windows:
 
     - Beware that `check.sql` is not optional. Make sure students do follow all
       all the instructions.
+
+    - For mac users who have not yet changed their password, there will be a permission issue.
+
+    .. code-block:: sh
+
+      Please use --connect-expired-password option or invoke mysql in interactive mode.
+
+    - If this happens, they may need to update their root password.
+
+    .. code-block:: sh
+
+      $ mysql -u root -p
+      Enter password:
+
+    .. code-block:: mysql
+
+      > SET PASSWORD = PASSWORD('<new password>');
+
+    then disconnect. Now they can log in as root with full privileges.
+
+    If they use
+
+    .. code-block:: mysql
+
+      > SET PASSWORD = PASSWORD('')
+
+    then they can connect without a password.
 
 
 Run the ``mongomart`` App

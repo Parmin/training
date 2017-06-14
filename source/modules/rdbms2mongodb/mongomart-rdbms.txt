@@ -6,8 +6,8 @@ What is MongoMart
 -----------------
 
 MongoMart is an on-line store for buying MongoDB merchandise.
-In this workshop we will start with a RDBMS version and end up with a MongoDB
-one.
+In this workshop, we will start with MongoMart backed by an RDBMS, and end with
+MongoDB in the backend.
 
 .. include:: /includes/student-notes.rst
 
@@ -27,21 +27,28 @@ MongoMart Demo of Fully Implemented Version
 
    .. note::
 
-      - Mongomart is in the training repo in the training portal, packaged has mongomart.zip .
-      - Ask the students to login and download it.
-      - In case they are not able to login, have a spare pen drive that you can pass along the classroom.
-      - You should also have an instructor only mongomart-instructor.zip file in the training portal.
-      - This will include the solutions for the different exercises.
-      - Ensure you've loaded the dataset from /mongomart/dataset as described in the /mongomart/rdbms/README file)
-      - DO NOT WALK THROUGH THIS VERSION OF THE SOURCE CODE WITH THE STUDENTS, ONLY THE STUDENT VERSION
+      - Mongomart is in the training repo in the training portal, packaged into the file ``mongomart.zip`` .
+      - Ask the students to log in to the portal and download it.
+      - In case they are unable to log in, have a spare USB drive that you can pass along the classroom.
+      - The students have the solutions, but discourage them from applying
+        those solutions before they have had a chance to do it for themselves.
+
+        - Obviously, we can't stop them, but it should be easy enough to tell
+          them to hold off on anything in the ``solutions`` directory until
+          each exercise is finished.
 
 
 View Items
 ----------
 
-- http://localhost:8080
-- Pagination and page numbers
-- Click on a category
+- Go to ``http://localhost:8080``
+- Notice: 
+
+  - There are a set of product categories
+  - Each category has a set of products, 
+  - The number of products in each category is listed
+
+- Click on Apparel
 
 .. include:: /includes/student-notes.rst
 
@@ -55,9 +62,10 @@ View Items
 View Items by Category
 ----------------------
 
-- http://localhost:8080/?category=Apparel
-- Pagination and page numbers
-- "All" is listed as a category, to return to all items listing
+- The url is http://localhost:8080/?category=Apparel
+- Note that "All" is listed as a category 
+
+  - Use that to return to view all items
 
 .. include:: /includes/student-notes.rst
 
@@ -65,9 +73,14 @@ View Items by Category
 Text Search
 -----------
 
-- http://localhost:8080/search?query=shirt
-- This functionality is not yet implemented.
-- Will be part of this workshop to add Text Search functionality
+- Notice the search bar at the top.
+
+  - Input `shirt` and click `Submit`
+  - The url will be http://localhost:8080/search?query=shirt
+  - You'll get a `404` error. This is expected.
+
+- The text search functionality is not yet implemented.
+- We will add add it as part of this workshop.
 
 .. include:: /includes/student-notes.rst
 
@@ -83,10 +96,12 @@ Text Search
 View Item Details
 -----------------
 
-- http://localhost:8080/item?id=1
-- Star rating based on reviews
+- Go back and click on the Gray Hooded Sweatshirt
+
+  - http://localhost:8080/item?id=1
+
+- Notice that there is a star rating based on reviews
 - Add a review
-- Related items
 - Add item to cart
 
 .. include:: /includes/student-notes.rst
@@ -96,14 +111,20 @@ View Item Details
    .. note::
 
       - Add reviews, show how stars change, etc.
+      - Currently, the aggregate star rating does not reset as you add reviews.
+
+        - If anyone notices this, it is a known issue.
+
+      - If they click on "Proceed to Checkout," that functionality won't work either. 
+
+        - This is another known issue.
 
 
 Shopping Cart
 -------------
 
-- http://localhost:8080/cart
-- Adding an item multiple times increments quantity by 1
-- Change quantity of any item
+- You are now at http://localhost:8080/cart
+- Quantity is chosen here, and the cart updates when quantity is changed.
 - Changing quantity to 0 removes item
 
 .. include:: /includes/student-notes.rst
@@ -133,9 +154,9 @@ Entity Relationship Diagram (ERD)
      The next sections have a more detailed view.
 
      Important to bring up that we have 2 clear model components in this app,
-     that can be treated in parallel.
+     that operate in parallel.
 
-     This is an important aspect of the migration process, understand the model
+     This is an important aspect of the migration process. Understand the model
      that we are working with, and make decisions on how to approach the
      migration process.
 
@@ -151,11 +172,11 @@ Stores ERD
 
   .. note::
 
-    In this diagram, bring students attention to the following:
+    In this diagram, bring students' attention to the following:
 
-    - This a pretty straight forward approach
-    - A store can have multiple addresses, and multiple geo locations (which is wrong on purpose!)
-    - Stores can be found either by their address or by their geo location.
+    - This a pretty linear approach
+    - A store can have multiple addresses, and multiple geo locations. This is wrong on purpose!!
+    - Stores can be found either by their address, or by their geo location.
 
 
 Items ERD
@@ -171,15 +192,15 @@ Items ERD
 
      In this diagram, bring students attention to the following:
 
-     - An item has categories and a category can be referenced by several
+     - An item has categories, and a category can be referenced by several
        different items
-     - A cart will have several items and an item can be included in several
+     - A cart will have several items, and an item can be included in several
        different carts
 
-        - Apart from that, the join/junction table will also account for the
+        - Apart from that, the ``join/junction`` table will also account for the
           cart item quantity.
 
-     - Then we have items with reviews. Each review corresponds only to one item
-       , but an item can have multiple reviews.
+     - Then we have items with reviews. Each review corresponds only to one
+       item, but an item can have multiple reviews.
 
      Our migration will start with this component of the application.
