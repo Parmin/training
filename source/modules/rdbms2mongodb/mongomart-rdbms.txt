@@ -6,14 +6,15 @@ What is MongoMart
 -----------------
 
 MongoMart is an on-line store for buying MongoDB merchandise.
+
 In this workshop, we will start with MongoMart backed by an RDBMS, and end with
 MongoDB in the backend.
 
 .. include:: /includes/student-notes.rst
 
 
-MongoMart Demo of Fully Implemented Version
--------------------------------------------
+MongoMart: Demo of the RDBMS Version
+------------------------------------
 
 - View Items
 - View Items by Category
@@ -27,10 +28,12 @@ MongoMart Demo of Fully Implemented Version
 
    .. note::
 
-      - Mongomart is in the training repo in the training portal, packaged into the file ``mongomart.zip`` .
+      - Mongomart is in the training repo in the training portal, packaged into
+        the file ``rdbms2mongodb.zip`` .
       - Ask the students to log in to the portal and download it.
-      - In case they are unable to log in, have a spare USB drive that you can pass along the classroom.
-      - The students have the solutions, but discourage them from applying
+      - In case they are unable to log in to the portal, have a spare USB drive
+        that you can pass along the classroom.
+      - The students will have the solutions, but discourage them from applying
         those solutions before they have had a chance to do it for themselves.
 
         - Obviously, we can't stop them, but it should be easy enough to tell
@@ -41,11 +44,12 @@ MongoMart Demo of Fully Implemented Version
 View Items
 ----------
 
-- Go to ``http://localhost:8080``
+- Go to http://localhost:8080
+- This is MongoMart
 - Notice: 
 
   - There are a set of product categories
-  - Each category has a set of products, 
+  - Each category has a set of products
   - The number of products in each category is listed
 
 - Click on Apparel
@@ -149,9 +153,9 @@ Entity Relationship Diagram (ERD)
 
    .. note::
 
-     This is the mongomart rdbms relational model diagram.
-     Take a few moments to walk them through the model.
-     The next sections have a more detailed view.
+     Explain to the students that this is the mongomart rdbms relational model
+     diagram. Take a few moments to walk them through the model. The next
+     sections have a more detailed view.
 
      Important to bring up that we have 2 clear model components in this app,
      that operate in parallel.

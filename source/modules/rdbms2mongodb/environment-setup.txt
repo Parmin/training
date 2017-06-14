@@ -6,15 +6,15 @@ Environment Setup
 Setup Workshop Environment
 --------------------------
 
-After we completed the download of our workshop material, it is then time to
-bring our **MongoMart** up.
+After downloading the workshop material, it is time to bring **MongoMart** up
+on your local machine.
 
-To do so, we will need the following:
+In the next few slides, we will do the following:
 
 - Unzip the ``rdbms2mongodb.zip`` file
-- Launch local MySQL server
+- Launch a MySQL server instance locally
 - Import the dataset
-- Run ``mongomart`` process
+- Run the ``mongomart`` web server locally, backed by the RDBMS
 
 .. include:: /includes/student-notes.rst
 
@@ -22,14 +22,18 @@ To do so, we will need the following:
 Unzip ``rdbms2mongodb.zip``
 ---------------------------
 
-After unpacking the ``rdbms2mongodb.zip`` file, you will find this directory
-structure:
+Unpack the ``rdbms2mongodb.zip`` file.
 
 .. code-block:: sh
 
   unzip rdbms2mongodb.zip
-  ls rdbms2mongodb
-  > README  dataset java
+
+In it, you will find the following:
+
+.. code-block:: sh
+
+  > ls rdbms2mongodb
+  README.rst dataset java pre-flight.sh preflight.ps1 preflight.sh solutions solvethis.ps1 solvethis.sh
 
 .. include:: /includes/student-notes.rst
 
@@ -42,11 +46,19 @@ structure:
     - In case students are using an IDE let them known that they can import the
       ``java`` folder as a Maven project.
 
+    - The ``dataset`` folder contains two scripts, ``check.sql`` and
+      ``create_schema.sql``, that they will use to initialize the relational
+      database.
+
+      - It also contains the dataset in both the ``dump`` directory that
+        contains the MySQL files, and a ``csv`` directory where the data lives
+        in a CSV format.
+
 
 Launch a Local MySQL Server
 ---------------------------
 
-Time to launch the relational database server we will be migrating from:
+Time to launch the relational database instance we will be migrating from:
 
 - In your \*NIX system
 
@@ -154,16 +166,16 @@ And for those of you using Windows:
 Run the ``mongomart`` App
 -------------------------
 
-Once we have our dataset fully imported it is time for us to give ``mongomart``
-a spin:
+Once we have our dataset fully imported, it is time for us to give
+``mongomart`` a spin:
 
-- First we generate the java package
+- First, generate the java package:
 
 .. code-block:: sh
 
   mvn package -f java/pom.xml
 
-- Then we run the application process
+- Next, run the application process:
 
 .. code-block:: sh
 
@@ -176,7 +188,7 @@ a spin:
   .. note::
 
       This might be a critical point for many students.
-      Specially if they have not properly installed maven.
+      Specially, make sure they have properly installed maven.
 
       - Make sure that everyone has correctly setup their $MAVEN_HOME and
         $JAVA_HOME in their environment $PATH
