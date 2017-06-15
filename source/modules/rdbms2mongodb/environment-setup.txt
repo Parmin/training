@@ -135,7 +135,7 @@ And for those of you using Windows:
     - Beware that `check.sql` is not optional. Make sure students do follow all
       all the instructions.
 
-    - For mac users who have not yet changed their password, there will be a permission issue.
+    - For mac users who have not yet changed their password, there will be a permission issue:
 
     .. code-block:: sh
 
